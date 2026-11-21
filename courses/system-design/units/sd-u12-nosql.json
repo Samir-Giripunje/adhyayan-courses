@@ -1,0 +1,44 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u12-nosql",
+  "title": "NoSQL store types and choosing a store",
+  "topics": [
+    {
+      "id": "sd-nosql-base",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-key-value-store",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-document-store",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "sd-wide-column-store",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "sd-graph-database",
+      "tier": "optional",
+      "order": 5
+    },
+    {
+      "id": "sd-object-storage",
+      "tier": "must",
+      "order": 6
+    },
+    {
+      "id": "sd-sql-vs-nosql",
+      "tier": "must",
+      "order": 7
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

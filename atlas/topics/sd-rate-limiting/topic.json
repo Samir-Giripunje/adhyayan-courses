@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-rate-limiting",
+  "version": 1,
+  "title": "Rate limiting: why and where",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-rate-limiting-purpose",
+      "version": 1,
+      "statement": "Rate limiting caps how many requests a client (identified by user, API key or IP) may make per time window, protecting backends from abuse, accidental overload and runaway cost."
+    },
+    {
+      "id": "kc-rate-limit-response",
+      "version": 1,
+      "statement": "A rate-limited HTTP request is rejected with status 429 Too Many Requests, ideally with a Retry-After header, and the limiter usually runs in the API gateway or middleware before business logic."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-api-gateway"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "rate limiting",
+    "http 429"
+  ],
+  "uses": [
+    "api gateway",
+    "http status code",
+    "http header",
+    "ip address",
+    "qps"
+  ],
+  "problem_ideas": [
+    "Choose the client key to limit on for a public API, a logged-in web app and a login endpoint",
+    "A free tier allows 100 requests/min: what does a client see on request 101, header by header?",
+    "Limiting by IP blocks a whole office behind one NAT: what key would you use instead?",
+    "Place the rate limiter in a diagram with a CDN, a gateway and services, and justify the spot",
+    "A bot sends 50,000 QPS of login attempts: which limits protect the auth service?",
+    "Should internal service-to-service calls be rate limited? Argue with a failure scenario"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "why-do-we-need-rate-limiting/why-do-we-need-rate-limiting"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "availability/throttling"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "api-fundamentals/rate-limiting"
+    }
+  ],
+  "status": "stub"
+}

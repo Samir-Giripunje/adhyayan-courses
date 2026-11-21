@@ -1,0 +1,1452 @@
+{
+  "stage": {
+    "id": "clf-p1",
+    "title": "Cloud concepts and the AWS value proposition",
+    "outcome": [
+      "o1",
+      "o6"
+    ],
+    "assumes": [
+      "server",
+      "data center",
+      "internet",
+      "operating system",
+      "application"
+    ],
+    "provides": [
+      "cloud computing",
+      "iaas",
+      "paas",
+      "saas",
+      "cloud deployment model",
+      "hybrid cloud",
+      "elasticity",
+      "agility",
+      "vertical scaling",
+      "horizontal scaling",
+      "high availability",
+      "economies of scale",
+      "fixed costs",
+      "variable costs",
+      "total cost of ownership",
+      "rightsizing",
+      "well-architected framework",
+      "well-architected pillars",
+      "cloud adoption framework",
+      "migration strategies"
+    ]
+  },
+  "sections": [
+    {
+      "id": "cloud-basics",
+      "title": "What the cloud is: service and deployment models",
+      "rank": 1,
+      "source_ref": {
+        "source": "clf-notes",
+        "section": "cloud-computing"
+      }
+    },
+    {
+      "id": "cloud-benefits",
+      "title": "Scaling, elasticity, agility and high availability",
+      "rank": 2,
+      "source_ref": {
+        "source": "clf-notes",
+        "section": "elastic-load-balancing-auto-scaling-grou"
+      }
+    },
+    {
+      "id": "cloud-economics",
+      "title": "Cloud economics and the AWS value proposition",
+      "rank": 3,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-1-4-understand-concepts-o"
+      }
+    },
+    {
+      "id": "design-and-migration",
+      "title": "Well-Architected, Cloud Adoption Framework and migration",
+      "rank": 4,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-1-2-identify-design-princ"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "clf-what-is-cloud-computing",
+      "title": "What cloud computing is",
+      "size": "standard",
+      "est_min": 8,
+      "section": "cloud-basics",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cloud-computing-definition",
+          "statement": "Cloud computing is the on-demand delivery of compute, storage, databases and other IT resources over the internet with pay-as-you-go pricing."
+        },
+        {
+          "id": "kc-cloud-vs-on-premises",
+          "statement": "On premises, an organisation buys, houses and maintains its own servers in its own data center; in the cloud, the provider owns and runs the hardware and the customer rents capacity only when it needs it."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Exam questions in Domain 1 assume the AWS definition of cloud computing and test it directly against on-premises wording."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-service-models",
+        "clf-six-advantages"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "cloud computing",
+        "on-demand delivery",
+        "pay-as-you-go pricing"
+      ],
+      "uses": [
+        "server",
+        "data center",
+        "internet"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "cloud-computing/what-is-cloud-computing"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "cloud-computing/cloud-computing"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "dynamodb/what-is-cloud-computing"
+        }
+      ],
+      "problem_ideas": [
+        "A startup needs 20 servers for a 3-day product launch: compare buying them with renting them in the cloud.",
+        "Pick the option that matches the AWS definition of cloud computing from four near-miss definitions (one omits pay-as-you-go, one omits the internet).",
+        "A hospital runs its own server room: list three tasks it stops doing if it moves the workload to AWS.",
+        "Classify six statements as describing on-premises IT or cloud computing.",
+        "A team waited 6 weeks for a server purchase order; explain what on-demand delivery changes.",
+        "Spot the wrong claim: 'In the cloud you still buy the hardware, AWS just hosts it.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "From colocation to virtualisation to public cloud"
+        },
+        {
+          "kind": "mechanism",
+          "title": "How virtualisation lets one physical server serve many customers"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Every Domain 1 question builds on this definition; it is rarely asked alone but is always assumed."
+      }
+    },
+    {
+      "id": "clf-service-models",
+      "title": "IaaS, PaaS and SaaS: who manages what",
+      "size": "standard",
+      "est_min": 10,
+      "section": "cloud-basics",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-iaas",
+          "statement": "IaaS provides virtual servers, storage and networking; the customer manages the operating system, runtime, application and data, as with Amazon EC2."
+        },
+        {
+          "id": "kc-paas",
+          "statement": "PaaS runs the underlying infrastructure and operating system for you, so the customer only deploys and manages the application and its data, as with AWS Elastic Beanstalk."
+        },
+        {
+          "id": "kc-saas",
+          "statement": "SaaS delivers a complete application operated by the provider; the customer only uses it and manages their own data and user access, as with web email or a hosted CRM."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The exam asks which service model fits a stated level of control, and this split also underlies the shared responsibility questions."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-what-is-cloud-computing",
+          "reason": "Service models are defined as ways of consuming cloud computing."
+        }
+      ],
+      "suggests": [
+        "clf-deployment-models"
+      ],
+      "confusable_with": [
+        "clf-deployment-models"
+      ],
+      "introduces": [
+        "iaas",
+        "paas",
+        "saas"
+      ],
+      "uses": [
+        "cloud computing",
+        "operating system",
+        "application"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "dynamodb/iaas-vs-paas-vs-saas"
+        }
+      ],
+      "problem_ideas": [
+        "A team wants full control over OS patches and custom kernel settings: pick IaaS, PaaS or SaaS.",
+        "A developer only wants to upload code and not manage servers: name the model and an AWS example.",
+        "Sort EC2, Elastic Beanstalk and a hosted email product into IaaS, PaaS and SaaS.",
+        "Fill in a responsibility table (hardware, OS, runtime, app, data) for each of the three models.",
+        "An accounting firm buys a ready-made payroll web app: which model is it, and what does the firm still manage?",
+        "Spot the distractor: 'With SaaS the customer patches the application servers.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "How service models map onto the shared responsibility model"
+        },
+        {
+          "kind": "edge",
+          "title": "Where serverless and containers sit between IaaS and PaaS"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Appears directly in a few questions and sets up the shared responsibility split tested heavily in Domain 2."
+      }
+    },
+    {
+      "id": "clf-deployment-models",
+      "title": "Cloud, hybrid and on-premises deployment",
+      "size": "standard",
+      "est_min": 10,
+      "section": "cloud-basics",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cloud-deployment-all-in",
+          "statement": "In a cloud (all-in) deployment, every part of the application runs in the cloud, whether it was built there or migrated from on premises."
+        },
+        {
+          "id": "kc-hybrid-deployment",
+          "statement": "A hybrid deployment connects cloud resources to on-premises infrastructure, for example keeping a legacy system in the company data center while new features run in AWS."
+        },
+        {
+          "id": "kc-on-premises-private-cloud",
+          "statement": "An on-premises deployment, also called a private cloud, uses virtualisation and resource management tools in the organisation's own data center; it gives full control but not the cost benefits of the public cloud."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task statement 3.1 asks the learner to identify cloud, hybrid and on-premises deployment models from a scenario."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-what-is-cloud-computing",
+          "reason": "Deployment models contrast cloud computing with on-premises data centers."
+        }
+      ],
+      "suggests": [
+        "clf-migration-strategies"
+      ],
+      "confusable_with": [
+        "clf-service-models"
+      ],
+      "introduces": [
+        "cloud deployment model",
+        "hybrid cloud",
+        "on-premises deployment",
+        "private cloud"
+      ],
+      "uses": [
+        "cloud computing",
+        "data center"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-1-define-methods-of-dep/types-of-cloud-deployment-models"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-1-define-methods-of-dep/identifying-deployment-models-for-exampl"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "dynamodb/public-vs-private-vs-hybrid-cloud"
+        }
+      ],
+      "problem_ideas": [
+        "A bank must keep its mainframe on site but wants to run a new mobile app in AWS: name the deployment model.",
+        "A new startup builds everything in AWS from day one: which deployment model is this?",
+        "A government agency runs VMware in its own building with self-service provisioning: classify it.",
+        "Match four company descriptions to cloud, hybrid or on-premises.",
+        "List one benefit and one drawback of keeping a private cloud versus going all-in.",
+        "Spot the confusion: 'Hybrid means using both IaaS and SaaS.' Explain why it is wrong."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Services that make hybrid work: VPN, Direct Connect, Outposts, Storage Gateway"
+        },
+        {
+          "kind": "edge",
+          "title": "Multi-cloud versus hybrid cloud"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "A named exam task; the hybrid wording often reappears in networking and storage questions."
+      }
+    },
+    {
+      "id": "clf-vertical-horizontal-scaling",
+      "title": "Vertical vs horizontal scaling",
+      "size": "standard",
+      "est_min": 8,
+      "section": "cloud-benefits",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-vertical-scaling",
+          "statement": "Vertical scaling (scaling up) makes a single server bigger, with more CPU or memory; it is limited by the largest available machine and is common for non-distributed systems such as a database."
+        },
+        {
+          "id": "kc-horizontal-scaling",
+          "statement": "Horizontal scaling (scaling out) adds more servers that share the load; it needs a distributed application and is how web tiers usually scale in the cloud."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "clf-elasticity-agility",
+        "clf-high-availability"
+      ],
+      "confusable_with": [
+        "clf-elasticity-agility"
+      ],
+      "introduces": [
+        "scalability",
+        "vertical scaling",
+        "horizontal scaling"
+      ],
+      "uses": [
+        "server",
+        "application"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "elastic-load-balancing-auto-scaling-grou/scalability-high-availability"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "elastic-load-balancing-auto-scaling-grou/vertical-scalability"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "elastic-load-balancing-auto-scaling-grou/horizontal-scalability"
+        }
+      ],
+      "problem_ideas": [
+        "A database server hits 95% memory: does moving from 16 GB to 64 GB RAM scale up or out?",
+        "A web shop goes from 2 to 10 identical web servers for Black Friday: name the scaling direction.",
+        "Which approach hits a hard ceiling, and why?",
+        "Pick the scaling type a call-centre analogy describes: hiring more operators versus training one operator to work faster.",
+        "A legacy app keeps session state on one machine: which scaling type is easiest and why?",
+        "Order three changes (bigger instance, more instances, add a load balancer) by which ones need a distributed app."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Why stateless web tiers scale out easily"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Auto Scaling groups and load balancers as the AWS tools for scaling out"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "Rarely tested alone, but you need it to tell elasticity and high availability apart."
+      }
+    },
+    {
+      "id": "clf-elasticity-agility",
+      "title": "Elasticity and agility",
+      "size": "standard",
+      "est_min": 10,
+      "section": "cloud-benefits",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-elasticity",
+          "statement": "Elasticity is automatically adding and removing resources as demand changes, so a workload pays only for the capacity it needs at that moment."
+        },
+        {
+          "id": "kc-scalability-vs-elasticity",
+          "statement": "Scalability is the ability to handle more load by adding resources; elasticity adds automation in both directions, scaling out when demand rises and back in when it falls."
+        },
+        {
+          "id": "kc-agility",
+          "statement": "In AWS terms, agility is how fast new IT resources become available (minutes instead of weeks), which lowers the cost and time of experimenting and innovating."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Choosing the cloud benefit that fits a scenario means telling elasticity, scalability and agility apart."
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.1 names elasticity and agility explicitly."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-vertical-horizontal-scaling",
+          "reason": "Elasticity is defined as automated scaling, so scaling out and in must be known first."
+        }
+      ],
+      "suggests": [
+        "clf-six-advantages"
+      ],
+      "confusable_with": [
+        "clf-vertical-horizontal-scaling",
+        "clf-high-availability"
+      ],
+      "introduces": [
+        "elasticity",
+        "agility"
+      ],
+      "uses": [
+        "scalability",
+        "horizontal scaling",
+        "pay-as-you-go pricing"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-1-define-the-benefits-o/understanding-the-advantages-of-high-ava"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "elastic-load-balancing-auto-scaling-grou/scalability-vs-elasticity-vs-agility"
+        }
+      ],
+      "problem_ideas": [
+        "A ticket site's traffic jumps 10x for 2 hours then drops: which benefit lets it avoid paying for peak all day?",
+        "A data team spins up a 50-node test cluster in 5 minutes and deletes it after lunch: elasticity or agility?",
+        "Classify six statements as scalability, elasticity or agility.",
+        "A retailer adds servers by hand each December and never removes them: what is missing for elasticity?",
+        "Rewrite a wrong exam option, 'Agility means the system resizes itself automatically', so it is correct.",
+        "Estimate the idle server-hours saved when 40 servers are needed 4 hours a day but 10 servers the rest of the time."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Scaling policies: target tracking, step and scheduled"
+        },
+        {
+          "kind": "edge",
+          "title": "Why scale-in is harder than scale-out: draining connections"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Elasticity versus agility is a classic Domain 1 distractor pair; expect at least one question."
+      }
+    },
+    {
+      "id": "clf-high-availability",
+      "title": "High availability: surviving a failure",
+      "size": "standard",
+      "est_min": 8,
+      "section": "cloud-benefits",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-high-availability",
+          "statement": "High availability means designing a workload to minimise downtime so it keeps meeting its availability target when components fail; a common technique is running redundant copies in independent locations, which in AWS means multiple Availability Zones."
+        },
+        {
+          "id": "kc-ha-vs-scalability",
+          "statement": "Redundancy only gives high availability when traffic fails over automatically, the data is available in the surviving location and the remaining capacity can carry the load; horizontal scaling within one location adds capacity for more load but does not by itself make a workload highly available."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Scenario questions ask whether a benefit is high availability or elasticity, and that choice feeds the reliability pillar."
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.1 lists high availability as a benefit to recognise."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-vertical-horizontal-scaling",
+          "reason": "The second KC contrasts high availability with horizontal scaling, so scaling out must be known first."
+        }
+      ],
+      "suggests": [
+        "clf-well-architected-framework"
+      ],
+      "confusable_with": [
+        "clf-elasticity-agility"
+      ],
+      "introduces": [
+        "high availability",
+        "single point of failure"
+      ],
+      "uses": [
+        "horizontal scaling",
+        "data center",
+        "server"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "elastic-load-balancing-auto-scaling-grou/high-availability"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "elastic-load-balancing-auto-scaling-grou/high-availability-scalability-for-ec2"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-1-define-the-benefits-o/understanding-the-advantages-of-high-ava"
+        }
+      ],
+      "problem_ideas": [
+        "An app runs on 4 servers in one data center that loses power: is it highly available? What change fixes it?",
+        "Find the single point of failure in a diagram: web servers in two locations, but one database in only one of them.",
+        "A company scales from 2 to 8 servers in the same room: did availability, scalability or both improve?",
+        "Choose between 'bigger server' and 'second server in another location' for a requirement to survive a building outage.",
+        "Compute the uptime gain when two independent locations each have 99% availability (1 - 0.01^2), then say what failover must work for that figure to hold.",
+        "Two locations each run at 80% load: explain why losing one still causes an outage despite the redundancy."
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Availability of redundant components: 1 - (1 - a)^n"
+        },
+        {
+          "kind": "edge",
+          "title": "High availability versus fault tolerance versus disaster recovery"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "High availability shows up across all domains; Domain 1 asks you to name it as a benefit."
+      }
+    },
+    {
+      "id": "clf-fixed-vs-variable-costs",
+      "title": "Fixed vs variable costs: CapEx and OpEx",
+      "size": "standard",
+      "est_min": 10,
+      "section": "cloud-economics",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-fixed-costs",
+          "statement": "Fixed costs, such as buying servers and data center space up front, are paid whether or not the capacity is used; this up-front spending is capital expenditure (CapEx)."
+        },
+        {
+          "id": "kc-variable-costs",
+          "statement": "Variable costs rise and fall with actual usage; in the cloud, spending becomes operational expenditure (OpEx) for only the resources consumed."
+        },
+        {
+          "id": "kc-capacity-guessing",
+          "statement": "With fixed on-premises capacity, an organisation must size for forecast peak demand, so capacity sits idle most of the time or runs out when demand beats the forecast."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "'Trade fixed expense for variable expense' is the benefit learners most often need to identify."
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.4 asks for the role of fixed versus variable costs."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-tco-on-premises-costs",
+        "clf-rightsizing"
+      ],
+      "confusable_with": [
+        "clf-tco-on-premises-costs"
+      ],
+      "introduces": [
+        "fixed costs",
+        "variable costs",
+        "capital expenditure",
+        "operational expenditure"
+      ],
+      "uses": [
+        "pay-as-you-go pricing",
+        "data center",
+        "server"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-4-understand-concepts-o/understanding-the-role-of-fixed-costs-co"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-4-understand-concepts-o/aspects-of-cloud-economics"
+        }
+      ],
+      "problem_ideas": [
+        "A company buys 10 servers at $6,000 each for a peak it reaches 1 month a year: compute the yearly idle capacity in server-months.",
+        "Classify six line items (server purchase, hourly instance fee, building lease, per-GB storage) as fixed or variable.",
+        "Predict the monthly bill when usage drops 60% under pay-as-you-go versus owned hardware.",
+        "A CFO wants to avoid a $500,000 up-front purchase: which cloud benefit answers this?",
+        "Forecast was 1,000 users and 5,000 arrived: describe what happens on premises versus in the cloud.",
+        "Spot the wrong statement: 'Moving to AWS turns OpEx into CapEx.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Utilisation and break-even between owning and renting"
+        },
+        {
+          "kind": "adjacent",
+          "title": "How commitments (Reserved Instances, Savings Plans) bring back some fixed cost for a discount"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "CapEx versus OpEx wording is one of the most heavily tested economics ideas on CLF-C02."
+      }
+    },
+    {
+      "id": "clf-tco-on-premises-costs",
+      "title": "Total cost of ownership and hidden on-prem costs",
+      "size": "standard",
+      "est_min": 10,
+      "section": "cloud-economics",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-tco-definition",
+          "statement": "Total cost of ownership (TCO) counts every cost of running a workload over its life, not just hardware: facilities, power, cooling, networking, software licences and staff time."
+        },
+        {
+          "id": "kc-on-prem-hidden-costs",
+          "statement": "On-premises costs that are often left out of comparisons include data center space, power and cooling, physical security, hardware refresh cycles and the people who rack, patch and repair servers."
+        },
+        {
+          "id": "kc-tco-cloud-savings",
+          "statement": "Moving to the cloud lowers TCO mainly by removing data center overhead and idle capacity, and by freeing staff from undifferentiated heavy lifting to work that serves customers."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.4 covers costs associated with on-premises environments and the savings of moving to the cloud."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-fixed-vs-variable-costs",
+          "reason": "TCO comparisons are built from fixed on-premises costs against variable cloud costs."
+        }
+      ],
+      "suggests": [
+        "clf-six-advantages"
+      ],
+      "confusable_with": [
+        "clf-fixed-vs-variable-costs"
+      ],
+      "introduces": [
+        "total cost of ownership",
+        "undifferentiated heavy lifting"
+      ],
+      "uses": [
+        "fixed costs",
+        "variable costs",
+        "data center",
+        "on-premises deployment"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-4-understand-concepts-o/understanding-costs-that-are-associated-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-4-understand-concepts-o/cost-savings-of-moving-to-the-cloud"
+        }
+      ],
+      "problem_ideas": [
+        "A comparison lists only $200k of server hardware: name four missing on-premises cost lines.",
+        "Compute a 3-year TCO: $120k hardware, $30k/yr power and cooling, 1 admin at $90k/yr.",
+        "Two admins spend 60% of their time patching hardware: what share of their cost does moving to AWS free up?",
+        "Pick which items stay in the TCO after migrating to AWS (licences, staff for the app, building lease).",
+        "A manager compares a server's sticker price with an EC2 hourly price: explain why this is not a TCO comparison.",
+        "Rank four savings levers by typical impact: idle capacity, power, staff time, hardware refresh."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Migration Evaluator for building a TCO business case"
+        },
+        {
+          "kind": "edge",
+          "title": "When on premises can still be cheaper: steady, fully used workloads"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "TCO and hidden on-prem costs come up as 'which cost is eliminated' questions."
+      }
+    },
+    {
+      "id": "clf-economies-of-scale-automation",
+      "title": "Economies of scale and the value of automation",
+      "size": "standard",
+      "est_min": 8,
+      "section": "cloud-economics",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-economies-of-scale",
+          "statement": "Because AWS pools usage from hundreds of thousands of customers, it buys and runs hardware more cheaply than one company could, and passes the savings on as lower pay-as-you-go prices."
+        },
+        {
+          "id": "kc-automation-benefits",
+          "statement": "Automating provisioning and operations makes deployments repeatable and consistent, reduces human error, and cuts the staff time and cost of running workloads compared with one-time manual steps."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.4 names economies of scale and the benefits of automation."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-fixed-vs-variable-costs",
+        "clf-six-advantages"
+      ],
+      "confusable_with": [
+        "clf-six-advantages"
+      ],
+      "introduces": [
+        "economies of scale",
+        "automation"
+      ],
+      "uses": [
+        "pay-as-you-go pricing",
+        "variable costs"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-4-understand-concepts-o/understanding-the-economies-of-scale-for"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-4-understand-concepts-o/identifying-benefits-of-automation"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-1-define-methods-of-dep/evaluating-requirements-to-determine-whe"
+        }
+      ],
+      "problem_ideas": [
+        "AWS has cut prices many times since launch: which benefit explains this?",
+        "A team builds 12 identical test environments a month by hand with frequent mistakes: name two automation benefits.",
+        "Choose between a one-time manual setup and a repeatable automated process for a weekly environment rebuild.",
+        "Match the phrase 'aggregated usage from many customers' to the right benefit among four options.",
+        "A small company cannot negotiate hardware discounts: explain how the cloud gives it the same purchasing power.",
+        "Spot the distractor: 'Economies of scale means your application scales automatically.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Infrastructure as code as the main automation tool on AWS"
+        },
+        {
+          "kind": "mechanism",
+          "title": "How custom silicon (Graviton) feeds AWS economies of scale"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Economies of scale is a stock answer option; automation reappears in deployment questions."
+      }
+    },
+    {
+      "id": "clf-rightsizing",
+      "title": "Rightsizing: pay for what you actually use",
+      "size": "standard",
+      "est_min": 8,
+      "section": "cloud-economics",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-rightsizing-definition",
+          "statement": "Rightsizing is matching instance types and sizes to a workload's measured performance and capacity needs at the lowest cost, for example moving a server that averages 10% CPU to a smaller size."
+        },
+        {
+          "id": "kc-rightsizing-timing",
+          "statement": "Rightsizing is an ongoing process based on utilisation data, and it should happen before committing to long-term discounts, because the cloud lets you change size at any time."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.4 asks for the concept of rightsizing, and it recurs in billing questions."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-fixed-vs-variable-costs",
+        "clf-wa-pillars-performance-cost-sustainability"
+      ],
+      "confusable_with": [
+        "clf-elasticity-agility"
+      ],
+      "introduces": [
+        "rightsizing"
+      ],
+      "uses": [
+        "variable costs",
+        "elasticity",
+        "server"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-4-understand-concepts-o/understanding-the-concept-of-rightsizing"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "aws-architecting-ecosystem/aws-right-sizing"
+        }
+      ],
+      "problem_ideas": [
+        "An instance at $0.40/hour averages 8% CPU; halving its size halves the price: compute the yearly saving.",
+        "Decide which to do first: buy a 3-year commitment or downsize over-provisioned servers. Explain.",
+        "Three servers show 85%, 12% and 40% CPU: which is the rightsizing candidate?",
+        "A lift-and-shift copied on-prem server sizes exactly: why is this a rightsizing opportunity?",
+        "Distinguish rightsizing from elasticity for a workload that is steady but oversized.",
+        "Predict the effect of rightsizing on a memory-bound app if you only look at CPU."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Compute Optimizer and Cost Explorer rightsizing recommendations"
+        },
+        {
+          "kind": "edge",
+          "title": "Rightsizing memory versus CPU: what the default metrics miss"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "A favourite exam answer for cutting costs on oversized resources."
+      }
+    },
+    {
+      "id": "clf-six-advantages",
+      "title": "The AWS value proposition: six advantages",
+      "size": "standard",
+      "est_min": 10,
+      "section": "cloud-economics",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-six-advantages-list",
+          "statement": "AWS names six advantages of cloud computing: trade fixed expense for variable expense, benefit from massive economies of scale, stop guessing capacity, increase speed and agility, stop spending money running and maintaining data centers, and go global in minutes."
+        },
+        {
+          "id": "kc-stop-guessing-capacity",
+          "statement": "'Stop guessing capacity' means using only as much capacity as demand needs and scaling as it changes, instead of buying for a forecast that leaves resources idle or short."
+        },
+        {
+          "id": "kc-go-global-in-minutes",
+          "statement": "'Go global in minutes' means deploying an application to AWS locations around the world in a few clicks, giving distant users lower latency at little extra cost."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Picking the cloud benefit that fits a scenario uses exactly these six named advantages."
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.1 covers the value proposition and the benefits of global reach."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-fixed-vs-variable-costs",
+          "reason": "The first advantage is stated as fixed versus variable expense."
+        },
+        {
+          "topic": "clf-economies-of-scale-automation",
+          "reason": "One advantage is economies of scale, which must already be defined."
+        },
+        {
+          "topic": "clf-elasticity-agility",
+          "reason": "'Stop guessing capacity' and 'speed and agility' rely on elasticity and agility."
+        }
+      ],
+      "suggests": [
+        "clf-wa-pillars-performance-cost-sustainability"
+      ],
+      "confusable_with": [
+        "clf-elasticity-agility",
+        "clf-economies-of-scale-automation"
+      ],
+      "introduces": [
+        "six advantages of cloud computing",
+        "global reach"
+      ],
+      "uses": [
+        "fixed costs",
+        "variable costs",
+        "economies of scale",
+        "agility",
+        "elasticity",
+        "data center"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-1-define-the-benefits-o/value-proposition-of-the-aws-cloud"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-1-define-the-benefits-o/understanding-the-benefits-of-global-inf"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "introduction/introduction-to-aws"
+        }
+      ],
+      "problem_ideas": [
+        "A game studio launches in Japan and Brazil the same week without building data centers: which advantage?",
+        "Match eight short scenarios to the six advantages; two are distractors that are not advantages.",
+        "Recall the six advantages from memory and flag the one most often confused with elasticity.",
+        "A company redeploys 3 data center engineers to product work after migrating: name the advantage.",
+        "Pick the advantage that answers 'we bought 200 servers and use 60'.",
+        "Spot the invented advantage among five options (e.g. 'eliminate all security responsibility')."
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "Where the six advantages come from: the AWS overview whitepaper"
+        },
+        {
+          "kind": "adjacent",
+          "title": "How global reach depends on Regions and edge locations (Stage 2)"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "The six advantages are verbatim answer options on many Domain 1 questions; learn them word for word."
+      }
+    },
+    {
+      "id": "clf-well-architected-framework",
+      "title": "Well-Architected Framework and cloud design principles",
+      "size": "standard",
+      "est_min": 10,
+      "section": "design-and-migration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-waf-purpose",
+          "statement": "The AWS Well-Architected Framework is a set of best practices and review questions for evaluating a cloud architecture across six pillars; it guides design reviews and does not deploy or change resources."
+        },
+        {
+          "id": "kc-design-for-failure",
+          "statement": "Core AWS design principles include designing for failure by removing every single point of failure, decoupling components so one failing part does not break the rest, and using elasticity instead of fixed capacity."
+        },
+        {
+          "id": "kc-disposable-resources",
+          "statement": "AWS design principles treat servers as disposable resources and favour automation: replace a faulty server with a fresh one built automatically instead of repairing it by hand."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "A learner cannot pick a pillar for a scenario without knowing what the framework is and its guiding principles."
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.2 covers the Well-Architected Framework and design principles."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-high-availability",
+          "reason": "Designing for failure is stated in terms of removing single points of failure."
+        },
+        {
+          "topic": "clf-elasticity-agility",
+          "reason": "One design principle is to use elasticity instead of fixed capacity."
+        }
+      ],
+      "suggests": [
+        "clf-economies-of-scale-automation"
+      ],
+      "confusable_with": [
+        "clf-cloud-adoption-framework"
+      ],
+      "introduces": [
+        "well-architected framework",
+        "design principles"
+      ],
+      "uses": [
+        "high availability",
+        "single point of failure",
+        "elasticity",
+        "automation"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-2-identify-design-princ/aws-well-architected-framework"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "introduction/well-architected-framework"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "aws-architecting-ecosystem/well-architected-framework-general-guidi"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "aws-architecting-ecosystem/aws-cloud-best-practices-design-principl"
+        }
+      ],
+      "problem_ideas": [
+        "A team patches a broken web server for 3 hours each incident: which design principle would they follow instead?",
+        "An order service calls the payment service directly and both crash together: name the principle that fixes this.",
+        "Decide whether the Well-Architected Framework or the Cloud Adoption Framework fits 'review our workload for risks'.",
+        "Find the single point of failure in a three-tier design and name the principle it breaks.",
+        "Spot the false claim: 'The Well-Architected Framework automatically fixes misconfigured resources.'",
+        "Match four design principles to short scenarios (decouple, design for failure, disposable servers, automate)."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "The Well-Architected Tool and lenses for specific workloads"
+        },
+        {
+          "kind": "history",
+          "title": "From five pillars to six: why sustainability was added"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Task 1.2 is named in the guide; design-principle wording often appears as answer options."
+      }
+    },
+    {
+      "id": "clf-wa-pillars-ops-security-reliability",
+      "title": "Pillars I: operational excellence, security, reliability",
+      "size": "big",
+      "est_min": 14,
+      "section": "design-and-migration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-six-pillars-list",
+          "statement": "The six Well-Architected pillars are operational excellence, security, reliability, performance efficiency, cost optimization and sustainability."
+        },
+        {
+          "id": "kc-operational-excellence-pillar",
+          "statement": "The operational excellence pillar covers running and monitoring systems and improving processes: perform operations as code, make frequent small reversible changes, and learn from operational failures."
+        },
+        {
+          "id": "kc-security-pillar",
+          "statement": "The security pillar protects data, systems and assets through a strong identity foundation, traceability, security at all layers, and protecting data in transit and at rest."
+        },
+        {
+          "id": "kc-reliability-pillar",
+          "statement": "The reliability pillar makes a workload recover from failure and meet demand: automatically recover from failure, test recovery procedures, scale horizontally and stop guessing capacity."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "The outcome asks the learner to pick the right pillar for a scenario, which needs these three pillars' principles."
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.2 asks for the differences between the pillars."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-well-architected-framework",
+          "reason": "Pillars are the structure of the framework, so the framework must be known first."
+        }
+      ],
+      "suggests": [
+        "clf-high-availability"
+      ],
+      "confusable_with": [
+        "clf-wa-pillars-performance-cost-sustainability"
+      ],
+      "introduces": [
+        "well-architected pillars",
+        "operational excellence pillar",
+        "security pillar",
+        "reliability pillar"
+      ],
+      "uses": [
+        "well-architected framework",
+        "automation",
+        "high availability",
+        "horizontal scaling"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-2-identify-design-princ/identifying-differences-between-the-pill"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "aws-architecting-ecosystem/well-architected-framework-6-pillars"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "introduction/well-architected-framework"
+        }
+      ],
+      "problem_ideas": [
+        "'Test your recovery procedures': which pillar? Reliability versus operational excellence is the trap.",
+        "A team ships one huge release a quarter and rollbacks are painful: which pillar's principle are they ignoring?",
+        "Assign eight design principles to operational excellence, security or reliability.",
+        "Enabling logging of every API call for audits maps to which pillar and which principle?",
+        "A workload fails when one instance dies and nobody notices for hours: name two pillars involved and why.",
+        "Recall all six pillars; which one is most often left out?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Principles that sit in two pillars: automation, stop guessing capacity"
+        },
+        {
+          "kind": "mechanism",
+          "title": "What a Well-Architected review question looks like"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Pillar-matching questions are among the most frequent in Domain 1."
+      }
+    },
+    {
+      "id": "clf-wa-pillars-performance-cost-sustainability",
+      "title": "Pillars II: performance, cost, sustainability",
+      "size": "big",
+      "est_min": 14,
+      "section": "design-and-migration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-performance-efficiency-pillar",
+          "statement": "The performance efficiency pillar is about using computing resources efficiently as demand and technology change: democratise advanced technologies, go global in minutes, use serverless architectures and experiment more often."
+        },
+        {
+          "id": "kc-cost-optimization-pillar",
+          "statement": "The cost optimization pillar delivers business value at the lowest price: adopt a consumption model, measure overall efficiency, stop spending on undifferentiated heavy lifting, and analyse and attribute expenditure."
+        },
+        {
+          "id": "kc-sustainability-pillar",
+          "statement": "The sustainability pillar, added in 2021, minimises a workload's environmental impact: maximise utilisation, use managed services and adopt more efficient hardware and software."
+        },
+        {
+          "id": "kc-cost-vs-performance-pillar",
+          "statement": "Removing idle or oversized resources to cut spending maps to cost optimization, while choosing faster resource types or adding caching to cut latency maps to performance efficiency."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Choosing the right pillar for a scenario needs these three pillars, especially the cost versus performance split."
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.2 asks for the differences between the pillars."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-well-architected-framework",
+          "reason": "Each pillar is a part of the Well-Architected Framework, so the framework and its purpose must be known first."
+        },
+        {
+          "topic": "clf-rightsizing",
+          "reason": "The cost optimization KC uses rightsizing as its main example."
+        }
+      ],
+      "suggests": [
+        "clf-wa-pillars-ops-security-reliability",
+        "clf-six-advantages"
+      ],
+      "confusable_with": [
+        "clf-wa-pillars-ops-security-reliability",
+        "clf-rightsizing"
+      ],
+      "introduces": [
+        "performance efficiency pillar",
+        "cost optimization pillar",
+        "sustainability pillar"
+      ],
+      "uses": [
+        "well-architected framework",
+        "well-architected pillars",
+        "rightsizing",
+        "variable costs",
+        "global reach",
+        "undifferentiated heavy lifting"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-2-identify-design-princ/identifying-differences-between-the-pill"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "aws-architecting-ecosystem/well-architected-framework-6-pillars"
+        }
+      ],
+      "problem_ideas": [
+        "A team wants to cut its carbon footprint by raising average server utilisation from 15% to 60%: which pillar?",
+        "Turning off dev environments every night and weekend: which pillar?",
+        "Choosing a GPU instance to cut model inference time from 2 s to 200 ms: which pillar?",
+        "Tagging resources by team to see who spends what: which pillar and which principle?",
+        "Two pillars both mention 'go global in minutes' in prep notes: which is the official home?",
+        "Sort ten scenarios across all six pillars, then explain the two you found hardest."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Trade-offs between pillars: cost versus reliability"
+        },
+        {
+          "kind": "frontier",
+          "title": "How the sustainability pillar is measured: the customer carbon footprint tool"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Cost versus performance versus sustainability is a common exam trap; expect several pillar questions."
+      }
+    },
+    {
+      "id": "clf-cloud-adoption-framework",
+      "title": "AWS Cloud Adoption Framework (CAF)",
+      "size": "big",
+      "est_min": 14,
+      "section": "design-and-migration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-caf-purpose",
+          "statement": "The AWS Cloud Adoption Framework (CAF) organises guidance for a cloud transformation into six perspectives, helping an organisation find gaps in skills and processes before and during adoption."
+        },
+        {
+          "id": "kc-caf-perspectives",
+          "statement": "The CAF's business-focused perspectives are Business, People and Governance; its technical perspectives are Platform, Security and Operations."
+        },
+        {
+          "id": "kc-caf-benefits",
+          "statement": "AWS lists four business outcomes of using the CAF: reduced business risk, improved environmental, social and governance (ESG) performance, increased revenue and increased operational efficiency."
+        },
+        {
+          "id": "kc-caf-domains-phases",
+          "statement": "The CAF's transformation domains are Technology, Process, Organization and Product, and the adoption journey runs through four phases: Envision, Align, Launch and Scale."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "The outcome asks the learner to pick the CAF perspective for a scenario."
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.3 covers cloud adoption strategies and the CAF."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-migration-strategies",
+        "clf-well-architected-framework"
+      ],
+      "confusable_with": [
+        "clf-well-architected-framework",
+        "clf-migration-strategies"
+      ],
+      "introduces": [
+        "cloud adoption framework",
+        "caf perspectives"
+      ],
+      "uses": [
+        "cloud computing"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-3-understand-the-benefi/cloud-adoption-strategies"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-3-understand-the-benefi/resources-to-support-the-cloud-migration"
+        }
+      ],
+      "problem_ideas": [
+        "Retraining staff and changing job roles for the cloud: which CAF perspective?",
+        "Managing cloud budgets, portfolio and risk: Governance or Business perspective?",
+        "Monitoring, incident response and service-level management: which perspective?",
+        "Sort the six perspectives into business capabilities and technical capabilities.",
+        "Name the CAF phase where a company runs its first pilot projects.",
+        "Spot the distractor: 'The CAF has a Cost Optimization perspective.' Which framework is it mixing up?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Foundational capabilities inside each CAF perspective"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Migration Acceleration Program and Prescriptive Guidance"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "CAF questions ask you to match a responsibility to one of six perspectives, and the wording is easy to mix up."
+      }
+    },
+    {
+      "id": "clf-migration-strategies",
+      "title": "Migration strategies: the 7 Rs",
+      "size": "big",
+      "est_min": 14,
+      "section": "design-and-migration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-seven-rs-list",
+          "statement": "The seven migration strategies (the 7 Rs) are retire, retain, rehost, relocate, repurchase, replatform and refactor (re-architect)."
+        },
+        {
+          "id": "kc-rehost-replatform",
+          "statement": "Rehost ('lift and shift') moves an application as-is, while replatform ('lift, tinker and shift') adds a few cloud optimisations, such as moving a database to a managed service, without changing the core architecture."
+        },
+        {
+          "id": "kc-refactor-repurchase",
+          "statement": "Refactor re-architects an application with cloud-native features to gain scale, agility or performance and takes the most effort, while repurchase replaces it with a different product, usually SaaS."
+        },
+        {
+          "id": "kc-retire-retain-relocate",
+          "statement": "Retire switches off applications that are no longer needed, retain keeps applications on premises for now, and relocate moves virtualised infrastructure (for example VMware) to the cloud without buying hardware or changing the applications."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "The outcome asks the learner to pick the migration strategy (7 Rs) for a scenario."
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task statement 1.3 asks for appropriate migration strategies."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-service-models",
+          "reason": "Repurchase is defined as moving to SaaS."
+        },
+        {
+          "topic": "clf-deployment-models",
+          "reason": "Retain and relocate are described relative to on-premises deployment."
+        }
+      ],
+      "suggests": [
+        "clf-cloud-adoption-framework",
+        "clf-tco-on-premises-costs"
+      ],
+      "confusable_with": [
+        "clf-cloud-adoption-framework"
+      ],
+      "introduces": [
+        "migration strategies",
+        "lift and shift"
+      ],
+      "uses": [
+        "saas",
+        "application",
+        "on-premises deployment"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-3-understand-the-benefi/identifying-appropriate-migration-strate"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-3-understand-the-benefi/task-statement-1-3-understand-the-benefi"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-3-understand-the-benefi/resources-to-support-the-cloud-migration"
+        }
+      ],
+      "problem_ideas": [
+        "A company must leave its data center in 90 days and cannot change code: which R?",
+        "An on-prem CRM is replaced by a hosted CRM subscription: which R?",
+        "A monolith is split into serverless microservices to handle 10x growth: which R, and what is the cost?",
+        "An app moves to EC2 but its self-managed MySQL moves to a managed database: rehost or replatform?",
+        "In a portfolio of 200 apps, 30 have no users: which R, and how does it change the business case?",
+        "A VMware estate moves to the cloud unchanged within a week: relocate or rehost?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Migration tools by strategy: Application Migration Service, DMS, Snow Family"
+        },
+        {
+          "kind": "history",
+          "title": "From 5 Rs (Gartner) to 6 Rs to AWS's 7 Rs"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "7 Rs scenarios are standard Domain 1 questions; rehost and replatform are the classic confusion."
+      }
+    }
+  ],
+  "groups": {}
+}

@@ -1,0 +1,131 @@
+[
+  {
+    "id": "q-cp2-norm",
+    "version": 1,
+    "family": "q-cp2-norm",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-metrics",
+    "kcs": [
+      "kc-metrics-normalization"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Your vectors are normalized to length 1. Ranking by dot product vs by cosine gives:",
+    "options": [
+      {
+        "id": "a",
+        "md": "Identical rankings",
+        "correct": true,
+        "why_md": "Right. Dot equals cosine for unit vectors."
+      },
+      {
+        "id": "b",
+        "md": "Opposite rankings",
+        "why_md": "Both are higher-is-better and identical for unit vectors."
+      },
+      {
+        "id": "c",
+        "md": "Slightly different rankings",
+        "why_md": "They're mathematically identical here."
+      }
+    ],
+    "hints": [
+      "Which idea applies? For unit vectors, cosine, dot product and Euclidean distance give identical rankings.",
+      "Right."
+    ],
+    "solution_md": "Right. Dot equals cosine for unit vectors.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-i3",
+    "version": 1,
+    "family": "q-dpp-i3",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-metrics",
+    "kcs": [
+      "kc-metrics-normalization"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Two **unit** vectors are at Euclidean distance √2. What is their cosine similarity?",
+    "answer": {
+      "value": 0,
+      "tolerance": 0.01
+    },
+    "common_wrong": [
+      {
+        "value": 0.41,
+        "kind": "slip",
+        "why_md": "Use $\\|a-b\\|^2 = 2 - 2\\cos\\theta$: $2 = 2 - 2\\cos\\theta$."
+      }
+    ],
+    "hints": [
+      "Which idea applies? For unit vectors, cosine, dot product and Euclidean distance give identical rankings.",
+      "$(\\sqrt2)^2 = 2 = 2 - 2\\cos\\theta$, so $\\cos\\theta = 0$: perpendicular."
+    ],
+    "solution_md": "$(\\sqrt2)^2 = 2 = 2 - 2\\cos\\theta$, so $\\cos\\theta = 0$: perpendicular.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-i4",
+    "version": 1,
+    "family": "q-dpp-i4",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-metrics",
+    "kcs": [
+      "kc-metrics-normalization"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Your vectors are **not** normalized. Which ranking is length-independent?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Cosine",
+        "correct": true,
+        "why_md": "Right. It divides out both lengths."
+      },
+      {
+        "id": "b",
+        "md": "Dot product",
+        "why_md": "The dot product grows with length.",
+        "misconception": "mc-dot-equals-cosine-always"
+      },
+      {
+        "id": "c",
+        "md": "Euclidean distance",
+        "why_md": "Distance also depends on length."
+      }
+    ],
+    "hints": [
+      "Which idea applies? For unit vectors, cosine, dot product and Euclidean distance give identical rankings.",
+      "Only cosine removes magnitude."
+    ],
+    "solution_md": "Only cosine removes magnitude. After normalizing, all three agree.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

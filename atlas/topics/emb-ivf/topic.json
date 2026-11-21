@@ -1,0 +1,314 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-ivf",
+  "version": 1,
+  "title": "IVF: partition, then probe",
+  "size": "standard",
+  "est_min": 19,
+  "kcs": [
+    {
+      "id": "kc-ivf",
+      "version": 2,
+      "statement": "IVF puts vectors into k-means cells and scans only the nprobe nearest cells."
+    },
+    {
+      "id": "kc-ivf-nprobe",
+      "version": 1,
+      "statement": "Border neighbours can be missed; nprobe trades latency for recall."
+    }
+  ],
+  "mode_hint": "quiz",
+  "mode": "quiz",
+  "requires": [
+    "emb-exact-cost"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "emb-hnsw"
+  ],
+  "introduces": [
+    "IVF",
+    "nprobe"
+  ],
+  "uses": [
+    "ANN"
+  ],
+  "misconceptions": [],
+  "glossary": [
+    {
+      "term": "IVF",
+      "md": "An ANN index that partitions vectors into k-means cells and searches only the nearest few."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-ivf-p1",
+      "title": "IVF: partition, then probe",
+      "beats": [
+        {
+          "id": "b-ivf",
+          "title": "IVF: partition, then probe",
+          "kcs": [
+            "kc-ivf"
+          ],
+          "est_minutes": 9,
+          "blocks": [
+            {
+              "id": "blk-emb-ivf-01",
+              "block": {
+                "type": "predict",
+                "question": {
+                  "id": "q-predict-ivf-miss",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-ivf",
+                    "kc-ann-tradeoff"
+                  ],
+                  "prompt_md": "Imagine you split a million vectors into 1,000 neighbourhoods and, for each query, search only the **single** neighbourhood whose centre is closest. How often will you miss the true nearest neighbour?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Never: the nearest point is always in the nearest neighbourhood",
+                      "why_md": "Tempting, but neighbourhoods have borders. A point just across the border can be closer than anything inside your neighbourhood.",
+                      "misconception": "mc-ann-exact"
+                    },
+                    {
+                      "id": "b",
+                      "md": "Sometimes: mostly when the query sits near a border",
+                      "why_md": "Right. Hold that picture. The visual below lets you find those border cases yourself.",
+                      "correct": true
+                    },
+                    {
+                      "id": "c",
+                      "md": "Almost always: 999 of 1,000 neighbourhoods are skipped",
+                      "why_md": "Most of the time the nearest neighbour does live in the nearest cell, which is why the idea works at all."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            },
+            {
+              "id": "blk-emb-ivf-02",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "**IVF** (inverted file index) is the simplest ANN idea. Divide the space into neighbourhoods and search only the nearby ones.",
+                  "1. **Build:** run *k-means* on your vectors to get `nlist` centroids. Each centroid owns a **cell** (every point closer to it than to any other centroid). Store each vector in its nearest centroid's list.\n2. **Query:** compare the query with the `nlist` centroids, pick the `nprobe` nearest cells, and scan only the vectors in those cells.",
+                  "Cost per query ≈ `nlist` + `N × nprobe / nlist` comparisons instead of `N`. **The failure mode:** the true nearest neighbour sits just across a cell border, in a cell you didn't probe."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-ivf-03",
+              "block": {
+                "type": "visual",
+                "id": "v-ivf",
+                "widget": "ivf",
+                "title": "Probe the cells",
+                "goal_md": "Drag the query. Change the number of cells and how many you probe. Compare the ANN answer with the exact one.",
+                "alt": "About 400 points coloured by k-means cell, with a draggable query. Probed cells are highlighted and only their points are scanned. Readouts show recall@10 against exact search, the percentage of points scanned, and whether the true nearest neighbour was found.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "With **nprobe = 1**, put the query near a cell border so that IVF **misses** the true nearest neighbour.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "nprobe",
+                          "op": "==",
+                          "value": 1
+                        },
+                        {
+                          "var": "missed_true_nn",
+                          "op": "==",
+                          "value": 1
+                        }
+                      ]
+                    },
+                    "aha_md": "The nearest point lives in the neighbouring cell, which was never scanned. That's what “approximate” means."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Reach **recall@10 = 1.0** while scanning **less than 40%** of the points.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "recall",
+                          "op": ">=",
+                          "value": 1
+                        },
+                        {
+                          "var": "scanned_pct",
+                          "op": "<",
+                          "value": 40
+                        }
+                      ]
+                    },
+                    "aha_md": "Probing a few neighbouring cells usually recovers the misses at a fraction of the cost. The `nprobe` knob trades recall for latency."
+                  }
+                ],
+                "params": {
+                  "points": 400,
+                  "cells": 8,
+                  "nprobe": 1
+                }
+              }
+            },
+            {
+              "id": "blk-emb-ivf-04",
+              "block": {
+                "type": "callout",
+                "kind": "production",
+                "md": "pgvector's IVFFlat guidance: start with `lists = rows / 1000` (up to 1M rows) or `sqrt(rows)` (beyond), and `probes ≈ sqrt(lists)`. Build the index **after** loading data, because k-means needs data to learn the cells.",
+                "title": "Real defaults"
+              }
+            },
+            {
+              "id": "blk-emb-ivf-05",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-ivf-scan",
+                  "kind": "numeric",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-ivf"
+                  ],
+                  "prompt_md": "N = 1,000,000 vectors, `nlist = 1000`, `nprobe = 10`. Assuming equal-sized cells, how many **stored vectors** does one query scan (excluding the centroid comparisons)?",
+                  "answer": {
+                    "value": 10000,
+                    "tolerance": 0
+                  },
+                  "solution_md": "Each cell holds about $10^6 / 1000 = 1000$ vectors. 10 cells × 1000 = **10,000**, about 1% of the corpus (plus 1,000 centroid comparisons).",
+                  "est_seconds": 70
+                }
+              }
+            },
+            {
+              "id": "blk-emb-ivf-06",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-ivf-nprobe",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-ivf"
+                  ],
+                  "prompt_md": "You raise `nprobe` from 4 to 32. What happens?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Recall goes up, and latency goes up",
+                      "why_md": "Right. More cells scanned means fewer border misses but more work.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "Recall goes up, and latency is unchanged",
+                      "why_md": "Each probed cell adds vectors to scan."
+                    },
+                    {
+                      "id": "c",
+                      "md": "The index must be rebuilt",
+                      "why_md": "`nprobe` is a query-time knob. `nlist` is fixed at build time."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp3-ivf"
+  ],
+  "recap": {
+    "pitfall": "With nprobe = 1 a query near a cell border misses neighbours in the next cell."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [
+    {
+      "id": "d-ivf-miss",
+      "beat": "b-ivf",
+      "question": "Why would IVF miss the closest point?",
+      "match": [
+        "ivf miss",
+        "why miss",
+        "border",
+        "cell",
+        "nprobe"
+      ],
+      "answer_md": "IVF only scans the cells whose **centroids** are nearest to the query. If the query sits near a border, its true nearest neighbour can be just across the line, in a cell whose centroid is farther away. That cell isn't probed, so the neighbour is never even looked at. Raising `nprobe` scans more neighbouring cells and fixes most of these misses.",
+      "deeper_md": "Postcodes. You live on the edge of postcode A, and your closest neighbour lives across the street in postcode B. If you only search postcode A for nearby people, you miss them.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "The border problem",
+        "md": [
+          "Centroids C1 at (0, 0) and C2 at (10, 0). Query at (4.9, 0), so it probes **C1's cell** only (nprobe = 1).",
+          "The true nearest point is at (5.1, 0), 0.2 away but **in C2's cell**. IVF never scans it and returns the best point in C1's cell, say (3, 0), which is 1.9 away.",
+          "With nprobe = 2, both cells are scanned and the true neighbour is found."
+        ],
+        "verify": {
+          "id": "q-br-ivf",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-ivf"
+          ],
+          "prompt_md": "With nprobe = 1, a miss is most likely when the query is:",
+          "options": [
+            {
+              "id": "a",
+              "md": "Near the border between two cells",
+              "why_md": "Right.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "Exactly at a centroid",
+              "why_md": "That's the safest place."
+            },
+            {
+              "id": "c",
+              "md": "Far from all data",
+              "why_md": "It can be wrong there too, but borders are the classic case."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Assign six 2-D points to two k-means cells by hand",
+    "Find the query whose true neighbour sits in the next cell",
+    "Predict recall at nprobe 1, 2 and 4",
+    "Estimate vectors scanned per query for 1M vectors in 1,000 cells",
+    "Choose nlist for 10M vectors",
+    "Explain why IVF needs training data and HNSW does not"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-ai-engineer",
+      "entry": "indexing-embeddings"
+    },
+    {
+      "source": "strata-pack",
+      "entry": "advanced/b-ivf"
+    },
+    {
+      "source": "faiss-docs",
+      "entry": "ivf"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

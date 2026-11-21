@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-monitoring-vs-auditing",
+  "version": 1,
+  "title": "CloudWatch vs CloudTrail vs Config vs X-Ray",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-three-questions",
+      "version": 1,
+      "statement": "CloudWatch answers 'how is it performing?', CloudTrail answers 'who made which API call, and when?', and AWS Config answers 'what did this resource's configuration look like over time, and is it compliant?'"
+    },
+    {
+      "id": "kc-incident-attribution",
+      "version": 1,
+      "statement": "For a sudden unwanted change, such as a deleted bucket or an opened security group port, CloudTrail identifies the caller and AWS Config shows the configuration before and after."
+    },
+    {
+      "id": "kc-aws-side-vs-tracing",
+      "version": 1,
+      "statement": "For AWS-side events that affect your resources the answer is the Health Dashboard, not CloudWatch; for following one request across many services it is X-Ray."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-cloudwatch-metrics-logs",
+    "clf-x-ray",
+    "clf-health-dashboard"
+  ],
+  "suggests": [
+    "clf-cloudtrail",
+    "clf-aws-config"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "monitoring service selection"
+  ],
+  "uses": [
+    "cloudwatch",
+    "cloudtrail",
+    "aws config",
+    "x-ray",
+    "health dashboard",
+    "security group",
+    "s3"
+  ],
+  "problem_ideas": [
+    "Twelve one-line symptoms: name the service for each and the distractor you rejected.",
+    "A production bucket vanished overnight: which service tells you who deleted it, and which tells you what it looked like before?",
+    "An auditor wants proof that all EBS volumes stayed encrypted for the last 90 days: which service?",
+    "CPU spiked to 100% at 14:02: which service shows the spike, and which would show whether someone resized the instance?",
+    "A regional AWS networking issue slows your app: which service would have told you first?",
+    "Explain in one sentence each why CloudTrail is wrong for 'monitor memory usage' and CloudWatch is wrong for 'who terminated my instance'."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "cloud-monitoring/cloud-monitoring"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "cloud-monitoring/aws-cloudtrail"
+    }
+  ],
+  "status": "stub"
+}

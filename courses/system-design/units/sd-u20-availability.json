@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u20-availability",
+  "title": "Availability math, redundancy and failover",
+  "topics": [
+    {
+      "id": "sd-availability-nines",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-availability-series-parallel",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-reliability-fault-tolerance",
+      "tier": "optional",
+      "order": 3
+    },
+    {
+      "id": "sd-single-points-of-failure",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "sd-health-checks-heartbeats",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "sd-failover",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

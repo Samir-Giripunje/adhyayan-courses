@@ -1,0 +1,50 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-firewall-manager",
+  "version": 1,
+  "title": "Firewall Manager: firewall rules across accounts",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-fms-central-rules",
+      "version": 1,
+      "statement": "AWS Firewall Manager centrally configures and enforces WAF rules, Shield Advanced protections, security groups and Network Firewall policies across all accounts in an AWS Organizations organization, including accounts and resources added later."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-waf",
+    "clf-organizations",
+    "clf-shield-ddos"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-waf",
+    "clf-security-hub-detective"
+  ],
+  "introduces": [
+    "firewall manager"
+  ],
+  "uses": [
+    "waf",
+    "shield advanced",
+    "security group",
+    "aws organizations"
+  ],
+  "problem_ideas": [
+    "A company with 60 accounts wants the same WAF rules on every new ALB automatically. Name the service.",
+    "Choose between WAF and Firewall Manager for one website versus 60 accounts.",
+    "What prerequisite service must be in place before Firewall Manager can be used?",
+    "A new member account joins the organization. What does Firewall Manager do with it?",
+    "Spot the keyword in 'centrally manage firewall rules across accounts' and name the service.",
+    "List three kinds of protection Firewall Manager can apply."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-firewall-manager"
+    }
+  ],
+  "status": "stub"
+}

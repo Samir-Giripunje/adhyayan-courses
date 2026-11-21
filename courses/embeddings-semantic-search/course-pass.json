@@ -1,0 +1,65 @@
+{
+  "course": {
+    "id": "embeddings-semantic-search",
+    "title": "Embeddings and semantic search",
+    "archetype": "concept",
+    "unit_prefix": "emb",
+    "first_unit": 1
+  },
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Compute similarity by hand and explain why cosine ignores length",
+      "observable": "a hand-computed cosine for two small vectors with a one-line justification of length invariance"
+    },
+    {
+      "id": "o2",
+      "text": "Build and evaluate semantic search on labelled queries",
+      "observable": "a working top-k search with recall@k and MRR reported on a labelled query set"
+    },
+    {
+      "id": "o3",
+      "text": "Choose model, chunking, index and hybrid setup under stated constraints",
+      "observable": "a written choice of model, chunking, index and fusion naming the constraint each one meets"
+    },
+    {
+      "id": "o4",
+      "text": "Diagnose production failures: mixed models, truncation, filter starvation, borrowed thresholds",
+      "observable": "a diagnosis naming the cause and the fix for a failing search log"
+    }
+  ],
+  "exclusions": [
+    {
+      "text": "Training an embedding model from scratch",
+      "why": "Working depth uses pre-trained models; training is a depth thread on 2.1"
+    },
+    {
+      "text": "Vector-database vendor comparison",
+      "why": "Vendor features change monthly; the course teaches the index ideas they share"
+    }
+  ],
+  "stages": [
+    {
+      "id": "emb-core",
+      "title": "Embeddings and semantic search",
+      "outcome": [
+        "o1",
+        "o2",
+        "o3",
+        "o4"
+      ],
+      "assumes": [
+        "vector",
+        "dot product",
+        "token"
+      ],
+      "provides": [
+        "semantic search",
+        "recall@k",
+        "HNSW",
+        "RRF"
+      ],
+      "topic_estimate": 17
+    }
+  ]
+}

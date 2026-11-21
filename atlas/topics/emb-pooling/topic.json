@@ -1,0 +1,286 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-pooling",
+  "version": 1,
+  "title": "Pooling and token limits",
+  "size": "standard",
+  "est_min": 19,
+  "kcs": [
+    {
+      "id": "kc-pooling-limits",
+      "version": 2,
+      "statement": "Token vectors are pooled into one vector for the whole input."
+    },
+    {
+      "id": "kc-truncation",
+      "version": 1,
+      "statement": "Input past the model's max length is truncated, silently in some libraries."
+    }
+  ],
+  "mode_hint": "quiz",
+  "mode": "quiz",
+  "requires": [
+    "emb-model"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "visual_fit": {
+    "kind": "none",
+    "why": "The worked example computes mean pooling step by step; a picture of averaging three short vectors adds nothing the numbers do not."
+  },
+  "introduces": [
+    "pooling",
+    "max sequence length"
+  ],
+  "uses": [
+    "token",
+    "embedding model"
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-embed-whole-doc",
+      "statement": "Embed the whole document; the model reads all of it.",
+      "tags": [
+        "kc-pooling-limits",
+        "kc-chunking"
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "token",
+      "md": "The unit a model reads: a word or word piece. About ¾ of an English word on average."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-pooling-p1",
+      "title": "From tokens to one vector: pooling and length limits",
+      "beats": [
+        {
+          "id": "b-pooling",
+          "title": "From tokens to one vector: pooling and length limits",
+          "kcs": [
+            "kc-pooling-limits"
+          ],
+          "est_minutes": 9,
+          "blocks": [
+            {
+              "id": "blk-emb-pooling-01",
+              "block": {
+                "type": "rewind",
+                "title": "Tokens in 60 seconds",
+                "md": [
+                  "Models don't read characters or whole words. They read **tokens**: frequent words stay whole, and rare words are split into pieces (*embeddings* → *em*, *bed*, *dings*). A rough rule for English is about **¾ of a word per token**.",
+                  "Every model has a **maximum number of tokens** it can read at once. Anything beyond that is either cut off or rejected."
+                ],
+                "prereq": "tokens"
+              }
+            },
+            {
+              "id": "blk-emb-pooling-02",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Inside a transformer, every token gets its own vector, and that vector depends on the surrounding words. *bank* in *river bank* and *bank* in *bank loan* get **different** token vectors (unlike word2vec, which gives one vector per word).",
+                  "But search needs **one vector per text**, so the model **pools** its token vectors:",
+                  "- **Mean pooling**: average all the token vectors (the sentence-transformers default).\n- **CLS pooling**: use the vector of a special first token that was trained to summarise.\n- **Last-token pooling**: used by some embedders built on decoder LLMs.",
+                  "Then the vector is usually **normalized** to length 1."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-pooling-03",
+              "block": {
+                "type": "worked_example",
+                "title": "Mean pooling by hand",
+                "problem_md": "A 3-token text has 2-D token vectors `[1, 0]`, `[0, 1]`, `[1, 1]`. Compute its mean-pooled, normalized embedding.",
+                "steps": [
+                  {
+                    "md": "Sum: `[1+0+1, 0+1+1] = [2, 2]`"
+                  },
+                  {
+                    "md": "Mean: divide by 3 tokens → `[0.667, 0.667]`"
+                  },
+                  {
+                    "md": "Length: $\\sqrt{0.667^2 + 0.667^2} \\approx 0.943$"
+                  },
+                  {
+                    "md": "Normalize: divide by the length → `[0.707, 0.707]`",
+                    "why_md": "After normalizing, only the direction is left, so the mean and the sum point the same way."
+                  }
+                ],
+                "answer_md": "`[0.707, 0.707]`, a unit vector at 45°."
+              }
+            },
+            {
+              "id": "blk-emb-pooling-04",
+              "block": {
+                "type": "callout",
+                "kind": "warning",
+                "md": [
+                  "Every embedding model has a **maximum input length**. `all-MiniLM-L6-v2` truncates input longer than **256 word pieces** (it was trained on 128). OpenAI's `text-embedding-3` models accept up to **8,192 tokens**.",
+                  "What happens past the limit depends on the library. sentence-transformers **silently truncates**: the tail of your text simply never makes it into the vector. The OpenAI API **rejects** the request instead."
+                ],
+                "title": "The silent truncation trap",
+                "misconception": "mc-embed-whole-doc"
+              }
+            },
+            {
+              "id": "blk-emb-pooling-05",
+              "block": {
+                "type": "callout",
+                "kind": "analogy",
+                "md": "Even within the limit, averaging a long text that covers ten topics gives a vector that is a little bit about everything, and strongly about nothing. That's **dilution**, and it's why we embed chunks rather than whole documents (two beats from now).",
+                "title": "Averaging a smoothie"
+              }
+            },
+            {
+              "id": "blk-emb-pooling-06",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-truncation",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-pooling-limits"
+                  ],
+                  "prompt_md": "You embed a 3,000-word contract as **one** chunk with `all-MiniLM-L6-v2`. The termination clause is in the last paragraph. A user searches *“how can we terminate early?”*. What happens?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "The contract scores low: the termination clause was truncated and never embedded",
+                      "why_md": "Right. Only roughly the first 200 words fit in 256 word pieces. The rest of the contract is invisible to search.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "It's found, because the whole contract is in the index",
+                      "why_md": "The contract text is in your database, but its *vector* only reflects the first ~256 word pieces.",
+                      "misconception": "mc-embed-whole-doc"
+                    },
+                    {
+                      "id": "c",
+                      "md": "The library throws an error",
+                      "why_md": "sentence-transformers truncates silently. The OpenAI API would reject an over-limit input, but this model is local."
+                    }
+                  ],
+                  "est_seconds": 70
+                }
+              }
+            },
+            {
+              "id": "blk-emb-pooling-07",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-meanpool",
+                  "kind": "numeric",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-pooling-limits"
+                  ],
+                  "prompt_md": "Mean-pool the token vectors `[2, 0]` and `[0, 2]`, then normalize. What is the first coordinate? (3 decimals)",
+                  "answer": {
+                    "value": 0.707,
+                    "tolerance": 0.005,
+                    "common_wrong": [
+                      {
+                        "value": 1,
+                        "why_md": "The mean is `[1, 1]`, but you still need to normalize: divide by √2."
+                      }
+                    ]
+                  },
+                  "solution_md": "Mean $= [1, 1]$, length $\\sqrt2$, normalized $= [1/\\sqrt2, 1/\\sqrt2] \\approx [0.707, 0.707]$.",
+                  "est_seconds": 70
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp2-trunc"
+  ],
+  "recap": {
+    "pitfall": "Text past the max sequence length never reaches the vector, and many libraries do not warn you."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [
+    {
+      "id": "d-pooling-order",
+      "beat": "b-pooling",
+      "question": "Doesn't averaging lose the word order?",
+      "match": [
+        "word order",
+        "averag",
+        "mean pooling",
+        "lose order",
+        "dog bites man"
+      ],
+      "answer_md": "Averaging the *raw word* vectors would lose order (*dog bites man* = *man bites dog*). Transformers avoid most of this because each **token vector is contextual**: it already encodes its neighbours and position before pooling. The average of contextual vectors still carries order information, though not perfectly. That's why fine-grained distinctions (negation, who did what to whom) remain a known weakness, and rerankers help with them.",
+      "deeper_md": "A smoothie made of whole fruit loses the structure of the fruit. But if each piece were labelled before blending (“strawberry, placed first, next to banana”), the smoothie still carries some of the arrangement. Contextual token vectors are those labelled pieces.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Bag of words vs contextual pooling",
+        "md": [
+          "- **Bag-of-words average** (like our hands-on toy model): *dog bites man* and *man bites dog* get **identical** vectors.\n- **Transformer mean pooling**: each token vector already depends on its neighbours and position, so the averages differ, though less than the meanings do.",
+          "Practical consequence: embeddings are strong on topic, weaker on exact relations and negation. Use a cross-encoder reranker when that precision matters."
+        ],
+        "verify": {
+          "id": "q-br-pool",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-pooling-limits"
+          ],
+          "prompt_md": "In the hands-on toy `embed()` (average of word vectors), how do *dog bites man* and *man bites dog* compare?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Identical vectors, because the toy averages order-free word vectors",
+              "why_md": "Right. Real transformer embedders mitigate this with contextual token vectors.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "Very different vectors",
+              "why_md": "Same words means same average in a bag-of-words model."
+            },
+            {
+              "id": "c",
+              "md": "Opposite vectors",
+              "why_md": "Nothing flips the sign."
+            }
+          ],
+          "est_seconds": 70
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Mean-pool three token vectors by hand",
+    "Find the sentence a 256-token model never sees in a long article",
+    "Explain why mean pooling blurs a long document's topics",
+    "Check a library's max_seq_length and what it does past it",
+    "Predict the effect of moving the answer to the end of a long document",
+    "Compare CLS pooling with mean pooling on one example"
+  ],
+  "sources": [
+    {
+      "source": "strata-pack",
+      "entry": "intermediate/b-pooling"
+    },
+    {
+      "source": "sentence-transformers",
+      "entry": "max-seq-length"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u35-full-mocks",
+  "title": "Two timed full mocks with review in between",
+  "topics": [
+    {
+      "id": "clf-mock-exam-1",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-mock-exam-review",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-mock-exam-2",
+      "tier": "must",
+      "order": 3
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

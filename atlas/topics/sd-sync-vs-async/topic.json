@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-sync-vs-async",
+  "version": 1,
+  "title": "Synchronous vs asynchronous communication",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-sync-call-coupling",
+      "version": 1,
+      "statement": "In synchronous communication the caller blocks until the callee responds, so the caller's latency includes the callee's latency and the call fails when the callee is down."
+    },
+    {
+      "id": "kc-async-decoupling",
+      "version": 1,
+      "statement": "In asynchronous communication the caller hands work to an intermediary and returns at once, giving up an immediate result in exchange for availability decoupled from the callee and the ability to absorb load spikes."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-message-queues"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "synchronous communication",
+    "asynchronous communication"
+  ],
+  "uses": [
+    "latency",
+    "http"
+  ],
+  "problem_ideas": [
+    "Checkout calls payment (200 ms), inventory (50 ms) and email (800 ms) synchronously in sequence: compute the user-visible latency, then recompute with email made asynchronous",
+    "An order service calls a recommendations service that is down 1% of the time: what fraction of orders fail if the call is synchronous vs queued?",
+    "Classify ten operations (login, send welcome email, resize avatar, charge card, update search index…) as must-be-sync or can-be-async and justify each",
+    "A user uploads a video and expects a URL immediately: which part is sync and which async?",
+    "Failure story: a synchronous chain of five services each at 99.9% uptime; what availability does the caller see?",
+    "Interviewer asks 'why not make everything async?': list two costs of asynchrony"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "asynchronism/asynchronism"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "asynchronism/asynchronism"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-tradeoffs/synchronous-vs-asynchronous-communicatio"
+    }
+  ],
+  "status": "stub"
+}

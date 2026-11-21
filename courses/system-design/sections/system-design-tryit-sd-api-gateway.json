@@ -1,0 +1,32 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-api-gateway",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: explain it in your own words",
+  "blurb": "Uses Content delivery networks, Push vs pull CDNs and API gateways: predict, then explain in your own words.",
+  "after": "topic:sd-api-gateway",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "written",
+    "topics": [
+      "sd-cdn",
+      "sd-push-pull-cdn",
+      "sd-api-gateway"
+    ],
+    "kcs": [
+      "kc-cdn-role",
+      "kc-cdn-routing",
+      "kc-cdn-offload-estimate",
+      "kc-pull-cdn",
+      "kc-push-cdn",
+      "kc-api-gateway-role",
+      "kc-gateway-aggregation",
+      "kc-gateway-vs-lb"
+    ],
+    "minutes": 18,
+    "why": "Uses Content delivery networks, Push vs pull CDNs and API gateways: predict, then explain in your own words."
+  }
+}

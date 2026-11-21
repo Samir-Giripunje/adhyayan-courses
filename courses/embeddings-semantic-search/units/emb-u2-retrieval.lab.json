@@ -1,0 +1,176 @@
+{
+  "schema": "adhy.lab/1",
+  "exercises": [
+    {
+      "id": "ex-debug-norm",
+      "title": "Debug: the longest document always wins",
+      "stage": "debug",
+      "difficulty": 2,
+      "kcs": [
+        "kc-metrics-normalization"
+      ],
+      "est_minutes": 7,
+      "brief_md": [
+        "A teammate's search ranks the **Terms of Service** page first for *every* query. The ToS vector was built by **summing** the vectors of its many sections, so it's very long. The search ranks by raw dot product.",
+        "**Fix `search` so it ranks by direction rather than length.** Keep the signature. Two lines of change is enough."
+      ],
+      "starter": "import math\n\nDOC_VECS = {\n    \"terms-of-service\": [3.0, 2.5, 2.8],   # sum of many section vectors: long!\n    \"reset-password\":   [0.9, 0.1, 0.0],\n    \"track-parcel\":     [0.0, 0.2, 0.95],\n}\n\ndef search(query, k=1):\n    scores = {}\n    for doc_id, vec in DOC_VECS.items():\n        scores[doc_id] = sum(q * v for q, v in zip(query, vec))\n    return sorted(scores, key=scores.get, reverse=True)[:k]\n\nprint(search([1.0, 0.0, 0.0]))   # someone asking about passwords\n",
+      "solution": "import math\n\nDOC_VECS = {\n    \"terms-of-service\": [3.0, 2.5, 2.8],\n    \"reset-password\":   [0.9, 0.1, 0.0],\n    \"track-parcel\":     [0.0, 0.2, 0.95],\n}\n\ndef normalize(v):\n    n = math.sqrt(sum(x * x for x in v))\n    return [x / n for x in v]\n\ndef search(query, k=1):\n    q = normalize(query)\n    scores = {}\n    for doc_id, vec in DOC_VECS.items():\n        scores[doc_id] = sum(a * b for a, b in zip(q, normalize(vec)))\n    return sorted(scores, key=scores.get, reverse=True)[:k]\n\nprint(search([1.0, 0.0, 0.0]))\n",
+      "solution_walkthrough_md": "Normalizing both sides turns the dot product into cosine. The ToS vector has length ≈ 4.8, so its dot product with `[1,0,0]` is 3.0, beating reset-password's 0.9. After normalizing, ToS scores ≈ 0.62 and reset-password ≈ 0.99. In production you normalize **once at index time**, not per query.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "password query finds reset-password",
+          "code": "assert search([1.0, 0.0, 0.0]) == ['reset-password'], f'got {search([1.0, 0.0, 0.0])}'",
+          "fail_md": "Still returning the ToS? Raw dot product rewards long vectors. Divide each vector by its length before comparing.",
+          "misconception": "mc-dot-equals-cosine-always"
+        },
+        {
+          "id": "t2",
+          "name": "parcel query finds track-parcel",
+          "code": "assert search([0.0, 0.1, 1.0]) == ['track-parcel'], f'got {search([0.0, 0.1, 1.0])}'",
+          "fail_md": "The parcel query should match `track-parcel`. Check that you normalize **both** the query and the doc vectors."
+        },
+        {
+          "id": "t3",
+          "name": "query scale doesn't change results (hidden)",
+          "hidden": true,
+          "code": "assert search([5.0, 0.0, 0.0], k=3) == search([1.0, 0.0, 0.0], k=3)",
+          "fail_md": "Multiplying the query by 5 changed the ranking, so length is still leaking into the score."
+        },
+        {
+          "id": "t4",
+          "name": "ToS still findable when relevant (hidden)",
+          "hidden": true,
+          "code": "assert search([0.6, 0.5, 0.56]) == ['terms-of-service']",
+          "fail_md": "A query pointing the same way as the ToS should still find it. Don't just delete the doc."
+        }
+      ],
+      "hints": [
+        "What happens to a dot product when one vector is 5× longer?",
+        "Write `normalize(v)` that divides every number by the vector's length, then apply it to both sides."
+      ]
+    },
+    {
+      "id": "ex-engine",
+      "title": "Build a mini semantic search engine",
+      "stage": "build",
+      "difficulty": 3,
+      "kcs": [
+        "kc-search-pipeline",
+        "kc-pooling-limits",
+        "kc-retrieval-eval"
+      ],
+      "est_minutes": 15,
+      "brief_md": [
+        "Build the whole pipeline over a 10-article help center. The prelude gives you:",
+        "- `WORD_VECTORS`: a toy “embedding model”, with a 6-D vector for each known word (axes: account, billing, shipping, returns, product, problem)\n- `DOCS`: `{doc_id: text}`\n- `LABELLED`: `{query: relevant_doc_id}` for evaluation",
+        "Implement:\n1. `embed(text)`: lower-case it, split into words with `re.findall(r\"[a-z0-9]+\", text.lower())`, **mean-pool** the vectors of the known words, then **normalize** to length 1. If no word is known, return a list of six `0.0`.\n2. `build_index()`: return `{doc_id: embed(text)}` for every doc.\n3. `search(query, index, k)`: return the top-k `doc_id`s by cosine (ties by id). If the query embeds to the zero vector, return `[]`.\n4. `recall_at_1(index)`: the fraction of `LABELLED` queries whose relevant doc comes first.",
+        "Notice that *I was charged twice* finds *Why was my card charged twice?*, and *parcel lost in delivery* finds *My parcel never arrived* with only **one** shared word."
+      ],
+      "starter": "# WORD_VECTORS, DOCS, LABELLED, math and re come from the prelude.\n\ndef embed(text):\n    pass\n\ndef build_index():\n    pass\n\ndef search(query, index, k=3):\n    pass\n\ndef recall_at_1(index):\n    pass\n\n\nindex = build_index()\nfor q in [\"I was charged twice\", \"parcel lost in delivery\", \"my screen is broken\"]:\n    print(q, \"->\", search(q, index, 2))\nprint(\"recall@1 =\", recall_at_1(index))\n",
+      "solution": "def embed(text):\n    words = [w for w in re.findall(r\"[a-z0-9]+\", text.lower()) if w in WORD_VECTORS]\n    if not words:\n        return [0.0] * 6\n    dims = len(WORD_VECTORS[words[0]])\n    mean = [sum(WORD_VECTORS[w][i] for w in words) / len(words) for i in range(dims)]\n    length = math.sqrt(sum(x * x for x in mean))\n    return [x / length for x in mean]\n\ndef build_index():\n    return {doc_id: embed(text) for doc_id, text in DOCS.items()}\n\ndef search(query, index, k=3):\n    q = embed(query)\n    if not any(q):\n        return []\n    scored = [(doc_id, sum(a * b for a, b in zip(q, vec))) for doc_id, vec in index.items()]\n    scored.sort(key=lambda p: (-p[1], p[0]))\n    return [doc_id for doc_id, _ in scored[:k]]\n\ndef recall_at_1(index):\n    hits = sum(1 for q, rel in LABELLED.items() if search(q, index, 1) == [rel])\n    return hits / len(LABELLED)\n\n\nindex = build_index()\nfor q in [\"I was charged twice\", \"parcel lost in delivery\", \"my screen is broken\"]:\n    print(q, \"->\", search(q, index, 2))\nprint(\"recall@1 =\", recall_at_1(index))\n",
+      "solution_walkthrough_md": "Because both sides are normalized, the dot product **is** cosine, so `search` skips the division. The zero-vector guard matters: a query like *hello there* has no known words, and returning `[]` beats returning noise. Real systems face the same question as a **similarity threshold** (Real world: thresholds are model-specific).",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "embed returns a unit vector",
+          "code": "v = embed('reset my password')\nassert v is not None and len(v) == 6, f'expected 6 numbers, got {v}'\nassert abs(math.sqrt(sum(x*x for x in v)) - 1) < 1e-9, 'embedding must be normalized to length 1'",
+          "fail_md": "`embed` must return 6 numbers with length 1: mean-pool, then divide by the length."
+        },
+        {
+          "id": "t2",
+          "name": "unknown words → zero vector",
+          "code": "assert embed('hello there friend') == [0.0] * 6",
+          "fail_md": "If no word is in `WORD_VECTORS`, return `[0.0] * 6`. Don't divide by zero."
+        },
+        {
+          "id": "t3",
+          "name": "charged twice → bill-double",
+          "code": "idx = build_index()\nassert search('I was charged twice', idx, 1) == ['bill-double'], f\"got {search('I was charged twice', idx, 1)}\"",
+          "fail_md": "Check that you mean-pool over **known** words only, and rank in descending order."
+        },
+        {
+          "id": "t4",
+          "name": "paraphrase: parcel lost → ship-lost",
+          "code": "idx = build_index()\nassert search('parcel lost in delivery', idx, 1) == ['ship-lost']",
+          "fail_md": "*parcel lost in delivery* shares only *parcel* with *My parcel never arrived*. The **problem** dimension (*lost*, *never*) should carry it. Are you mean-pooling every known word?"
+        },
+        {
+          "id": "t5",
+          "name": "empty query returns []",
+          "code": "assert search('zzz qqq', build_index(), 3) == []",
+          "fail_md": "A query with no known words embeds to the zero vector. Return `[]` instead of ranking noise."
+        },
+        {
+          "id": "t6",
+          "name": "recall@1 is 1.0 on the labelled set (hidden)",
+          "hidden": true,
+          "code": "r1 = recall_at_1(build_index())\nassert abs(r1 - 1.0) < 1e-9, f'recall@1 = {r1}'",
+          "fail_md": "Every labelled query should retrieve its doc first with a correct implementation. Check tie-breaking and normalization."
+        },
+        {
+          "id": "t7",
+          "name": "build_index covers every doc (hidden)",
+          "hidden": true,
+          "code": "idx = build_index()\nassert set(idx) == set(DOCS), 'index must contain every doc id'",
+          "fail_md": "`build_index` must embed every document in `DOCS`."
+        }
+      ],
+      "hints": [
+        "`[w for w in words if w in WORD_VECTORS]` keeps only known words.",
+        "Mean-pool: for each of the 6 dimensions, sum that coordinate over the words and divide by the word count.",
+        "Once everything is normalized, `sum(a*b for a, b in zip(q, v))` is the cosine."
+      ]
+    },
+    {
+      "id": "ex-eval",
+      "title": "Measure it: recall@k and MRR",
+      "stage": "scratch",
+      "difficulty": 2,
+      "kcs": [
+        "kc-retrieval-eval"
+      ],
+      "est_minutes": 8,
+      "brief_md": [
+        "Write two evaluation functions over a batch of results:",
+        "- `recall_at_k(results, relevant, k)`: `results` is `{query: [ranked doc ids]}` and `relevant` is `{query: set_of_relevant_ids}`. Return the **mean** over queries of `|relevant ∩ top-k| / |relevant|`.\n- `mrr(results, relevant)`: the mean over queries of `1 / rank` of the first relevant result, where `rank` starts at 1. A query with no relevant result contributes 0."
+      ],
+      "starter": "def recall_at_k(results, relevant, k):\n    pass\n\ndef mrr(results, relevant):\n    pass\n\n\nresults  = {\"q1\": [\"D5\", \"D2\", \"D9\", \"D1\", \"D7\"], \"q2\": [\"D3\", \"D4\"]}\nrelevant = {\"q1\": {\"D2\", \"D7\"},                    \"q2\": {\"D3\"}}\nprint(recall_at_k(results, relevant, 3), mrr(results, relevant))\n",
+      "solution": "def recall_at_k(results, relevant, k):\n    per_query = [len(set(results[q][:k]) & relevant[q]) / len(relevant[q]) for q in relevant]\n    return sum(per_query) / len(per_query)\n\ndef mrr(results, relevant):\n    total = 0.0\n    for q, rel in relevant.items():\n        for rank, doc in enumerate(results.get(q, []), start=1):\n            if doc in rel:\n                total += 1 / rank\n                break\n    return total / len(relevant)\n\n\nresults  = {\"q1\": [\"D5\", \"D2\", \"D9\", \"D1\", \"D7\"], \"q2\": [\"D3\", \"D4\"]}\nrelevant = {\"q1\": {\"D2\", \"D7\"},                    \"q2\": {\"D3\"}}\nprint(recall_at_k(results, relevant, 3), mrr(results, relevant))\n",
+      "solution_walkthrough_md": "q1: recall@3 = 1/2 (only D2 is in the top 3) and RR = 1/2. q2: recall@3 = 1 and RR = 1. Means: recall@3 = 0.75, MRR = 0.75. Use `enumerate(..., start=1)` so ranks are 1-based, otherwise you'd divide by zero.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "recall@3 on the example = 0.75",
+          "code": "r = recall_at_k({'q1': ['D5','D2','D9','D1','D7'], 'q2': ['D3','D4']}, {'q1': {'D2','D7'}, 'q2': {'D3'}}, 3)\nassert abs(r - 0.75) < 1e-9, f'got {r}'",
+          "fail_md": "Per query, divide the number of relevant docs in the top k by the number of **relevant** docs (not by k). Then average."
+        },
+        {
+          "id": "t2",
+          "name": "MRR on the example = 0.75",
+          "code": "m = mrr({'q1': ['D5','D2','D9','D1','D7'], 'q2': ['D3','D4']}, {'q1': {'D2','D7'}, 'q2': {'D3'}})\nassert abs(m - 0.75) < 1e-9, f'got {m}'",
+          "fail_md": "Ranks start at **1**. For q1 the first relevant doc is at rank 2, so it contributes 0.5."
+        },
+        {
+          "id": "t3",
+          "name": "no relevant found contributes 0 (hidden)",
+          "hidden": true,
+          "code": "m = mrr({'a': ['x'], 'b': ['y', 'z', 'r']}, {'a': {'x'}, 'b': {'r'}})\nassert abs(m - (1 + 1/3) / 2) < 1e-9, f'got {m}'\nm2 = mrr({'a': ['x'], 'b': ['y']}, {'a': {'x'}, 'b': {'q'}})\nassert abs(m2 - 0.5) < 1e-9, f'got {m2}'",
+          "fail_md": "A query with no relevant result still counts in the average, and contributes 0."
+        },
+        {
+          "id": "t4",
+          "name": "recall is not precision (hidden)",
+          "hidden": true,
+          "code": "r = recall_at_k({'q': ['A','X','Y','Z','W']}, {'q': {'A'}}, 5)\nassert abs(r - 1.0) < 1e-9, f'got {r}'",
+          "fail_md": "Dividing by k gives **precision** (0.2 here). Recall divides by the number of relevant docs (1), so it's 1.0."
+        }
+      ],
+      "hints": [
+        "`set(results[q][:k]) & relevant[q]` gives the relevant docs found in the top k.",
+        "`for rank, doc in enumerate(lst, start=1)`: stop at the first relevant doc."
+      ]
+    }
+  ]
+}

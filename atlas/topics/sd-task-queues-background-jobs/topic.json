@@ -1,0 +1,72 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-task-queues-background-jobs",
+  "version": 1,
+  "title": "Task queues and background jobs",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-task-queue-off-request-path",
+      "version": 1,
+      "statement": "A task queue holds units of work (such as resizing an image) that workers execute outside the request path, so the API can return 202 Accepted with a job id instead of waiting for the work to finish."
+    },
+    {
+      "id": "kc-event-vs-schedule-jobs",
+      "version": 1,
+      "statement": "Background jobs are either event-driven (triggered when a message arrives) or schedule-driven (run on a timer such as a nightly cron), and a scheduled job must tolerate running late or twice."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-message-queues"
+  ],
+  "suggests": [
+    "sd-sync-vs-async"
+  ],
+  "confusable_with": [
+    "sd-message-queues"
+  ],
+  "introduces": [
+    "task queue",
+    "background job",
+    "worker",
+    "schedule-driven job"
+  ],
+  "uses": [
+    "message queue",
+    "competing consumers",
+    "http status code"
+  ],
+  "problem_ideas": [
+    "Design the API response and status endpoint for a 3-minute video transcode job",
+    "A nightly report job runs on two servers by accident: what goes wrong and how do you prevent it?",
+    "Video transcoding takes 90 s per video and 20 videos arrive per second: how many workers?",
+    "Pick event-driven or schedule-driven for: welcome email, expired-link cleanup, thumbnail generation, monthly invoice",
+    "A worker is killed mid-job: list what must be true so the job is retried safely",
+    "Client polls job status every second for 1M concurrent jobs: compute the polling QPS and suggest an alternative"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "background-jobs/background-jobs"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "background-jobs/event-driven"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "background-jobs/schedule-driven"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "asynchronism/task-queues"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "messaging/async-request-reply"
+    }
+  ],
+  "status": "stub"
+}

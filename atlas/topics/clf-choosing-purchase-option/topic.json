@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-choosing-purchase-option",
+  "version": 1,
+  "title": "Choosing an EC2 purchasing option",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-steady-vs-spiky-choice",
+      "version": 1,
+      "statement": "A steady 24/7 workload expected to run for a year or more belongs on Reserved Instances or Savings Plans, while a short-lived or unpredictable workload belongs on On-Demand."
+    },
+    {
+      "id": "kc-mixed-fleet-pricing",
+      "version": 1,
+      "statement": "A common cost-optimal fleet covers the steady baseline with Savings Plans or RIs, the peaks with On-Demand, and interruptible extra work with Spot."
+    },
+    {
+      "id": "kc-relative-saving-formula",
+      "version": 1,
+      "statement": "Relative saving = 1 − (discounted hourly rate ÷ On-Demand hourly rate); for example $0.06 versus $0.10 an hour is a 40% saving, about $350 a year for one instance running all 8,760 hours."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-on-demand-reserved",
+    "clf-savings-plans",
+    "clf-spot-instances"
+  ],
+  "suggests": [
+    "clf-dedicated-hosts"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "purchasing option selection"
+  ],
+  "uses": [
+    "on-demand pricing",
+    "reserved instances",
+    "savings plans",
+    "spot instances",
+    "dedicated hosts"
+  ],
+  "problem_ideas": [
+    "A web app needs 4 instances all the time and up to 12 at lunchtime peaks: split the fleet across purchasing options.",
+    "On-Demand is $0.10/hour and a 3-year All Upfront RI works out to $0.04/hour: predict the percentage and the yearly saving for 5 instances.",
+    "A 2-month marketing microsite with unknown traffic: pick the option and name the closest distractor.",
+    "A data science team runs unpredictable experiments on EC2, Fargate and Lambda but has a steady minimum spend: which commitment?",
+    "A scientific simulation of 10,000 independent tasks with a tight budget and a flexible deadline: choose and justify.",
+    "A company over-commits a Savings Plan at $20/hour but uses only $12/hour: predict the wasted spend per month (730 hours)."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-1-compare-aws-pricing-m/identifying-when-to-use-various-compute-"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "ec2/purchasing-options"
+    }
+  ],
+  "status": "stub"
+}

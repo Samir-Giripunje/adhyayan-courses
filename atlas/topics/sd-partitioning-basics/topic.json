@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-partitioning-basics",
+  "version": 1,
+  "title": "Partitioning: vertical, horizontal and federation",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-partitioning-why",
+      "version": 1,
+      "statement": "Partitioning splits one dataset across nodes so each holds a fraction of the data and serves a fraction of the queries, which raises write capacity where replication alone cannot."
+    },
+    {
+      "id": "kc-vertical-vs-horizontal-partitioning",
+      "version": 1,
+      "statement": "Vertical partitioning splits data by columns or tables, while horizontal partitioning splits the rows of one table by a key value."
+    },
+    {
+      "id": "kc-federation",
+      "version": 1,
+      "statement": "Federation splits a database by function, such as separate users, products and orders databases, which cuts per-database load but turns cross-function queries into application-side joins."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-replication-leader-follower"
+  ],
+  "confusable_with": [
+    "sd-replication-leader-follower"
+  ],
+  "introduces": [
+    "partitioning",
+    "vertical partitioning",
+    "horizontal partitioning",
+    "federation"
+  ],
+  "uses": [
+    "replication",
+    "storage estimate",
+    "qps"
+  ],
+  "problem_ideas": [
+    "A 20 TB table on 4 TB nodes: compute the minimum number of horizontal partitions",
+    "Split a users table with a large rarely-read bio column vertically and say what improves",
+    "Federate an e-commerce monolith database and list the queries that now need two databases",
+    "Explain to an interviewer why 10 read replicas don't fix a write bottleneck of 40k writes/s",
+    "Decide between federation and sharding for an orders table growing 1 TB a month",
+    "Draw replication and partitioning together: 4 partitions, each with 2 followers"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "data-partitioning/data-partitioning"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "data-partitioning/methods"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "databases/federation"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "database/federation"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,80 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-api-gateway",
+  "version": 1,
+  "title": "API gateways",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-api-gateway-role",
+      "version": 1,
+      "statement": "An API gateway is a single entry point that routes each client request to the right backend service and centralises cross-cutting concerns such as authentication, rate limiting and request logging."
+    },
+    {
+      "id": "kc-gateway-aggregation",
+      "version": 1,
+      "statement": "Gateway aggregation lets one client call fan out to several backend services and combine their responses, reducing round trips for clients on slow mobile networks."
+    },
+    {
+      "id": "kc-gateway-vs-lb",
+      "version": 1,
+      "statement": "A load balancer spreads requests across identical instances of one service, while an API gateway routes between different services and applies policy; they are often layered, with the gateway in front of per-service load balancers."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-l4-vs-l7",
+    "sd-reverse-proxy"
+  ],
+  "suggests": [
+    "sd-load-balancers"
+  ],
+  "confusable_with": [
+    "sd-load-balancers",
+    "sd-reverse-proxy"
+  ],
+  "introduces": [
+    "api gateway",
+    "gateway aggregation"
+  ],
+  "uses": [
+    "load balancer",
+    "reverse proxy",
+    "layer 7 load balancing",
+    "path-based routing",
+    "round trip time",
+    "endpoint"
+  ],
+  "problem_ideas": [
+    "A mobile home screen calls 6 services in sequence at 150 ms RTT each: estimate the time saved by gateway aggregation",
+    "Decide which concerns belong in the gateway and which in each service: auth, input validation, rate limiting, business rules",
+    "Draw the gateway, load balancers and three services for a food-delivery app",
+    "The gateway is now the slowest hop at p99: list three possible causes",
+    "Failure story: a gateway deploy with a bad route config takes down every service; how do you limit the blast radius?",
+    "Is an API gateway needed for a single monolith with one group of endpoints? Argue it"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "why-do-we-need-an-api-gateway/why-do-we-need-an-api-gateway"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "features-4/features"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "design-implementation/gateway-routing"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "design-implementation/gateway-aggregation"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "api-fundamentals/api-gateway"
+    }
+  ],
+  "status": "stub"
+}

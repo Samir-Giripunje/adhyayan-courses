@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-guardduty",
+  "version": 1,
+  "title": "Amazon GuardDuty: intelligent threat detection",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-guardduty-threat-detection",
+      "version": 1,
+      "statement": "Amazon GuardDuty is an intelligent threat detection service. It continuously analyzes CloudTrail events, VPC Flow Logs and DNS logs with machine learning and threat intelligence to find threats such as crypto-mining, compromised credentials or contact with known malicious IP addresses."
+    },
+    {
+      "id": "kc-guardduty-no-agents",
+      "version": 1,
+      "statement": "GuardDuty needs no agents and no log setup from you. Once enabled for an account (or a whole organization), it reads the log sources itself and produces security findings."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-cloudtrail"
+  ],
+  "suggests": [
+    "clf-vpc-flow-logs"
+  ],
+  "confusable_with": [
+    "clf-inspector-macie",
+    "clf-security-hub-detective"
+  ],
+  "introduces": [
+    "guardduty",
+    "threat detection",
+    "security finding"
+  ],
+  "uses": [
+    "cloudtrail",
+    "vpc flow logs",
+    "aws organizations"
+  ],
+  "problem_ideas": [
+    "An EC2 instance suddenly talks to a known Bitcoin mining pool. Which service raises a finding?",
+    "Access keys are used from an unusual country at 3 a.m. Name the detecting service.",
+    "Does GuardDuty require installing an agent on EC2? Explain what it reads instead.",
+    "Sort these: 'detect malicious activity', 'scan for CVEs', 'find credit card numbers in S3' → GuardDuty, Inspector, Macie.",
+    "A company wants threat detection across 30 accounts with minimal setup. Describe the approach.",
+    "Which three log sources does GuardDuty analyze by default?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/amazon-guardduty"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/amazon-guardduty"
+    }
+  ],
+  "status": "stub"
+}

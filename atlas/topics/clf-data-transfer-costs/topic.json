@@ -1,0 +1,66 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-data-transfer-costs",
+  "version": 1,
+  "title": "Data transfer costs: in, out, across AZs and Regions",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-transfer-in-vs-out",
+      "version": 1,
+      "statement": "Data transfer into AWS from the internet is free, while data transferred out to the internet is charged per GB, with the per-GB rate falling at higher monthly volumes."
+    },
+    {
+      "id": "kc-transfer-az-region",
+      "version": 1,
+      "statement": "Traffic between Availability Zones and between Regions is charged per GB, while traffic within one AZ over private IP addresses is free, so multi-AZ and cross-Region designs add transfer cost."
+    },
+    {
+      "id": "kc-cloudfront-origin-transfer-free",
+      "version": 1,
+      "statement": "Data transfer from AWS origins such as S3 or EC2 to CloudFront is free, so serving content through CloudFront can lower data-out costs compared with serving directly from the origin."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "clf-pricing-fundamentals",
+    "clf-cloudfront"
+  ],
+  "confusable_with": [
+    "clf-storage-pricing"
+  ],
+  "introduces": [
+    "data transfer costs",
+    "data transfer out"
+  ],
+  "uses": [
+    "region",
+    "availability zone",
+    "cloudfront",
+    "edge location",
+    "s3",
+    "ec2 instance",
+    "origin"
+  ],
+  "problem_ideas": [
+    "Rank by cost per GB: internet to EC2, EC2 to EC2 in the same AZ via private IP, EC2 across AZs, EC2 to another Region.",
+    "A video site serves 50 TB a month straight from S3: name the cheapest change to cut data-out cost.",
+    "A company replicates a database from us-east-1 to eu-west-1: which line item will grow on the bill?",
+    "Upload of 2 TB of logs into S3 from on-premises: predict the transfer charge.",
+    "Two chatty microservices sit in different AZs: identify the hidden cost and one way to reduce it.",
+    "Spot the false statement: 'S3 to CloudFront transfer is billed at the internet data-out rate.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/networking-costs-in-aws-per-gb-simplifie"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/content-delivery-cloudfront"
+    }
+  ],
+  "status": "stub"
+}

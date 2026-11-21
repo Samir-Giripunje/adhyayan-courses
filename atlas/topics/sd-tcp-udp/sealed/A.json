@@ -1,0 +1,318 @@
+[
+  {
+    "id": "sd-tcp-udp/test-a1",
+    "family": "sd-tcp-udp-fa-tcp-file-statements",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tcp-reliable"
+    ],
+    "prompt_md": "A pharmacy's order app sends a prescription file to its server over **TCP**. No connection is open yet. Which statements are true? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Even if the network path fails for good partway through, TCP will still deliver the whole file in the end",
+        "why_md": "False. TCP can't make a dead network work. It retransmits, and if acknowledgments still don't come, it gives up and reports an error to the program.",
+        "misconception": "mc-tcp-guarantees-arrival"
+      },
+      {
+        "id": "b",
+        "md": "In the ordinary three-way handshake, the app receives SYN-ACK before sending file bytes; its final ACK may carry the first file bytes",
+        "correct": true,
+        "why_md": "True. TCP is connection-oriented: the three-way handshake opens the connection before any data is sent."
+      },
+      {
+        "id": "c",
+        "md": "If the app doesn't get an acknowledgment for a segment in time, it retransmits that segment",
+        "correct": true,
+        "why_md": "True. The sender sends an unacknowledged segment again."
+      },
+      {
+        "id": "d",
+        "md": "If a segment is lost, the server program reads the later segments first, and the missing one is slotted in when it arrives",
+        "why_md": "False. TCP holds later segments back until the gap is filled. The program never sees a gap or a reordering.",
+        "misconception": "mc-tcp-out-of-order"
+      },
+      {
+        "id": "e",
+        "md": "The server program reads the file's bytes in the same order the app sent them",
+        "correct": true,
+        "why_md": "True. Sequence numbers let TCP put bytes back in order before the program reads them."
+      }
+    ],
+    "hints": [
+      "Check each statement against what TCP does: it opens a connection with a handshake, retransmits unacknowledged segments and delivers bytes in order. Then ask what it **can't** do.",
+      "True: the handshake comes first, unacknowledged segments are resent, and bytes are read in order. False: delivery over a link that is dead for good, and handing later segments over before a gap is filled."
+    ],
+    "solution_md": "1. No connection is open, so the handshake comes first: the app sends SYN and receives SYN-ACK before any file bytes go out, and its final ACK may already carry the first bytes. (b) is true.\n2. Unacknowledged segments are retransmitted: (c) is true.\n3. Sequence numbers let TCP rebuild the original order, so the program reads bytes in the order they were sent: (e) is true.\n4. (d) is false. Later segments are held until the missing one arrives, so the program never sees gaps.\n5. (a) is false. If the path is dead for good, TCP eventually gives up and reports an error. It does not promise delivery.\n\n**Answer: b, c, e.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/test-a2",
+    "family": "sd-tcp-udp-fa-tcp-cable-cut",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tcp-reliable"
+    ],
+    "prompt_md": "A hospital lab program is sending test results to a records server over an open TCP connection. Halfway through, the only cable between them is cut. It stays cut for an hour, far longer than TCP keeps retrying. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "md": "TCP keeps the unsent results and delivers them automatically when the cable is repaired an hour later",
+        "why_md": "TCP can't wait out a network that stays dead. It stops retrying long before the hour is up and reports an error.",
+        "misconception": "mc-tcp-guarantees-arrival"
+      },
+      {
+        "id": "b",
+        "md": "The records program reads the segments that got through, with gaps, and the gaps are filled in after the repair",
+        "why_md": "A TCP program never sees gaps. It reads a complete, in-order stream or nothing more.",
+        "misconception": "mc-tcp-out-of-order"
+      },
+      {
+        "id": "c",
+        "md": "TCP retransmits the unacknowledged segments, and when acknowledgments still don't come, it gives up and reports an error to the lab program",
+        "correct": true,
+        "why_md": "Right. TCP retries, and if that fails it makes the failure visible: the connection fails and the program is told."
+      },
+      {
+        "id": "d",
+        "md": "Nothing visible happens: the lab program believes all the results were delivered",
+        "why_md": "The lab never gets acknowledgments for the missing data. That is exactly what makes TCP retransmit and then report an error."
+      }
+    ],
+    "hints": [
+      "What does TCP do when acknowledgments don't come back? And what if they **never** come?",
+      "It retransmits. If acknowledgments still don't come, it gives up and reports an error. Delivery is not guaranteed, but the failure is visible."
+    ],
+    "solution_md": "1. After the cut, the lab's segments get no acknowledgments, so TCP retransmits them.\n2. The cable stays cut longer than TCP keeps retrying, so the retransmissions fail too.\n3. TCP gives up and reports an error to the lab program, and the connection fails visibly.\n4. TCP's promise is that the program never sees gaps, duplicates or reordering: either the stream is complete and in order, or the connection fails. It cannot promise to deliver over a dead network.\n\n**Answer: c.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/test-a3",
+    "family": "sd-tcp-udp-fa-udp-first-datagram-ar",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-udp-connectionless"
+    ],
+    "prompt_md": "A video-calling app sends voice over **UDP**.\n\n**Assertion (A):** The app's very first UDP datagram to the other caller can already carry voice data, with no setup messages before it.\n\n**Reason (R):** UDP has no handshake; each datagram is an independent message with its own source and destination port.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. Since UDP has no handshake (R), nothing has to be exchanged before the first datagram, so it can carry voice straight away (A)."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "Both are true, but R is the reason for A: data can go first because there is no handshake to wait for."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true. UDP sends independent datagrams with no handshake, and each has a source and destination port."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. With no handshake, the first datagram can carry data. The mandatory setup round trip belongs to TCP."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately, then ask whether R is the reason A holds. What does UDP do before sending data?",
+      "UDP does nothing before sending: there is no handshake, so the first datagram carries data. That is the cause, not just a related fact."
+    ],
+    "solution_md": "1. R: UDP has no handshake, and each datagram is self-contained, with source and destination ports. True.\n2. A: with no handshake, there is nothing to exchange before data, so the first datagram can carry voice. True.\n3. A holds because of R: the missing handshake is exactly why data can go first.\n\n**Answer: a (both true; R explains A).**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/test-a4",
+    "family": "sd-tcp-udp-fa-udp-case-drone",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-udp-connectionless"
+    ],
+    "prompt_md": "A survey drone sends two kinds of data to the pilot's tablet:\n\n1. a **live camera view**, 30 packets per second, each a slice of the current picture, which the pilot uses to steer;\n2. after landing, a **200 MB flight log** that must arrive complete or it can't be opened.\n\nThe radio link loses some packets. Which transport plan is best?",
+    "options": [
+      {
+        "id": "a",
+        "md": "TCP for both the live view and the flight log",
+        "why_md": "Viable, second-best. TCP suits the log: it retransmits missing bytes and delivers them in order, or reports a failure. But for the live view, TCP withholds later bytes until each lost packet is recovered, at least about one round trip later (head-of-line blocking). Unless the playback buffer can hide that delay, the pilot's view can stall or fall behind live, and a bigger buffer itself adds delay."
+      },
+      {
+        "id": "b",
+        "md": "UDP for the live view, TCP for the flight log",
+        "correct": true,
+        "why_md": "Best. UDP delivers later video datagrams without waiting for recovery; the player must conceal or recover missing data. For steering, keeping latency low favours UDP. The log must be complete and in order, which is what TCP is built to deliver."
+      },
+      {
+        "id": "c",
+        "md": "UDP for both, because UDP is faster",
+        "why_md": "Trap. Plain UDP never resends lost datagrams, so on a lossy link the 200 MB log would end up with holes and couldn't be opened. Speed doesn't help a file that must be complete.",
+        "misconception": "mc-udp-always-faster-better"
+      }
+    ],
+    "hints": [
+      "Ask about each stream separately: is late data worthless, or must every byte arrive complete and in order?",
+      "Live view: late data is worthless and low latency matters for steering, so UDP. Flight log: it must be complete, so TCP. Mixing the two is allowed."
+    ],
+    "solution_md": "1. **Live view:** the pilot needs the picture *now*. TCP withholds later bytes until missing bytes are recovered, which can stall playback if the playback buffer cannot hide the delay. UDP delivers later datagrams without waiting; the player must conceal or recover missing data. For steering, keeping latency low favours UDP. → UDP.\n2. **Flight log:** every byte must arrive, in order. Plain UDP drops lost datagrams for good; TCP retransmits them. → TCP.\n3. TCP for both risks stalls or additional buffering delay in the live view (second-best). UDP for both leaves holes in the log, since speed doesn't help a file that won't open (trap).\n\n**Answer: b.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp-r3"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/test-a5",
+    "family": "sd-tcp-udp-fa-l4-port-rule",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-osi-l4-l7"
+    ],
+    "prompt_md": "A video platform puts a **layer-4** load balancer in front of its servers. Which routing rule can this balancer carry out?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Send requests whose URL path starts with `/upload` to the upload servers",
+        "why_md": "The path is inside the HTTP request at layer 7. A layer-4 balancer routes on IPs, ports and the protocol, not HTTP content.",
+        "misconception": "mc-l4-reads-urls"
+      },
+      {
+        "id": "b",
+        "md": "Send users whose session cookie marks them as premium to the premium servers",
+        "why_md": "Cookies travel in HTTP headers at layer 7, so a layer-4 balancer can't read them."
+      },
+      {
+        "id": "c",
+        "md": "Send requests with the header `Host: admin.example.com` to the admin servers",
+        "why_md": "The `Host` header is part of the HTTP message at layer 7, which a layer-4 balancer can't read."
+      },
+      {
+        "id": "d",
+        "md": "Send traffic arriving on port 1935 (the live-ingest service) to the streaming pool, and traffic on port 443 to the web pool",
+        "correct": true,
+        "why_md": "Right. Destination ports are layer-4 labels, so a layer-4 balancer can route by them."
+      }
+    ],
+    "hints": [
+      "List what a layer-4 component can see: IP addresses, ports and the protocol. Which rule uses only those?",
+      "Paths, cookies and headers are all inside the HTTP message (layer 7). Only the port-based rule uses layer-4 labels."
+    ],
+    "solution_md": "1. A layer-4 component routes on transport-level labels: IP addresses, ports and TCP or UDP (it may read other TCP header fields, never the HTTP request).\n2. URL paths (a), cookies (b) and headers such as `Host` (c) are all part of the HTTP request at layer 7. A layer-4 balancer forwards those bytes without reading them.\n3. The destination port (1935 vs 443) is a layer-4 label, so rule (d) works.\n\n**Answer: d.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/test-a6",
+    "family": "sd-tcp-udp-fa-osi-tier-vs-layer",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-osi-l4-l7"
+    ],
+    "prompt_md": "In a design review, a colleague says: \"Our web front end runs in the customer's browser, so the browser is the OSI **presentation layer** (layer 6), and only our app servers speak the **application layer** (layer 7).\" What is the best reply?",
+    "options": [
+      {
+        "id": "a",
+        "md": "That's right: the presentation tier and the OSI presentation layer are the same thing, and so are the application tier and layer 7",
+        "why_md": "The names overlap by accident. Tiers are machines and their roles in a system. OSI layers describe communication functions within a network message.",
+        "misconception": "mc-osi-layer-is-tier"
+      },
+      {
+        "id": "b",
+        "md": "That mixes two ideas. The browser belongs to the presentation **tier**, which is a role in the system. OSI layers describe communication functions, not groups of machines. The browser speaks HTTP, which is layer 7, just like the app servers do.",
+        "correct": true,
+        "why_md": "Right. Both the browser and the HTTP servers use application-layer HTTP. Its requests and responses are layer-7 messages, whichever tier sends them."
+      },
+      {
+        "id": "c",
+        "md": "Partly right: the browser is layer 6 because it renders data formats, and the app servers are layer 7 because they run the application code",
+        "why_md": "This still maps machines onto layers. The browser sends and reads HTTP, which is layer 7. The app servers also rely on lower layers, such as TCP at layer 4.",
+        "misconception": "mc-osi-layer-is-tier"
+      },
+      {
+        "id": "d",
+        "md": "Wrong layer: the browser is layer 4, because it opens TCP connections",
+        "why_md": "The browser does use TCP at layer 4, but its own messages, HTTP requests, are layer 7. OSI layers describe communication functions, not machines, so a browser isn't 'a layer'."
+      }
+    ],
+    "hints": [
+      "Separate two ideas the lesson kept apart: tiers (machines and their roles) and OSI layers (communication functions within a network message).",
+      "Ask which protocol the browser itself speaks. Its HTTP requests are layer-7 messages, the same as the app servers' responses."
+    ],
+    "solution_md": "1. The three **tiers** (presentation, application, data) are groups of machines and their roles in a system.\n2. The **OSI layers** describe communication functions, not groups of machines. Both browsers and HTTP servers use application-layer HTTP. Components in between, such as an IP router, may process only the lower layers.\n3. The browser sends HTTP requests (`GET …`, headers, cookies). HTTP is layer 7, so the browser speaks the application layer, just as the app servers do.\n4. The colleague mixed up tiers and layers because the names happen to overlap.\n\n**Answer: b.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp-r2"
+    }
+  }
+]

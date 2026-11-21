@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-fixed-vs-variable-costs",
+  "version": 1,
+  "title": "Fixed vs variable costs: CapEx and OpEx",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-fixed-costs",
+      "version": 1,
+      "statement": "Fixed costs, such as buying servers and data center space up front, are paid whether or not the capacity is used; this up-front spending is capital expenditure (CapEx)."
+    },
+    {
+      "id": "kc-variable-costs",
+      "version": 1,
+      "statement": "Variable costs rise and fall with actual usage; in the cloud, spending becomes operational expenditure (OpEx) for only the resources consumed."
+    },
+    {
+      "id": "kc-capacity-guessing",
+      "version": 1,
+      "statement": "With fixed on-premises capacity, an organisation must size for forecast peak demand, so capacity sits idle most of the time or runs out when demand beats the forecast."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "clf-tco-on-premises-costs",
+    "clf-rightsizing"
+  ],
+  "confusable_with": [
+    "clf-tco-on-premises-costs"
+  ],
+  "introduces": [
+    "fixed costs",
+    "variable costs",
+    "capital expenditure",
+    "operational expenditure"
+  ],
+  "uses": [
+    "pay-as-you-go pricing",
+    "data center",
+    "server"
+  ],
+  "problem_ideas": [
+    "A company buys 10 servers at $6,000 each for a peak it reaches 1 month a year: compute the yearly idle capacity in server-months.",
+    "Classify six line items (server purchase, hourly instance fee, building lease, per-GB storage) as fixed or variable.",
+    "Predict the monthly bill when usage drops 60% under pay-as-you-go versus owned hardware.",
+    "A CFO wants to avoid a $500,000 up-front purchase: which cloud benefit answers this?",
+    "Forecast was 1,000 users and 5,000 arrived: describe what happens on premises versus in the cloud.",
+    "Spot the wrong statement: 'Moving to AWS turns OpEx into CapEx.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-4-understand-concepts-o/understanding-the-role-of-fixed-costs-co"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-4-understand-concepts-o/aspects-of-cloud-economics"
+    }
+  ],
+  "status": "stub"
+}

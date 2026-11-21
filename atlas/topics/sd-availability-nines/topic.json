@@ -1,0 +1,56 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-availability-nines",
+  "version": 1,
+  "title": "Availability in nines and downtime budgets",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-availability-definition",
+      "version": 1,
+      "statement": "Availability is the fraction of time (or of requests) a system serves successfully: uptime / (uptime + downtime)."
+    },
+    {
+      "id": "kc-nines-downtime",
+      "version": 1,
+      "statement": "99.9% availability allows about 8.77 hours of downtime per year (about 43.8 minutes per month); each extra nine cuts the allowed downtime by 10×."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "sd-availability-series-parallel"
+  ],
+  "confusable_with": [
+    "sd-sla-slo-sli"
+  ],
+  "introduces": [
+    "availability nines",
+    "downtime budget"
+  ],
+  "uses": [],
+  "problem_ideas": [
+    "Convert 99.95% into minutes of allowed downtime per month",
+    "A service was down 4 hours last year: how many nines did it achieve?",
+    "How much downtime per week does four nines allow?",
+    "A deploy causes a 2-minute outage each release; how many releases per month fit in a 99.99% budget?",
+    "Request-based: 1.2 billion requests, 300,000 failed. What is the availability?",
+    "Rank 99.9%, 99.95% and 99.99% by yearly downtime and give each figure"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "availability-patterns/availability-in-numbers"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "availability-patterns/99-9-availability-three-9s"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "the-nine-s-of-availability/the-nine-s-of-availability"
+    }
+  ],
+  "status": "stub"
+}

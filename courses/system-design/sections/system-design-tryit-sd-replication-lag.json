@@ -1,0 +1,31 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-replication-lag",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: explain it in your own words",
+  "blurb": "Uses Replication and leader-follower setups, Synchronous vs asynchronous replication and Replication lag and read-your-writes: predict, then explain in your own words.",
+  "after": "topic:sd-replication-lag",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "written",
+    "topics": [
+      "sd-replication-leader-follower",
+      "sd-sync-async-replication",
+      "sd-replication-lag"
+    ],
+    "kcs": [
+      "kc-replication-purpose",
+      "kc-leader-follower",
+      "kc-leader-loss",
+      "kc-sync-replication",
+      "kc-async-replication",
+      "kc-replication-lag",
+      "kc-read-your-writes"
+    ],
+    "minutes": 16,
+    "why": "Uses Replication and leader-follower setups, Synchronous vs asynchronous replication and Replication lag and read-your-writes: predict, then explain in your own words."
+  }
+}

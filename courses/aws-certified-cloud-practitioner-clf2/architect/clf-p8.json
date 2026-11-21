@@ -1,0 +1,1762 @@
+{
+  "stage": {
+    "id": "clf-p8",
+    "title": "Billing, pricing and support",
+    "outcome": [
+      "o5",
+      "o6"
+    ],
+    "assumes": [
+      "ec2 instance",
+      "s3 storage class",
+      "lambda",
+      "aws organizations",
+      "trusted advisor",
+      "rightsizing",
+      "total cost of ownership",
+      "variable costs",
+      "region",
+      "cloudfront"
+    ],
+    "provides": [
+      "on-demand pricing",
+      "reserved instances",
+      "savings plans",
+      "spot instances",
+      "dedicated hosts",
+      "data transfer costs",
+      "consolidated billing",
+      "cost allocation tags",
+      "pricing calculator",
+      "aws budgets",
+      "cost explorer",
+      "cost and usage report",
+      "compute optimizer",
+      "support plans",
+      "technical account manager",
+      "aws marketplace",
+      "aws partner network",
+      "professional services",
+      "aws re:post",
+      "prescriptive guidance"
+    ]
+  },
+  "sections": [
+    {
+      "id": "pricing-models",
+      "title": "Compute pricing models",
+      "rank": 1,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-4-1-compare-aws-pricing-m"
+      }
+    },
+    {
+      "id": "storage-transfer-billing",
+      "title": "Storage, data transfer and organization billing",
+      "rank": 2,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-4-2-understand-resources-"
+      }
+    },
+    {
+      "id": "cost-tools",
+      "title": "Cost management tools",
+      "rank": 3,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-4-2-understand-resources-"
+      }
+    },
+    {
+      "id": "support-resources",
+      "title": "Support plans and technical resources",
+      "rank": 4,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-4-3-identify-aws-technica"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "clf-pricing-fundamentals",
+      "title": "How AWS charges: the three pricing principles",
+      "size": "standard",
+      "est_min": 10,
+      "section": "pricing-models",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-aws-cost-drivers",
+          "statement": "AWS's three fundamental cost drivers are compute, storage and outbound data transfer; inbound data transfer from the internet is generally free."
+        },
+        {
+          "id": "kc-aws-pricing-principles",
+          "statement": "AWS pricing follows three principles: pay as you go for what you use, save when you commit to a term, and pay less per unit as your usage volume grows."
+        },
+        {
+          "id": "kc-aws-free-tier",
+          "statement": "The AWS Free Tier includes always-free offers that never expire (such as Lambda's 1 million free requests per month) alongside time-limited offers for new accounts; usage above the free limits is billed at normal rates."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Estimating any workload's cost starts from knowing which dimensions (compute, storage, data out) AWS bills on."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-fixed-vs-variable-costs",
+        "clf-tco-on-premises-costs"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "pricing dimensions",
+        "aws free tier",
+        "tiered pricing"
+      ],
+      "uses": [
+        "pay-as-you-go pricing",
+        "variable costs",
+        "lambda"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-1-compare-aws-pricing-m/task-statement-4-1-compare-aws-pricing-m"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-2-understand-resources-/pricing-information-for-aws-services"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/pricing-models-in-aws"
+        }
+      ],
+      "problem_ideas": [
+        "A startup's first bill shows charges for EC2, S3 and 'DataTransfer-Out-Bytes'; which line is the one that is usually free in the other direction?",
+        "A student uploads 500 GB of video into S3 from home: which part of that is billed, the upload or the storage?",
+        "Match each slogan ('use more, pay less per GB', 'commit and save', 'no upfront cost') to the pricing principle it describes.",
+        "An account runs 800,000 Lambda requests a month: predict the request charge under the always-free tier.",
+        "A team assumes the Free Tier covers a large t3.xlarge instance; spot the mistake.",
+        "Which of these is not a fundamental AWS cost driver: compute, storage, data transfer out, number of IAM users?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Why outbound data is charged and inbound is free"
+        },
+        {
+          "kind": "history",
+          "title": "How the Free Tier changed for new accounts"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Domain 4 questions assume you know what AWS bills for before asking how to save on it."
+      }
+    },
+    {
+      "id": "clf-on-demand-reserved",
+      "title": "On-Demand pricing and Reserved Instances",
+      "size": "big",
+      "est_min": 14,
+      "section": "pricing-models",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-on-demand-pricing",
+          "statement": "On-Demand Instances are billed per second (60-second minimum for Linux) or per hour with no long-term commitment, which suits short-term, spiky or unpredictable workloads that must not be interrupted."
+        },
+        {
+          "id": "kc-ri-term-payment",
+          "statement": "Reserved Instances commit to a 1- or 3-year term for up to 72% off On-Demand; All Upfront gives the largest discount, then Partial Upfront, then No Upfront, and a 3-year term beats a 1-year term."
+        },
+        {
+          "id": "kc-standard-vs-convertible-ri",
+          "statement": "A Standard RI gives the larger discount but cannot change instance family; a Convertible RI can be exchanged for a different instance family, operating system or tenancy in return for a smaller discount."
+        },
+        {
+          "id": "kc-regional-ri-flexibility",
+          "statement": "A Regional RI applies its discount to matching usage in any Availability Zone of its Region and, for Linux, across sizes within the same instance family; a zonal RI also reserves capacity in one specific AZ."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Choosing between On-Demand and Reserved Instances and estimating the saving is the core of the o5 workload decision."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-pricing-fundamentals"
+      ],
+      "confusable_with": [
+        "clf-savings-plans"
+      ],
+      "introduces": [
+        "on-demand pricing",
+        "reserved instances",
+        "standard reserved instance",
+        "convertible reserved instance",
+        "regional reserved instance",
+        "zonal reserved instance"
+      ],
+      "uses": [
+        "ec2 instance",
+        "instance family",
+        "region",
+        "availability zone"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "ec2/purchasing-options"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-1-compare-aws-pricing-m/identifying-when-to-use-various-compute-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-1-compare-aws-pricing-m/describing-reserved-instance-flexibility"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/compute-pricing"
+        }
+      ],
+      "problem_ideas": [
+        "An m5.large costs $0.096/hour On-Demand and $0.060/hour as a 1-year RI: predict the yearly saving for one always-on instance.",
+        "Rank All Upfront, Partial Upfront and No Upfront 3-year RIs from cheapest to most expensive effective hourly rate.",
+        "A company expects to switch from m5 to m7g instances next year but wants to commit now: Standard or Convertible RI?",
+        "A Regional RI for one m5.xlarge (Linux): predict how many m5.large instances it can fully discount.",
+        "A 3-hour weekend load test: why is On-Demand the right choice over any RI?",
+        "A zonal RI is bought in us-east-1a but the instance runs in us-east-1b: does the discount apply?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Normalization factors behind RI size flexibility"
+        },
+        {
+          "kind": "edge",
+          "title": "Selling unused Standard RIs on the RI Marketplace"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "RI terms, payment options and flexibility are among the most-asked Domain 4 items."
+      }
+    },
+    {
+      "id": "clf-savings-plans",
+      "title": "Savings Plans: Compute vs EC2 Instance",
+      "size": "standard",
+      "est_min": 10,
+      "section": "pricing-models",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-savings-plan-commitment",
+          "statement": "A Savings Plan commits to a fixed spend in dollars per hour for 1 or 3 years; usage up to the commitment gets the discounted rate and usage above it is billed at On-Demand rates."
+        },
+        {
+          "id": "kc-compute-savings-plan-scope",
+          "statement": "Compute Savings Plans (up to 66% off) apply automatically across EC2 instance families, sizes, Regions and operating systems, and also to Fargate and Lambda usage."
+        },
+        {
+          "id": "kc-ec2-instance-savings-plan",
+          "statement": "EC2 Instance Savings Plans (up to 72% off) lock the discount to one instance family in one Region, trading flexibility for a deeper saving similar to a Standard RI."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "o5 names Savings Plans as one of the four options the learner must choose between and justify."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-on-demand-reserved",
+          "reason": "Savings Plans are defined as a discount off On-Demand rates and contrasted with RI commitments."
+        }
+      ],
+      "suggests": [
+        "clf-lambda",
+        "clf-fargate-ecr"
+      ],
+      "confusable_with": [
+        "clf-on-demand-reserved"
+      ],
+      "introduces": [
+        "compute savings plan",
+        "ec2 instance savings plan",
+        "savings plans"
+      ],
+      "uses": [
+        "on-demand pricing",
+        "reserved instances",
+        "instance family",
+        "lambda",
+        "fargate",
+        "region"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-1-compare-aws-pricing-m/identifying-when-to-use-various-compute-"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/compute-pricing"
+        }
+      ],
+      "problem_ideas": [
+        "A team commits $10/hour on a Compute Savings Plan and runs $13/hour of compute: predict how the extra $3 is billed.",
+        "A company runs EC2 in two Regions plus Lambda and Fargate: which Savings Plan covers all of it?",
+        "A workload will stay on c6i in eu-west-1 for 3 years: EC2 Instance Savings Plan or Compute Savings Plan, and why?",
+        "A company migrates from EC2 to Fargate mid-term: which commitment keeps its discount, a Standard RI or a Compute Savings Plan?",
+        "Spot the false claim: 'Savings Plans commit to a number of instances.'",
+        "Order Compute Savings Plan, EC2 Instance Savings Plan and On-Demand by maximum discount."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "SageMaker AI Savings Plans"
+        },
+        {
+          "kind": "edge",
+          "title": "Which discount applies first when RIs and Savings Plans overlap"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "The exam regularly asks which commitment covers Lambda and Fargate, and only Compute Savings Plans do."
+      }
+    },
+    {
+      "id": "clf-spot-instances",
+      "title": "Spot Instances: deep discounts, interruptible",
+      "size": "standard",
+      "est_min": 8,
+      "section": "pricing-models",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-spot-discount-interruption",
+          "statement": "Spot Instances use spare EC2 capacity for up to 90% off On-Demand, but AWS can reclaim them with a two-minute interruption notice."
+        },
+        {
+          "id": "kc-spot-fit-workloads",
+          "statement": "Spot suits fault-tolerant, flexible, stateless work such as batch jobs, CI builds, big-data processing and rendering, and is the wrong choice for databases or anything that cannot be interrupted."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Spot is one of the four purchasing options o5 requires the learner to choose and justify."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-on-demand-reserved",
+          "reason": "The Spot discount and its trade-off are stated relative to On-Demand pricing."
+        }
+      ],
+      "suggests": [
+        "clf-batch-lightsail"
+      ],
+      "confusable_with": [
+        "clf-on-demand-reserved"
+      ],
+      "introduces": [
+        "spot instances",
+        "spot interruption"
+      ],
+      "uses": [
+        "on-demand pricing",
+        "ec2 instance",
+        "aws batch"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "ec2/purchasing-options"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/compute-pricing"
+        }
+      ],
+      "problem_ideas": [
+        "A nightly image-rendering job can restart from checkpoints: which purchasing option minimizes cost?",
+        "A production MySQL primary on Spot gets a two-minute notice: describe what goes wrong.",
+        "On-Demand is $0.20/hour and Spot is $0.05/hour: predict the percentage saving for a 1,000-hour batch run.",
+        "A CI system runs hundreds of short test jobs a day: why is Spot a good fit?",
+        "Which workload is the distractor for Spot: genomics analysis, web crawling, a payment API, video transcoding?",
+        "A team asks for 'cheapest, but must never be interrupted': rule Spot out and name the alternative."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How Spot prices and capacity pools work"
+        },
+        {
+          "kind": "implementation",
+          "title": "Spot Fleet and mixed-instance Auto Scaling groups"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "'Fault-tolerant and cheapest' points to Spot on the exam almost every time."
+      }
+    },
+    {
+      "id": "clf-dedicated-hosts",
+      "title": "Dedicated Hosts, Dedicated Instances, reservations",
+      "size": "standard",
+      "est_min": 10,
+      "section": "pricing-models",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-dedicated-host-byol",
+          "statement": "A Dedicated Host is a whole physical server for your use with visibility of its sockets and cores, chosen to bring per-socket or per-core software licenses (BYOL) or meet strict compliance rules; it is the most expensive EC2 option."
+        },
+        {
+          "id": "kc-dedicated-instance-vs-host",
+          "statement": "Dedicated Instances run on hardware dedicated to one AWS account but give no visibility or control over the physical host, so they cannot satisfy server-bound licensing."
+        },
+        {
+          "id": "kc-capacity-reservation",
+          "statement": "On-Demand Capacity Reservations guarantee EC2 capacity in a specific Availability Zone for any duration and are billed at On-Demand rates whether used or not; they give no discount unless combined with Savings Plans or Regional RIs."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "BYOL and compliance questions that hinge on Dedicated Hosts are a recurring CLF-C02 item outside the four options in o5."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-on-demand-reserved",
+        "clf-compliance-programs"
+      ],
+      "confusable_with": [
+        "clf-spot-instances"
+      ],
+      "introduces": [
+        "dedicated hosts",
+        "dedicated instances",
+        "capacity reservation",
+        "bring your own license"
+      ],
+      "uses": [
+        "ec2 instance",
+        "on-demand pricing",
+        "availability zone",
+        "compliance program"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "ec2/purchasing-options"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/compute-pricing"
+        }
+      ],
+      "problem_ideas": [
+        "A company owns per-core Windows Server and SQL Server licenses it wants to reuse: which EC2 option?",
+        "A regulator requires that no other customer shares the hardware but licensing is not server-bound: Dedicated Instance or Dedicated Host?",
+        "A retailer needs guaranteed capacity in one AZ for a 3-day Black Friday event without a 1-year term: which option?",
+        "Rank Spot, On-Demand, Dedicated Instance and Dedicated Host by typical hourly cost.",
+        "A team reserves capacity for 10 instances but runs 6 for a month: predict what it pays for the 4 idle reservations.",
+        "Spot the error: 'Capacity Reservations give a 40% discount like RIs.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "AWS License Manager for tracking BYOL usage"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Usually one or two exam questions per sitting, but they are easy marks when the trigger words are 'license' or 'physical server'."
+      }
+    },
+    {
+      "id": "clf-choosing-purchase-option",
+      "title": "Choosing an EC2 purchasing option",
+      "size": "standard",
+      "est_min": 10,
+      "section": "pricing-models",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-steady-vs-spiky-choice",
+          "statement": "A steady 24/7 workload expected to run for a year or more belongs on Reserved Instances or Savings Plans, while a short-lived or unpredictable workload belongs on On-Demand."
+        },
+        {
+          "id": "kc-mixed-fleet-pricing",
+          "statement": "A common cost-optimal fleet covers the steady baseline with Savings Plans or RIs, the peaks with On-Demand, and interruptible extra work with Spot."
+        },
+        {
+          "id": "kc-relative-saving-formula",
+          "statement": "Relative saving = 1 − (discounted hourly rate ÷ On-Demand hourly rate); for example $0.06 versus $0.10 an hour is a 40% saving, about $350 a year for one instance running all 8,760 hours."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "This is the o5 product itself: choose the purchasing option for a described workload and estimate the relative saving."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-on-demand-reserved",
+          "reason": "The choice compares On-Demand and RI terms."
+        },
+        {
+          "topic": "clf-savings-plans",
+          "reason": "Savings Plans are one of the options being chosen between."
+        },
+        {
+          "topic": "clf-spot-instances",
+          "reason": "Spot is the option for interruptible work in the decision."
+        }
+      ],
+      "suggests": [
+        "clf-dedicated-hosts"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "purchasing option selection"
+      ],
+      "uses": [
+        "on-demand pricing",
+        "reserved instances",
+        "savings plans",
+        "spot instances",
+        "dedicated hosts"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-1-compare-aws-pricing-m/identifying-when-to-use-various-compute-"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "ec2/purchasing-options"
+        }
+      ],
+      "problem_ideas": [
+        "A web app needs 4 instances all the time and up to 12 at lunchtime peaks: split the fleet across purchasing options.",
+        "On-Demand is $0.10/hour and a 3-year All Upfront RI works out to $0.04/hour: predict the percentage and the yearly saving for 5 instances.",
+        "A 2-month marketing microsite with unknown traffic: pick the option and name the closest distractor.",
+        "A data science team runs unpredictable experiments on EC2, Fargate and Lambda but has a steady minimum spend: which commitment?",
+        "A scientific simulation of 10,000 independent tasks with a tight budget and a flexible deadline: choose and justify.",
+        "A company over-commits a Savings Plan at $20/hour but uses only $12/hour: predict the wasted spend per month (730 hours)."
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Break-even utilization for an RI versus On-Demand"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "Scenario questions in Domain 4 are this exact decision, worded a dozen ways."
+      }
+    },
+    {
+      "id": "clf-storage-pricing",
+      "title": "Storage pricing: S3 classes, EBS and EFS",
+      "size": "standard",
+      "est_min": 10,
+      "section": "storage-transfer-billing",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-s3-cost-components",
+          "statement": "S3 cost has four parts: gigabyte-months stored (priced by storage class), requests, data retrieval for infrequent-access and Glacier classes, and data transferred out."
+        },
+        {
+          "id": "kc-ia-retrieval-min-duration",
+          "statement": "Infrequent-access and Glacier classes cost less to store but charge per-GB retrieval fees and have minimum storage durations: 30 days for Standard-IA, 90 days for Glacier Flexible Retrieval and 180 days for Glacier Deep Archive."
+        },
+        {
+          "id": "kc-ebs-provisioned-vs-used",
+          "statement": "EBS bills for the gigabytes you provision whether or not you fill them, while EFS and S3 bill only for the gigabytes actually stored."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The exam guide's Task 4.1 explicitly lists pricing for storage options and tiers."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-s3-storage-classes",
+        "clf-s3-lifecycle"
+      ],
+      "confusable_with": [
+        "clf-data-transfer-costs"
+      ],
+      "introduces": [
+        "retrieval fee",
+        "minimum storage duration",
+        "storage pricing"
+      ],
+      "uses": [
+        "s3",
+        "s3 storage class",
+        "s3 glacier",
+        "s3 standard-ia",
+        "ebs",
+        "efs",
+        "s3 lifecycle policy"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-1-compare-aws-pricing-m/storage-options-and-tiers"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-1-compare-aws-pricing-m/understanding-pricing-options-for-variou"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/storage-pricing"
+        }
+      ],
+      "problem_ideas": [
+        "A 500 GB EBS volume holds 50 GB of data: predict how many GB are billed, and compare with the same data on EFS.",
+        "An object moved to Glacier Deep Archive is deleted after 60 days: predict how many days of storage are charged.",
+        "Logs are read daily for a week, then almost never: which S3 classes over time and why?",
+        "A team moved hot images to Standard-IA and its bill went up: explain the retrieval-fee trap.",
+        "List the four line items an S3 bill can contain for a public download bucket.",
+        "A backup archive must be kept 7 years and is restored perhaps once: choose the class and name the cost trade-off."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Small-object minimum billable size in IA classes"
+        },
+        {
+          "kind": "adjacent",
+          "title": "S3 Intelligent-Tiering monitoring fee"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Storage pricing questions turn on two facts, retrieval fees and provisioned-versus-used billing."
+      }
+    },
+    {
+      "id": "clf-data-transfer-costs",
+      "title": "Data transfer costs: in, out, across AZs and Regions",
+      "size": "standard",
+      "est_min": 10,
+      "section": "storage-transfer-billing",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-transfer-in-vs-out",
+          "statement": "Data transfer into AWS from the internet is free, while data transferred out to the internet is charged per GB, with the per-GB rate falling at higher monthly volumes."
+        },
+        {
+          "id": "kc-transfer-az-region",
+          "statement": "Traffic between Availability Zones and between Regions is charged per GB, while traffic within one AZ over private IP addresses is free, so multi-AZ and cross-Region designs add transfer cost."
+        },
+        {
+          "id": "kc-cloudfront-origin-transfer-free",
+          "statement": "Data transfer from AWS origins such as S3 or EC2 to CloudFront is free, so serving content through CloudFront can lower data-out costs compared with serving directly from the origin."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Data transfer pricing is a recurring cost-trap question on the exam."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-pricing-fundamentals",
+        "clf-cloudfront"
+      ],
+      "confusable_with": [
+        "clf-storage-pricing"
+      ],
+      "introduces": [
+        "data transfer costs",
+        "data transfer out"
+      ],
+      "uses": [
+        "region",
+        "availability zone",
+        "cloudfront",
+        "edge location",
+        "s3",
+        "ec2 instance",
+        "origin"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/networking-costs-in-aws-per-gb-simplifie"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/content-delivery-cloudfront"
+        }
+      ],
+      "problem_ideas": [
+        "Rank by cost per GB: internet to EC2, EC2 to EC2 in the same AZ via private IP, EC2 across AZs, EC2 to another Region.",
+        "A video site serves 50 TB a month straight from S3: name the cheapest change to cut data-out cost.",
+        "A company replicates a database from us-east-1 to eu-west-1: which line item will grow on the bill?",
+        "Upload of 2 TB of logs into S3 from on-premises: predict the transfer charge.",
+        "Two chatty microservices sit in different AZs: identify the hidden cost and one way to reduce it.",
+        "Spot the false statement: 'S3 to CloudFront transfer is billed at the internet data-out rate.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Why public IP traffic in the same AZ is still charged"
+        },
+        {
+          "kind": "adjacent",
+          "title": "NAT gateway data processing charges"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Questions about cost-aware placement often hide the answer in which direction data moves."
+      }
+    },
+    {
+      "id": "clf-consolidated-billing",
+      "title": "Consolidated billing in AWS Organizations",
+      "size": "standard",
+      "est_min": 10,
+      "section": "storage-transfer-billing",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-consolidated-single-bill",
+          "statement": "Consolidated billing in AWS Organizations gives the management account one bill for all member accounts at no extra charge, while still itemizing each account's charges."
+        },
+        {
+          "id": "kc-volume-aggregation",
+          "statement": "Consolidated billing combines usage across accounts for tiered pricing, so ten accounts storing 10 TB each in S3 are priced as 100 TB and reach cheaper tiers sooner."
+        },
+        {
+          "id": "kc-ri-sp-sharing",
+          "statement": "Reserved Instance and Savings Plans discounts are shared across all accounts in the organization by default, so an unused RI in one account can discount matching usage in another; the management account can turn sharing off."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task 4.1 and 4.2 explicitly test consolidated billing and RI behavior in AWS Organizations."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-on-demand-reserved",
+          "reason": "RI sharing across accounts cannot be checked without knowing what an RI discount is."
+        },
+        {
+          "topic": "clf-organizations",
+          "reason": "Management and member accounts are the structure consolidated billing operates on."
+        }
+      ],
+      "suggests": [
+        "clf-savings-plans"
+      ],
+      "confusable_with": [
+        "clf-cost-allocation-tags"
+      ],
+      "introduces": [
+        "consolidated billing",
+        "volume discount",
+        "ri sharing"
+      ],
+      "uses": [
+        "aws organizations",
+        "management account",
+        "member account",
+        "reserved instances",
+        "savings plans",
+        "tiered pricing"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-2-understand-resources-/understanding-aws-organizations-consolid"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-1-compare-aws-pricing-m/describing-reserved-instance-behavior-in"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/aws-organization-consolidated-billing"
+        }
+      ],
+      "problem_ideas": [
+        "Three accounts each send 4 TB out a month and the first price tier ends at 10 TB: predict how many TB are billed at the lower tier with consolidated billing.",
+        "Account A bought an RI it no longer uses and account B runs a matching instance: who gets the discount?",
+        "A finance team wants one invoice for 40 accounts: which feature, and what does it cost?",
+        "A subsidiary must keep its RI discounts to itself: what does the management account change?",
+        "Spot the false statement: 'Consolidated billing merges all accounts into one account.'",
+        "Which account is responsible for paying the consolidated bill?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Billing transfer and multiple paying accounts"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Volume discounts and RI sharing are the two consolidated billing facts the exam keeps asking about."
+      }
+    },
+    {
+      "id": "clf-cost-allocation-tags",
+      "title": "Cost allocation tags: splitting the bill",
+      "size": "standard",
+      "est_min": 8,
+      "section": "storage-transfer-billing",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-tag-activation",
+          "statement": "Cost allocation tags are key-value tags that must be activated in the Billing and Cost Management console before they appear as a dimension in cost reports; activation normally affects subsequent reporting, but management-account users can request up to 12 months of backfill for periods when the resource already carried the tag."
+        },
+        {
+          "id": "kc-tag-types",
+          "statement": "There are two kinds of cost allocation tags, AWS-generated tags (such as aws:createdBy) and user-defined tags (such as Project=checkout), and they are used to split one bill by team, project or environment."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task 4.2 lists cost allocation tags as a tested billing resource."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-consolidated-billing"
+      ],
+      "confusable_with": [
+        "clf-consolidated-billing"
+      ],
+      "introduces": [
+        "cost allocation tags",
+        "resource tag",
+        "billing and cost management console"
+      ],
+      "uses": [
+        "aws account",
+        "member account"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-2-understand-resources-/aws-cost-allocation-tags"
+        }
+      ],
+      "problem_ideas": [
+        "A team tags every resource with Team=search but the tag never appears in reports: what step was missed?",
+        "Finance wants last quarter's costs by project; the resources carried a Project tag all quarter, but the tag was activated only today: what can the management account do to see last quarter?",
+        "A Project tag was added to resources yesterday and a 6-month backfill is requested: which months can show the tag and why?",
+        "Classify these as AWS-generated or user-defined: aws:createdBy, Environment=prod, CostCenter=4410.",
+        "Two products share one AWS account: which feature separates their costs on the bill?",
+        "Choose between separate accounts and cost allocation tags for charging back 3 teams in one account.",
+        "Spot the error: 'Cost allocation tags are activated per resource in the EC2 console.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Tag policies in AWS Organizations"
+        },
+        {
+          "kind": "edge",
+          "title": "Requesting a cost allocation tag backfill"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "When a question asks how to see costs by project or department, the answer is cost allocation tags."
+      }
+    },
+    {
+      "id": "clf-pricing-calculator",
+      "title": "AWS Pricing Calculator: estimate before you build",
+      "size": "standard",
+      "est_min": 8,
+      "section": "cost-tools",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-pricing-calculator-purpose",
+          "statement": "AWS Pricing Calculator estimates the monthly cost of an architecture before anything is deployed; it is free, needs no AWS account and can export or share the estimate."
+        },
+        {
+          "id": "kc-calculator-planned-not-actual",
+          "statement": "Pricing Calculator models planned costs and compares options such as On-Demand versus a Savings Plan, but it cannot report what an account has actually spent."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "o5 requires picking Pricing Calculator among the cost tools for estimating a planned workload."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-tco-on-premises-costs"
+      ],
+      "confusable_with": [
+        "clf-cost-explorer-cur"
+      ],
+      "introduces": [
+        "pricing calculator",
+        "cost estimate"
+      ],
+      "uses": [
+        "on-demand pricing",
+        "savings plans",
+        "total cost of ownership"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-2-understand-resources-/understanding-the-appropriate-uses-and-c-2"
+        }
+      ],
+      "problem_ideas": [
+        "A consultant must quote a client's monthly AWS cost before the account exists: which tool?",
+        "An estimate shows 3 EC2 instances at $70/month each plus 1 TB of S3 at $23: predict the monthly total.",
+        "A manager asks 'how much did we spend last month?' and gets a Pricing Calculator link: what is wrong?",
+        "Use the calculator to compare On-Demand with a 1-year Savings Plan for the same instance: what output tells you the saving?",
+        "A sales engineer needs to send an estimate to a CFO: which calculator feature?",
+        "Spot the false statement: 'Pricing Calculator requires an AWS account and billing access.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Migration Evaluator for on-premises TCO cases"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "'Estimate before deploying' is the exam trigger for Pricing Calculator."
+      }
+    },
+    {
+      "id": "clf-aws-budgets",
+      "title": "AWS Budgets: alerts before you overspend",
+      "size": "standard",
+      "est_min": 10,
+      "section": "cost-tools",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-budget-types",
+          "statement": "AWS Budgets tracks custom cost budgets, usage budgets, and Reserved Instance or Savings Plans utilization and coverage budgets against thresholds you set."
+        },
+        {
+          "id": "kc-budget-forecast-alerts",
+          "statement": "AWS Budgets sends alerts by email or SNS when actual or forecasted spend crosses a threshold, unlike a CloudWatch billing alarm, which fires only on actual estimated charges."
+        },
+        {
+          "id": "kc-budget-actions",
+          "statement": "Budget actions can respond automatically to a breached budget by applying an IAM policy or SCP, or by stopping specific EC2 or RDS instances."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "o5 requires picking Budgets as the tool for alerting on spend thresholds."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-cloudwatch-alarms"
+      ],
+      "confusable_with": [
+        "clf-cloudwatch-alarms",
+        "clf-cost-explorer-cur"
+      ],
+      "introduces": [
+        "aws budgets",
+        "budget alert",
+        "budget action"
+      ],
+      "uses": [
+        "billing alarm",
+        "cloudwatch alarm",
+        "sns",
+        "iam policy",
+        "service control policy",
+        "reserved instances",
+        "savings plans"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-2-understand-resources-/understanding-the-appropriate-uses-and-c"
+        }
+      ],
+      "problem_ideas": [
+        "A startup wants an email when the month is forecast to exceed $500, before it actually does: Budgets or a billing alarm?",
+        "A sandbox account must automatically stop its EC2 instances at $200 of spend: which feature?",
+        "A company bought RIs and wants an alert if utilization drops below 80%: which budget type?",
+        "A billing alarm and a budget are both set at $1,000: which one can fire on the 10th of the month while spend is $400?",
+        "Route budget alerts to a Slack channel: which messaging service sits in between?",
+        "Spot the false statement: 'AWS Budgets shows a 12-month cost history chart by service.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Cost Anomaly Detection"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "'Alert me when spend will exceed X' is answered with Budgets on the exam, not Cost Explorer."
+      }
+    },
+    {
+      "id": "clf-cost-explorer-cur",
+      "title": "Cost Explorer vs the Cost and Usage Report",
+      "size": "standard",
+      "est_min": 10,
+      "section": "cost-tools",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cost-explorer-purpose",
+          "statement": "Cost Explorer visualizes historical spend and usage in charts filterable by service, account, Region or tag, and forecasts future spend from past usage."
+        },
+        {
+          "id": "kc-cost-explorer-recommendations",
+          "statement": "Cost Explorer also provides Reserved Instance and Savings Plans purchase recommendations and reports on their utilization and coverage."
+        },
+        {
+          "id": "kc-cur-detail",
+          "statement": "The Cost and Usage Report is AWS's most detailed billing data, with hourly line items including resource IDs and tags, delivered to an S3 bucket for analysis with Athena, QuickSight or Redshift."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "o5 names Cost Explorer and the Cost and Usage Report as tools the learner must tell apart."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-cost-allocation-tags",
+        "clf-athena-glue"
+      ],
+      "confusable_with": [
+        "clf-pricing-calculator",
+        "clf-aws-budgets"
+      ],
+      "introduces": [
+        "cost explorer",
+        "cost and usage report",
+        "cost forecast"
+      ],
+      "uses": [
+        "cost allocation tags",
+        "s3",
+        "athena",
+        "quicksight",
+        "redshift",
+        "reserved instances",
+        "savings plans"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-2-understand-resources-/understanding-the-appropriate-uses-and-c"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "cloud-financial-management/aws-cost-and-usage-reports"
+        }
+      ],
+      "problem_ideas": [
+        "A manager wants a chart of last 6 months' EC2 spend by account: Cost Explorer or CUR?",
+        "A data team wants hourly per-resource billing rows to query with SQL: which tool, and where does the data land?",
+        "Which tool suggests how much Savings Plan commitment to buy based on past usage?",
+        "Spend jumped 30% last month: which tool do you open first to find the service responsible?",
+        "A finance BI dashboard in QuickSight needs line-item cost data: name the source.",
+        "Spot the false statement: 'The Cost and Usage Report is an interactive chart in the console.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "CUR 2.0 and AWS Data Exports"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Exam distractors swap these two often: Cost Explorer for charts, CUR for line-item detail."
+      }
+    },
+    {
+      "id": "clf-compute-optimizer",
+      "title": "Compute Optimizer: rightsizing recommendations",
+      "size": "standard",
+      "est_min": 8,
+      "section": "cost-tools",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-compute-optimizer-ml",
+          "statement": "AWS Compute Optimizer uses machine learning on CloudWatch utilization metrics to recommend right-sized EC2 instances, Auto Scaling groups, EBS volumes, Lambda memory settings and ECS services on Fargate."
+        },
+        {
+          "id": "kc-compute-optimizer-vs-trusted-advisor",
+          "statement": "Compute Optimizer focuses on resources that are over- or under-provisioned, while Trusted Advisor runs broad checks across cost, security, fault tolerance, performance, service limits and operational excellence."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "clf-rightsizing",
+        "clf-trusted-advisor"
+      ],
+      "confusable_with": [
+        "clf-trusted-advisor"
+      ],
+      "introduces": [
+        "compute optimizer"
+      ],
+      "uses": [
+        "rightsizing",
+        "trusted advisor",
+        "cloudwatch metrics",
+        "ec2 instance",
+        "auto scaling group",
+        "ebs",
+        "lambda",
+        "fargate"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "management-and-governance/aws-compute-optimizer"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "aws-architecting-ecosystem/aws-right-sizing"
+        }
+      ],
+      "problem_ideas": [
+        "An m5.4xlarge averages 6% CPU for a month: which service recommends a smaller size?",
+        "A Lambda function has 3 GB of memory but uses 300 MB: which tool flags it?",
+        "A security team wants to know whether S3 buckets are public: Compute Optimizer or Trusted Advisor?",
+        "Name the data source Compute Optimizer analyzes to make its recommendations.",
+        "A fleet is under-provisioned and throttling: can Compute Optimizer recommend going larger?",
+        "Spot the false statement: 'Compute Optimizer recommends RI purchases.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Why Compute Optimizer needs about 14 days of metrics"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "An occasional exam item, usually set against Trusted Advisor as the distractor."
+      }
+    },
+    {
+      "id": "clf-choosing-cost-tool",
+      "title": "Choosing a cost management tool",
+      "size": "standard",
+      "est_min": 10,
+      "section": "cost-tools",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cost-tool-by-question",
+          "statement": "Pick the cost tool by the question asked: the future cost of an unbuilt design → Pricing Calculator; an alert before overspending → AWS Budgets; what was spent and why → Cost Explorer."
+        },
+        {
+          "id": "kc-cost-tool-line-item",
+          "statement": "When finance needs hourly, resource-level billing data in its own BI or SQL tools, the answer is the Cost and Usage Report rather than Cost Explorer."
+        },
+        {
+          "id": "kc-cost-tool-waste",
+          "statement": "To find waste, use Compute Optimizer for rightsizing over-provisioned compute and Trusted Advisor's cost optimization checks for idle resources such as unattached EBS volumes or idle load balancers."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "o5's product is picking the right cost tool for a stated need."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-pricing-calculator",
+          "reason": "One of the tools being chosen between."
+        },
+        {
+          "topic": "clf-aws-budgets",
+          "reason": "One of the tools being chosen between."
+        },
+        {
+          "topic": "clf-cost-explorer-cur",
+          "reason": "Cost Explorer and CUR are the tools most often confused in the choice."
+        }
+      ],
+      "suggests": [
+        "clf-compute-optimizer"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "cost tool selection"
+      ],
+      "uses": [
+        "pricing calculator",
+        "aws budgets",
+        "cost explorer",
+        "cost and usage report",
+        "compute optimizer",
+        "trusted advisor",
+        "ebs"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-2-understand-resources-/task-statement-4-2-understand-resources-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-2-understand-resources-/billing-support-and-information"
+        }
+      ],
+      "problem_ideas": [
+        "Match five requests (quote a design, alert at $1k, chart last quarter, hourly line items, oversized instances) to five tools.",
+        "A CFO asks 'what will we spend next month if trends continue?': which tool forecasts from actual usage?",
+        "A team keeps paying for EBS volumes from deleted instances: which tool surfaces them?",
+        "For each wrong answer in a sample question, say why Budgets, Cost Explorer or the calculator does not fit.",
+        "A company wants spend tracked per project and an alert per project: which two features combine?",
+        "A new architecture proposal needs a 3-year cost comparison with on-premises: tool and its limit."
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "Cost-tool selection questions recur across Domain 4 and reward a clean mental map."
+      }
+    },
+    {
+      "id": "clf-support-plans",
+      "title": "AWS Support plans today: Basic to Unified Operations",
+      "size": "big",
+      "est_min": 14,
+      "section": "support-resources",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-basic-support",
+          "statement": "Basic Support is free for every account and includes 24/7 account and billing customer service, documentation, re:Post, the Health Dashboard and core Trusted Advisor checks, but no technical support cases."
+        },
+        {
+          "id": "kc-business-support-plus",
+          "statement": "Business Support+ is the entry paid plan in AWS's current Support lineup, giving 24/7 technical support and a response target of under 30 minutes for critical cases such as a business-critical system being down."
+        },
+        {
+          "id": "kc-enterprise-support-plan",
+          "statement": "Enterprise Support targets a response in under 15 minutes when a business-critical system is down and includes a designated technical account manager."
+        },
+        {
+          "id": "kc-unified-operations",
+          "statement": "Unified Operations is the top Support tier for mission-critical workloads, targeting a response within 5 minutes on critical incidents from an Incident Management Engineer."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "o5 requires choosing the cheapest Support plan that meets a stated response-time need, which needs the current plan ladder. (The finding's request to also update clf-trusted-advisor targets an earlier stage's topic and cannot be changed in this stage pass.)"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-trusted-advisor",
+        "clf-health-dashboard"
+      ],
+      "confusable_with": [
+        "clf-legacy-support-plans",
+        "clf-tam-support-center"
+      ],
+      "introduces": [
+        "support plans",
+        "basic support",
+        "business support plus",
+        "enterprise support",
+        "unified operations",
+        "incident management engineer",
+        "support response time"
+      ],
+      "uses": [
+        "trusted advisor",
+        "trusted advisor check",
+        "health dashboard"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-3-identify-aws-technica/aws-support-plans"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-3-identify-aws-technica/task-statement-4-3-identify-aws-technica"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-8-identify-services-fro/customer-enablement-services-for-example"
+        }
+      ],
+      "problem_ideas": [
+        "Build the current plan ladder from memory: Basic, Business Support+, Enterprise Support, Unified Operations, each with its critical-response target.",
+        "A startup needs 24/7 technical help with a 30-minute target when its checkout is down, at the lowest price: which plan?",
+        "A bank needs a response within 15 minutes and one named AWS engineer: which plan?",
+        "A trading platform wants an Incident Management Engineer engaged within 5 minutes of a critical outage: which plan?",
+        "Spot the false statement: 'Basic Support lets you open technical support cases.'",
+        "A hobbyist's account has no paid plan: list three things Basic Support still gives them."
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "How AWS reshaped its Support plans and what happened to the older tiers"
+        },
+        {
+          "kind": "mechanism",
+          "title": "How critical-case severity drives response targets"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "Support plan questions show up in nearly every sitting and are recall of a small, recently changed table."
+      }
+    },
+    {
+      "id": "clf-legacy-support-plans",
+      "title": "Legacy plans: Developer, Business, Enterprise On-Ramp",
+      "size": "standard",
+      "est_min": 10,
+      "section": "support-resources",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-developer-support",
+          "statement": "Legacy Developer Support gives business-hours email access to technical support, with responses in under 24 business hours for general guidance and under 12 business hours for an impaired system, suited to testing and early development."
+        },
+        {
+          "id": "kc-business-support",
+          "statement": "Legacy Business Support gives 24/7 phone, chat and email technical support and all Trusted Advisor checks, with responses in under 4 hours for an impaired production system and under 1 hour for a production system that is down."
+        },
+        {
+          "id": "kc-enterprise-on-ramp",
+          "statement": "Legacy Enterprise On-Ramp targets under 30 minutes for a business-critical system down and gives access to a pool of technical account managers rather than a designated one."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Developer, Business and Enterprise On-Ramp are being retired in favour of the current plans, but CLF-C02 items written before the change can still name them, so recognising their response targets protects exam marks."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-support-plans",
+          "reason": "Legacy plans are taught as a mapping onto the current plan ladder."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-support-plans"
+      ],
+      "introduces": [
+        "legacy support plans",
+        "developer support",
+        "business support",
+        "enterprise on-ramp support"
+      ],
+      "uses": [
+        "support plans",
+        "trusted advisor",
+        "business support plus",
+        "enterprise support",
+        "support response time"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-3-identify-aws-technica/aws-support-plans"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-8-identify-services-fro/customer-enablement-services-for-example"
+        }
+      ],
+      "problem_ideas": [
+        "An exam item lists Developer, Business, Enterprise On-Ramp and Enterprise: which is cheapest for a 1-hour response when production is down?",
+        "Map each legacy plan to the closest current plan by response target.",
+        "A test-only team wants email help next business day under the legacy lineup: which plan and what response target?",
+        "Under the legacy lineup, which is the lowest plan with all Trusted Advisor checks?",
+        "Spot the false statement: 'Enterprise On-Ramp gives a designated TAM.'",
+        "A question says 'business-critical system down, 30 minutes, legacy plans only': name the plan, then name the current-plan answer."
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "Why AWS retired the Developer, Business and Enterprise On-Ramp tiers"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Older practice questions and some live items still use these names; knowing the mapping avoids a trap."
+      }
+    },
+    {
+      "id": "clf-tam-support-center",
+      "title": "TAMs, Concierge and the Support Center",
+      "size": "standard",
+      "est_min": 10,
+      "section": "support-resources",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-tam-role",
+          "statement": "A technical account manager (TAM) is a named AWS technical contact who gives proactive architecture, operations and cost guidance; Enterprise Support provides a designated TAM, while the legacy Enterprise On-Ramp plan gave only a pool of TAMs."
+        },
+        {
+          "id": "kc-concierge-iem",
+          "statement": "Enterprise-level plans add the Concierge Support Team for billing and account questions and Infrastructure Event Management help for planned launches and peak events."
+        },
+        {
+          "id": "kc-support-center",
+          "statement": "AWS Support Center in the console is where you open and track support cases; on Basic Support you can open only account and billing cases, not technical ones."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task 4.3 tests AWS Support options and the Support Center; TAM and Concierge are recurring exam trigger words."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-support-plans",
+          "reason": "TAM and Concierge are defined by which plan includes them."
+        },
+        {
+          "topic": "clf-legacy-support-plans",
+          "reason": "The designated-versus-pool TAM contrast needs the legacy Enterprise On-Ramp plan."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-support-plans"
+      ],
+      "introduces": [
+        "technical account manager",
+        "concierge support team",
+        "infrastructure event management",
+        "aws support center"
+      ],
+      "uses": [
+        "support plans",
+        "enterprise support",
+        "enterprise on-ramp support",
+        "basic support"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-3-identify-aws-technica/aws-support-center"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-3-identify-aws-technica/aws-support-plans"
+        }
+      ],
+      "problem_ideas": [
+        "A company wants one named AWS engineer who knows its workloads: which plan is the minimum?",
+        "A finance team has complex invoicing questions across 200 accounts: which support team helps, and at which plan level?",
+        "A retailer plans a Super Bowl ad launch and wants AWS to help prepare: name the offering.",
+        "A Basic Support user wants to report an EC2 networking bug through Support Center: what happens?",
+        "Pool of TAMs versus designated TAM: map each to its plan.",
+        "Spot the false statement: 'Business Support+ includes a designated technical account manager.'"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.75,
+        "reason": "'Designated TAM' is a common trigger phrase that marks a question as Enterprise-level support."
+      }
+    },
+    {
+      "id": "clf-marketplace-partner-network",
+      "title": "Marketplace, Partner Network, Professional Services",
+      "size": "standard",
+      "est_min": 10,
+      "section": "support-resources",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-aws-marketplace",
+          "statement": "AWS Marketplace is a curated digital catalog of third-party software, data and services from independent software vendors that you can buy and deploy, with charges on your AWS bill."
+        },
+        {
+          "id": "kc-apn-isv-si",
+          "statement": "The AWS Partner Network includes partners that build software on AWS (independent software vendors) and partners that help customers design, migrate and run workloads (system integrators and consulting partners)."
+        },
+        {
+          "id": "kc-professional-services",
+          "statement": "AWS Professional Services is AWS's own paid team of experts that works alongside customers and partners on large outcomes such as data-center migrations."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task 4.3 explicitly tests the role of the AWS Partner Network, ISVs and system integrators."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-security-resources"
+      ],
+      "confusable_with": [
+        "clf-technical-resources"
+      ],
+      "introduces": [
+        "aws marketplace",
+        "aws partner network",
+        "independent software vendor",
+        "system integrator",
+        "professional services"
+      ],
+      "uses": [
+        "third-party security products",
+        "aws account"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "aws-architecting-ecosystem/aws-marketplace"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-3-identify-aws-technica/role-of-the-aws-partner-network-includin"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "technologies-and-concepts/aws-professional-services"
+        }
+      ],
+      "problem_ideas": [
+        "A company wants a pre-configured third-party firewall AMI billed through AWS: where does it buy it?",
+        "A business needs an outside firm to run its whole migration: which kind of partner?",
+        "A software vendor wants to sell its SaaS product to AWS customers: which two programs apply?",
+        "An enterprise wants AWS's own consultants on a large modernization: name the offering.",
+        "Classify: Datadog, Accenture, AWS Professional Services, a Marketplace AMI.",
+        "Spot the false statement: 'AWS Marketplace purchases need a separate invoice from each vendor.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Private offers and BYOL listings in AWS Marketplace"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "'Who can help me' questions mix Marketplace, partners and Professional Services as distractors for each other."
+      }
+    },
+    {
+      "id": "clf-technical-resources",
+      "title": "re:Post, Knowledge Center and Prescriptive Guidance",
+      "size": "standard",
+      "est_min": 10,
+      "section": "support-resources",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-aws-repost",
+          "statement": "AWS re:Post is AWS's free community Q&A site where AWS experts and users answer technical questions; it replaced the AWS Forums."
+        },
+        {
+          "id": "kc-knowledge-center",
+          "statement": "The AWS Knowledge Center, part of re:Post, holds AWS-written articles answering the most frequent customer questions and is open to every Support plan."
+        },
+        {
+          "id": "kc-prescriptive-guidance-docs",
+          "statement": "AWS Prescriptive Guidance offers time-tested strategies, guides and patterns from AWS and partners for migration and modernization, while AWS whitepapers and documentation explain service details and architectural best practice."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task 4.3 tests locating AWS documentation, whitepapers and resources on official AWS websites."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-support-plans"
+      ],
+      "confusable_with": [
+        "clf-marketplace-partner-network"
+      ],
+      "introduces": [
+        "aws re:post",
+        "aws knowledge center",
+        "prescriptive guidance",
+        "aws whitepapers",
+        "aws documentation"
+      ],
+      "uses": [
+        "basic support",
+        "migration strategies"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-3-identify-aws-technica/resources-and-documentation-available-on"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-4-3-identify-aws-technica/locating-aws-whitepapers-blogs-and-docum"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "aws-architecting-ecosystem/aws-ecosystem-free-resources"
+        }
+      ],
+      "problem_ideas": [
+        "A Basic Support user has a how-to question about S3 permissions: name two free places to find an answer.",
+        "A team wants a step-by-step pattern for migrating Oracle to Aurora: which resource?",
+        "Which resource answers 'Why can't I connect to my EC2 instance?' with an AWS-written article?",
+        "A student needs the official explanation of the Well-Architected pillars: where is it published?",
+        "Map each to its source: community answer, AWS-written FAQ article, migration playbook, service API reference.",
+        "Spot the false statement: 're:Post requires a paid Support plan.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "AWS Solutions Library and reference architectures"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Low weight but quick marks: each resource has one job the exam asks about."
+      }
+    },
+    {
+      "id": "clf-choosing-support-option",
+      "title": "Choosing a support plan or help resource",
+      "size": "standard",
+      "est_min": 10,
+      "section": "support-resources",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-cheapest-plan-by-response",
+          "statement": "With the current plans, the cheapest plan for a critical-outage response need is Business Support+ for under 30 minutes, Enterprise Support for under 15 minutes or a designated TAM, and Unified Operations for under 5 minutes."
+        },
+        {
+          "id": "kc-free-help-routing",
+          "statement": "A how-to question with no paid plan goes to re:Post, the Knowledge Center or documentation, and a migration playbook comes from Prescriptive Guidance."
+        },
+        {
+          "id": "kc-people-vs-software-help",
+          "statement": "If the need is people to do the work, use an AWS Partner Network system integrator or AWS Professional Services; if it is packaged third-party software, use AWS Marketplace."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "o5's product includes picking the cheapest Support plan that meets a stated response-time need."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-support-plans",
+          "reason": "The choice is made over the current plan response-time ladder."
+        },
+        {
+          "topic": "clf-legacy-support-plans",
+          "reason": "Exam items may phrase the choice with legacy plan names, which must be mapped before choosing."
+        },
+        {
+          "topic": "clf-marketplace-partner-network",
+          "reason": "Partner and Marketplace options are part of the help-routing decision."
+        }
+      ],
+      "suggests": [
+        "clf-technical-resources",
+        "clf-tam-support-center"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "support option selection"
+      ],
+      "uses": [
+        "support plans",
+        "technical account manager",
+        "aws re:post",
+        "aws knowledge center",
+        "prescriptive guidance",
+        "aws partner network",
+        "professional services",
+        "aws marketplace",
+        "business support plus",
+        "enterprise support",
+        "unified operations",
+        "legacy support plans"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-8-identify-services-fro/choosing-the-appropriate-option-for-busi"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-8-identify-services-fro/customer-enablement-services-for-example"
+        }
+      ],
+      "problem_ideas": [
+        "Business-critical web store down, need a response within 30 minutes, budget-conscious: predict the cheapest current plan.",
+        "Response within 15 minutes plus a named AWS engineer: which plan, and which cheaper plan is the distractor?",
+        "A mission-critical payments platform needs an Incident Management Engineer within 5 minutes: which plan?",
+        "An SMB has no paid plan and a CloudFront caching question: route it.",
+        "A company needs 6 months of hands-on migration labor: partner, Professional Services or Support? Justify.",
+        "The same scenario is worded with legacy plan names (Business, Enterprise On-Ramp, Enterprise): pick the legacy answer and the current-plan equivalent."
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "The exam's support questions are almost always 'cheapest plan that meets X', which this topic drills."
+      }
+    }
+  ],
+  "groups": {}
+}

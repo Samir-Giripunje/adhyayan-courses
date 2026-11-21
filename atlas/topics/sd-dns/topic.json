@@ -1,0 +1,587 @@
+{
+  "parts": [
+    {
+      "id": "p1",
+      "title": "DNS: how a name becomes an address",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "DNS: how a name becomes an address",
+          "kcs": [
+            "kc-dns-resolution",
+            "kc-dns-caching"
+          ],
+          "est_minutes": 5,
+          "blocks": [
+            {
+              "id": "blk-sd-dns-01",
+              "block": {
+                "type": "prose",
+                "md": "**DNS** (the Domain Name System) is the internet's lookup service. It turns a name like `wikipedia.org` into the **IP address** a computer needs before it can connect."
+              }
+            },
+            {
+              "id": "blk-sd-dns-02",
+              "block": {
+                "type": "prose",
+                "md": "You type `wikipedia.org` and press Enter. Before the browser can send anything, your computer asks a DNS server: \"What is the IP address of wikipedia.org?\" The reply is an address such as `103.102.166.224`. The browser connects to that address, and the page loads."
+              }
+            },
+            {
+              "id": "blk-sd-dns-03",
+              "block": {
+                "type": "prose",
+                "md": "No single server knows every name, so the work is split by the parts of the name, read from right to left. A **DNS resolver** does the asking for you. It is a server run by your internet provider, your company or a public service.\n\n1. A **root server** replies: \"I don't know `wikipedia.org`. Ask the `.org` servers.\"\n2. A **TLD server** for `.org` replies: \"Ask Wikipedia's servers.\" (TLD means top-level domain, the last part of the name.)\n3. Wikipedia's **authoritative server**, the one that holds the domain's records, replies with the address.\n\nThe \"ask them instead\" replies are called **referrals**. Every answer also comes with a **TTL** (time to live): how many seconds it may be kept. The resolver **caches** the address and the referrals until each TTL runs out. So a repeat lookup is answered at once, and a lookup of another `.org` name can skip the root."
+              }
+            },
+            {
+              "id": "blk-sd-dns-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-dns-who-answers",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-dns-resolution"
+                  ],
+                  "prompt_md": "A resolver with nothing cached looks up `wikipedia.org`. Which server replies with its IP address?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "A root server",
+                      "why_md": "A root server only says which servers handle `.org`.",
+                      "misconception": "mc-root-knows-ip"
+                    },
+                    {
+                      "id": "b",
+                      "md": "A `.org` TLD server",
+                      "why_md": "It only says which servers are authoritative for `wikipedia.org`.",
+                      "misconception": "mc-root-knows-ip"
+                    },
+                    {
+                      "id": "c",
+                      "md": "Wikipedia's authoritative server",
+                      "correct": true,
+                      "why_md": "Right. Only the server that holds the domain's records has the address. The others hand out referrals."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-sd-dns-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Why changes are slow to arrive, and how to change an address safely",
+                "md": "Changing a record changes it only on the authoritative server. Copies already cached keep the TTL they were given. A copy of `wikipedia.org` fetched at 09:10:00 with a TTL of 180 seconds may be handed out until 09:13:00, even if the address changed at 09:11:00.\n\nCopies also count down together. A resolver that answers from its cache passes on only the time left, so your laptop's copy expires when the resolver's does.\n\nSo, assuming every cache honours the TTL, old copies are gone within one TTL of the change. That isn't an absolute deadline: a few resolvers and apps keep answers longer. To move a site quickly, lower the TTL first, say from 3,600 to 60 seconds. Wait at least the old TTL, an hour here, so that every long-lived copy has expired. Then change the address: copies now last at most 60 seconds. Lowering the TTL in the same edit as the address does not help, because the old copies keep their old TTL. Keep the old server running a while longer for the stragglers."
+              }
+            },
+            {
+              "id": "blk-sd-dns-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "How the resolver finds the root servers",
+                "md": "Every resolver ships with a small file called the **root hints**. It lists the 13 root server names, `a.root-servers.net` to `m.root-servers.net`, with their addresses. Each name is answered by many machines around the world that share one address (a technique called **anycast**), so the root is neither one computer nor a single point of failure."
+              }
+            },
+            {
+              "id": "blk-sd-dns-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "In a design interview",
+                "md": "DNS is step one of the request path: resolve the name, then connect. Say that a hit in the browser's or operating system's cache needs no network query at all, and a hit at the resolver needs one round trip to the resolver but no upstream queries. Then say that the TTL decides how fast a change, such as moving traffic to a new server or region, reaches users."
+              }
+            },
+            {
+              "id": "blk-sd-dns-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-dns-lookup",
+                "kind": "sequence",
+                "title": "One lookup of wikipedia.org, nothing cached",
+                "alt": "Your computer asks a DNS resolver for wikipedia.org. The resolver asks a root server, which refers it to the .org servers; a .org server refers it to ns0.wikimedia.org; Wikipedia's authoritative server answers 103.102.166.224 with a TTL of 180 seconds. The resolver caches the answers and returns the address.",
+                "spec": {
+                  "participants": [
+                    {
+                      "id": "you",
+                      "label": "Your computer",
+                      "type": "client"
+                    },
+                    {
+                      "id": "res",
+                      "label": "DNS resolver",
+                      "type": "dns"
+                    },
+                    {
+                      "id": "root",
+                      "label": "Root server",
+                      "type": "dns"
+                    },
+                    {
+                      "id": "tld",
+                      "label": ".org server",
+                      "sub": "TLD",
+                      "type": "dns"
+                    },
+                    {
+                      "id": "auth",
+                      "label": "Wikipedia's server",
+                      "sub": "authoritative",
+                      "type": "dns"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "from": "you",
+                      "to": "res",
+                      "label": "wikipedia.org?"
+                    },
+                    {
+                      "from": "res",
+                      "to": "root",
+                      "label": "wikipedia.org?",
+                      "step": 1
+                    },
+                    {
+                      "from": "root",
+                      "to": "res",
+                      "kind": "reply",
+                      "label": "ask .org servers",
+                      "step": 1,
+                      "detail": "A referral: the root only knows who handles .org."
+                    },
+                    {
+                      "from": "res",
+                      "to": "tld",
+                      "label": "wikipedia.org?",
+                      "step": 2
+                    },
+                    {
+                      "from": "tld",
+                      "to": "res",
+                      "kind": "reply",
+                      "label": "ask ns0.wikimedia.org",
+                      "step": 2,
+                      "detail": "Another referral, to the servers that hold the domain's records."
+                    },
+                    {
+                      "from": "res",
+                      "to": "auth",
+                      "label": "wikipedia.org?",
+                      "step": 3
+                    },
+                    {
+                      "from": "auth",
+                      "to": "res",
+                      "kind": "reply",
+                      "label": "103.102.166.224, TTL 180 s",
+                      "step": 3,
+                      "detail": "The answer, and how many seconds it may be kept."
+                    },
+                    {
+                      "from": "res",
+                      "kind": "note",
+                      "label": "caches each answer until its TTL runs out"
+                    },
+                    {
+                      "from": "res",
+                      "to": "you",
+                      "kind": "reply",
+                      "label": "103.102.166.224"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "answer": "**DNS** (the Domain Name System) is the internet's lookup service. It turns a name like `wikipedia.org` into the **IP address** a computer needs before it can connect.",
+  "example": "You type `wikipedia.org` and press Enter. Before the browser can send anything, your computer asks a DNS server: \"What is the IP address of wikipedia.org?\" The reply is an address such as `103.102.166.224`. The browser connects to that address, and the page loads.",
+  "how": {
+    "md": "No single server knows every name, so the work is split by the parts of the name, read from right to left. A **DNS resolver** does the asking for you. It is a server run by your internet provider, your company or a public service.\n\n1. A **root server** replies: \"I don't know `wikipedia.org`. Ask the `.org` servers.\"\n2. A **TLD server** for `.org` replies: \"Ask Wikipedia's servers.\" (TLD means top-level domain, the last part of the name.)\n3. Wikipedia's **authoritative server**, the one that holds the domain's records, replies with the address.\n\nThe \"ask them instead\" replies are called **referrals**. Every answer also comes with a **TTL** (time to live): how many seconds it may be kept. The resolver **caches** the address and the referrals until each TTL runs out. So a repeat lookup is answered at once, and a lookup of another `.org` name can skip the root.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-dns-lookup",
+      "kind": "sequence",
+      "title": "One lookup of wikipedia.org, nothing cached",
+      "alt": "Your computer asks a DNS resolver for wikipedia.org. The resolver asks a root server, which refers it to the .org servers; a .org server refers it to ns0.wikimedia.org; Wikipedia's authoritative server answers 103.102.166.224 with a TTL of 180 seconds. The resolver caches the answers and returns the address.",
+      "spec": {
+        "participants": [
+          {
+            "id": "you",
+            "label": "Your computer",
+            "type": "client"
+          },
+          {
+            "id": "res",
+            "label": "DNS resolver",
+            "type": "dns"
+          },
+          {
+            "id": "root",
+            "label": "Root server",
+            "type": "dns"
+          },
+          {
+            "id": "tld",
+            "label": ".org server",
+            "sub": "TLD",
+            "type": "dns"
+          },
+          {
+            "id": "auth",
+            "label": "Wikipedia's server",
+            "sub": "authoritative",
+            "type": "dns"
+          }
+        ],
+        "messages": [
+          {
+            "from": "you",
+            "to": "res",
+            "label": "wikipedia.org?"
+          },
+          {
+            "from": "res",
+            "to": "root",
+            "label": "wikipedia.org?",
+            "step": 1
+          },
+          {
+            "from": "root",
+            "to": "res",
+            "kind": "reply",
+            "label": "ask .org servers",
+            "step": 1,
+            "detail": "A referral: the root only knows who handles .org."
+          },
+          {
+            "from": "res",
+            "to": "tld",
+            "label": "wikipedia.org?",
+            "step": 2
+          },
+          {
+            "from": "tld",
+            "to": "res",
+            "kind": "reply",
+            "label": "ask ns0.wikimedia.org",
+            "step": 2,
+            "detail": "Another referral, to the servers that hold the domain's records."
+          },
+          {
+            "from": "res",
+            "to": "auth",
+            "label": "wikipedia.org?",
+            "step": 3
+          },
+          {
+            "from": "auth",
+            "to": "res",
+            "kind": "reply",
+            "label": "103.102.166.224, TTL 180 s",
+            "step": 3,
+            "detail": "The answer, and how many seconds it may be kept."
+          },
+          {
+            "from": "res",
+            "kind": "note",
+            "label": "caches each answer until its TTL runs out"
+          },
+          {
+            "from": "res",
+            "to": "you",
+            "kind": "reply",
+            "label": "103.102.166.224"
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-dns-who-answers",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-dns-resolution"
+    ],
+    "prompt_md": "A resolver with nothing cached looks up `wikipedia.org`. Which server replies with its IP address?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A root server",
+        "why_md": "A root server only says which servers handle `.org`.",
+        "misconception": "mc-root-knows-ip"
+      },
+      {
+        "id": "b",
+        "md": "A `.org` TLD server",
+        "why_md": "It only says which servers are authoritative for `wikipedia.org`.",
+        "misconception": "mc-root-knows-ip"
+      },
+      {
+        "id": "c",
+        "md": "Wikipedia's authoritative server",
+        "correct": true,
+        "why_md": "Right. Only the server that holds the domain's records has the address. The others hand out referrals."
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "Why changes are slow to arrive, and how to change an address safely",
+      "md": "Changing a record changes it only on the authoritative server. Copies already cached keep the TTL they were given. A copy of `wikipedia.org` fetched at 09:10:00 with a TTL of 180 seconds may be handed out until 09:13:00, even if the address changed at 09:11:00.\n\nCopies also count down together. A resolver that answers from its cache passes on only the time left, so your laptop's copy expires when the resolver's does.\n\nSo, assuming every cache honours the TTL, old copies are gone within one TTL of the change. That isn't an absolute deadline: a few resolvers and apps keep answers longer. To move a site quickly, lower the TTL first, say from 3,600 to 60 seconds. Wait at least the old TTL, an hour here, so that every long-lived copy has expired. Then change the address: copies now last at most 60 seconds. Lowering the TTL in the same edit as the address does not help, because the old copies keep their old TTL. Keep the old server running a while longer for the stragglers."
+    },
+    {
+      "title": "How the resolver finds the root servers",
+      "md": "Every resolver ships with a small file called the **root hints**. It lists the 13 root server names, `a.root-servers.net` to `m.root-servers.net`, with their addresses. Each name is answered by many machines around the world that share one address (a technique called **anycast**), so the root is neither one computer nor a single point of failure."
+    },
+    {
+      "title": "In a design interview",
+      "md": "DNS is step one of the request path: resolve the name, then connect. Say that a hit in the browser's or operating system's cache needs no network query at all, and a hit at the resolver needs one round trip to the resolver but no upstream queries. Then say that the TTL decides how fast a change, such as moving traffic to a new server or region, reaches users."
+    }
+  ],
+  "visual_fit": {
+    "kind": "sequence",
+    "why": "A lookup is a chain of questions and referrals between five parties, in order: steps over time."
+  },
+  "glossary": [
+    {
+      "term": "dns",
+      "md": "The Domain Name System: the internet's lookup service that turns a name such as `wikipedia.org` into the IP address computers use to connect."
+    },
+    {
+      "term": "dns resolver",
+      "md": "A server that looks up a name for your device. It asks the root, TLD and authoritative servers in turn, returns the answer and caches it. Run by your internet provider, your company or a public service."
+    },
+    {
+      "term": "authoritative dns server",
+      "md": "The server that holds a domain's records, so its answer for that domain is the real one, not a copy."
+    },
+    {
+      "term": "dns caching",
+      "md": "Keeping a DNS answer (or referral) for as long as its TTL allows, so repeat lookups need no new queries."
+    },
+    {
+      "term": "root server",
+      "md": "The top of the DNS hierarchy. It does not know any site's address; it refers the resolver to the servers for each top-level domain, such as `.org`."
+    },
+    {
+      "term": "tld server",
+      "md": "A server for one top-level domain (the last part of a name, such as `.org` or `.com`). It refers the resolver to each domain's authoritative servers."
+    },
+    {
+      "term": "referral",
+      "md": "A DNS reply that says \"I don't have the answer; ask these servers instead\"."
+    },
+    {
+      "term": "ttl",
+      "md": "Time to live: how many seconds a DNS answer may be kept in a cache before it must be fetched again."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-dns-one-server",
+      "statement": "One central DNS server stores the IP address of every name on the internet.",
+      "tags": [
+        "kc-dns-resolution"
+      ]
+    },
+    {
+      "id": "mc-root-knows-ip",
+      "statement": "The root server (or the TLD server) returns the final IP address of a website.",
+      "tags": [
+        "kc-dns-resolution"
+      ]
+    },
+    {
+      "id": "mc-dns-instant",
+      "statement": "Changing a DNS record takes effect for all users immediately, or else it takes a fixed day to 'propagate' whatever the TTL.",
+      "tags": [
+        "kc-dns-caching"
+      ]
+    }
+  ],
+  "recap": {
+    "formula": "Lookup chain: resolver → root → TLD → authoritative. After a change, a cached copy can be up to one TTL old.",
+    "pitfall": "Changing a record does not reach cached copies: lower the TTL at least one old TTL before the change."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-why-resolver",
+      "beat": "b-lesson",
+      "question": "Why doesn't my laptop ask Wikipedia's server directly?",
+      "match": [
+        "ask directly",
+        "why need a resolver",
+        "skip the resolver",
+        "why not ask authoritative"
+      ],
+      "answer_md": "Your laptop doesn't know which server is authoritative for `wikipedia.org`. Finding out takes the root → `.org` chain. The resolver does that chasing once and caches the result for everyone it serves, so most lookups are answered from its cache.",
+      "deeper_md": "It also keeps devices simple: a phone only needs to know one resolver's address. Because a resolver serves many users, popular names are usually already in its cache.",
+      "bridge": {
+        "kind": "analogy",
+        "title": "The reference librarian",
+        "md": [
+          "You want a book but don't know which library has it. A librarian checks the national catalogue (root), which points to a regional catalogue (TLD), which names the library that holds it (authoritative).",
+          "The librarian notes the answer on a card. The next person who asks gets the card straight away: that is the cache. The analogy breaks in one place: a DNS card expires after its TTL."
+        ],
+        "verify": {
+          "id": "q-br-why-resolver",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-dns-resolution"
+          ],
+          "prompt_md": "Who sends the queries to the root, TLD and authoritative servers in a normal lookup?",
+          "options": [
+            {
+              "id": "a",
+              "md": "The DNS resolver",
+              "correct": true,
+              "why_md": "Right. Your device asks the resolver once, and the resolver walks the chain."
+            },
+            {
+              "id": "b",
+              "md": "The browser, one server at a time",
+              "why_md": "The browser asks the operating system, which asks the resolver. The resolver does the walking."
+            },
+            {
+              "id": "c",
+              "md": "The root server, on your device's behalf",
+              "why_md": "The root server only answers with a referral; it does not chase the answer for you."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-ttl-change",
+      "beat": "b-lesson",
+      "question": "I changed my DNS record but people still reach the old server. Why?",
+      "match": [
+        "still old address",
+        "dns not updated",
+        "propagation",
+        "changed record"
+      ],
+      "answer_md": "Resolvers and devices still hold copies of the old answer. Each copy is used until its TTL runs out, so the change reaches everyone within one TTL of the change.",
+      "deeper_md": "Nothing is pushed to caches when you edit a record. Each resolver fetches the new answer only when its copy expires. With a TTL of 3,600 seconds, some users can see the old address for up to an hour.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Counting the stale window",
+        "md": "A resolver fetched a record with TTL 300 s at 10:00:00. The address changed at 10:02:00. The copy expires at 10:05:00, so this resolver hands out the old address for 180 more seconds.",
+        "verify": {
+          "id": "q-br-ttl-change",
+          "kind": "numeric",
+          "difficulty": 2,
+          "kcs": [
+            "kc-dns-caching"
+          ],
+          "prompt_md": "A resolver fetched a record with TTL 600 s at 09:00:00. The address changed at 09:04:00. For how many seconds after the change can this resolver still hand out the old address?",
+          "answer": {
+            "value": 360,
+            "tolerance": 0,
+            "unit": "s"
+          }
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-recursive-iterative",
+      "kind": "mechanism",
+      "title": "Recursive vs iterative DNS queries",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-anycast-roots",
+      "kind": "mechanism",
+      "title": "How 13 root server names are served by many machines (anycast)",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-serve-stale",
+      "kind": "edge",
+      "title": "Serve-stale: resolvers that keep expired answers when the authoritative server is down",
+      "level": 3,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "sd-dns",
+  "version": 1,
+  "title": "DNS: how a name becomes an address",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-dns-resolution",
+      "version": 1,
+      "statement": "To resolve a domain name, a DNS resolver queries a root server, then the TLD server (e.g. for .com), then the domain's authoritative server, which returns the IP address."
+    },
+    {
+      "id": "kc-dns-caching",
+      "version": 1,
+      "statement": "DNS answers are cached by browsers, operating systems and resolvers for the record's time-to-live, so a changed record reaches users only after cached copies expire."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-ip-addresses"
+  ],
+  "suggests": [
+    "sd-tcp-udp"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "dns",
+    "dns resolver",
+    "authoritative dns server",
+    "dns caching"
+  ],
+  "uses": [
+    "ip address",
+    "client",
+    "server"
+  ],
+  "problem_ideas": [
+    "Order the servers queried for a cold lookup of shop.example.com.",
+    "Which server returns the final IP address in a cold lookup, and what do the others return?",
+    "Count every query for two lookups in the same domain when the resolver keeps referrals.",
+    "A resolver cached a record with TTL 120 s at 14:20:00 and the address changed at 14:21:00: how long can it still hand out the old address?",
+    "You migrate servers and change the A record, but users hit the old IP for an hour: what was the TTL likely to be, and what should you have done beforehand?",
+    "A laptop gets a cached answer from its resolver 200 s into a 300 s TTL: how long may the laptop keep it?"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "how-dns-works/how-dns-works"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "dns-caching/dns-caching"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [
+    "sd-dns/exit-1",
+    "sd-dns/exit-3",
+    "sd-dns/exit-5"
+  ],
+  "status": "stocked",
+  "provenance": {
+    "origin": "generated",
+    "job": "reauthor-sd-u0"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schema": "adhy.section/1",
+  "id": "python-decorators-tryit-pd-closures",
+  "course": "python-decorators",
+  "kind": "try-it",
+  "title": "Why does every button print quit?",
+  "blurb": "Predict what a loop of lambdas prints, explain it, then fix it two ways.",
+  "after": "topic:pd-closures",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "ready",
+  "brief": {
+    "format": "written",
+    "topics": [
+      "pd-first-class-functions",
+      "pd-closures"
+    ],
+    "kcs": [
+      "kc-functions-are-objects",
+      "kc-closure-captures-variable",
+      "kc-late-binding"
+    ],
+    "minutes": 12,
+    "why": "Uses Functions are objects and Closures: predict, then explain in your own words."
+  },
+  "tryit": {
+    "format": "written",
+    "question_md": "Predict first, then explain. What does this print?\n\n```python\nbuttons = []\nfor label in [\"save\", \"load\", \"quit\"]:\n    buttons.append(lambda: print(label))\n\nfor press in buttons:\n    press()\n```\n\nSay **why**, in terms of what each lambda keeps hold of. Then fix it **two different ways** so each button prints its own label, and say *when* each fix captures the label.",
+    "model_md": "It prints `quit` three times.\n\nEach lambda is a function object stored in the list. It does not keep the value of `label`: it keeps the variable itself (a closure over the loop variable), and it looks `label` up only when it is called. By the time the buttons are pressed the loop has ended, so the one shared variable holds `\"quit\"` for every lambda.\n\nFix 1, a default argument: `lambda label=label: print(label)`. A default is evaluated when the lambda is defined, so it stores the current value of `label` on each pass of the loop.\n\nFix 2, a factory function: `def make(text): return lambda: print(text)` and `buttons.append(make(label))`. Each call of the factory creates a new scope with its own `text`, so each returned lambda closes over its own label. The value is captured when the factory is called, during the loop.",
+    "rubric": [
+      {
+        "id": "c1",
+        "text": "Predicts that it prints quit three times."
+      },
+      {
+        "id": "c2",
+        "text": "Explains that each lambda keeps the variable label, not its value, and looks it up only when called, after the loop has ended."
+      },
+      {
+        "id": "c3",
+        "text": "Fixes it with a default argument (lambda label=label), which stores the current value when the lambda is defined."
+      },
+      {
+        "id": "c4",
+        "text": "Fixes it a second way with a factory function whose new scope holds its own label for each returned lambda."
+      }
+    ]
+  }
+}

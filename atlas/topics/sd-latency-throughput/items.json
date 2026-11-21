@@ -1,0 +1,779 @@
+[
+  {
+    "id": "sd-latency-throughput/set-1",
+    "family": "sd-latency-throughput-lt-name-the-number",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-latency-vs-throughput"
+    ],
+    "prompt_md": "An online bank's transfer service has a dashboard that shows four numbers. Which one is the service's **latency**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "1,500 transfers completed per second",
+        "why_md": "That counts operations finished per unit of time, so it is throughput, not latency."
+      },
+      {
+        "id": "b",
+        "md": "1 Gbps: the rated speed of the server's network link",
+        "why_md": "That is bandwidth, the most data per second the link can carry. It says nothing about how long one transfer takes."
+      },
+      {
+        "id": "c",
+        "md": "80 ms from receiving a transfer request to sending the reply",
+        "correct": true,
+        "why_md": "Right. Latency is the time one operation takes, here 80 ms per transfer."
+      },
+      {
+        "id": "d",
+        "md": "120 transfers in progress at the same moment",
+        "why_md": "That is the number of requests in flight. By Little's law it equals throughput × latency (1,500 × 0.08 = 120), but it is not the latency itself."
+      }
+    ],
+    "hints": [
+      "Latency is a time, measured per operation. Look for the number whose unit is a duration.",
+      "Requests per second is throughput, Gbps is bandwidth, and a count of transfers in progress is requests in flight. Only one option is a time for one transfer."
+    ],
+    "solution_md": "Check each number's unit. 1,500 per second is a rate of finished operations, so it is **throughput**. 1 Gbps is a link's rated data rate, so it is **bandwidth**. 120 in progress is **requests in flight**. 80 ms per transfer is a duration for one operation, so it is the **latency**. Answer: c.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/set-2",
+    "family": "sd-latency-throughput-lt-inflight-direct",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-littles-law"
+    ],
+    "prompt_md": "A weather API finishes **800 requests per second**, and each request takes **30 ms** on average. Using Little's law, about how many requests are in progress at any moment? Give a whole number.",
+    "answer": {
+      "value": 24,
+      "tolerance": 0,
+      "unit": "requests"
+    },
+    "common_wrong": [
+      {
+        "value": 24000,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "That multiplies requests per second by milliseconds. Convert the latency to seconds first: 30 ms = 0.03 s."
+      },
+      {
+        "value": 26.67,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "That divides throughput by latency (800 ÷ 30). Little's law multiplies: in flight = throughput × latency."
+      },
+      {
+        "value": 0.0375,
+        "kind": "slip",
+        "why_md": "That divides latency by throughput (30 ÷ 800). Multiply instead: 800 × 0.03."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "throughput = 800  # requests per second\nlatency_ms = 30\nanswer = throughput * latency_ms / 1000\n"
+    },
+    "hints": [
+      "Little's law: requests in flight = throughput × latency. Use the latency in seconds.",
+      "30 ms = 0.03 s, so the answer is 800 × 0.03."
+    ],
+    "solution_md": "1. Convert the latency to seconds: 30 ms = 0.03 s.\n2. Apply Little's law: in flight = throughput × latency = 800 /s × 0.03 s.\n3. 800 × 0.03 = **24** requests in progress at once.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/set-3",
+    "family": "sd-latency-throughput-lt-match-three-terms",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-bandwidth",
+      "kc-latency-vs-throughput"
+    ],
+    "prompt_md": "Match each statement on the left to the quantity it describes. Each statement has exactly one match, and one choice on the right is not used.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "A cloud backup app reports that it is copying files at 340 Mbps right now",
+        "why_md": "This is the data rate actually being achieved, so it is throughput."
+      },
+      {
+        "id": "l2",
+        "md": "An office's fibre line is sold as a 1 Gbps connection",
+        "why_md": "A rating is the most data per second the line can carry, so it is bandwidth."
+      },
+      {
+        "id": "l3",
+        "md": "A phone app's login reply arrives 180 ms after the user taps *Sign in*",
+        "why_md": "This is the time one operation takes, so it is latency."
+      },
+      {
+        "id": "r1",
+        "md": "Latency",
+        "why_md": "Fits the 180 ms login reply: the time for one operation."
+      },
+      {
+        "id": "r2",
+        "md": "Throughput",
+        "why_md": "Fits the backup copying at 340 Mbps: the rate actually achieved."
+      },
+      {
+        "id": "r3",
+        "md": "Bandwidth",
+        "why_md": "Fits the 1 Gbps rating: the link's maximum data rate."
+      },
+      {
+        "id": "r4",
+        "md": "Requests in flight",
+        "why_md": "Not used. Requests in flight is a count of operations in progress at once, and none of the statements gives such a count."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r2",
+        "l2": "r3",
+        "l3": "r1"
+      }
+    },
+    "hints": [
+      "Ask of each statement: is it a time for one operation, a rate actually achieved, or the most a link can carry?",
+      "A duration → latency. A rate that is happening now → throughput. A rating or ceiling → bandwidth."
+    ],
+    "solution_md": "- *Copying at 340 Mbps right now* is the rate actually achieved: **throughput** (r2).\n- *Sold as 1 Gbps* is the link's ceiling: **bandwidth** (r3).\n- *Reply arrives 180 ms after tapping* is the time one operation takes: **latency** (r1).\n\nNo statement gives a count of operations in progress, so *requests in flight* (r4) is unused.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/set-4",
+    "family": "sd-latency-throughput-lt-transfer-time-floor",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-bandwidth"
+    ],
+    "prompt_md": "A video editor uploads a **2 GB** file over a link rated at **400 Mbps**. What is the **shortest** time the upload can take, in seconds? Use 1 GB = 1,000 MB and 1 byte = 8 bits.",
+    "answer": {
+      "value": 40,
+      "tolerance": 0,
+      "unit": "s"
+    },
+    "common_wrong": [
+      {
+        "value": 5,
+        "kind": "slip",
+        "tag": "bits-vs-bytes",
+        "why_md": "That divides 2,000 megabytes by 400 megabits per second. Convert to bits first: 2,000 MB × 8 = 16,000 megabits."
+      },
+      {
+        "value": 0.625,
+        "kind": "slip",
+        "tag": "bits-vs-bytes",
+        "why_md": "That divides by 8 instead of multiplying. Megabytes become megabits by multiplying by 8."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "size_gb = 2\nmegabits = size_gb * 1000 * 8\nbandwidth_mbps = 400\nanswer = megabits / bandwidth_mbps\n"
+    },
+    "hints": [
+      "The fastest a transfer can go is the bandwidth, so minimum time = size ÷ bandwidth. Put both in megabits first.",
+      "2 GB = 2,000 MB = 16,000 megabits. Divide by 400 megabits per second."
+    ],
+    "solution_md": "1. Size in megabytes: 2 GB = 2,000 MB.\n2. Size in megabits: 2,000 × 8 = 16,000 Mb (Mbps counts bits, MB counts bytes).\n3. At most the transfer can run at the bandwidth, 400 Mbps, so the minimum time is 16,000 ÷ 400 = **40 s**.\n\nA real upload will usually take longer, because throughput stays below bandwidth.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/set-5",
+    "family": "sd-latency-throughput-lt-inflight-inverse",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-littles-law"
+    ],
+    "prompt_md": "A database can work on at most **120 queries at once**, and each query takes **80 ms**. Using Little's law, what is its top throughput, in queries per second?",
+    "answer": {
+      "value": 1500,
+      "tolerance": 1,
+      "unit": "queries per second"
+    },
+    "common_wrong": [
+      {
+        "value": 9.6,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "That multiplies 120 by 0.08 s. Here the unknown is throughput, so rearrange: throughput = in flight ÷ latency."
+      },
+      {
+        "value": 1.5,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "That divides by the latency in milliseconds (120 ÷ 80). Convert first: 80 ms = 0.08 s."
+      },
+      {
+        "value": 9600,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "That multiplies 120 by 80 ms. Rearrange Little's law to throughput = in flight ÷ latency, with latency in seconds."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "in_flight = 120\nlatency_ms = 80\nanswer = in_flight * 1000 / latency_ms\n"
+    },
+    "hints": [
+      "Little's law: in flight = throughput × latency. Rearrange it for throughput, and use seconds.",
+      "Throughput = 120 ÷ 0.08 s."
+    ],
+    "solution_md": "1. Little's law: in flight = throughput × latency, so throughput = in flight ÷ latency.\n2. Latency in seconds: 80 ms = 0.08 s.\n3. Throughput = 120 ÷ 0.08 = **1,500 queries per second**.\n\nCheck: 1,500 × 0.08 = 120 in flight. ✓",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/set-6",
+    "family": "sd-latency-throughput-lt-ar-idle-link",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-bandwidth"
+    ],
+    "prompt_md": "**Assertion (A):** On a 1 Gbps link that nobody else is using, a single file download can still run well below 1 Gbps.\n\n**Reason (R):** A link's bandwidth is the rate that every transfer over it achieves.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "R is false. Bandwidth is only the ceiling; the rate a transfer actually reaches is its throughput, which can be much lower.",
+        "misconception": "mc-throughput-equals-bandwidth"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is not merely irrelevant, it is false: transfers do not all run at the link's rated speed.",
+        "misconception": "mc-throughput-equals-bandwidth"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "correct": true,
+        "why_md": "Right. A is true: a slow far server or disk, header overhead, or TCP's limit on data sent before waiting for a reply can all hold one download below 1 Gbps. R is false: bandwidth is the maximum, not the rate every transfer gets."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true, even on an idle link: the far server, protocol headers or TCP's waiting can limit one download. R is the false statement.",
+        "misconception": "mc-throughput-equals-bandwidth"
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. Is bandwidth a ceiling or a guarantee?",
+      "Bandwidth is the most a link can carry. Throughput, the rate actually achieved, can be lower even with no other users: think of a slow server or TCP waiting for replies."
+    ],
+    "solution_md": "**A is true.** With no other users, a single download can still be slowed by things other than the link: the far server or its disk may be slower, TCP, IP and HTTP headers use part of each packet, and TCP only sends a limited amount before waiting for a reply.\n\n**R is false.** Bandwidth is the link's maximum data rate. The rate a transfer actually achieves is its throughput, which is at most the bandwidth.\n\nAnswer: **c**, A true and R false.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/set-7",
+    "family": "sd-latency-throughput-lt-batching-tradeoff",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-latency-vs-throughput"
+    ],
+    "prompt_md": "A team changes its log-writing service to group writes into batches. Before the change it stored **2,000 writes per second** with a p99 latency of **4 ms**. After the change it stores **15,000 writes per second** with a p99 latency of **50 ms**. (p99 is the time that 99% of writes beat.)\n\nSelect all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Throughput went up",
+        "correct": true,
+        "why_md": "True. Writes stored per second rose from 2,000 to 15,000."
+      },
+      {
+        "id": "b",
+        "md": "Latency got worse: now about 1 write in 100 takes 50 ms or more",
+        "correct": true,
+        "why_md": "True. The p99 rose from 4 ms to 50 ms, and a p99 of 50 ms means the slowest 1% of writes take 50 ms or more."
+      },
+      {
+        "id": "c",
+        "md": "Because throughput went up, each write now finishes sooner than before",
+        "why_md": "False. Higher throughput and lower latency are different goals. Batching raised throughput while each write waited longer.",
+        "misconception": "mc-latency-throughput-same"
+      },
+      {
+        "id": "d",
+        "md": "This trade suits background log writing better than a payment that a user is waiting on",
+        "correct": true,
+        "why_md": "True. Nobody watches a log write finish, so extra latency costs little. A user waiting on a payment would feel the higher latency."
+      },
+      {
+        "id": "e",
+        "md": "A good design always picks the lowest latency, so the change should be rolled back",
+        "why_md": "False. A design aims for the most throughput at a latency users accept. For background logging, 50 ms is usually acceptable."
+      }
+    ],
+    "hints": [
+      "Look at the two numbers separately: one is a rate (throughput), the other a time per write (latency). Did each get better or worse?",
+      "Throughput rose, latency rose. Then ask which kind of work can accept slower individual writes."
+    ],
+    "solution_md": "- Throughput: 2,000 → 15,000 writes per second, so it **went up** (a true).\n- Latency: p99 4 ms → 50 ms, so it **got worse**; p99 = 50 ms means about 1 in 100 writes take at least 50 ms (b true).\n- (c) is false: batching raised throughput *by* making each write wait for its batch, so latency and throughput moved in opposite directions here.\n- (d) is true: background logging can accept higher latency; a user-facing payment cannot.\n- (e) is false: the goal is the most throughput at an *acceptable* latency, not the lowest latency at any cost.\n\nAnswer: **a, b, d**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/set-8",
+    "family": "sd-latency-throughput-lt-busiest-service-code",
+    "kind": "predict_output",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-littles-law"
+    ],
+    "prompt_md": "Each entry gives a service's throughput (requests per second) and average latency (ms). What does this code print? Type the output exactly.",
+    "code": "services = {\"search\": (1200, 45), \"checkout\": (300, 250), \"login\": (2000, 20)}\nin_flight = {name: rate * ms / 1000 for name, (rate, ms) in services.items()}\nbusiest = max(in_flight, key=in_flight.get)\nprint(busiest, round(in_flight[busiest]))\n",
+    "answer": {
+      "value": "checkout 75",
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import io, contextlib\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    services = {\"search\": (1200, 45), \"checkout\": (300, 250), \"login\": (2000, 20)}\n    in_flight = {name: rate * ms / 1000 for name, (rate, ms) in services.items()}\n    busiest = max(in_flight, key=in_flight.get)\n    print(busiest, round(in_flight[busiest]))\nanswer = buf.getvalue().strip()\n"
+    },
+    "hints": [
+      "The dictionary applies Little's law to each service: rate × latency in seconds (ms ÷ 1000). Compute all three, then pick the largest.",
+      "search 1200 × 0.045, checkout 300 × 0.25, login 2000 × 0.02. The highest request rate is not necessarily the most requests in flight."
+    ],
+    "solution_md": "`rate * ms / 1000` is throughput × latency in seconds, so it is Little's law:\n\n- search: 1200 × 0.045 = 54\n- checkout: 300 × 0.25 = 75\n- login: 2000 × 0.02 = 40\n\n`max(..., key=in_flight.get)` returns the name with the largest value, `checkout`, and `round(75.0)` is `75`. It prints `checkout 75`.\n\nLogin has the highest request rate, but its requests are short, so fewer of them are in progress at once.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/set-9",
+    "family": "sd-latency-throughput-lt-case-pool-size",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-littles-law"
+    ],
+    "prompt_md": "A ticket-booking service must handle **2,500 requests per second** at peak. Each request holds one database connection for **40 ms** on average, then releases it. You must choose the size of the database connection pool. What's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "About 63 connections: 2,500 ÷ 40",
+        "why_md": "Trap. This divides throughput by latency in milliseconds. Little's law multiplies throughput by latency in seconds: 2,500 × 0.04 = 100, so 63 connections would leave requests queueing all the time at peak.",
+        "misconception": "mc-littles-law-units"
+      },
+      {
+        "id": "b",
+        "md": "Exactly 100 connections: 2,500 × 0.04 s",
+        "why_md": "Viable, second-best. The arithmetic is right: on average 100 connections are in use at peak. But with no headroom, any burst above 2,500 per second or any request slower than 40 ms leaves requests waiting for a connection."
+      },
+      {
+        "id": "c",
+        "md": "About 125 connections: 2,500 × 0.04 s = 100 in use on average, plus headroom",
+        "correct": true,
+        "why_md": "Best. Little's law gives 100 connections in use at peak on average, and the extra headroom absorbs bursts and slower-than-average requests."
+      }
+    ],
+    "hints": [
+      "Use Little's law: connections in use = throughput × time each request holds one (in seconds). Then ask what happens when traffic or latency rises above the average.",
+      "2,500 × 0.04 = 100 is the average number in use at peak. The lesson says to size pools from that number plus headroom."
+    ],
+    "solution_md": "1. Convert the hold time to seconds: 40 ms = 0.04 s.\n2. Little's law: connections in use = 2,500 /s × 0.04 s = **100** on average at peak.\n3. That is an average. Bursts above 2,500 per second, or requests slower than 40 ms, push the number higher, so size the pool from 100 **plus headroom**, about 125.\n\n63 comes from dividing by milliseconds, a units mistake. Exactly 100 works only while everything stays at its average.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/set-10",
+    "family": "sd-latency-throughput-lt-tcp-window-ceiling",
+    "kind": "estimate",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-bandwidth"
+    ],
+    "prompt_md": "A file-sync app copies data over **one** TCP connection. TCP keeps at most **128 KB (131,072 bytes)** sent but not yet acknowledged, then waits for a reply. The round trip to the server is **40 ms**, and the link is rated **1 Gbps**. Estimate the highest throughput this one connection can reach, in **Mbps** (1 Mbps = 1,000,000 bits per second).",
+    "answer": {
+      "value": 26.21,
+      "tolerance": 3,
+      "unit": "Mbps"
+    },
+    "common_wrong": [
+      {
+        "value": 1000,
+        "kind": "misconception",
+        "tag": "mc-throughput-equals-bandwidth",
+        "why_md": "1 Gbps is the link's ceiling. This connection can send only 128 KB per round trip, which caps it far lower."
+      },
+      {
+        "value": 3.28,
+        "kind": "slip",
+        "tag": "bits-vs-bytes",
+        "why_md": "That uses 131,072 bytes as if they were bits. Multiply by 8 first: 1,048,576 bits."
+      },
+      {
+        "value": 0.026,
+        "kind": "slip",
+        "tag": "ms-vs-s",
+        "why_md": "That divides by 40 instead of 0.04. The round trip is 40 ms = 0.04 s."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "window_bytes = 131072\nrtt_s = 40 / 1000\nbits = window_bytes * 8\nanswer = round(bits / rtt_s / 1_000_000, 2)\n"
+    },
+    "hints": [
+      "One connection can send at most one window per round trip, so its ceiling is window ÷ round-trip time, whatever the link's bandwidth. Work in bits and seconds.",
+      "131,072 bytes × 8 = 1,048,576 bits; divide by 0.04 s, then by 1,000,000 for Mbps."
+    ],
+    "solution_md": "1. Window in bits: 131,072 × 8 = 1,048,576 bits.\n2. Round trip in seconds: 40 ms = 0.04 s.\n3. At most one window per round trip: 1,048,576 ÷ 0.04 = 26,214,400 bits per second ≈ **26.2 Mbps**.\n\nThe link's 1 Gbps bandwidth is a ceiling this connection never gets near. Accepted range: 23.21–29.21 Mbps (so 25.6, from taking 128 KB as 128,000 bytes, also counts).",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/set-11",
+    "family": "sd-latency-throughput-lt-trace-service-table",
+    "kind": "trace",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-littles-law"
+    ],
+    "prompt_md": "Fill every `?` in the table using Little's law (in flight = throughput × latency in seconds). Write seconds as a plain decimal such as `0.25`, and write throughput and in-flight counts as whole numbers without commas.",
+    "context_md": "| service | throughput (req/s) | latency (ms) | latency (s) | in flight |\n|---|---|---|---|---|\n| image resize | 50 | 400 | ? | ? |\n| search | 2000 | 15 | ? | ? |\n| payments | ? | 200 | 0.2 | 30 |",
+    "answer": {
+      "cells": {
+        "0,3": "0.4",
+        "0,4": "20",
+        "1,3": "0.015",
+        "1,4": "30",
+        "2,1": "150"
+      }
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "from fractions import Fraction as F\n\ndef fmt(x):\n    return str(int(x)) if x.denominator == 1 else str(float(x))\n\nimg_s = F(400, 1000)\nsearch_s = F(15, 1000)\npay_s = F(200, 1000)\nanswer = {\n    '0,3': fmt(img_s),\n    '0,4': fmt(50 * img_s),\n    '1,3': fmt(search_s),\n    '1,4': fmt(2000 * search_s),\n    '2,1': fmt(F(30) / pay_s),\n}\n"
+    },
+    "hints": [
+      "Convert each latency to seconds (divide ms by 1,000). For in flight, multiply throughput by seconds; for a missing throughput, divide in flight by seconds.",
+      "Image resize: 0.4 s, 50 × 0.4. Search: 0.015 s, 2000 × 0.015. Payments: 30 ÷ 0.2."
+    ],
+    "solution_md": "- **Image resize:** 400 ms = 0.4 s; in flight = 50 × 0.4 = **20**.\n- **Search:** 15 ms = 0.015 s; in flight = 2000 × 0.015 = **30**.\n- **Payments:** rearrange Little's law: throughput = in flight ÷ latency = 30 ÷ 0.2 = **150** requests per second.\n\nSearch has 40 times image resize's throughput but only 1.5 times as many requests in flight, because each search request is so short.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/set-12",
+    "family": "sd-latency-throughput-lt-tail-fanout",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-latency-vs-throughput"
+    ],
+    "prompt_md": "A shopping site's product page makes **50** calls to a pricing service. The pricing service's average latency is **25 ms**, but each call independently has a **1% chance** of taking 800 ms or more. About what share of page loads include **at least one** call that takes 800 ms or more?",
+    "options": [
+      {
+        "id": "a",
+        "md": "About 1%",
+        "why_md": "1% is the chance for a single call. With 50 calls per page, a page has 50 chances to hit a slow one.",
+        "misconception": "mc-average-latency-enough"
+      },
+      {
+        "id": "b",
+        "md": "About 40%",
+        "correct": true,
+        "why_md": "Right. All 50 calls are fast with chance 0.99^50 ≈ 0.61, so at least one is slow on about 1 − 0.61 ≈ 0.39 of page loads."
+      },
+      {
+        "id": "c",
+        "md": "About 50%",
+        "why_md": "That adds 1% fifty times. Adding double-counts pages with two or more slow calls; use the chance that all calls are fast instead."
+      },
+      {
+        "id": "d",
+        "md": "About 61%",
+        "why_md": "0.99^50 ≈ 0.61 is the chance that **all** 50 calls are fast. The question asks for the opposite: at least one slow call."
+      }
+    ],
+    "hints": [
+      "Work out the chance that all 50 calls are fast, then take the complement.",
+      "Each call is fast with chance 0.99, so all 50 are fast with chance 0.99^50 ≈ 0.61."
+    ],
+    "solution_md": "1. One call is fast (under 800 ms) with chance 0.99.\n2. The calls are independent, so all 50 are fast with chance 0.99^50 ≈ 0.605.\n3. At least one is slow with chance 1 − 0.605 ≈ 0.395, so **about 40%** of page loads.\n\nThe 25 ms average hides this: a low average does not mean nearly every user gets a fast page. That is why designs set targets on p99 rather than on the average.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-latency-throughput",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/exit-1",
+    "family": "sd-latency-throughput-lt-exit-batching-direction",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-latency-vs-throughput"
+    ],
+    "prompt_md": "A video site changes its encoding service so that it collects uploads into large batches. It now finishes **3 times as many videos per hour**, but each uploaded video takes **longer** before it is ready to watch. Which describes the change?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Throughput rose, and latency fell: they are the same improvement",
+        "why_md": "Latency is the time each video takes, and that got longer. Throughput and latency are different measures, and here they moved in opposite directions.",
+        "misconception": "mc-latency-throughput-same"
+      },
+      {
+        "id": "b",
+        "md": "Throughput rose, and latency rose (got worse)",
+        "correct": true,
+        "why_md": "Right. More videos finish per hour (throughput up), and each video takes longer (latency up). Batching often trades latency for throughput like this."
+      },
+      {
+        "id": "c",
+        "md": "Throughput fell, and latency rose",
+        "why_md": "Throughput rose: 3 times as many videos finish per hour."
+      },
+      {
+        "id": "d",
+        "md": "The site's network bandwidth tripled",
+        "why_md": "Bandwidth is a link's maximum data rate, and nothing about the link changed. The change was in how the service groups its work."
+      }
+    ],
+    "hints": [
+      "Throughput counts videos finished per hour; latency is how long one video takes. Check each separately.",
+      "More videos per hour → throughput up. Each video takes longer → latency up."
+    ],
+    "solution_md": "Throughput is how many videos finish per hour: it tripled, so it **rose**. Latency is how long one video takes: each now takes longer, so latency **rose** (got worse). Batching raised throughput at the cost of latency. Answer: **b**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-latency-throughput",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/exit-2",
+    "family": "sd-latency-throughput-lt-inflight-direct",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-littles-law"
+    ],
+    "prompt_md": "A concert-ticket API finishes **500 requests per second**, and each request takes **60 ms** on average. About how many requests are in progress at any moment? Give a whole number.",
+    "answer": {
+      "value": 30,
+      "tolerance": 0,
+      "unit": "requests"
+    },
+    "common_wrong": [
+      {
+        "value": 30000,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "That multiplies by 60 milliseconds. Convert to seconds first: 60 ms = 0.06 s."
+      },
+      {
+        "value": 8.33,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "That divides throughput by latency (500 ÷ 60). Little's law multiplies: throughput × latency."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "throughput = 500\nlatency_ms = 60\nanswer = throughput * latency_ms / 1000\n"
+    },
+    "hints": [
+      "Little's law: in flight = throughput × latency, with latency in seconds.",
+      "60 ms = 0.06 s, so the answer is 500 × 0.06."
+    ],
+    "solution_md": "1. 60 ms = 0.06 s.\n2. In flight = throughput × latency = 500 /s × 0.06 s = **30** requests in progress at once.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/exit-3",
+    "family": "sd-latency-throughput-lt-exit-rated-vs-achieved",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-bandwidth"
+    ],
+    "prompt_md": "A laptop on a home link rated **300 Mbps** downloads a system update at **45 Mbps**. Which statement is correct?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The link must be faulty, because a 300 Mbps link runs every download at 300 Mbps",
+        "why_md": "A link's rating is a ceiling, not a promise. A slow far server, other users sharing the link, or protocol overhead can all hold a download below it.",
+        "misconception": "mc-throughput-equals-bandwidth"
+      },
+      {
+        "id": "b",
+        "md": "45 Mbps is the bandwidth and 300 Mbps is the throughput",
+        "why_md": "This swaps the two. The 300 Mbps rating is the most the link can carry (bandwidth); 45 Mbps is the rate actually reached (throughput)."
+      },
+      {
+        "id": "c",
+        "md": "Upgrading to a 1 Gbps link would make this download run at 1 Gbps",
+        "why_md": "A bigger ceiling does not set the actual rate. If the update server is the bottleneck, the download may stay near 45 Mbps.",
+        "misconception": "mc-throughput-equals-bandwidth"
+      },
+      {
+        "id": "d",
+        "md": "45 Mbps is the throughput; 300 Mbps is the bandwidth, the most the link can carry",
+        "correct": true,
+        "why_md": "Right. Bandwidth is the link's maximum data rate; throughput is the rate actually achieved, which is at most the bandwidth."
+      }
+    ],
+    "hints": [
+      "Which number is a rating (a ceiling) and which is the rate actually happening?",
+      "The rated 300 Mbps is bandwidth. The measured 45 Mbps is throughput, which can be anywhere up to the bandwidth."
+    ],
+    "solution_md": "The 300 Mbps rating is the link's **bandwidth**, the most it can carry. The 45 Mbps the download actually reaches is its **throughput**, which is at most the bandwidth and is often lower: the update server, other devices on the link, or protocol overhead can limit it. So (d) is correct. A link running below its rating is not faulty, and a faster link does not force a download to its rated speed.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-latency-throughput",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-latency-throughput"
+    }
+  }
+]

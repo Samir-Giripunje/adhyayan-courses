@@ -1,0 +1,948 @@
+{
+  "stage": {
+    "id": "sd-p4",
+    "title": "Caching",
+    "outcome": [
+      "o4",
+      "o6"
+    ],
+    "assumes": [
+      "cdn",
+      "load balancer",
+      "stateless service",
+      "latency numbers",
+      "qps",
+      "horizontal scaling"
+    ],
+    "provides": [
+      "cache hit",
+      "cache miss",
+      "cache-aside",
+      "read-through",
+      "write-through",
+      "write-behind",
+      "write-around",
+      "refresh-ahead",
+      "cache invalidation",
+      "ttl",
+      "eviction policy",
+      "lru",
+      "distributed cache",
+      "hot key",
+      "thundering herd"
+    ]
+  },
+  "sections": [
+    {
+      "id": "cache-fundamentals",
+      "title": "Cache fundamentals and cache-aside",
+      "rank": 1,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "cache"
+      }
+    },
+    {
+      "id": "write-strategies",
+      "title": "Read and write strategies",
+      "rank": 2,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "cache-invalidation"
+      }
+    },
+    {
+      "id": "scaling-caches",
+      "title": "Eviction, distribution and hot keys",
+      "rank": 3,
+      "source_ref": {
+        "source": "awesome-sd",
+        "section": "caching-fundamentals"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "sd-cache-basics",
+      "title": "Cache hits, misses and hit ratio",
+      "size": "standard",
+      "est_min": 28,
+      "section": "cache-fundamentals",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-cache-hit-miss",
+          "statement": "A cache hit returns data from the cache without touching the backing store; a cache miss forces a read from the slower backing store."
+        },
+        {
+          "id": "kc-cache-hit-ratio",
+          "statement": "Cache hit ratio = hits / (hits + misses), measured over a window of requests."
+        },
+        {
+          "id": "kc-effective-latency",
+          "statement": "Average read latency ≈ hit ratio × cache latency + (1 − hit ratio) × (cache check + store latency), and raising the hit ratio from 90% to 99% cuts reads reaching the store tenfold."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Justifying a cache in the diagram needs the hit-ratio arithmetic that shows how much read load it removes from the database"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-latency-numbers"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "cache hit",
+        "cache miss",
+        "cache hit ratio"
+      ],
+      "uses": [
+        "latency",
+        "latency numbers",
+        "qps"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "caching/caching"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "cache-hit-and-cache-miss/cache-hit-and-cache-miss"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "caching-fundamentals/caching-101"
+        }
+      ],
+      "problem_ideas": [
+        "Cache 0.5 ms, database 10 ms, hit ratio 95%: compute average read latency",
+        "A database handles 2,000 QPS; reads are 20,000 QPS. What hit ratio keeps the database within capacity?",
+        "Given a log of 20 hits and misses, compute the hit ratio",
+        "Hit ratio drops from 99% to 90% after a deploy: by what factor does database read load grow?",
+        "Explain why a 50% hit ratio cache may not be worth its network hop",
+        "Product page reads at 30,000 QPS with 80% hits: how many reads per second reach the database?",
+        "Decide whether a 1 ms cache in front of a 2 ms store is worth it at a 60% hit ratio"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Why hit-ratio gains compound near 100%"
+        },
+        {
+          "kind": "mechanism",
+          "title": "CPU caches vs application caches: the same idea at different scales"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Every interview cache justification rests on this hit-ratio arithmetic"
+      }
+    },
+    {
+      "id": "sd-cache-layers",
+      "title": "Where to cache: client, CDN, server, database, app",
+      "size": "standard",
+      "est_min": 20,
+      "section": "cache-fundamentals",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cache-layers-order",
+          "statement": "Caches can sit at the client, the CDN, the web server or reverse proxy, the database and the application; the closer to the user, the more latency saved but the less control over invalidation."
+        },
+        {
+          "id": "kc-object-vs-query-cache",
+          "statement": "Caching assembled objects keyed by id is easier to invalidate than caching database query results keyed by query text, because one changed row can affect many cached queries."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Placing caches in a high-level diagram requires knowing which layer to cache at and what each layer can hold"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-cache-basics",
+          "reason": "Comparing layers is phrased in terms of hits and misses at each layer"
+        }
+      ],
+      "suggests": [
+        "sd-cdn",
+        "sd-reverse-proxy"
+      ],
+      "confusable_with": [
+        "sd-cdn"
+      ],
+      "introduces": [
+        "client caching",
+        "application cache",
+        "query cache",
+        "object cache"
+      ],
+      "uses": [
+        "cdn",
+        "reverse proxy",
+        "http header",
+        "cache hit"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "cache/client-caching"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "cache/application-caching"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "cache/caching-at-the-object-level"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "idempotent-operations/web-server-caching"
+        }
+      ],
+      "problem_ideas": [
+        "For a news site, assign article HTML, user profile and trending list to a cache layer each",
+        "A price changes but users still see the old price for an hour: which layer is the likely culprit?",
+        "Query cache keyed by SQL text: one product row updates; list which cached queries go stale",
+        "Explain why personalised dashboards rarely cache well at the CDN",
+        "Choose between object and query caching for a user profile assembled from four tables",
+        "Rank the five layers by latency saved for a mobile client in another continent"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "HTTP Cache-Control and ETag headers for client caching"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Interviewers expect you to say where the cache sits, not just that there is one"
+      }
+    },
+    {
+      "id": "sd-cache-aside",
+      "title": "Cache-aside: the default caching pattern",
+      "size": "standard",
+      "est_min": 28,
+      "section": "cache-fundamentals",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-cache-aside-read",
+          "statement": "With cache-aside, a read checks the cache; on a miss the application loads the value from the database and then writes it into the cache."
+        },
+        {
+          "id": "kc-cache-aside-ownership",
+          "statement": "In cache-aside the application talks to both the cache and the database; the cache never reads from or writes to the database itself."
+        },
+        {
+          "id": "kc-cache-aside-tradeoffs",
+          "statement": "Cache-aside caches only data that is actually requested and survives a cache outage because reads fall back to the database, but each miss costs three trips and entries can go stale."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Cache-aside is the default strategy to name and justify for read-heavy workloads"
+        },
+        {
+          "outcome": "o6",
+          "reason": "Almost every classic mock prompt places a cache-aside layer in front of the database"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-cache-basics",
+          "reason": "The read path is defined by what happens on a hit versus a miss"
+        }
+      ],
+      "suggests": [
+        "sd-cache-layers"
+      ],
+      "confusable_with": [
+        "sd-read-write-through"
+      ],
+      "introduces": [
+        "cache-aside"
+      ],
+      "uses": [
+        "cache hit",
+        "cache miss",
+        "application cache"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "cache/cache-aside"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "data-management/cache-aside"
+        }
+      ],
+      "problem_ideas": [
+        "Write get_user(id, cache, db) implementing cache-aside with dicts and count database reads",
+        "Trace 10 reads of 3 keys through an empty cache-aside cache and count misses",
+        "The cache cluster goes down: describe what happens to reads and database load",
+        "Compute latency of a miss with 1 ms cache and 8 ms database under cache-aside",
+        "Explain why a freshly started cache-aside node causes a spike of database reads",
+        "Find the bug: code writes to the cache before reading the database on a miss"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Cold starts and cache warming"
+        },
+        {
+          "kind": "implementation",
+          "title": "Negative caching for keys that do not exist"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "The pattern you will draw in nearly every interview design"
+      }
+    },
+    {
+      "id": "sd-cache-invalidation-ttl",
+      "title": "Cache invalidation and TTLs",
+      "size": "standard",
+      "est_min": 28,
+      "section": "cache-fundamentals",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-ttl",
+          "statement": "A TTL makes a cache entry expire a fixed time after it is written, so a cached value is never more than one TTL older than the write that produced it."
+        },
+        {
+          "id": "kc-invalidation-on-write",
+          "statement": "Explicit invalidation removes or updates the cache entry when the source data changes; keeping a TTL as well bounds staleness when an invalidation message is lost."
+        },
+        {
+          "id": "kc-delete-not-set",
+          "statement": "On a write it is safer to delete the cache key than to set the new value, because two concurrent writers can update the cache in the opposite order from the database and leave a stale value."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "A justified cache strategy must state how entries are kept fresh and how stale a read can be"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-cache-aside",
+          "reason": "Invalidation is taught as the write half of the cache-aside pattern"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-eviction-lru"
+      ],
+      "introduces": [
+        "cache invalidation",
+        "ttl",
+        "stale data"
+      ],
+      "uses": [
+        "cache-aside",
+        "cache hit",
+        "cache miss"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "cache-invalidation/cache-invalidation"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "cache/when-to-update-the-cache"
+        }
+      ],
+      "problem_ideas": [
+        "Pick a TTL for stock prices, user avatars and a product catalogue, with one-line reasons",
+        "Interleave two writers' DB and cache updates to produce a stale cache value",
+        "An invalidation event is dropped; with TTL 5 minutes, what is the worst-case staleness?",
+        "A 1-hour TTL is cut to 1 minute: predict the effect on hit ratio and database load",
+        "Explain why 'there are only two hard things' applies to a social profile cache",
+        "Design invalidation for a cached 'top 10 posts' list when one post is deleted"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Read-after-write races in cache-aside"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Invalidation driven by change data capture"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Interviewers probe staleness as soon as you add a cache"
+      }
+    },
+    {
+      "id": "sd-read-write-through",
+      "title": "Read-through and write-through caching",
+      "size": "standard",
+      "est_min": 28,
+      "section": "write-strategies",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-read-through",
+          "statement": "With read-through, the application reads only from the cache, and on a miss the cache itself loads the value from the database."
+        },
+        {
+          "id": "kc-write-through",
+          "statement": "With write-through, each write goes through the cache, which synchronously persists it to the database before acknowledging; the cache matches the database only if every writer uses this path, writes to a key are applied in the same order to both, and a failed database write is not left in the cache."
+        },
+        {
+          "id": "kc-write-through-cost",
+          "statement": "Write-through adds write latency because each write touches both stores, and it fills the cache with data that may never be read, so it is often paired with a TTL."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Choosing between cache-aside and write-through is the core of justifying a cache against the read/write ratio"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-cache-aside",
+          "reason": "Read-through and write-through are defined by contrast with who loads the data in cache-aside"
+        }
+      ],
+      "suggests": [
+        "sd-cache-invalidation-ttl"
+      ],
+      "confusable_with": [
+        "sd-cache-aside",
+        "sd-write-behind-around"
+      ],
+      "introduces": [
+        "read-through",
+        "write-through"
+      ],
+      "uses": [
+        "cache-aside",
+        "cache miss",
+        "ttl"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "cache/write-through"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "cache-invalidation/write-through-cache"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-tradeoffs/read-through-vs-write-through-cache"
+        }
+      ],
+      "problem_ideas": [
+        "Draw the request sequence for a write under write-through and under cache-aside",
+        "Write latency 5 ms to DB and 1 ms to cache: compute write-through write latency",
+        "A bank balance must be read right after it changes: argue what write-through gives and what else must hold for reads to be fresh",
+        "Write-through cache of 1M users, 10% ever re-read: estimate wasted memory",
+        "Identify which component issues the DB query on a miss in read-through vs cache-aside",
+        "A batch job updates the database directly, bypassing the write-through cache: describe what readers see"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Read-through loaders in cache libraries"
+        },
+        {
+          "kind": "edge",
+          "title": "Partial failures between the cache and database write"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "A common follow-up: 'why not write-through here?'"
+      }
+    },
+    {
+      "id": "sd-write-behind-around",
+      "title": "Write-behind and write-around",
+      "size": "standard",
+      "est_min": 28,
+      "section": "write-strategies",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-write-behind",
+          "statement": "With write-behind (write-back), a write is acknowledged once it is in the cache and is flushed to the database asynchronously later, giving low write latency but losing unflushed writes if the cache fails."
+        },
+        {
+          "id": "kc-write-around",
+          "statement": "With write-around, writes go directly to the database and bypass the cache, so the cache fills only on reads and recently written data misses on its first read."
+        },
+        {
+          "id": "kc-write-pattern-fit",
+          "statement": "Write-behind suits write-heavy data that tolerates some loss, such as view counters; write-around suits data written once and rarely re-read, such as logs."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-read-write-through",
+          "reason": "Both are taught as variations on the write-through write path"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-read-write-through"
+      ],
+      "introduces": [
+        "write-behind",
+        "write-around"
+      ],
+      "uses": [
+        "write-through",
+        "cache miss"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "cache/write-behind-write-back"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "cache-invalidation/write-around-cache"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "cache-invalidation/write-back-cache"
+        }
+      ],
+      "problem_ideas": [
+        "A like counter takes 50,000 writes/s: compare DB writes per second with write-behind batching every second",
+        "Cache node crashes 2 s after the last flush under write-behind: what is lost?",
+        "Choose a write pattern for audit logs, video view counts and user passwords",
+        "Count first-read misses after 1,000 uploads under write-around",
+        "Explain why write-behind can reorder writes reaching the database",
+        "Sketch how write-behind batches 100 increments into one database update"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Durability of write-behind with replicated caches"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Named in interviews mainly as alternatives you can rule in or out"
+      }
+    },
+    {
+      "id": "sd-refresh-ahead",
+      "title": "Refresh-ahead caching",
+      "size": "micro",
+      "est_min": 10,
+      "section": "write-strategies",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-refresh-ahead",
+          "statement": "Refresh-ahead reloads a frequently read entry before its TTL expires, so readers do not pay miss latency, but it wastes database work when it refreshes entries nobody reads again."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-cache-invalidation-ttl",
+          "reason": "Refresh-ahead is defined relative to TTL expiry"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-read-write-through"
+      ],
+      "introduces": [
+        "refresh-ahead"
+      ],
+      "uses": [
+        "ttl",
+        "cache miss",
+        "latency"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "cache/refresh-ahead"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "idempotent-operations/refresh-ahead"
+        }
+      ],
+      "problem_ideas": [
+        "TTL 60 s, refresh at 80% of TTL: when is the reload triggered?",
+        "A homepage widget is read 1,000 times per second: compare miss latency with and without refresh-ahead",
+        "Refresh-ahead on 10,000 keys of which 2% are read again: estimate wasted DB reads",
+        "Decide whether refresh-ahead suits exchange rates or rarely viewed user settings",
+        "Explain what happens if the refresh itself fails before expiry",
+        "Contrast refresh-ahead with simply raising the TTL"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Probabilistic early expiration"
+        }
+      ],
+      "lens": {
+        "score": 0.4,
+        "reason": "A nice-to-name option for hot read paths, rarely required"
+      }
+    },
+    {
+      "id": "sd-choose-cache-strategy",
+      "title": "Choosing a cache strategy from the read/write ratio",
+      "size": "standard",
+      "est_min": 20,
+      "section": "write-strategies",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-strategy-by-ratio",
+          "statement": "For a read-heavy workload (for example 100 reads per write) cache-aside or read-through with a TTL is the default; when a user must see their own write immediately, the design must add an explicit read-your-writes mechanism, such as routing every write through write-through or invalidating the key before acknowledging the write."
+        },
+        {
+          "id": "kc-strategy-statement",
+          "statement": "A complete cache choice names the pattern, the TTL and the staleness cost, and ties each to the stated read-to-write ratio and freshness requirement."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The outcome requires a cache strategy justified against the stated reads/writes ratio"
+        },
+        {
+          "outcome": "o6",
+          "reason": "Mock interviews require stating and defending the cache choice in under a minute"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-read-write-through",
+          "reason": "The choice compares cache-aside, read-through and write-through"
+        },
+        {
+          "topic": "sd-cache-invalidation-ttl",
+          "reason": "Each choice states a TTL and staleness bound"
+        }
+      ],
+      "suggests": [
+        "sd-requirements",
+        "sd-write-behind-around"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "read-your-writes"
+      ],
+      "uses": [
+        "read-to-write ratio",
+        "cache-aside",
+        "read-through",
+        "write-through",
+        "ttl",
+        "stale data"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "caching-fundamentals/caching-strategies"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "cache/when-to-update-the-cache"
+        }
+      ],
+      "problem_ideas": [
+        "URL shortener with 100:1 reads to writes: pick and justify a strategy and TTL",
+        "Inventory count for flash sales must not oversell: choose a strategy and explain staleness risk",
+        "Analytics dashboard read hourly, data rebuilt nightly: pick a pattern and TTL",
+        "Critique an answer that promises users see their own profile edit instantly using cache-aside with a 10-minute TTL",
+        "Rewrite a vague 'add Redis' answer into a full cache choice statement",
+        "Chat message history read on open, written constantly: choose and justify"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "When not to cache at all"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "This is the sentence interviewers listen for when you add a cache"
+      }
+    },
+    {
+      "id": "sd-eviction-lru",
+      "title": "Eviction policies and building an LRU cache",
+      "size": "standard",
+      "est_min": 28,
+      "section": "scaling-caches",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-eviction-policy",
+          "statement": "An eviction policy decides which entry to remove when the cache is full; it is separate from TTL expiry, which removes entries by age."
+        },
+        {
+          "id": "kc-lru",
+          "statement": "LRU evicts the entry whose last access is oldest, and supports O(1) get and put using a hash map combined with a doubly linked list or an ordered map."
+        },
+        {
+          "id": "kc-lfu-fifo",
+          "statement": "LFU evicts the least frequently accessed entry and keeps long-term popular items, while FIFO evicts the oldest inserted entry regardless of how often it is used."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-cache-invalidation-ttl",
+          "reason": "Eviction is defined by contrast with TTL expiry"
+        }
+      ],
+      "suggests": [
+        "sd-cache-basics"
+      ],
+      "confusable_with": [
+        "sd-cache-invalidation-ttl"
+      ],
+      "introduces": [
+        "eviction policy",
+        "lru",
+        "lfu"
+      ],
+      "uses": [
+        "ttl",
+        "cache hit ratio",
+        "cache miss"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "eviction-policies/eviction-policies"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "caching-fundamentals/cache-eviction-policies"
+        }
+      ],
+      "problem_ideas": [
+        "Implement an LRUCache class with get and put in O(1) using OrderedDict",
+        "Capacity 3, access sequence A B C A D B E: list evictions under LRU, LFU and FIFO",
+        "Compute the hit ratio of an LRU cache of size 2 on a given access trace",
+        "A nightly scan reads every key once and wrecks the hit ratio: explain why under LRU",
+        "Pick an eviction policy for a cache of trending hashtags",
+        "Explain why an entry with a long TTL can still be evicted early"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Approximate LRU by sampling"
+        },
+        {
+          "kind": "frontier",
+          "title": "Scan-resistant policies like TinyLFU"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "LRU is a frequent coding follow-up; policies rarely decide a design"
+      }
+    },
+    {
+      "id": "sd-distributed-cache",
+      "title": "Distributed and global caches",
+      "size": "standard",
+      "est_min": 28,
+      "section": "scaling-caches",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-distributed-cache",
+          "statement": "A distributed cache spreads keys across several cache nodes, usually by hashing the key, so total cache memory and throughput grow with the number of nodes."
+        },
+        {
+          "id": "kc-modulo-remap",
+          "statement": "With hash(key) mod N placement, going from N to N+1 nodes moves about N/(N+1) of the keys to a different node, causing a burst of cache misses."
+        },
+        {
+          "id": "kc-local-vs-global-cache",
+          "statement": "A per-server local cache is fastest but duplicates data and diverges across servers, while a shared global cache gives every stateless server the same view at the cost of a network hop."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Placing a cache tier for a large workload requires sizing and partitioning it across nodes"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-cache-layers",
+          "reason": "Local vs global builds on the application cache layer"
+        }
+      ],
+      "suggests": [
+        "sd-lb-algorithms",
+        "sd-server-memory-estimate"
+      ],
+      "confusable_with": [
+        "sd-cdn"
+      ],
+      "introduces": [
+        "distributed cache",
+        "global cache",
+        "cache node"
+      ],
+      "uses": [
+        "application cache",
+        "hash-based routing",
+        "horizontal scaling",
+        "stateless service",
+        "cache miss",
+        "memory estimate"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "distributed-cache/distributed-cache"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "global-cache/global-cache"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "caching-fundamentals/distributed-caching"
+        }
+      ],
+      "problem_ideas": [
+        "300 GB of hot data, 64 GB per node at 75% usable: how many cache nodes?",
+        "Going from 4 to 5 nodes with mod-N hashing: what fraction of keys move?",
+        "Compute the key-to-node mapping for 6 keys with hash mod 3, then mod 4",
+        "20 app servers each with a local 2 GB cache vs one 40 GB global cache: compare hit ratio and staleness",
+        "A cache node fails: estimate the extra database QPS at 200,000 reads/s spread over 10 nodes",
+        "Explain why sessions in a global cache let servers stay stateless"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Consistent hashing as the fix for remapping"
+        },
+        {
+          "kind": "mechanism",
+          "title": "Replicating cache nodes for availability"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "At interview scale the cache is always a cluster, and remapping is a classic probe"
+      }
+    },
+    {
+      "id": "sd-hot-keys-thundering-herd",
+      "title": "Hot keys and the thundering herd",
+      "size": "standard",
+      "est_min": 28,
+      "section": "scaling-caches",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-hot-key",
+          "statement": "A hot key is a single key receiving a disproportionate share of traffic; because it lives on one cache node, adding nodes does not spread its load, so it is replicated or cached locally on each server."
+        },
+        {
+          "id": "kc-thundering-herd",
+          "statement": "A thundering herd (cache stampede) happens when a popular entry expires or is evicted and many concurrent misses all query the database at once to rebuild it."
+        },
+        {
+          "id": "kc-stampede-fixes",
+          "statement": "Request coalescing (one rebuild per key while others wait), TTL jitter (randomised expiry times) and refresh-ahead each prevent stampedes on popular keys."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-distributed-cache",
+          "reason": "Hot keys are a problem of one key pinned to one cache node"
+        },
+        {
+          "topic": "sd-cache-invalidation-ttl",
+          "reason": "Stampedes are triggered by TTL expiry"
+        }
+      ],
+      "suggests": [
+        "sd-refresh-ahead"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "hot key",
+        "thundering herd",
+        "request coalescing",
+        "ttl jitter"
+      ],
+      "uses": [
+        "distributed cache",
+        "cache node",
+        "ttl",
+        "refresh-ahead",
+        "cache miss",
+        "qps"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "caching-fundamentals/distributed-caching"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "cache/cache"
+        }
+      ],
+      "problem_ideas": [
+        "A celebrity profile gets 500,000 reads/s and a cache node handles 100,000: propose a fix",
+        "10,000 requests/s hit an expired key with a 200 ms rebuild: how many DB queries without coalescing?",
+        "All product keys were loaded at startup with TTL 3600 s: predict what happens an hour later",
+        "Add ±10% jitter to a 300 s TTL and describe the resulting expiry window",
+        "Choose between key replication and local caching for a viral post",
+        "Write the steps of request coalescing for one key"
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "Facebook's memcache leases"
+        },
+        {
+          "kind": "edge",
+          "title": "Hot keys in writes, not just reads"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "A favourite deep-dive question once your design has a cache tier"
+      }
+    }
+  ],
+  "groups": {}
+}

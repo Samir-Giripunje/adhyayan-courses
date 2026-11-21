@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-estimation-method",
+  "version": 1,
+  "title": "Back-of-the-envelope estimation and powers of two",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-seconds-per-day",
+      "version": 1,
+      "statement": "A day has 86,400 seconds, rounded to 10^5 for estimates, so 1 million events per day is about 10 per second."
+    },
+    {
+      "id": "kc-powers-of-two",
+      "version": 1,
+      "statement": "2^10 ≈ 10^3 (KB), 2^20 ≈ 10^6 (MB), 2^30 ≈ 10^9 (GB), 2^40 ≈ 10^12 (TB), so byte counts can be converted with powers of ten in your head."
+    },
+    {
+      "id": "kc-estimation-rounding",
+      "version": 1,
+      "statement": "Estimates round inputs to one significant figure and aim for the right order of magnitude, stating each assumption aloud so the interviewer can correct it."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "sd-latency-numbers"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "back-of-the-envelope estimation",
+    "powers of two",
+    "order of magnitude"
+  ],
+  "uses": [
+    "latency numbers"
+  ],
+  "problem_ideas": [
+    "Convert 500 million events per day to events per second in under 15 seconds",
+    "How many bytes is 3 × 2^30? Express it in GB",
+    "A candidate uses 86,400 exactly and spends 2 minutes on long division: show the rounded version",
+    "Estimate how many 1 KB records fit in 1 TB",
+    "Spot the order-of-magnitude error in a worked estimate that confuses MB and GB",
+    "Read 10 ms per disk seek from the latency table and estimate seeks per second for one disk"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "how-to-approach-a-system-design-intervie/back-of-the-envelope-calculations"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "appendix/powers-of-two-table"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "estimation-and-constraints/estimation-and-constraints"
+    }
+  ],
+  "status": "stub"
+}

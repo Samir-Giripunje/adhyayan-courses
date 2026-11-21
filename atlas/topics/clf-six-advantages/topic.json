@@ -1,0 +1,73 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-six-advantages",
+  "version": 1,
+  "title": "The AWS value proposition: six advantages",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-six-advantages-list",
+      "version": 1,
+      "statement": "AWS names six advantages of cloud computing: trade fixed expense for variable expense, benefit from massive economies of scale, stop guessing capacity, increase speed and agility, stop spending money running and maintaining data centers, and go global in minutes."
+    },
+    {
+      "id": "kc-stop-guessing-capacity",
+      "version": 1,
+      "statement": "'Stop guessing capacity' means using only as much capacity as demand needs and scaling as it changes, instead of buying for a forecast that leaves resources idle or short."
+    },
+    {
+      "id": "kc-go-global-in-minutes",
+      "version": 1,
+      "statement": "'Go global in minutes' means deploying an application to AWS locations around the world in a few clicks, giving distant users lower latency at little extra cost."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-fixed-vs-variable-costs",
+    "clf-economies-of-scale-automation",
+    "clf-elasticity-agility"
+  ],
+  "suggests": [
+    "clf-wa-pillars-performance-cost-sustainability"
+  ],
+  "confusable_with": [
+    "clf-elasticity-agility",
+    "clf-economies-of-scale-automation"
+  ],
+  "introduces": [
+    "six advantages of cloud computing",
+    "global reach"
+  ],
+  "uses": [
+    "fixed costs",
+    "variable costs",
+    "economies of scale",
+    "agility",
+    "elasticity",
+    "data center"
+  ],
+  "problem_ideas": [
+    "A game studio launches in Japan and Brazil the same week without building data centers: which advantage?",
+    "Match eight short scenarios to the six advantages; two are distractors that are not advantages.",
+    "Recall the six advantages from memory and flag the one most often confused with elasticity.",
+    "A company redeploys 3 data center engineers to product work after migrating: name the advantage.",
+    "Pick the advantage that answers 'we bought 200 servers and use 60'.",
+    "Spot the invented advantage among five options (e.g. 'eliminate all security responsibility')."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-1-define-the-benefits-o/value-proposition-of-the-aws-cloud"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-1-define-the-benefits-o/understanding-the-benefits-of-global-inf"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "introduction/introduction-to-aws"
+    }
+  ],
+  "status": "stub"
+}

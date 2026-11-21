@@ -1,0 +1,66 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-choosing-messaging",
+  "version": 1,
+  "title": "Choosing a messaging or notification service",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-choose-queue-vs-topic",
+      "version": 1,
+      "statement": "Use SQS to queue work for competing consumers that pull it when they are ready; use SNS to push a notification to multiple subscribers at the same moment."
+    },
+    {
+      "id": "kc-choose-events-workflow",
+      "version": 1,
+      "statement": "Routing events from many AWS services or SaaS apps with filtering rules points to EventBridge; coordinating an ordered multi-step process with retries points to Step Functions."
+    },
+    {
+      "id": "kc-choose-alerts-email",
+      "version": 1,
+      "statement": "A CloudWatch alarm notifies operators by publishing to an SNS topic, while customer-facing email at scale is sent with SES."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-sqs",
+    "clf-sns",
+    "clf-eventbridge"
+  ],
+  "suggests": [
+    "clf-step-functions-mq",
+    "clf-ses"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "integration service selection"
+  ],
+  "uses": [
+    "sqs",
+    "sns",
+    "eventbridge",
+    "step functions",
+    "ses",
+    "cloudwatch alarm"
+  ],
+  "problem_ideas": [
+    "Ten one-paragraph requirements, each answered by SQS, SNS, EventBridge, Step Functions or SES; name the closest distractor for each.",
+    "A billing alarm must text the finance lead: trace the path from CloudWatch to the phone.",
+    "An order system needs both buffering and fan-out: combine two services and justify.",
+    "Rank three designs for 'notify 5 microservices of each signup' by coupling.",
+    "A requirement says 'nightly at 01:00 trigger a report': which integration service and why not SNS?",
+    "Spot the wrong answer in a sample exam item where SES is offered for server alerts."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-8-identify-services-fro/choosing-the-appropriate-service-to-deli"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "application-integration/application-integration"
+    }
+  ],
+  "status": "stub"
+}

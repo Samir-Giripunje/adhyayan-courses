@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-stateless-services",
+  "version": 1,
+  "title": "Stateless services and where session state goes",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-stateless-service",
+      "version": 1,
+      "statement": "A stateless service keeps no per-user session data in local memory between requests, so any instance can serve any request and instances can be added or removed freely."
+    },
+    {
+      "id": "kc-externalize-session",
+      "version": 1,
+      "statement": "To make a stateful web tier stateless, move session state to a shared store (a cache or database) or into a signed client token; sticky sessions are a workaround that skews load and loses sessions when a node dies."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-vertical-horizontal-scaling"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "stateless service",
+    "session state",
+    "sticky sessions"
+  ],
+  "uses": [
+    "horizontal scaling",
+    "http"
+  ],
+  "problem_ideas": [
+    "Shopping carts are stored in server memory and users lose them after a deploy: redesign so carts survive",
+    "With sticky sessions, one server holds 40% of users after a viral event: explain why and propose a fix",
+    "Decide where to keep a 2 KB login session for 10 million users: local memory, shared cache, database or signed token",
+    "A WebSocket chat server is inherently stateful: what around it can still be made stateless?",
+    "Autoscaling removes an instance mid-request: what does the user see with and without a stateless design?",
+    "Spot the hidden state: local file uploads, in-process rate counters, in-memory caches; which ones break horizontal scaling?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "application-layer/application-layer"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "application-layer/application-layer"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-tradeoffs/stateful-vs-stateless-design"
+    }
+  ],
+  "status": "stub"
+}

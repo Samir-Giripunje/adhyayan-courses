@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-wide-column-store",
+  "version": 1,
+  "title": "Wide-column stores",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-wide-column-model",
+      "version": 1,
+      "statement": "A wide-column store such as Cassandra or Bigtable groups rows by a partition key and keeps each partition's rows sorted by a clustering key, so range reads within one partition are fast."
+    },
+    {
+      "id": "kc-wide-column-fit",
+      "version": 1,
+      "statement": "Wide-column stores suit very high write volumes with known query shapes, such as chat messages keyed by (conversation_id, timestamp), and need one table per query pattern."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-nosql-base"
+  ],
+  "suggests": [
+    "sd-denormalization"
+  ],
+  "confusable_with": [
+    "sd-relational-acid"
+  ],
+  "introduces": [
+    "wide-column store",
+    "partition key",
+    "clustering key"
+  ],
+  "uses": [
+    "nosql",
+    "access pattern",
+    "denormalization"
+  ],
+  "problem_ideas": [
+    "Design the partition and clustering keys for 'last 50 messages in a chat'",
+    "A chat app writes 1M messages/s: argue for a wide-column store over a single SQL leader",
+    "The product asks for 'all messages by user X across chats': design the second table",
+    "Spot the problem with partitioning IoT metrics by device_type alone",
+    "Choose clustering order (ascending or descending timestamp) for an activity feed",
+    "Estimate partition size for a group chat with 1,000 messages a day kept for 5 years"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "application-layer/wide-column-store"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "database/wide-column-store"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "examples-7/wide-column"
+    }
+  ],
+  "status": "stub"
+}

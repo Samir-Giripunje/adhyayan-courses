@@ -1,0 +1,83 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-migration-discovery-mgn",
+  "version": 1,
+  "title": "Planning and rehosting: Discovery, Evaluator, MGN, Hub",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-mgn-rehost",
+      "version": 1,
+      "statement": "AWS Application Migration Service (MGN) automates lift-and-shift (rehost) migration by continuously replicating source servers to AWS and launching them as EC2 instances at cutover."
+    },
+    {
+      "id": "kc-application-discovery",
+      "version": 1,
+      "statement": "AWS Application Discovery Service collects on-premises server configuration, utilisation and dependency data to plan a migration."
+    },
+    {
+      "id": "kc-migration-evaluator",
+      "version": 1,
+      "statement": "Migration Evaluator builds a data-driven business case by projecting what the current on-premises estate would cost to run on AWS."
+    },
+    {
+      "id": "kc-migration-hub",
+      "version": 1,
+      "statement": "AWS Migration Hub is a single place to discover, plan and track the progress of migrations across AWS and partner tools."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-migration-strategies"
+  ],
+  "suggests": [
+    "clf-tco-on-premises-costs"
+  ],
+  "confusable_with": [
+    "clf-dms-sct",
+    "clf-datasync-transfer-choice"
+  ],
+  "introduces": [
+    "application migration service",
+    "application discovery service",
+    "migration evaluator",
+    "migration hub"
+  ],
+  "uses": [
+    "migration strategies",
+    "lift and shift",
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "A CFO asks 'what will our 400 servers cost on AWS?' before approving: which service builds the case?",
+    "Map which on-prem servers talk to each other before moving them: which service?",
+    "Rehost 60 VMware servers with minimal changes and a short cutover: which service?",
+    "A programme manager wants one view of progress across 12 migration waves: which service?",
+    "Order four services by migration phase: assess, plan, migrate, track.",
+    "Spot the distractor: 'MGN refactors applications into Lambda functions.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "migration-and-transfer/aws-application-migration-service"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "migration-and-transfer/aws-application-discovery-service"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "migration-and-transfer/migration-evaluator"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "migration-and-transfer/aws-migration-hub"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-aws-services/aws-application-migration-service-mgn"
+    }
+  ],
+  "status": "stub"
+}

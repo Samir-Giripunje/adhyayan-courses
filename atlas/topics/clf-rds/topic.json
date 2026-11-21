@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-rds",
+  "version": 1,
+  "title": "Amazon RDS: Multi-AZ, read replicas and backups",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-rds-engines",
+      "version": 1,
+      "statement": "Amazon RDS is a managed relational database service supporting the MySQL, PostgreSQL, MariaDB, Oracle, Microsoft SQL Server, Db2 and Aurora engines."
+    },
+    {
+      "id": "kc-rds-multi-az-standby",
+      "version": 1,
+      "statement": "In an RDS Multi-AZ DB instance deployment, a synchronous standby in a second AZ takes over automatically on failure; its purpose is availability, not extra read capacity."
+    },
+    {
+      "id": "kc-rds-read-replicas",
+      "version": 1,
+      "statement": "RDS read replicas are asynchronous copies, in the same or another Region, that serve read-only queries to scale read-heavy workloads."
+    },
+    {
+      "id": "kc-rds-backups-pitr",
+      "version": 1,
+      "statement": "RDS automated backups allow point-in-time restore within a retention period of up to 35 days, while manual snapshots are kept until you delete them."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-managed-vs-self-managed-db",
+    "clf-relational-vs-nosql",
+    "clf-multi-az-multi-region"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-aurora"
+  ],
+  "introduces": [
+    "rds",
+    "read replica",
+    "point-in-time restore"
+  ],
+  "uses": [
+    "relational database",
+    "managed database",
+    "availability zone",
+    "multi-az deployment",
+    "region"
+  ],
+  "problem_ideas": [
+    "The database must survive an AZ outage with automatic failover: Multi-AZ or read replica?",
+    "Reporting queries slow down the production database: which feature offloads them?",
+    "A developer dropped a table at 14:05 on Tuesday: how do you restore to 14:04?",
+    "Which engines can RDS run? Spot the impostor in a list including MongoDB",
+    "Read replica in another Region: name one DR benefit and one read-latency benefit",
+    "Backups must be kept for one year: are automated backups enough?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "database/amazon-rds"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/aws-rds-overview"
+    }
+  ],
+  "status": "stub"
+}

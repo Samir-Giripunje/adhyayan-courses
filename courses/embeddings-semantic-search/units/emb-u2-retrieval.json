@@ -1,0 +1,227 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "emb-u2-retrieval",
+  "title": "Making retrieval good",
+  "topics": [
+    {
+      "id": "emb-contrastive",
+      "tier": "recommended",
+      "order": 1
+    },
+    {
+      "id": "emb-pooling",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "emb-metrics",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "emb-model-choice",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "emb-chunking",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "emb-retrieval-eval",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "drafted",
+  "outcome": "Measure retrieval on labelled queries and improve it with pooling, chunking, normalisation and model choice.",
+  "bench": {
+    "id": "help-centre-40q",
+    "title": "Same corpus + 40 labelled queries",
+    "description": "The 25-article help centre with 40 labelled queries and graded relevance."
+  },
+  "concept_map": "flowchart TD\n  emb-contrastive[\"2.1 Learning by contrast\"]\n  emb-pooling[\"2.2 Pooling and token limits\"]\n  emb-metrics[\"2.3 Metrics and normalisation\"]\n  emb-model-choice[\"2.4 Choosing a model\"]\n  emb-chunking[\"2.5 Chunking\"]\n  emb-retrieval-eval[\"2.6 Measuring retrieval: recall@k, MRR, nDCG\"]\n  emb-pooling --> emb-model-choice\n  emb-pooling --> emb-chunking",
+  "confusables": [],
+  "capstone": {
+    "prompt_md": "Build a recall@5 / MRR harness, then improve the baseline via chunking, model and normalisation.",
+    "uses": [
+      "emb-pooling",
+      "emb-metrics",
+      "emb-model-choice",
+      "emb-chunking",
+      "emb-retrieval-eval"
+    ]
+  },
+  "lab": {
+    "exercises": [
+      "ex-debug-norm",
+      "ex-engine",
+      "ex-eval"
+    ],
+    "checks": []
+  },
+  "interview": [],
+  "cases": [
+    {
+      "id": "ticket-dedup-threshold",
+      "title": "Duplicate-ticket detection: where to put the threshold",
+      "domain": "Support tooling",
+      "archetype": true,
+      "context_md": "A support tool wants to show *“possible duplicate of #4812”* when an agent opens a new ticket. An engineer prototypes with a cosine threshold of 0.80 because “0.8 sounds high”. On real data, nearly every ticket gets flagged.",
+      "pipeline": [
+        {
+          "step": "Embed",
+          "detail": "Ticket subject + first message, open-weights model, normalized"
+        },
+        {
+          "step": "Candidates",
+          "detail": "ANN top-5 among open tickets from the last 30 days"
+        },
+        {
+          "step": "Decide",
+          "detail": "Flag if cosine ≥ threshold"
+        },
+        {
+          "step": "Show",
+          "detail": "Suggestion to the agent, who decides"
+        }
+      ],
+      "numbers": [
+        {
+          "label": "Unrelated-pair cosine",
+          "value": "often 0.5–0.8 with this model",
+          "note": "a compressed score range is common (anisotropy)"
+        },
+        {
+          "label": "Labelled pairs needed",
+          "value": "a few hundred",
+          "note": "to pick a threshold with confidence"
+        }
+      ],
+      "decision": {
+        "prompt_md": "How do you set the duplicate rule?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Keep 0.80; it worked for a blog post's examples",
+            "verdict": "trap",
+            "outcome_md": "Thresholds are model- and domain-specific. This model's scores sit high, so 0.80 flags everything and agents learn to ignore the feature."
+          },
+          {
+            "id": "b",
+            "md": "Label ~300 pairs, plot precision/recall against the threshold, pick the threshold that hits the precision target, and show results as a *suggestion*",
+            "verdict": "best",
+            "outcome_md": "The threshold now means something (“90% of flags are true duplicates”). Keeping a human in the loop makes the remaining errors cheap. Re-calibrate whenever the model changes."
+          },
+          {
+            "id": "c",
+            "md": "Auto-merge anything above 0.95",
+            "verdict": "trap",
+            "outcome_md": "Same-template tickets (*“Refund request for order …”*) score very high and differ only in the order number. Auto-merging destroys real tickets."
+          },
+          {
+            "id": "d",
+            "md": "Use the embedding for candidates, then confirm with a cross-encoder classifier",
+            "verdict": "viable",
+            "outcome_md": "More accurate, with a higher per-ticket cost. A good next step once you have labels from option B."
+          }
+        ]
+      },
+      "failure_modes": [
+        "threshold-transfer",
+        "similar-not-same"
+      ],
+      "lessons_md": "A cosine value has no universal meaning. **Calibrate on labelled pairs for each model**, and prefer suggestions over automatic actions when errors are costly.",
+      "sources": [
+        "ethayarajh-2019"
+      ]
+    },
+    {
+      "id": "model-migration",
+      "title": "Upgrading the embedding model under a live index",
+      "domain": "RAG platform",
+      "archetype": true,
+      "context_md": "An internal RAG assistant serves 50M chunks embedded with an older model. A newer model scores much better on the team's eval set. Leadership asks: *“Can we switch on Monday?”*",
+      "pipeline": [
+        {
+          "step": "Version",
+          "detail": "Tag every vector with model_id + version"
+        },
+        {
+          "step": "Backfill",
+          "detail": "Re-embed 50M chunks into a NEW index (resumable batch job)"
+        },
+        {
+          "step": "Dual-write",
+          "detail": "New and updated docs go to both indexes during the backfill"
+        },
+        {
+          "step": "Shadow",
+          "detail": "Mirror live queries to the new index and compare"
+        },
+        {
+          "step": "Cut over",
+          "detail": "Alias swap, keeping the old index for rollback"
+        }
+      ],
+      "numbers": [
+        {
+          "label": "Tokens to embed",
+          "value": "≈ 15B",
+          "note": "50M chunks × ~300 tokens"
+        },
+        {
+          "label": "API cost at \\$0.02 / 1M",
+          "value": "≈ \\$300",
+          "note": "at \\$0.13 / 1M: ≈ \\$1,950"
+        },
+        {
+          "label": "Real constraint",
+          "value": "rate limits and wall-clock time",
+          "note": "plan a multi-day backfill"
+        }
+      ],
+      "decision": {
+        "prompt_md": "What do you tell leadership?",
+        "options": [
+          {
+            "id": "a",
+            "md": "“Yes: switch the query embedder on Monday.”",
+            "verdict": "trap",
+            "outcome_md": "Queries in the new space against documents in the old space return effectively random results. The assistant confidently answers from irrelevant passages."
+          },
+          {
+            "id": "b",
+            "md": "“We'll re-embed in place over the week.”",
+            "verdict": "trap",
+            "outcome_md": "For the whole week the index mixes two spaces, and quality degrades unpredictably, query by query."
+          },
+          {
+            "id": "c",
+            "md": "“We'll build a new index in parallel, shadow-test it, and cut over when the metrics hold, with rollback ready.”",
+            "verdict": "best",
+            "outcome_md": "No mixed-space window, a measured improvement, and a one-command rollback. It costs a few hundred dollars and a few days."
+          }
+        ]
+      },
+      "failure_modes": [
+        "model-mismatch",
+        "stale-vectors"
+      ],
+      "lessons_md": "**An embedding model upgrade is a data migration, not a config change.** Version every vector.",
+      "sources": [
+        "openai-embeddings"
+      ]
+    }
+  ],
+  "tests": {
+    "unit": "unit-test@1",
+    "forms": [
+      "A",
+      "B"
+    ]
+  },
+  "est_min": 127
+}

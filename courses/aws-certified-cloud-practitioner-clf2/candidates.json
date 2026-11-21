@@ -1,0 +1,4797 @@
+{
+  "items": [
+    {
+      "id": "what-is-cloud-computing",
+      "title": "What is cloud computing",
+      "aliases": [
+        "cloud computing definition",
+        "on-demand IT resources"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "dynamodb",
+          "entry": "what-is-cloud-computing"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-computing",
+          "entry": "cloud-computing"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-computing",
+          "entry": "what-is-cloud-computing"
+        }
+      ]
+    },
+    {
+      "id": "cloud-service-models",
+      "title": "Cloud service models: IaaS, PaaS, SaaS",
+      "aliases": [
+        "types of cloud computing",
+        "service models"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "dynamodb",
+          "entry": "iaas-vs-paas-vs-saas"
+        }
+      ]
+    },
+    {
+      "id": "cloud-deployment-models",
+      "title": "Cloud deployment models: cloud, hybrid, on-premises",
+      "aliases": [
+        "public vs private vs hybrid cloud"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "dynamodb",
+          "entry": "public-vs-private-vs-hybrid-cloud"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-1-define-methods-of-dep",
+          "entry": "types-of-cloud-deployment-models"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-1-define-methods-of-dep",
+          "entry": "identifying-deployment-models-for-exampl"
+        }
+      ]
+    },
+    {
+      "id": "aws-cloud-value-proposition",
+      "title": "Benefits and value proposition of the AWS Cloud",
+      "aliases": [
+        "introduction to AWS",
+        "six advantages of cloud computing"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "introduction",
+          "entry": "introduction"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "introduction",
+          "entry": "introduction-to-aws"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-1-define-the-benefits-o",
+          "entry": "task-statement-1-1-define-the-benefits-o"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-1-define-the-benefits-o",
+          "entry": "value-proposition-of-the-aws-cloud"
+        }
+      ]
+    },
+    {
+      "id": "elasticity-agility",
+      "title": "Elasticity and agility",
+      "aliases": [
+        "scalability vs elasticity vs agility"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-1-define-the-benefits-o",
+          "entry": "understanding-the-advantages-of-high-ava"
+        },
+        {
+          "source": "clf-notes",
+          "section": "elastic-load-balancing-auto-scaling-grou",
+          "entry": "scalability-vs-elasticity-vs-agility"
+        }
+      ]
+    },
+    {
+      "id": "scalability",
+      "title": "Vertical vs horizontal scalability",
+      "aliases": [
+        "scale up",
+        "scale out"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "elastic-load-balancing-auto-scaling-grou",
+          "entry": "scalability-high-availability"
+        },
+        {
+          "source": "clf-notes",
+          "section": "elastic-load-balancing-auto-scaling-grou",
+          "entry": "vertical-scalability"
+        },
+        {
+          "source": "clf-notes",
+          "section": "elastic-load-balancing-auto-scaling-grou",
+          "entry": "horizontal-scalability"
+        }
+      ]
+    },
+    {
+      "id": "high-availability",
+      "title": "High availability across multiple Availability Zones",
+      "aliases": [
+        "HA",
+        "multi-AZ"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-2-define-the-aws-global",
+          "entry": "high-availability"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-2-define-the-aws-global",
+          "entry": "describing-how-to-achieve-high-availabil"
+        },
+        {
+          "source": "clf-notes",
+          "section": "elastic-load-balancing-auto-scaling-grou",
+          "entry": "high-availability"
+        },
+        {
+          "source": "clf-notes",
+          "section": "elastic-load-balancing-auto-scaling-grou",
+          "entry": "high-availability-scalability-for-ec2"
+        }
+      ]
+    },
+    {
+      "id": "global-infrastructure",
+      "title": "AWS global infrastructure: Regions, Availability Zones and edge locations",
+      "aliases": [
+        "Regions",
+        "Availability Zones",
+        "AZs",
+        "edge locations",
+        "points of presence"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "introduction",
+          "entry": "aws-global-infrastructure"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-1-define-the-benefits-o",
+          "entry": "understanding-the-benefits-of-global-inf"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-2-define-the-aws-global",
+          "entry": "task-statement-3-2-define-the-aws-global"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-2-define-the-aws-global",
+          "entry": "aws-regions-availability-zones-and-edge-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-2-define-the-aws-global",
+          "entry": "describing-relationships-among-regions-a"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-2-define-the-aws-global",
+          "entry": "recognizing-that-availability-zones-do-n"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-2-define-the-aws-global",
+          "entry": "benefits-of-edge-locations"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-global-infrastructure-for-example-aw"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-computing",
+          "entry": "aws-global-infrastructure"
+        },
+        {
+          "source": "clf-notes",
+          "section": "global-infrastructure",
+          "entry": "global-infrastructure"
+        }
+      ]
+    },
+    {
+      "id": "multi-region",
+      "title": "Using multiple Regions for global applications",
+      "aliases": [
+        "global applications",
+        "multi-Region"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-2-define-the-aws-global",
+          "entry": "use-of-multiple-regions"
+        },
+        {
+          "source": "clf-notes",
+          "section": "global-infrastructure",
+          "entry": "why-make-a-global-application"
+        }
+      ]
+    },
+    {
+      "id": "local-zones",
+      "title": "AWS Local Zones",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "global-infrastructure",
+          "entry": "aws-local-zones"
+        }
+      ]
+    },
+    {
+      "id": "wavelength",
+      "title": "AWS Wavelength",
+      "aliases": [
+        "5G edge"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "global-infrastructure",
+          "entry": "aws-wavelength"
+        }
+      ]
+    },
+    {
+      "id": "outposts",
+      "title": "AWS Outposts",
+      "aliases": [
+        "AWS on-premises racks"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "compute",
+          "entry": "aws-outposts"
+        },
+        {
+          "source": "clf-notes",
+          "section": "global-infrastructure",
+          "entry": "aws-outposts"
+        }
+      ]
+    },
+    {
+      "id": "well-architected-framework",
+      "title": "AWS Well-Architected Framework and its six pillars",
+      "aliases": [
+        "WAF pillars",
+        "operational excellence",
+        "reliability",
+        "sustainability"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "introduction",
+          "entry": "well-architected-framework"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-2-identify-design-princ",
+          "entry": "task-statement-1-2-identify-design-princ"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-2-identify-design-princ",
+          "entry": "aws-well-architected-framework"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-2-identify-design-princ",
+          "entry": "identifying-differences-between-the-pill"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-well-architected-framework"
+        },
+        {
+          "source": "clf-notes",
+          "section": "aws-architecting-ecosystem",
+          "entry": "well-architected-framework-6-pillars"
+        }
+      ]
+    },
+    {
+      "id": "cloud-design-principles",
+      "title": "AWS Cloud design principles and best practices",
+      "aliases": [
+        "general guiding principles",
+        "design for failure"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "aws-architecting-ecosystem",
+          "entry": "aws-architecting-ecosystem"
+        },
+        {
+          "source": "clf-notes",
+          "section": "aws-architecting-ecosystem",
+          "entry": "well-architected-framework-general-guidi"
+        },
+        {
+          "source": "clf-notes",
+          "section": "aws-architecting-ecosystem",
+          "entry": "aws-cloud-best-practices-design-principl"
+        }
+      ]
+    },
+    {
+      "id": "well-architected-tool",
+      "title": "AWS Well-Architected Tool",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-well-architected-tool"
+        },
+        {
+          "source": "clf-notes",
+          "section": "aws-architecting-ecosystem",
+          "entry": "aws-well-architected-tool"
+        }
+      ]
+    },
+    {
+      "id": "cloud-adoption-framework",
+      "title": "AWS Cloud Adoption Framework (CAF)",
+      "aliases": [
+        "AWS CAF",
+        "cloud adoption strategies",
+        "CAF perspectives"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-3-understand-the-benefi",
+          "entry": "cloud-adoption-strategies"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-cloud-adoption-framework-aws-caf"
+        }
+      ]
+    },
+    {
+      "id": "migration-strategies",
+      "title": "Cloud migration benefits and strategies",
+      "aliases": [
+        "7 Rs",
+        "rehost",
+        "replatform",
+        "refactor",
+        "lift and shift"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-3-understand-the-benefi",
+          "entry": "task-statement-1-3-understand-the-benefi"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-3-understand-the-benefi",
+          "entry": "identifying-appropriate-migration-strate"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-3-understand-the-benefi",
+          "entry": "resources-to-support-the-cloud-migration"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "benefits-of-migrating-to-the-aws-cloud"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "migration-and-data-transfer"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "migration-and-transfer",
+          "entry": "migration-and-transfer"
+        }
+      ]
+    },
+    {
+      "id": "cloud-economics",
+      "title": "Cloud economics and economies of scale",
+      "aliases": [
+        "cost savings of the cloud",
+        "massive economies of scale"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-4-understand-concepts-o",
+          "entry": "task-statement-1-4-understand-concepts-o"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-4-understand-concepts-o",
+          "entry": "aspects-of-cloud-economics"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-4-understand-concepts-o",
+          "entry": "cost-savings-of-moving-to-the-cloud"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-4-understand-concepts-o",
+          "entry": "understanding-the-economies-of-scale-for"
+        }
+      ]
+    },
+    {
+      "id": "fixed-vs-variable-costs",
+      "title": "Fixed vs variable costs and on-premises costs",
+      "aliases": [
+        "CapEx vs OpEx",
+        "total cost of ownership",
+        "TCO"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-4-understand-concepts-o",
+          "entry": "understanding-the-role-of-fixed-costs-co"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-4-understand-concepts-o",
+          "entry": "understanding-costs-that-are-associated-"
+        }
+      ]
+    },
+    {
+      "id": "rightsizing",
+      "title": "Rightsizing",
+      "aliases": [
+        "right sizing"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-4-understand-concepts-o",
+          "entry": "understanding-the-concept-of-rightsizing"
+        },
+        {
+          "source": "clf-notes",
+          "section": "aws-architecting-ecosystem",
+          "entry": "aws-right-sizing"
+        }
+      ]
+    },
+    {
+      "id": "automation-benefits",
+      "title": "Benefits of automation and repeatable processes",
+      "aliases": [
+        "one-time operations vs repeatable processes"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-1-4-understand-concepts-o",
+          "entry": "identifying-benefits-of-automation"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-1-define-methods-of-dep",
+          "entry": "evaluating-requirements-to-determine-whe"
+        }
+      ]
+    },
+    {
+      "id": "shared-responsibility-model",
+      "title": "AWS shared responsibility model",
+      "aliases": [
+        "security of the cloud vs security in the cloud"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "introduction",
+          "entry": "shared-responsibility-model"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-1-understand-the-aws-sh",
+          "entry": "task-statement-2-1-understand-the-aws-sh"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-1-understand-the-aws-sh",
+          "entry": "aws-shared-responsibility-model"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-1-understand-the-aws-sh",
+          "entry": "recognizing-the-components-of-the-aws-sh"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-1-understand-the-aws-sh",
+          "entry": "describing-the-customer-s-responsibiliti"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-1-understand-the-aws-sh",
+          "entry": "describing-aws-responsibilities"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-1-understand-the-aws-sh",
+          "entry": "describing-responsibilities-that-the-cus"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-shared-responsibility-model"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-computing",
+          "entry": "shared-responsibility-model"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "aws-shared-responsibility-model"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-virtual-machines",
+          "entry": "shared-responsibility-model-for-ec2"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-instance-storage",
+          "entry": "shared-responsibility-model-for-ec2-stor"
+        },
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "shared-responsibility-model-for-s3"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "databases-shared-responsibility-on-aws"
+        }
+      ]
+    },
+    {
+      "id": "compliance-governance",
+      "title": "AWS compliance and governance concepts",
+      "aliases": [
+        "AWS compliance programs",
+        "regulatory compliance"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-2-understand-aws-cloud-",
+          "entry": "task-statement-2-2-understand-aws-cloud-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-2-understand-aws-cloud-",
+          "entry": "aws-compliance-and-governance-concepts"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-2-understand-aws-cloud-",
+          "entry": "understanding-compliance-needs-among-geo"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-2-understand-aws-cloud-",
+          "entry": "recognizing-compliance-requirements-that"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-compliance"
+        }
+      ]
+    },
+    {
+      "id": "aws-artifact",
+      "title": "AWS Artifact",
+      "aliases": [
+        "compliance reports"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-2-understand-aws-cloud-",
+          "entry": "identifying-where-to-find-aws-compliance"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-artifact"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "aws-artifact-not-really-a-service"
+        }
+      ]
+    },
+    {
+      "id": "encryption",
+      "title": "Encryption at rest and in transit",
+      "aliases": [
+        "data encryption"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-2-understand-aws-cloud-",
+          "entry": "benefits-of-cloud-security-for-example-e"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-2-understand-aws-cloud-",
+          "entry": "identifying-encryption-options-for-examp"
+        }
+      ]
+    },
+    {
+      "id": "kms",
+      "title": "AWS Key Management Service (KMS)",
+      "aliases": [
+        "KMS"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-key-management-service-aws-kms"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "aws-kms-key-management-service"
+        }
+      ]
+    },
+    {
+      "id": "cloudhsm",
+      "title": "AWS CloudHSM",
+      "aliases": [
+        "hardware security module"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-cloudhsm"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "cloudhsm"
+        }
+      ]
+    },
+    {
+      "id": "acm",
+      "title": "AWS Certificate Manager (ACM)",
+      "aliases": [
+        "SSL/TLS certificates"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-certificate-manager-acm"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "aws-certificate-manager-acm"
+        }
+      ]
+    },
+    {
+      "id": "secrets-manager",
+      "title": "AWS Secrets Manager",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-secrets-manager"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "aws-secrets-manager"
+        }
+      ]
+    },
+    {
+      "id": "iam",
+      "title": "AWS Identity and Access Management (IAM)",
+      "aliases": [
+        "IAM"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "iam",
+          "entry": "iam"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-3-identify-aws-access-m",
+          "entry": "task-statement-2-3-identify-aws-access-m"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-3-identify-aws-access-m",
+          "entry": "identity-and-access-management-for-examp"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-identity-and-access-management-iam"
+        },
+        {
+          "source": "clf-notes",
+          "section": "iam-identity-access-management",
+          "entry": "iam-identity-access-management"
+        },
+        {
+          "source": "clf-notes",
+          "section": "iam-identity-access-management",
+          "entry": "what-is-iam"
+        }
+      ]
+    },
+    {
+      "id": "iam-users-groups",
+      "title": "IAM users and user groups",
+      "aliases": [
+        "IAM groups"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "iam",
+          "entry": "users-user-groups"
+        }
+      ]
+    },
+    {
+      "id": "iam-policies",
+      "title": "IAM policies: identity-based and resource-based",
+      "aliases": [
+        "permissions policies",
+        "bucket policies"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "iam",
+          "entry": "policies"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "s3",
+          "entry": "identity-based"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "s3",
+          "entry": "resource-based"
+        }
+      ]
+    },
+    {
+      "id": "iam-roles",
+      "title": "IAM roles and temporary credentials (STS)",
+      "aliases": [
+        "assuming roles",
+        "instance profiles",
+        "AWS STS"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "iam",
+          "entry": "roles"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "s3",
+          "entry": "instance-profiles"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "s3",
+          "entry": "assuming-roles"
+        },
+        {
+          "source": "clf-notes",
+          "section": "advanced-identity",
+          "entry": "aws-sts-securitytoken-service"
+        }
+      ]
+    },
+    {
+      "id": "least-privilege",
+      "title": "Principle of least privilege",
+      "aliases": [
+        "IAM Access Analyzer"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-3-identify-aws-access-m",
+          "entry": "principle-of-least-privilege"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "iam-access-analyzer"
+        }
+      ]
+    },
+    {
+      "id": "root-user",
+      "title": "Protecting the AWS account root user",
+      "aliases": [
+        "root user tasks",
+        "root account"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-3-identify-aws-access-m",
+          "entry": "importance-of-protecting-the-aws-root-us"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-3-identify-aws-access-m",
+          "entry": "identifying-tasks-that-only-the-account-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-3-identify-aws-access-m",
+          "entry": "understanding-which-methods-can-achieve-"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "root-user-privileges"
+        }
+      ]
+    },
+    {
+      "id": "mfa",
+      "title": "Multi-factor authentication (MFA)",
+      "aliases": [
+        "MFA devices",
+        "virtual MFA",
+        "hardware security key"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "iam-identity-access-management",
+          "entry": "multi-factor-authentication-mfa"
+        },
+        {
+          "source": "clf-notes",
+          "section": "iam-identity-access-management",
+          "entry": "mfa-devices-options-in-aws"
+        }
+      ]
+    },
+    {
+      "id": "iam-identity-center",
+      "title": "AWS IAM Identity Center",
+      "aliases": [
+        "AWS SSO",
+        "single sign-on"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-3-identify-aws-access-m",
+          "entry": "aws-iam-identity-center"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-iam-identity-center"
+        },
+        {
+          "source": "clf-notes",
+          "section": "advanced-identity",
+          "entry": "aws-iam-identity-center"
+        }
+      ]
+    },
+    {
+      "id": "identity-federation",
+      "title": "Types of identity management and federation",
+      "aliases": [
+        "federated identity",
+        "identity providers"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-3-identify-aws-access-m",
+          "entry": "understanding-the-types-of-identity-mana"
+        },
+        {
+          "source": "clf-notes",
+          "section": "advanced-identity",
+          "entry": "advanced-identity"
+        }
+      ]
+    },
+    {
+      "id": "directory-service",
+      "title": "AWS Directory Service and Microsoft Active Directory",
+      "aliases": [
+        "Managed Microsoft AD",
+        "AD Connector"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-directory-service"
+        },
+        {
+          "source": "clf-notes",
+          "section": "advanced-identity",
+          "entry": "what-is-microsoft-active-directory-ad"
+        }
+      ]
+    },
+    {
+      "id": "cognito",
+      "title": "Amazon Cognito",
+      "aliases": [
+        "user pools",
+        "app user identity"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "amazon-cognito"
+        },
+        {
+          "source": "clf-notes",
+          "section": "advanced-identity",
+          "entry": "amazon-cognito-simplified"
+        }
+      ]
+    },
+    {
+      "id": "security-resources",
+      "title": "AWS security capabilities and security documentation",
+      "aliases": [
+        "AWS Security Blog",
+        "AWS Security Center"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-4-identify-components-a",
+          "entry": "task-statement-2-4-identify-components-a"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-4-identify-components-a",
+          "entry": "security-capabilities-that-aws-provides"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-4-identify-components-a",
+          "entry": "security-related-documentation-that-aws-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "security"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-security-blog"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "security-identity-and-compliance"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "security-compliance"
+        }
+      ]
+    },
+    {
+      "id": "aws-marketplace",
+      "title": "AWS Marketplace",
+      "aliases": [
+        "third-party software",
+        "third-party security products"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-4-identify-components-a",
+          "entry": "understanding-that-third-party-security-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "cloud-financial-management",
+          "entry": "aws-marketplace"
+        },
+        {
+          "source": "clf-notes",
+          "section": "aws-architecting-ecosystem",
+          "entry": "aws-marketplace"
+        }
+      ]
+    },
+    {
+      "id": "shield-ddos",
+      "title": "DDoS protection with AWS Shield",
+      "aliases": [
+        "Shield Standard",
+        "Shield Advanced",
+        "DDoS"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-shield"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "ddos-protection-on-aws"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "aws-shield"
+        }
+      ]
+    },
+    {
+      "id": "waf",
+      "title": "AWS WAF",
+      "aliases": [
+        "web application firewall"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-waf"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "aws-waf-web-application-firewall"
+        }
+      ]
+    },
+    {
+      "id": "firewall-manager",
+      "title": "AWS Firewall Manager",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-firewall-manager"
+        }
+      ]
+    },
+    {
+      "id": "guardduty",
+      "title": "Amazon GuardDuty",
+      "aliases": [
+        "threat detection"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "amazon-guardduty"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "amazon-guardduty"
+        }
+      ]
+    },
+    {
+      "id": "inspector",
+      "title": "Amazon Inspector",
+      "aliases": [
+        "vulnerability scanning"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "amazon-inspector"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "amazon-inspector"
+        }
+      ]
+    },
+    {
+      "id": "macie",
+      "title": "Amazon Macie",
+      "aliases": [
+        "PII discovery"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "amazon-macie"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "amazon-macie"
+        }
+      ]
+    },
+    {
+      "id": "security-hub",
+      "title": "AWS Security Hub",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-security-hub"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "aws-security-hub"
+        }
+      ]
+    },
+    {
+      "id": "detective",
+      "title": "Amazon Detective",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "amazon-detective"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "amazon-detective"
+        }
+      ]
+    },
+    {
+      "id": "aws-config",
+      "title": "AWS Config",
+      "aliases": [
+        "configuration compliance"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-config"
+        },
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "aws-config"
+        }
+      ]
+    },
+    {
+      "id": "aws-abuse",
+      "title": "Reporting abuse to AWS",
+      "aliases": [
+        "AWS Trust & Safety",
+        "AWS Abuse"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "security-compliance",
+          "entry": "aws-abuse"
+        }
+      ]
+    },
+    {
+      "id": "ram",
+      "title": "AWS Resource Access Manager (RAM)",
+      "aliases": [
+        "AWS RAM"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "security-identity-and-compliance",
+          "entry": "aws-resource-access-manager-aws-ram"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "aws-resource-access-manager-aws-ram"
+        }
+      ]
+    },
+    {
+      "id": "accessing-aws",
+      "title": "Ways to access AWS: Management Console, CLI, SDKs and APIs",
+      "aliases": [
+        "AWS Management Console",
+        "AWS CLI",
+        "AWS SDK",
+        "programmatic access"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-1-define-methods-of-dep",
+          "entry": "task-statement-3-1-define-methods-of-dep"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-1-define-methods-of-dep",
+          "entry": "various-ways-to-access-aws-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-management-console"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "developer-tools",
+          "entry": "aws-cli"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "apis"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-sdks"
+        },
+        {
+          "source": "clf-notes",
+          "section": "iam-identity-access-management",
+          "entry": "how-can-users-access-aws"
+        },
+        {
+          "source": "clf-notes",
+          "section": "iam-identity-access-management",
+          "entry": "what-s-the-aws-cli"
+        },
+        {
+          "source": "clf-notes",
+          "section": "iam-identity-access-management",
+          "entry": "what-s-the-aws-sdk"
+        }
+      ]
+    },
+    {
+      "id": "iac-cloudformation",
+      "title": "Infrastructure as code with AWS CloudFormation",
+      "aliases": [
+        "IaC",
+        "CloudFormation templates",
+        "stacks"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-1-define-methods-of-dep",
+          "entry": "various-ways-of-provisioning-and-operati"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "infrastructure-as-code-iac"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-cloudformation"
+        },
+        {
+          "source": "clf-notes",
+          "section": "deploying-and-managing-infrastructure-at",
+          "entry": "deploying-and-managing-infrastructure-at"
+        },
+        {
+          "source": "clf-notes",
+          "section": "deploying-and-managing-infrastructure-at",
+          "entry": "what-is-cloudformation"
+        }
+      ]
+    },
+    {
+      "id": "cdk",
+      "title": "AWS Cloud Development Kit (CDK)",
+      "aliases": [
+        "CDK"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "deploying-and-managing-infrastructure-at",
+          "entry": "aws-cloud-development-kit-cdk"
+        }
+      ]
+    },
+    {
+      "id": "elastic-beanstalk",
+      "title": "AWS Elastic Beanstalk",
+      "aliases": [
+        "PaaS on AWS"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "compute",
+          "entry": "aws-elastic-beanstalk"
+        },
+        {
+          "source": "clf-notes",
+          "section": "deploying-and-managing-infrastructure-at",
+          "entry": "aws-elastic-beanstalk-overview"
+        },
+        {
+          "source": "clf-notes",
+          "section": "deploying-and-managing-infrastructure-at",
+          "entry": "developer-problems-on-aws"
+        }
+      ]
+    },
+    {
+      "id": "three-tier-architecture",
+      "title": "Typical three-tier web application architecture",
+      "aliases": [
+        "3-tier web app"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "deploying-and-managing-infrastructure-at",
+          "entry": "typical-architecture-web-app-3-tier"
+        }
+      ]
+    },
+    {
+      "id": "cicd-developer-tools",
+      "title": "AWS developer tools for building, deploying and troubleshooting applications",
+      "aliases": [
+        "CI/CD on AWS",
+        "developer tools"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "developer-tool-services-and-capabilities"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "identifying-the-tools-to-develop-deploy-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "developer-tools",
+          "entry": "developer-tools"
+        }
+      ]
+    },
+    {
+      "id": "codebuild",
+      "title": "AWS CodeBuild",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "developer-tools",
+          "entry": "aws-codebuild"
+        },
+        {
+          "source": "clf-notes",
+          "section": "deploying-and-managing-infrastructure-at",
+          "entry": "aws-codebuild"
+        }
+      ]
+    },
+    {
+      "id": "codepipeline",
+      "title": "AWS CodePipeline",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "developer-tools",
+          "entry": "aws-codepipeline"
+        },
+        {
+          "source": "clf-notes",
+          "section": "deploying-and-managing-infrastructure-at",
+          "entry": "aws-codepipeline"
+        }
+      ]
+    },
+    {
+      "id": "codedeploy",
+      "title": "AWS CodeDeploy",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "deploying-and-managing-infrastructure-at",
+          "entry": "aws-codedeploy"
+        }
+      ]
+    },
+    {
+      "id": "codecommit",
+      "title": "AWS CodeCommit",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "deploying-and-managing-infrastructure-at",
+          "entry": "aws-codecommit"
+        }
+      ]
+    },
+    {
+      "id": "x-ray",
+      "title": "AWS X-Ray",
+      "aliases": [
+        "distributed tracing"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "developer-tools",
+          "entry": "aws-x-ray"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-monitoring",
+          "entry": "aws-x-ray"
+        }
+      ]
+    },
+    {
+      "id": "systems-manager",
+      "title": "AWS Systems Manager",
+      "aliases": [
+        "SSM",
+        "Session Manager"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-systems-manager"
+        },
+        {
+          "source": "clf-notes",
+          "section": "deploying-and-managing-infrastructure-at",
+          "entry": "aws-systems-manager-ssm"
+        }
+      ]
+    },
+    {
+      "id": "ec2",
+      "title": "Amazon EC2 and AWS compute services",
+      "aliases": [
+        "virtual machines",
+        "EC2 instances"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "ec2",
+          "entry": "ec2"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-3-identify-aws-compute-",
+          "entry": "task-statement-3-3-identify-aws-compute-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-3-identify-aws-compute-",
+          "entry": "aws-compute-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "compute",
+          "entry": "compute"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "compute",
+          "entry": "amazon-ec2"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "compute"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-virtual-machines",
+          "entry": "ec2-virtual-machines"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-virtual-machines",
+          "entry": "what-is-amazon-ec2"
+        }
+      ]
+    },
+    {
+      "id": "ec2-instance-types",
+      "title": "EC2 instance types and families",
+      "aliases": [
+        "general purpose",
+        "compute optimized",
+        "memory optimized",
+        "burstable instances",
+        "CPU credits"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "ec2",
+          "entry": "instance-types"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "ec2",
+          "entry": "cpu-credits"
+        }
+      ]
+    },
+    {
+      "id": "ec2-purchasing-options",
+      "title": "EC2 purchasing options",
+      "aliases": [
+        "On-Demand",
+        "Reserved Instances",
+        "Spot Instances",
+        "Savings Plans",
+        "Dedicated Hosts",
+        "compute pricing"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "ec2",
+          "entry": "purchasing-options"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-1-compare-aws-pricing-m",
+          "entry": "identifying-when-to-use-various-compute-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "amazon-ec2-instance-types-for-example-re"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-virtual-machines",
+          "entry": "ec2-instance-launch-types"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-virtual-machines",
+          "entry": "which-purchasing-option-is-right-for-me"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "compute-pricing"
+        }
+      ]
+    },
+    {
+      "id": "reserved-instance-flexibility",
+      "title": "Reserved Instance flexibility and sharing across AWS Organizations",
+      "aliases": [
+        "RI flexibility",
+        "RI sharing"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-1-compare-aws-pricing-m",
+          "entry": "describing-reserved-instance-flexibility"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-1-compare-aws-pricing-m",
+          "entry": "describing-reserved-instance-behavior-in"
+        }
+      ]
+    },
+    {
+      "id": "security-groups",
+      "title": "Security groups",
+      "aliases": [
+        "instance firewall",
+        "stateful firewall"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "iam",
+          "entry": "security-groups"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-virtual-machines",
+          "entry": "introduction-to-security-groups"
+        }
+      ]
+    },
+    {
+      "id": "classic-ports",
+      "title": "Classic ports to know",
+      "aliases": [
+        "SSH 22",
+        "HTTP 80",
+        "HTTPS 443",
+        "RDP 3389"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "ec2-virtual-machines",
+          "entry": "classic-ports-to-know"
+        }
+      ]
+    },
+    {
+      "id": "ec2-key-pairs",
+      "title": "EC2 key pairs",
+      "aliases": [
+        "SSH keys"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "ec2",
+          "entry": "keypairs"
+        }
+      ]
+    },
+    {
+      "id": "elastic-ip",
+      "title": "Elastic IP addresses",
+      "aliases": [
+        "static public IP"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "ec2",
+          "entry": "elastic-ip"
+        }
+      ]
+    },
+    {
+      "id": "ec2-user-data",
+      "title": "EC2 user data scripts",
+      "aliases": [
+        "bootstrapping"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "ec2",
+          "entry": "user-data-scripts"
+        }
+      ]
+    },
+    {
+      "id": "amis",
+      "title": "Amazon Machine Images (AMIs)",
+      "aliases": [
+        "AMI"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "auto-scaling",
+          "entry": "amis"
+        }
+      ]
+    },
+    {
+      "id": "storage-types-overview",
+      "title": "Object, block and file storage on AWS",
+      "aliases": [
+        "AWS storage services",
+        "storage types"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-6-identify-aws-storage-",
+          "entry": "task-statement-3-6-identify-aws-storage-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-6-identify-aws-storage-",
+          "entry": "aws-storage-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "storage",
+          "entry": "storage"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "storage"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-instance-storage",
+          "entry": "ec2-instance-storage"
+        }
+      ]
+    },
+    {
+      "id": "ebs",
+      "title": "Amazon Elastic Block Store (EBS)",
+      "aliases": [
+        "EBS volumes",
+        "block storage",
+        "EBS snapshots"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "ec2",
+          "entry": "storage-volumes"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-6-identify-aws-storage-",
+          "entry": "identifying-block-storage-solutions-for-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "storage",
+          "entry": "amazon-elastic-block-store-amazon-ebs"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-instance-storage",
+          "entry": "ebs-volumes"
+        }
+      ]
+    },
+    {
+      "id": "volume-types",
+      "title": "Block storage volume types: General Purpose, Provisioned IOPS, Magnetic",
+      "aliases": [
+        "gp3",
+        "io2",
+        "RDS storage types"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "rds",
+          "entry": "storage-types"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "dynamodb",
+          "entry": "general-purpose"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "dynamodb",
+          "entry": "provisioned-iops"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "dynamodb",
+          "entry": "magnetic"
+        }
+      ]
+    },
+    {
+      "id": "instance-store",
+      "title": "EC2 instance store",
+      "aliases": [
+        "ephemeral storage"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "ec2-instance-storage",
+          "entry": "ec2-instance-store"
+        }
+      ]
+    },
+    {
+      "id": "efs",
+      "title": "Amazon Elastic File System (EFS)",
+      "aliases": [
+        "EFS-IA",
+        "shared file system"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-6-identify-aws-storage-",
+          "entry": "identifying-file-services-for-example-am"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "storage",
+          "entry": "amazon-elastic-file-system-amazon-efs"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-instance-storage",
+          "entry": "efs-elastic-file-system"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-instance-storage",
+          "entry": "efs-infrequent-access-efs-ia"
+        }
+      ]
+    },
+    {
+      "id": "fsx",
+      "title": "Amazon FSx",
+      "aliases": [
+        "FSx for Windows File Server",
+        "FSx for Lustre"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-6-identify-aws-storage-",
+          "entry": "identifying-file-services-for-example-am"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "storage",
+          "entry": "amazon-fsx"
+        },
+        {
+          "source": "clf-notes",
+          "section": "ec2-instance-storage",
+          "entry": "amazon-fsx-overview"
+        }
+      ]
+    },
+    {
+      "id": "load-balancing",
+      "title": "Elastic Load Balancing",
+      "aliases": [
+        "ELB",
+        "Application Load Balancer",
+        "Network Load Balancer"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "auto-scaling",
+          "entry": "elastic-load-balancers"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-3-identify-aws-compute-",
+          "entry": "identifying-the-purposes-of-load-balance"
+        },
+        {
+          "source": "clf-notes",
+          "section": "elastic-load-balancing-auto-scaling-grou",
+          "entry": "what-is-load-balancing"
+        }
+      ]
+    },
+    {
+      "id": "auto-scaling",
+      "title": "Auto Scaling groups and scaling policies",
+      "aliases": [
+        "EC2 Auto Scaling",
+        "AWS Auto Scaling",
+        "launch templates",
+        "ASG"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "auto-scaling",
+          "entry": "auto-scaling"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "auto-scaling",
+          "entry": "launch-templates"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "auto-scaling",
+          "entry": "auto-scaling-groups"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "auto-scaling",
+          "entry": "scaling-policies"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "lambda",
+          "entry": "launch-config-autoscaling-groups"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-3-identify-aws-compute-",
+          "entry": "recognizing-that-auto-scaling-provides-e"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-auto-scaling"
+        },
+        {
+          "source": "clf-notes",
+          "section": "elastic-load-balancing-auto-scaling-grou",
+          "entry": "elastic-load-balancing-auto-scaling-grou"
+        },
+        {
+          "source": "clf-notes",
+          "section": "elastic-load-balancing-auto-scaling-grou",
+          "entry": "what-s-an-auto-scaling-group"
+        }
+      ]
+    },
+    {
+      "id": "containers-docker",
+      "title": "Containers and Docker",
+      "aliases": [
+        "containerization"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "other-compute-section",
+          "entry": "what-is-docker"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "containers",
+          "entry": "containers"
+        }
+      ]
+    },
+    {
+      "id": "ecs",
+      "title": "Amazon Elastic Container Service (ECS)",
+      "aliases": [
+        "ECS clusters",
+        "ECS tasks",
+        "ECS services"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "ecs",
+          "entry": "ecs"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "ecs",
+          "entry": "clusters-ecs-container-agents"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "ecs",
+          "entry": "tasks"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "ecr",
+          "entry": "services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "containers",
+          "entry": "amazon-elastic-container-service-amazon-"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-compute-section",
+          "entry": "ecs"
+        }
+      ]
+    },
+    {
+      "id": "ecr",
+      "title": "Amazon Elastic Container Registry (ECR)",
+      "aliases": [
+        "container registry"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "ecr",
+          "entry": "ecr"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "containers",
+          "entry": "amazon-elastic-container-registry-amazon"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-compute-section",
+          "entry": "ecr"
+        }
+      ]
+    },
+    {
+      "id": "eks",
+      "title": "Amazon Elastic Kubernetes Service (EKS)",
+      "aliases": [
+        "managed Kubernetes"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "eks",
+          "entry": "eks"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "containers",
+          "entry": "amazon-elastic-kubernetes-service-amazon"
+        }
+      ]
+    },
+    {
+      "id": "fargate",
+      "title": "AWS Fargate",
+      "aliases": [
+        "serverless containers"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "lambda",
+          "entry": "fargate"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "serverless",
+          "entry": "aws-fargate"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-compute-section",
+          "entry": "fargate"
+        }
+      ]
+    },
+    {
+      "id": "serverless",
+      "title": "Serverless computing and choosing serverless compute options",
+      "aliases": [
+        "serverless"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "other-compute-section",
+          "entry": "what-s-serverless"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-3-identify-aws-compute-",
+          "entry": "recognizing-the-appropriate-use-of-vario"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "serverless",
+          "entry": "serverless"
+        }
+      ]
+    },
+    {
+      "id": "lambda",
+      "title": "AWS Lambda",
+      "aliases": [
+        "functions as a service",
+        "FaaS"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "lambda",
+          "entry": "lambda"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "lambda",
+          "entry": "creating-invoking-functions"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "lambda",
+          "entry": "cold-start-and-limitations"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "serverless",
+          "entry": "aws-lambda"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-compute-section",
+          "entry": "why-aws-lambda"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-compute-section",
+          "entry": "lambda-summary"
+        }
+      ]
+    },
+    {
+      "id": "api-gateway",
+      "title": "Amazon API Gateway",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "lambda",
+          "entry": "api-gateway"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "amazon-api-gateway"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-compute-section",
+          "entry": "amazon-api-gateway"
+        }
+      ]
+    },
+    {
+      "id": "aws-batch",
+      "title": "AWS Batch",
+      "aliases": [
+        "batch vs Lambda"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "compute",
+          "entry": "aws-batch"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-compute-section",
+          "entry": "aws-batch"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-compute-section",
+          "entry": "batch-vs-lambda"
+        }
+      ]
+    },
+    {
+      "id": "lightsail",
+      "title": "Amazon Lightsail",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "compute",
+          "entry": "amazon-lightsail"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-compute-section",
+          "entry": "amazon-lightsail"
+        }
+      ]
+    },
+    {
+      "id": "database-choice",
+      "title": "Choosing AWS database services: managed vs EC2-hosted",
+      "aliases": [
+        "AWS database services",
+        "self-managed databases"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-4-identify-aws-database",
+          "entry": "task-statement-3-4-identify-aws-database"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-4-identify-aws-database",
+          "entry": "aws-database-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-4-identify-aws-database",
+          "entry": "deciding-when-to-use-ec2-hosted-database"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "database",
+          "entry": "database"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "databases"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "databases-analytics"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "databases-intro"
+        }
+      ]
+    },
+    {
+      "id": "relational-databases",
+      "title": "Relational databases",
+      "aliases": [
+        "SQL databases"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-4-identify-aws-database",
+          "entry": "identifying-relational-databases-for-exa"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "relational-databases"
+        }
+      ]
+    },
+    {
+      "id": "nosql-databases",
+      "title": "NoSQL databases",
+      "aliases": [
+        "non-relational databases"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-4-identify-aws-database",
+          "entry": "identifying-nosql-databases-for-example-"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "nosql-databases"
+        }
+      ]
+    },
+    {
+      "id": "rds",
+      "title": "Amazon RDS",
+      "aliases": [
+        "Relational Database Service",
+        "DB instances",
+        "RDS backups"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "rds",
+          "entry": "rds"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "rds",
+          "entry": "db-instances"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "rds",
+          "entry": "backup-restore"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "database",
+          "entry": "amazon-rds"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "aws-rds-overview"
+        }
+      ]
+    },
+    {
+      "id": "aurora",
+      "title": "Amazon Aurora",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "database",
+          "entry": "amazon-aurora"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "amazon-aurora"
+        }
+      ]
+    },
+    {
+      "id": "dynamodb",
+      "title": "Amazon DynamoDB",
+      "aliases": [
+        "key-value database",
+        "DynamoDB tables",
+        "capacity modes"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "dynamodb",
+          "entry": "dynamodb"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "dynamodb",
+          "entry": "tables-items-attributes"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "dynamodb",
+          "entry": "primary-keys-secondary-indexes"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "dynamodb",
+          "entry": "capacity-settings"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "ecr",
+          "entry": "streams"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "ecr",
+          "entry": "backup-restore"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "database",
+          "entry": "amazon-dynamodb"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "dynamodb"
+        }
+      ]
+    },
+    {
+      "id": "elasticache",
+      "title": "Amazon ElastiCache",
+      "aliases": [
+        "in-memory cache",
+        "Redis",
+        "Memcached"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "elasticache",
+          "entry": "elasticache"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-4-identify-aws-database",
+          "entry": "identifying-memory-based-databases-for-e"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "database",
+          "entry": "amazon-elasticache"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "amazon-elasticache-overview"
+        }
+      ]
+    },
+    {
+      "id": "documentdb",
+      "title": "Amazon DocumentDB",
+      "aliases": [
+        "MongoDB-compatible"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "database",
+          "entry": "amazon-documentdb"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "documentdb"
+        }
+      ]
+    },
+    {
+      "id": "neptune",
+      "title": "Amazon Neptune",
+      "aliases": [
+        "graph database"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "database",
+          "entry": "amazon-neptune"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "amazon-neptune"
+        }
+      ]
+    },
+    {
+      "id": "dms",
+      "title": "AWS Database Migration Service (DMS)",
+      "aliases": [
+        "database migration",
+        "database replication"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-4-identify-aws-database",
+          "entry": "database-migration"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "migration-and-transfer",
+          "entry": "aws-database-migration-service-aws-dms"
+        }
+      ]
+    },
+    {
+      "id": "sct",
+      "title": "AWS Schema Conversion Tool (SCT)",
+      "aliases": [
+        "AWS SCT"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "migration-and-transfer",
+          "entry": "aws-schema-conversion-tool-aws-sct"
+        }
+      ]
+    },
+    {
+      "id": "application-discovery-service",
+      "title": "AWS Application Discovery Service",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "migration-and-transfer",
+          "entry": "aws-application-discovery-service"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "aws-application-discovery-service"
+        }
+      ]
+    },
+    {
+      "id": "application-migration-service",
+      "title": "AWS Application Migration Service (MGN)",
+      "aliases": [
+        "MGN",
+        "lift-and-shift migration"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "migration-and-transfer",
+          "entry": "aws-application-migration-service"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "aws-application-migration-service-mgn"
+        }
+      ]
+    },
+    {
+      "id": "migration-evaluator",
+      "title": "Migration Evaluator",
+      "aliases": [
+        "business case for migration"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "migration-and-transfer",
+          "entry": "migration-evaluator"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "aws-migration-evaluator"
+        }
+      ]
+    },
+    {
+      "id": "migration-hub",
+      "title": "AWS Migration Hub",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "migration-and-transfer",
+          "entry": "aws-migration-hub"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "aws-migration-hub"
+        }
+      ]
+    },
+    {
+      "id": "snow-family",
+      "title": "AWS Snow Family and edge computing",
+      "aliases": [
+        "Snowball",
+        "Snowcone",
+        "AWS OpsHub",
+        "offline data transfer"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "aws-snow-family"
+        },
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "what-is-edge-computing"
+        },
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "snow-family-edge-computing"
+        },
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "aws-opshub"
+        }
+      ]
+    },
+    {
+      "id": "datasync",
+      "title": "AWS DataSync",
+      "aliases": [
+        "online data transfer"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "aws-datasync"
+        }
+      ]
+    },
+    {
+      "id": "vpc",
+      "title": "Amazon VPC and its components",
+      "aliases": [
+        "Virtual Private Cloud",
+        "AWS network services"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "vpc",
+          "entry": "vpc"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-5-identify-aws-network-",
+          "entry": "task-statement-3-5-identify-aws-network-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-5-identify-aws-network-",
+          "entry": "aws-network-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-5-identify-aws-network-",
+          "entry": "identifying-the-components-of-a-vpc-for-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "networking-and-content-delivery"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "amazon-vpc"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "network-services"
+        },
+        {
+          "source": "clf-notes",
+          "section": "vpc",
+          "entry": "vpc"
+        },
+        {
+          "source": "clf-notes",
+          "section": "vpc",
+          "entry": "vpc-subnets-primer"
+        }
+      ]
+    },
+    {
+      "id": "subnets",
+      "title": "Public and private subnets",
+      "aliases": [
+        "subnets"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "vpc",
+          "entry": "subnets"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "vpc",
+          "entry": "private-subnet"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "vpc",
+          "entry": "public-subnet"
+        }
+      ]
+    },
+    {
+      "id": "cidr-blocks",
+      "title": "CIDR blocks and IP address ranges",
+      "aliases": [
+        "CIDR"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "vpc",
+          "entry": "cidr-blocks"
+        }
+      ]
+    },
+    {
+      "id": "route-tables",
+      "title": "Route tables",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "iam",
+          "entry": "route-tables"
+        }
+      ]
+    },
+    {
+      "id": "internet-gateway",
+      "title": "Internet gateway",
+      "aliases": [
+        "IGW"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "iam",
+          "entry": "internet-gateway"
+        },
+        {
+          "source": "clf-notes",
+          "section": "vpc",
+          "entry": "internet-gateway-nat-gateways"
+        }
+      ]
+    },
+    {
+      "id": "nat-gateway",
+      "title": "NAT gateway",
+      "aliases": [
+        "NAT"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "iam",
+          "entry": "nat-gateway"
+        },
+        {
+          "source": "clf-notes",
+          "section": "vpc",
+          "entry": "internet-gateway-nat-gateways"
+        }
+      ]
+    },
+    {
+      "id": "network-acls",
+      "title": "Network ACLs and VPC security",
+      "aliases": [
+        "NACL",
+        "stateless firewall",
+        "security groups vs NACLs"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-5-identify-aws-network-",
+          "entry": "understanding-security-in-a-vpc-for-exam"
+        },
+        {
+          "source": "clf-notes",
+          "section": "vpc",
+          "entry": "network-acl-security-groups"
+        }
+      ]
+    },
+    {
+      "id": "vpc-flow-logs",
+      "title": "VPC Flow Logs",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "vpc",
+          "entry": "vpc-flow-logs"
+        }
+      ]
+    },
+    {
+      "id": "vpc-peering",
+      "title": "VPC peering",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "vpc",
+          "entry": "vpc-peering"
+        }
+      ]
+    },
+    {
+      "id": "vpc-endpoints",
+      "title": "VPC endpoints and AWS PrivateLink",
+      "aliases": [
+        "PrivateLink",
+        "gateway endpoint",
+        "interface endpoint"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "vpc",
+          "entry": "vpc-endpoints"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "aws-privatelink"
+        }
+      ]
+    },
+    {
+      "id": "aws-vpn",
+      "title": "AWS VPN: Site-to-Site VPN and Client VPN",
+      "aliases": [
+        "Site-to-Site VPN",
+        "Client VPN",
+        "network connectivity options"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-5-identify-aws-network-",
+          "entry": "identifying-network-connectivity-options"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "aws-vpn"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "aws-site-to-site-vpn"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "aws-client-vpn"
+        },
+        {
+          "source": "clf-notes",
+          "section": "vpc",
+          "entry": "site-to-site-vpn-direct-connect"
+        }
+      ]
+    },
+    {
+      "id": "direct-connect",
+      "title": "AWS Direct Connect",
+      "aliases": [
+        "DX",
+        "dedicated connection"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-5-identify-aws-network-",
+          "entry": "identifying-network-connectivity-options"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "aws-direct-connect"
+        },
+        {
+          "source": "clf-notes",
+          "section": "vpc",
+          "entry": "site-to-site-vpn-direct-connect"
+        }
+      ]
+    },
+    {
+      "id": "transit-gateway",
+      "title": "AWS Transit Gateway",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "aws-transit-gateway"
+        },
+        {
+          "source": "clf-notes",
+          "section": "vpc",
+          "entry": "transit-gateway"
+        }
+      ]
+    },
+    {
+      "id": "route53",
+      "title": "Amazon Route 53",
+      "aliases": [
+        "DNS",
+        "hosted zones",
+        "health checks"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "route53",
+          "entry": "route53"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "route53",
+          "entry": "hosted-zones"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "route53",
+          "entry": "health-checks"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-5-identify-aws-network-",
+          "entry": "understanding-the-purpose-of-amazon-rout"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "amazon-route-53"
+        },
+        {
+          "source": "clf-notes",
+          "section": "global-infrastructure",
+          "entry": "amazon-route-53-overview"
+        }
+      ]
+    },
+    {
+      "id": "route53-routing-policies",
+      "title": "Route 53 routing policies",
+      "aliases": [
+        "latency routing",
+        "failover routing",
+        "weighted routing",
+        "geolocation routing"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "route53",
+          "entry": "routing-policies"
+        },
+        {
+          "source": "clf-notes",
+          "section": "global-infrastructure",
+          "entry": "route-53-routing-policies"
+        }
+      ]
+    },
+    {
+      "id": "cloudfront",
+      "title": "Amazon CloudFront",
+      "aliases": [
+        "CDN",
+        "content delivery network",
+        "Lambda@Edge",
+        "distributions"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "cloudfront",
+          "entry": "cloudfront"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "cloudfront",
+          "entry": "distributions"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "cloudfront",
+          "entry": "policies"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "cloudfront",
+          "entry": "invalidations"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "lambda",
+          "entry": "lambda-edge"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "amazon-cloudfront"
+        },
+        {
+          "source": "clf-notes",
+          "section": "global-infrastructure",
+          "entry": "aws-cloudfront"
+        }
+      ]
+    },
+    {
+      "id": "global-accelerator",
+      "title": "AWS Global Accelerator",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "networking-and-content-delivery",
+          "entry": "aws-global-accelerator"
+        },
+        {
+          "source": "clf-notes",
+          "section": "global-infrastructure",
+          "entry": "aws-global-accelerator"
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "title": "Amazon S3: buckets, objects and object storage",
+      "aliases": [
+        "Simple Storage Service",
+        "object storage"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "s3",
+          "entry": "s3"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "s3",
+          "entry": "buckets-objects"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-6-identify-aws-storage-",
+          "entry": "identifying-the-uses-for-object-storage"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "storage",
+          "entry": "amazon-s3"
+        },
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "amazon-s3"
+        },
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "s3-use-cases"
+        },
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "amazon-s3-overview-buckets"
+        },
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "amazon-s3-overview-objects"
+        }
+      ]
+    },
+    {
+      "id": "s3-static-websites",
+      "title": "S3 static website hosting",
+      "aliases": [
+        "S3 websites"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "s3-websites"
+        }
+      ]
+    },
+    {
+      "id": "s3-storage-classes",
+      "title": "S3 storage classes",
+      "aliases": [
+        "S3 Standard",
+        "S3 Standard-IA",
+        "S3 Glacier",
+        "Intelligent-Tiering"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "storage-types",
+          "entry": "storage-types"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "storage-types",
+          "entry": "standard"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "storage-types",
+          "entry": "s3-ia"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "storage-types",
+          "entry": "glacier"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-6-identify-aws-storage-",
+          "entry": "recognizing-the-differences-in-amazon-s3"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "storage",
+          "entry": "amazon-s3-glacier"
+        },
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "s3-storage-classes"
+        }
+      ]
+    },
+    {
+      "id": "s3-lifecycle",
+      "title": "S3 lifecycle policies",
+      "aliases": [
+        "lifecycle rules",
+        "object lifecycle"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "s3",
+          "entry": "bucket-object-lifecycle"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-6-identify-aws-storage-",
+          "entry": "understanding-use-cases-for-lifecycle-po"
+        }
+      ]
+    },
+    {
+      "id": "s3-object-lock",
+      "title": "S3 Object Lock and Glacier Vault Lock",
+      "aliases": [
+        "WORM storage"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "s3-object-lock-glacier-vault-lock"
+        }
+      ]
+    },
+    {
+      "id": "storage-gateway",
+      "title": "AWS Storage Gateway and hybrid cloud storage",
+      "aliases": [
+        "cached file systems",
+        "hybrid storage"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-6-identify-aws-storage-",
+          "entry": "identifying-cached-file-systems-for-exam"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "storage",
+          "entry": "aws-storage-gateway"
+        },
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "hybrid-cloud-for-storage"
+        },
+        {
+          "source": "clf-notes",
+          "section": "amazon-s3",
+          "entry": "aws-storage-gateway"
+        }
+      ]
+    },
+    {
+      "id": "aws-backup",
+      "title": "AWS Backup",
+      "aliases": [
+        "centralized backup"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-6-identify-aws-storage-",
+          "entry": "understanding-use-cases-for-aws-backup"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "storage",
+          "entry": "aws-backup"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "aws-backup"
+        }
+      ]
+    },
+    {
+      "id": "elastic-disaster-recovery",
+      "title": "AWS Elastic Disaster Recovery",
+      "aliases": [
+        "DRS",
+        "disaster recovery"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "storage",
+          "entry": "aws-elastic-disaster-recovery"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "aws-elastic-disaster-recovery-drs"
+        }
+      ]
+    },
+    {
+      "id": "ai-ml-overview",
+      "title": "AWS AI/ML services overview",
+      "aliases": [
+        "machine learning on AWS"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-7-identify-aws-artifici",
+          "entry": "task-statement-3-7-identify-aws-artifici"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-7-identify-aws-artifici",
+          "entry": "aws-ai-ml-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "machine-learning",
+          "entry": "machine-learning"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "machine-learning"
+        },
+        {
+          "source": "clf-notes",
+          "section": "machine-learning",
+          "entry": "machine-learning"
+        }
+      ]
+    },
+    {
+      "id": "rekognition",
+      "title": "Amazon Rekognition",
+      "aliases": [
+        "image and video analysis"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "machine-learning",
+          "entry": "amazon-rekognition"
+        },
+        {
+          "source": "clf-notes",
+          "section": "machine-learning",
+          "entry": "amazon-rekognition"
+        }
+      ]
+    },
+    {
+      "id": "transcribe",
+      "title": "Amazon Transcribe",
+      "aliases": [
+        "speech to text"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "machine-learning",
+          "entry": "amazon-transcribe"
+        },
+        {
+          "source": "clf-notes",
+          "section": "machine-learning",
+          "entry": "amazon-transcribe"
+        }
+      ]
+    },
+    {
+      "id": "polly",
+      "title": "Amazon Polly",
+      "aliases": [
+        "text to speech"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "machine-learning",
+          "entry": "amazon-polly"
+        },
+        {
+          "source": "clf-notes",
+          "section": "machine-learning",
+          "entry": "amazon-polly"
+        }
+      ]
+    },
+    {
+      "id": "translate",
+      "title": "Amazon Translate",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "machine-learning",
+          "entry": "amazon-translate"
+        },
+        {
+          "source": "clf-notes",
+          "section": "machine-learning",
+          "entry": "amazon-translate"
+        }
+      ]
+    },
+    {
+      "id": "lex",
+      "title": "Amazon Lex",
+      "aliases": [
+        "chatbots"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "machine-learning",
+          "entry": "amazon-lex"
+        },
+        {
+          "source": "clf-notes",
+          "section": "machine-learning",
+          "entry": "amazon-lex-connect"
+        }
+      ]
+    },
+    {
+      "id": "comprehend",
+      "title": "Amazon Comprehend",
+      "aliases": [
+        "natural language processing",
+        "NLP"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "machine-learning",
+          "entry": "amazon-comprehend"
+        },
+        {
+          "source": "clf-notes",
+          "section": "machine-learning",
+          "entry": "amazon-comprehend"
+        }
+      ]
+    },
+    {
+      "id": "sagemaker",
+      "title": "Amazon SageMaker AI",
+      "aliases": [
+        "SageMaker"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "machine-learning",
+          "entry": "amazon-sagemaker-ai"
+        },
+        {
+          "source": "clf-notes",
+          "section": "machine-learning",
+          "entry": "amazon-sagemaker"
+        }
+      ]
+    },
+    {
+      "id": "textract",
+      "title": "Amazon Textract",
+      "aliases": [
+        "document text extraction"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "machine-learning",
+          "entry": "amazon-textract"
+        },
+        {
+          "source": "clf-notes",
+          "section": "machine-learning",
+          "entry": "amazon-textract"
+        }
+      ]
+    },
+    {
+      "id": "amazon-q",
+      "title": "Amazon Q",
+      "aliases": [
+        "generative AI assistant"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "machine-learning",
+          "entry": "amazon-q"
+        }
+      ]
+    },
+    {
+      "id": "analytics-overview",
+      "title": "AWS analytics services overview",
+      "aliases": [
+        "data analytics on AWS"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-7-identify-aws-artifici",
+          "entry": "aws-analytics-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "analytics",
+          "entry": "analytics"
+        }
+      ]
+    },
+    {
+      "id": "athena",
+      "title": "Amazon Athena",
+      "aliases": [
+        "query S3 with SQL"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "analytics",
+          "entry": "amazon-athena"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "amazon-athena"
+        }
+      ]
+    },
+    {
+      "id": "emr",
+      "title": "Amazon EMR",
+      "aliases": [
+        "Hadoop",
+        "big data"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "analytics",
+          "entry": "amazon-emr"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "amazon-emr"
+        }
+      ]
+    },
+    {
+      "id": "glue",
+      "title": "AWS Glue",
+      "aliases": [
+        "ETL",
+        "data catalog"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "analytics",
+          "entry": "aws-glue"
+        }
+      ]
+    },
+    {
+      "id": "kinesis",
+      "title": "Amazon Kinesis",
+      "aliases": [
+        "real-time streaming data"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "analytics",
+          "entry": "amazon-kinesis"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-integration",
+          "entry": "amazon-kinesis"
+        }
+      ]
+    },
+    {
+      "id": "opensearch",
+      "title": "Amazon OpenSearch Service",
+      "aliases": [
+        "Elasticsearch"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "analytics",
+          "entry": "amazon-opensearch-service"
+        }
+      ]
+    },
+    {
+      "id": "quicksight",
+      "title": "Amazon Quick (QuickSight)",
+      "aliases": [
+        "QuickSight",
+        "business intelligence dashboards"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "analytics",
+          "entry": "amazon-quick"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "amazon-quicksight"
+        }
+      ]
+    },
+    {
+      "id": "redshift",
+      "title": "Amazon Redshift",
+      "aliases": [
+        "data warehouse"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "analytics",
+          "entry": "amazon-redshift"
+        },
+        {
+          "source": "clf-notes",
+          "section": "databases-analytics",
+          "entry": "redshift-overview"
+        }
+      ]
+    },
+    {
+      "id": "application-integration",
+      "title": "Decoupling applications: messaging, alerts and notifications",
+      "aliases": [
+        "application integration",
+        "loose coupling"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "choosing-the-appropriate-service-to-deli"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "application-integration",
+          "entry": "application-integration"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-integration",
+          "entry": "cloud-integration"
+        }
+      ]
+    },
+    {
+      "id": "sqs",
+      "title": "Amazon Simple Queue Service (SQS)",
+      "aliases": [
+        "message queue"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "application-integration",
+          "entry": "amazon-simple-queue-service-amazon-sqs"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-integration",
+          "entry": "amazon-sqs-simple-queue-service"
+        }
+      ]
+    },
+    {
+      "id": "sns",
+      "title": "Amazon Simple Notification Service (SNS)",
+      "aliases": [
+        "pub/sub",
+        "notifications"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "application-integration",
+          "entry": "amazon-simple-notification-service-amazo"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-integration",
+          "entry": "amazon-sns"
+        }
+      ]
+    },
+    {
+      "id": "amazon-mq",
+      "title": "Amazon MQ",
+      "aliases": [
+        "managed message broker"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "cloud-integration",
+          "entry": "amazon-mq"
+        }
+      ]
+    },
+    {
+      "id": "eventbridge",
+      "title": "Amazon EventBridge",
+      "aliases": [
+        "CloudWatch Events",
+        "scheduled events",
+        "event bus"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "lambda",
+          "entry": "event-bridge-scheduled-execution"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "cloudwatch",
+          "entry": "events"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "application-integration",
+          "entry": "amazon-eventbridge"
+        }
+      ]
+    },
+    {
+      "id": "step-functions",
+      "title": "AWS Step Functions",
+      "aliases": [
+        "workflow orchestration"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "application-integration",
+          "entry": "aws-step-functions"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "aws-step-functions"
+        }
+      ]
+    },
+    {
+      "id": "ses",
+      "title": "Amazon Simple Email Service (SES)",
+      "aliases": [
+        "SES",
+        "transactional email"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "ses",
+          "entry": "ses"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "ses",
+          "entry": "sandbox-sending-limits"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "business-application-services-of-amazon-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "business-applications",
+          "entry": "amazon-simple-email-service-amazon-ses"
+        }
+      ]
+    },
+    {
+      "id": "amazon-connect",
+      "title": "Amazon Connect",
+      "aliases": [
+        "cloud contact center"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "business-application-services-of-amazon-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "choosing-the-appropriate-service-to-meet"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "business-applications",
+          "entry": "business-applications"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "business-applications",
+          "entry": "amazon-connect"
+        },
+        {
+          "source": "clf-notes",
+          "section": "machine-learning",
+          "entry": "amazon-lex-connect"
+        }
+      ]
+    },
+    {
+      "id": "workspaces",
+      "title": "Amazon WorkSpaces",
+      "aliases": [
+        "virtual desktops",
+        "DaaS",
+        "end-user computing"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "end-user-computing-services-of-amazon-ap"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "end-user-computing",
+          "entry": "end-user-computing"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "end-user-computing",
+          "entry": "amazon-workspaces"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "amazon-workspaces"
+        }
+      ]
+    },
+    {
+      "id": "appstream",
+      "title": "Amazon AppStream 2.0",
+      "aliases": [
+        "application streaming"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "end-user-computing",
+          "entry": "amazon-appstream-2-0"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "amazon-appstream-2-0"
+        }
+      ]
+    },
+    {
+      "id": "workspaces-secure-browser",
+      "title": "Amazon WorkSpaces Secure Browser",
+      "aliases": [
+        "WorkSpaces Web"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "end-user-computing",
+          "entry": "amazon-workspaces-secure-browser"
+        }
+      ]
+    },
+    {
+      "id": "amplify",
+      "title": "AWS Amplify",
+      "aliases": [
+        "frontend web and mobile"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "frontend-web-and-mobile-services-of-aws-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "identifying-the-services-that-can-create"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "frontend-web-and-mobile",
+          "entry": "frontend-web-and-mobile"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "frontend-web-and-mobile",
+          "entry": "aws-amplify"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "aws-amplify"
+        }
+      ]
+    },
+    {
+      "id": "iot-core",
+      "title": "AWS IoT Core",
+      "aliases": [
+        "Internet of Things",
+        "IoT devices"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "iot-services-for-example-aws-iot-core"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "identifying-the-services-that-manage-iot"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "internet-of-things-iot",
+          "entry": "internet-of-things-iot"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "internet-of-things-iot",
+          "entry": "aws-iot-core"
+        },
+        {
+          "source": "clf-notes",
+          "section": "other-aws-services",
+          "entry": "aws-iot-core"
+        }
+      ]
+    },
+    {
+      "id": "cloudwatch",
+      "title": "Amazon CloudWatch",
+      "aliases": [
+        "metrics",
+        "alarms",
+        "CloudWatch Logs",
+        "monitoring"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-aws",
+          "section": "cloudwatch",
+          "entry": "cloudwatch"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "cloudwatch",
+          "entry": "metrics"
+        },
+        {
+          "source": "roadmap-aws",
+          "section": "cloudwatch",
+          "entry": "logs"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "amazon-cloudwatch"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-monitoring",
+          "entry": "cloud-monitoring"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-monitoring",
+          "entry": "amazon-cloudwatch"
+        }
+      ]
+    },
+    {
+      "id": "cloudtrail",
+      "title": "AWS CloudTrail and security logging",
+      "aliases": [
+        "API activity logs",
+        "audit logs"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-2-2-understand-aws-cloud-",
+          "entry": "where-to-capture-and-locate-logs-that-ar"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-cloudtrail"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-monitoring",
+          "entry": "aws-cloudtrail"
+        }
+      ]
+    },
+    {
+      "id": "health-dashboard",
+      "title": "AWS Health Dashboard",
+      "aliases": [
+        "Service Health Dashboard",
+        "Personal Health Dashboard",
+        "AWS Status"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-health-dashboard"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-monitoring",
+          "entry": "aws-status-service-health-dashboard"
+        },
+        {
+          "source": "clf-notes",
+          "section": "cloud-monitoring",
+          "entry": "aws-personal-health-dashboard"
+        }
+      ]
+    },
+    {
+      "id": "trusted-advisor",
+      "title": "AWS Trusted Advisor",
+      "aliases": [
+        "best-practice checks"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-trusted-advisor"
+        }
+      ]
+    },
+    {
+      "id": "compute-optimizer",
+      "title": "AWS Compute Optimizer",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-compute-optimizer"
+        }
+      ]
+    },
+    {
+      "id": "license-manager",
+      "title": "AWS License Manager",
+      "aliases": [
+        "bring your own license",
+        "BYOL"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-license-manager"
+        }
+      ]
+    },
+    {
+      "id": "service-catalog",
+      "title": "AWS Service Catalog",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-service-catalog"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "aws-service-catalog"
+        }
+      ]
+    },
+    {
+      "id": "service-quotas",
+      "title": "Service Quotas",
+      "aliases": [
+        "service limits"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "service-quotas"
+        }
+      ]
+    },
+    {
+      "id": "control-tower",
+      "title": "AWS Control Tower",
+      "aliases": [
+        "landing zone"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-control-tower"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "aws-control-tower"
+        }
+      ]
+    },
+    {
+      "id": "organizations",
+      "title": "AWS Organizations and multi-account strategy",
+      "aliases": [
+        "organizational units",
+        "OUs",
+        "multi-account"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-2-understand-resources-",
+          "entry": "aws-organizations"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "management-and-governance",
+          "entry": "aws-organizations"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "aws-organizations"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "multi-account-strategies"
+        }
+      ]
+    },
+    {
+      "id": "service-control-policies",
+      "title": "Service control policies (SCPs)",
+      "aliases": [
+        "SCP"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "service-control-policies-scp"
+        }
+      ]
+    },
+    {
+      "id": "consolidated-billing",
+      "title": "Consolidated billing and cost allocation in AWS Organizations",
+      "aliases": [
+        "volume discounts"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-2-understand-resources-",
+          "entry": "understanding-aws-organizations-consolid"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "aws-organization-consolidated-billing"
+        }
+      ]
+    },
+    {
+      "id": "cost-allocation-tags",
+      "title": "Cost allocation tags",
+      "aliases": [
+        "resource tagging"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-2-understand-resources-",
+          "entry": "aws-cost-allocation-tags"
+        }
+      ]
+    },
+    {
+      "id": "budgets",
+      "title": "AWS Budgets",
+      "aliases": [
+        "budget alerts"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-2-understand-resources-",
+          "entry": "understanding-the-appropriate-uses-and-c"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "cloud-financial-management",
+          "entry": "aws-budgets"
+        }
+      ]
+    },
+    {
+      "id": "cost-explorer",
+      "title": "AWS Cost Explorer",
+      "aliases": [
+        "cost forecasting"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-2-understand-resources-",
+          "entry": "understanding-the-appropriate-uses-and-c"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "cloud-financial-management",
+          "entry": "aws-cost-explorer"
+        }
+      ]
+    },
+    {
+      "id": "cost-and-usage-reports",
+      "title": "AWS Cost and Usage Reports",
+      "aliases": [
+        "CUR"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "cloud-financial-management",
+          "entry": "aws-cost-and-usage-reports"
+        }
+      ]
+    },
+    {
+      "id": "pricing-calculator",
+      "title": "AWS Pricing Calculator",
+      "aliases": [
+        "cost estimation"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-2-understand-resources-",
+          "entry": "understanding-the-appropriate-uses-and-c-2"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-pricing-calculator"
+        }
+      ]
+    },
+    {
+      "id": "pricing-fundamentals",
+      "title": "AWS pricing models and fundamentals",
+      "aliases": [
+        "pay-as-you-go",
+        "pay for what you use",
+        "database pricing",
+        "Free Tier"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-1-compare-aws-pricing-m",
+          "entry": "task-statement-4-1-compare-aws-pricing-m"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-2-understand-resources-",
+          "entry": "pricing-information-for-aws-services"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "pricing-models-in-aws"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "database-pricing-rds"
+        }
+      ]
+    },
+    {
+      "id": "storage-pricing",
+      "title": "Storage pricing options and tiers",
+      "aliases": [
+        "S3 pricing",
+        "EBS pricing"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-1-compare-aws-pricing-m",
+          "entry": "storage-options-and-tiers"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-1-compare-aws-pricing-m",
+          "entry": "understanding-pricing-options-for-variou"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "storage-pricing"
+        }
+      ]
+    },
+    {
+      "id": "data-transfer-costs",
+      "title": "Networking and data transfer costs",
+      "aliases": [
+        "data transfer out",
+        "egress costs",
+        "CloudFront pricing"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "networking-costs-in-aws-per-gb-simplifie"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "content-delivery-cloudfront"
+        }
+      ]
+    },
+    {
+      "id": "billing-cost-management",
+      "title": "AWS Billing and Cost Management resources",
+      "aliases": [
+        "Billing console",
+        "cloud financial management"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-2-understand-resources-",
+          "entry": "task-statement-4-2-understand-resources-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-2-understand-resources-",
+          "entry": "billing-support-and-information"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "cloud-financial-management",
+          "entry": "cloud-financial-management"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "cost-management"
+        },
+        {
+          "source": "clf-notes",
+          "section": "account-management-billing-support",
+          "entry": "account-management-billing-support"
+        }
+      ]
+    },
+    {
+      "id": "support-plans",
+      "title": "AWS Support plans",
+      "aliases": [
+        "Basic",
+        "Developer",
+        "Business",
+        "Enterprise On-Ramp",
+        "Enterprise",
+        "Technical Account Manager"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-3-identify-aws-technica",
+          "entry": "task-statement-4-3-identify-aws-technica"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-3-identify-aws-technica",
+          "entry": "aws-support-plans"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "customer-enablement-services-for-example"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-3-8-identify-services-fro",
+          "entry": "choosing-the-appropriate-option-for-busi"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "customer-enablement",
+          "entry": "customer-enablement"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "customer-enablement",
+          "entry": "aws-support"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-support-plans"
+        }
+      ]
+    },
+    {
+      "id": "support-center",
+      "title": "AWS Support Center",
+      "aliases": [
+        "support cases"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-3-identify-aws-technica",
+          "entry": "aws-support-center"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-support-center"
+        }
+      ]
+    },
+    {
+      "id": "partner-network",
+      "title": "AWS Partner Network (APN)",
+      "aliases": [
+        "APN",
+        "independent software vendors",
+        "system integrators"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-3-identify-aws-technica",
+          "entry": "role-of-the-aws-partner-network-includin"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-partner-network-apn"
+        }
+      ]
+    },
+    {
+      "id": "professional-services",
+      "title": "AWS Professional Services and solutions architects",
+      "aliases": [
+        "AWS ProServe"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-professional-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-solutions-architects"
+        }
+      ]
+    },
+    {
+      "id": "technical-resources",
+      "title": "AWS technical resources: documentation, whitepapers, Knowledge Center, re:Post and Prescriptive Guidance",
+      "aliases": [
+        "AWS re:Post",
+        "AWS Knowledge Center",
+        "AWS whitepapers",
+        "AWS Prescriptive Guidance"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-3-identify-aws-technica",
+          "entry": "resources-and-documentation-available-on"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "task-statement-4-3-identify-aws-technica",
+          "entry": "locating-aws-whitepapers-blogs-and-docum"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-knowledge-center"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-re-post"
+        },
+        {
+          "source": "clf-c02-guide",
+          "section": "technologies-and-concepts",
+          "entry": "aws-prescriptive-guidance"
+        },
+        {
+          "source": "clf-notes",
+          "section": "aws-architecting-ecosystem",
+          "entry": "aws-ecosystem-free-resources"
+        }
+      ]
+    }
+  ]
+}

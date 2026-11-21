@@ -1,0 +1,56 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-interview-framework",
+  "version": 1,
+  "title": "The system design interview framework",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-framework-steps",
+      "version": 1,
+      "statement": "A system design interview answer moves through fixed steps in order: requirements, estimation, API, data model, high-level design, deep dive, then bottlenecks and trade-offs."
+    },
+    {
+      "id": "kc-framework-scope-first",
+      "version": 1,
+      "statement": "Drawing components before agreeing on requirements is the most common failure, because every later choice (store, cache, sharding) depends on the agreed scope and scale."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-requirements"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "system design interview framework"
+  ],
+  "uses": [
+    "http",
+    "rest"
+  ],
+  "problem_ideas": [
+    "Put eight shuffled interview steps (API, estimates, deep dive, requirements…) into the correct order",
+    "A candidate opens 'design Instagram' by drawing Kafka and Cassandra: name the step they skipped and what it costs them",
+    "Given a transcript excerpt, label which framework step each paragraph belongs to",
+    "Interviewer says 'assume 100M users' at minute 20: which earlier steps must be revisited?",
+    "Rewrite a rambling first two minutes of an answer into a framework-led opening",
+    "Decide which step to cut short when only 30 minutes are available instead of 45"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "introduction/how-to-approach-system-design"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "how-to-approach-a-system-design-intervie/how-to-approach-a-system-design-intervie"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "how-to-answer-a-system-design-interview-/how-to-answer-a-system-design-interview-"
+    }
+  ],
+  "status": "stub"
+}

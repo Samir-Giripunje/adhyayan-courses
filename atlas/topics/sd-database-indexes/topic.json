@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-database-indexes",
+  "version": 1,
+  "title": "Database indexes and what they cost writes",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-index-lookup",
+      "version": 1,
+      "statement": "A B-tree index on a column turns a lookup by that column from a full table scan, O(n) rows read, into a tree search of about O(log n) page reads."
+    },
+    {
+      "id": "kc-index-write-cost",
+      "version": 1,
+      "statement": "Every secondary index must be updated on each insert, and on each update to the indexed column, so adding indexes speeds reads but slows writes and uses extra storage."
+    },
+    {
+      "id": "kc-composite-index-order",
+      "version": 1,
+      "statement": "A composite index on (a, b) serves queries that filter on a, or on a and b, but not queries that filter only on b."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-relational-acid"
+  ],
+  "suggests": [
+    "sd-data-model"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "database index",
+    "b-tree index",
+    "full table scan",
+    "secondary index",
+    "composite index"
+  ],
+  "uses": [
+    "relational database",
+    "access pattern",
+    "read-to-write ratio"
+  ],
+  "problem_ideas": [
+    "A 100M-row users table is queried by email 5,000 times a second with no index: estimate rows read per query with and without a B-tree",
+    "Given an index on (user_id, created_at), predict which of five WHERE clauses can use it",
+    "A write-heavy logging table has six secondary indexes; estimate how many index updates one insert causes and propose which to drop",
+    "Pick the indexes for a URL shortener table queried by short_code and by owner_id",
+    "A query filters on status, which has only three values: argue whether an index on it helps",
+    "Predict the change in insert throughput after adding two indexes to a table taking 20k writes/s"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "database/use-good-indices"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "database-fundamentals/database-indexes"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "dense-index/dense-index"
+    }
+  ],
+  "status": "stub"
+}

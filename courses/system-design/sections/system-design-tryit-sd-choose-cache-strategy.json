@@ -1,0 +1,28 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-choose-cache-strategy",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: explain it in your own words",
+  "blurb": "Uses Read-through and write-through caching and Choosing a cache strategy from the read/write ratio: predict, then explain in your own words.",
+  "after": "topic:sd-choose-cache-strategy",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "written",
+    "topics": [
+      "sd-read-write-through",
+      "sd-choose-cache-strategy"
+    ],
+    "kcs": [
+      "kc-read-through",
+      "kc-write-through",
+      "kc-write-through-cost",
+      "kc-strategy-by-ratio",
+      "kc-strategy-statement"
+    ],
+    "minutes": 12,
+    "why": "Uses Read-through and write-through caching and Choosing a cache strategy from the read/write ratio: predict, then explain in your own words."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-vpc-flow-logs",
+  "version": 1,
+  "title": "VPC Flow Logs: who talked to whom",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-vpc-flow-logs-metadata",
+      "version": 1,
+      "statement": "VPC Flow Logs record metadata about IP traffic to and from network interfaces in a VPC (source, destination, port, accepted or rejected), for troubleshooting connectivity and security analysis; they do not capture packet contents."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-security-groups-nacls"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "vpc flow logs"
+  ],
+  "uses": [
+    "vpc",
+    "security group",
+    "network acl"
+  ],
+  "problem_ideas": [
+    "An app cannot reach its database and you suspect a firewall rule: which log shows REJECT records?",
+    "True or false: Flow Logs let you read the HTTP request bodies of your users",
+    "A security team wants to see which IPs connected to an instance last night: pick the feature",
+    "Distinguish Flow Logs from API-call logging: who changed a security group vs which packets were rejected",
+    "Flow Logs can be captured at three levels: VPC, subnet, network interface; which gives the narrowest view?",
+    "A flow log line shows ACCEPT inbound but REJECT outbound for the same connection: which firewall type is likely misconfigured?"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "vpc/vpc-flow-logs"
+    }
+  ],
+  "status": "stub"
+}

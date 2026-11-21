@@ -1,0 +1,74 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-migration-strategies",
+  "version": 1,
+  "title": "Migration strategies: the 7 Rs",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-seven-rs-list",
+      "version": 1,
+      "statement": "The seven migration strategies (the 7 Rs) are retire, retain, rehost, relocate, repurchase, replatform and refactor (re-architect)."
+    },
+    {
+      "id": "kc-rehost-replatform",
+      "version": 1,
+      "statement": "Rehost ('lift and shift') moves an application as-is, while replatform ('lift, tinker and shift') adds a few cloud optimisations, such as moving a database to a managed service, without changing the core architecture."
+    },
+    {
+      "id": "kc-refactor-repurchase",
+      "version": 1,
+      "statement": "Refactor re-architects an application with cloud-native features to gain scale, agility or performance and takes the most effort, while repurchase replaces it with a different product, usually SaaS."
+    },
+    {
+      "id": "kc-retire-retain-relocate",
+      "version": 1,
+      "statement": "Retire switches off applications that are no longer needed, retain keeps applications on premises for now, and relocate moves virtualised infrastructure (for example VMware) to the cloud without buying hardware or changing the applications."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-service-models",
+    "clf-deployment-models"
+  ],
+  "suggests": [
+    "clf-cloud-adoption-framework",
+    "clf-tco-on-premises-costs"
+  ],
+  "confusable_with": [
+    "clf-cloud-adoption-framework"
+  ],
+  "introduces": [
+    "migration strategies",
+    "lift and shift"
+  ],
+  "uses": [
+    "saas",
+    "application",
+    "on-premises deployment"
+  ],
+  "problem_ideas": [
+    "A company must leave its data center in 90 days and cannot change code: which R?",
+    "An on-prem CRM is replaced by a hosted CRM subscription: which R?",
+    "A monolith is split into serverless microservices to handle 10x growth: which R, and what is the cost?",
+    "An app moves to EC2 but its self-managed MySQL moves to a managed database: rehost or replatform?",
+    "In a portfolio of 200 apps, 30 have no users: which R, and how does it change the business case?",
+    "A VMware estate moves to the cloud unchanged within a week: relocate or rehost?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-3-understand-the-benefi/identifying-appropriate-migration-strate"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-3-understand-the-benefi/task-statement-1-3-understand-the-benefi"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-3-understand-the-benefi/resources-to-support-the-cloud-migration"
+    }
+  ],
+  "status": "stub"
+}

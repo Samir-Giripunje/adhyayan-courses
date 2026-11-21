@@ -1,0 +1,73 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-elastic-load-balancing",
+  "version": 1,
+  "title": "Elastic Load Balancing: spreading traffic",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-elb-purpose",
+      "version": 1,
+      "statement": "Elastic Load Balancing spreads incoming traffic across targets in multiple Availability Zones behind a single DNS endpoint, so no single server is a single point of failure."
+    },
+    {
+      "id": "kc-elb-health-checks",
+      "version": 1,
+      "statement": "A load balancer runs health checks on its targets and stops sending traffic to any target that fails them until it passes again."
+    },
+    {
+      "id": "kc-elb-types",
+      "version": 1,
+      "statement": "Application Load Balancer routes HTTP/HTTPS (layer 7) by path or host name. Network Load Balancer handles TCP/UDP (layer 4) at very high throughput with static IP addresses. Gateway Load Balancer (layer 3) sends traffic through third-party virtual appliances such as firewalls."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-ec2-basics"
+  ],
+  "suggests": [
+    "clf-high-availability",
+    "clf-multi-az-multi-region"
+  ],
+  "confusable_with": [
+    "clf-auto-scaling-groups"
+  ],
+  "introduces": [
+    "elastic load balancing",
+    "health check",
+    "application load balancer",
+    "network load balancer",
+    "gateway load balancer"
+  ],
+  "uses": [
+    "ec2 instance",
+    "availability zone",
+    "high availability",
+    "horizontal scaling",
+    "single point of failure"
+  ],
+  "problem_ideas": [
+    "An app must send /api/* to one fleet and /images/* to another: which load balancer type?",
+    "A trading system needs millions of TCP connections per second and a fixed IP for client allow-lists: which type?",
+    "A company must inspect all traffic through a third-party firewall appliance: which type?",
+    "Three instances sit in one AZ behind a load balancer and that AZ fails: what went wrong in the design?",
+    "One of four targets starts returning HTTP 500 errors: describe what the load balancer does next.",
+    "A distractor says a load balancer adds instances when traffic rises: which service actually does that?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "auto-scaling/elastic-load-balancers"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-3-identify-aws-compute-/identifying-the-purposes-of-load-balance"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "elastic-load-balancing-auto-scaling-grou/what-is-load-balancing"
+    }
+  ],
+  "status": "stub"
+}

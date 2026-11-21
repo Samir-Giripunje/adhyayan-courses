@@ -1,0 +1,533 @@
+{
+  "parts": [
+    {
+      "id": "p1",
+      "title": "Client-server and three-tier architecture",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "Client-server and three-tier architecture",
+          "kcs": [
+            "kc-client-server-roles",
+            "kc-three-tier"
+          ],
+          "est_minutes": 5,
+          "blocks": [
+            {
+              "id": "blk-sd-client-server-01",
+              "block": {
+                "type": "prose",
+                "md": "**Client-server** is the pattern behind most apps: a **client**, such as your phone app, sends a request; a **server**, a program that waits for requests, does the work and sends back a response. Many clients share one server."
+              }
+            },
+            {
+              "id": "blk-sd-client-server-02",
+              "block": {
+                "type": "prose",
+                "md": "When you search for a video on YouTube, the YouTube app on your phone is the client. It sends your search words to YouTube's servers. The servers look up matching videos in a database and send back the list, which the app shows you. Millions of phones send searches to the same servers."
+              }
+            },
+            {
+              "id": "blk-sd-client-server-03",
+              "block": {
+                "type": "prose",
+                "md": "**Roles, not machines.** In each exchange, the side that asks is the client and the side that answers is the server. A server can be a client in another exchange: when it asks the database for rows, it is the client.\n\n**Three tiers.** Most web apps split the work into three layers, called **tiers**:\n\n1. **Presentation tier**: what the user sees, the browser or phone app.\n2. **Application tier**: servers that run the **business logic**, the app's rules (\"a private video is shown only to its owner\").\n3. **Data tier**: the **database**, the program that stores the app's data.\n\nOnly the application tier talks to the database. So each tier can change or grow on its own: add app servers when the rules are the bottleneck, or reorganise the database without shipping a new phone app."
+              }
+            },
+            {
+              "id": "blk-sd-client-server-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-cs-who-is-client",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-client-server-roles"
+                  ],
+                  "prompt_md": "An app server sends a query to the database and waits for the rows. In **this** exchange, what is the app server?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "The client",
+                      "correct": true,
+                      "why_md": "Right. It asks and waits for an answer, so here it is the client."
+                    },
+                    {
+                      "id": "b",
+                      "md": "The server",
+                      "why_md": "It is a server for phones, but in this exchange the database answers.",
+                      "misconception": "mc-server-never-client"
+                    },
+                    {
+                      "id": "c",
+                      "md": "Neither: servers can't send queries",
+                      "why_md": "Client and server are roles in one exchange, and a server often asks other servers.",
+                      "misconception": "mc-server-never-client"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-sd-client-server-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Sizing the application tier",
+                "md": "Servers needed = peak requests per second ÷ requests per second one server handles, **rounded up**. At 3,001 requests per second and 500 per server, 3,001 ÷ 500 = 6.002, so you need 7 servers, not 6. Add servers to the tier that is actually the bottleneck: more database machines won't help if the app servers are the ones at 100%."
+              }
+            },
+            {
+              "id": "blk-sd-client-server-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Why not let the app query the database directly?",
+                "md": "That is a two-tier design, and it brings risks the third tier removes. If every installed app embeds the same database login, someone can extract it. If the rules are enforced only in the installed app, a modified app can skip them, and changing a rule means shipping a new version. And installed apps whose queries name a table would need updating if it were renamed, unless the database kept the old name working, for example through a view. Individual logins and rules enforced in the database can reduce some of these risks."
+              }
+            },
+            {
+              "id": "blk-sd-client-server-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Can a server speak first?",
+                "md": "In a request–response exchange, the client sends the request. Chat apps and live scores look as if the server speaks first, but they rely on a connection the client opened earlier and kept open, so the server can send updates over it. In the request–response exchanges in this lesson, the client sends the request. Other patterns let a server send notifications first; whether they reach a device depends on the protocol and the network."
+              }
+            },
+            {
+              "id": "blk-sd-client-server-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-three-tier",
+                "kind": "architecture",
+                "title": "Three tiers: only the app talks to the database",
+                "alt": "The browser or phone app (presentation tier) sends requests to a group of app servers (application tier) and gets responses. The app servers send queries to the database (data tier) and get rows back. The browser never talks to the database directly.",
+                "spec": {
+                  "nodes": [
+                    {
+                      "id": "ui",
+                      "type": "client",
+                      "label": "Browser or app",
+                      "sub": "presentation",
+                      "step": 1
+                    },
+                    {
+                      "id": "app",
+                      "type": "server",
+                      "label": "App servers",
+                      "sub": "application",
+                      "count": 3,
+                      "step": 2
+                    },
+                    {
+                      "id": "db",
+                      "type": "db",
+                      "label": "Database",
+                      "sub": "data",
+                      "step": 3
+                    }
+                  ],
+                  "edges": [
+                    {
+                      "from": "ui",
+                      "to": "app",
+                      "label": "request"
+                    },
+                    {
+                      "from": "app",
+                      "to": "ui",
+                      "label": "response"
+                    },
+                    {
+                      "from": "app",
+                      "to": "db",
+                      "label": "query"
+                    },
+                    {
+                      "from": "db",
+                      "to": "app",
+                      "label": "rows"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "answer": "**Client-server** is the pattern behind most apps: a **client**, such as your phone app, sends a request; a **server**, a program that waits for requests, does the work and sends back a response. Many clients share one server.",
+  "example": "When you search for a video on YouTube, the YouTube app on your phone is the client. It sends your search words to YouTube's servers. The servers look up matching videos in a database and send back the list, which the app shows you. Millions of phones send searches to the same servers.",
+  "how": {
+    "md": "**Roles, not machines.** In each exchange, the side that asks is the client and the side that answers is the server. A server can be a client in another exchange: when it asks the database for rows, it is the client.\n\n**Three tiers.** Most web apps split the work into three layers, called **tiers**:\n\n1. **Presentation tier**: what the user sees, the browser or phone app.\n2. **Application tier**: servers that run the **business logic**, the app's rules (\"a private video is shown only to its owner\").\n3. **Data tier**: the **database**, the program that stores the app's data.\n\nOnly the application tier talks to the database. So each tier can change or grow on its own: add app servers when the rules are the bottleneck, or reorganise the database without shipping a new phone app.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-three-tier",
+      "kind": "architecture",
+      "title": "Three tiers: only the app talks to the database",
+      "alt": "The browser or phone app (presentation tier) sends requests to a group of app servers (application tier) and gets responses. The app servers send queries to the database (data tier) and get rows back. The browser never talks to the database directly.",
+      "spec": {
+        "nodes": [
+          {
+            "id": "ui",
+            "type": "client",
+            "label": "Browser or app",
+            "sub": "presentation",
+            "step": 1
+          },
+          {
+            "id": "app",
+            "type": "server",
+            "label": "App servers",
+            "sub": "application",
+            "count": 3,
+            "step": 2
+          },
+          {
+            "id": "db",
+            "type": "db",
+            "label": "Database",
+            "sub": "data",
+            "step": 3
+          }
+        ],
+        "edges": [
+          {
+            "from": "ui",
+            "to": "app",
+            "label": "request"
+          },
+          {
+            "from": "app",
+            "to": "ui",
+            "label": "response"
+          },
+          {
+            "from": "app",
+            "to": "db",
+            "label": "query"
+          },
+          {
+            "from": "db",
+            "to": "app",
+            "label": "rows"
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-cs-who-is-client",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "An app server sends a query to the database and waits for the rows. In **this** exchange, what is the app server?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The client",
+        "correct": true,
+        "why_md": "Right. It asks and waits for an answer, so here it is the client."
+      },
+      {
+        "id": "b",
+        "md": "The server",
+        "why_md": "It is a server for phones, but in this exchange the database answers.",
+        "misconception": "mc-server-never-client"
+      },
+      {
+        "id": "c",
+        "md": "Neither: servers can't send queries",
+        "why_md": "Client and server are roles in one exchange, and a server often asks other servers.",
+        "misconception": "mc-server-never-client"
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "Sizing the application tier",
+      "md": "Servers needed = peak requests per second ÷ requests per second one server handles, **rounded up**. At 3,001 requests per second and 500 per server, 3,001 ÷ 500 = 6.002, so you need 7 servers, not 6. Add servers to the tier that is actually the bottleneck: more database machines won't help if the app servers are the ones at 100%."
+    },
+    {
+      "title": "Why not let the app query the database directly?",
+      "md": "That is a two-tier design, and it brings risks the third tier removes. If every installed app embeds the same database login, someone can extract it. If the rules are enforced only in the installed app, a modified app can skip them, and changing a rule means shipping a new version. And installed apps whose queries name a table would need updating if it were renamed, unless the database kept the old name working, for example through a view. Individual logins and rules enforced in the database can reduce some of these risks."
+    },
+    {
+      "title": "Can a server speak first?",
+      "md": "In a request–response exchange, the client sends the request. Chat apps and live scores look as if the server speaks first, but they rely on a connection the client opened earlier and kept open, so the server can send updates over it. In the request–response exchanges in this lesson, the client sends the request. Other patterns let a server send notifications first; whether they reach a device depends on the protocol and the network."
+    }
+  ],
+  "visual_fit": {
+    "kind": "architecture",
+    "why": "Three tiers and who may talk to whom is spatial structure."
+  },
+  "glossary": [
+    {
+      "term": "client-server architecture",
+      "md": "A pattern where clients send requests and servers process them and send back responses; many clients share one server."
+    },
+    {
+      "term": "client",
+      "md": "In one exchange, the side that sends the request and waits for the answer."
+    },
+    {
+      "term": "server",
+      "md": "In one exchange, the side that waits for requests, does the work and sends the response. The same machine can be a client in another exchange."
+    },
+    {
+      "term": "three-tier architecture",
+      "md": "Splitting an app into a presentation tier (what users see), an application tier (business logic) and a data tier (the database), so each can change and scale on its own."
+    },
+    {
+      "term": "presentation tier",
+      "md": "The part users see and touch: the browser page or phone app."
+    },
+    {
+      "term": "application tier",
+      "md": "The servers that run the business logic between the users' apps and the database."
+    },
+    {
+      "term": "data tier",
+      "md": "Where the data is stored, usually a database that only the application tier talks to."
+    },
+    {
+      "term": "business logic",
+      "md": "An app's rules, such as who may see a video or how many seats one person may book."
+    },
+    {
+      "term": "database query",
+      "md": "A request to a database for data, for example the rows that match a search."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-server-never-client",
+      "statement": "A machine is either a client or a server; a server never sends requests of its own.",
+      "tags": [
+        "kc-client-server-roles"
+      ]
+    },
+    {
+      "id": "mc-server-starts",
+      "statement": "A server can begin talking to a client device that has never contacted it, just as a client reaches a server.",
+      "tags": [
+        "kc-client-server-roles"
+      ]
+    },
+    {
+      "id": "mc-two-tier-harmless",
+      "statement": "Letting the client query the database directly is just a simpler design with no real downside.",
+      "tags": [
+        "kc-three-tier"
+      ]
+    },
+    {
+      "id": "mc-tier-one-machine",
+      "statement": "Each tier is exactly one machine.",
+      "tags": [
+        "kc-three-tier"
+      ]
+    },
+    {
+      "id": "mc-scale-wrong-tier",
+      "statement": "When the site is slow, add database machines, whatever the bottleneck is.",
+      "tags": [
+        "kc-three-tier"
+      ]
+    }
+  ],
+  "recap": {
+    "formula": "Minimum app servers = peak requests per second ÷ capacity per server, rounded up.",
+    "pitfall": "Client and server are roles in one exchange: the same machine can be both."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-server-machine-or-program",
+      "beat": "b-lesson",
+      "question": "Is a server a computer or a program?",
+      "match": [
+        "server a computer",
+        "server a program",
+        "what is a server",
+        "machine or program"
+      ],
+      "answer_md": "Both words are used. Strictly, the server is the program that answers requests; people also call the computer it runs on a server.",
+      "deeper_md": "One computer can run several server programs, such as a web server and a database, and one app can run on many computers.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "Program vs machine",
+        "md": "A web server is a program listening for requests. It runs on a machine, which people also call a server. One machine can run several such programs.",
+        "verify": {
+          "id": "q-br-server-program",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-client-server-roles"
+          ],
+          "prompt_md": "What makes something the server in an exchange?",
+          "options": [
+            {
+              "id": "a",
+              "md": "It waits for a request and sends back the response",
+              "correct": true,
+              "why_md": "Right. The role is defined by the exchange."
+            },
+            {
+              "id": "b",
+              "md": "It is a large, powerful computer",
+              "why_md": "Size doesn't decide the role; a laptop can run a server program."
+            },
+            {
+              "id": "c",
+              "md": "It never sends requests itself",
+              "why_md": "Servers often send requests to other servers, such as a database.",
+              "misconception": "mc-server-never-client"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-tier-machine",
+      "beat": "b-lesson",
+      "question": "Is each tier one computer?",
+      "match": [
+        "tier one machine",
+        "one computer",
+        "how many servers",
+        "tier a machine"
+      ],
+      "answer_md": "No. A tier is a role, not a machine. The application tier is often many identical servers, and the presentation tier is every user's browser or phone.",
+      "deeper_md": "That is why tiers scale separately: you can run 2 app servers at night and 20 during a sale, with one database behind them.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Counting machines per tier",
+        "md": "A shop has 50,000 phones (presentation), 8 app servers (application) and 1 database (data). Three tiers, 50,009 machines.",
+        "verify": {
+          "id": "q-br-tier-machine",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-three-tier"
+          ],
+          "prompt_md": "A site runs 12 app servers behind a load balancer. How many tiers do those 12 servers make up?",
+          "options": [
+            {
+              "id": "a",
+              "md": "One: they are all the application tier",
+              "correct": true,
+              "why_md": "Right. A tier is a role that many machines can share."
+            },
+            {
+              "id": "b",
+              "md": "Twelve: one tier per server",
+              "why_md": "Tiers are roles, not machines.",
+              "misconception": "mc-tier-one-machine"
+            },
+            {
+              "id": "c",
+              "md": "Three, because there are three tiers",
+              "why_md": "The three tiers are presentation, application and data; these servers are all in one of them."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-n-tier",
+      "kind": "adjacent",
+      "title": "Beyond three: n-tier designs with caches, queues and separate services",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-stateless-app-tier",
+      "kind": "mechanism",
+      "title": "Why stateless app servers make the application tier easy to scale",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-p2p",
+      "kind": "adjacent",
+      "title": "Peer-to-peer: when every node is both client and server",
+      "level": 3,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "sd-client-server",
+  "version": 1,
+  "title": "Client-server and three-tier architecture",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-client-server-roles",
+      "version": 1,
+      "statement": "In client-server architecture the client initiates each request and the server waits for requests, processes them and returns a response; many clients share one server's resources."
+    },
+    {
+      "id": "kc-three-tier",
+      "version": 1,
+      "statement": "A three-tier architecture separates the presentation tier (client), the application tier (business logic) and the data tier (database), so each tier can be changed and scaled independently."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-http"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "client-server architecture",
+    "three-tier architecture",
+    "application tier",
+    "data tier"
+  ],
+  "uses": [
+    "client",
+    "server",
+    "database query"
+  ],
+  "problem_ideas": [
+    "Label each box in a diagram of a to-do app (browser, API server, PostgreSQL) with its tier.",
+    "A team puts SQL queries directly in the mobile app; name two problems this two-tier design causes.",
+    "Given a 3-tier shop, which tier do you add machines to when checkout logic becomes CPU-bound?",
+    "Can a server also be a client? Trace an API server calling a payment provider.",
+    "Classify a peer-to-peer file-sharing app vs a web email client: which is client-server?",
+    "A spreadsheet desktop app stores files locally: which tiers collapse into one?"
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "architectural-patterns/client-server-architecture"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "types-of-n-tier-architectures/3-tier-architecture"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "types-of-n-tier-architectures/types-of-n-tier-architectures"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [
+    "sd-client-server/exit-1",
+    "sd-client-server/exit-2",
+    "sd-client-server/exit-3"
+  ],
+  "status": "stocked",
+  "provenance": {
+    "origin": "generated",
+    "job": "reauthor-sd-u0"
+  }
+}

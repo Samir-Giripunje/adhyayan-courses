@@ -1,0 +1,47 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-what-is-a-decorator",
+  "version": 1,
+  "title": "What a decorator is",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-decorator-definition",
+      "version": 1,
+      "statement": "A decorator is a callable that takes a function (or class) and returns an object that is then bound to the original name."
+    },
+    {
+      "id": "kc-decorator-may-return-same",
+      "version": 1,
+      "statement": "A decorator may return the original function unchanged, after registering or annotating it, or a different callable that wraps it."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "pd-first-class-functions"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "decorator"
+  ],
+  "uses": [
+    "first-class function"
+  ],
+  "problem_ideas": [
+    "Write identity(func) that returns func and confirm the decorated function behaves the same",
+    "Write a decorator that returns 42 instead of a function and predict what calling the name does",
+    "Classify five decorators as 'returns original' or 'returns replacement'",
+    "Explain why the name 'decorator' in Python differs from the GoF Decorator pattern",
+    "Write shout(func) that returns a new function upper-casing func's result",
+    "Decide whether print is a valid decorator and what the name ends up bound to"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "on-the-name-decorator/on-the-name-decorator"
+    }
+  ],
+  "status": "stub"
+}

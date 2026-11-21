@@ -1,0 +1,799 @@
+{
+  "id": "blind-75",
+  "title": "Blind 75 (personal subset: 25 of 75)",
+  "source_url": "https://www.teamblind.com/post/New-Year-Gift---Curated-List-of-Top-75-LeetCode-Questions-to-Save-Your-Time-OaM1orEU",
+  "version": "personal-subset-1",
+  "fetched": "2026-11-18",
+  "categories": [
+    "Array",
+    "Binary",
+    "Dynamic Programming",
+    "Graph",
+    "Interval",
+    "Linked List",
+    "Matrix",
+    "String",
+    "Tree",
+    "Heap"
+  ],
+  "problems": [
+    {
+      "key": "lc:two-sum",
+      "title": "Two Sum",
+      "url": "https://leetcode.com/problems/two-sum/",
+      "platform": "leetcode",
+      "number": 1,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Array",
+          "pos": 1
+        }
+      ],
+      "patterns": [
+        "hashing"
+      ],
+      "topics": [
+        "dsa-hash-lookup"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "Find two indices whose values add to a target.",
+      "hints": [
+        "What must you have seen earlier to finish at the current index?",
+        "Remember each value with its index as you scan.",
+        "For each x, look up target − x before storing x."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:best-time-to-buy-and-sell-stock",
+      "title": "Best Time to Buy and Sell Stock",
+      "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+      "platform": "leetcode",
+      "number": 121,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Array",
+          "pos": 2
+        }
+      ],
+      "patterns": [
+        "sliding-window"
+      ],
+      "topics": [
+        "dsa-variable-window"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "One buy then one later sell: best profit.",
+      "hints": [
+        "For each day, which earlier day is the best buy?",
+        "Keep the minimum price seen so far.",
+        "Profit today = price − running minimum; keep the best."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:contains-duplicate",
+      "title": "Contains Duplicate",
+      "url": "https://leetcode.com/problems/contains-duplicate/",
+      "platform": "leetcode",
+      "number": 217,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Array",
+          "pos": 3
+        }
+      ],
+      "patterns": [
+        "hashing"
+      ],
+      "topics": [
+        "dsa-hash-lookup"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "Report whether any value appears more than once.",
+      "hints": [
+        "What do you need to remember about values already seen?",
+        "A set answers \"seen before?\" in constant time.",
+        "Return true the first time an insert finds the value present."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:product-of-array-except-self",
+      "title": "Product of Array Except Self",
+      "url": "https://leetcode.com/problems/product-of-array-except-self/",
+      "platform": "leetcode",
+      "number": 238,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Array",
+          "pos": 4
+        }
+      ],
+      "patterns": [
+        "prefix-sums"
+      ],
+      "topics": [
+        "dsa-prefix-sums"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "Each position gets the product of all other values, no division.",
+      "hints": [
+        "Split \"everything else\" into left part and right part.",
+        "A forward pass builds left products, a backward pass right products.",
+        "Multiply them in place to stay at constant extra space."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:maximum-subarray",
+      "title": "Maximum Subarray",
+      "url": "https://leetcode.com/problems/maximum-subarray/",
+      "platform": "leetcode",
+      "number": 53,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Array",
+          "pos": 5
+        }
+      ],
+      "patterns": [
+        "dp-1d",
+        "greedy"
+      ],
+      "topics": [
+        "dsa-greedy-choice"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "Largest sum of any contiguous run of values.",
+      "hints": [
+        "When is a running sum no longer worth keeping?",
+        "Best run ending here = max(value, previous best + value).",
+        "Track the best seen over all positions."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:3sum",
+      "title": "3Sum",
+      "url": "https://leetcode.com/problems/3sum/",
+      "platform": "leetcode",
+      "number": 15,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Array",
+          "pos": 6
+        }
+      ],
+      "patterns": [
+        "two-pointers"
+      ],
+      "topics": [
+        "dsa-opposite-pointers"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "List all distinct triples summing to zero.",
+      "hints": [
+        "Fix one value, then you need a pair.",
+        "Sort first so a pair search can move two pointers inwards.",
+        "Skip equal neighbours to avoid duplicate triples."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:container-with-most-water",
+      "title": "Container With Most Water",
+      "url": "https://leetcode.com/problems/container-with-most-water/",
+      "platform": "leetcode",
+      "number": 11,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Array",
+          "pos": 7
+        }
+      ],
+      "patterns": [
+        "two-pointers"
+      ],
+      "topics": [
+        "dsa-opposite-pointers"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "Pick two walls holding the most water between them.",
+      "hints": [
+        "Start with the widest pair.",
+        "The shorter wall limits the area.",
+        "Move the shorter wall inwards; the other move cannot help."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:number-of-1-bits",
+      "title": "Number of 1 Bits",
+      "url": "https://leetcode.com/problems/number-of-1-bits/",
+      "platform": "leetcode",
+      "number": 191,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Binary",
+          "pos": 8
+        }
+      ],
+      "patterns": [
+        "bits"
+      ],
+      "topics": [
+        "dsa-bit-tricks"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "Count set bits in an integer.",
+      "hints": [
+        "Look at one bit at a time.",
+        "n & (n − 1) clears the lowest set bit.",
+        "Count how many times you can clear one."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:missing-number",
+      "title": "Missing Number",
+      "url": "https://leetcode.com/problems/missing-number/",
+      "platform": "leetcode",
+      "number": 268,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Binary",
+          "pos": 9
+        }
+      ],
+      "patterns": [
+        "bits"
+      ],
+      "topics": [
+        "dsa-single-number"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "Find the one value missing from 0..n.",
+      "hints": [
+        "Pairs cancel under XOR.",
+        "XOR all indices 0..n with all values.",
+        "What remains is the missing value (a sum also works)."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:climbing-stairs",
+      "title": "Climbing Stairs",
+      "url": "https://leetcode.com/problems/climbing-stairs/",
+      "platform": "leetcode",
+      "number": 70,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Dynamic Programming",
+          "pos": 10
+        }
+      ],
+      "patterns": [
+        "dp-1d"
+      ],
+      "topics": [
+        "dsa-tabulation"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "Ways to climb n steps taking one or two at a time.",
+      "hints": [
+        "How could you have arrived at step n?",
+        "ways(n) = ways(n − 1) + ways(n − 2).",
+        "Two rolling variables are enough."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:coin-change",
+      "title": "Coin Change",
+      "url": "https://leetcode.com/problems/coin-change/",
+      "platform": "leetcode",
+      "number": 322,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Dynamic Programming",
+          "pos": 11
+        }
+      ],
+      "patterns": [
+        "dp-1d"
+      ],
+      "topics": [
+        "dsa-dp-state"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "Fewest coins reaching an amount; unlimited supply of each.",
+      "hints": [
+        "Greedy by largest coin can fail.",
+        "fewest(a) = 1 + min over coins of fewest(a − coin).",
+        "Fill amounts 0..A in order; unreachable stays infinite."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:house-robber",
+      "title": "House Robber",
+      "url": "https://leetcode.com/problems/house-robber/",
+      "platform": "leetcode",
+      "number": 198,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Dynamic Programming",
+          "pos": 12
+        }
+      ],
+      "patterns": [
+        "dp-1d"
+      ],
+      "topics": [
+        "dsa-decision-dp"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "Max sum of values with no two neighbours taken.",
+      "hints": [
+        "At each house: take it or skip it.",
+        "Best(i) = max(best(i − 1), best(i − 2) + value).",
+        "Keep two running values."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:number-of-islands",
+      "title": "Number of Islands",
+      "url": "https://leetcode.com/problems/number-of-islands/",
+      "platform": "leetcode",
+      "number": 200,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Graph",
+          "pos": 13
+        }
+      ],
+      "patterns": [
+        "graph-traversal"
+      ],
+      "topics": [
+        "dsa-grid-graphs"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "Count connected land regions in a grid.",
+      "hints": [
+        "Each unvisited land cell starts a new region.",
+        "Flood-fill its region with DFS or BFS.",
+        "Mark cells visited so each is counted once."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:course-schedule",
+      "title": "Course Schedule",
+      "url": "https://leetcode.com/problems/course-schedule/",
+      "platform": "leetcode",
+      "number": 207,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Graph",
+          "pos": 14
+        }
+      ],
+      "patterns": [
+        "topo-sort"
+      ],
+      "topics": [
+        "dsa-topo-sort"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "Can every course finish given prerequisite pairs?",
+      "hints": [
+        "This is a cycle question on a directed graph.",
+        "Repeatedly take courses with no remaining prerequisites.",
+        "If some course is never freed, there is a cycle."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:merge-intervals",
+      "title": "Merge Intervals",
+      "url": "https://leetcode.com/problems/merge-intervals/",
+      "platform": "leetcode",
+      "number": 56,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Interval",
+          "pos": 15
+        }
+      ],
+      "patterns": [
+        "intervals"
+      ],
+      "topics": [
+        "dsa-merge-intervals"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "Combine all overlapping ranges.",
+      "hints": [
+        "Overlaps are easy to spot once sorted.",
+        "Sort by start.",
+        "Extend the last merged range or start a new one."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:reverse-linked-list",
+      "title": "Reverse Linked List",
+      "url": "https://leetcode.com/problems/reverse-linked-list/",
+      "platform": "leetcode",
+      "number": 206,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Linked List",
+          "pos": 16
+        }
+      ],
+      "patterns": [
+        "linked-list"
+      ],
+      "topics": [
+        "dsa-reverse-list"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "Reverse a singly linked list.",
+      "hints": [
+        "You need the previous node to point back to.",
+        "Save next before you overwrite it.",
+        "Three pointers: prev, current, next."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:linked-list-cycle",
+      "title": "Linked List Cycle",
+      "url": "https://leetcode.com/problems/linked-list-cycle/",
+      "platform": "leetcode",
+      "number": 141,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Linked List",
+          "pos": 17
+        }
+      ],
+      "patterns": [
+        "fast-slow"
+      ],
+      "topics": [
+        "dsa-list-cycles"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "Detect whether following next pointers ever loops.",
+      "hints": [
+        "A loop means you never reach null.",
+        "Move one pointer twice as fast as another.",
+        "They meet if and only if there is a cycle."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:rotate-image",
+      "title": "Rotate Image",
+      "url": "https://leetcode.com/problems/rotate-image/",
+      "platform": "leetcode",
+      "number": 48,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Matrix",
+          "pos": 18
+        }
+      ],
+      "patterns": [
+        "matrix"
+      ],
+      "topics": [
+        "dsa-matrix-rotation"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "Rotate a square matrix a quarter turn, in place.",
+      "hints": [
+        "A quarter turn is two simpler reflections.",
+        "Transpose across the main diagonal.",
+        "Then reverse each row."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:longest-substring-without-repeating-characters",
+      "title": "Longest Substring Without Repeating Characters",
+      "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+      "platform": "leetcode",
+      "number": 3,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "String",
+          "pos": 19
+        }
+      ],
+      "patterns": [
+        "sliding-window"
+      ],
+      "topics": [
+        "dsa-variable-window"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "Longest stretch of characters with no repeats.",
+      "hints": [
+        "Grow a window to the right while it stays valid.",
+        "When a repeat enters, shrink from the left until it is gone.",
+        "A last-seen index map lets the left edge jump."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:valid-anagram",
+      "title": "Valid Anagram",
+      "url": "https://leetcode.com/problems/valid-anagram/",
+      "platform": "leetcode",
+      "number": 242,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "String",
+          "pos": 20
+        }
+      ],
+      "patterns": [
+        "hashing"
+      ],
+      "topics": [
+        "dsa-frequency"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "Check two strings use exactly the same letters.",
+      "hints": [
+        "Different lengths settle it at once.",
+        "Count letters in one string, uncount in the other.",
+        "Every count must end at zero."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:valid-parentheses",
+      "title": "Valid Parentheses",
+      "url": "https://leetcode.com/problems/valid-parentheses/",
+      "platform": "leetcode",
+      "number": 20,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "String",
+          "pos": 21
+        }
+      ],
+      "patterns": [
+        "stack"
+      ],
+      "topics": [
+        "dsa-stack-matching"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "Do the brackets open and close in a properly nested order?",
+      "hints": [
+        "The most recent unmatched opener must close first.",
+        "Push openers; on a closer, check the top.",
+        "The stack must be empty at the end."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:minimum-window-substring",
+      "title": "Minimum Window Substring",
+      "url": "https://leetcode.com/problems/minimum-window-substring/",
+      "platform": "leetcode",
+      "number": 76,
+      "difficulty_label": "Hard",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "String",
+          "pos": 22
+        }
+      ],
+      "patterns": [
+        "sliding-window"
+      ],
+      "topics": [
+        "dsa-frequency-window"
+      ],
+      "rung": 4,
+      "est_min": 40,
+      "gist": "Shortest stretch containing every required character with multiplicity.",
+      "hints": [
+        "Count what you still need.",
+        "Expand right until nothing is missing, then shrink left.",
+        "Record the window each time it becomes valid."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:maximum-depth-of-binary-tree",
+      "title": "Maximum Depth of Binary Tree",
+      "url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+      "platform": "leetcode",
+      "number": 104,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Tree",
+          "pos": 23
+        }
+      ],
+      "patterns": [
+        "tree-dfs"
+      ],
+      "topics": [
+        "dsa-tree-dfs"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "Count nodes on the longest root-to-leaf path.",
+      "hints": [
+        "An empty tree has depth 0.",
+        "Depth = 1 + the deeper subtree.",
+        "A level-by-level walk also works."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:invert-binary-tree",
+      "title": "Invert Binary Tree",
+      "url": "https://leetcode.com/problems/invert-binary-tree/",
+      "platform": "leetcode",
+      "number": 226,
+      "difficulty_label": "Easy",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Tree",
+          "pos": 24
+        }
+      ],
+      "patterns": [
+        "tree-dfs"
+      ],
+      "topics": [
+        "dsa-tree-dfs"
+      ],
+      "rung": 2,
+      "est_min": 15,
+      "gist": "Mirror a binary tree left to right.",
+      "hints": [
+        "What must happen at every single node?",
+        "Swap the two children.",
+        "Recurse on both subtrees."
+      ],
+      "text_policy": "link-only"
+    },
+    {
+      "key": "lc:top-k-frequent-elements",
+      "title": "Top K Frequent Elements",
+      "url": "https://leetcode.com/problems/top-k-frequent-elements/",
+      "platform": "leetcode",
+      "number": 347,
+      "difficulty_label": "Medium",
+      "lists": [
+        {
+          "id": "blind-75",
+          "version": "personal-subset-1",
+          "section": "Heap",
+          "pos": 25
+        }
+      ],
+      "patterns": [
+        "hashing",
+        "heap-top-k"
+      ],
+      "topics": [
+        "dsa-frequency",
+        "dsa-top-k"
+      ],
+      "rung": 3,
+      "est_min": 25,
+      "gist": "Return the k values that occur most often.",
+      "hints": [
+        "First count every value.",
+        "Keep only the k best counts: a size-k heap does it.",
+        "Bucketing by count avoids the log factor."
+      ],
+      "text_policy": "link-only"
+    }
+  ]
+}

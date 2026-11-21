@@ -1,0 +1,113 @@
+[
+  {
+    "id": "sd-cache-aside/placement-1",
+    "family": "sd-cache-aside-probe-cache-aside-count-db-reads",
+    "kind": "predict_output",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-cache-aside-read"
+    ],
+    "prompt_md": "This snippet implements a cache-aside read. What does it print?",
+    "code": "cache = {}\ndb = {\"u1\": \"Ada\", \"u2\": \"Lin\"}\ndb_reads = 0\n\ndef get(key):\n    global db_reads\n    if key in cache:\n        return cache[key]\n    db_reads += 1\n    value = db[key]\n    cache[key] = value\n    return value\n\nfor k in [\"u1\", \"u2\", \"u1\", \"u1\", \"u2\"]:\n    get(k)\nprint(db_reads, len(cache))",
+    "answer": {
+      "value": "2 2",
+      "tolerance": 0
+    },
+    "common_wrong": [
+      {
+        "value": "5 2",
+        "kind": "misconception",
+        "why_md": "That counts a database read on every call. In cache-aside, a miss writes the value into the cache, so later reads of that key are hits."
+      },
+      {
+        "value": "2 5",
+        "kind": "slip",
+        "why_md": "The cache is a dict keyed by user ID, so it holds 2 keys, not one per call."
+      },
+      {
+        "value": "5 0",
+        "kind": "misconception",
+        "why_md": "That assumes the application never writes to the cache. In cache-aside, a miss loads from the database and then writes the value into the cache."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "cache = {}\ndb = {\"u1\": \"Ada\", \"u2\": \"Lin\"}\ndb_reads = 0\n\ndef get(key):\n    global db_reads\n    if key in cache:\n        return cache[key]\n    db_reads += 1\n    value = db[key]\n    cache[key] = value\n    return value\n\nfor k in [\"u1\", \"u2\", \"u1\", \"u1\", \"u2\"]:\n    get(k)\nanswer = f\"{db_reads} {len(cache)}\"\n"
+    },
+    "hints": [
+      "Go through the calls one at a time. A key reaches the database only if it is not in the cache yet.",
+      "u1 misses, u2 misses, and the remaining three calls all hit. The cache holds u1 and u2."
+    ],
+    "solution_md": "| call | in cache? | db_reads |\n|---|---|---|\n| u1 | no → load and cache | 1 |\n| u2 | no → load and cache | 2 |\n| u1 | yes | 2 |\n| u1 | yes | 2 |\n| u2 | yes | 2 |\n\nThe cache ends with 2 keys. It prints **`2 2`**.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-cache-aside",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  },
+  {
+    "id": "sd-cache-aside/placement-2",
+    "family": "sd-cache-aside-probe-cache-aside-properties",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-cache-aside-ownership",
+      "kc-cache-aside-tradeoffs"
+    ],
+    "prompt_md": "A service uses the **cache-aside** pattern with a Redis cache in front of a SQL database. Which statements are true? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "On a cache miss, the application reads the database and then writes the value into the cache",
+        "correct": true,
+        "why_md": "True. In cache-aside, the application loads the value from the database and populates the cache."
+      },
+      {
+        "id": "b",
+        "md": "On a cache miss, Redis queries the database itself and returns the result",
+        "why_md": "False. That describes read-through caching. In cache-aside, the cache never talks to the database."
+      },
+      {
+        "id": "c",
+        "md": "If Redis goes down, reads still succeed by going to the database, only more slowly",
+        "correct": true,
+        "why_md": "True. Reads fall back to the database, so cache-aside survives a cache outage."
+      },
+      {
+        "id": "d",
+        "md": "At startup the cache is filled with every row in the database",
+        "why_md": "False. Cache-aside caches only data that is actually requested, filling in on misses."
+      },
+      {
+        "id": "e",
+        "md": "A cached entry can go stale if the database row changes later",
+        "correct": true,
+        "why_md": "True. The cache is separate from the database, so entries can lag behind writes unless they are invalidated or expire."
+      }
+    ],
+    "hints": [
+      "In cache-aside, who talks to the database: the application or the cache?",
+      "The application does all database access. The cache fills only on misses, reads fall back to the database during an outage, and entries can go stale."
+    ],
+    "solution_md": "- (a) True: on a miss, the application loads from the database and then writes the value into the cache.\n- (b) False: in cache-aside, the cache never reads from the database. That would be read-through.\n- (c) True: during a cache outage, reads fall back to the database.\n- (d) False: only requested data gets cached.\n- (e) True: entries can go stale after source writes.\n\nAnswer: **a, c, e**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-cache-aside",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  }
+]

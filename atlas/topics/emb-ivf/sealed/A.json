@@ -1,0 +1,34 @@
+[
+  {
+    "id": "q-proof1-ivf",
+    "version": 1,
+    "family": "q-proof1-ivf",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-ivf",
+    "kcs": [
+      "kc-ivf"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "N = 4M, nlist = 4,000, nprobe = 5, equal cells. Stored vectors scanned per query?",
+    "answer": {
+      "value": 5000,
+      "tolerance": 0
+    },
+    "hints": [
+      "Which idea applies? IVF puts vectors into k-means cells and scans only the nprobe nearest cells.",
+      "IVF puts vectors into k-means cells and scans only the nprobe nearest cells."
+    ],
+    "solution_md": "",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

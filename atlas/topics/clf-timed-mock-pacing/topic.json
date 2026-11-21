@@ -1,0 +1,50 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-timed-mock-pacing",
+  "version": 1,
+  "title": "Pacing a 90-minute mock: time per question and flags",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-clf-pacing-math",
+      "version": 1,
+      "statement": "90 minutes over 65 questions is about 83 seconds per question; a first pass at about one minute per question finishes in roughly 65 minutes and leaves about 25 minutes to revisit flagged items."
+    },
+    {
+      "id": "kc-clf-flag-and-move-on",
+      "version": 1,
+      "statement": "When a question runs past about two minutes, select a best guess, flag it for review and move on, so no question is left unanswered if time runs out."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-exam-format-scoring"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "pacing plan",
+    "flag for review"
+  ],
+  "uses": [
+    "unscored questions",
+    "compensatory scoring"
+  ],
+  "problem_ideas": [
+    "At the 45-minute mark you have answered 30 questions; compute whether you are ahead of or behind a one-minute-per-question first pass.",
+    "Plan checkpoints: what question number should you reach by minute 20, 40 and 60?",
+    "You have flagged 12 questions and have 18 minutes left; compute the time per flagged item and decide the order to revisit them.",
+    "One question has taken 4 minutes; list what to do in the next 10 seconds.",
+    "With 30 extra minutes from an accommodation (120 minutes total), recompute seconds per question.",
+    "Compare two strategies on a mock log: answering strictly in order vs flagging long stems, and estimate the questions each would leave blank.",
+    "Draft a one-line pacing plan to write on the whiteboard at the start of the exam."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "exam-content/exam-content"
+    }
+  ],
+  "status": "stub"
+}

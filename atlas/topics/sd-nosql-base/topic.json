@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-nosql-base",
+  "version": 1,
+  "title": "NoSQL and the BASE trade-off",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-nosql-def",
+      "version": 1,
+      "statement": "NoSQL is a family of non-relational data models (key-value, document, wide-column, graph); many NoSQL stores trade joins and multi-record transactions for flexible schemas and built-in partitioning, but some offer transactions and strongly consistent reads, so guarantees must be checked per store."
+    },
+    {
+      "id": "kc-base-def",
+      "version": 1,
+      "statement": "BASE (basically available, soft state, eventually consistent) is an optional design approach that favours answering during failures and letting replicas converge later; it is a choice some stores make, not a property of every NoSQL store nor the opposite of ACID."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-relational-acid"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-relational-acid"
+  ],
+  "introduces": [
+    "nosql",
+    "base",
+    "schema-less"
+  ],
+  "uses": [
+    "relational database",
+    "acid",
+    "horizontal scaling"
+  ],
+  "problem_ideas": [
+    "Sort eight features (likes, wallet balance, product catalog, seat booking, view counts, sessions, audit log, chat history) into 'needs multi-record transactions' and 'eventual consistency is fine'",
+    "A like counter shows 1,203 on one device and 1,201 on another for two seconds: explain why a BASE-style store allows it",
+    "Name what you may lose when moving a users table from SQL to a key-value store, and how to check whether the chosen store keeps it",
+    "An interviewer says 'NoSQL scales, SQL doesn't': give the nuanced answer, covering sharded SQL and transactional NoSQL",
+    "Explain soft state using a shopping cart replicated across two regions",
+    "List three NoSQL stores you know, the family each belongs to, and whether it offers transactions"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "database/nosql"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "base/base"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "acid-vs-base-trade-offs/acid-vs-base-trade-offs"
+    }
+  ],
+  "status": "stub"
+}

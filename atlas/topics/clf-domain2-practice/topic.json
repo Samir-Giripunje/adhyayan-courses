@@ -1,0 +1,69 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-domain2-practice",
+  "version": 1,
+  "title": "Domain 2 practice: security and compliance (30%)",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-clf-d2-task-statements",
+      "version": 1,
+      "statement": "Domain 2 (Security and Compliance, 30%, about 15 scored items) has four task statements: the shared responsibility model, security, governance and compliance concepts, access management capabilities, and components and resources for security."
+    },
+    {
+      "id": "kc-clf-d2-permission-scope-trap",
+      "version": 1,
+      "statement": "IAM policies grant permissions inside one account, a service control policy only caps the maximum permissions of accounts in an organization and grants nothing by itself, and IAM Identity Center assigns people access across many accounts, so the scope named in the stem decides which one fits."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-exam-format-scoring",
+    "clf-service-control-policies",
+    "clf-iam-identity-center"
+  ],
+  "suggests": [
+    "clf-service-verb-lens",
+    "clf-shared-responsibility-by-service",
+    "clf-choosing-security-service"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "permission scope"
+  ],
+  "uses": [
+    "domain practice set",
+    "task statement",
+    "shared responsibility model",
+    "iam policy",
+    "service control policy",
+    "aws organizations",
+    "iam identity center",
+    "aws account"
+  ],
+  "problem_ideas": [
+    "A 15-question Domain 2 set split across the four task statements; record the score per task statement.",
+    "A company must stop every account in its Sales OU from using any Region outside the EU; choose between an IAM policy, an SCP and IAM Identity Center.",
+    "An admin attaches an SCP allowing S3 but the user has no IAM policy; predict whether the user can list buckets and say why.",
+    "200 employees need one sign-in to 12 AWS accounts using the corporate directory; pick the service and rule out IAM users.",
+    "Sort eight tasks (patch guest OS on EC2, rotate RDS engine patches, encrypt S3 data, secure data-centre doors, ...) into AWS vs customer.",
+    "Domain 2 is about 15 scored items; compute the maximum misses that keep you at 70% in this domain.",
+    "Turn your two worst misses into 'scope' or 'responsibility' flashcards."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "content-outline/content-domain-2-security-and-compliance"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-3-identify-aws-access-m/task-statement-2-3-identify-aws-access-m"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-3-identify-aws-access-m/aws-iam-identity-center"
+    }
+  ],
+  "status": "stub"
+}

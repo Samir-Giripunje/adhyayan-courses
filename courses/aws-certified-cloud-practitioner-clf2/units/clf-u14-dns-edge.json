@@ -1,0 +1,29 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u14-dns-edge",
+  "title": "DNS and content delivery at the edge",
+  "topics": [
+    {
+      "id": "clf-route53",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-route53-routing-policies",
+      "tier": "optional",
+      "order": 2
+    },
+    {
+      "id": "clf-cloudfront",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-global-accelerator",
+      "tier": "must",
+      "order": 4
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

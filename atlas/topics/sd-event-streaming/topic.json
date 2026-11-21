@@ -1,0 +1,76 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-event-streaming",
+  "version": 1,
+  "title": "Event streaming, partitions and consumer groups",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-log-retention-replay",
+      "version": 1,
+      "statement": "An event streaming platform appends events to a retained append-only log and each consumer tracks its own offset, so events are not deleted on consumption and can be replayed from an earlier offset."
+    },
+    {
+      "id": "kc-consumer-group-partitions",
+      "version": 1,
+      "statement": "Within one consumer group each partition is read by exactly one consumer, so the group's parallelism is capped at the partition count, while every separate consumer group reads all events."
+    },
+    {
+      "id": "kc-ordering-per-partition",
+      "version": 1,
+      "statement": "Event streams guarantee order only within a partition, so events that must stay in order (for example all events for one order id) must share a partition key."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-pub-sub",
+    "sd-partitioning-basics"
+  ],
+  "suggests": [
+    "sd-wide-column-store"
+  ],
+  "confusable_with": [
+    "sd-message-queues",
+    "sd-pub-sub"
+  ],
+  "introduces": [
+    "event streaming",
+    "append-only log",
+    "offset",
+    "consumer group"
+  ],
+  "uses": [
+    "partitioning",
+    "partition key",
+    "publish/subscribe",
+    "competing consumers"
+  ],
+  "problem_ideas": [
+    "A topic has 12 partitions and a consumer group of 20 consumers: how many are idle?",
+    "Events arrive at 60,000/s and one consumer handles 4,000/s: minimum partition count?",
+    "A bug corrupted the search index for 6 hours: how does replay from an offset fix it, and what retention is needed?",
+    "Ride location updates must stay in order per driver: pick the partition key and name the hot-partition risk",
+    "Retention 7 days at 20,000 events/s of 1 KB with replication factor 3: storage needed",
+    "Queue or stream: email sending, clickstream analytics, audit log, image resizing"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "message-brokers-vs-event-streaming/message-brokers-vs-event-streaming"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "examples-9/apache-kafka"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "models/models"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "asynchronous-communication/message-brokers"
+    }
+  ],
+  "status": "stub"
+}

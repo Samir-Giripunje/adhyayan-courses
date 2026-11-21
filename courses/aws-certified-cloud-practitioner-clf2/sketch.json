@@ -1,0 +1,336 @@
+{
+  "course": "aws-certified-cloud-practitioner-clf2",
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Explain cloud concepts and the AWS value proposition",
+      "observable": "Given a business scenario, pick the cloud benefit, Well-Architected pillar, Cloud Adoption Framework perspective or migration strategy (the 7 Rs) that fits, and justify the choice in one sentence"
+    },
+    {
+      "id": "o2",
+      "text": "Choose AWS global infrastructure placement",
+      "observable": "For a stated latency, availability or data-residency requirement, choose between Regions, Availability Zones, edge locations, Local Zones, Wavelength and Outposts and name the reason"
+    },
+    {
+      "id": "o3",
+      "text": "Apply the shared responsibility model and AWS security services",
+      "observable": "Sort a list of security tasks into AWS versus customer responsibility for EC2, RDS and Lambda, and name the IAM feature or security service (GuardDuty, Shield, WAF, KMS, Inspector, Macie, CloudTrail, Config, Artifact) that answers a stated security or compliance need"
+    },
+    {
+      "id": "o4",
+      "text": "Identify the right AWS service for a requirement",
+      "observable": "Given a one-paragraph requirement, name the matching service across compute, storage, networking, database, integration, analytics, AI/ML, migration and management categories, and rule out the closest distractor"
+    },
+    {
+      "id": "o5",
+      "text": "Compare pricing models and choose cost and support resources",
+      "observable": "For a described workload, choose On-Demand, Reserved Instances, Savings Plans or Spot and estimate the relative saving; pick the right tool (Pricing Calculator, Budgets, Cost Explorer, Cost and Usage Report) and the cheapest Support plan that meets a stated response-time need"
+    },
+    {
+      "id": "o6",
+      "text": "Pass the CLF-C02 exam under exam conditions",
+      "observable": "Score at least 80% on two timed, full-length 65-question mock exams (90 minutes each) with every domain at or above 70%"
+    }
+  ],
+  "stages": [
+    {
+      "id": "clf-p1",
+      "title": "Cloud concepts and the AWS value proposition",
+      "provisional": false,
+      "units": [
+        {
+          "id": "clf-u1-cloud-basics",
+          "title": "What the cloud is: service and deployment models",
+          "topics": 3
+        },
+        {
+          "id": "clf-u2-cloud-benefits",
+          "title": "Scaling, elasticity, agility and high availability",
+          "topics": 3
+        },
+        {
+          "id": "clf-u3-cloud-economics",
+          "title": "Cloud economics and the AWS value proposition",
+          "topics": 5
+        },
+        {
+          "id": "clf-u4-design-and-migration",
+          "title": "Well-Architected, Cloud Adoption Framework and migration",
+          "topics": 5
+        }
+      ]
+    },
+    {
+      "id": "clf-p2",
+      "title": "Global infrastructure, accounts and access",
+      "provisional": true,
+      "units": [
+        {
+          "id": "clf-u5-global-infra",
+          "title": "AWS global infrastructure",
+          "topics": 6
+        },
+        {
+          "id": "clf-u6-shared-resp",
+          "title": "The shared responsibility model",
+          "topics": 3
+        },
+        {
+          "id": "clf-u7-accounts-iam",
+          "title": "Accounts, root user and IAM",
+          "topics": 7
+        }
+      ]
+    },
+    {
+      "id": "clf-p3",
+      "title": "Core services: compute and storage",
+      "provisional": true,
+      "units": [
+        {
+          "id": "clf-u8-ec2",
+          "title": "EC2, load balancing and Auto Scaling",
+          "topics": 6
+        },
+        {
+          "id": "clf-u9-containers-serverless",
+          "title": "Containers, serverless and choosing compute",
+          "topics": 6
+        },
+        {
+          "id": "clf-u10-block-file",
+          "title": "Block and file storage",
+          "topics": 4
+        },
+        {
+          "id": "clf-u11-s3-hybrid",
+          "title": "S3, hybrid storage and backup",
+          "topics": 6
+        }
+      ]
+    },
+    {
+      "id": "clf-p4",
+      "title": "Core services: networking, content delivery and databases",
+      "provisional": true,
+      "units": [
+        {
+          "id": "clf-u12-vpc",
+          "title": "Inside a VPC: subnets, gateways and firewalls",
+          "topics": 5
+        },
+        {
+          "id": "clf-u13-hybrid-connectivity",
+          "title": "Connecting networks: VPN, Direct Connect, Transit Gateway",
+          "topics": 3
+        },
+        {
+          "id": "clf-u14-dns-edge",
+          "title": "DNS and content delivery at the edge",
+          "topics": 4
+        },
+        {
+          "id": "clf-u15-databases",
+          "title": "Database services: relational, NoSQL and in-memory",
+          "topics": 8
+        }
+      ]
+    },
+    {
+      "id": "clf-p5",
+      "title": "Security, governance and compliance services",
+      "provisional": true,
+      "units": [
+        {
+          "id": "clf-u16-identity-governance",
+          "title": "Multi-account governance and identity",
+          "topics": 5
+        },
+        {
+          "id": "clf-u17-data-protection",
+          "title": "Protecting data: encryption, keys and secrets",
+          "topics": 5
+        },
+        {
+          "id": "clf-u18-edge-protection",
+          "title": "Protecting the front door: DDoS and web attacks",
+          "topics": 3
+        },
+        {
+          "id": "clf-u19-detection-audit",
+          "title": "Logging, auditing and threat detection",
+          "topics": 5
+        },
+        {
+          "id": "clf-u20-compliance-resources",
+          "title": "Compliance, security resources and choosing a service",
+          "topics": 4
+        }
+      ]
+    },
+    {
+      "id": "clf-p6",
+      "title": "Deploying, operating and monitoring on AWS",
+      "provisional": true,
+      "units": [
+        {
+          "id": "clf-u21-deploy",
+          "title": "Provisioning and deploying: from console clicks to pipelines",
+          "topics": 6
+        },
+        {
+          "id": "clf-u22-monitor",
+          "title": "Monitoring, operating and recovering workloads",
+          "topics": 7
+        },
+        {
+          "id": "clf-u23-govern",
+          "title": "Reviewing, advising and governing accounts",
+          "topics": 6
+        }
+      ]
+    },
+    {
+      "id": "clf-p7",
+      "title": "Integration, analytics, AI/ML and migration services",
+      "provisional": true,
+      "units": [
+        {
+          "id": "clf-u24-integration",
+          "title": "Application integration: queues, topics, events and email",
+          "topics": 7
+        },
+        {
+          "id": "clf-u25-analytics",
+          "title": "Analytics: streaming, querying, warehousing and dashboards",
+          "topics": 5
+        },
+        {
+          "id": "clf-u26-ai-ml",
+          "title": "AI and machine learning services",
+          "topics": 4
+        },
+        {
+          "id": "clf-u27-migration",
+          "title": "Migration and data transfer services",
+          "topics": 4
+        },
+        {
+          "id": "clf-u28-end-user-apps",
+          "title": "Business, end-user, frontend and IoT services",
+          "topics": 3
+        }
+      ]
+    },
+    {
+      "id": "clf-p8",
+      "title": "Billing, pricing and support",
+      "provisional": true,
+      "units": [
+        {
+          "id": "clf-u29-pricing-models",
+          "title": "Compute pricing models",
+          "topics": 6
+        },
+        {
+          "id": "clf-u30-storage-transfer-billing",
+          "title": "Storage, data transfer and organization billing",
+          "topics": 4
+        },
+        {
+          "id": "clf-u31-cost-tools",
+          "title": "Cost management tools",
+          "topics": 5
+        },
+        {
+          "id": "clf-u32-support-resources",
+          "title": "Support plans and technical resources",
+          "topics": 6
+        }
+      ]
+    },
+    {
+      "id": "clf-p9",
+      "title": "Exam readiness: strategy and full mocks",
+      "provisional": true,
+      "units": [
+        {
+          "id": "clf-u33-exam-readiness",
+          "title": "Exam readiness: format, tactics and pacing",
+          "topics": 4
+        },
+        {
+          "id": "clf-u34-domain-practice",
+          "title": "Practice by domain: all four CLF-C02 domains",
+          "topics": 4
+        },
+        {
+          "id": "clf-u35-full-mocks",
+          "title": "Two timed full mocks with review in between",
+          "topics": 3
+        }
+      ]
+    }
+  ],
+  "tiers": {
+    "must": 159,
+    "recommended": 0,
+    "optional": 11,
+    "dropped": 0
+  },
+  "out_of_scope": [
+    {
+      "title": "Hands-on console labs and deploying real workloads",
+      "why": "CLF-C02 tests recognition and selection of services, not operating them; labs would roughly double the time without raising the score"
+    },
+    {
+      "title": "Associate-level architecture depth (subnet CIDR math, VPC routing design, database tuning)",
+      "why": "These belong to Solutions Architect Associate; the Cloud Practitioner exam only asks what each component is for"
+    },
+    {
+      "title": "Writing code, CloudFormation templates or CLI scripts",
+      "why": "The exam asks which deployment method fits, never to write one"
+    },
+    {
+      "title": "Services the CLF-C02 exam guide lists as out of scope",
+      "why": "They are not examined and would dilute study time"
+    },
+    {
+      "title": "Exam registration, booking and testing-centre logistics",
+      "why": "Administrative steps covered on the AWS Certification site, not exam content"
+    },
+    {
+      "title": "Other AWS certifications (AI Practitioner, Associate and Professional tracks)",
+      "why": "Separate exams with their own syllabi"
+    }
+  ],
+  "sources": [
+    {
+      "id": "roadmap-aws",
+      "badge": "roadmap.sh"
+    },
+    {
+      "id": "clf-c02-guide",
+      "badge": "syllabus"
+    },
+    {
+      "id": "clf-notes",
+      "badge": "book"
+    }
+  ],
+  "forecast": {
+    "source": "estimate",
+    "median_weeks": 48.05,
+    "p90_weeks": 62.47,
+    "binding": "tests",
+    "by_month": []
+  },
+  "diffs": [],
+  "lints": [
+    {
+      "id": "L9",
+      "level": "block",
+      "target": "aws-certified-cloud-practitioner-clf2"
+    }
+  ]
+}

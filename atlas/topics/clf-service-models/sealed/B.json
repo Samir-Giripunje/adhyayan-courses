@@ -1,0 +1,315 @@
+[
+  {
+    "id": "clf-service-models/test-b1",
+    "family": "clf-service-models-fb-iaas-research-group-tasks",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-iaas"
+    ],
+    "prompt_md": "A university research group launches Amazon EC2 virtual servers and runs its own climate-simulation program on them. Which tasks belong to the **research group**? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Installing and updating the Python runtime the program needs",
+        "correct": true,
+        "why_md": "The group's. In IaaS the customer runs the runtime and everything else above the hardware."
+      },
+      {
+        "id": "b",
+        "md": "Replacing a failed physical server in the AWS data center",
+        "why_md": "AWS's. The hardware is the one layer the IaaS provider runs."
+      },
+      {
+        "id": "c",
+        "md": "Applying security patches to the servers' Linux operating system",
+        "correct": true,
+        "why_md": "The group's. In IaaS the customer runs the operating system; AWS running the hardware does not make the operating system AWS's job."
+      },
+      {
+        "id": "d",
+        "md": "Deciding which researchers can log in to the servers",
+        "correct": true,
+        "why_md": "The group's. Access is the customer's in every model."
+      },
+      {
+        "id": "e",
+        "md": "Repairing the network cabling in the data center",
+        "why_md": "AWS's. Networking in the data center is part of the hardware layer, which the IaaS provider runs."
+      }
+    ],
+    "hints": [
+      "Place each task on the five-layer stack. In IaaS, the provider runs only the hardware.",
+      "Hardware (physical servers, cabling) is AWS's. The operating system, runtime, app, data and access are the group's."
+    ],
+    "solution_md": "1. In IaaS the provider runs only the hardware: servers, storage, networking.\n2. The customer runs the operating system, runtime, application, and data and access.\n3. (a) runtime: group ✔. (c) operating system: group ✔. (d) access: group ✔.\n4. (b) physical server and (e) cabling are hardware: AWS.\n\nAnswer: **a, c, d**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/test-b2",
+    "family": "clf-service-models-fb-iaas-plan-gap",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-iaas"
+    ],
+    "prompt_md": "A concert-ticket resale site runs on Amazon EC2 virtual servers. On each server the company runs Linux, the Python runtime and the site's own code. At a planning meeting an engineer says:\n\n> \"AWS hosts our servers, so the only software we have to keep updated is our own site code.\"\n\nWhat does this plan leave out?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Nothing: on EC2, AWS keeps the operating system and runtime updated because it runs the hardware",
+        "why_md": "Running the hardware does not make AWS responsible for the operating system. With IaaS the customer runs the operating system and runtime.",
+        "misconception": "mc-iaas-provider-manages-os"
+      },
+      {
+        "id": "b",
+        "md": "Replacing the servers' physical disks when they wear out",
+        "why_md": "Physical disks are hardware, which AWS runs in IaaS. The company was right to leave this out."
+      },
+      {
+        "id": "c",
+        "md": "Keeping the Linux operating system and the Python runtime updated",
+        "correct": true,
+        "why_md": "Right. With IaaS the provider runs only the hardware, so the company must update the operating system and runtime as well as its code."
+      },
+      {
+        "id": "d",
+        "md": "Updating the software on the network switches in the AWS data center",
+        "why_md": "Data-center networking is part of the hardware layer, which AWS runs. The company never touches it."
+      }
+    ],
+    "hints": [
+      "List the layers on each server. With IaaS, which layers are the customer's besides the application?",
+      "IaaS: the provider runs only the hardware. The customer runs the operating system, the runtime and the app. The plan covers only the app."
+    ],
+    "solution_md": "1. The servers carry three software layers: Linux (operating system), Python (runtime), site code (application).\n2. With IaaS (EC2) the provider runs only the hardware; the customer runs the operating system and everything above it.\n3. The plan covers the application only, so it leaves out the **operating system** and the **runtime**.\n4. Disks and network switches are hardware, AWS's job, so they are not missing.\n\nAnswer: **(c)** keeping Linux and the Python runtime updated.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/test-b3",
+    "family": "clf-service-models-fb-paas-two-issues",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-paas"
+    ],
+    "prompt_md": "A team runs its recipe-sharing web app on **AWS Elastic Beanstalk** (PaaS). In the same week, a security flaw is found in the Linux operating system under the app, and a bug is found on the app's own sign-up page. Under the PaaS model, who is responsible for each fix?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The team patches Linux and fixes the sign-up bug",
+        "why_md": "The sign-up bug is the team's, but in PaaS the provider runs the operating system, so the team does not patch Linux.",
+        "misconception": "mc-paas-you-patch-os"
+      },
+      {
+        "id": "b",
+        "md": "AWS patches Linux and fixes the sign-up bug",
+        "why_md": "The Linux patch is AWS's, but the application is the team's own code in PaaS, so the sign-up bug is the team's to fix."
+      },
+      {
+        "id": "c",
+        "md": "The team patches Linux; AWS fixes the sign-up bug",
+        "why_md": "This swaps the two. In PaaS the provider runs the operating system and the customer manages the application."
+      },
+      {
+        "id": "d",
+        "md": "AWS patches Linux; the team fixes the sign-up bug",
+        "correct": true,
+        "why_md": "Right. In PaaS the provider runs the hardware, operating system and runtime; the team deploys and manages its own application."
+      }
+    ],
+    "hints": [
+      "Put each problem on a layer of the stack, then check which side of the PaaS line that layer is on.",
+      "Linux is the operating system layer (provider in PaaS). The sign-up page is the application layer (customer in PaaS)."
+    ],
+    "solution_md": "1. The Linux flaw sits at the **operating system** layer. In PaaS the provider runs the operating system: AWS.\n2. The sign-up bug sits at the **application** layer. In PaaS the customer deploys and manages the app: the team.\n\nAnswer: **AWS patches Linux; the team fixes the sign-up bug** (d).",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/test-b4",
+    "family": "clf-service-models-fb-paas-ar-runtime",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-paas"
+    ],
+    "prompt_md": "**Assertion (A):** A team that deploys its Node.js app to AWS Elastic Beanstalk must install the Node.js runtime on the servers itself.\n\n**Reason (R):** With PaaS, the customer deploys and manages the application and its data.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "A is false. In PaaS the provider runs the runtime as well as the operating system, so the team does not install Node.js on the servers."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "A is false: Beanstalk provides the Node.js runtime. R is true, but it is about the application and data, not the runtime."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "This has both the wrong way round. R is true: the customer manages the app and its data. A is false: the provider runs the runtime."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "correct": true,
+        "why_md": "Right. A is false because in PaaS the provider runs the operating system and runtime. R is true: the customer's part is the application and its data."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. Which layer is the Node.js runtime, and who runs that layer in PaaS?",
+      "In PaaS the provider runs hardware, operating system and runtime; the customer runs the app and data. So A is false and R is true."
+    ],
+    "solution_md": "1. **A:** Node.js is the **runtime** layer. In PaaS the provider runs the runtime (and the operating system under it), so the team does not install it. A is false.\n2. **R:** in PaaS the customer deploys and manages the application and its data. True.\n3. With A false, the question of R explaining A does not arise.\n\nAnswer: **A false; R true** (d).",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/test-b5",
+    "family": "clf-service-models-fb-saas-agency-email",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-saas"
+    ],
+    "prompt_md": "A 12-person design agency wants email and shared calendars for its staff. It wants a ready-to-use service: nothing to install, and no servers or software to update. Its only admin work should be creating and removing staff accounts. Which service model fits best?",
+    "options": [
+      {
+        "id": "a",
+        "md": "PaaS",
+        "why_md": "With PaaS the agency would have to write or obtain an email app, deploy it and manage it. It wants a finished app instead."
+      },
+      {
+        "id": "b",
+        "md": "SaaS",
+        "correct": true,
+        "why_md": "Right. With SaaS the provider runs the complete app and everything beneath it; the agency only uses it and manages its data and staff accounts."
+      },
+      {
+        "id": "c",
+        "md": "IaaS",
+        "why_md": "With IaaS the agency would run the operating system and mail software on rented servers itself, and keep them updated. The provider would run only the hardware.",
+        "misconception": "mc-iaas-provider-manages-os"
+      }
+    ],
+    "hints": [
+      "List what the agency is willing to manage. Which model leaves the customer only data and access?",
+      "\"Ready-to-use\" and \"only creating and removing accounts\" point to the model where the provider runs the application too."
+    ],
+    "solution_md": "1. The agency wants to manage only **accounts** (access), plus its own messages (data).\n2. IaaS would leave it the operating system, runtime and app; PaaS would leave it the app.\n3. Only SaaS has the provider run the complete application, leaving the customer data and access.\n\nAnswer: **SaaS** (b), as with web email.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/test-b6",
+    "family": "clf-service-models-fb-saas-ar-hotel-servers",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-saas"
+    ],
+    "prompt_md": "A hotel chain's front-desk staff take bookings in a SaaS booking app.\n\n**Assertion (A):** The hotel chain **does not** patch the servers that run the booking app.\n\n**Reason (R):** With SaaS, the customer runs the app's servers while the provider writes the app's code.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "R is false. And even read as written, a customer that ran the servers would be the one patching them, which is the opposite of A."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is false. In SaaS the provider runs the servers as well as the app; the customer never sees the servers.",
+        "misconception": "mc-saas-customer-patches"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "correct": true,
+        "why_md": "Right. A is true: SaaS customers never patch the servers. R is false: the provider runs the servers, operating system and app, and the customer manages only its data and user access."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true and R is false. With SaaS the provider runs the servers, so the hotel never patches them.",
+        "misconception": "mc-saas-customer-patches"
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. In SaaS, which layers does the provider run?",
+      "In SaaS the provider runs everything up to and including the application. The customer manages only data and access. Check R against that."
+    ],
+    "solution_md": "1. **A:** in SaaS the provider runs the hardware, operating system, runtime and application. The hotel never sees the servers, so it does not patch them. A is true.\n2. **R:** says the customer runs the servers. In SaaS the provider runs them. R is false.\n\nAnswer: **A true; R false** (c).",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  }
+]

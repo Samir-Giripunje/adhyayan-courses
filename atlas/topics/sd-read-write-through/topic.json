@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-read-write-through",
+  "version": 1,
+  "title": "Read-through and write-through caching",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-read-through",
+      "version": 1,
+      "statement": "With read-through, the application reads only from the cache, and on a miss the cache itself loads the value from the database."
+    },
+    {
+      "id": "kc-write-through",
+      "version": 1,
+      "statement": "With write-through, each write goes through the cache, which synchronously persists it to the database before acknowledging; the cache matches the database only if every writer uses this path, writes to a key are applied in the same order to both, and a failed database write is not left in the cache."
+    },
+    {
+      "id": "kc-write-through-cost",
+      "version": 1,
+      "statement": "Write-through adds write latency because each write touches both stores, and it fills the cache with data that may never be read, so it is often paired with a TTL."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-cache-aside"
+  ],
+  "suggests": [
+    "sd-cache-invalidation-ttl"
+  ],
+  "confusable_with": [
+    "sd-cache-aside",
+    "sd-write-behind-around"
+  ],
+  "introduces": [
+    "read-through",
+    "write-through"
+  ],
+  "uses": [
+    "cache-aside",
+    "cache miss",
+    "ttl"
+  ],
+  "problem_ideas": [
+    "Draw the request sequence for a write under write-through and under cache-aside",
+    "Write latency 5 ms to DB and 1 ms to cache: compute write-through write latency",
+    "A bank balance must be read right after it changes: argue what write-through gives and what else must hold for reads to be fresh",
+    "Write-through cache of 1M users, 10% ever re-read: estimate wasted memory",
+    "Identify which component issues the DB query on a miss in read-through vs cache-aside",
+    "A batch job updates the database directly, bypassing the write-through cache: describe what readers see"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "cache/write-through"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "cache-invalidation/write-through-cache"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-tradeoffs/read-through-vs-write-through-cache"
+    }
+  ],
+  "status": "stub"
+}

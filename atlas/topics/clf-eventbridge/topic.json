@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-eventbridge",
+  "version": 1,
+  "title": "Amazon EventBridge: routing events and schedules",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-eventbridge-bus-rules",
+      "version": 1,
+      "statement": "Amazon EventBridge is a serverless event bus: rules match events from AWS services, your own applications or SaaS partners and route them to targets such as Lambda, SQS or Step Functions."
+    },
+    {
+      "id": "kc-eventbridge-schedule",
+      "version": 1,
+      "statement": "EventBridge can invoke targets on a schedule (cron or rate expressions), for example running a Lambda function every night at 02:00; it evolved from CloudWatch Events."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-loose-coupling"
+  ],
+  "suggests": [
+    "clf-sns"
+  ],
+  "confusable_with": [
+    "clf-sns",
+    "clf-cloudwatch-alarms"
+  ],
+  "introduces": [
+    "eventbridge",
+    "event bus",
+    "event rule"
+  ],
+  "uses": [
+    "event-driven",
+    "lambda",
+    "sqs",
+    "serverless"
+  ],
+  "problem_ideas": [
+    "Stop all development EC2 instances every weekday at 19:00: which service triggers the Lambda function?",
+    "React whenever any EC2 instance changes to the 'stopped' state: write the rule in plain words.",
+    "A SaaS help-desk tool emits ticket events; how do they reach your Lambda function without polling?",
+    "EventBridge vs SNS: a scenario needs content-based filtering across events from 20 AWS services. Choose and justify.",
+    "Spot the outdated term: an answer option says 'CloudWatch Events'. What is it called now?",
+    "Route the same event to two different targets based on a field value: one rule or two?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "application-integration/amazon-eventbridge"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "lambda/event-bridge-scheduled-execution"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "cloudwatch/events"
+    }
+  ],
+  "status": "stub"
+}

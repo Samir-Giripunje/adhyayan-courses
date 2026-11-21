@@ -1,0 +1,73 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-realtime-at-scale",
+  "version": 1,
+  "title": "Routing messages to millions of open connections",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-session-registry",
+      "version": 1,
+      "statement": "To deliver a message to user B, the sender's connection server looks up which connection server holds B in a session registry (a key-value store of user → server) and forwards the message there, or publishes it to B's pub/sub channel that B's server subscribes to."
+    },
+    {
+      "id": "kc-offline-delivery",
+      "version": 1,
+      "statement": "If the recipient has no open connection, the message is persisted for later sync on reconnect and a mobile push notification is sent instead."
+    },
+    {
+      "id": "kc-presence-tracking",
+      "version": 1,
+      "statement": "Presence (online/last seen) is tracked from connect and disconnect events plus periodic client pings with a timeout, because a dropped connection is not always reported."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-websockets",
+    "sd-pub-sub",
+    "sd-key-value-store"
+  ],
+  "suggests": [
+    "sd-distributed-cache"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "connection server",
+    "session registry",
+    "presence"
+  ],
+  "uses": [
+    "websockets",
+    "publish/subscribe",
+    "key-value store",
+    "persistent connection"
+  ],
+  "problem_ideas": [
+    "Trace a message from Alice (server 7) to Bob (server 42) step by step, naming every store touched",
+    "50M online users each ping every 30 s: what write QPS does presence put on the registry?",
+    "Bob's server crashes: what happens to his registry entry and to messages in flight?",
+    "A group chat with 500 members: how many registry lookups per message, and how would you batch them?",
+    "Compare registry lookup vs per-user pub/sub channels on latency and broker load",
+    "Design the sync-on-reconnect API using a per-conversation cursor"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-2/real-time-messaging"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-2/last-seen"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-2/notifications"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-whatsapp"
+    }
+  ],
+  "status": "stub"
+}

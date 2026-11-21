@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-back-pressure",
+  "version": 1,
+  "title": "Back pressure: when the queue keeps growing",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-backlog-wait-time",
+      "version": 1,
+      "statement": "A new message waits roughly backlog size divided by drain rate, so an unbounded queue that keeps growing turns into unbounded latency and eventually memory exhaustion."
+    },
+    {
+      "id": "kc-back-pressure-reject",
+      "version": 1,
+      "statement": "Back pressure bounds the queue and pushes the overload back to producers by blocking, slowing or rejecting them (for example HTTP 429 or 503 with Retry-After) instead of accepting work that cannot be finished in time."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-message-queues"
+  ],
+  "suggests": [
+    "sd-rate-limiting"
+  ],
+  "confusable_with": [
+    "sd-rate-limiting"
+  ],
+  "introduces": [
+    "back pressure",
+    "bounded queue"
+  ],
+  "uses": [
+    "message queue",
+    "queue-based load leveling",
+    "http 429",
+    "little's law"
+  ],
+  "problem_ideas": [
+    "Backlog is 600,000 messages and consumers drain 2,000/s: how long does a new message wait?",
+    "Your SLA is 5 s from enqueue to processed at 1,000/s drain: what queue bound do you set?",
+    "Producers send 3,000/s, consumers drain 2,500/s with 4 GB of memory and 2 KB messages: when does the broker run out?",
+    "Compare back pressure with rate limiting: who decides the limit and on what signal?",
+    "Failure story: a logging pipeline with an unbounded in-memory buffer takes down the app servers—redesign it",
+    "Choose: drop, block or reject for metrics events, payment requests and chat messages"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "asynchronism/back-pressure"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "asynchronism/back-pressure"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "backpressure/backpressure"
+    }
+  ],
+  "status": "stub"
+}

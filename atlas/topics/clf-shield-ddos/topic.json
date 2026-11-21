@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-shield-ddos",
+  "version": 1,
+  "title": "AWS Shield: DDoS protection, Standard vs Advanced",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-ddos-attack",
+      "version": 1,
+      "statement": "A DDoS (distributed denial-of-service) attack floods a target with traffic from many sources to exhaust its capacity. Edge services such as CloudFront and Route 53, together with Auto Scaling, absorb much of it."
+    },
+    {
+      "id": "kc-shield-standard",
+      "version": 1,
+      "statement": "Shield Standard is turned on automatically for every AWS customer at no extra cost and protects against common network-layer and transport-layer (layer 3 and 4) DDoS attacks."
+    },
+    {
+      "id": "kc-shield-advanced",
+      "version": 1,
+      "statement": "Shield Advanced is a paid subscription (about $3,000 a month per organization). It adds enhanced attack detection, 24/7 access to the Shield Response Team and cost protection for scaling charges caused by a DDoS attack."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-cloudfront",
+    "clf-auto-scaling-groups"
+  ],
+  "confusable_with": [
+    "clf-waf"
+  ],
+  "introduces": [
+    "ddos attack",
+    "shield",
+    "shield standard",
+    "shield advanced"
+  ],
+  "uses": [
+    "cloudfront",
+    "route 53",
+    "auto scaling group"
+  ],
+  "problem_ideas": [
+    "A gaming company was hit by a 2 Tbps SYN flood and wants 24/7 expert help during attacks. Choose between Shield Standard and Shield Advanced.",
+    "A DDoS attack doubled an Auto Scaling group from 10 to 40 instances for 6 hours. Which Shield feature covers the extra bill?",
+    "What does a brand-new AWS account get for DDoS protection without doing anything?",
+    "Rank CloudFront, Route 53 and a single EC2 instance by how well each absorbs a volumetric attack.",
+    "A question asks for SQL injection protection. Is Shield the answer? Explain.",
+    "Estimate the yearly cost of Shield Advanced for one organization."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-shield"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/ddos-protection-on-aws"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/aws-shield"
+    }
+  ],
+  "status": "stub"
+}

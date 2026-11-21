@@ -1,0 +1,167 @@
+{
+  "artifact": {
+    "path": "courses/aws-certified-cloud-practitioner-clf2/architect",
+    "sha256": "440fe3c5170bc548e39d264538148cce189dcd7b018d63d7bd3bec3909bc414d"
+  },
+  "reviewer": {
+    "role": "adhy-critic",
+    "vendor": "codex"
+  },
+  "items": [
+    {
+      "id": "f1",
+      "severity": "blocking",
+      "target": "clf-well-architected-tool",
+      "claim": "The o1 serves link is unjustified. Choosing a pillar and explaining the choice does not require knowing how to use the Well-Architected Tool.",
+      "fix": "Remove the o1 serves link; retain the o4 link for identifying the architecture-review service."
+    },
+    {
+      "id": "f2",
+      "severity": "blocking",
+      "target": "clf-tam-support-center",
+      "claim": "The o5 observable asks for the cheapest plan meeting a response-time requirement, not for TAM, Concierge or case-management features. Those features do not justify this topic's o5 serves link.",
+      "fix": "Remove the o5 serves link. Link this topic to o6 for exam coverage of support resources."
+    },
+    {
+      "id": "f3",
+      "severity": "blocking",
+      "target": "clf-wa-pillars-performance-cost-sustainability",
+      "claim": "Requiring the first three pillars merely because this topic continues their list imposes a presentation sequence as a prerequisite. None of these KCs requires operational excellence, security or reliability to be re-taught.",
+      "fix": "Change the clf-wa-pillars-ops-security-reliability edge to suggests. Require clf-well-architected-framework directly for the framework vocabulary."
+    },
+    {
+      "id": "f4",
+      "severity": "blocking",
+      "target": "clf-auto-scaling-groups",
+      "claim": "The clf-amis-user-data prerequisite is unsupported by the dependent KCs: none mentions AMIs, launch templates or user data. Capacity limits, replacement and scaling policies can be taught without that lesson.",
+      "fix": "Change the clf-amis-user-data edge from requires to suggests."
+    },
+    {
+      "id": "f5",
+      "severity": "blocking",
+      "target": "clf-choosing-database",
+      "claim": "The selection KCs require distinguishing Aurora and ElastiCache, but neither lesson is in this topic's prerequisite closure. Without them, the selection lesson must introduce the services it is supposed to compare.",
+      "fix": "Add requires edges to clf-aurora and clf-elasticache, explaining that their service characteristics are needed to reject the closest database distractors."
+    },
+    {
+      "id": "f6",
+      "severity": "blocking",
+      "target": "clf-p9",
+      "claim": "The chosen fork promises practice by domain and two timed full-length mocks, but the plan contains only lessons about exam technique and reviewing mocks. No activity actually produces the o6 observable.",
+      "fix": "Add practice assessments for all four domains and two distinct 65-question, 90-minute mock assessments. Record overall and per-domain results for each mock, enforce the 80% overall and 70% per-domain targets, and schedule review between attempts."
+    },
+    {
+      "id": "f7",
+      "severity": "blocking",
+      "target": "clf-p6",
+      "claim": "Service Quotas, AWS License Manager and AWS Elastic Disaster Recovery are on the current exam's service spine, but no KC teaches their purposes. Mentioning License Manager configurations as shareable resources does not teach License Manager.",
+      "evidence": {
+        "source": "-clf-c02-in-scope-services-https-docs-aws-amazon-com-aws-certification-latest-cloud-practitioner-02-clf-02-in-scope-services-html-",
+        "quote": "AWS License Manager; Service Quotas; AWS Elastic Disaster Recovery"
+      },
+      "fix": "Add required recognition coverage for viewing and requesting quota increases with Service Quotas, tracking software-license usage with License Manager, and replicating servers for disaster recovery with Elastic Disaster Recovery. Contrast disaster recovery with MGN migration and AWS Backup."
+    },
+    {
+      "id": "f8",
+      "severity": "blocking",
+      "target": "clf-ec2-instance-types",
+      "claim": "EC2 workload-to-instance-type matching is optional even though Task 3.3 explicitly requires it. No required topic teaches the compute-optimized versus storage-optimized distinction.",
+      "evidence": {
+        "source": "-clf-c02-exam-guide-task-3-3-https-docs-aws-amazon-com-pdfs-aws-certification-latest-cloud-practitioner-02-cloud-practitioner-02-pdf-",
+        "quote": "compute optimized, storage optimized"
+      },
+      "fix": "Make kc-instance-family-match required and add an o6 serves link justified by Task 3.3. Instance-name decoding and CPU-credit details can remain optional."
+    },
+    {
+      "id": "f9",
+      "severity": "blocking",
+      "target": "clf-support-plans",
+      "claim": "The support curriculum omits Business Support+ and Unified Operations and teaches obsolete cheapest-plan choices, including 'within 30 minutes → Enterprise On-Ramp.' Business Support+ already offers the business-critical response target below 30 minutes.",
+      "evidence": {
+        "source": "-aws-support-plans-https-docs-aws-amazon-com-awssupport-latest-user-aws-support-plans-html-plan-comparison-https-aws-amazon-com-premiumsupport-plans-",
+        "quote": "Less than 30 minutes human engagement for business critical system down cases."
+      },
+      "fix": "Update clf-support-plans, clf-tam-support-center, clf-choosing-support-option and clf-trusted-advisor to cover Basic, Business Support+, Enterprise Support and Unified Operations. Teach Business Support+ for under 30 minutes on business-critical outages, Enterprise for under 15 minutes, and Unified Operations for under 5 minutes from an Incident Management Engineer; label Developer, Business and Enterprise On-Ramp as legacy plans with their transition dates."
+    },
+    {
+      "id": "f10",
+      "severity": "blocking",
+      "target": "kc-s3-buckets-objects",
+      "claim": "'S3 stores objects, each up to 5 TB' is outdated. AWS increased the maximum object size to 50 TB in December 2025.",
+      "evidence": {
+        "source": "-amazon-s3-maximum-object-size-announcement-https-aws-amazon-com-about-aws-whats-new-2025-12-amazon-s3-maximum-object-size-50-tb-",
+        "quote": "Amazon S3 increased the maximum object size to 50 TB"
+      },
+      "fix": "Replace 'each up to 5 TB' with 'each up to 50 TB'."
+    },
+    {
+      "id": "f11",
+      "severity": "blocking",
+      "target": "kc-tag-activation",
+      "claim": "'They apply only to costs incurred after activation' is false. Cost allocation tags support historical backfill when the resource tags existed during the historical period.",
+      "evidence": {
+        "source": "-backfill-cost-allocation-tags-https-docs-aws-amazon-com-awsaccountbilling-latest-aboutv2-cost-allocation-backfill-html-",
+        "quote": "Management account users can request a backfill of cost allocation tags for up to twelve months."
+      },
+      "fix": "Replace the final clause with: 'Activation normally affects subsequent reporting; management-account users can request up to 12 months of backfill for periods when the resource already carried the tag.'"
+    },
+    {
+      "id": "f12",
+      "severity": "blocking",
+      "target": "clf-high-availability",
+      "claim": "'High availability means running an application in at least two physically separate data centers' substitutes one implementation for the definition. The additional claim that spreading servers removes 'the single point of failure' overlooks shared dependencies, failover and remaining capacity.",
+      "evidence": {
+        "source": "-availability-and-recovery-objectives-https-docs-aws-amazon-com-wellarchitected-latest-framework-rel-availability-and-recovery-objectives-html-",
+        "quote": "Availability is a percentage of uptime, such as 99.9 percent, over a period of time."
+      },
+      "fix": "Define high availability as minimizing downtime so a workload meets its availability target. Describe redundant deployment across independent AZs as a common technique, requiring suitable failover, data availability and surviving capacity; state that horizontal scaling alone does not establish high availability."
+    },
+    {
+      "id": "f13",
+      "severity": "blocking",
+      "target": "kc-choose-queue-vs-topic",
+      "claim": "'If each message must be processed once by one worker ... use SQS' incorrectly promises exactly-once application processing. Standard queues can redeliver messages, and FIFO deduplication does not prevent consumer retries after a visibility timeout.",
+      "evidence": {
+        "source": "-sqs-outage-recovery-scenarios-https-docs-aws-amazon-com-awssimplequeueservice-latest-sqsdeveloperguide-designing-for-outage-recovery-scenarios-html-",
+        "quote": "another consumer may receive and process it, leading to duplicate processing."
+      },
+      "fix": "Replace the selection rule with: 'Use SQS to queue work for competing consumers and SNS to publish notifications to multiple subscribers.' In kc-sqs-standard-fifo, specify FIFO ordering within each message group and deduplication, and explain that consumers must still handle retries safely."
+    },
+    {
+      "id": "f14",
+      "severity": "blocking",
+      "target": "clf-s3-lifecycle",
+      "claim": "The code mode contradicts the explicit exclusion of writing code, templates and scripts. These KCs concern selecting lifecycle actions, not implementing a browser-Python program.",
+      "fix": "Change mode to quiz and assess choosing transition versus expiration rules from retention and access requirements."
+    },
+    {
+      "id": "f15",
+      "severity": "blocking",
+      "target": "exclusions",
+      "claim": "The plan explicitly excludes services listed as out of scope, yet requires Wavelength, CodeDeploy, Personalize and FSx for Lustre. Wavelength is also embedded in o2, creating an internal contract conflict.",
+      "evidence": {
+        "source": "-clf-c02-out-of-scope-services-https-docs-aws-amazon-com-aws-certification-latest-cloud-practitioner-02-clf-02-out-of-scope-services-html-",
+        "quote": "AWS Wavelength; AWS CodeDeploy; Amazon Personalize; Amazon FSx for Lustre"
+      },
+      "fix": "Honor the exclusion: remove Wavelength from o2 and its teaching and selection KCs; remove CodeDeploy coverage and selection requirements; remove Personalize coverage; and remove Lustre-specific teaching and storage-selection cues while retaining in-scope FSx coverage."
+    },
+    {
+      "id": "f16",
+      "severity": "warn",
+      "target": "kc-guardduty-no-agents",
+      "claim": "'GuardDuty needs no agents' is too broad. It describes foundational log analysis, while GuardDuty Runtime Monitoring uses a security agent.",
+      "evidence": {
+        "source": "-guardduty-runtime-monitoring-https-docs-aws-amazon-com-guardduty-latest-ug-runtime-monitoring-html-",
+        "quote": "Runtime Monitoring uses a GuardDuty security agent"
+      },
+      "fix": "Replace the opening with: 'GuardDuty's foundational analysis of CloudTrail, VPC flow and DNS data requires no customer-installed agents or customer-configured log delivery.' Keep optional Runtime Monitoring outside this foundational claim."
+    },
+    {
+      "id": "f17",
+      "severity": "warn",
+      "target": "kc-clf-readiness-threshold",
+      "claim": "Calling 80% on unspecified mocks a 'safety margin above the 700 scaled passing mark' suggests a raw-to-scaled conversion that the scoring lesson correctly says does not exist. Mock difficulty and calibration are unspecified.",
+      "fix": "Keep the course's two-mock readiness thresholds, but replace the final clause with: 'This is a course readiness heuristic, not a conversion to AWS's scaled score or a guarantee of passing.'"
+    }
+  ]
+}

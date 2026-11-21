@@ -1,0 +1,102 @@
+[
+  {
+    "id": "q-cp2-recall",
+    "version": 1,
+    "family": "q-cp2-recall",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-retrieval-eval",
+    "kcs": [
+      "kc-retrieval-eval"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Relevant {P, Q}. Top-3 returned [Q, R, S]. What is recall@3?",
+    "answer": {
+      "value": 0.5,
+      "tolerance": 0.01
+    },
+    "hints": [
+      "Which idea applies? Retrieval quality is measured on labelled queries.",
+      "Found Q: 1 of 2 = 0.5."
+    ],
+    "solution_md": "Found Q: 1 of 2 = 0.5.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-i7",
+    "version": 1,
+    "family": "q-dpp-i7",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-retrieval-eval",
+    "kcs": [
+      "kc-retrieval-eval"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Relevant: **{D1, D4, D6, D9}**. Top-5: **[D4, D2, D9, D7, D1]**. recall@5? (2 decimals)",
+    "answer": {
+      "value": 0.75,
+      "tolerance": 0.01
+    },
+    "common_wrong": [
+      {
+        "value": 0.6,
+        "kind": "slip",
+        "why_md": "0.6 is precision@5 (3 of the 5 returned). Recall divides by the 4 relevant docs."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Retrieval quality is measured on labelled queries.",
+      "Found D4, D9 and D1: 3 of 4 = 0.75."
+    ],
+    "solution_md": "Found D4, D9 and D1: 3 of 4 = 0.75.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-i8",
+    "version": 1,
+    "family": "q-dpp-i8",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-retrieval-eval",
+    "kcs": [
+      "kc-retrieval-eval"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "First relevant result at ranks **2, 1, 4, 2** over four queries. MRR? (3 decimals)",
+    "answer": {
+      "value": 0.563,
+      "tolerance": 0.005
+    },
+    "hints": [
+      "Which idea applies? Retrieval quality is measured on labelled queries.",
+      "$(1/2 + 1 + 1/4 + 1/2)/4 = 2.25/4 = 0.5625$."
+    ],
+    "solution_md": "$(1/2 + 1 + 1/4 + 1/2)/4 = 2.25/4 = 0.5625$.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

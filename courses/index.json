@@ -1,0 +1,73 @@
+{
+  "courses": [
+    "embeddings-semantic-search",
+    "system-design",
+    "python-decorators",
+    "aws-certified-cloud-practitioner-clf2"
+  ],
+  "migrated": [
+    "embeddings-semantic-search"
+  ],
+  "findings": {
+    "system-design": 2
+  },
+  "probe_pools": {
+    "embeddings-semantic-search": [
+      "emb-pooling"
+    ],
+    "system-design": [
+      "sd-dns",
+      "sd-ip-addresses",
+      "sd-storage-estimate",
+      "sd-estimation-method",
+      "sd-push-pull-cdn",
+      "sd-cdn",
+      "sd-cache-invalidation-ttl",
+      "sd-cache-aside"
+    ]
+  },
+  "forecast": [
+    "embeddings-semantic-search",
+    "system-design"
+  ],
+  "sections": {
+    "python-decorators": [
+      "python-decorators-tryit-pd-closures",
+      "python-decorators-tryit-pd-decoration-time",
+      "python-decorators-tryit-pd-stacked-decorators",
+      "python-decorators-tryit-pd-class-decorators",
+      "python-decorators-tryit-pd-validator-descriptors"
+    ],
+    "system-design": [
+      "system-design-tryit-sd-dns-routing",
+      "system-design-tryit-sd-rpc",
+      "system-design-tryit-sd-data-model",
+      "system-design-tryit-sd-bandwidth-estimate",
+      "system-design-tryit-sd-bottlenecks",
+      "system-design-tryit-sd-load-balancers",
+      "system-design-tryit-sd-api-gateway",
+      "system-design-tryit-sd-scale-to-millions",
+      "system-design-tryit-sd-cache-invalidation-ttl",
+      "system-design-tryit-sd-choose-cache-strategy",
+      "system-design-tryit-sd-denormalization",
+      "system-design-tryit-sd-sql-vs-nosql",
+      "system-design-tryit-sd-replication-lag",
+      "system-design-tryit-sd-quorum",
+      "system-design-tryit-sd-shard-key",
+      "system-design-tryit-sd-task-queues-background-jobs",
+      "system-design-tryit-sd-idempotency-keys",
+      "system-design-tryit-sd-realtime-at-scale",
+      "system-design-tryit-sd-single-points-of-failure",
+      "system-design-tryit-sd-circuit-breaker",
+      "system-design-tryit-sd-reliability-review",
+      "system-design-tryit-sd-case-chat",
+      "system-design-tryit-sd-case-ride-hailing",
+      "system-design-tryit-sd-mock-unseen-prompt"
+    ]
+  },
+  "practice": [
+    "aws-certified-cloud-practitioner-clf2",
+    "python-decorators",
+    "system-design"
+  ]
+}

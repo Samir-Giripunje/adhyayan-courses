@@ -1,0 +1,206 @@
+[
+  {
+    "id": "sd-latency-throughput/test-a1",
+    "family": "sd-latency-throughput-lt-batch-send-throughput",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-latency-vs-throughput"
+    ],
+    "prompt_md": "An online shop's order system sends confirmation texts through an SMS provider.\n\n- **Before:** it sends one text per call. Each call takes **10 ms**, and the next call starts only when the previous one finishes.\n- **After:** it sends **50 texts in one call**. Each call takes **100 ms**, again one call at a time.\n\nAfter the change, what is the system's **throughput**, in texts per second?",
+    "answer": {
+      "value": 500,
+      "tolerance": 0,
+      "unit": "texts per second"
+    },
+    "common_wrong": [
+      {
+        "value": 10,
+        "kind": "misconception",
+        "tag": "mc-latency-throughput-same",
+        "why_md": "10 is the number of **calls** per second (1 ÷ 0.1 s). Each call carries 50 texts. You also get 10 if you assume that 10× the latency means one tenth of the old throughput. Latency and throughput are different numbers, and here they both went up."
+      },
+      {
+        "value": 100,
+        "kind": "misconception",
+        "tag": "mc-latency-throughput-same",
+        "why_md": "100 texts per second was the throughput **before** the change (1 ÷ 0.01 s). Batching changes both latency and throughput, so recompute it."
+      },
+      {
+        "value": 0.5,
+        "kind": "slip",
+        "why_md": "That divides 50 texts by 100 while leaving the time in milliseconds. Convert first: 100 ms = 0.1 s, and 50 ÷ 0.1 = 500."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "texts_per_call = 50\ncall_seconds = 100 / 1000\nanswer = texts_per_call / call_seconds\n"
+    },
+    "hints": [
+      "Throughput counts **texts** finished per second. Work out how many calls finish per second, then how many texts each call carries.",
+      "One call takes 0.1 s, so 10 calls finish per second. Each call carries 50 texts: 10 × 50 = ?"
+    ],
+    "solution_md": "1. One call at a time, each taking 100 ms = 0.1 s, gives 1 ÷ 0.1 = **10 calls per second**.\n2. Each call carries 50 texts, so 10 × 50 = **500 texts per second**.\n3. Compare with before: 1 ÷ 0.01 s = 100 texts per second, and each text took 10 ms.\n\nThroughput rose fivefold (100 → 500 per second), while each text now waits at least 100 ms instead of 10 ms. Latency got worse while throughput got better, so they are different goals.\n\n**Answer: 500 texts per second.**",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/test-a2",
+    "family": "sd-latency-throughput-lt-achieved-rate-from-log",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-bandwidth"
+    ],
+    "prompt_md": "A nightly job copies a **600 MB** database backup to cloud storage over a link rated at **200 Mbps**. The job log shows that the copy took exactly **2 minutes**.\n\nWhat average **throughput** did the copy achieve, in **Mbps**? Use 1 MB = 8 megabits.",
+    "answer": {
+      "value": 40,
+      "tolerance": 0,
+      "unit": "Mbps"
+    },
+    "common_wrong": [
+      {
+        "value": 5,
+        "kind": "slip",
+        "why_md": "600 ÷ 120 = 5 is in **megabytes** per second. Mbps counts bits, so multiply the size by 8 first: 4,800 Mb ÷ 120 s = 40 Mbps."
+      },
+      {
+        "value": 200,
+        "kind": "misconception",
+        "tag": "mc-throughput-equals-bandwidth",
+        "why_md": "200 Mbps is the link's **bandwidth**, the ceiling. Throughput is the rate the copy actually achieved, which you get from size ÷ time."
+      },
+      {
+        "value": 2400,
+        "kind": "slip",
+        "why_md": "4,800 Mb ÷ 2 gives megabits per **minute**. Convert 2 minutes to 120 seconds first."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "size_megabits = 600 * 8\nseconds = 2 * 60\nanswer = size_megabits / seconds\n"
+    },
+    "hints": [
+      "Achieved throughput = data actually moved ÷ time taken. Put the data in megabits and the time in seconds.",
+      "600 MB × 8 = 4,800 megabits. 2 minutes = 120 s. Divide."
+    ],
+    "solution_md": "1. Convert the size to bits: 600 MB × 8 = **4,800 megabits**.\n2. Convert the time to seconds: 2 min = **120 s**.\n3. Throughput = 4,800 ÷ 120 = **40 Mbps**.\n\nThat is only a fifth of the link's 200 Mbps bandwidth. The bandwidth is a ceiling, and things like headers, other traffic on the link, a slow far end or TCP waiting for replies can keep a transfer well below it.\n\n**Answer: 40 Mbps.**",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/test-a3",
+    "family": "sd-latency-throughput-lt-latency-from-inflight",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-littles-law"
+    ],
+    "prompt_md": "A coffee chain's mobile-ordering API completes **900 orders per second**. Its dashboard shows that on average **45 orders** are in progress (started but not yet finished) at any moment.\n\nUsing Little's law, what is the average **latency** of one order, in **milliseconds**?",
+    "answer": {
+      "value": 50,
+      "tolerance": 0,
+      "unit": "ms"
+    },
+    "common_wrong": [
+      {
+        "value": 0.05,
+        "kind": "slip",
+        "why_md": "0.05 is the latency in **seconds**. The question asks for milliseconds: 0.05 s × 1,000 = 50 ms."
+      },
+      {
+        "value": 20,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "900 ÷ 45 = 20 divides the wrong way round. From in flight = throughput × latency, latency = in flight ÷ throughput = 45 ÷ 900."
+      },
+      {
+        "value": 40500,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "900 × 45 multiplies throughput by the in-flight count. Rearrange Little's law instead: latency = in flight ÷ throughput."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "in_flight = 45\nthroughput = 900\nlatency_s = in_flight / throughput\nanswer = round(latency_s * 1000, 6)\n"
+    },
+    "hints": [
+      "Little's law: in flight = throughput × latency. Rearrange it to get latency, which comes out in seconds.",
+      "latency = 45 ÷ 900 s. Then multiply by 1,000 to get milliseconds."
+    ],
+    "solution_md": "1. Little's law: in flight = throughput × latency.\n2. Rearrange: latency = in flight ÷ throughput = 45 ÷ 900 = **0.05 s**.\n3. Convert: 0.05 s × 1,000 = **50 ms**.\n\nCheck: 900 per second × 0.05 s = 45 in flight. ✓\n\n**Answer: 50 ms.**",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/test-a4",
+    "family": "sd-latency-throughput-lt-peak-workers-code",
+    "kind": "predict_output",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-littles-law"
+    ],
+    "prompt_md": "A ride-hailing app sizes the worker count for its map service. Each worker handles one request at a time. The list holds the service's throughput (requests per second) in four different hours. What does this code print? Type the output exactly.",
+    "code": "import math\n\nhourly_rps = [1200, 3400, 2800, 900]\nlatency_ms = 25\n\npeak = max(rps * latency_ms / 1000 for rps in hourly_rps)\nworkers = math.ceil(peak * 1.25)\nprint(peak, workers)\n",
+    "answer": {
+      "value": "85.0 107",
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import math\nhourly_rps = [1200, 3400, 2800, 900]\nlatency_ms = 25\npeak = max(rps * latency_ms / 1000 for rps in hourly_rps)\nworkers = math.ceil(peak * 1.25)\nanswer = f\"{peak} {workers}\"\n"
+    },
+    "hints": [
+      "`rps * latency_ms / 1000` is Little's law with the latency turned into seconds: requests in flight for that hour. `max` keeps the busiest hour, and `ceil(peak * 1.25)` adds 25% headroom, rounded up.",
+      "Busiest hour: 3,400 × 25 / 1000 = 85.0 (`/` always gives a float). Then 85.0 × 1.25 = 106.25, rounded up."
+    ],
+    "solution_md": "1. In flight per hour (throughput × latency in seconds): 1,200 × 0.025 = 30.0; 3,400 × 0.025 = **85.0**; 2,800 × 0.025 = 70.0; 900 × 0.025 = 22.5.\n2. `max` gives `peak = 85.0`. It prints as `85.0` because `/` returns a float.\n3. Headroom: 85.0 × 1.25 = 106.25, and `math.ceil` rounds up to **107**.\n4. `print(peak, workers)` puts a space between the values.\n\nOutput:\n\n```text\n85.0 107\n```",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-latency-throughput"
+    }
+  }
+]

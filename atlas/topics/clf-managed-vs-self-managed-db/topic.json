@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-managed-vs-self-managed-db",
+  "version": 1,
+  "title": "Managed databases vs databases on EC2",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-managed-db-aws-tasks",
+      "version": 1,
+      "statement": "With a managed database such as RDS, AWS handles provisioning, OS and engine patching, automated backups and hardware failure, while the customer manages schemas, data, user access and network settings."
+    },
+    {
+      "id": "kc-ec2-hosted-db-when",
+      "version": 1,
+      "statement": "Run a database on EC2 only when you need OS-level access, an engine or version the managed services do not offer, or full configuration control; you then own patching, backups and high availability."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-shared-responsibility-by-service"
+  ],
+  "suggests": [
+    "clf-tco-on-premises-costs"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "managed database",
+    "self-managed database"
+  ],
+  "uses": [
+    "managed service",
+    "shared responsibility model",
+    "ec2 instance",
+    "undifferentiated heavy lifting",
+    "relational database"
+  ],
+  "problem_ideas": [
+    "Sort tasks for RDS: OS patching, creating database users, encrypting data, replacing failed disks, choosing the security group",
+    "A vendor app needs a custom plug-in installed on the database host OS: RDS or EC2?",
+    "A team of two developers has no DBA: which option reduces operations work?",
+    "Same tasks for a self-managed MySQL on EC2: who now patches the engine?",
+    "A legacy engine version is no longer offered by RDS: what are the options?",
+    "Estimate which costs disappear when moving from EC2-hosted to managed: licences, admin hours, backup scripts"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-4-identify-aws-database/deciding-when-to-use-ec2-hosted-database"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-4-identify-aws-database/aws-database-services"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/databases-shared-responsibility-on-aws"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-fan-out",
+  "version": 1,
+  "title": "Fan-out on write vs fan-out on read",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-fan-out-on-write",
+      "version": 1,
+      "statement": "Fan-out on write pushes each new post id into every follower's precomputed timeline at write time, making reads a single cheap lookup but costing one write per follower."
+    },
+    {
+      "id": "kc-fan-out-on-read",
+      "version": 1,
+      "statement": "Fan-out on read assembles a timeline at read time by fetching and merging recent posts from every followed account, making writes cheap but each read cost proportional to the number of followees."
+    },
+    {
+      "id": "kc-hybrid-fan-out",
+      "version": 1,
+      "statement": "Hybrid fan-out uses fan-out on write for ordinary accounts and fan-out on read for celebrity accounts with millions of followers, merging both at read time to avoid million-write bursts."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-message-queues"
+  ],
+  "suggests": [
+    "sd-denormalization",
+    "sd-distributed-cache"
+  ],
+  "confusable_with": [
+    "sd-pub-sub"
+  ],
+  "introduces": [
+    "fan-out on write",
+    "fan-out on read",
+    "hybrid fan-out",
+    "celebrity problem"
+  ],
+  "uses": [
+    "read-to-write ratio",
+    "message queue",
+    "distributed cache",
+    "denormalization"
+  ],
+  "problem_ideas": [
+    "5,000 posts/s with 200 followers on average: timeline writes per second under fan-out on write",
+    "A celebrity with 80M followers posts: at 1M timeline writes/s per cluster, how long until the last follower sees it?",
+    "Timeline reads are 300,000/s and users follow 400 accounts: reads per second against the post store under fan-out on read",
+    "Set a follower threshold for hybrid fan-out and justify it with numbers",
+    "Timeline cache keeps 800 post ids × 8 B for 300M users: memory needed",
+    "A user unfollows someone: what cleanup does each approach need?"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-3/newsfeed"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "system-design-interview-questions-with-s/design-the-twitter-timeline-and-search-o"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-tradeoffs/push-vs-pull-architecture"
+    }
+  ],
+  "status": "stub"
+}

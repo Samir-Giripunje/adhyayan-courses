@@ -1,0 +1,44 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "pd-u4-descriptors",
+  "title": "Descriptors: how property and methods really work",
+  "topics": [
+    {
+      "id": "pd-descriptor-basics",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "pd-descriptor-protocol",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "pd-set-name",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "pd-property",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "pd-bound-methods",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "pd-classmethod-staticmethod",
+      "tier": "must",
+      "order": 6
+    },
+    {
+      "id": "pd-validator-descriptors",
+      "tier": "must",
+      "order": 7
+    }
+  ],
+  "halfway_after": 4,
+  "status": "stub"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "system-design-critic-f2",
+  "origin": "critic",
+  "created": "2026-11-18",
+  "status": "proposed",
+  "changes": [
+    {
+      "op": "retier",
+      "topic": "sd-push-pull-cdn",
+      "from": "must",
+      "to": "recommended",
+      "minutes_delta": 0,
+      "why": "O4 requires placing a CDN, but does not require choosing how content is provisioned into it. Push-versus-pull provisioning is enrichment rather than a prerequisite for producing this observable. (critic f2: Remove sd-push-pull-cdn's serves link to o4.)"
+    }
+  ],
+  "route_version_after": 2,
+  "forecast_delta_weeks": 0
+}

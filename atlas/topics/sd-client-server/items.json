@@ -1,0 +1,690 @@
+[
+  {
+    "id": "sd-client-server/set-1",
+    "family": "sd-client-server-cs-who-is-client-weather",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "The weather app on Priya's phone sends the message *\"forecast for Pune\"* to the weather company's computers. The computers reply with the forecast. In **this** exchange, which one is the **client**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The weather company's computers, because they hold the forecast data",
+        "why_md": "Holding the data doesn't make you the client. The computers wait for the request and answer it, so they are the server."
+      },
+      {
+        "id": "b",
+        "md": "The weather app on Priya's phone, because it sent the request",
+        "correct": true,
+        "why_md": "Right. The client is whoever starts the exchange by sending a request. Here that is the app."
+      },
+      {
+        "id": "c",
+        "md": "The weather company's computers, because they send the forecast to the phone",
+        "why_md": "Sending the response doesn't make them the client. They only sent the forecast because the app asked for it. The side that asks is the client.",
+        "misconception": "mc-server-starts"
+      },
+      {
+        "id": "d",
+        "md": "Neither: a phone app and a company computer are both servers",
+        "why_md": "Client and server are roles in one exchange. The app asks, so it is the client in this exchange."
+      }
+    ],
+    "hints": [
+      "Use the definition: the client is the side that *starts* the exchange by sending a request.",
+      "The app sent \"forecast for Pune\" and the computers answered it. So the side that asked is the client."
+    ],
+    "solution_md": "1. Find who sends the first message: the app sends \"forecast for Pune\". That message is the **request**.\n2. The weather company's computers wait, do the work and send back the forecast. That is the **response**.\n3. The side that starts the exchange is the client, so **the weather app is the client** and the weather company's computers are the server.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/set-2",
+    "family": "sd-client-server-tt-match-components-food",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-three-tier"
+    ],
+    "prompt_md": "Dabba is a food-delivery service with a three-tier architecture. Match each Dabba component to its tier.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "The Dabba mobile app on a customer's phone, which shows menus and sends orders",
+        "why_md": "It is what the user sees and touches, so it is the presentation tier."
+      },
+      {
+        "id": "l2",
+        "md": "The 12 order servers (in two regions) that apply the rule \"a restaurant can't accept orders after closing time\"",
+        "why_md": "They run business logic, so they are the application tier. All 12 machines belong to that one tier."
+      },
+      {
+        "id": "l3",
+        "md": "The PostgreSQL database that stores menus and orders",
+        "why_md": "It stores data and answers queries, so it is the data tier."
+      },
+      {
+        "id": "r1",
+        "md": "Presentation tier",
+        "why_md": "Fits the mobile app."
+      },
+      {
+        "id": "r2",
+        "md": "Application tier",
+        "why_md": "Fits the order servers."
+      },
+      {
+        "id": "r3",
+        "md": "Data tier",
+        "why_md": "Fits the PostgreSQL database."
+      },
+      {
+        "id": "r4",
+        "md": "Twelve separate tiers, one per machine",
+        "why_md": "Never right. A tier is a layer with one job and can hold many machines. The 12 order servers together form the application tier.",
+        "misconception": "mc-tier-one-machine"
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3"
+      }
+    },
+    "hints": [
+      "Ask what each component does: show things to the user, run the product's rules, or store data.",
+      "Show things to the user → presentation. Run rules (business logic) → application. Store data → data. How many machines a component has doesn't change its tier."
+    ],
+    "solution_md": "1. The mobile app shows menus and collects orders, so it is the **presentation tier** (r1).\n2. The order servers apply a business rule (no orders after closing), so they are the **application tier** (r2). There are 12 of them, but they are still one tier.\n3. The PostgreSQL database stores menus and orders, so it is the **data tier** (r3).\n\nr4 is never right, because a tier can have many machines.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/set-3",
+    "family": "sd-client-server-cs-order-catalogue-search",
+    "kind": "order",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "A student searches a university library's online catalogue for *Dune*. The catalogue server looks up the books in the library's database. Put the steps in order, from the first message sent to the last thing that happens.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The catalogue server sends the database a query for books matching *Dune*",
+        "why_md": "Second. The catalogue server needs the data before it can build the page. In this exchange it is the client."
+      },
+      {
+        "id": "b",
+        "md": "The student's browser sends the request \"search: Dune\" to the catalogue server",
+        "why_md": "First. The client starts every exchange."
+      },
+      {
+        "id": "c",
+        "md": "The database returns the matching rows to the catalogue server",
+        "why_md": "Third. The database answers the query."
+      },
+      {
+        "id": "d",
+        "md": "The catalogue server builds the results page and sends it to the browser as the response",
+        "why_md": "Fourth. Now the catalogue server answers the browser's original request."
+      },
+      {
+        "id": "e",
+        "md": "The browser shows the results to the student",
+        "why_md": "Last. The browser displays the response it received."
+      }
+    ],
+    "answer": {
+      "sequence": [
+        "b",
+        "a",
+        "c",
+        "d",
+        "e"
+      ]
+    },
+    "hints": [
+      "The client starts every exchange. Who is the very first client here?",
+      "Browser asks → catalogue server queries the database → database answers → catalogue server responds → browser shows the page."
+    ],
+    "solution_md": "1. **b**: the browser (client) sends the request.\n2. **a**: to answer it, the catalogue server queries the database. In this exchange the catalogue server is the client.\n3. **c**: the database (server) returns the rows.\n4. **d**: the catalogue server builds the page and sends the response to the browser.\n5. **e**: the browser shows the results.\n\nOrder: b, a, c, d, e.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/set-4",
+    "family": "sd-client-server-tt-multi-two-tier-bank",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-three-tier"
+    ],
+    "prompt_md": "Ledgr is a banking app with three tiers: the mobile app, Ledgr's app servers and a database. Right now the app servers hold the database login and check the rule \"no transfer larger than the account balance\". The database has no constraint, permission or stored procedure that enforces this rule.\n\nTo save time, a team suggests removing the app servers. Under this proposal:\n\n- every copy of the Ledgr mobile app would connect to the database with **one shared database login stored inside the app**;\n- the app would send its own SQL queries straight to the database, naming the tables directly;\n- the transfer rule would be checked **only in the mobile app's code**;\n- there would be no compatibility layer (such as a view under an old table name) between the app and the tables.\n\nUnder these assumptions, which statements about the two-tier design are true? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Anyone who has a copy of the app could extract the shared database login from it",
+        "correct": true,
+        "why_md": "True. The stem says the shared login is stored inside every copy of the app, and a copy on a device the bank doesn't control can be inspected."
+      },
+      {
+        "id": "b",
+        "md": "It is just a simpler design with no real downside",
+        "why_md": "False. Under the stated assumptions it exposes the login, lets modified apps skip the transfer rule and ties installed apps to the table names.",
+        "misconception": "mc-two-tier-harmless"
+      },
+      {
+        "id": "c",
+        "md": "A modified copy of the app could make a transfer larger than the account balance",
+        "correct": true,
+        "why_md": "True. The stem says the rule would be checked only in the app's code and the database does not enforce it, so a modified app can skip the check."
+      },
+      {
+        "id": "d",
+        "md": "Account data would end up stored only on customers' phones instead of in the database",
+        "why_md": "False. The database still stores the data. What changes is who sends it queries."
+      },
+      {
+        "id": "e",
+        "md": "Renaming a table that the app's queries use would break installed copies of the app that still use the old name",
+        "correct": true,
+        "why_md": "True. Installed apps send queries that name the table directly, and with no compatibility layer those queries fail after the rename until users update."
+      }
+    ],
+    "hints": [
+      "Use the lesson's two-tier warning: list what the application tier was doing for Ledgr (holding the login, checking the rules, hiding the table layout) and check what happens to each once it is removed.",
+      "The login moves into every app, the rule is checked only on devices the bank doesn't control, and installed apps name the tables directly. The data still lives in the database."
+    ],
+    "solution_md": "Go through what the application tier was doing, using the stem's assumptions:\n\n1. **Login**: the app servers held it. Now one shared login is stored inside every app, so anyone with the app can extract it. **(a) true.**\n2. **Business rule**: the app servers checked it and the database does not. Now only the app checks it, so a modified app can skip it. **(c) true.**\n3. **Table layout**: before, only app-server code named the tables. Now installed apps do, with no compatibility layer, so renaming a table breaks copies still using the old name. **(e) true.**\n\n**(b)** is false because the downsides above are real. **(d)** is false because the database still stores the data.\n\n**Answer: a, c, e.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/set-5",
+    "family": "sd-client-server-tt-numeric-scale-app-tier",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-three-tier"
+    ],
+    "prompt_md": "PlayPass, a stadium-ticket site, expects a peak of **4,200 checkout requests per second**. Its **5** app servers are at 100% processor during checkout, and its database is mostly idle. Assume one app server can run checkout logic for **600 requests per second**. How many app servers must PlayPass **add** to the application tier to handle the peak?",
+    "answer": {
+      "value": 2,
+      "tolerance": 0,
+      "unit": "app servers"
+    },
+    "common_wrong": [
+      {
+        "value": 7,
+        "kind": "slip",
+        "why_md": "7 is the total number of app servers needed (4,200 ÷ 600). PlayPass already has 5, so it adds 7 − 5 = 2."
+      },
+      {
+        "value": 12,
+        "kind": "slip",
+        "why_md": "That adds the 7 needed on top of the 5 already running. 7 is the total, so subtract: 7 − 5 = 2."
+      },
+      {
+        "value": 0,
+        "kind": "misconception",
+        "tag": "mc-scale-wrong-tier",
+        "why_md": "Adding nothing here, for example because you plan to grow the database instead, misses the bottleneck. The app servers are maxed out, so the application tier has to grow."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\npeak = 4200\nper_server = 600\nhave = 5\nneeded = math.ceil(peak / per_server)\nanswer = needed - have\n"
+    },
+    "hints": [
+      "App servers needed = peak requests per second ÷ requests one server handles. Then compare that with what PlayPass already has.",
+      "4,200 ÷ 600 = 7 needed. PlayPass has 5."
+    ],
+    "solution_md": "1. Bottleneck: checkout logic is business logic, and the app servers are maxed out while the database is idle, so scale the **application tier**.\n2. Capacity now: 5 × 600 = 3,000 requests per second, which is below 4,200.\n3. Servers needed: 4,200 ÷ 600 = 7.\n4. Servers to add: 7 − 5 = **2**.\n\nCheck: 7 × 600 = 4,200 requests per second.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-client-server",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/set-6",
+    "family": "sd-client-server-cs-ar-role-per-exchange",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "**Assertion (A):** When a Dabba order server sends a query to the Dabba database and waits for the rows, the order server is acting as a client.\n\n**Reason (R):** *Client* and *server* describe who asks and who answers in a single exchange, not a fixed label for a machine.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. A is true because the order server asks and the database answers. R is true, and it is exactly why A holds: the role depends on the exchange."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "Both are true, but R is the very reason for A. The order server is a client here because in this exchange it is the one asking."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true. The lesson's point is that roles belong to one exchange: the same app server is a server to the browser and a client to the database."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. A machine called a server can still send requests of its own. When it queries the database, it is the client in that exchange.",
+        "misconception": "mc-server-never-client"
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. In the query exchange, who asks and who answers?",
+      "The order server asks and the database answers, so A is true. R gives the rule that makes A true."
+    ],
+    "solution_md": "1. **A**: in the query exchange the order server sends the request and the database responds. The asker is the client, so A is **true**.\n2. **R**: client and server are roles in one exchange. The same order server is a server to the phone app, so R is **true**.\n3. A follows directly from R: the order server is a client *because* in this exchange it asks.\n\nAnswer: **a**, both true and R explains A.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/set-7",
+    "family": "sd-client-server-cs-numeric-load-share",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "FestPass, a music-festival site, receives **2,400 requests per second** at its peak. It runs in **3** regions with **4** app servers in each region. If the requests are split evenly across all the app servers, how many requests per second does **each** app server handle?",
+    "answer": {
+      "value": 200,
+      "tolerance": 0,
+      "unit": "requests per second"
+    },
+    "common_wrong": [
+      {
+        "value": 800,
+        "kind": "slip",
+        "why_md": "That divides only by the 3 regions. Each region has 4 servers, so divide by 3 × 4 = 12."
+      },
+      {
+        "value": 600,
+        "kind": "slip",
+        "why_md": "That divides only by the 4 servers in one region. There are 3 regions, so there are 12 servers in total."
+      },
+      {
+        "value": 342.9,
+        "kind": "slip",
+        "why_md": "That divides by 3 + 4 = 7. The number of servers is 3 regions × 4 per region = 12."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "peak = 2400\nregions = 3\nper_region = 4\nanswer = peak / (regions * per_region)\n"
+    },
+    "hints": [
+      "First count all the app servers that share the load, then divide the peak by that count.",
+      "3 regions × 4 servers = 12 servers. 2,400 ÷ 12 = ?"
+    ],
+    "solution_md": "1. Number of app servers: 3 × 4 = **12**.\n2. Even split: 2,400 ÷ 12 = **200 requests per second** per app server.\n\nAll the clients share these 12 servers, which is the many-clients-to-one-server-pool idea in action.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-client-server",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/set-8",
+    "family": "sd-client-server-tt-case-bus-sale-bottleneck",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-three-tier"
+    ],
+    "prompt_md": "Coachly sells bus tickets through a phone app (presentation tier), app servers (application tier) and one PostgreSQL database (data tier). During a holiday sale, monitoring shows:\n\n- the app servers are at **100% processor** while running seat-booking logic;\n- the database is at **25%** of its capacity.\n\nCoachly must handle the sale peak without changing the phone app, and without spending money on machines it doesn't need. What's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Add database machines to the data tier",
+        "why_md": "Trap. The database is at 25%, so it isn't the bottleneck. The app servers would stay maxed out and the site would stay slow.",
+        "misconception": "mc-scale-wrong-tier"
+      },
+      {
+        "id": "b",
+        "md": "Add app servers to the application tier until their combined capacity covers the peak",
+        "correct": true,
+        "why_md": "Best. The slow work is business logic in the application tier. Growing only that tier fixes the bottleneck, and the app and the database stay as they are."
+      },
+      {
+        "id": "c",
+        "md": "Add app servers to the application tier and also add database machines, to be safe",
+        "why_md": "Viable, second-best. The new app servers fix the bottleneck, but the database machines cost money for a tier at 25% load, which breaks the 'no machines it doesn't need' goal. Keep watching the database, since it now gets queries from more app servers."
+      }
+    ],
+    "hints": [
+      "Find the tier that is doing the slow work, then check each option against both goals: handle the peak, and don't buy machines that aren't needed.",
+      "Seat-booking logic is business logic, and its servers are maxed out. The database has spare capacity."
+    ],
+    "solution_md": "1. **Find the bottleneck.** Seat-booking logic runs in the application tier, and those servers are at 100%. The database is at 25%, so it is not the bottleneck.\n2. **Scale only that tier.** Adding app servers (b) raises capacity where the work is. The phone app doesn't change and the database stays put.\n3. **Check the others.** (c) also fixes the bottleneck but buys database machines nobody needs, so it is second-best. (a) grows the wrong tier and fixes nothing.\n\nAnswer: **b**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/set-9",
+    "family": "sd-client-server-cs-spot-wrong-role-label",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "An engineer labels every exchange that happens when a customer places one Dabba food order. Which label is **wrong**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Phone app → order server (\"place this order\"): the phone app is the client",
+        "why_md": "Correct label. The phone app starts the exchange, so it is the client."
+      },
+      {
+        "id": "b",
+        "md": "Order server → database (\"save this order\"): the order server is the client",
+        "why_md": "Correct label. The order server asks and the database answers. A machine called a server can still be the client in an exchange it starts.",
+        "misconception": "mc-server-never-client"
+      },
+      {
+        "id": "c",
+        "md": "Order server → payment provider (\"charge ₹450 to this card\"): the order server is the server, because it is an order server",
+        "correct": true,
+        "why_md": "This is the wrong label. The order server sends the charge request and waits, so in this exchange it is the client and the payment provider is the server. The name \"order server\" doesn't decide its role."
+      },
+      {
+        "id": "d",
+        "md": "Order server → maps service (\"travel time from restaurant to address\"): the maps service is the server",
+        "why_md": "Correct label. The maps service waits for the question and answers it, so it is the server."
+      }
+    ],
+    "hints": [
+      "For each exchange, ignore the machine's name. Ask only who sends the request and who answers it.",
+      "In three of the exchanges the label matches who asks. Look for the one that gives a role based on the machine's name."
+    ],
+    "solution_md": "Check each exchange by asking who sends the request:\n\n- (a) The phone app asks, so it is the client. ✔\n- (b) The order server asks the database, so it is the client. ✔\n- (c) The order server asks the payment provider to charge the card, so it is the **client**, not the server. ✘\n- (d) The maps service answers, so it is the server. ✔\n\nThe wrong label is **c**. Roles come from the exchange, not from the machine's name.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/set-10",
+    "family": "sd-client-server-tt-schema-change-impact",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-three-tier"
+    ],
+    "prompt_md": "Ledgr uses a three-tier architecture: the mobile app sends requests to the app servers, and only the app servers query the PostgreSQL database. The team renames a table in the database. The app servers' SQL queries reference that table by name, and no view, alias or other compatibility mechanism will keep its old name working. The app servers will keep sending the phones exactly the same responses as before. What has to change?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Every installed copy of the mobile app, because the apps read that table",
+        "why_md": "In a three-tier design the presentation tier never queries the database, so the apps don't know the table exists.",
+        "misconception": "mc-two-tier-harmless"
+      },
+      {
+        "id": "b",
+        "md": "Nothing: a rename in the data tier is invisible to every other tier",
+        "why_md": "The app servers' queries name the table, so the rename does reach the application tier. Only the tiers beyond that are shielded."
+      },
+      {
+        "id": "c",
+        "md": "The app servers' queries and every installed copy of the mobile app",
+        "why_md": "The app servers' queries must change, but the apps don't. They talk only to the app servers, whose responses stay the same."
+      },
+      {
+        "id": "d",
+        "md": "Only the application-tier code whose queries use that table; installed apps keep working unchanged",
+        "correct": true,
+        "why_md": "Right. Only the application tier talks to the data tier, so only its queries change. Because its responses stay the same, the presentation tier is untouched."
+      }
+    ],
+    "hints": [
+      "Each tier talks only to its neighbour. Which tier sends queries that name the table?",
+      "The app servers query the database, so their queries change. The phones talk only to the app servers, whose responses don't change."
+    ],
+    "solution_md": "1. The table name appears only in **database queries**.\n2. In a three-tier design, only the **application tier** sends queries, so that code must be updated.\n3. The presentation tier only sends requests to the app servers, and those responses stay the same, so **installed apps keep working**.\n\nAnswer: **d**. The boundaries between tiers let you change one tier without touching the others. In a two-tier design, installed apps whose queries use the renamed table would break unless a compatibility mechanism, such as a view under the old name, keeps it working.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/exit-1",
+    "family": "sd-client-server-cs-exit-thermostat-server",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "Every hour, a smart thermostat sends the request *\"tomorrow's forecast for my postcode\"* to a weather service, and the weather service sends the forecast back. In **this** exchange, which one is the **server**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The thermostat, because it runs all day in the house",
+        "why_md": "Running all day doesn't make it the server. The thermostat sends the request, so it is the client."
+      },
+      {
+        "id": "b",
+        "md": "Neither: the weather service sends forecasts to thermostats whenever it decides to",
+        "why_md": "In client-server the server doesn't start the exchange. Here the thermostat asks every hour and the service answers.",
+        "misconception": "mc-server-starts"
+      },
+      {
+        "id": "c",
+        "md": "The weather service, because it waits for the request and answers it",
+        "correct": true,
+        "why_md": "Right. The server waits for requests, processes them and sends back a response."
+      }
+    ],
+    "hints": [
+      "The server is the side that waits for a request and answers it.",
+      "The thermostat asks, so the side that answers is the server."
+    ],
+    "solution_md": "1. The thermostat sends the request, so it is the **client**.\n2. The weather service waits, finds the forecast and responds, so it is the **server**.\n\nAnswer: **c**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/exit-2",
+    "family": "sd-client-server-tt-exit-rule-placement",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-three-tier"
+    ],
+    "prompt_md": "Coachly has the business rule *\"a passenger can book at most 6 seats per bus\"*. In its three-tier architecture, which tier should enforce this rule?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The application tier",
+        "correct": true,
+        "why_md": "Right. Business logic runs on the app servers, which Coachly controls, so no client can skip the rule."
+      },
+      {
+        "id": "b",
+        "md": "Only the presentation tier (the phone app)",
+        "why_md": "A modified app could skip the check. Business rules belong in the application tier, which runs on Coachly's own servers.",
+        "misconception": "mc-two-tier-harmless"
+      },
+      {
+        "id": "c",
+        "md": "The data tier, which stores whatever it receives",
+        "why_md": "The data tier's job is to store and return data. Business rules belong in the application tier."
+      }
+    ],
+    "hints": [
+      "Which tier runs business logic?",
+      "The product's rules run on the app servers: the application tier."
+    ],
+    "solution_md": "\"At most 6 seats per bus\" is **business logic**. In a three-tier design, business logic runs in the **application tier**, on servers Coachly controls. A rule checked only in the app can be skipped by a modified app. Answer: **a**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/exit-3",
+    "family": "sd-client-server-cs-exit-shared-server",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "A city library has 300 search terminals and one catalogue server that holds the list of books. The library uses client-server architecture. The terminals do not keep local copies of the book list: each search sends a request to the catalogue server. Which statement describes how the terminals and the catalogue server work together?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Each terminal keeps its own copy of the book list, and the server sends each terminal updates without being asked",
+        "why_md": "This contradicts the setup: the terminals keep no copy of the list, and each search is a request to the server. (Client-server systems can cache data or push updates, but not this one.)",
+        "misconception": "mc-server-starts"
+      },
+      {
+        "id": "b",
+        "md": "Each terminal sends requests; the server waits, processes each one and responds, and all 300 terminals share its single book list",
+        "correct": true,
+        "why_md": "Right. Clients initiate the request–response exchanges described here, and many clients share one server's resources and data."
+      },
+      {
+        "id": "c",
+        "md": "Each terminal acts as both client and server, sending pieces of the book list to the other terminals",
+        "why_md": "That describes peer-to-peer, where every computer both downloads from and sends to the others. It isn't client-server."
+      }
+    ],
+    "hints": [
+      "Who starts each exchange in client-server, and how many copies of the data are there?",
+      "The clients ask, and one server answers all of them from one shared copy of the data."
+    ],
+    "solution_md": "Here, each search is a request from a terminal to the catalogue server:\n\n1. **Each terminal sends a request.**\n2. **The server waits, processes it and responds.**\n3. **Many clients share one server**: all 300 terminals use its one book list.\n\nOption (a) contradicts the stated setup (no local copies; every search is a request). Option (c) is peer-to-peer. Answer: **b**.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-client-server"
+    }
+  }
+]

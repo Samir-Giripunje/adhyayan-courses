@@ -1,0 +1,72 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-step-functions-mq",
+  "version": 1,
+  "title": "Step Functions workflows and Amazon MQ brokers",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-step-functions-workflow",
+      "version": 1,
+      "statement": "AWS Step Functions orchestrates multi-step workflows as a visual state machine, with built-in retries, branching, parallel steps and waits, coordinating Lambda functions and other AWS services."
+    },
+    {
+      "id": "kc-step-functions-vs-queue",
+      "version": 1,
+      "statement": "Choose Step Functions when the order and outcome of several steps must be coordinated and tracked; choose a queue when one component only needs to hand work to another."
+    },
+    {
+      "id": "kc-amazon-mq",
+      "version": 1,
+      "statement": "Amazon MQ is a managed message broker for Apache ActiveMQ and RabbitMQ, used when migrating applications that already use open protocols such as AMQP, MQTT or JMS instead of rewriting them for SQS and SNS."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-sqs"
+  ],
+  "suggests": [
+    "clf-lambda",
+    "clf-migration-strategies"
+  ],
+  "confusable_with": [
+    "clf-sqs",
+    "clf-eventbridge"
+  ],
+  "introduces": [
+    "step functions",
+    "state machine",
+    "amazon mq",
+    "message broker"
+  ],
+  "uses": [
+    "lambda",
+    "sqs",
+    "sns",
+    "lift and shift"
+  ],
+  "problem_ideas": [
+    "A loan approval needs credit check, fraud check in parallel, then a human approval wait: which service coordinates it?",
+    "A company moves an on-prem app that uses RabbitMQ and wants no code changes: SQS or Amazon MQ?",
+    "One step of a five-step order workflow fails intermittently; which Step Functions feature handles it without custom code?",
+    "Classify scenarios as 'orchestration' (Step Functions) or 'hand-off' (SQS).",
+    "Spot the distractor: 'Amazon MQ is the serverless, cloud-native replacement for SQS.'",
+    "An image pipeline runs resize, watermark and publish Lambda functions in order; draw the state machine."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "application-integration/aws-step-functions"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-aws-services/aws-step-functions"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "cloud-integration/amazon-mq"
+    }
+  ],
+  "status": "stub"
+}

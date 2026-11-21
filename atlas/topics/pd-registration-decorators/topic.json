@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-registration-decorators",
+  "version": 1,
+  "title": "Registration decorators and plugin registries",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-registration-returns-original",
+      "version": 1,
+      "statement": "A registration decorator adds the function to a registry, such as a dict keyed by name, and returns the original function unchanged, so calls carry no wrapper overhead."
+    },
+    {
+      "id": "kc-registration-at-import",
+      "version": 1,
+      "statement": "Registration happens when the defining module is imported; a plugin in a module that is never imported is never registered."
+    },
+    {
+      "id": "kc-registration-factory",
+      "version": 1,
+      "statement": "A keyed registry decorator such as @register('json') is a decorator factory whose key is captured in a closure."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "pd-decoration-time",
+    "pd-decorator-factories"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "pd-attribute-tagging"
+  ],
+  "introduces": [
+    "registration decorator",
+    "registry"
+  ],
+  "uses": [
+    "decoration time",
+    "decorator factory"
+  ],
+  "problem_ideas": [
+    "Build @register('csv') / @register('json') exporters and dispatch by format string",
+    "Predict the registry contents after importing two of three plugin modules",
+    "Raise an error when two plugins register the same key",
+    "Write an atexit-style @on_exit registry like PEP 318's onexit example",
+    "Build a command-line dispatcher where @command adds subcommands",
+    "Explain why the registered function has no extra call overhead"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "examples/examples"
+    }
+  ],
+  "status": "stub"
+}

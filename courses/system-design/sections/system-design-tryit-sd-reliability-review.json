@@ -1,0 +1,33 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-reliability-review",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: explain it in your own words",
+  "blurb": "Uses Monitoring: metrics, logs, traces and alerts, Security overview: authn, authz, encryption, abuse and Failure-mode review of a design under time: predict, then explain in your own words.",
+  "after": "topic:sd-reliability-review",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "written",
+    "topics": [
+      "sd-monitoring-observability",
+      "sd-security-overview",
+      "sd-reliability-review"
+    ],
+    "kcs": [
+      "kc-observability-signals",
+      "kc-golden-signals",
+      "kc-authn-vs-authz",
+      "kc-token-at-ingress",
+      "kc-transport-and-abuse",
+      "kc-review-trace",
+      "kc-review-fix-map",
+      "kc-review-compute",
+      "kc-review-interview"
+    ],
+    "minutes": 20,
+    "why": "Uses Monitoring: metrics, logs, traces and alerts, Security overview: authn, authz, encryption, abuse and Failure-mode review of a design under time: predict, then explain in your own words."
+  }
+}

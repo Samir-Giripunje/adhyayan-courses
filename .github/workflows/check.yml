@@ -1,0 +1,53 @@
+# Pull requests: validate and build every published course with the app's tools (the same checks as a publish), and
+# publish nothing.
+name: Check the courses
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the courses
+        uses: actions/checkout@v5
+        with:
+          path: content
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Read the app version to build with (app-ref.txt)
+        id: app
+        run: |
+          ref="$(tr -d '[:space:]' < content/app-ref.txt)"
+          if ! [[ "$ref" =~ ^[0-9a-f]{40}$ ]]; then echo "app-ref.txt must hold a full commit sha of Samir-Giripunje/adhyayan" >&2; exit 1; fi
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+
+      - name: Check out the app at that commit
+        uses: actions/checkout@v5
+        with:
+          repository: Samir-Giripunje/adhyayan
+          ref: ${{ steps.app.outputs.ref }}
+          path: app
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install the app's tools
+        working-directory: app
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+        run: npm ci --ignore-scripts --omit=dev --omit=optional
+
+      - name: Validate and build every course (nothing is published)
+        run: node app/tools/publish.mjs --root content --check

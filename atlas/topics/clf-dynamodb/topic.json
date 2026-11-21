@@ -1,0 +1,88 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-dynamodb",
+  "version": 1,
+  "title": "Amazon DynamoDB: serverless NoSQL at any scale",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-dynamodb-serverless-nosql",
+      "version": 1,
+      "statement": "Amazon DynamoDB is a fully managed, serverless NoSQL key-value and document database delivering single-digit-millisecond performance at any scale."
+    },
+    {
+      "id": "kc-dynamodb-items-keys",
+      "version": 1,
+      "statement": "DynamoDB stores items made of attributes in tables; each item is identified by a primary key (a partition key, optionally with a sort key), and items in one table may have different attributes."
+    },
+    {
+      "id": "kc-dynamodb-capacity-modes",
+      "version": 1,
+      "statement": "DynamoDB on-demand capacity charges per request and suits unpredictable traffic, while provisioned capacity sets read and write capacity in advance and suits steady, predictable traffic."
+    },
+    {
+      "id": "kc-dynamodb-dax-global-tables",
+      "version": 1,
+      "statement": "DynamoDB Accelerator (DAX) is an in-memory cache that cuts DynamoDB reads to microseconds, and global tables replicate a table across Regions with writes accepted in every Region."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-relational-vs-nosql"
+  ],
+  "suggests": [
+    "clf-lambda"
+  ],
+  "confusable_with": [
+    "clf-elasticache",
+    "clf-documentdb-neptune"
+  ],
+  "introduces": [
+    "dynamodb",
+    "partition key",
+    "dynamodb accelerator",
+    "global tables"
+  ],
+  "uses": [
+    "nosql database",
+    "serverless",
+    "region",
+    "database schema"
+  ],
+  "problem_ideas": [
+    "A mobile game stores player profiles for 50 million users with millisecond reads: choose the database",
+    "A new app's traffic is unknown and spiky: on-demand or provisioned capacity?",
+    "Reads from DynamoDB must drop from 5 ms to microseconds with no app redesign: name the feature",
+    "Users in Europe and Asia must both write with low latency: which DynamoDB feature?",
+    "Identify the partition key in a table of orders keyed by customer_id and order_date",
+    "True or false: you choose and patch EC2 instances for DynamoDB"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "dynamodb/dynamodb"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "dynamodb/tables-items-attributes"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "dynamodb/primary-keys-secondary-indexes"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "dynamodb/capacity-settings"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "database/amazon-dynamodb"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/dynamodb"
+    }
+  ],
+  "status": "stub"
+}

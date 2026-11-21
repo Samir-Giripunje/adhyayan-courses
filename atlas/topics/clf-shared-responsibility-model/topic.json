@@ -1,0 +1,69 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-shared-responsibility-model",
+  "version": 1,
+  "title": "Shared responsibility: security of vs in the cloud",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-srm-aws-side",
+      "version": 1,
+      "statement": "AWS is responsible for security of the cloud: the physical data centers, hardware, global network and the host and virtualization layer that run AWS services."
+    },
+    {
+      "id": "kc-srm-customer-side",
+      "version": 1,
+      "statement": "The customer is responsible for security in the cloud: what it puts on and configures in AWS, such as guest operating systems on IaaS, application code, firewall settings like security groups, and encryption choices."
+    },
+    {
+      "id": "kc-srm-data-always-customer",
+      "version": 1,
+      "statement": "For every service type the customer keeps responsibility for its own data, how it is classified, and which identities can access it."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-service-models"
+  ],
+  "confusable_with": [
+    "clf-shared-controls"
+  ],
+  "introduces": [
+    "shared responsibility model",
+    "security of the cloud",
+    "security in the cloud"
+  ],
+  "uses": [
+    "cloud computing",
+    "iaas"
+  ],
+  "problem_ideas": [
+    "Sort ten tasks (shredding failed disks, rotating passwords, patching the hypervisor, setting bucket permissions...) into 'of' and 'in' the cloud",
+    "A customer's S3 bucket was left public and data leaked: whose responsibility failed, and why?",
+    "Who guards the data center door, and who decides whether data is encrypted at rest?",
+    "True/false: with fully managed services the customer no longer owns its data's security",
+    "A breach came from a weak password on a customer's admin account: AWS or customer side?",
+    "Explain the model in one sentence to a manager who thinks 'moving to AWS makes security AWS's problem'"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "introduction/shared-responsibility-model"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-1-understand-the-aws-sh/aws-shared-responsibility-model"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-1-understand-the-aws-sh/describing-aws-responsibilities"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-1-understand-the-aws-sh/describing-the-customer-s-responsibiliti"
+    }
+  ],
+  "status": "stub"
+}

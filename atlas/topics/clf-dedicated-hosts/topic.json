@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-dedicated-hosts",
+  "version": 1,
+  "title": "Dedicated Hosts, Dedicated Instances, reservations",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-dedicated-host-byol",
+      "version": 1,
+      "statement": "A Dedicated Host is a whole physical server for your use with visibility of its sockets and cores, chosen to bring per-socket or per-core software licenses (BYOL) or meet strict compliance rules; it is the most expensive EC2 option."
+    },
+    {
+      "id": "kc-dedicated-instance-vs-host",
+      "version": 1,
+      "statement": "Dedicated Instances run on hardware dedicated to one AWS account but give no visibility or control over the physical host, so they cannot satisfy server-bound licensing."
+    },
+    {
+      "id": "kc-capacity-reservation",
+      "version": 1,
+      "statement": "On-Demand Capacity Reservations guarantee EC2 capacity in a specific Availability Zone for any duration and are billed at On-Demand rates whether used or not; they give no discount unless combined with Savings Plans or Regional RIs."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-on-demand-reserved",
+    "clf-compliance-programs"
+  ],
+  "confusable_with": [
+    "clf-spot-instances"
+  ],
+  "introduces": [
+    "dedicated hosts",
+    "dedicated instances",
+    "capacity reservation",
+    "bring your own license"
+  ],
+  "uses": [
+    "ec2 instance",
+    "on-demand pricing",
+    "availability zone",
+    "compliance program"
+  ],
+  "problem_ideas": [
+    "A company owns per-core Windows Server and SQL Server licenses it wants to reuse: which EC2 option?",
+    "A regulator requires that no other customer shares the hardware but licensing is not server-bound: Dedicated Instance or Dedicated Host?",
+    "A retailer needs guaranteed capacity in one AZ for a 3-day Black Friday event without a 1-year term: which option?",
+    "Rank Spot, On-Demand, Dedicated Instance and Dedicated Host by typical hourly cost.",
+    "A team reserves capacity for 10 instances but runs 6 for a month: predict what it pays for the 4 idle reservations.",
+    "Spot the error: 'Capacity Reservations give a 40% discount like RIs.'"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "ec2/purchasing-options"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/compute-pricing"
+    }
+  ],
+  "status": "stub"
+}

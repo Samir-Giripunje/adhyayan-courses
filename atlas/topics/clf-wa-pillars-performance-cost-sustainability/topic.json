@@ -1,0 +1,75 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-wa-pillars-performance-cost-sustainability",
+  "version": 1,
+  "title": "Pillars II: performance, cost, sustainability",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-performance-efficiency-pillar",
+      "version": 1,
+      "statement": "The performance efficiency pillar is about using computing resources efficiently as demand and technology change: democratise advanced technologies, go global in minutes, use serverless architectures and experiment more often."
+    },
+    {
+      "id": "kc-cost-optimization-pillar",
+      "version": 1,
+      "statement": "The cost optimization pillar delivers business value at the lowest price: adopt a consumption model, measure overall efficiency, stop spending on undifferentiated heavy lifting, and analyse and attribute expenditure."
+    },
+    {
+      "id": "kc-sustainability-pillar",
+      "version": 1,
+      "statement": "The sustainability pillar, added in 2021, minimises a workload's environmental impact: maximise utilisation, use managed services and adopt more efficient hardware and software."
+    },
+    {
+      "id": "kc-cost-vs-performance-pillar",
+      "version": 1,
+      "statement": "Removing idle or oversized resources to cut spending maps to cost optimization, while choosing faster resource types or adding caching to cut latency maps to performance efficiency."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-well-architected-framework",
+    "clf-rightsizing"
+  ],
+  "suggests": [
+    "clf-wa-pillars-ops-security-reliability",
+    "clf-six-advantages"
+  ],
+  "confusable_with": [
+    "clf-wa-pillars-ops-security-reliability",
+    "clf-rightsizing"
+  ],
+  "introduces": [
+    "performance efficiency pillar",
+    "cost optimization pillar",
+    "sustainability pillar"
+  ],
+  "uses": [
+    "well-architected framework",
+    "well-architected pillars",
+    "rightsizing",
+    "variable costs",
+    "global reach",
+    "undifferentiated heavy lifting"
+  ],
+  "problem_ideas": [
+    "A team wants to cut its carbon footprint by raising average server utilisation from 15% to 60%: which pillar?",
+    "Turning off dev environments every night and weekend: which pillar?",
+    "Choosing a GPU instance to cut model inference time from 2 s to 200 ms: which pillar?",
+    "Tagging resources by team to see who spends what: which pillar and which principle?",
+    "Two pillars both mention 'go global in minutes' in prep notes: which is the official home?",
+    "Sort ten scenarios across all six pillars, then explain the two you found hardest."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-2-identify-design-princ/identifying-differences-between-the-pill"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "aws-architecting-ecosystem/well-architected-framework-6-pillars"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-organizations",
+  "version": 1,
+  "title": "AWS Organizations and multi-account strategy",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-org-management-member",
+      "version": 1,
+      "statement": "An AWS Organizations organization has one management account that creates it and pays its bills, plus member accounts. Each account stays a separate boundary for security and resources."
+    },
+    {
+      "id": "kc-org-organizational-units",
+      "version": 1,
+      "statement": "Organizational units (OUs) group accounts in a hierarchy under the organization root, and a policy attached to an OU applies to every account inside it."
+    },
+    {
+      "id": "kc-org-multi-account-why",
+      "version": 1,
+      "statement": "A multi-account strategy puts environments, teams or workloads (for example production and development) in separate accounts. This limits the blast radius of mistakes and breaches and keeps access and costs separate."
+    },
+    {
+      "id": "kc-ram-share-resources",
+      "version": 1,
+      "statement": "AWS Resource Access Manager (RAM) shares resources such as subnets, transit gateways and License Manager configurations with other accounts or the whole organization, so they don't have to be duplicated."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-aws-account-root-user"
+  ],
+  "suggests": [
+    "clf-service-control-policies"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "aws organizations",
+    "management account",
+    "member account",
+    "organizational unit",
+    "multi-account strategy",
+    "resource access manager"
+  ],
+  "uses": [
+    "aws account",
+    "subnet",
+    "transit gateway"
+  ],
+  "problem_ideas": [
+    "A startup has 40 engineers sharing one AWS account, and an intern deleted a production database while testing. Propose an account layout using OUs.",
+    "Draw an OU tree for a company with prod, dev and sandbox accounts in two business units, then say which OU a new data-science sandbox account belongs in.",
+    "A shared VPC subnet must be used by 5 member accounts. Choose between VPC peering, copying the subnet, and RAM.",
+    "Which account receives the invoice when 12 member accounts each spend $2,000 this month?",
+    "True or false: moving an account into a different OU changes which policies apply to it.",
+    "A team wants its prod account's spending tracked separately from dev. Explain how separate accounts help, compared with tagging one shared account."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/aws-organizations"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/multi-account-strategies"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-resource-access-manager-aws-ram"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-pub-sub",
+  "version": 1,
+  "title": "Publish/subscribe: one event, many consumers",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-pubsub-copy-per-subscription",
+      "version": 1,
+      "statement": "In publish/subscribe every subscription on a topic receives its own copy of each message, whereas a point-to-point queue delivers each message to only one consumer."
+    },
+    {
+      "id": "kc-pubsub-publisher-unaware",
+      "version": 1,
+      "statement": "Publishers do not know their subscribers, so a new downstream service (for example analytics) can subscribe to a topic without any change to the publishing service."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-message-queues"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-message-queues",
+    "sd-event-streaming"
+  ],
+  "introduces": [
+    "publish/subscribe",
+    "topic",
+    "subscriber"
+  ],
+  "uses": [
+    "message queue",
+    "consumer",
+    "competing consumers"
+  ],
+  "problem_ideas": [
+    "An 'order placed' event must reach billing, shipping, email and analytics: queue or pub/sub, and draw it",
+    "A topic has 4 subscriptions and receives 10,000 events/s: how many deliveries per second does the broker make?",
+    "Each subscription has 3 competing consumers: how many processes see a given message?",
+    "Adding fraud detection to an existing checkout: what changes with pub/sub vs direct calls?",
+    "A subscriber is offline for an hour: what happens to its messages with durable vs non-durable subscriptions?",
+    "Interviewer: 'how does the notification service learn a new comment was posted?'"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "messaging/publisher-subscriber"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "working-2/working"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "features-3/fanout"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "asynchronous-communication/pub-sub"
+    }
+  ],
+  "status": "stub"
+}

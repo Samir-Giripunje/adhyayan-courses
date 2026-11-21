@@ -1,0 +1,79 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-payment-system",
+  "version": 1,
+  "title": "Case study: payment system",
+  "size": "big",
+  "est_min": 40,
+  "kcs": [
+    {
+      "id": "kc-payment-idempotent-charge",
+      "version": 1,
+      "statement": "Each checkout sends an idempotency key with the charge request. The payment service stores the key with the result, so a retried request returns the original outcome instead of charging twice."
+    },
+    {
+      "id": "kc-payment-double-entry-ledger",
+      "version": 1,
+      "statement": "A double-entry ledger records every money movement as matching debit and credit entries that sum to zero. Entries are append-only, and corrections are new reversing entries."
+    },
+    {
+      "id": "kc-payment-reconciliation",
+      "version": 1,
+      "statement": "Reconciliation regularly compares the internal ledger with the payment service provider's settlement reports to find mismatches caused by timeouts or partial failures."
+    },
+    {
+      "id": "kc-payment-timeout-unknown",
+      "version": 1,
+      "statement": "A timeout from the payment service provider means the outcome is unknown, not failed. The system marks the payment pending and resolves it by querying the provider or through reconciliation, never by blindly charging again."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-idempotency-keys",
+    "sd-relational-acid",
+    "sd-sagas"
+  ],
+  "suggests": [
+    "sd-change-data-capture"
+  ],
+  "confusable_with": [
+    "sd-case-ticket-booking"
+  ],
+  "introduces": [
+    "payment system design",
+    "ledger",
+    "double-entry bookkeeping",
+    "reconciliation",
+    "payment service provider"
+  ],
+  "uses": [
+    "idempotency key",
+    "transaction",
+    "acid",
+    "saga",
+    "compensating transaction",
+    "retry with backoff",
+    "timeout",
+    "transactional outbox",
+    "strong consistency"
+  ],
+  "problem_ideas": [
+    "The client's charge call times out and the user taps Pay again. Walk through both requests with an idempotency key.",
+    "Write the ledger entries for a $100 purchase with a $3 platform fee.",
+    "Tonight's reconciliation finds a charge at the provider with no ledger entry. Decide what to do.",
+    "Order created, payment charged, inventory reservation fails: define the compensating steps.",
+    "Explain why ledger rows are never updated in place.",
+    "Estimate ledger storage for 10M payments a day × 4 entries × 200 bytes over 7 years."
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-payment-system"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-a-digital-wallet"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,74 @@
+{
+  "id": "system-design-critic-f4",
+  "origin": "critic",
+  "created": "2026-11-18",
+  "status": "proposed",
+  "changes": [
+    {
+      "op": "retier",
+      "topic": "sd-polling-long-polling",
+      "from": "must",
+      "to": "optional",
+      "minutes_delta": -20,
+      "why": "Three hard prerequisites gate skills their dependent KCs do not need: identifying a SPOF does not require availability arithmetic, defining WebSockets does not require polling, and the payment case's KCs do not use sagas. (critic f4: Move sd-single-points-of-failure → sd-availability-series-parallel and sd-case-payment-system → sd-sagas from requires to suggests. Move sd-websockets → sd-polling-long-polling to suggests and add a direct requires edge from sd-websockets to sd-http.)"
+    },
+    {
+      "op": "retier",
+      "topic": "sd-sagas",
+      "from": "recommended",
+      "to": "optional",
+      "minutes_delta": -28,
+      "why": "Three hard prerequisites gate skills their dependent KCs do not need: identifying a SPOF does not require availability arithmetic, defining WebSockets does not require polling, and the payment case's KCs do not use sagas. (critic f4: Move sd-single-points-of-failure → sd-availability-series-parallel and sd-case-payment-system → sd-sagas from requires to suggests. Move sd-websockets → sd-polling-long-polling to suggests and add a direct requires edge from sd-websockets to sd-http.)"
+    },
+    {
+      "op": "edge",
+      "topic": "sd-single-points-of-failure",
+      "from": {
+        "requires": "sd-availability-series-parallel"
+      },
+      "to": {
+        "suggests": "sd-availability-series-parallel"
+      },
+      "minutes_delta": 0,
+      "why": "Three hard prerequisites gate skills their dependent KCs do not need: identifying a SPOF does not require availability arithmetic, defining WebSockets does not require polling, and the payment case's KCs do not use sagas. (critic f4)"
+    },
+    {
+      "op": "edge",
+      "topic": "sd-case-payment-system",
+      "from": {
+        "requires": "sd-sagas"
+      },
+      "to": {
+        "suggests": "sd-sagas"
+      },
+      "minutes_delta": 0,
+      "why": "Three hard prerequisites gate skills their dependent KCs do not need: identifying a SPOF does not require availability arithmetic, defining WebSockets does not require polling, and the payment case's KCs do not use sagas. (critic f4)"
+    },
+    {
+      "op": "edge",
+      "topic": "sd-websockets",
+      "from": {
+        "requires": "sd-polling-long-polling"
+      },
+      "to": {
+        "suggests": "sd-polling-long-polling"
+      },
+      "minutes_delta": 0,
+      "why": "Three hard prerequisites gate skills their dependent KCs do not need: identifying a SPOF does not require availability arithmetic, defining WebSockets does not require polling, and the payment case's KCs do not use sagas. (critic f4)"
+    },
+    {
+      "op": "edge",
+      "topic": "sd-websockets",
+      "from": {
+        "suggests": "sd-http"
+      },
+      "to": {
+        "requires": "sd-http"
+      },
+      "minutes_delta": 0,
+      "why": "Three hard prerequisites gate skills their dependent KCs do not need: identifying a SPOF does not require availability arithmetic, defining WebSockets does not require polling, and the payment case's KCs do not use sagas. (critic f4)"
+    }
+  ],
+  "route_version_after": 2,
+  "forecast_delta_weeks": -0.37
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-ec2-instance-types",
+  "version": 1,
+  "title": "EC2 instance families: matching the workload",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-instance-family-match",
+      "version": 1,
+      "statement": "Each EC2 instance family suits a kind of workload: general purpose (M, T) for balanced web servers, compute optimized (C) for batch processing and gaming servers, memory optimized (R, X) for in-memory databases, storage optimized (I, D) for high local disk I/O, and accelerated computing (P, G) for GPU and machine learning work."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-ec2-basics"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-amis-user-data",
+    "clf-instance-naming-burstable"
+  ],
+  "introduces": [
+    "instance type",
+    "instance family"
+  ],
+  "uses": [
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "Match five workloads (Redis-style in-memory cache, video transcoding farm, ML model training, low-traffic blog, data warehouse with heavy local scans) to an instance family.",
+    "A gaming company needs high single-thread CPU for game servers: which family, and why not memory optimized?",
+    "A distractor offers 'storage optimized' for a workload that stores all its data in S3: explain why it is wrong.",
+    "A real-time analytics engine keeps a 400 GB dataset in RAM: which family?",
+    "A company trains deep-learning models on GPUs: which family letter would you look for?",
+    "Spot the mismatch: 'Use compute optimized instances for a NoSQL database doing millions of random reads on local disks.'"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "ec2/instance-types"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-3-identify-aws-compute-/aws-compute-services"
+    }
+  ],
+  "status": "stub"
+}

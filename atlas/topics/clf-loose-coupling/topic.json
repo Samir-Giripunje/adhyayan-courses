@@ -1,0 +1,55 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-loose-coupling",
+  "version": 1,
+  "title": "Loose coupling: why components talk through messages",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-loose-coupling-definition",
+      "version": 1,
+      "statement": "In a loosely coupled architecture, components communicate through intermediaries such as queues or event buses, so one component can fail, slow down or scale without breaking the others."
+    },
+    {
+      "id": "kc-sync-vs-async",
+      "version": 1,
+      "statement": "A synchronous call makes the caller wait for a response; asynchronous messaging lets the sender continue immediately, which absorbs traffic spikes and isolates failures."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-sqs",
+    "clf-sns"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "loose coupling",
+    "tight coupling",
+    "asynchronous messaging"
+  ],
+  "uses": [
+    "ec2 instance",
+    "high availability"
+  ],
+  "problem_ideas": [
+    "An order web tier calls the payment service directly; payment goes down for 10 minutes. Predict what customers see, then redesign with a queue.",
+    "Classify six architecture sketches as tightly or loosely coupled and name the intermediary in each loosely coupled one.",
+    "A Black Friday spike sends 20x normal orders; explain which design keeps accepting orders and why.",
+    "Pick the Well-Architected design principle that loose coupling supports from four options.",
+    "A video upload site makes users wait while transcoding finishes; identify the synchronous step and propose an asynchronous alternative.",
+    "Spot the distractor: 'loose coupling means all components run on one larger EC2 instance' and explain why it is wrong."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "application-integration/application-integration"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "cloud-integration/cloud-integration"
+    }
+  ],
+  "status": "stub"
+}

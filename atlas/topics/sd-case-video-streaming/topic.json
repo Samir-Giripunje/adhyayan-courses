@@ -1,0 +1,85 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-video-streaming",
+  "version": 1,
+  "title": "Case study: video streaming (YouTube / Netflix)",
+  "size": "big",
+  "est_min": 38,
+  "kcs": [
+    {
+      "id": "kc-video-transcoding-pipeline",
+      "version": 1,
+      "statement": "An uploaded video is split into chunks and transcoded in parallel by workers into several resolutions and codecs. A pipeline of queued tasks marks the video ready when every rendition finishes."
+    },
+    {
+      "id": "kc-video-abr-segments",
+      "version": 1,
+      "statement": "With adaptive bitrate streaming (HLS/DASH), each rendition is cut into segments a few seconds long and listed in a manifest. The player picks the bitrate for each segment from the measured bandwidth."
+    },
+    {
+      "id": "kc-video-cdn-egress",
+      "version": 1,
+      "statement": "Video egress dominates cost. Popular videos are served from CDN edge servers, and long-tail videos may be served from origin or regional caches."
+    },
+    {
+      "id": "kc-video-storage-multiplier",
+      "version": 1,
+      "statement": "Storage per uploaded minute is multiplied by the number of renditions. Five resolutions can store about 2-3× the bytes of the original."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-case-photo-sharing",
+    "sd-cdn"
+  ],
+  "suggests": [
+    "sd-push-pull-cdn"
+  ],
+  "confusable_with": [
+    "sd-case-photo-sharing"
+  ],
+  "introduces": [
+    "video streaming design",
+    "transcoding",
+    "adaptive bitrate streaming"
+  ],
+  "uses": [
+    "pre-signed upload url",
+    "object storage",
+    "cdn",
+    "edge server",
+    "origin server",
+    "push cdn",
+    "worker",
+    "task queue",
+    "bandwidth estimate",
+    "egress"
+  ],
+  "problem_ideas": [
+    "500 hours uploaded per minute at 1 GB/hour across 5 renditions: compute daily storage.",
+    "10M concurrent viewers at an average of 3 Mbps: compute peak egress in Tbps.",
+    "A viewer's bandwidth drops from 8 to 2 Mbps. Predict what the player does at the next segment.",
+    "Choose push or pull CDN for a Netflix-style catalogue and for user uploads.",
+    "Transcoding one chunk fails. Design a retry without redoing the whole video.",
+    "Estimate how 2-second and 10-second segments change startup latency and request rate."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-4/video-processing"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-4/video-streaming"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-youtube"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-netflix"
+    }
+  ],
+  "status": "stub"
+}

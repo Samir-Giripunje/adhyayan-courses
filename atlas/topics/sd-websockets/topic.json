@@ -1,0 +1,74 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-websockets",
+  "version": 1,
+  "title": "WebSockets and stateful connection servers",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-websocket-upgrade",
+      "version": 1,
+      "statement": "A WebSocket starts as an HTTP request with an Upgrade header and then becomes a persistent, full-duplex TCP connection on which both client and server can send frames at any time."
+    },
+    {
+      "id": "kc-websocket-stateful",
+      "version": 1,
+      "statement": "A server holding WebSocket connections is stateful because each connection lives on one server, so the load balancer must support long-lived connections and capacity is planned by concurrent connections per server rather than by QPS."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-polling-long-polling",
+    "sd-stateless-services"
+  ],
+  "suggests": [
+    "sd-load-balancers"
+  ],
+  "confusable_with": [
+    "sd-server-sent-events",
+    "sd-polling-long-polling"
+  ],
+  "introduces": [
+    "websockets",
+    "persistent connection"
+  ],
+  "uses": [
+    "http",
+    "tcp",
+    "long polling",
+    "stateless service",
+    "load balancer"
+  ],
+  "problem_ideas": [
+    "10M concurrent users, 50,000 connections per server: how many connection servers plus 30% headroom?",
+    "A connection server is drained for deploy: what happens to its 50,000 clients and how do you avoid a reconnect storm?",
+    "Why does round robin per request not apply to WebSocket traffic?",
+    "Compare bytes on the wire for 1 message/s over long polling vs WebSockets (headers per request)",
+    "Pick WebSockets or not for: multiplayer game, stock ticker, order status page, collaborative cursor",
+    "Design the client reconnect logic after a network drop, including missed messages"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "websockets/websockets"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "websockets/working"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "websockets/disadvantages"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "api-fundamentals/websockets"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-tradeoffs/long-polling-vs-websockets"
+    }
+  ],
+  "status": "stub"
+}

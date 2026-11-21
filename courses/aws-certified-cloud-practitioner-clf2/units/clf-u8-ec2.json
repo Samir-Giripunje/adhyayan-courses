@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u8-ec2",
+  "title": "EC2, load balancing and Auto Scaling",
+  "topics": [
+    {
+      "id": "clf-ec2-basics",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-ec2-instance-types",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-instance-naming-burstable",
+      "tier": "optional",
+      "order": 3
+    },
+    {
+      "id": "clf-amis-user-data",
+      "tier": "optional",
+      "order": 4
+    },
+    {
+      "id": "clf-elastic-load-balancing",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-auto-scaling-groups",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

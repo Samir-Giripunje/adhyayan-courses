@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-dead-letter-queues",
+  "version": 1,
+  "title": "Dead-letter queues and poison messages",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-poison-message",
+      "version": 1,
+      "statement": "A poison message fails processing every time, so under at-least-once delivery it is redelivered forever, wasting consumer capacity and, in an ordered queue or partition, blocking everything behind it."
+    },
+    {
+      "id": "kc-dlq-max-attempts",
+      "version": 1,
+      "statement": "After a maximum number of delivery attempts the message is moved to a dead-letter queue, which needs alerting and a redrive path so engineers can inspect, fix and replay the messages."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-delivery-guarantees"
+  ],
+  "suggests": [
+    "sd-idempotency"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "dead-letter queue",
+    "poison message",
+    "max delivery attempts"
+  ],
+  "uses": [
+    "message queue",
+    "at-least-once delivery",
+    "retries"
+  ],
+  "problem_ideas": [
+    "A malformed JSON message is at the head of a FIFO queue: describe the system's behaviour with and without a DLQ",
+    "Choose max delivery attempts for a payment-webhook consumer vs a thumbnail generator and justify",
+    "DLQ receives 50 messages/min after a deploy: what's your runbook?",
+    "Distinguish transient failures (database timeout) from permanent ones (schema mismatch): which should hit the DLQ fast?",
+    "After fixing a bug you redrive 10,000 DLQ messages: what must the consumer guarantee?",
+    "In an event stream partition, how does one poison event stall a whole partition?"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "features-2/dead-letter-queues"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "features-2/poison-pill-messages"
+    }
+  ],
+  "status": "stub"
+}

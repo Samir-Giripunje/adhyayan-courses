@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-documentdb-neptune",
+  "version": 1,
+  "title": "DocumentDB and Neptune: document and graph data",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-documentdb-mongodb",
+      "version": 1,
+      "statement": "Amazon DocumentDB is a managed document database with MongoDB compatibility, chosen to run MongoDB-style JSON document workloads as a managed service."
+    },
+    {
+      "id": "kc-neptune-graph",
+      "version": 1,
+      "statement": "Amazon Neptune is a managed graph database for highly connected data such as social networks, recommendation engines and fraud-detection relationships."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-relational-vs-nosql"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-dynamodb"
+  ],
+  "introduces": [
+    "documentdb",
+    "neptune",
+    "document database",
+    "graph database"
+  ],
+  "uses": [
+    "nosql database",
+    "managed database"
+  ],
+  "problem_ideas": [
+    "A company runs MongoDB on-premises and wants a managed AWS equivalent: choose",
+    "A fraud team needs to query 'accounts linked by shared devices within 3 hops': which database?",
+    "A social app shows 'friends of friends who like this': choose",
+    "Match cue words (MongoDB, graph, relationships, JSON documents) to services",
+    "DynamoDB also stores documents: when is DocumentDB still the better answer?",
+    "Spot the distractor: Neptune offered for a simple key-value cache"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "database/amazon-documentdb"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "database/amazon-neptune"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/documentdb"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/amazon-neptune"
+    }
+  ],
+  "status": "stub"
+}

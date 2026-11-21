@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-bottlenecks",
+  "version": 1,
+  "title": "Deep dives, bottlenecks and trade-offs",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-bottleneck-from-estimates",
+      "version": 1,
+      "statement": "A bottleneck is the component that saturates first as load grows; you find it by comparing peak qps, storage and bandwidth estimates against what one instance of each component can handle."
+    },
+    {
+      "id": "kc-deep-dive-choice",
+      "version": 1,
+      "statement": "In the deep dive, pick the one or two components with the hardest requirement (highest load or strictest consistency) and detail them instead of spreading time evenly."
+    },
+    {
+      "id": "kc-state-tradeoffs",
+      "version": 1,
+      "statement": "Every design choice is stated as a trade-off naming what is gained and what is given up (e.g. lower latency for staler data)."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-high-level-design",
+    "sd-qps-estimate"
+  ],
+  "suggests": [
+    "sd-storage-estimate",
+    "sd-bandwidth-estimate"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "bottleneck",
+    "deep dive",
+    "trade-off"
+  ],
+  "uses": [
+    "high-level design",
+    "peak qps",
+    "storage estimate",
+    "bandwidth estimate",
+    "non-functional requirements"
+  ],
+  "problem_ideas": [
+    "A single database handles 5,000 QPS but peak reads are 40,000: name the bottleneck and the next question to ask",
+    "Choose the deep-dive component for a URL shortener vs for a chat app and justify",
+    "Rewrite 'use NoSQL because it scales' as an explicit trade-off",
+    "Rank three components in a feed design by which saturates first",
+    "Interviewer asks 'what breaks at 10× traffic?': produce a structured answer",
+    "Spot the design whose bottleneck is bandwidth rather than QPS"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "identify-and-resolve-bottlenecks/identify-and-resolve-bottlenecks"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "how-to-approach-a-system-design-intervie/step-4-scale-the-design"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "detailed-design/detailed-design"
+    }
+  ],
+  "status": "stub"
+}

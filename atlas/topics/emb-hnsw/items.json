@@ -1,0 +1,92 @@
+[
+  {
+    "id": "q-cp3-hnsw",
+    "version": 1,
+    "family": "q-cp3-hnsw",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-hnsw",
+    "kcs": [
+      "kc-hnsw"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Which HNSW parameter is set at **query time**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "efSearch",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "M",
+        "why_md": "M is fixed when the graph is built."
+      },
+      {
+        "id": "c",
+        "md": "efConstruction",
+        "why_md": "That's build time."
+      }
+    ],
+    "hints": [
+      "Which idea applies? HNSW runs a greedy beam search over a layered proximity graph.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-a4",
+    "version": 1,
+    "family": "q-dpp-a4",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-hnsw",
+    "kcs": [
+      "kc-hnsw"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Which HNSW change needs a **rebuild**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Raising M",
+        "correct": true,
+        "why_md": "Right. M shapes the graph at build time."
+      },
+      {
+        "id": "b",
+        "md": "Raising efSearch",
+        "why_md": "That's a query-time setting."
+      },
+      {
+        "id": "c",
+        "md": "Lowering efSearch",
+        "why_md": "That's a query-time setting."
+      }
+    ],
+    "hints": [
+      "Which idea applies? HNSW runs a greedy beam search over a layered proximity graph.",
+      "M and efConstruction are build-time."
+    ],
+    "solution_md": "M and efConstruction are build-time. efSearch is query-time.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

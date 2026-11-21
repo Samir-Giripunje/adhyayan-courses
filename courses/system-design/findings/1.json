@@ -1,0 +1,152 @@
+{
+  "artifact": {
+    "path": "courses/system-design/architect",
+    "sha256": "52915b8d8a682908ca1b9bb07ff4823df5252b4adec5f59fc5ee059ee88d19f1"
+  },
+  "reviewer": {
+    "role": "adhy-critic",
+    "vendor": "codex"
+  },
+  "items": [
+    {
+      "id": "f1",
+      "severity": "blocking",
+      "target": "o4",
+      "claim": "The serves links from sd-dns and sd-push-pull-cdn inflate the required tier. The observable requires placing a CDN, but neither DNS routing details nor choosing push versus pull is necessary to produce it.",
+      "fix": "Remove sd-dns → o4 and sd-push-pull-cdn → o4 from serves, then recompile tiers."
+    },
+    {
+      "id": "f2",
+      "severity": "blocking",
+      "target": "o6",
+      "claim": "The serves rationales for sd-api-gateway and sd-consistent-hashing make particular implementation choices mandatory. A complete classic interview answer can satisfy every listed section without a dedicated API gateway or consistent hashing.",
+      "fix": "Remove sd-api-gateway → o6 and sd-consistent-hashing → o6 from serves, then recompile tiers."
+    },
+    {
+      "id": "f3",
+      "severity": "blocking",
+      "target": "sd-case-payment-system",
+      "claim": "The o5 link makes an entire payment case study mandatory merely to practise idempotency and retries. Those mechanisms and the complete failure-review observable are already taught directly; payment ledgers and reconciliation are unnecessary for o5.",
+      "fix": "Remove the o5 serves link. Retain the payment case study as enrichment and recompile its prerequisite tiers."
+    },
+    {
+      "id": "f4",
+      "severity": "blocking",
+      "target": "sd-case-ride-hailing",
+      "claim": "Requiring sd-leader-election unnecessarily gates driver matching on leader election, split brain and fencing. The driver-claim KC explicitly permits an atomic conditional update, which requires none of that lesson.",
+      "fix": "Change sd-case-ride-hailing → sd-leader-election from requires to suggests. Teach the atomic conditional claim directly in the case study."
+    },
+    {
+      "id": "f5",
+      "severity": "blocking",
+      "target": "sd-choose-cache-strategy",
+      "claim": "The sd-write-behind-around prerequisite is unsupported by the dependent KCs. Both KCs can be taught and assessed using cache-aside, read-through, write-through and TTLs without re-teaching write-behind or write-around.",
+      "fix": "Change the sd-write-behind-around edge to suggests and remove write-behind and write-around from uses unless an explicit comparison KC is added."
+    },
+    {
+      "id": "f6",
+      "severity": "blocking",
+      "target": "sd-p7",
+      "claim": "The exclusions promise one security overview topic, but none exists. Naming a token or gateway authentication does not teach the distinction between authentication and authorization or where access checks belong.",
+      "fix": "Add one compact security overview covering token validation at ingress, authorization at resource access, transport encryption and basic abuse controls. Keep identity protocol flows excluded."
+    },
+    {
+      "id": "f7",
+      "severity": "blocking",
+      "target": "sd-p8",
+      "claim": "Every timed mock is allocated 40 minutes, while o6 requires a complete 45-minute answer. Their KCs test prescribed answer fragments, and no activity explicitly requires producing and scoring all seven sections in one uninterrupted attempt.",
+      "fix": "Give each timed mock a 45-minute constructed-answer activity plus separate review time. Require submission of the complete answer and score requirements, estimates, API, data model, diagram, deep dive and bottlenecks."
+    },
+    {
+      "id": "f8",
+      "severity": "blocking",
+      "target": "kc-cap-statement",
+      "claim": "The KC reverses the sacrifices: “give up either consistency (refusing some requests) or availability (answering with possibly stale data).” Its parenthetical explanations contradict kc-cp-vs-ap.",
+      "fix": "Replace with: “During a network partition, a replicated store cannot guarantee both linearizable consistency and availability: preserving consistency can require refusing or delaying requests; preserving availability can require returning responses that violate consistency.”"
+    },
+    {
+      "id": "f9",
+      "severity": "blocking",
+      "target": "kc-hot-data-memory",
+      "claim": "“0.2 × daily read requests × response size” counts repeated requests as separate cached objects. An 80/20 popularity assumption does not determine the number of distinct objects or their memory footprint.",
+      "fix": "Replace with: “Cache memory ≈ distinct cached objects × average cached-object size, plus metadata and replication overhead. Estimate the working set from unique-object counts and popularity measurements; request volume alone is insufficient.”"
+    },
+    {
+      "id": "f10",
+      "severity": "blocking",
+      "target": "kc-http-request-response",
+      "claim": "“HTTP is a stateless request/response protocol over TCP” incorrectly makes TCP universal and supplies a false rationale for requiring sd-tcp-udp.",
+      "fix": "State that HTTP/1.1 and HTTP/2 commonly use TCP, while HTTP/3 uses QUIC over UDP. Change sd-http → sd-tcp-udp to suggests because methods, headers and status codes can be taught independently of transport mechanics."
+    },
+    {
+      "id": "f11",
+      "severity": "blocking",
+      "target": "sd-read-write-through",
+      "claim": "“The cache never holds a value older than the database” is not guaranteed merely by synchronous write-through. Concurrent writes, partial failures and writes bypassing the cache can violate that claim; kc-strategy-by-ratio repeats the resulting freshness guarantee.",
+      "fix": "Define write-through as synchronously persisting writes through the cache to the backing store before acknowledgment. Qualify freshness by coordinated write ordering, failure handling and all writers using that path; update kc-strategy-by-ratio to require an explicit read-your-writes mechanism."
+    },
+    {
+      "id": "f12",
+      "severity": "blocking",
+      "target": "sd-sql-vs-nosql",
+      "claim": "“Choose a NoSQL store when ... write volume and data size exceed what one well-tuned relational node can handle” treats a single SQL node as the relational scaling ceiling. Together with sd-nosql-base, it suggests that NoSQL entails giving up transactions and strong guarantees.",
+      "fix": "Compare concrete stores by access patterns, transaction scope, consistency and partitioning support. Explicitly state that relational stores can scale across nodes, NoSQL stores can support transactions and strong consistency, and BASE is an optional design approach rather than the opposite of ACID."
+    },
+    {
+      "id": "f13",
+      "severity": "blocking",
+      "target": "kc-idempotent-consumer",
+      "claim": "Recording processed IDs and skipping duplicates does not by itself yield exactly-once processing. A crash between the side effect and recording its ID can duplicate the effect, while recording first can lose it.",
+      "fix": "Require the deduplication record and business effect to commit atomically, or require the destination to enforce idempotency. Apply this qualification to kc-exactly-once-processing and state that local deduplication alone cannot guarantee a single external notification or charge."
+    },
+    {
+      "id": "f14",
+      "severity": "blocking",
+      "target": "kc-geohash-neighbors",
+      "claim": "“A radius search must also query the 8 neighbouring cells” presents a fixed nine-cell search as sufficient. A radius can extend beyond those cells, depending on precision and latitude, causing nearby drivers to be omitted.",
+      "fix": "Teach selecting precision and enumerating every cell intersecting the search area, followed by exact distance filtering. State that the center plus eight neighbors suffices only when that neighborhood covers the requested radius; update kc-ride-matching accordingly."
+    },
+    {
+      "id": "f15",
+      "severity": "blocking",
+      "target": "kc-avail-series",
+      "claim": "The series formula multiplies component availabilities without assuming independent failures. Independence is qualified only for the parallel formula, and kc-review-compute consequently applies multiplication unconditionally.",
+      "fix": "State that series availability is the probability all required components are available, equal to the product only under independence. Extend kc-avail-independence and kc-review-compute to qualify both formulas and account for shared dependencies."
+    },
+    {
+      "id": "f16",
+      "severity": "blocking",
+      "target": "kc-kv-model",
+      "claim": "“A key-value store reads and writes an opaque value by a single key in O(1)” assigns a universal complexity guarantee to a data model. Key-value stores may use trees, LSM structures or hashing with different costs.",
+      "fix": "Replace O(1) with “efficient key-based lookup; complexity and latency depend on the implementation.” Retain the distinction between primary-key access and querying value contents."
+    },
+    {
+      "id": "f17",
+      "severity": "blocking",
+      "target": "kc-url-301-vs-302",
+      "claim": "“A 302 (temporary) redirect sends every click through the service” is false: a 302 response can be cached when caching directives permit it. Redirect status alone cannot guarantee analytics visibility.",
+      "fix": "Explain that 301 responses are cacheable by default, while 302 responses can also be explicitly cached. Use appropriate Cache-Control directives when repeat requests must reach the service, and remove the unconditional every-click guarantee."
+    },
+    {
+      "id": "f18",
+      "severity": "warn",
+      "target": "sd-sync-async-replication",
+      "claim": "The synchronous-replication guarantee omits which follower is durably acknowledged and eligible for promotion. The asynchronous KC also describes permanent loss where the actual risk depends on failover and whether the old leader's data remains recoverable.",
+      "fix": "Scope the synchronous example to durable acknowledgment and promotion of a replica containing acknowledged writes. Describe asynchronous failover as potentially losing acknowledged writes absent from the promoted replica."
+    },
+    {
+      "id": "f19",
+      "severity": "warn",
+      "target": "kc-wide-column-model",
+      "claim": "The example applies Cassandra's partition-key and clustering-key terminology to Bigtable. Bigtable organizes rows by lexicographically sorted row keys rather than Cassandra-style clustering keys.",
+      "fix": "Use Cassandra alone for the current model, or distinguish Cassandra's partition/clustering keys from Bigtable's ordered row-key model."
+    },
+    {
+      "id": "f20",
+      "severity": "warn",
+      "target": "kc-framework-steps",
+      "claim": "“Fixed steps in order” turns a useful interview scaffold into an inflexible rule. Requirements, estimates and models often need revision as the interviewer redirects the discussion.",
+      "fix": "Describe the sequence as a default checklist, allow revisiting earlier decisions, and preserve the requirement to clarify scope before committing to an architecture."
+    }
+  ]
+}

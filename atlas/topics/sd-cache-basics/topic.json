@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-cache-basics",
+  "version": 1,
+  "title": "Cache hits, misses and hit ratio",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-cache-hit-miss",
+      "version": 1,
+      "statement": "A cache hit returns data from the cache without touching the backing store; a cache miss forces a read from the slower backing store."
+    },
+    {
+      "id": "kc-cache-hit-ratio",
+      "version": 1,
+      "statement": "Cache hit ratio = hits / (hits + misses), measured over a window of requests."
+    },
+    {
+      "id": "kc-effective-latency",
+      "version": 1,
+      "statement": "Average read latency ≈ hit ratio × cache latency + (1 − hit ratio) × (cache check + store latency), and raising the hit ratio from 90% to 99% cuts reads reaching the store tenfold."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "sd-latency-numbers"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "cache hit",
+    "cache miss",
+    "cache hit ratio"
+  ],
+  "uses": [
+    "latency",
+    "latency numbers",
+    "qps"
+  ],
+  "problem_ideas": [
+    "Cache 0.5 ms, database 10 ms, hit ratio 95%: compute average read latency",
+    "A database handles 2,000 QPS; reads are 20,000 QPS. What hit ratio keeps the database within capacity?",
+    "Given a log of 20 hits and misses, compute the hit ratio",
+    "Hit ratio drops from 99% to 90% after a deploy: by what factor does database read load grow?",
+    "Explain why a 50% hit ratio cache may not be worth its network hop",
+    "Product page reads at 30,000 QPS with 80% hits: how many reads per second reach the database?",
+    "Decide whether a 1 ms cache in front of a 2 ms store is worth it at a 60% hit ratio"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "caching/caching"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "cache-hit-and-cache-miss/cache-hit-and-cache-miss"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "caching-fundamentals/caching-101"
+    }
+  ],
+  "status": "stub"
+}

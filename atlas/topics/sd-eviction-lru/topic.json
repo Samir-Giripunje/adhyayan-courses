@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-eviction-lru",
+  "version": 1,
+  "title": "Eviction policies and building an LRU cache",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-eviction-policy",
+      "version": 1,
+      "statement": "An eviction policy decides which entry to remove when the cache is full; it is separate from TTL expiry, which removes entries by age."
+    },
+    {
+      "id": "kc-lru",
+      "version": 1,
+      "statement": "LRU evicts the entry whose last access is oldest, and supports O(1) get and put using a hash map combined with a doubly linked list or an ordered map."
+    },
+    {
+      "id": "kc-lfu-fifo",
+      "version": 1,
+      "statement": "LFU evicts the least frequently accessed entry and keeps long-term popular items, while FIFO evicts the oldest inserted entry regardless of how often it is used."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "sd-cache-invalidation-ttl"
+  ],
+  "suggests": [
+    "sd-cache-basics"
+  ],
+  "confusable_with": [
+    "sd-cache-invalidation-ttl"
+  ],
+  "introduces": [
+    "eviction policy",
+    "lru",
+    "lfu"
+  ],
+  "uses": [
+    "ttl",
+    "cache hit ratio",
+    "cache miss"
+  ],
+  "problem_ideas": [
+    "Implement an LRUCache class with get and put in O(1) using OrderedDict",
+    "Capacity 3, access sequence A B C A D B E: list evictions under LRU, LFU and FIFO",
+    "Compute the hit ratio of an LRU cache of size 2 on a given access trace",
+    "A nightly scan reads every key once and wrecks the hit ratio: explain why under LRU",
+    "Pick an eviction policy for a cache of trending hashtags",
+    "Explain why an entry with a long TTL can still be evicted early"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "eviction-policies/eviction-policies"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "caching-fundamentals/cache-eviction-policies"
+    }
+  ],
+  "status": "stub"
+}

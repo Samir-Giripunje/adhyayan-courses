@@ -1,0 +1,6661 @@
+{
+  "entries": [
+    {
+      "id": "roadmap-system-design",
+      "kind": "roadmap.sh",
+      "ref": "https://roadmap.sh/system-design",
+      "fetched": "2026-11-17",
+      "sha256": "65a0e83ab936abb4a906cfd244f78e48fa4c9aa9197cb7f356b71cb4a0f3e756",
+      "sections": [
+        {
+          "id": "introduction",
+          "title": "Introduction",
+          "order": 1,
+          "entries": [
+            {
+              "id": "introduction",
+              "title": "Introduction",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "what-is-system-design",
+              "title": "What is System Design?",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "how-to-approach-system-design",
+              "title": "How to approach System Design?",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "performance-vs-scalability",
+          "title": "Performance vs Scalability",
+          "order": 2,
+          "entries": [
+            {
+              "id": "performance-vs-scalability",
+              "title": "Performance vs Scalability",
+              "edge_kind": "solid"
+            }
+          ]
+        },
+        {
+          "id": "latency-vs-throughput",
+          "title": "Latency vs Throughput",
+          "order": 3,
+          "entries": [
+            {
+              "id": "latency-vs-throughput",
+              "title": "Latency vs Throughput",
+              "edge_kind": "solid"
+            }
+          ]
+        },
+        {
+          "id": "availability-vs-consistency",
+          "title": "Availability vs Consistency",
+          "order": 4,
+          "entries": [
+            {
+              "id": "availability-vs-consistency",
+              "title": "Availability vs Consistency",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "cap-theorem",
+              "title": "CAP Theorem",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "consistency-patterns",
+          "title": "Consistency Patterns",
+          "order": 5,
+          "entries": [
+            {
+              "id": "consistency-patterns",
+              "title": "Consistency Patterns",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "weak-consistency",
+              "title": "Weak Consistency",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "eventual-consistency",
+              "title": "Eventual Consistency",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "strong-consistency",
+              "title": "Strong Consistency",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "availability-patterns",
+          "title": "Availability Patterns",
+          "order": 6,
+          "entries": [
+            {
+              "id": "availability-patterns",
+              "title": "Availability Patterns",
+              "edge_kind": "solid"
+            }
+          ]
+        },
+        {
+          "id": "background-jobs",
+          "title": "Background Jobs",
+          "order": 7,
+          "entries": [
+            {
+              "id": "background-jobs",
+              "title": "Background Jobs",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "fail-over",
+              "title": "Fail-Over",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "replication",
+              "title": "Replication",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "event-driven",
+              "title": "Event-Driven",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "schedule-driven",
+              "title": "Schedule Driven",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "http",
+              "title": "HTTP",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "domain-name-system",
+          "title": "Domain Name System",
+          "order": 8,
+          "entries": [
+            {
+              "id": "domain-name-system",
+              "title": "Domain Name System",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "returning-results",
+              "title": "Returning Results",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "content-delivery-networks",
+          "title": "Content Delivery Networks",
+          "order": 9,
+          "entries": [
+            {
+              "id": "content-delivery-networks",
+              "title": "Content Delivery Networks",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "availability-in-numbers",
+              "title": "Availability in Numbers",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "pull-cdns",
+              "title": "Pull CDNs",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "push-cdns",
+              "title": "Push CDNs",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "application-layer",
+          "title": "Application Layer",
+          "order": 10,
+          "entries": [
+            {
+              "id": "application-layer",
+              "title": "Application Layer",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "key-value-store",
+              "title": "Key-Value Store",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "document-store",
+              "title": "Document Store",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "wide-column-store",
+              "title": "Wide Column Store",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "graph-databases",
+              "title": "Graph Databases",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "load-balancers",
+          "title": "Load Balancers",
+          "order": 11,
+          "entries": [
+            {
+              "id": "load-balancers",
+              "title": "Load Balancers",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "lb-vs-reverse-proxy",
+              "title": "LB vs Reverse Proxy",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "load-balancing-algorithms",
+              "title": "Load Balancing Algorithms",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "layer-7-load-balancing",
+              "title": "Layer 7 Load Balancing",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "layer-4-load-balancing",
+              "title": "Layer 4 Load Balancing",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "horizontal-scaling",
+              "title": "Horizontal Scaling",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "databases",
+          "title": "Databases",
+          "order": 12,
+          "entries": [
+            {
+              "id": "databases",
+              "title": "Databases",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "replication",
+              "title": "Replication",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "sharding",
+              "title": "Sharding",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "sql-vs-nosql",
+              "title": "SQL vs NoSQL",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "federation",
+              "title": "Federation",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "denormalization",
+              "title": "Denormalization",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "sql-tuning",
+              "title": "SQL Tuning",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "caching",
+          "title": "Caching",
+          "order": 13,
+          "entries": [
+            {
+              "id": "caching",
+              "title": "Caching",
+              "edge_kind": "solid"
+            }
+          ]
+        },
+        {
+          "id": "asynchronism",
+          "title": "Asynchronism",
+          "order": 14,
+          "entries": [
+            {
+              "id": "asynchronism",
+              "title": "Asynchronism",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "microservices",
+              "title": "Microservices",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "service-discovery",
+              "title": "Service Discovery",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "back-pressure",
+              "title": "Back Pressure",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "task-queues",
+              "title": "Task Queues",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "message-queues",
+              "title": "Message Queues",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "communication",
+          "title": "Communication",
+          "order": 15,
+          "entries": [
+            {
+              "id": "communication",
+              "title": "Communication",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "udp",
+              "title": "UDP",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "idempotent-operations",
+          "title": "Idempotent Operations",
+          "order": 16,
+          "entries": [
+            {
+              "id": "idempotent-operations",
+              "title": "Idempotent Operations",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "refresh-ahead",
+              "title": "Refresh Ahead",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "write-behind",
+              "title": "Write-behind",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "write-through",
+              "title": "Write-through",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "cache-aside",
+              "title": "Cache Aside",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "client-caching",
+              "title": "Client Caching",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "cdn-caching",
+              "title": "CDN Caching",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "web-server-caching",
+              "title": "Web Server Caching",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "database-caching",
+              "title": "Database Caching",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "application-caching",
+              "title": "Application Caching",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "performance-antipatterns",
+          "title": "Performance Antipatterns",
+          "order": 17,
+          "entries": [
+            {
+              "id": "performance-antipatterns",
+              "title": "Performance Antipatterns",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "tcp",
+              "title": "TCP",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "rpc",
+              "title": "RPC",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "grpc",
+              "title": "gRPC",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "rest",
+              "title": "REST",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "graphql",
+              "title": "GraphQL",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "busy-database",
+              "title": "Busy Database",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "improper-instantiation",
+              "title": "Improper Instantiation",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "busy-frontend",
+              "title": "Busy Frontend",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "monolithic-persistence",
+              "title": "Monolithic Persistence",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "chatty-i-o",
+              "title": "Chatty I/O",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "noisy-neighbor",
+              "title": "Noisy Neighbor",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "retry-storm",
+              "title": "Retry Storm",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "synchronous-i-o",
+              "title": "Synchronous I/O",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "no-caching",
+              "title": "No Caching",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "extraneous-fetching",
+              "title": "Extraneous Fetching",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "monitoring",
+          "title": "Monitoring",
+          "order": 18,
+          "entries": [
+            {
+              "id": "monitoring",
+              "title": "Monitoring",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "health-monitoring",
+              "title": "Health Monitoring",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "availability-monitoring",
+              "title": "Availability Monitoring",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "performance-monitoring",
+              "title": "Performance Monitoring",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "security-monitoring",
+              "title": "Security Monitoring",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "usage-monitoring",
+              "title": "Usage Monitoring",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "instrumentation",
+              "title": "Instrumentation",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "visualization-alerts",
+              "title": "Visualization & Alerts",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "cloud-design-patterns",
+          "title": "Cloud Design Patterns",
+          "order": 19,
+          "entries": [
+            {
+              "id": "cloud-design-patterns",
+              "title": "Cloud Design Patterns",
+              "edge_kind": "solid"
+            }
+          ]
+        },
+        {
+          "id": "design-implementation",
+          "title": "Design & Implementation",
+          "order": 20,
+          "entries": [
+            {
+              "id": "design-implementation",
+              "title": "Design & Implementation",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "strangler-fig",
+              "title": "Strangler Fig",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "sidecar",
+              "title": "Sidecar",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "static-content-hosting",
+              "title": "Static Content Hosting",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "leader-election",
+              "title": "Leader Election",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "cqrs",
+              "title": "CQRS",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "pipes-filters",
+              "title": "Pipes & Filters",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "ambassador",
+              "title": "Ambassador",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "gateway-routing",
+              "title": "Gateway Routing",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "gateway-offloading",
+              "title": "Gateway Offloading",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "gateway-aggregation",
+              "title": "Gateway Aggregation",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "external-config-store",
+              "title": "External Config Store",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "compute-resource-consolidation",
+              "title": "Compute Resource Consolidation",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "backends-for-frontend",
+              "title": "Backends for Frontend",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "anti-corruption-layer",
+              "title": "Anti-Corruption Layer",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "data-management",
+          "title": "Data Management",
+          "order": 21,
+          "entries": [
+            {
+              "id": "data-management",
+              "title": "Data Management",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "valet-key",
+              "title": "Valet Key",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "static-content-hosting",
+              "title": "Static Content Hosting",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "sharding",
+              "title": "Sharding",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "materialized-view",
+              "title": "Materialized View",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "index-table",
+              "title": "Index Table",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "event-sourcing",
+              "title": "Event Sourcing",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "cqrs",
+              "title": "CQRS",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "cache-aside",
+              "title": "Cache-Aside",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "messaging",
+          "title": "Messaging",
+          "order": 22,
+          "entries": [
+            {
+              "id": "messaging",
+              "title": "Messaging",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "sequential-convoy",
+              "title": "Sequential Convoy",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "scheduling-agent-supervisor",
+              "title": "Scheduling Agent Supervisor",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "queue-based-load-leveling",
+              "title": "Queue-Based Load Leveling",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "publisher-subscriber",
+              "title": "Publisher/Subscriber",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "priority-queue",
+              "title": "Priority Queue",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "pipes-and-filters",
+              "title": "Pipes and Filters",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "competing-consumers",
+              "title": "Competing Consumers",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "choreography",
+              "title": "Choreography",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "claim-check",
+              "title": "Claim Check",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "async-request-reply",
+              "title": "Async Request Reply",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "reliability-patterns",
+          "title": "Reliability Patterns",
+          "order": 23,
+          "entries": [
+            {
+              "id": "reliability-patterns",
+              "title": "Reliability Patterns",
+              "edge_kind": "solid"
+            }
+          ]
+        },
+        {
+          "id": "availability",
+          "title": "Availability",
+          "order": 24,
+          "entries": [
+            {
+              "id": "availability",
+              "title": "Availability",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "deployment-stamps",
+              "title": "Deployment Stamps",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "throttling",
+              "title": "Throttling",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "geodes",
+              "title": "Geodes",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "health-endpoint-monitoring",
+              "title": "Health Endpoint Monitoring",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "queue-based-load-leveling",
+              "title": "Queue-Based Load Leveling",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "high-availability",
+          "title": "High Availability",
+          "order": 25,
+          "entries": [
+            {
+              "id": "high-availability",
+              "title": "High Availability",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "deployment-stamps",
+              "title": "Deployment Stamps",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "geodes",
+              "title": "Geodes",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "bulkhead",
+              "title": "Bulkhead",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "health-endpoint-monitoring",
+              "title": "Health Endpoint Monitoring",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "circuit-breaker",
+              "title": "Circuit Breaker",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "resiliency",
+          "title": "Resiliency",
+          "order": 26,
+          "entries": [
+            {
+              "id": "resiliency",
+              "title": "Resiliency",
+              "edge_kind": "solid"
+            }
+          ]
+        },
+        {
+          "id": "security",
+          "title": "Security",
+          "order": 27,
+          "entries": [
+            {
+              "id": "security",
+              "title": "Security",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "bulkhead",
+              "title": "Bulkhead",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "circuit-breaker",
+              "title": "Circuit Breaker",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "compensating-transaction",
+              "title": "Compensating Transaction",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "health-endpoint-monitoring",
+              "title": "Health Endpoint Monitoring",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "leader-election",
+              "title": "Leader Election",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "queue-based-load-leveling",
+              "title": "Queue-Based Load Leveling",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "federated-identity",
+              "title": "Federated Identity",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "retry",
+              "title": "Retry",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "gatekeeper",
+              "title": "Gatekeeper",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "scheduler-agent-supervisor",
+              "title": "Scheduler Agent Supervisor",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "valet-key",
+              "title": "Valet Key",
+              "edge_kind": "dashed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sd-primer",
+      "kind": "toc",
+      "ref": "https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md",
+      "fetched": "2026-11-17",
+      "sha256": "390a8cad315d703c10cfbdf6832c2f320882bd4c3feaf2cea78c820995903cf1",
+      "sections": [
+        {
+          "id": "how-to-approach-a-system-design-intervie",
+          "title": "How to approach a system design interview question",
+          "order": 1,
+          "entries": [
+            {
+              "id": "how-to-approach-a-system-design-intervie",
+              "title": "How to approach a system design interview question"
+            },
+            {
+              "id": "step-1-outline-use-cases-constraints-and",
+              "title": "Step 1: Outline use cases, constraints, and assumptions"
+            },
+            {
+              "id": "step-2-create-a-high-level-design",
+              "title": "Step 2: Create a high level design"
+            },
+            {
+              "id": "step-3-design-core-components",
+              "title": "Step 3: Design core components"
+            },
+            {
+              "id": "step-4-scale-the-design",
+              "title": "Step 4: Scale the design"
+            },
+            {
+              "id": "back-of-the-envelope-calculations",
+              "title": "Back-of-the-envelope calculations"
+            },
+            {
+              "id": "use-back-of-the-envelope-calculations",
+              "title": "Use back of the envelope calculations"
+            }
+          ]
+        },
+        {
+          "id": "system-design-interview-questions-with-s",
+          "title": "System design interview questions with solutions",
+          "order": 2,
+          "entries": [
+            {
+              "id": "system-design-interview-questions-with-s",
+              "title": "System design interview questions with solutions"
+            },
+            {
+              "id": "design-pastebin-com-or-bit-ly",
+              "title": "Design Pastebin.com (or Bit.ly)"
+            },
+            {
+              "id": "design-the-twitter-timeline-and-search-o",
+              "title": "Design the Twitter timeline and search (or Facebook feed and search)"
+            },
+            {
+              "id": "design-a-web-crawler",
+              "title": "Design a web crawler"
+            },
+            {
+              "id": "design-mint-com",
+              "title": "Design Mint.com"
+            },
+            {
+              "id": "design-the-data-structures-for-a-social-",
+              "title": "Design the data structures for a social network"
+            },
+            {
+              "id": "design-a-key-value-store-for-a-search-en",
+              "title": "Design a key-value store for a search engine"
+            },
+            {
+              "id": "design-amazon-s-sales-ranking-by-categor",
+              "title": "Design Amazon's sales ranking by category feature"
+            },
+            {
+              "id": "design-a-system-that-scales-to-millions-",
+              "title": "Design a system that scales to millions of users on AWS"
+            }
+          ]
+        },
+        {
+          "id": "object-oriented-design-interview-questio",
+          "title": "Object-oriented design interview questions with solutions",
+          "order": 3,
+          "entries": [
+            {
+              "id": "object-oriented-design-interview-questio",
+              "title": "Object-oriented design interview questions with solutions"
+            }
+          ]
+        },
+        {
+          "id": "system-design-topics-start-here",
+          "title": "System design topics: start here",
+          "order": 4,
+          "entries": [
+            {
+              "id": "system-design-topics-start-here",
+              "title": "System design topics: start here"
+            },
+            {
+              "id": "step-1-review-the-scalability-video-lect",
+              "title": "Step 1: Review the scalability video lecture"
+            },
+            {
+              "id": "step-2-review-the-scalability-article",
+              "title": "Step 2: Review the scalability article"
+            }
+          ]
+        },
+        {
+          "id": "performance-vs-scalability",
+          "title": "Performance vs scalability",
+          "order": 5,
+          "entries": [
+            {
+              "id": "performance-vs-scalability",
+              "title": "Performance vs scalability"
+            }
+          ]
+        },
+        {
+          "id": "latency-vs-throughput",
+          "title": "Latency vs throughput",
+          "order": 6,
+          "entries": [
+            {
+              "id": "latency-vs-throughput",
+              "title": "Latency vs throughput"
+            }
+          ]
+        },
+        {
+          "id": "availability-vs-consistency",
+          "title": "Availability vs consistency",
+          "order": 7,
+          "entries": [
+            {
+              "id": "availability-vs-consistency",
+              "title": "Availability vs consistency"
+            },
+            {
+              "id": "cap-theorem",
+              "title": "CAP theorem"
+            },
+            {
+              "id": "cp-consistency-and-partition-tolerance",
+              "title": "CP - consistency and partition tolerance"
+            },
+            {
+              "id": "ap-availability-and-partition-tolerance",
+              "title": "AP - availability and partition tolerance"
+            }
+          ]
+        },
+        {
+          "id": "consistency-patterns",
+          "title": "Consistency patterns",
+          "order": 8,
+          "entries": [
+            {
+              "id": "consistency-patterns",
+              "title": "Consistency patterns"
+            },
+            {
+              "id": "weak-consistency",
+              "title": "Weak consistency"
+            },
+            {
+              "id": "eventual-consistency",
+              "title": "Eventual consistency"
+            },
+            {
+              "id": "strong-consistency",
+              "title": "Strong consistency"
+            }
+          ]
+        },
+        {
+          "id": "availability-patterns",
+          "title": "Availability patterns",
+          "order": 9,
+          "entries": [
+            {
+              "id": "availability-patterns",
+              "title": "Availability patterns"
+            },
+            {
+              "id": "fail-over",
+              "title": "Fail-over"
+            },
+            {
+              "id": "active-passive",
+              "title": "Active-passive"
+            },
+            {
+              "id": "active-active",
+              "title": "Active-active"
+            },
+            {
+              "id": "replication",
+              "title": "Replication"
+            },
+            {
+              "id": "master-slave-and-master-master",
+              "title": "Master-slave and master-master"
+            },
+            {
+              "id": "availability-in-numbers",
+              "title": "Availability in numbers"
+            },
+            {
+              "id": "99-9-availability-three-9s",
+              "title": "99.9% availability - three 9s"
+            },
+            {
+              "id": "99-99-availability-four-9s",
+              "title": "99.99% availability - four 9s"
+            },
+            {
+              "id": "availability-in-parallel-vs-in-sequence",
+              "title": "Availability in parallel vs in sequence"
+            },
+            {
+              "id": "in-sequence",
+              "title": "In sequence"
+            },
+            {
+              "id": "in-parallel",
+              "title": "In parallel"
+            }
+          ]
+        },
+        {
+          "id": "domain-name-system",
+          "title": "Domain name system",
+          "order": 10,
+          "entries": [
+            {
+              "id": "domain-name-system",
+              "title": "Domain name system"
+            },
+            {
+              "id": "weighted-round-robin",
+              "title": "Weighted round robin"
+            },
+            {
+              "id": "latency-based",
+              "title": "Latency-based"
+            },
+            {
+              "id": "geolocation-based",
+              "title": "Geolocation-based"
+            }
+          ]
+        },
+        {
+          "id": "content-delivery-network",
+          "title": "Content delivery network",
+          "order": 11,
+          "entries": [
+            {
+              "id": "content-delivery-network",
+              "title": "Content delivery network"
+            },
+            {
+              "id": "push-cdns",
+              "title": "Push CDNs"
+            },
+            {
+              "id": "pull-cdns",
+              "title": "Pull CDNs"
+            }
+          ]
+        },
+        {
+          "id": "load-balancer",
+          "title": "Load balancer",
+          "order": 12,
+          "entries": [
+            {
+              "id": "load-balancer",
+              "title": "Load balancer"
+            },
+            {
+              "id": "round-robin-or-weighted-round-robin",
+              "title": "Round robin or weighted round robin"
+            },
+            {
+              "id": "layer-4-load-balancing",
+              "title": "Layer 4 load balancing"
+            },
+            {
+              "id": "layer-7-load-balancing",
+              "title": "Layer 7 load balancing"
+            },
+            {
+              "id": "horizontal-scaling",
+              "title": "Horizontal scaling"
+            }
+          ]
+        },
+        {
+          "id": "reverse-proxy-web-server",
+          "title": "Reverse proxy (web server)",
+          "order": 13,
+          "entries": [
+            {
+              "id": "reverse-proxy-web-server",
+              "title": "Reverse proxy (web server)"
+            },
+            {
+              "id": "load-balancer-vs-reverse-proxy",
+              "title": "Load balancer vs reverse proxy"
+            }
+          ]
+        },
+        {
+          "id": "application-layer",
+          "title": "Application layer",
+          "order": 14,
+          "entries": [
+            {
+              "id": "application-layer",
+              "title": "Application layer"
+            },
+            {
+              "id": "microservices",
+              "title": "Microservices"
+            },
+            {
+              "id": "service-discovery",
+              "title": "Service Discovery"
+            }
+          ]
+        },
+        {
+          "id": "database",
+          "title": "Database",
+          "order": 15,
+          "entries": [
+            {
+              "id": "database",
+              "title": "Database"
+            },
+            {
+              "id": "relational-database-management-system-rd",
+              "title": "Relational database management system (RDBMS)"
+            },
+            {
+              "id": "master-slave-replication",
+              "title": "Master-slave replication"
+            },
+            {
+              "id": "master-master-replication",
+              "title": "Master-master replication"
+            },
+            {
+              "id": "federation",
+              "title": "Federation"
+            },
+            {
+              "id": "sharding",
+              "title": "Sharding"
+            },
+            {
+              "id": "denormalization",
+              "title": "Denormalization"
+            },
+            {
+              "id": "sql-tuning",
+              "title": "SQL tuning"
+            },
+            {
+              "id": "tighten-up-the-schema",
+              "title": "Tighten up the schema"
+            },
+            {
+              "id": "use-good-indices",
+              "title": "Use good indices"
+            },
+            {
+              "id": "avoid-expensive-joins",
+              "title": "Avoid expensive joins"
+            },
+            {
+              "id": "partition-tables",
+              "title": "Partition tables"
+            },
+            {
+              "id": "tune-the-query-cache",
+              "title": "Tune the query cache"
+            },
+            {
+              "id": "nosql",
+              "title": "NoSQL"
+            },
+            {
+              "id": "key-value-store",
+              "title": "Key-value store"
+            },
+            {
+              "id": "document-store",
+              "title": "Document store"
+            },
+            {
+              "id": "wide-column-store",
+              "title": "Wide column store"
+            },
+            {
+              "id": "graph-database",
+              "title": "Graph database"
+            },
+            {
+              "id": "sql-or-nosql",
+              "title": "SQL or NoSQL"
+            }
+          ]
+        },
+        {
+          "id": "cache",
+          "title": "Cache",
+          "order": 16,
+          "entries": [
+            {
+              "id": "cache",
+              "title": "Cache"
+            },
+            {
+              "id": "client-caching",
+              "title": "Client caching"
+            },
+            {
+              "id": "cdn-caching",
+              "title": "CDN caching"
+            },
+            {
+              "id": "web-server-caching",
+              "title": "Web server caching"
+            },
+            {
+              "id": "database-caching",
+              "title": "Database caching"
+            },
+            {
+              "id": "application-caching",
+              "title": "Application caching"
+            },
+            {
+              "id": "caching-at-the-database-query-level",
+              "title": "Caching at the database query level"
+            },
+            {
+              "id": "caching-at-the-object-level",
+              "title": "Caching at the object level"
+            },
+            {
+              "id": "when-to-update-the-cache",
+              "title": "When to update the cache"
+            },
+            {
+              "id": "cache-aside",
+              "title": "Cache-aside"
+            },
+            {
+              "id": "write-through",
+              "title": "Write-through"
+            },
+            {
+              "id": "write-behind-write-back",
+              "title": "Write-behind (write-back)"
+            },
+            {
+              "id": "refresh-ahead",
+              "title": "Refresh-ahead"
+            }
+          ]
+        },
+        {
+          "id": "asynchronism",
+          "title": "Asynchronism",
+          "order": 17,
+          "entries": [
+            {
+              "id": "asynchronism",
+              "title": "Asynchronism"
+            },
+            {
+              "id": "message-queues",
+              "title": "Message queues"
+            },
+            {
+              "id": "task-queues",
+              "title": "Task queues"
+            },
+            {
+              "id": "back-pressure",
+              "title": "Back pressure"
+            }
+          ]
+        },
+        {
+          "id": "communication",
+          "title": "Communication",
+          "order": 18,
+          "entries": [
+            {
+              "id": "communication",
+              "title": "Communication"
+            },
+            {
+              "id": "hypertext-transfer-protocol-http",
+              "title": "Hypertext transfer protocol (HTTP)"
+            },
+            {
+              "id": "transmission-control-protocol-tcp",
+              "title": "Transmission control protocol (TCP)"
+            },
+            {
+              "id": "acknowledgement",
+              "title": "Acknowledgement"
+            },
+            {
+              "id": "user-datagram-protocol-udp",
+              "title": "User datagram protocol (UDP)"
+            },
+            {
+              "id": "remote-procedure-call-rpc",
+              "title": "Remote procedure call (RPC)"
+            },
+            {
+              "id": "representational-state-transfer-rest",
+              "title": "Representational state transfer (REST)"
+            },
+            {
+              "id": "rpc-and-rest-calls-comparison",
+              "title": "RPC and REST calls comparison"
+            }
+          ]
+        },
+        {
+          "id": "security",
+          "title": "Security",
+          "order": 19,
+          "entries": [
+            {
+              "id": "security",
+              "title": "Security"
+            }
+          ]
+        },
+        {
+          "id": "appendix",
+          "title": "Appendix",
+          "order": 20,
+          "entries": [
+            {
+              "id": "appendix",
+              "title": "Appendix"
+            },
+            {
+              "id": "powers-of-two-table",
+              "title": "Powers of two table"
+            },
+            {
+              "id": "latency-numbers-every-programmer-should-",
+              "title": "Latency numbers every programmer should know"
+            },
+            {
+              "id": "latency-numbers-visualized",
+              "title": "Latency numbers visualized"
+            },
+            {
+              "id": "additional-system-design-interview-quest",
+              "title": "Additional system design interview questions"
+            },
+            {
+              "id": "real-world-architectures",
+              "title": "Real world architectures"
+            },
+            {
+              "id": "company-architectures",
+              "title": "Company architectures"
+            },
+            {
+              "id": "company-engineering-blogs",
+              "title": "Company engineering blogs"
+            },
+            {
+              "id": "airbnb-engineering",
+              "title": "Airbnb Engineering"
+            },
+            {
+              "id": "atlassian-developers",
+              "title": "Atlassian Developers"
+            },
+            {
+              "id": "aws-blog",
+              "title": "AWS Blog"
+            },
+            {
+              "id": "bitly-engineering-blog",
+              "title": "Bitly Engineering Blog"
+            },
+            {
+              "id": "box-blogs",
+              "title": "Box Blogs"
+            },
+            {
+              "id": "cloudera-developer-blog",
+              "title": "Cloudera Developer Blog"
+            },
+            {
+              "id": "dropbox-tech-blog",
+              "title": "Dropbox Tech Blog"
+            },
+            {
+              "id": "engineering-at-quora",
+              "title": "Engineering at Quora"
+            },
+            {
+              "id": "ebay-tech-blog",
+              "title": "Ebay Tech Blog"
+            },
+            {
+              "id": "evernote-tech-blog",
+              "title": "Evernote Tech Blog"
+            },
+            {
+              "id": "etsy-code-as-craft",
+              "title": "Etsy Code as Craft"
+            },
+            {
+              "id": "facebook-engineering",
+              "title": "Facebook Engineering"
+            },
+            {
+              "id": "flickr-code",
+              "title": "Flickr Code"
+            },
+            {
+              "id": "foursquare-engineering-blog",
+              "title": "Foursquare Engineering Blog"
+            },
+            {
+              "id": "github-engineering-blog",
+              "title": "GitHub Engineering Blog"
+            },
+            {
+              "id": "google-research-blog",
+              "title": "Google Research Blog"
+            },
+            {
+              "id": "groupon-engineering-blog",
+              "title": "Groupon Engineering Blog"
+            },
+            {
+              "id": "heroku-engineering-blog",
+              "title": "Heroku Engineering Blog"
+            },
+            {
+              "id": "hubspot-engineering-blog",
+              "title": "Hubspot Engineering Blog"
+            },
+            {
+              "id": "high-scalability",
+              "title": "High Scalability"
+            },
+            {
+              "id": "instagram-engineering",
+              "title": "Instagram Engineering"
+            },
+            {
+              "id": "intel-software-blog",
+              "title": "Intel Software Blog"
+            },
+            {
+              "id": "jane-street-tech-blog",
+              "title": "Jane Street Tech Blog"
+            },
+            {
+              "id": "linkedin-engineering",
+              "title": "LinkedIn Engineering"
+            },
+            {
+              "id": "microsoft-engineering",
+              "title": "Microsoft Engineering"
+            },
+            {
+              "id": "microsoft-python-engineering",
+              "title": "Microsoft Python Engineering"
+            },
+            {
+              "id": "netflix-tech-blog",
+              "title": "Netflix Tech Blog"
+            },
+            {
+              "id": "paypal-developer-blog",
+              "title": "Paypal Developer Blog"
+            },
+            {
+              "id": "pinterest-engineering-blog",
+              "title": "Pinterest Engineering Blog"
+            },
+            {
+              "id": "reddit-blog",
+              "title": "Reddit Blog"
+            },
+            {
+              "id": "salesforce-engineering-blog",
+              "title": "Salesforce Engineering Blog"
+            },
+            {
+              "id": "slack-engineering-blog",
+              "title": "Slack Engineering Blog"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "karan-sd",
+      "kind": "toc",
+      "ref": "https://raw.githubusercontent.com/karanpratapsingh/system-design/main/README.md",
+      "fetched": "2026-11-17",
+      "sha256": "7a287c491e079277450f5e77928607bb47fab7c0d72fe8c00722f32c25a500bd",
+      "sections": [
+        {
+          "id": "why-is-system-design-so-important",
+          "title": "Why is System Design so important?",
+          "order": 1,
+          "entries": [
+            {
+              "id": "why-is-system-design-so-important",
+              "title": "Why is System Design so important?"
+            }
+          ]
+        },
+        {
+          "id": "versions",
+          "title": "Versions",
+          "order": 2,
+          "entries": [
+            {
+              "id": "versions",
+              "title": "Versions"
+            },
+            {
+              "id": "ipv4",
+              "title": "IPv4"
+            },
+            {
+              "id": "ipv6",
+              "title": "IPv6"
+            }
+          ]
+        },
+        {
+          "id": "types",
+          "title": "Types",
+          "order": 3,
+          "entries": [
+            {
+              "id": "types",
+              "title": "Types"
+            },
+            {
+              "id": "public",
+              "title": "Public"
+            },
+            {
+              "id": "private",
+              "title": "Private"
+            },
+            {
+              "id": "static",
+              "title": "Static"
+            },
+            {
+              "id": "dynamic",
+              "title": "Dynamic"
+            }
+          ]
+        },
+        {
+          "id": "why-does-the-osi-model-matter",
+          "title": "Why does the OSI model matter?",
+          "order": 4,
+          "entries": [
+            {
+              "id": "why-does-the-osi-model-matter",
+              "title": "Why does the OSI model matter?"
+            }
+          ]
+        },
+        {
+          "id": "layers",
+          "title": "Layers",
+          "order": 5,
+          "entries": [
+            {
+              "id": "layers",
+              "title": "Layers"
+            },
+            {
+              "id": "application",
+              "title": "Application"
+            },
+            {
+              "id": "presentation",
+              "title": "Presentation"
+            },
+            {
+              "id": "session",
+              "title": "Session"
+            },
+            {
+              "id": "transport",
+              "title": "Transport"
+            },
+            {
+              "id": "network",
+              "title": "Network"
+            },
+            {
+              "id": "data-link",
+              "title": "Data Link"
+            },
+            {
+              "id": "physical",
+              "title": "Physical"
+            }
+          ]
+        },
+        {
+          "id": "tcp",
+          "title": "TCP",
+          "order": 6,
+          "entries": [
+            {
+              "id": "tcp",
+              "title": "TCP"
+            }
+          ]
+        },
+        {
+          "id": "udp",
+          "title": "UDP",
+          "order": 7,
+          "entries": [
+            {
+              "id": "udp",
+              "title": "UDP"
+            }
+          ]
+        },
+        {
+          "id": "tcp-vs-udp",
+          "title": "TCP vs UDP",
+          "order": 8,
+          "entries": [
+            {
+              "id": "tcp-vs-udp",
+              "title": "TCP vs UDP"
+            }
+          ]
+        },
+        {
+          "id": "how-dns-works",
+          "title": "How DNS works",
+          "order": 9,
+          "entries": [
+            {
+              "id": "how-dns-works",
+              "title": "How DNS works"
+            }
+          ]
+        },
+        {
+          "id": "server-types",
+          "title": "Server types",
+          "order": 10,
+          "entries": [
+            {
+              "id": "server-types",
+              "title": "Server types"
+            },
+            {
+              "id": "dns-resolver",
+              "title": "DNS Resolver"
+            },
+            {
+              "id": "dns-root-server",
+              "title": "DNS root server"
+            },
+            {
+              "id": "tld-nameserver",
+              "title": "TLD nameserver"
+            },
+            {
+              "id": "authoritative-dns-server",
+              "title": "Authoritative DNS server"
+            }
+          ]
+        },
+        {
+          "id": "query-types",
+          "title": "Query Types",
+          "order": 11,
+          "entries": [
+            {
+              "id": "query-types",
+              "title": "Query Types"
+            },
+            {
+              "id": "recursive",
+              "title": "Recursive"
+            },
+            {
+              "id": "iterative",
+              "title": "Iterative"
+            },
+            {
+              "id": "non-recursive",
+              "title": "Non-recursive"
+            }
+          ]
+        },
+        {
+          "id": "record-types",
+          "title": "Record Types",
+          "order": 12,
+          "entries": [
+            {
+              "id": "record-types",
+              "title": "Record Types"
+            }
+          ]
+        },
+        {
+          "id": "subdomains",
+          "title": "Subdomains",
+          "order": 13,
+          "entries": [
+            {
+              "id": "subdomains",
+              "title": "Subdomains"
+            }
+          ]
+        },
+        {
+          "id": "dns-zones",
+          "title": "DNS Zones",
+          "order": 14,
+          "entries": [
+            {
+              "id": "dns-zones",
+              "title": "DNS Zones"
+            }
+          ]
+        },
+        {
+          "id": "dns-caching",
+          "title": "DNS Caching",
+          "order": 15,
+          "entries": [
+            {
+              "id": "dns-caching",
+              "title": "DNS Caching"
+            }
+          ]
+        },
+        {
+          "id": "reverse-dns",
+          "title": "Reverse DNS",
+          "order": 16,
+          "entries": [
+            {
+              "id": "reverse-dns",
+              "title": "Reverse DNS"
+            }
+          ]
+        },
+        {
+          "id": "examples",
+          "title": "Examples",
+          "order": 17,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "route53",
+              "title": "Route53"
+            },
+            {
+              "id": "cloudflare-dns",
+              "title": "Cloudflare DNS"
+            },
+            {
+              "id": "google-cloud-dns",
+              "title": "Google Cloud DNS"
+            },
+            {
+              "id": "azure-dns",
+              "title": "Azure DNS"
+            },
+            {
+              "id": "ns1",
+              "title": "NS1"
+            }
+          ]
+        },
+        {
+          "id": "but-why",
+          "title": "But why?",
+          "order": 18,
+          "entries": [
+            {
+              "id": "but-why",
+              "title": "But why?"
+            }
+          ]
+        },
+        {
+          "id": "workload-distribution",
+          "title": "Workload distribution",
+          "order": 19,
+          "entries": [
+            {
+              "id": "workload-distribution",
+              "title": "Workload distribution"
+            }
+          ]
+        },
+        {
+          "id": "layers-2",
+          "title": "Layers",
+          "order": 20,
+          "entries": [
+            {
+              "id": "layers",
+              "title": "Layers"
+            },
+            {
+              "id": "network-layer",
+              "title": "Network layer"
+            },
+            {
+              "id": "application-layer",
+              "title": "Application layer"
+            }
+          ]
+        },
+        {
+          "id": "types-2",
+          "title": "Types",
+          "order": 21,
+          "entries": [
+            {
+              "id": "types",
+              "title": "Types"
+            },
+            {
+              "id": "software",
+              "title": "Software"
+            },
+            {
+              "id": "hardware",
+              "title": "Hardware"
+            },
+            {
+              "id": "dns",
+              "title": "DNS"
+            }
+          ]
+        },
+        {
+          "id": "routing-algorithms",
+          "title": "Routing Algorithms",
+          "order": 22,
+          "entries": [
+            {
+              "id": "routing-algorithms",
+              "title": "Routing Algorithms"
+            }
+          ]
+        },
+        {
+          "id": "advantages",
+          "title": "Advantages",
+          "order": 23,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "redundant-load-balancers",
+          "title": "Redundant load balancers",
+          "order": 24,
+          "entries": [
+            {
+              "id": "redundant-load-balancers",
+              "title": "Redundant load balancers"
+            }
+          ]
+        },
+        {
+          "id": "features",
+          "title": "Features",
+          "order": 25,
+          "entries": [
+            {
+              "id": "features",
+              "title": "Features"
+            }
+          ]
+        },
+        {
+          "id": "examples-2",
+          "title": "Examples",
+          "order": 26,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "amazon-elastic-load-balancing",
+              "title": "Amazon Elastic Load Balancing"
+            },
+            {
+              "id": "azure-load-balancing",
+              "title": "Azure Load Balancing"
+            },
+            {
+              "id": "gcp-load-balancing",
+              "title": "GCP Load Balancing"
+            },
+            {
+              "id": "digitalocean-load-balancer",
+              "title": "DigitalOcean Load Balancer"
+            },
+            {
+              "id": "nginx",
+              "title": "Nginx"
+            },
+            {
+              "id": "haproxy",
+              "title": "HAProxy"
+            }
+          ]
+        },
+        {
+          "id": "types-3",
+          "title": "Types",
+          "order": 27,
+          "entries": [
+            {
+              "id": "types",
+              "title": "Types"
+            }
+          ]
+        },
+        {
+          "id": "configurations",
+          "title": "Configurations",
+          "order": 28,
+          "entries": [
+            {
+              "id": "configurations",
+              "title": "Configurations"
+            },
+            {
+              "id": "active-active",
+              "title": "Active-Active"
+            },
+            {
+              "id": "active-passive",
+              "title": "Active-Passive"
+            }
+          ]
+        },
+        {
+          "id": "advantages-2",
+          "title": "Advantages",
+          "order": 29,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "load-balancing-vs-clustering",
+          "title": "Load balancing vs Clustering",
+          "order": 30,
+          "entries": [
+            {
+              "id": "load-balancing-vs-clustering",
+              "title": "Load balancing vs Clustering"
+            }
+          ]
+        },
+        {
+          "id": "challenges",
+          "title": "Challenges",
+          "order": 31,
+          "entries": [
+            {
+              "id": "challenges",
+              "title": "Challenges"
+            }
+          ]
+        },
+        {
+          "id": "examples-3",
+          "title": "Examples",
+          "order": 32,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            }
+          ]
+        },
+        {
+          "id": "caching-and-memory",
+          "title": "Caching and Memory",
+          "order": 33,
+          "entries": [
+            {
+              "id": "caching-and-memory",
+              "title": "Caching and Memory"
+            }
+          ]
+        },
+        {
+          "id": "cache-hit-and-cache-miss",
+          "title": "Cache hit and Cache miss",
+          "order": 34,
+          "entries": [
+            {
+              "id": "cache-hit-and-cache-miss",
+              "title": "Cache hit and Cache miss"
+            },
+            {
+              "id": "cache-hit",
+              "title": "Cache hit"
+            },
+            {
+              "id": "cache-miss",
+              "title": "Cache miss"
+            }
+          ]
+        },
+        {
+          "id": "cache-invalidation",
+          "title": "Cache Invalidation",
+          "order": 35,
+          "entries": [
+            {
+              "id": "cache-invalidation",
+              "title": "Cache Invalidation"
+            },
+            {
+              "id": "write-through-cache",
+              "title": "Write-through cache"
+            },
+            {
+              "id": "write-around-cache",
+              "title": "Write-around cache"
+            },
+            {
+              "id": "write-back-cache",
+              "title": "Write-back cache"
+            }
+          ]
+        },
+        {
+          "id": "eviction-policies",
+          "title": "Eviction policies",
+          "order": 36,
+          "entries": [
+            {
+              "id": "eviction-policies",
+              "title": "Eviction policies"
+            }
+          ]
+        },
+        {
+          "id": "distributed-cache",
+          "title": "Distributed Cache",
+          "order": 37,
+          "entries": [
+            {
+              "id": "distributed-cache",
+              "title": "Distributed Cache"
+            }
+          ]
+        },
+        {
+          "id": "global-cache",
+          "title": "Global Cache",
+          "order": 38,
+          "entries": [
+            {
+              "id": "global-cache",
+              "title": "Global Cache"
+            }
+          ]
+        },
+        {
+          "id": "use-cases",
+          "title": "Use cases",
+          "order": 39,
+          "entries": [
+            {
+              "id": "use-cases",
+              "title": "Use cases"
+            }
+          ]
+        },
+        {
+          "id": "advantages-3",
+          "title": "Advantages",
+          "order": 40,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "examples-4",
+          "title": "Examples",
+          "order": 41,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "redis",
+              "title": "Redis"
+            },
+            {
+              "id": "memcached",
+              "title": "Memcached"
+            },
+            {
+              "id": "amazon-elasticache",
+              "title": "Amazon Elasticache"
+            },
+            {
+              "id": "aerospike",
+              "title": "Aerospike"
+            }
+          ]
+        },
+        {
+          "id": "why-use-a-cdn",
+          "title": "Why use a CDN?",
+          "order": 42,
+          "entries": [
+            {
+              "id": "why-use-a-cdn",
+              "title": "Why use a CDN?"
+            }
+          ]
+        },
+        {
+          "id": "how-does-a-cdn-work",
+          "title": "How does a CDN work?",
+          "order": 43,
+          "entries": [
+            {
+              "id": "how-does-a-cdn-work",
+              "title": "How does a CDN work?"
+            }
+          ]
+        },
+        {
+          "id": "types-4",
+          "title": "Types",
+          "order": 44,
+          "entries": [
+            {
+              "id": "types",
+              "title": "Types"
+            },
+            {
+              "id": "push-cdns",
+              "title": "Push CDNs"
+            },
+            {
+              "id": "pull-cdns",
+              "title": "Pull CDNs"
+            }
+          ]
+        },
+        {
+          "id": "disadvantages",
+          "title": "Disadvantages",
+          "order": 45,
+          "entries": [
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "examples-5",
+          "title": "Examples",
+          "order": 46,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "amazon-cloudfront",
+              "title": "Amazon CloudFront"
+            },
+            {
+              "id": "google-cloud-cdn",
+              "title": "Google Cloud CDN"
+            },
+            {
+              "id": "cloudflare-cdn",
+              "title": "Cloudflare CDN"
+            },
+            {
+              "id": "fastly",
+              "title": "Fastly"
+            }
+          ]
+        },
+        {
+          "id": "types-5",
+          "title": "Types",
+          "order": 47,
+          "entries": [
+            {
+              "id": "types",
+              "title": "Types"
+            },
+            {
+              "id": "forward-proxy",
+              "title": "Forward Proxy"
+            },
+            {
+              "id": "reverse-proxy",
+              "title": "Reverse Proxy"
+            }
+          ]
+        },
+        {
+          "id": "load-balancer-vs-reverse-proxy",
+          "title": "Load balancer vs Reverse Proxy",
+          "order": 48,
+          "entries": [
+            {
+              "id": "load-balancer-vs-reverse-proxy",
+              "title": "Load balancer vs Reverse Proxy"
+            }
+          ]
+        },
+        {
+          "id": "examples-6",
+          "title": "Examples",
+          "order": 49,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "nginx",
+              "title": "Nginx"
+            },
+            {
+              "id": "haproxy",
+              "title": "HAProxy"
+            },
+            {
+              "id": "traefik",
+              "title": "Traefik"
+            },
+            {
+              "id": "envoy",
+              "title": "Envoy"
+            }
+          ]
+        },
+        {
+          "id": "the-nine-s-of-availability",
+          "title": "The Nine's of availability",
+          "order": 50,
+          "entries": [
+            {
+              "id": "the-nine-s-of-availability",
+              "title": "The Nine's of availability"
+            }
+          ]
+        },
+        {
+          "id": "availability-in-sequence-vs-parallel",
+          "title": "Availability in Sequence vs Parallel",
+          "order": 51,
+          "entries": [
+            {
+              "id": "availability-in-sequence-vs-parallel",
+              "title": "Availability in Sequence vs Parallel"
+            },
+            {
+              "id": "sequence",
+              "title": "Sequence"
+            },
+            {
+              "id": "parallel",
+              "title": "Parallel"
+            }
+          ]
+        },
+        {
+          "id": "availability-vs-reliability",
+          "title": "Availability vs Reliability",
+          "order": 52,
+          "entries": [
+            {
+              "id": "availability-vs-reliability",
+              "title": "Availability vs Reliability"
+            }
+          ]
+        },
+        {
+          "id": "high-availability-vs-fault-tolerance",
+          "title": "High availability vs Fault Tolerance",
+          "order": 53,
+          "entries": [
+            {
+              "id": "high-availability-vs-fault-tolerance",
+              "title": "High availability vs Fault Tolerance"
+            }
+          ]
+        },
+        {
+          "id": "vertical-scaling",
+          "title": "Vertical scaling",
+          "order": 54,
+          "entries": [
+            {
+              "id": "vertical-scaling",
+              "title": "Vertical scaling"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "horizontal-scaling",
+          "title": "Horizontal scaling",
+          "order": 55,
+          "entries": [
+            {
+              "id": "horizontal-scaling",
+              "title": "Horizontal scaling"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "raid",
+          "title": "RAID",
+          "order": 56,
+          "entries": [
+            {
+              "id": "raid",
+              "title": "RAID"
+            },
+            {
+              "id": "comparison",
+              "title": "Comparison"
+            }
+          ]
+        },
+        {
+          "id": "volumes",
+          "title": "Volumes",
+          "order": 57,
+          "entries": [
+            {
+              "id": "volumes",
+              "title": "Volumes"
+            }
+          ]
+        },
+        {
+          "id": "file-storage",
+          "title": "File storage",
+          "order": 58,
+          "entries": [
+            {
+              "id": "file-storage",
+              "title": "File storage"
+            }
+          ]
+        },
+        {
+          "id": "block-storage",
+          "title": "Block storage",
+          "order": 59,
+          "entries": [
+            {
+              "id": "block-storage",
+              "title": "Block storage"
+            }
+          ]
+        },
+        {
+          "id": "object-storage",
+          "title": "Object Storage",
+          "order": 60,
+          "entries": [
+            {
+              "id": "object-storage",
+              "title": "Object Storage"
+            }
+          ]
+        },
+        {
+          "id": "nas",
+          "title": "NAS",
+          "order": 61,
+          "entries": [
+            {
+              "id": "nas",
+              "title": "NAS"
+            }
+          ]
+        },
+        {
+          "id": "hdfs",
+          "title": "HDFS",
+          "order": 62,
+          "entries": [
+            {
+              "id": "hdfs",
+              "title": "HDFS"
+            }
+          ]
+        },
+        {
+          "id": "what-is-a-database",
+          "title": "What is a Database?",
+          "order": 63,
+          "entries": [
+            {
+              "id": "what-is-a-database",
+              "title": "What is a Database?"
+            }
+          ]
+        },
+        {
+          "id": "what-is-dbms",
+          "title": "What is DBMS?",
+          "order": 64,
+          "entries": [
+            {
+              "id": "what-is-dbms",
+              "title": "What is DBMS?"
+            }
+          ]
+        },
+        {
+          "id": "components",
+          "title": "Components",
+          "order": 65,
+          "entries": [
+            {
+              "id": "components",
+              "title": "Components"
+            },
+            {
+              "id": "schema",
+              "title": "Schema"
+            },
+            {
+              "id": "table",
+              "title": "Table"
+            },
+            {
+              "id": "column",
+              "title": "Column"
+            },
+            {
+              "id": "row",
+              "title": "Row"
+            }
+          ]
+        },
+        {
+          "id": "types-6",
+          "title": "Types",
+          "order": 66,
+          "entries": [
+            {
+              "id": "types",
+              "title": "Types"
+            }
+          ]
+        },
+        {
+          "id": "challenges-2",
+          "title": "Challenges",
+          "order": 67,
+          "entries": [
+            {
+              "id": "challenges",
+              "title": "Challenges"
+            }
+          ]
+        },
+        {
+          "id": "materialized-views",
+          "title": "Materialized views",
+          "order": 68,
+          "entries": [
+            {
+              "id": "materialized-views",
+              "title": "Materialized views"
+            }
+          ]
+        },
+        {
+          "id": "n-1-query-problem",
+          "title": "N+1 query problem",
+          "order": 69,
+          "entries": [
+            {
+              "id": "n-1-query-problem",
+              "title": "N+1 query problem"
+            }
+          ]
+        },
+        {
+          "id": "advantages-4",
+          "title": "Advantages",
+          "order": 70,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "disadvantages-2",
+          "title": "Disadvantages",
+          "order": 71,
+          "entries": [
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "examples-7",
+          "title": "Examples",
+          "order": 72,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "postgresql",
+              "title": "PostgreSQL"
+            },
+            {
+              "id": "mysql",
+              "title": "MySQL"
+            },
+            {
+              "id": "mariadb",
+              "title": "MariaDB"
+            },
+            {
+              "id": "amazon-aurora",
+              "title": "Amazon Aurora"
+            },
+            {
+              "id": "document",
+              "title": "Document"
+            },
+            {
+              "id": "mongodb",
+              "title": "MongoDB"
+            },
+            {
+              "id": "amazon-documentdb",
+              "title": "Amazon DocumentDB"
+            },
+            {
+              "id": "couchdb",
+              "title": "CouchDB"
+            },
+            {
+              "id": "key-value",
+              "title": "Key-value"
+            },
+            {
+              "id": "redis",
+              "title": "Redis"
+            },
+            {
+              "id": "memcached",
+              "title": "Memcached"
+            },
+            {
+              "id": "amazon-dynamodb",
+              "title": "Amazon DynamoDB"
+            },
+            {
+              "id": "aerospike",
+              "title": "Aerospike"
+            },
+            {
+              "id": "graph",
+              "title": "Graph"
+            },
+            {
+              "id": "neo4j",
+              "title": "Neo4j"
+            },
+            {
+              "id": "arangodb",
+              "title": "ArangoDB"
+            },
+            {
+              "id": "amazon-neptune",
+              "title": "Amazon Neptune"
+            },
+            {
+              "id": "janusgraph",
+              "title": "JanusGraph"
+            },
+            {
+              "id": "time-series",
+              "title": "Time series"
+            },
+            {
+              "id": "influxdb",
+              "title": "InfluxDB"
+            },
+            {
+              "id": "apache-druid",
+              "title": "Apache Druid"
+            },
+            {
+              "id": "wide-column",
+              "title": "Wide column"
+            },
+            {
+              "id": "bigtable",
+              "title": "BigTable"
+            },
+            {
+              "id": "apache-cassandra",
+              "title": "Apache Cassandra"
+            },
+            {
+              "id": "scylladb",
+              "title": "ScyllaDB"
+            },
+            {
+              "id": "multi-model",
+              "title": "Multi-model"
+            },
+            {
+              "id": "azure-cosmos-db",
+              "title": "Azure Cosmos DB"
+            },
+            {
+              "id": "couchbase",
+              "title": "Couchbase"
+            }
+          ]
+        },
+        {
+          "id": "high-level-differences",
+          "title": "High-level differences",
+          "order": 73,
+          "entries": [
+            {
+              "id": "high-level-differences",
+              "title": "High-level differences"
+            },
+            {
+              "id": "storage",
+              "title": "Storage"
+            },
+            {
+              "id": "schema",
+              "title": "Schema"
+            },
+            {
+              "id": "querying",
+              "title": "Querying"
+            },
+            {
+              "id": "scalability",
+              "title": "Scalability"
+            },
+            {
+              "id": "reliability",
+              "title": "Reliability"
+            }
+          ]
+        },
+        {
+          "id": "reasons",
+          "title": "Reasons",
+          "order": 74,
+          "entries": [
+            {
+              "id": "reasons",
+              "title": "Reasons"
+            }
+          ]
+        },
+        {
+          "id": "master-slave-replication",
+          "title": "Master-Slave Replication",
+          "order": 75,
+          "entries": [
+            {
+              "id": "master-slave-replication",
+              "title": "Master-Slave Replication"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "master-master-replication",
+          "title": "Master-Master Replication",
+          "order": 76,
+          "entries": [
+            {
+              "id": "master-master-replication",
+              "title": "Master-Master Replication"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "synchronous-vs-asynchronous-replication",
+          "title": "Synchronous vs Asynchronous replication",
+          "order": 77,
+          "entries": [
+            {
+              "id": "synchronous-vs-asynchronous-replication",
+              "title": "Synchronous vs Asynchronous replication"
+            }
+          ]
+        },
+        {
+          "id": "dense-index",
+          "title": "Dense Index",
+          "order": 78,
+          "entries": [
+            {
+              "id": "dense-index",
+              "title": "Dense Index"
+            }
+          ]
+        },
+        {
+          "id": "sparse-index",
+          "title": "Sparse Index",
+          "order": 79,
+          "entries": [
+            {
+              "id": "sparse-index",
+              "title": "Sparse Index"
+            }
+          ]
+        },
+        {
+          "id": "terms",
+          "title": "Terms",
+          "order": 80,
+          "entries": [
+            {
+              "id": "terms",
+              "title": "Terms"
+            },
+            {
+              "id": "keys",
+              "title": "Keys"
+            },
+            {
+              "id": "dependencies",
+              "title": "Dependencies"
+            },
+            {
+              "id": "anomalies",
+              "title": "Anomalies"
+            }
+          ]
+        },
+        {
+          "id": "normalization",
+          "title": "Normalization",
+          "order": 81,
+          "entries": [
+            {
+              "id": "normalization",
+              "title": "Normalization"
+            },
+            {
+              "id": "why-do-we-need-normalization",
+              "title": "Why do we need normalization?"
+            },
+            {
+              "id": "normal-forms",
+              "title": "Normal forms"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "denormalization",
+          "title": "Denormalization",
+          "order": 82,
+          "entries": [
+            {
+              "id": "denormalization",
+              "title": "Denormalization"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "acid",
+          "title": "ACID",
+          "order": 83,
+          "entries": [
+            {
+              "id": "acid",
+              "title": "ACID"
+            },
+            {
+              "id": "atomic",
+              "title": "Atomic"
+            },
+            {
+              "id": "consistent",
+              "title": "Consistent"
+            },
+            {
+              "id": "isolated",
+              "title": "Isolated"
+            },
+            {
+              "id": "durable",
+              "title": "Durable"
+            }
+          ]
+        },
+        {
+          "id": "base",
+          "title": "BASE",
+          "order": 84,
+          "entries": [
+            {
+              "id": "base",
+              "title": "BASE"
+            },
+            {
+              "id": "basic-availability",
+              "title": "Basic Availability"
+            },
+            {
+              "id": "soft-state",
+              "title": "Soft-state"
+            },
+            {
+              "id": "eventual-consistency",
+              "title": "Eventual consistency"
+            }
+          ]
+        },
+        {
+          "id": "acid-vs-base-trade-offs",
+          "title": "ACID vs BASE Trade-offs",
+          "order": 85,
+          "entries": [
+            {
+              "id": "acid-vs-base-trade-offs",
+              "title": "ACID vs BASE Trade-offs"
+            },
+            {
+              "id": "consistency",
+              "title": "Consistency"
+            },
+            {
+              "id": "availability",
+              "title": "Availability"
+            },
+            {
+              "id": "partition-tolerance",
+              "title": "Partition tolerance"
+            }
+          ]
+        },
+        {
+          "id": "consistency-availability-tradeoff",
+          "title": "Consistency-Availability Tradeoff",
+          "order": 86,
+          "entries": [
+            {
+              "id": "consistency-availability-tradeoff",
+              "title": "Consistency-Availability Tradeoff"
+            },
+            {
+              "id": "ca-database",
+              "title": "CA database"
+            },
+            {
+              "id": "cp-database",
+              "title": "CP database"
+            },
+            {
+              "id": "ap-database",
+              "title": "AP database"
+            }
+          ]
+        },
+        {
+          "id": "states",
+          "title": "States",
+          "order": 87,
+          "entries": [
+            {
+              "id": "states",
+              "title": "States"
+            },
+            {
+              "id": "active",
+              "title": "Active"
+            },
+            {
+              "id": "partially-committed",
+              "title": "Partially Committed"
+            },
+            {
+              "id": "committed",
+              "title": "Committed"
+            },
+            {
+              "id": "failed",
+              "title": "Failed"
+            },
+            {
+              "id": "aborted",
+              "title": "Aborted"
+            },
+            {
+              "id": "terminated",
+              "title": "Terminated"
+            }
+          ]
+        },
+        {
+          "id": "why-do-we-need-distributed-transactions",
+          "title": "Why do we need distributed transactions?",
+          "order": 88,
+          "entries": [
+            {
+              "id": "why-do-we-need-distributed-transactions",
+              "title": "Why do we need distributed transactions?"
+            }
+          ]
+        },
+        {
+          "id": "two-phase-commit",
+          "title": "Two-Phase commit",
+          "order": 89,
+          "entries": [
+            {
+              "id": "two-phase-commit",
+              "title": "Two-Phase commit"
+            },
+            {
+              "id": "phases",
+              "title": "Phases"
+            },
+            {
+              "id": "problems",
+              "title": "Problems"
+            }
+          ]
+        },
+        {
+          "id": "three-phase-commit",
+          "title": "Three-phase commit",
+          "order": 90,
+          "entries": [
+            {
+              "id": "three-phase-commit",
+              "title": "Three-phase commit"
+            },
+            {
+              "id": "phases",
+              "title": "Phases"
+            },
+            {
+              "id": "why-is-the-pre-commit-phase-helpful",
+              "title": "Why is the Pre-commit phase helpful?"
+            }
+          ]
+        },
+        {
+          "id": "sagas",
+          "title": "Sagas",
+          "order": 91,
+          "entries": [
+            {
+              "id": "sagas",
+              "title": "Sagas"
+            },
+            {
+              "id": "coordination",
+              "title": "Coordination"
+            },
+            {
+              "id": "problems",
+              "title": "Problems"
+            }
+          ]
+        },
+        {
+          "id": "data-partitioning",
+          "title": "Data Partitioning",
+          "order": 92,
+          "entries": [
+            {
+              "id": "data-partitioning",
+              "title": "Data Partitioning"
+            },
+            {
+              "id": "methods",
+              "title": "Methods"
+            }
+          ]
+        },
+        {
+          "id": "what-is-sharding",
+          "title": "What is sharding?",
+          "order": 93,
+          "entries": [
+            {
+              "id": "what-is-sharding",
+              "title": "What is sharding?"
+            }
+          ]
+        },
+        {
+          "id": "partitioning-criteria",
+          "title": "Partitioning criteria",
+          "order": 94,
+          "entries": [
+            {
+              "id": "partitioning-criteria",
+              "title": "Partitioning criteria"
+            },
+            {
+              "id": "hash-based",
+              "title": "Hash-Based"
+            },
+            {
+              "id": "list-based",
+              "title": "List-Based"
+            },
+            {
+              "id": "range-based",
+              "title": "Range Based"
+            },
+            {
+              "id": "composite",
+              "title": "Composite"
+            }
+          ]
+        },
+        {
+          "id": "advantages-5",
+          "title": "Advantages",
+          "order": 95,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "disadvantages-3",
+          "title": "Disadvantages",
+          "order": 96,
+          "entries": [
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "when-to-use-sharding",
+          "title": "When to use sharding?",
+          "order": 97,
+          "entries": [
+            {
+              "id": "when-to-use-sharding",
+              "title": "When to use sharding?"
+            }
+          ]
+        },
+        {
+          "id": "why-do-we-need-this",
+          "title": "Why do we need this?",
+          "order": 98,
+          "entries": [
+            {
+              "id": "why-do-we-need-this",
+              "title": "Why do we need this?"
+            }
+          ]
+        },
+        {
+          "id": "how-does-it-work",
+          "title": "How does it work",
+          "order": 99,
+          "entries": [
+            {
+              "id": "how-does-it-work",
+              "title": "How does it work"
+            }
+          ]
+        },
+        {
+          "id": "virtual-nodes",
+          "title": "Virtual Nodes",
+          "order": 100,
+          "entries": [
+            {
+              "id": "virtual-nodes",
+              "title": "Virtual Nodes"
+            }
+          ]
+        },
+        {
+          "id": "data-replication",
+          "title": "Data Replication",
+          "order": 101,
+          "entries": [
+            {
+              "id": "data-replication",
+              "title": "Data Replication"
+            }
+          ]
+        },
+        {
+          "id": "advantages-6",
+          "title": "Advantages",
+          "order": 102,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "disadvantages-4",
+          "title": "Disadvantages",
+          "order": 103,
+          "entries": [
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "examples-8",
+          "title": "Examples",
+          "order": 104,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            }
+          ]
+        },
+        {
+          "id": "characteristics",
+          "title": "Characteristics",
+          "order": 105,
+          "entries": [
+            {
+              "id": "characteristics",
+              "title": "Characteristics"
+            }
+          ]
+        },
+        {
+          "id": "advantages-7",
+          "title": "Advantages",
+          "order": 106,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "disadvantages-5",
+          "title": "Disadvantages",
+          "order": 107,
+          "entries": [
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "types-of-n-tier-architectures",
+          "title": "Types of N-Tier architectures",
+          "order": 108,
+          "entries": [
+            {
+              "id": "types-of-n-tier-architectures",
+              "title": "Types of N-Tier architectures"
+            },
+            {
+              "id": "3-tier-architecture",
+              "title": "3-Tier architecture"
+            },
+            {
+              "id": "2-tier-architecture",
+              "title": "2-Tier architecture"
+            },
+            {
+              "id": "single-tier-or-1-tier-architecture",
+              "title": "Single Tier or 1-Tier architecture"
+            }
+          ]
+        },
+        {
+          "id": "advantages-8",
+          "title": "Advantages",
+          "order": 109,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "disadvantages-6",
+          "title": "Disadvantages",
+          "order": 110,
+          "entries": [
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "models",
+          "title": "Models",
+          "order": 111,
+          "entries": [
+            {
+              "id": "models",
+              "title": "Models"
+            }
+          ]
+        },
+        {
+          "id": "message-brokers-vs-event-streaming",
+          "title": "Message brokers vs Event streaming",
+          "order": 112,
+          "entries": [
+            {
+              "id": "message-brokers-vs-event-streaming",
+              "title": "Message brokers vs Event streaming"
+            }
+          ]
+        },
+        {
+          "id": "message-brokers-vs-enterprise-service-bu",
+          "title": "Message brokers vs Enterprise Service Bus (ESB)",
+          "order": 113,
+          "entries": [
+            {
+              "id": "message-brokers-vs-enterprise-service-bu",
+              "title": "Message brokers vs Enterprise Service Bus (ESB)"
+            }
+          ]
+        },
+        {
+          "id": "examples-9",
+          "title": "Examples",
+          "order": 114,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "nats",
+              "title": "NATS"
+            },
+            {
+              "id": "apache-kafka",
+              "title": "Apache Kafka"
+            },
+            {
+              "id": "rabbitmq",
+              "title": "RabbitMQ"
+            },
+            {
+              "id": "activemq",
+              "title": "ActiveMQ"
+            }
+          ]
+        },
+        {
+          "id": "working",
+          "title": "Working",
+          "order": 115,
+          "entries": [
+            {
+              "id": "working",
+              "title": "Working"
+            }
+          ]
+        },
+        {
+          "id": "advantages-9",
+          "title": "Advantages",
+          "order": 116,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "features-2",
+          "title": "Features",
+          "order": 117,
+          "entries": [
+            {
+              "id": "features",
+              "title": "Features"
+            },
+            {
+              "id": "push-or-pull-delivery",
+              "title": "Push or Pull Delivery"
+            },
+            {
+              "id": "fifo-first-in-first-out-queues",
+              "title": "FIFO (First-In-First-Out) Queues"
+            },
+            {
+              "id": "schedule-or-delay-delivery",
+              "title": "Schedule or Delay Delivery"
+            },
+            {
+              "id": "at-least-once-delivery",
+              "title": "At-Least-Once Delivery"
+            },
+            {
+              "id": "exactly-once-delivery",
+              "title": "Exactly-Once Delivery"
+            },
+            {
+              "id": "dead-letter-queues",
+              "title": "Dead-letter Queues"
+            },
+            {
+              "id": "ordering",
+              "title": "Ordering"
+            },
+            {
+              "id": "poison-pill-messages",
+              "title": "Poison-pill Messages"
+            },
+            {
+              "id": "security",
+              "title": "Security"
+            },
+            {
+              "id": "task-queues",
+              "title": "Task Queues"
+            }
+          ]
+        },
+        {
+          "id": "backpressure",
+          "title": "Backpressure",
+          "order": 118,
+          "entries": [
+            {
+              "id": "backpressure",
+              "title": "Backpressure"
+            }
+          ]
+        },
+        {
+          "id": "examples-10",
+          "title": "Examples",
+          "order": 119,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "amazon-sqs",
+              "title": "Amazon SQS"
+            },
+            {
+              "id": "rabbitmq",
+              "title": "RabbitMQ"
+            },
+            {
+              "id": "activemq",
+              "title": "ActiveMQ"
+            },
+            {
+              "id": "zeromq",
+              "title": "ZeroMQ"
+            }
+          ]
+        },
+        {
+          "id": "working-2",
+          "title": "Working",
+          "order": 120,
+          "entries": [
+            {
+              "id": "working",
+              "title": "Working"
+            }
+          ]
+        },
+        {
+          "id": "advantages-10",
+          "title": "Advantages",
+          "order": 121,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "features-3",
+          "title": "Features",
+          "order": 122,
+          "entries": [
+            {
+              "id": "features",
+              "title": "Features"
+            },
+            {
+              "id": "push-delivery",
+              "title": "Push Delivery"
+            },
+            {
+              "id": "multiple-delivery-protocols",
+              "title": "Multiple Delivery Protocols"
+            },
+            {
+              "id": "fanout",
+              "title": "Fanout"
+            },
+            {
+              "id": "filtering",
+              "title": "Filtering"
+            },
+            {
+              "id": "durability",
+              "title": "Durability"
+            },
+            {
+              "id": "security",
+              "title": "Security"
+            }
+          ]
+        },
+        {
+          "id": "examples-11",
+          "title": "Examples",
+          "order": 123,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "amazon-sns",
+              "title": "Amazon SNS"
+            },
+            {
+              "id": "google-pub-sub",
+              "title": "Google Pub/Sub"
+            }
+          ]
+        },
+        {
+          "id": "advantages-11",
+          "title": "Advantages",
+          "order": 124,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "disadvantages-7",
+          "title": "Disadvantages",
+          "order": 125,
+          "entries": [
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "examples-12",
+          "title": "Examples",
+          "order": 126,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "azure-service-bus",
+              "title": "Azure Service Bus"
+            },
+            {
+              "id": "ibm-app-connect",
+              "title": "IBM App Connect"
+            },
+            {
+              "id": "apache-camel",
+              "title": "Apache Camel"
+            },
+            {
+              "id": "fuse-esb",
+              "title": "Fuse ESB"
+            }
+          ]
+        },
+        {
+          "id": "monoliths",
+          "title": "Monoliths",
+          "order": 127,
+          "entries": [
+            {
+              "id": "monoliths",
+              "title": "Monoliths"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "modular-monoliths",
+          "title": "Modular Monoliths",
+          "order": 128,
+          "entries": [
+            {
+              "id": "modular-monoliths",
+              "title": "Modular Monoliths"
+            }
+          ]
+        },
+        {
+          "id": "microservices",
+          "title": "Microservices",
+          "order": 129,
+          "entries": [
+            {
+              "id": "microservices",
+              "title": "Microservices"
+            },
+            {
+              "id": "characteristics",
+              "title": "Characteristics"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            },
+            {
+              "id": "best-practices",
+              "title": "Best practices"
+            },
+            {
+              "id": "pitfalls",
+              "title": "Pitfalls"
+            }
+          ]
+        },
+        {
+          "id": "beware-of-the-distributed-monolith",
+          "title": "Beware of the distributed monolith",
+          "order": 130,
+          "entries": [
+            {
+              "id": "beware-of-the-distributed-monolith",
+              "title": "Beware of the distributed monolith"
+            }
+          ]
+        },
+        {
+          "id": "microservices-vs-service-oriented-archit",
+          "title": "Microservices vs Service-oriented architecture (SOA)",
+          "order": 131,
+          "entries": [
+            {
+              "id": "microservices-vs-service-oriented-archit",
+              "title": "Microservices vs Service-oriented architecture (SOA)"
+            }
+          ]
+        },
+        {
+          "id": "why-you-don-t-need-microservices",
+          "title": "Why you don't need microservices",
+          "order": 132,
+          "entries": [
+            {
+              "id": "why-you-don-t-need-microservices",
+              "title": "Why you don't need microservices"
+            }
+          ]
+        },
+        {
+          "id": "what-is-an-event",
+          "title": "What is an event?",
+          "order": 133,
+          "entries": [
+            {
+              "id": "what-is-an-event",
+              "title": "What is an event?"
+            }
+          ]
+        },
+        {
+          "id": "components-2",
+          "title": "Components",
+          "order": 134,
+          "entries": [
+            {
+              "id": "components",
+              "title": "Components"
+            }
+          ]
+        },
+        {
+          "id": "patterns",
+          "title": "Patterns",
+          "order": 135,
+          "entries": [
+            {
+              "id": "patterns",
+              "title": "Patterns"
+            },
+            {
+              "id": "sagas",
+              "title": "Sagas"
+            },
+            {
+              "id": "publish-subscribe",
+              "title": "Publish-Subscribe"
+            },
+            {
+              "id": "event-sourcing",
+              "title": "Event Sourcing"
+            },
+            {
+              "id": "command-and-query-responsibility-segrega",
+              "title": "Command and Query Responsibility Segregation (CQRS)"
+            }
+          ]
+        },
+        {
+          "id": "advantages-12",
+          "title": "Advantages",
+          "order": 136,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "challenges-3",
+          "title": "Challenges",
+          "order": 137,
+          "entries": [
+            {
+              "id": "challenges",
+              "title": "Challenges"
+            }
+          ]
+        },
+        {
+          "id": "use-cases-2",
+          "title": "Use cases",
+          "order": 138,
+          "entries": [
+            {
+              "id": "use-cases",
+              "title": "Use cases"
+            }
+          ]
+        },
+        {
+          "id": "examples-13",
+          "title": "Examples",
+          "order": 139,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "nats",
+              "title": "NATS"
+            },
+            {
+              "id": "apache-kafka",
+              "title": "Apache Kafka"
+            },
+            {
+              "id": "amazon-eventbridge",
+              "title": "Amazon EventBridge"
+            },
+            {
+              "id": "amazon-sns",
+              "title": "Amazon SNS"
+            },
+            {
+              "id": "google-pubsub",
+              "title": "Google PubSub"
+            }
+          ]
+        },
+        {
+          "id": "event-sourcing-vs-event-driven-architect",
+          "title": "Event sourcing vs Event-Driven Architecture (EDA)",
+          "order": 140,
+          "entries": [
+            {
+              "id": "event-sourcing-vs-event-driven-architect",
+              "title": "Event sourcing vs Event-Driven Architecture (EDA)"
+            }
+          ]
+        },
+        {
+          "id": "advantages-13",
+          "title": "Advantages",
+          "order": 141,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "disadvantages-8",
+          "title": "Disadvantages",
+          "order": 142,
+          "entries": [
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "cqrs-with-event-sourcing",
+          "title": "CQRS with Event Sourcing",
+          "order": 143,
+          "entries": [
+            {
+              "id": "cqrs-with-event-sourcing",
+              "title": "CQRS with Event Sourcing"
+            }
+          ]
+        },
+        {
+          "id": "advantages-14",
+          "title": "Advantages",
+          "order": 144,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "disadvantages-9",
+          "title": "Disadvantages",
+          "order": 145,
+          "entries": [
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "use-cases-3",
+          "title": "Use cases",
+          "order": 146,
+          "entries": [
+            {
+              "id": "use-cases",
+              "title": "Use cases"
+            }
+          ]
+        },
+        {
+          "id": "why-do-we-need-an-api-gateway",
+          "title": "Why do we need an API Gateway?",
+          "order": 147,
+          "entries": [
+            {
+              "id": "why-do-we-need-an-api-gateway",
+              "title": "Why do we need an API Gateway?"
+            }
+          ]
+        },
+        {
+          "id": "features-4",
+          "title": "Features",
+          "order": 148,
+          "entries": [
+            {
+              "id": "features",
+              "title": "Features"
+            },
+            {
+              "id": "service-discovery",
+              "title": "Service discovery"
+            },
+            {
+              "id": "reverse-proxy",
+              "title": "Reverse Proxy"
+            },
+            {
+              "id": "caching",
+              "title": "Caching"
+            },
+            {
+              "id": "load-balancing",
+              "title": "Load balancing"
+            },
+            {
+              "id": "rate-limiting",
+              "title": "Rate limiting"
+            }
+          ]
+        },
+        {
+          "id": "advantages-15",
+          "title": "Advantages",
+          "order": 149,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "disadvantages-10",
+          "title": "Disadvantages",
+          "order": 150,
+          "entries": [
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "backend-for-frontend-bff-pattern",
+          "title": "Backend For Frontend (BFF) pattern",
+          "order": 151,
+          "entries": [
+            {
+              "id": "backend-for-frontend-bff-pattern",
+              "title": "Backend For Frontend (BFF) pattern"
+            },
+            {
+              "id": "when-to-use-this-pattern",
+              "title": "When to use this pattern?"
+            }
+          ]
+        },
+        {
+          "id": "examples-14",
+          "title": "Examples",
+          "order": 152,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "amazon-api-gateway",
+              "title": "Amazon API Gateway"
+            },
+            {
+              "id": "apigee-api-gateway",
+              "title": "Apigee API Gateway"
+            },
+            {
+              "id": "azure-api-gateway",
+              "title": "Azure API Gateway"
+            },
+            {
+              "id": "kong-api-gateway",
+              "title": "Kong API Gateway"
+            }
+          ]
+        },
+        {
+          "id": "what-s-an-api",
+          "title": "What's an API?",
+          "order": 153,
+          "entries": [
+            {
+              "id": "what-s-an-api",
+              "title": "What's an API?"
+            }
+          ]
+        },
+        {
+          "id": "rest",
+          "title": "REST",
+          "order": 154,
+          "entries": [
+            {
+              "id": "rest",
+              "title": "REST"
+            },
+            {
+              "id": "concepts",
+              "title": "Concepts"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            },
+            {
+              "id": "use-cases",
+              "title": "Use cases"
+            },
+            {
+              "id": "example",
+              "title": "Example"
+            }
+          ]
+        },
+        {
+          "id": "graphql",
+          "title": "GraphQL",
+          "order": 155,
+          "entries": [
+            {
+              "id": "graphql",
+              "title": "GraphQL"
+            },
+            {
+              "id": "concepts",
+              "title": "Concepts"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            },
+            {
+              "id": "use-cases",
+              "title": "Use cases"
+            },
+            {
+              "id": "example",
+              "title": "Example"
+            }
+          ]
+        },
+        {
+          "id": "grpc",
+          "title": "gRPC",
+          "order": 156,
+          "entries": [
+            {
+              "id": "grpc",
+              "title": "gRPC"
+            },
+            {
+              "id": "concepts",
+              "title": "Concepts"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            },
+            {
+              "id": "use-cases",
+              "title": "Use cases"
+            },
+            {
+              "id": "example",
+              "title": "Example"
+            }
+          ]
+        },
+        {
+          "id": "rest-vs-graphql-vs-grpc",
+          "title": "REST vs GraphQL vs gRPC",
+          "order": 157,
+          "entries": [
+            {
+              "id": "rest-vs-graphql-vs-grpc",
+              "title": "REST vs GraphQL vs gRPC"
+            },
+            {
+              "id": "which-api-technology-is-better",
+              "title": "Which API technology is better?"
+            }
+          ]
+        },
+        {
+          "id": "long-polling",
+          "title": "Long polling",
+          "order": 158,
+          "entries": [
+            {
+              "id": "long-polling",
+              "title": "Long polling"
+            },
+            {
+              "id": "working",
+              "title": "Working"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "websockets",
+          "title": "WebSockets",
+          "order": 159,
+          "entries": [
+            {
+              "id": "websockets",
+              "title": "WebSockets"
+            },
+            {
+              "id": "working",
+              "title": "Working"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "server-sent-events-sse",
+          "title": "Server-Sent Events (SSE)",
+          "order": 160,
+          "entries": [
+            {
+              "id": "server-sent-events-sse",
+              "title": "Server-Sent Events (SSE)"
+            },
+            {
+              "id": "working",
+              "title": "Working"
+            },
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "geohashing",
+          "title": "Geohashing",
+          "order": 161,
+          "entries": [
+            {
+              "id": "geohashing",
+              "title": "Geohashing"
+            },
+            {
+              "id": "how-does-geohashing-work",
+              "title": "How does Geohashing work?"
+            },
+            {
+              "id": "use-cases",
+              "title": "Use cases"
+            },
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "mysql",
+              "title": "MySQL"
+            },
+            {
+              "id": "redis",
+              "title": "Redis"
+            },
+            {
+              "id": "amazon-dynamodb",
+              "title": "Amazon DynamoDB"
+            },
+            {
+              "id": "google-cloud-firestore",
+              "title": "Google Cloud Firestore"
+            }
+          ]
+        },
+        {
+          "id": "quadtrees",
+          "title": "Quadtrees",
+          "order": 162,
+          "entries": [
+            {
+              "id": "quadtrees",
+              "title": "Quadtrees"
+            },
+            {
+              "id": "types-of-quadtrees",
+              "title": "Types of Quadtrees"
+            },
+            {
+              "id": "why-do-we-need-quadtrees",
+              "title": "Why do we need Quadtrees?"
+            },
+            {
+              "id": "use-cases",
+              "title": "Use cases"
+            }
+          ]
+        },
+        {
+          "id": "why-do-we-need-circuit-breaking",
+          "title": "Why do we need circuit breaking?",
+          "order": 163,
+          "entries": [
+            {
+              "id": "why-do-we-need-circuit-breaking",
+              "title": "Why do we need circuit breaking?"
+            }
+          ]
+        },
+        {
+          "id": "states-2",
+          "title": "States",
+          "order": 164,
+          "entries": [
+            {
+              "id": "states",
+              "title": "States"
+            },
+            {
+              "id": "closed",
+              "title": "Closed"
+            },
+            {
+              "id": "open",
+              "title": "Open"
+            },
+            {
+              "id": "half-open",
+              "title": "Half-open"
+            }
+          ]
+        },
+        {
+          "id": "why-do-we-need-rate-limiting",
+          "title": "Why do we need Rate Limiting?",
+          "order": 165,
+          "entries": [
+            {
+              "id": "why-do-we-need-rate-limiting",
+              "title": "Why do we need Rate Limiting?"
+            }
+          ]
+        },
+        {
+          "id": "algorithms",
+          "title": "Algorithms",
+          "order": 166,
+          "entries": [
+            {
+              "id": "algorithms",
+              "title": "Algorithms"
+            },
+            {
+              "id": "leaky-bucket",
+              "title": "Leaky Bucket"
+            },
+            {
+              "id": "token-bucket",
+              "title": "Token Bucket"
+            },
+            {
+              "id": "fixed-window",
+              "title": "Fixed Window"
+            },
+            {
+              "id": "sliding-log",
+              "title": "Sliding Log"
+            },
+            {
+              "id": "sliding-window",
+              "title": "Sliding Window"
+            }
+          ]
+        },
+        {
+          "id": "rate-limiting-in-distributed-systems",
+          "title": "Rate Limiting in Distributed Systems",
+          "order": 167,
+          "entries": [
+            {
+              "id": "rate-limiting-in-distributed-systems",
+              "title": "Rate Limiting in Distributed Systems"
+            },
+            {
+              "id": "inconsistencies",
+              "title": "Inconsistencies"
+            },
+            {
+              "id": "race-conditions",
+              "title": "Race Conditions"
+            }
+          ]
+        },
+        {
+          "id": "why-do-we-need-idempotency",
+          "title": "Why do we need Idempotency?",
+          "order": 168,
+          "entries": [
+            {
+              "id": "why-do-we-need-idempotency",
+              "title": "Why do we need Idempotency?"
+            }
+          ]
+        },
+        {
+          "id": "idempotency-in-http",
+          "title": "Idempotency in HTTP",
+          "order": 169,
+          "entries": [
+            {
+              "id": "idempotency-in-http",
+              "title": "Idempotency in HTTP"
+            }
+          ]
+        },
+        {
+          "id": "idempotency-keys",
+          "title": "Idempotency keys",
+          "order": 170,
+          "entries": [
+            {
+              "id": "idempotency-keys",
+              "title": "Idempotency keys"
+            }
+          ]
+        },
+        {
+          "id": "idempotent-consumers",
+          "title": "Idempotent consumers",
+          "order": 171,
+          "entries": [
+            {
+              "id": "idempotent-consumers",
+              "title": "Idempotent consumers"
+            }
+          ]
+        },
+        {
+          "id": "tradeoffs",
+          "title": "Tradeoffs",
+          "order": 172,
+          "entries": [
+            {
+              "id": "tradeoffs",
+              "title": "Tradeoffs"
+            }
+          ]
+        },
+        {
+          "id": "why-do-we-need-service-discovery",
+          "title": "Why do we need Service Discovery?",
+          "order": 173,
+          "entries": [
+            {
+              "id": "why-do-we-need-service-discovery",
+              "title": "Why do we need Service Discovery?"
+            }
+          ]
+        },
+        {
+          "id": "implementations",
+          "title": "Implementations",
+          "order": 174,
+          "entries": [
+            {
+              "id": "implementations",
+              "title": "Implementations"
+            },
+            {
+              "id": "client-side-discovery",
+              "title": "Client-side discovery"
+            },
+            {
+              "id": "server-side-discovery",
+              "title": "Server-side discovery"
+            }
+          ]
+        },
+        {
+          "id": "service-registry",
+          "title": "Service Registry",
+          "order": 175,
+          "entries": [
+            {
+              "id": "service-registry",
+              "title": "Service Registry"
+            }
+          ]
+        },
+        {
+          "id": "service-registration",
+          "title": "Service Registration",
+          "order": 176,
+          "entries": [
+            {
+              "id": "service-registration",
+              "title": "Service Registration"
+            },
+            {
+              "id": "self-registration",
+              "title": "Self-Registration"
+            },
+            {
+              "id": "third-party-registration",
+              "title": "Third-party Registration"
+            }
+          ]
+        },
+        {
+          "id": "service-mesh",
+          "title": "Service mesh",
+          "order": 177,
+          "entries": [
+            {
+              "id": "service-mesh",
+              "title": "Service mesh"
+            }
+          ]
+        },
+        {
+          "id": "examples-15",
+          "title": "Examples",
+          "order": 178,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "etcd",
+              "title": "etcd"
+            },
+            {
+              "id": "consul",
+              "title": "Consul"
+            },
+            {
+              "id": "apache-thrift",
+              "title": "Apache Thrift"
+            },
+            {
+              "id": "apache-zookeeper",
+              "title": "Apache Zookeeper"
+            }
+          ]
+        },
+        {
+          "id": "why-are-they-important",
+          "title": "Why are they important?",
+          "order": 179,
+          "entries": [
+            {
+              "id": "why-are-they-important",
+              "title": "Why are they important?"
+            }
+          ]
+        },
+        {
+          "id": "sla",
+          "title": "SLA",
+          "order": 180,
+          "entries": [
+            {
+              "id": "sla",
+              "title": "SLA"
+            }
+          ]
+        },
+        {
+          "id": "slo",
+          "title": "SLO",
+          "order": 181,
+          "entries": [
+            {
+              "id": "slo",
+              "title": "SLO"
+            }
+          ]
+        },
+        {
+          "id": "sli",
+          "title": "SLI",
+          "order": 182,
+          "entries": [
+            {
+              "id": "sli",
+              "title": "SLI"
+            }
+          ]
+        },
+        {
+          "id": "why-is-disaster-recovery-important",
+          "title": "Why is disaster recovery important?",
+          "order": 183,
+          "entries": [
+            {
+              "id": "why-is-disaster-recovery-important",
+              "title": "Why is disaster recovery important?"
+            }
+          ]
+        },
+        {
+          "id": "terms-2",
+          "title": "Terms",
+          "order": 184,
+          "entries": [
+            {
+              "id": "terms",
+              "title": "Terms"
+            },
+            {
+              "id": "rto",
+              "title": "RTO"
+            },
+            {
+              "id": "rpo",
+              "title": "RPO"
+            }
+          ]
+        },
+        {
+          "id": "strategies",
+          "title": "Strategies",
+          "order": 185,
+          "entries": [
+            {
+              "id": "strategies",
+              "title": "Strategies"
+            },
+            {
+              "id": "back-up",
+              "title": "Back-up"
+            },
+            {
+              "id": "cold-site",
+              "title": "Cold Site"
+            },
+            {
+              "id": "hot-site",
+              "title": "Hot site"
+            }
+          ]
+        },
+        {
+          "id": "virtual-machines-vm",
+          "title": "Virtual Machines (VM)",
+          "order": 186,
+          "entries": [
+            {
+              "id": "virtual-machines-vm",
+              "title": "Virtual Machines (VM)"
+            },
+            {
+              "id": "what-is-a-hypervisor",
+              "title": "What is a Hypervisor?"
+            },
+            {
+              "id": "why-use-a-virtual-machine",
+              "title": "Why use a Virtual Machine?"
+            }
+          ]
+        },
+        {
+          "id": "containers",
+          "title": "Containers",
+          "order": 187,
+          "entries": [
+            {
+              "id": "containers",
+              "title": "Containers"
+            },
+            {
+              "id": "why-do-we-need-containers",
+              "title": "Why do we need containers?"
+            }
+          ]
+        },
+        {
+          "id": "virtualization-vs-containerization",
+          "title": "Virtualization vs Containerization",
+          "order": 188,
+          "entries": [
+            {
+              "id": "virtualization-vs-containerization",
+              "title": "Virtualization vs Containerization"
+            }
+          ]
+        },
+        {
+          "id": "oauth-2-0",
+          "title": "OAuth 2.0",
+          "order": 189,
+          "entries": [
+            {
+              "id": "oauth-2-0",
+              "title": "OAuth 2.0"
+            },
+            {
+              "id": "concepts",
+              "title": "Concepts"
+            },
+            {
+              "id": "how-does-oauth-2-0-work",
+              "title": "How does OAuth 2.0 work?"
+            },
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "openid-connect",
+          "title": "OpenID Connect",
+          "order": 190,
+          "entries": [
+            {
+              "id": "openid-connect",
+              "title": "OpenID Connect"
+            },
+            {
+              "id": "concepts",
+              "title": "Concepts"
+            }
+          ]
+        },
+        {
+          "id": "components-3",
+          "title": "Components",
+          "order": 191,
+          "entries": [
+            {
+              "id": "components",
+              "title": "Components"
+            },
+            {
+              "id": "identity-provider-idp",
+              "title": "Identity Provider (IdP)"
+            },
+            {
+              "id": "service-provider",
+              "title": "Service Provider"
+            },
+            {
+              "id": "identity-broker",
+              "title": "Identity Broker"
+            }
+          ]
+        },
+        {
+          "id": "saml",
+          "title": "SAML",
+          "order": 192,
+          "entries": [
+            {
+              "id": "saml",
+              "title": "SAML"
+            }
+          ]
+        },
+        {
+          "id": "how-does-sso-work",
+          "title": "How does SSO work?",
+          "order": 193,
+          "entries": [
+            {
+              "id": "how-does-sso-work",
+              "title": "How does SSO work?"
+            }
+          ]
+        },
+        {
+          "id": "saml-vs-oauth-2-0-and-openid-connect-oid",
+          "title": "SAML vs OAuth 2.0 and OpenID Connect (OIDC)",
+          "order": 194,
+          "entries": [
+            {
+              "id": "saml-vs-oauth-2-0-and-openid-connect-oid",
+              "title": "SAML vs OAuth 2.0 and OpenID Connect (OIDC)"
+            }
+          ]
+        },
+        {
+          "id": "advantages-16",
+          "title": "Advantages",
+          "order": 195,
+          "entries": [
+            {
+              "id": "advantages",
+              "title": "Advantages"
+            }
+          ]
+        },
+        {
+          "id": "disadvantages-11",
+          "title": "Disadvantages",
+          "order": 196,
+          "entries": [
+            {
+              "id": "disadvantages",
+              "title": "Disadvantages"
+            }
+          ]
+        },
+        {
+          "id": "examples-16",
+          "title": "Examples",
+          "order": 197,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            },
+            {
+              "id": "okta",
+              "title": "Okta"
+            },
+            {
+              "id": "google",
+              "title": "Google"
+            },
+            {
+              "id": "auth0",
+              "title": "Auth0"
+            },
+            {
+              "id": "onelogin",
+              "title": "OneLogin"
+            }
+          ]
+        },
+        {
+          "id": "ssl",
+          "title": "SSL",
+          "order": 198,
+          "entries": [
+            {
+              "id": "ssl",
+              "title": "SSL"
+            },
+            {
+              "id": "why-is-it-called-an-ssl-certificate-if-i",
+              "title": "Why is it called an SSL certificate if it is deprecated?"
+            },
+            {
+              "id": "why-was-ssl-so-important",
+              "title": "Why was SSL so important?"
+            }
+          ]
+        },
+        {
+          "id": "tls",
+          "title": "TLS",
+          "order": 199,
+          "entries": [
+            {
+              "id": "tls",
+              "title": "TLS"
+            }
+          ]
+        },
+        {
+          "id": "mtls",
+          "title": "mTLS",
+          "order": 200,
+          "entries": [
+            {
+              "id": "mtls",
+              "title": "mTLS"
+            },
+            {
+              "id": "why-use-mtls",
+              "title": "Why use mTLS?"
+            }
+          ]
+        },
+        {
+          "id": "requirements-clarifications",
+          "title": "Requirements clarifications",
+          "order": 201,
+          "entries": [
+            {
+              "id": "requirements-clarifications",
+              "title": "Requirements clarifications"
+            },
+            {
+              "id": "functional-requirements",
+              "title": "Functional requirements"
+            },
+            {
+              "id": "non-functional-requirements",
+              "title": "Non-functional requirements"
+            },
+            {
+              "id": "extended-requirements",
+              "title": "Extended requirements"
+            }
+          ]
+        },
+        {
+          "id": "estimation-and-constraints",
+          "title": "Estimation and Constraints",
+          "order": 202,
+          "entries": [
+            {
+              "id": "estimation-and-constraints",
+              "title": "Estimation and Constraints"
+            }
+          ]
+        },
+        {
+          "id": "data-model-design",
+          "title": "Data model design",
+          "order": 203,
+          "entries": [
+            {
+              "id": "data-model-design",
+              "title": "Data model design"
+            }
+          ]
+        },
+        {
+          "id": "api-design",
+          "title": "API design",
+          "order": 204,
+          "entries": [
+            {
+              "id": "api-design",
+              "title": "API design"
+            }
+          ]
+        },
+        {
+          "id": "high-level-component-design",
+          "title": "High-level component design",
+          "order": 205,
+          "entries": [
+            {
+              "id": "high-level-component-design",
+              "title": "High-level component design"
+            }
+          ]
+        },
+        {
+          "id": "detailed-design",
+          "title": "Detailed design",
+          "order": 206,
+          "entries": [
+            {
+              "id": "detailed-design",
+              "title": "Detailed design"
+            }
+          ]
+        },
+        {
+          "id": "identify-and-resolve-bottlenecks",
+          "title": "Identify and resolve bottlenecks",
+          "order": 207,
+          "entries": [
+            {
+              "id": "identify-and-resolve-bottlenecks",
+              "title": "Identify and resolve bottlenecks"
+            }
+          ]
+        },
+        {
+          "id": "what-is-a-url-shortener",
+          "title": "What is a URL Shortener?",
+          "order": 208,
+          "entries": [
+            {
+              "id": "what-is-a-url-shortener",
+              "title": "What is a URL Shortener?"
+            }
+          ]
+        },
+        {
+          "id": "why-do-we-need-a-url-shortener",
+          "title": "Why do we need a URL shortener?",
+          "order": 209,
+          "entries": [
+            {
+              "id": "why-do-we-need-a-url-shortener",
+              "title": "Why do we need a URL shortener?"
+            }
+          ]
+        },
+        {
+          "id": "requirements",
+          "title": "Requirements",
+          "order": 210,
+          "entries": [
+            {
+              "id": "requirements",
+              "title": "Requirements"
+            },
+            {
+              "id": "functional-requirements",
+              "title": "Functional requirements"
+            },
+            {
+              "id": "non-functional-requirements",
+              "title": "Non-functional requirements"
+            },
+            {
+              "id": "extended-requirements",
+              "title": "Extended requirements"
+            }
+          ]
+        },
+        {
+          "id": "estimation-and-constraints-2",
+          "title": "Estimation and Constraints",
+          "order": 211,
+          "entries": [
+            {
+              "id": "estimation-and-constraints",
+              "title": "Estimation and Constraints"
+            },
+            {
+              "id": "traffic",
+              "title": "Traffic"
+            },
+            {
+              "id": "bandwidth",
+              "title": "Bandwidth"
+            },
+            {
+              "id": "storage",
+              "title": "Storage"
+            },
+            {
+              "id": "cache",
+              "title": "Cache"
+            },
+            {
+              "id": "high-level-estimate",
+              "title": "High-level estimate"
+            }
+          ]
+        },
+        {
+          "id": "data-model-design-2",
+          "title": "Data model design",
+          "order": 212,
+          "entries": [
+            {
+              "id": "data-model-design",
+              "title": "Data model design"
+            },
+            {
+              "id": "what-kind-of-database-should-we-use",
+              "title": "What kind of database should we use?"
+            }
+          ]
+        },
+        {
+          "id": "api-design-2",
+          "title": "API design",
+          "order": 213,
+          "entries": [
+            {
+              "id": "api-design",
+              "title": "API design"
+            },
+            {
+              "id": "create-url",
+              "title": "Create URL"
+            },
+            {
+              "id": "get-url",
+              "title": "Get URL"
+            },
+            {
+              "id": "delete-url",
+              "title": "Delete URL"
+            },
+            {
+              "id": "why-do-we-need-an-api-key",
+              "title": "Why do we need an API key?"
+            }
+          ]
+        },
+        {
+          "id": "high-level-design",
+          "title": "High-level design",
+          "order": 214,
+          "entries": [
+            {
+              "id": "high-level-design",
+              "title": "High-level design"
+            },
+            {
+              "id": "url-encoding",
+              "title": "URL Encoding"
+            },
+            {
+              "id": "key-generation-service-kgs",
+              "title": "Key Generation Service (KGS)"
+            },
+            {
+              "id": "caching",
+              "title": "Caching"
+            },
+            {
+              "id": "design",
+              "title": "Design"
+            }
+          ]
+        },
+        {
+          "id": "detailed-design-2",
+          "title": "Detailed design",
+          "order": 215,
+          "entries": [
+            {
+              "id": "detailed-design",
+              "title": "Detailed design"
+            },
+            {
+              "id": "data-partitioning",
+              "title": "Data Partitioning"
+            },
+            {
+              "id": "database-cleanup",
+              "title": "Database cleanup"
+            },
+            {
+              "id": "cache",
+              "title": "Cache"
+            },
+            {
+              "id": "metrics-and-analytics",
+              "title": "Metrics and Analytics"
+            },
+            {
+              "id": "security",
+              "title": "Security"
+            }
+          ]
+        },
+        {
+          "id": "identify-and-resolve-bottlenecks-2",
+          "title": "Identify and resolve bottlenecks",
+          "order": 216,
+          "entries": [
+            {
+              "id": "identify-and-resolve-bottlenecks",
+              "title": "Identify and resolve bottlenecks"
+            }
+          ]
+        },
+        {
+          "id": "what-is-whatsapp",
+          "title": "What is WhatsApp?",
+          "order": 217,
+          "entries": [
+            {
+              "id": "what-is-whatsapp",
+              "title": "What is WhatsApp?"
+            }
+          ]
+        },
+        {
+          "id": "requirements-2",
+          "title": "Requirements",
+          "order": 218,
+          "entries": [
+            {
+              "id": "requirements",
+              "title": "Requirements"
+            },
+            {
+              "id": "functional-requirements",
+              "title": "Functional requirements"
+            },
+            {
+              "id": "non-functional-requirements",
+              "title": "Non-functional requirements"
+            },
+            {
+              "id": "extended-requirements",
+              "title": "Extended requirements"
+            }
+          ]
+        },
+        {
+          "id": "estimation-and-constraints-3",
+          "title": "Estimation and Constraints",
+          "order": 219,
+          "entries": [
+            {
+              "id": "estimation-and-constraints",
+              "title": "Estimation and Constraints"
+            },
+            {
+              "id": "traffic",
+              "title": "Traffic"
+            },
+            {
+              "id": "storage",
+              "title": "Storage"
+            },
+            {
+              "id": "bandwidth",
+              "title": "Bandwidth"
+            },
+            {
+              "id": "high-level-estimate",
+              "title": "High-level estimate"
+            }
+          ]
+        },
+        {
+          "id": "data-model-design-3",
+          "title": "Data model design",
+          "order": 220,
+          "entries": [
+            {
+              "id": "data-model-design",
+              "title": "Data model design"
+            },
+            {
+              "id": "what-kind-of-database-should-we-use",
+              "title": "What kind of database should we use?"
+            }
+          ]
+        },
+        {
+          "id": "api-design-3",
+          "title": "API design",
+          "order": 221,
+          "entries": [
+            {
+              "id": "api-design",
+              "title": "API design"
+            },
+            {
+              "id": "get-all-chats-or-groups",
+              "title": "Get all chats or groups"
+            },
+            {
+              "id": "get-messages",
+              "title": "Get messages"
+            },
+            {
+              "id": "send-message",
+              "title": "Send message"
+            },
+            {
+              "id": "join-or-leave-a-channel",
+              "title": "Join or leave a channel"
+            }
+          ]
+        },
+        {
+          "id": "high-level-design-2",
+          "title": "High-level design",
+          "order": 222,
+          "entries": [
+            {
+              "id": "high-level-design",
+              "title": "High-level design"
+            },
+            {
+              "id": "architecture",
+              "title": "Architecture"
+            },
+            {
+              "id": "real-time-messaging",
+              "title": "Real-time messaging"
+            },
+            {
+              "id": "last-seen",
+              "title": "Last seen"
+            },
+            {
+              "id": "notifications",
+              "title": "Notifications"
+            },
+            {
+              "id": "read-receipts",
+              "title": "Read receipts"
+            },
+            {
+              "id": "design",
+              "title": "Design"
+            }
+          ]
+        },
+        {
+          "id": "detailed-design-3",
+          "title": "Detailed design",
+          "order": 223,
+          "entries": [
+            {
+              "id": "detailed-design",
+              "title": "Detailed design"
+            },
+            {
+              "id": "data-partitioning",
+              "title": "Data Partitioning"
+            },
+            {
+              "id": "caching",
+              "title": "Caching"
+            },
+            {
+              "id": "media-access-and-storage",
+              "title": "Media access and storage"
+            },
+            {
+              "id": "content-delivery-network-cdn",
+              "title": "Content Delivery Network (CDN)"
+            },
+            {
+              "id": "api-gateway",
+              "title": "API gateway"
+            }
+          ]
+        },
+        {
+          "id": "identify-and-resolve-bottlenecks-3",
+          "title": "Identify and resolve bottlenecks",
+          "order": 224,
+          "entries": [
+            {
+              "id": "identify-and-resolve-bottlenecks",
+              "title": "Identify and resolve bottlenecks"
+            }
+          ]
+        },
+        {
+          "id": "what-is-twitter",
+          "title": "What is Twitter?",
+          "order": 225,
+          "entries": [
+            {
+              "id": "what-is-twitter",
+              "title": "What is Twitter?"
+            }
+          ]
+        },
+        {
+          "id": "requirements-3",
+          "title": "Requirements",
+          "order": 226,
+          "entries": [
+            {
+              "id": "requirements",
+              "title": "Requirements"
+            },
+            {
+              "id": "functional-requirements",
+              "title": "Functional requirements"
+            },
+            {
+              "id": "non-functional-requirements",
+              "title": "Non-functional requirements"
+            },
+            {
+              "id": "extended-requirements",
+              "title": "Extended requirements"
+            }
+          ]
+        },
+        {
+          "id": "estimation-and-constraints-4",
+          "title": "Estimation and Constraints",
+          "order": 227,
+          "entries": [
+            {
+              "id": "estimation-and-constraints",
+              "title": "Estimation and Constraints"
+            },
+            {
+              "id": "traffic",
+              "title": "Traffic"
+            },
+            {
+              "id": "storage",
+              "title": "Storage"
+            },
+            {
+              "id": "bandwidth",
+              "title": "Bandwidth"
+            },
+            {
+              "id": "high-level-estimate",
+              "title": "High-level estimate"
+            }
+          ]
+        },
+        {
+          "id": "data-model-design-4",
+          "title": "Data model design",
+          "order": 228,
+          "entries": [
+            {
+              "id": "data-model-design",
+              "title": "Data model design"
+            },
+            {
+              "id": "what-kind-of-database-should-we-use",
+              "title": "What kind of database should we use?"
+            }
+          ]
+        },
+        {
+          "id": "api-design-4",
+          "title": "API design",
+          "order": 229,
+          "entries": [
+            {
+              "id": "api-design",
+              "title": "API design"
+            },
+            {
+              "id": "post-a-tweet",
+              "title": "Post a tweet"
+            },
+            {
+              "id": "follow-or-unfollow-a-user",
+              "title": "Follow or unfollow a user"
+            },
+            {
+              "id": "get-newsfeed",
+              "title": "Get newsfeed"
+            }
+          ]
+        },
+        {
+          "id": "high-level-design-3",
+          "title": "High-level design",
+          "order": 230,
+          "entries": [
+            {
+              "id": "high-level-design",
+              "title": "High-level design"
+            },
+            {
+              "id": "architecture",
+              "title": "Architecture"
+            },
+            {
+              "id": "newsfeed",
+              "title": "Newsfeed"
+            },
+            {
+              "id": "ranking-algorithm",
+              "title": "Ranking Algorithm"
+            },
+            {
+              "id": "retweets",
+              "title": "Retweets"
+            },
+            {
+              "id": "search",
+              "title": "Search"
+            },
+            {
+              "id": "notifications",
+              "title": "Notifications"
+            }
+          ]
+        },
+        {
+          "id": "detailed-design-4",
+          "title": "Detailed design",
+          "order": 231,
+          "entries": [
+            {
+              "id": "detailed-design",
+              "title": "Detailed design"
+            },
+            {
+              "id": "data-partitioning",
+              "title": "Data Partitioning"
+            },
+            {
+              "id": "mutual-friends",
+              "title": "Mutual friends"
+            },
+            {
+              "id": "metrics-and-analytics",
+              "title": "Metrics and Analytics"
+            },
+            {
+              "id": "caching",
+              "title": "Caching"
+            },
+            {
+              "id": "media-access-and-storage",
+              "title": "Media access and storage"
+            },
+            {
+              "id": "content-delivery-network-cdn",
+              "title": "Content Delivery Network (CDN)"
+            }
+          ]
+        },
+        {
+          "id": "identify-and-resolve-bottlenecks-4",
+          "title": "Identify and resolve bottlenecks",
+          "order": 232,
+          "entries": [
+            {
+              "id": "identify-and-resolve-bottlenecks",
+              "title": "Identify and resolve bottlenecks"
+            }
+          ]
+        },
+        {
+          "id": "what-is-netflix",
+          "title": "What is Netflix?",
+          "order": 233,
+          "entries": [
+            {
+              "id": "what-is-netflix",
+              "title": "What is Netflix?"
+            }
+          ]
+        },
+        {
+          "id": "requirements-4",
+          "title": "Requirements",
+          "order": 234,
+          "entries": [
+            {
+              "id": "requirements",
+              "title": "Requirements"
+            },
+            {
+              "id": "functional-requirements",
+              "title": "Functional requirements"
+            },
+            {
+              "id": "non-functional-requirements",
+              "title": "Non-functional requirements"
+            },
+            {
+              "id": "extended-requirements",
+              "title": "Extended requirements"
+            }
+          ]
+        },
+        {
+          "id": "estimation-and-constraints-5",
+          "title": "Estimation and Constraints",
+          "order": 235,
+          "entries": [
+            {
+              "id": "estimation-and-constraints",
+              "title": "Estimation and Constraints"
+            },
+            {
+              "id": "traffic",
+              "title": "Traffic"
+            },
+            {
+              "id": "storage",
+              "title": "Storage"
+            },
+            {
+              "id": "bandwidth",
+              "title": "Bandwidth"
+            },
+            {
+              "id": "high-level-estimate",
+              "title": "High-level estimate"
+            }
+          ]
+        },
+        {
+          "id": "data-model-design-5",
+          "title": "Data model design",
+          "order": 236,
+          "entries": [
+            {
+              "id": "data-model-design",
+              "title": "Data model design"
+            },
+            {
+              "id": "what-kind-of-database-should-we-use",
+              "title": "What kind of database should we use?"
+            }
+          ]
+        },
+        {
+          "id": "api-design-5",
+          "title": "API design",
+          "order": 237,
+          "entries": [
+            {
+              "id": "api-design",
+              "title": "API design"
+            },
+            {
+              "id": "upload-a-video",
+              "title": "Upload a video"
+            },
+            {
+              "id": "streaming-a-video",
+              "title": "Streaming a video"
+            },
+            {
+              "id": "search-for-a-video",
+              "title": "Search for a video"
+            },
+            {
+              "id": "add-a-comment",
+              "title": "Add a comment"
+            }
+          ]
+        },
+        {
+          "id": "high-level-design-4",
+          "title": "High-level design",
+          "order": 238,
+          "entries": [
+            {
+              "id": "high-level-design",
+              "title": "High-level design"
+            },
+            {
+              "id": "architecture",
+              "title": "Architecture"
+            },
+            {
+              "id": "video-processing",
+              "title": "Video processing"
+            },
+            {
+              "id": "video-streaming",
+              "title": "Video streaming"
+            },
+            {
+              "id": "searching",
+              "title": "Searching"
+            },
+            {
+              "id": "sharing",
+              "title": "Sharing"
+            }
+          ]
+        },
+        {
+          "id": "detailed-design-5",
+          "title": "Detailed design",
+          "order": 239,
+          "entries": [
+            {
+              "id": "detailed-design",
+              "title": "Detailed design"
+            },
+            {
+              "id": "data-partitioning",
+              "title": "Data Partitioning"
+            },
+            {
+              "id": "geo-blocking",
+              "title": "Geo-blocking"
+            },
+            {
+              "id": "recommendations",
+              "title": "Recommendations"
+            },
+            {
+              "id": "metrics-and-analytics",
+              "title": "Metrics and Analytics"
+            },
+            {
+              "id": "caching",
+              "title": "Caching"
+            },
+            {
+              "id": "media-streaming-and-storage",
+              "title": "Media streaming and storage"
+            },
+            {
+              "id": "content-delivery-network-cdn",
+              "title": "Content Delivery Network (CDN)"
+            }
+          ]
+        },
+        {
+          "id": "identify-and-resolve-bottlenecks-5",
+          "title": "Identify and resolve bottlenecks",
+          "order": 240,
+          "entries": [
+            {
+              "id": "identify-and-resolve-bottlenecks",
+              "title": "Identify and resolve bottlenecks"
+            }
+          ]
+        },
+        {
+          "id": "what-is-uber",
+          "title": "What is Uber?",
+          "order": 241,
+          "entries": [
+            {
+              "id": "what-is-uber",
+              "title": "What is Uber?"
+            }
+          ]
+        },
+        {
+          "id": "requirements-5",
+          "title": "Requirements",
+          "order": 242,
+          "entries": [
+            {
+              "id": "requirements",
+              "title": "Requirements"
+            },
+            {
+              "id": "functional-requirements",
+              "title": "Functional requirements"
+            },
+            {
+              "id": "non-functional-requirements",
+              "title": "Non-functional requirements"
+            },
+            {
+              "id": "extended-requirements",
+              "title": "Extended requirements"
+            }
+          ]
+        },
+        {
+          "id": "estimation-and-constraints-6",
+          "title": "Estimation and Constraints",
+          "order": 243,
+          "entries": [
+            {
+              "id": "estimation-and-constraints",
+              "title": "Estimation and Constraints"
+            },
+            {
+              "id": "traffic",
+              "title": "Traffic"
+            },
+            {
+              "id": "storage",
+              "title": "Storage"
+            },
+            {
+              "id": "bandwidth",
+              "title": "Bandwidth"
+            },
+            {
+              "id": "high-level-estimate",
+              "title": "High-level estimate"
+            }
+          ]
+        },
+        {
+          "id": "data-model-design-6",
+          "title": "Data model design",
+          "order": 244,
+          "entries": [
+            {
+              "id": "data-model-design",
+              "title": "Data model design"
+            },
+            {
+              "id": "what-kind-of-database-should-we-use",
+              "title": "What kind of database should we use?"
+            }
+          ]
+        },
+        {
+          "id": "api-design-6",
+          "title": "API design",
+          "order": 245,
+          "entries": [
+            {
+              "id": "api-design",
+              "title": "API design"
+            },
+            {
+              "id": "request-a-ride",
+              "title": "Request a Ride"
+            },
+            {
+              "id": "cancel-the-ride",
+              "title": "Cancel the Ride"
+            },
+            {
+              "id": "accept-or-deny-the-ride",
+              "title": "Accept or Deny the Ride"
+            },
+            {
+              "id": "start-or-end-the-trip",
+              "title": "Start or End the Trip"
+            },
+            {
+              "id": "rate-the-trip",
+              "title": "Rate the Trip"
+            }
+          ]
+        },
+        {
+          "id": "high-level-design-5",
+          "title": "High-level design",
+          "order": 246,
+          "entries": [
+            {
+              "id": "high-level-design",
+              "title": "High-level design"
+            },
+            {
+              "id": "architecture",
+              "title": "Architecture"
+            },
+            {
+              "id": "how-is-the-service-expected-to-work",
+              "title": "How is the service expected to work?"
+            },
+            {
+              "id": "location-tracking",
+              "title": "Location Tracking"
+            },
+            {
+              "id": "ride-matching",
+              "title": "Ride Matching"
+            },
+            {
+              "id": "payments",
+              "title": "Payments"
+            },
+            {
+              "id": "notifications",
+              "title": "Notifications"
+            }
+          ]
+        },
+        {
+          "id": "detailed-design-6",
+          "title": "Detailed design",
+          "order": 247,
+          "entries": [
+            {
+              "id": "detailed-design",
+              "title": "Detailed design"
+            },
+            {
+              "id": "data-partitioning",
+              "title": "Data Partitioning"
+            },
+            {
+              "id": "metrics-and-analytics",
+              "title": "Metrics and Analytics"
+            },
+            {
+              "id": "caching",
+              "title": "Caching"
+            }
+          ]
+        },
+        {
+          "id": "identify-and-resolve-bottlenecks-6",
+          "title": "Identify and resolve bottlenecks",
+          "order": 248,
+          "entries": [
+            {
+              "id": "identify-and-resolve-bottlenecks",
+              "title": "Identify and resolve bottlenecks"
+            },
+            {
+              "id": "distributed-systems",
+              "title": "Distributed Systems"
+            },
+            {
+              "id": "system-design-interview-an-insider-s-gui",
+              "title": "System Design Interview: An Insider's Guide"
+            },
+            {
+              "id": "microservices",
+              "title": "Microservices"
+            },
+            {
+              "id": "serverless-computing",
+              "title": "Serverless computing"
+            },
+            {
+              "id": "kubernetes",
+              "title": "Kubernetes"
+            },
+            {
+              "id": "microsoft-engineering",
+              "title": "Microsoft Engineering"
+            },
+            {
+              "id": "google-research-blog",
+              "title": "Google Research Blog"
+            },
+            {
+              "id": "netflix-tech-blog",
+              "title": "Netflix Tech Blog"
+            },
+            {
+              "id": "aws-blog",
+              "title": "AWS Blog"
+            },
+            {
+              "id": "facebook-engineering",
+              "title": "Facebook Engineering"
+            },
+            {
+              "id": "uber-engineering-blog",
+              "title": "Uber Engineering Blog"
+            },
+            {
+              "id": "airbnb-engineering",
+              "title": "Airbnb Engineering"
+            },
+            {
+              "id": "github-engineering-blog",
+              "title": "GitHub Engineering Blog"
+            },
+            {
+              "id": "intel-software-blog",
+              "title": "Intel Software Blog"
+            },
+            {
+              "id": "linkedin-engineering",
+              "title": "LinkedIn Engineering"
+            },
+            {
+              "id": "paypal-developer-blog",
+              "title": "Paypal Developer Blog"
+            },
+            {
+              "id": "twitter-engineering",
+              "title": "Twitter Engineering"
+            },
+            {
+              "id": "cloudflare-learning-center",
+              "title": "Cloudflare learning center"
+            },
+            {
+              "id": "ibm-blogs",
+              "title": "IBM Blogs"
+            },
+            {
+              "id": "fastly-blogs",
+              "title": "Fastly Blogs"
+            },
+            {
+              "id": "ns1-blogs",
+              "title": "NS1 Blogs"
+            },
+            {
+              "id": "grokking-the-system-design-interview",
+              "title": "Grokking the System Design Interview"
+            },
+            {
+              "id": "grokking-microservices-design-patterns",
+              "title": "Grokking Microservices Design Patterns"
+            },
+            {
+              "id": "system-design-primer",
+              "title": "System Design Primer"
+            },
+            {
+              "id": "aws-blogs",
+              "title": "AWS Blogs"
+            },
+            {
+              "id": "architecture-patterns-by-microsoft",
+              "title": "Architecture Patterns by Microsoft"
+            },
+            {
+              "id": "martin-fowler",
+              "title": "Martin Fowler"
+            },
+            {
+              "id": "pagerduty-resources",
+              "title": "PagerDuty resources"
+            },
+            {
+              "id": "vmware-blogs",
+              "title": "VMWare Blogs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "awesome-sd",
+      "kind": "sheet",
+      "ref": "https://raw.githubusercontent.com/ashishps1/awesome-system-design-resources/main/README.md",
+      "fetched": "2026-11-17",
+      "sha256": "30e7ca63718a3682885c47a847299ad11e318cb30d26a4592e97fdba09b28d18",
+      "sections": [
+        {
+          "id": "core-concepts",
+          "title": "Core Concepts",
+          "order": 1,
+          "entries": [
+            {
+              "id": "core-concepts",
+              "title": "Core Concepts"
+            },
+            {
+              "id": "scalability",
+              "title": "Scalability"
+            },
+            {
+              "id": "availability",
+              "title": "Availability"
+            },
+            {
+              "id": "reliability",
+              "title": "Reliability"
+            },
+            {
+              "id": "spof",
+              "title": "SPOF"
+            },
+            {
+              "id": "latency-vs-throughput-vs-bandwidth",
+              "title": "Latency vs Throughput vs Bandwidth"
+            },
+            {
+              "id": "consistent-hashing",
+              "title": "Consistent Hashing"
+            },
+            {
+              "id": "cap-theorem",
+              "title": "CAP Theorem"
+            },
+            {
+              "id": "failover",
+              "title": "Failover"
+            },
+            {
+              "id": "fault-tolerance",
+              "title": "Fault Tolerance"
+            }
+          ]
+        },
+        {
+          "id": "networking-fundamentals",
+          "title": "Networking Fundamentals",
+          "order": 2,
+          "entries": [
+            {
+              "id": "networking-fundamentals",
+              "title": "Networking Fundamentals"
+            },
+            {
+              "id": "osi-model",
+              "title": "OSI Model"
+            },
+            {
+              "id": "ip-addresses",
+              "title": "IP Addresses"
+            },
+            {
+              "id": "domain-name-system-dns",
+              "title": "Domain Name System (DNS)"
+            },
+            {
+              "id": "proxy-vs-reverse-proxy",
+              "title": "Proxy vs Reverse Proxy"
+            },
+            {
+              "id": "http-https",
+              "title": "HTTP/HTTPS"
+            },
+            {
+              "id": "tcp-vs-udp",
+              "title": "TCP vs UDP"
+            },
+            {
+              "id": "load-balancing",
+              "title": "Load Balancing"
+            },
+            {
+              "id": "checksums",
+              "title": "Checksums"
+            }
+          ]
+        },
+        {
+          "id": "api-fundamentals",
+          "title": "API Fundamentals",
+          "order": 3,
+          "entries": [
+            {
+              "id": "api-fundamentals",
+              "title": "API Fundamentals"
+            },
+            {
+              "id": "apis",
+              "title": "APIs"
+            },
+            {
+              "id": "api-gateway",
+              "title": "API Gateway"
+            },
+            {
+              "id": "rest-vs-graphql",
+              "title": "REST vs GraphQL"
+            },
+            {
+              "id": "websockets",
+              "title": "WebSockets"
+            },
+            {
+              "id": "webhooks",
+              "title": "Webhooks"
+            },
+            {
+              "id": "idempotency",
+              "title": "Idempotency"
+            },
+            {
+              "id": "rate-limiting",
+              "title": "Rate limiting"
+            },
+            {
+              "id": "api-design",
+              "title": "API Design"
+            }
+          ]
+        },
+        {
+          "id": "database-fundamentals",
+          "title": "Database Fundamentals",
+          "order": 4,
+          "entries": [
+            {
+              "id": "database-fundamentals",
+              "title": "Database Fundamentals"
+            },
+            {
+              "id": "databases-types",
+              "title": "Databases Types"
+            },
+            {
+              "id": "acid-transactions",
+              "title": "ACID Transactions"
+            },
+            {
+              "id": "sql-vs-nosql",
+              "title": "SQL vs NoSQL"
+            },
+            {
+              "id": "database-scaling",
+              "title": "Database Scaling"
+            },
+            {
+              "id": "database-indexes",
+              "title": "Database Indexes"
+            },
+            {
+              "id": "database-partitioning",
+              "title": "Database Partitioning"
+            },
+            {
+              "id": "database-sharding",
+              "title": "Database Sharding"
+            },
+            {
+              "id": "database-replication",
+              "title": "Database Replication"
+            },
+            {
+              "id": "bloom-filters",
+              "title": "Bloom Filters"
+            }
+          ]
+        },
+        {
+          "id": "caching-fundamentals",
+          "title": "Caching Fundamentals",
+          "order": 5,
+          "entries": [
+            {
+              "id": "caching-fundamentals",
+              "title": "Caching Fundamentals"
+            },
+            {
+              "id": "caching-101",
+              "title": "Caching 101"
+            },
+            {
+              "id": "caching-strategies",
+              "title": "Caching Strategies"
+            },
+            {
+              "id": "cache-eviction-policies",
+              "title": "Cache Eviction Policies"
+            },
+            {
+              "id": "distributed-caching",
+              "title": "Distributed Caching"
+            },
+            {
+              "id": "content-delivery-network-cdn",
+              "title": "Content Delivery Network (CDN)"
+            }
+          ]
+        },
+        {
+          "id": "asynchronous-communication",
+          "title": "Asynchronous Communication",
+          "order": 6,
+          "entries": [
+            {
+              "id": "asynchronous-communication",
+              "title": "Asynchronous Communication"
+            },
+            {
+              "id": "pub-sub",
+              "title": "Pub/Sub"
+            },
+            {
+              "id": "message-queues",
+              "title": "Message Queues"
+            },
+            {
+              "id": "message-brokers",
+              "title": "Message Brokers"
+            },
+            {
+              "id": "change-data-capture-cdc",
+              "title": "Change Data Capture (CDC)"
+            }
+          ]
+        },
+        {
+          "id": "distributed-system-and-microservices",
+          "title": "Distributed System and Microservices",
+          "order": 7,
+          "entries": [
+            {
+              "id": "distributed-system-and-microservices",
+              "title": "Distributed System and Microservices"
+            },
+            {
+              "id": "heartbeats",
+              "title": "HeartBeats"
+            },
+            {
+              "id": "service-discovery",
+              "title": "Service Discovery"
+            },
+            {
+              "id": "consensus-algorithms",
+              "title": "Consensus Algorithms"
+            },
+            {
+              "id": "distributed-locking",
+              "title": "Distributed Locking"
+            },
+            {
+              "id": "gossip-protocol",
+              "title": "Gossip Protocol"
+            },
+            {
+              "id": "circuit-breaker",
+              "title": "Circuit Breaker"
+            },
+            {
+              "id": "disaster-recovery",
+              "title": "Disaster Recovery"
+            },
+            {
+              "id": "distributed-tracing",
+              "title": "Distributed Tracing"
+            }
+          ]
+        },
+        {
+          "id": "architectural-patterns",
+          "title": "Architectural Patterns",
+          "order": 8,
+          "entries": [
+            {
+              "id": "architectural-patterns",
+              "title": "Architectural Patterns"
+            },
+            {
+              "id": "client-server-architecture",
+              "title": "Client-Server Architecture"
+            },
+            {
+              "id": "microservices-architecture",
+              "title": "Microservices Architecture"
+            },
+            {
+              "id": "serverless-architecture",
+              "title": "Serverless Architecture"
+            },
+            {
+              "id": "event-driven-architecture",
+              "title": "Event-Driven Architecture"
+            },
+            {
+              "id": "peer-to-peer-p2p-architecture",
+              "title": "Peer-to-Peer (P2P) Architecture"
+            }
+          ]
+        },
+        {
+          "id": "system-design-tradeoffs",
+          "title": "System Design Tradeoffs",
+          "order": 9,
+          "entries": [
+            {
+              "id": "system-design-tradeoffs",
+              "title": "System Design Tradeoffs"
+            },
+            {
+              "id": "top-15-tradeoffs",
+              "title": "Top 15 Tradeoffs"
+            },
+            {
+              "id": "vertical-vs-horizontal-scaling",
+              "title": "Vertical vs Horizontal Scaling"
+            },
+            {
+              "id": "concurrency-vs-parallelism",
+              "title": "Concurrency vs Parallelism"
+            },
+            {
+              "id": "long-polling-vs-websockets",
+              "title": "Long Polling vs WebSockets"
+            },
+            {
+              "id": "batch-vs-stream-processing",
+              "title": "Batch vs Stream Processing"
+            },
+            {
+              "id": "stateful-vs-stateless-design",
+              "title": "Stateful vs Stateless Design"
+            },
+            {
+              "id": "strong-vs-eventual-consistency",
+              "title": "Strong vs Eventual Consistency"
+            },
+            {
+              "id": "read-through-vs-write-through-cache",
+              "title": "Read-Through vs Write-Through Cache"
+            },
+            {
+              "id": "push-vs-pull-architecture",
+              "title": "Push vs Pull Architecture"
+            },
+            {
+              "id": "rest-vs-rpc",
+              "title": "REST vs RPC"
+            },
+            {
+              "id": "synchronous-vs-asynchronous-communicatio",
+              "title": "Synchronous vs. asynchronous communications"
+            },
+            {
+              "id": "latency-vs-throughput",
+              "title": "Latency vs Throughput"
+            }
+          ]
+        },
+        {
+          "id": "how-to-answer-a-system-design-interview-",
+          "title": "How to Answer a System Design Interview Problem",
+          "order": 10,
+          "entries": [
+            {
+              "id": "how-to-answer-a-system-design-interview-",
+              "title": "How to Answer a System Design Interview Problem"
+            }
+          ]
+        },
+        {
+          "id": "system-design-interview-problems",
+          "title": "System Design Interview Problems",
+          "order": 11,
+          "entries": [
+            {
+              "id": "system-design-interview-problems",
+              "title": "System Design Interview Problems"
+            },
+            {
+              "id": "design-url-shortener-like-tinyurl",
+              "title": "Design URL Shortener like TinyURL"
+            },
+            {
+              "id": "design-autocomplete-for-search-engines",
+              "title": "Design Autocomplete for Search Engines"
+            },
+            {
+              "id": "design-load-balancer",
+              "title": "Design Load Balancer"
+            },
+            {
+              "id": "design-content-delivery-network-cdn",
+              "title": "Design Content Delivery Network (CDN)"
+            },
+            {
+              "id": "design-parking-garage",
+              "title": "Design Parking Garage"
+            },
+            {
+              "id": "design-vending-machine",
+              "title": "Design Vending Machine"
+            },
+            {
+              "id": "design-distributed-key-value-store",
+              "title": "Design Distributed Key-Value Store"
+            },
+            {
+              "id": "design-distributed-cache",
+              "title": "Design Distributed Cache"
+            },
+            {
+              "id": "design-authentication-system",
+              "title": "Design Authentication System"
+            },
+            {
+              "id": "design-unified-payments-interface-upi",
+              "title": "Design Unified Payments Interface (UPI)"
+            },
+            {
+              "id": "design-whatsapp",
+              "title": "Design WhatsApp"
+            },
+            {
+              "id": "design-spotify",
+              "title": "Design Spotify"
+            },
+            {
+              "id": "design-instagram",
+              "title": "Design Instagram"
+            },
+            {
+              "id": "design-notification-service",
+              "title": "Design Notification Service"
+            },
+            {
+              "id": "design-distributed-job-scheduler",
+              "title": "Design Distributed Job Scheduler"
+            },
+            {
+              "id": "design-tinder",
+              "title": "Design Tinder"
+            },
+            {
+              "id": "design-facebook",
+              "title": "Design Facebook"
+            },
+            {
+              "id": "design-twitter",
+              "title": "Design Twitter"
+            },
+            {
+              "id": "design-reddit",
+              "title": "Design Reddit"
+            },
+            {
+              "id": "design-netflix",
+              "title": "Design Netflix"
+            },
+            {
+              "id": "design-youtube",
+              "title": "Design Youtube"
+            },
+            {
+              "id": "design-google-search",
+              "title": "Design Google Search"
+            },
+            {
+              "id": "design-e-commerce-store-like-amazon",
+              "title": "Design E-commerce Store like Amazon"
+            },
+            {
+              "id": "design-tiktok",
+              "title": "Design TikTok"
+            },
+            {
+              "id": "design-shopify",
+              "title": "Design Shopify"
+            },
+            {
+              "id": "design-airbnb",
+              "title": "Design Airbnb"
+            },
+            {
+              "id": "design-rate-limiter",
+              "title": "Design Rate Limiter"
+            },
+            {
+              "id": "design-distributed-message-queue-like-ka",
+              "title": "Design Distributed Message Queue like Kafka"
+            },
+            {
+              "id": "design-flight-booking-system",
+              "title": "Design Flight Booking System"
+            },
+            {
+              "id": "design-online-code-editor",
+              "title": "Design Online Code Editor"
+            },
+            {
+              "id": "design-an-analytics-platform-metrics-log",
+              "title": "Design an Analytics Platform (Metrics & Logging)"
+            },
+            {
+              "id": "design-payment-system",
+              "title": "Design Payment System"
+            },
+            {
+              "id": "design-a-digital-wallet",
+              "title": "Design a Digital Wallet"
+            },
+            {
+              "id": "design-location-based-service-like-yelp",
+              "title": "Design Location Based Service like Yelp"
+            },
+            {
+              "id": "design-uber",
+              "title": "Design Uber"
+            },
+            {
+              "id": "design-food-delivery-app-like-doordash",
+              "title": "Design Food Delivery App like Doordash"
+            },
+            {
+              "id": "design-google-docs",
+              "title": "Design Google Docs"
+            },
+            {
+              "id": "design-google-maps",
+              "title": "Design Google Maps"
+            },
+            {
+              "id": "design-zoom",
+              "title": "Design Zoom"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

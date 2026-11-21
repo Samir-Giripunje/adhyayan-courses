@@ -1,0 +1,116 @@
+{
+  "source": "gate",
+  "seeds": 101,
+  "D": 90,
+  "days": 5,
+  "s": 0.3,
+  "h": 9,
+  "K": 3,
+  "R": 23,
+  "components": {
+    "analysis": 533,
+    "debrief": 445,
+    "final": 155,
+    "halfway": 152,
+    "hands_on": 4592,
+    "lab_checks": 178,
+    "lab_practice": 28,
+    "lessons": 2335,
+    "mocks": 448,
+    "recall": 70,
+    "repairs": 500,
+    "retests": 135,
+    "reviews": 1019,
+    "revision": 230,
+    "sets": 873,
+    "stage": 267,
+    "unit_tests": 565,
+    "weekly": 473
+  },
+  "tests": 2824,
+  "total": 8406,
+  "weeks": 31.29,
+  "p90_weeks": 33.29,
+  "closed_form_weeks": 23.6,
+  "binding": "ceiling",
+  "pace": {
+    "month1": 0.97,
+    "sustained": 0.53
+  },
+  "by_month": [
+    {
+      "month": 1,
+      "topics_per_day": 0.97,
+      "review_min": 2.48,
+      "test_min": 11.36,
+      "hands_on_min": 35.83,
+      "binding": "ceiling"
+    },
+    {
+      "month": 2,
+      "topics_per_day": 0.74,
+      "review_min": 4.51,
+      "test_min": 20.83,
+      "hands_on_min": 27.22,
+      "binding": "ceiling"
+    },
+    {
+      "month": 3,
+      "topics_per_day": 0.67,
+      "review_min": 5.96,
+      "test_min": 21.87,
+      "hands_on_min": 28,
+      "binding": "ceiling"
+    },
+    {
+      "month": 4,
+      "topics_per_day": 0.72,
+      "review_min": 7.41,
+      "test_min": 17.35,
+      "hands_on_min": 27.57,
+      "binding": "ceiling"
+    },
+    {
+      "month": 5,
+      "topics_per_day": 0.59,
+      "review_min": 8.17,
+      "test_min": 21.44,
+      "hands_on_min": 29.25,
+      "binding": "ceiling"
+    },
+    {
+      "month": 6,
+      "topics_per_day": 0.55,
+      "review_min": 8.61,
+      "test_min": 17.23,
+      "hands_on_min": 33.29,
+      "binding": "ceiling"
+    },
+    {
+      "month": 7,
+      "topics_per_day": 0.42,
+      "review_min": 9.01,
+      "test_min": 18.87,
+      "hands_on_min": 32.78,
+      "binding": "reviews"
+    },
+    {
+      "month": 8,
+      "topics_per_day": 0.27,
+      "review_min": 9.41,
+      "test_min": 22.66,
+      "hands_on_min": 36.36,
+      "binding": "tests"
+    },
+    {
+      "month": 9,
+      "topics_per_day": 0.07,
+      "review_min": 8.65,
+      "test_min": 38.52,
+      "hands_on_min": 33.26,
+      "binding": "tests"
+    }
+  ],
+  "retained_coverage": 1,
+  "completed": "101/101"
+}

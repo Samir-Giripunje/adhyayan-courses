@@ -1,0 +1,707 @@
+{
+  "answer": "**Decorator syntax** is the `@dec` line written above a `def`. Python runs it as `f = dec(f)`: it builds the function, passes it to `dec`, and binds whatever `dec` returns to the name `f`.",
+  "example": "```python\ndef shout(func):\n    print(\"decorating\", func.__name__)\n    return func\n\n@shout\ndef greet():\n    print(\"hi\")\n```\n\nRun this file and it prints `decorating greet`, even though nothing calls `greet()`. The `@shout` line passed the new function to `shout` as soon as the `def` ran. Without `@`, you would write `def greet(): ...` and then `greet = shout(greet)`.",
+  "how": {
+    "md": "When Python reaches a decorated `def`, it does four things in this order:\n\n1. Evaluate the expression after `@` (here the name `shout`) to get the decorator. This happens once.\n2. Build the function object from the `def`. The body does not run yet.\n3. Call the decorator with that function: `shout(<function greet>)`.\n4. Bind whatever the decorator returns to the name `greet`.\n\nSo `@shout` means `greet = shout(greet)`, with one difference. The name `greet` is not bound until the decorator returns, so it never holds the function before decoration.\n\nAll four steps happen when the `def` runs. Calling `greet()` later does not rerun `shout`; it runs whatever `shout` returned.\n\nSince Python 3.9, the part after `@` may be any expression, such as `@handlers[\"save\"]`. Python evaluates it in step 1.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-decorator-steps",
+      "kind": "memory",
+      "title": "What @shout does, step by step",
+      "alt": "Step 1: the name shout points to the decorator function. Step 2: Python builds the greet function object, but no name points to it yet. Step 3: shout is called with that function as func and prints decorating greet. Step 4: the name greet is bound to what shout returned, the same function object.",
+      "spec": {
+        "code": "def shout(func):\n    print(\"decorating\", func.__name__)\n    return func\n\n@shout\ndef greet():\n    print(\"hi\")",
+        "steps": [
+          {
+            "step": 1,
+            "line": 5,
+            "run": "@shout",
+            "label": "Evaluate the expression after @: the decorator",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "sh"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "sh",
+                "type": "function",
+                "label": "shout"
+              }
+            ]
+          },
+          {
+            "step": 2,
+            "line": 6,
+            "run": "def greet(): …",
+            "label": "Build the function object; no name points to it yet",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "sh"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "sh",
+                "type": "function",
+                "label": "shout"
+              },
+              {
+                "id": "gr",
+                "type": "function",
+                "label": "greet"
+              }
+            ]
+          },
+          {
+            "step": 3,
+            "line": 2,
+            "run": "shout(<function greet>)",
+            "label": "Call the decorator with the new function",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "sh"
+                  }
+                ]
+              },
+              {
+                "name": "shout(func)",
+                "vars": [
+                  {
+                    "name": "func",
+                    "ref": "gr"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "sh",
+                "type": "function",
+                "label": "shout"
+              },
+              {
+                "id": "gr",
+                "type": "function",
+                "label": "greet"
+              }
+            ],
+            "output": [
+              "decorating greet"
+            ]
+          },
+          {
+            "step": 4,
+            "line": 6,
+            "run": "greet = <what shout returned>",
+            "label": "Bind what shout returned to the name greet",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "sh"
+                  },
+                  {
+                    "name": "greet",
+                    "ref": "gr"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "sh",
+                "type": "function",
+                "label": "shout"
+              },
+              {
+                "id": "gr",
+                "type": "function",
+                "label": "greet"
+              }
+            ],
+            "output": [
+              "decorating greet"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-at-desugar-equivalent",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-at-desugar"
+    ],
+    "prompt_md": "Which plain code does the same as this?\n\n```python\n@log\ndef save():\n    ...\n```",
+    "options": [
+      {
+        "id": "a",
+        "md": "`def save(): ...` and then `save = log(save)`",
+        "correct": true,
+        "why_md": "Right. The function is built, passed to `log`, and the result is bound to `save`."
+      },
+      {
+        "id": "b",
+        "md": "`def save(): ...` and then `save = log(save())`",
+        "correct": false,
+        "why_md": "`save()` would call the function and pass its return value. The decorator receives the function object itself.",
+        "misconception": "mc-at-calls-function"
+      },
+      {
+        "id": "c",
+        "md": "`def save(): ...`, and then `log(save)` runs again every time `save()` is called",
+        "correct": false,
+        "why_md": "The decorator is called once, when the `def` runs. Each later call runs whatever `log` returned.",
+        "misconception": "mc-decorator-runs-per-call"
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "The one difference from writing f = dec(f)",
+      "md": "With `def f(): ...` followed by `f = dec(f)`, the name `f` holds the undecorated function for a moment. If `dec` raises an error, `f` stays bound to the undecorated function. If `dec` looks up the global name `f` while it runs, it finds that original function.\n\nWith `@dec`, Python passes the function to `dec` without binding the name first. If `dec` raises, `f` keeps its earlier value, or stays undefined. If `dec` looks up `f`, it sees that earlier value, not the new function."
+    },
+    {
+      "title": "Any expression after @ (PEP 614, Python 3.9)",
+      "md": "Before Python 3.9, the grammar allowed only a dotted name, with an optional single call after it: `@a.b.c` or `@a.b(1)`. Writing `@handlers[\"save\"]` was a `SyntaxError`. The workaround was to assign it to a name first: `save_handler = handlers[\"save\"]`, then `@save_handler`.\n\nSince 3.9, any expression works, as long as its value can be called with the function. `@handlers[\"save\"]` means `f = handlers[\"save\"](f)`. The expression is evaluated once, before the function object is built. So a `print` inside it runs before the decorator is called, and it never runs again when `f` is called."
+    },
+    {
+      "title": "Why @dec and @dec() differ",
+      "md": "Everything after `@` is evaluated first, and the result is then called with the function. `@shout` evaluates to the `shout` function itself, so Python calls `shout(greet)`.\n\n`@shout()` first calls `shout()` with no arguments. Here that raises `TypeError`, because `shout` needs the `func` argument. Even when the first call succeeds, its return value, not `shout`, becomes the decorator."
+    }
+  ],
+  "visual_fit": {
+    "kind": "memory",
+    "why": "The key fact is that the name greet is not bound until the decorator returns; a picture of names and objects at each step shows it."
+  },
+  "glossary": [
+    {
+      "term": "decorator syntax",
+      "md": "The `@expression` line above a `def`. It means: build the function, call the expression's value with it, and bind the result to the function's name (`f = dec(f)`)."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-decorator-runs-per-call",
+      "statement": "The decorator itself runs every time the decorated function is called.",
+      "tags": [
+        "kc-at-desugar",
+        "kc-decorator-expression"
+      ]
+    },
+    {
+      "id": "mc-at-calls-function",
+      "statement": "@dec passes the function's return value to dec, as in f = dec(f()).",
+      "tags": [
+        "kc-at-desugar"
+      ]
+    },
+    {
+      "id": "mc-at-paren-same",
+      "statement": "@dec and @dec() mean the same thing.",
+      "tags": [
+        "kc-decorator-expression"
+      ]
+    },
+    {
+      "id": "mc-at-only-names",
+      "statement": "Only a plain name can follow @.",
+      "tags": [
+        "kc-decorator-expression"
+      ]
+    }
+  ],
+  "recap": {
+    "formula": "@dec above def f  ≡  f = dec(f)",
+    "pitfall": "The decorator runs once, when the def runs, not on every call to f."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-at-runs-when",
+      "beat": "b-lesson",
+      "question": "Does the decorator run every time I call the function?",
+      "match": [
+        "every time i call",
+        "each call",
+        "runs again",
+        "when does the decorator run"
+      ],
+      "answer_md": "No. The decorator runs once, when the `def` statement runs. Each later call to `f()` runs whatever the decorator returned. If it returned the original function, a call runs only your body.",
+      "deeper_md": "In the lesson's example, `decorating greet` prints once, when the file loads. Calling `greet()` three times prints `hi` three times and never prints `decorating` again.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Count the prints",
+        "md": "```python\n@shout\ndef greet():\n    print(\"hi\")\n\ngreet()\ngreet()\n```\nOutput: `decorating greet`, then `hi`, then `hi`. `shout` ran once, at the `def`.",
+        "verify": {
+          "id": "q-br-at-runs-when",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-at-desugar"
+          ],
+          "prompt_md": "Using `shout` from the lesson, `greet` is decorated and then called 3 times. How many times does `decorating greet` print?",
+          "options": [
+            {
+              "id": "a",
+              "md": "1",
+              "correct": true,
+              "why_md": "Right. The decorator runs once, when the `def` runs."
+            },
+            {
+              "id": "b",
+              "md": "3",
+              "correct": false,
+              "why_md": "The calls run what `shout` returned (the original `greet`), not `shout` itself.",
+              "misconception": "mc-decorator-runs-per-call"
+            },
+            {
+              "id": "c",
+              "md": "4",
+              "correct": false,
+              "why_md": "There is no call to `shout` per call of `greet`; only the single one at definition time."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-at-paren",
+      "beat": "b-lesson",
+      "question": "What's the difference between @dec and @dec()?",
+      "match": [
+        "dec()",
+        "with parentheses",
+        "brackets after",
+        "@dec vs"
+      ],
+      "answer_md": "Python evaluates everything after `@`, then calls the result with the function. `@dec` gives `f = dec(f)`. `@dec()` first calls `dec()` with no arguments, then gives `f = dec()(f)`.",
+      "deeper_md": "For a plain decorator like `shout(func)`, `@shout()` fails with `TypeError` because `shout` needs its `func` argument.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Desugar both",
+        "md": "`@shout` → `greet = shout(greet)`\n\n`@shout()` → `greet = shout()(greet)`. The inner `shout()` runs first and is missing `func`.",
+        "verify": {
+          "id": "q-br-at-paren",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-decorator-expression"
+          ],
+          "prompt_md": "`shout` takes one argument, `func`. What happens with `@shout()` above `def greet(): ...`?",
+          "options": [
+            {
+              "id": "a",
+              "md": "A `TypeError`: `shout()` is called with no arguments",
+              "correct": true,
+              "why_md": "Right. The expression `shout()` is evaluated first, and `shout` needs `func`."
+            },
+            {
+              "id": "b",
+              "md": "The same as `@shout`",
+              "correct": false,
+              "why_md": "The parentheses call `shout` before the function exists, so it is not the same.",
+              "misconception": "mc-at-paren-same"
+            },
+            {
+              "id": "c",
+              "md": "`greet` is called and its result is passed to `shout`",
+              "correct": false,
+              "why_md": "The parentheses belong to `shout`, not `greet`. `greet` is never called here.",
+              "misconception": "mc-at-calls-function"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-at-any-expression",
+      "beat": "b-lesson",
+      "question": "Can I put a dictionary lookup or other expression after @?",
+      "match": [
+        "any expression",
+        "dictionary after @",
+        "handlers[",
+        "syntaxerror after @"
+      ],
+      "answer_md": "Yes, since Python 3.9 (PEP 614). `@handlers[\"save\"]` means `f = handlers[\"save\"](f)`. The value must be callable with the function. Before 3.9 it was a `SyntaxError`.",
+      "deeper_md": "The expression is evaluated once, when the `def` runs, before the function object is built.",
+      "bridge": {
+        "kind": "rewind",
+        "title": "Rewrite without @",
+        "md": "```python\n@handlers[\"save\"]\ndef on_save(): ...\n```\nbecomes\n```python\ndef on_save(): ...\non_save = handlers[\"save\"](on_save)\n```",
+        "verify": {
+          "id": "q-br-at-any-expression",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-decorator-expression"
+          ],
+          "prompt_md": "In Python 3.9+, what does `@handlers[\"save\"]` above `def on_save(): ...` do?",
+          "options": [
+            {
+              "id": "a",
+              "md": "`on_save = handlers[\"save\"](on_save)`",
+              "correct": true,
+              "why_md": "Right. The expression is evaluated, then called with the function."
+            },
+            {
+              "id": "b",
+              "md": "It is a `SyntaxError`",
+              "correct": false,
+              "why_md": "That was true before 3.9. PEP 614 allows any expression.",
+              "misconception": "mc-at-only-names"
+            },
+            {
+              "id": "c",
+              "md": "`handlers[\"save\"] = on_save`",
+              "correct": false,
+              "why_md": "`@` does not store into the dictionary. It calls the value found there with the function."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-at-bytecode",
+      "kind": "implementation",
+      "title": "What the bytecode shows: decorators evaluated before the function is built",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-at-pep614",
+      "kind": "history",
+      "title": "From dotted names to any expression: PEP 318 to PEP 614",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "pd-decorator-syntax",
+  "version": 1,
+  "title": "@ syntax desugars to func = dec(func)",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-at-desugar",
+      "version": 1,
+      "statement": "Writing @dec above def f(): ... is equivalent to defining f and then executing f = dec(f), except the undecorated function is never bound to the name f."
+    },
+    {
+      "id": "kc-decorator-expression",
+      "version": 1,
+      "statement": "The expression after @ is evaluated once, when the def statement executes and before the function object is created; since Python 3.9 (PEP 614) it may be any expression."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "pd-what-is-a-decorator"
+  ],
+  "suggests": [
+    "pd-decorator-history"
+  ],
+  "confusable_with": [
+    "pd-decorator-factories"
+  ],
+  "introduces": [
+    "decorator syntax"
+  ],
+  "uses": [
+    "decorator",
+    "def statement"
+  ],
+  "problem_ideas": [
+    "Rewrite three @-decorated functions as plain assignments",
+    "Predict the output when the decorator prints the function's __name__",
+    "Use @handlers['save'] (3.9+) and rewrite it without @",
+    "Explain why f = dec(f) briefly exposes the undecorated f but @dec does not",
+    "Predict which runs first: a print in the decorator expression or in the function body",
+    "Spot why @dec() and @dec give different results for a plain decorator"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "current-syntax/current-syntax"
+    }
+  ],
+  "mode": "prediction",
+  "exit_ticket": [],
+  "status": "drafted",
+  "provenance": {
+    "origin": "generated",
+    "job": "lesson-pd-decorator-syntax"
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "title": "@ syntax desugars to func = dec(func)",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "@ syntax desugars to func = dec(func)",
+          "kcs": [
+            "kc-at-desugar",
+            "kc-decorator-expression"
+          ],
+          "est_minutes": 5,
+          "blocks": [
+            {
+              "id": "blk-pd-decorator-syntax-01",
+              "block": {
+                "type": "prose",
+                "md": "**Decorator syntax** is the `@dec` line written above a `def`. Python runs it as `f = dec(f)`: it builds the function, passes it to `dec`, and binds whatever `dec` returns to the name `f`."
+              }
+            },
+            {
+              "id": "blk-pd-decorator-syntax-02",
+              "block": {
+                "type": "prose",
+                "md": "```python\ndef shout(func):\n    print(\"decorating\", func.__name__)\n    return func\n\n@shout\ndef greet():\n    print(\"hi\")\n```\n\nRun this file and it prints `decorating greet`, even though nothing calls `greet()`. The `@shout` line passed the new function to `shout` as soon as the `def` ran. Without `@`, you would write `def greet(): ...` and then `greet = shout(greet)`."
+              }
+            },
+            {
+              "id": "blk-pd-decorator-syntax-03",
+              "block": {
+                "type": "prose",
+                "md": "When Python reaches a decorated `def`, it does four things in this order:\n\n1. Evaluate the expression after `@` (here the name `shout`) to get the decorator. This happens once.\n2. Build the function object from the `def`. The body does not run yet.\n3. Call the decorator with that function: `shout(<function greet>)`.\n4. Bind whatever the decorator returns to the name `greet`.\n\nSo `@shout` means `greet = shout(greet)`, with one difference. The name `greet` is not bound until the decorator returns, so it never holds the function before decoration.\n\nAll four steps happen when the `def` runs. Calling `greet()` later does not rerun `shout`; it runs whatever `shout` returned.\n\nSince Python 3.9, the part after `@` may be any expression, such as `@handlers[\"save\"]`. Python evaluates it in step 1."
+              }
+            },
+            {
+              "id": "blk-pd-decorator-syntax-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-at-desugar-equivalent",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-at-desugar"
+                  ],
+                  "prompt_md": "Which plain code does the same as this?\n\n```python\n@log\ndef save():\n    ...\n```",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "`def save(): ...` and then `save = log(save)`",
+                      "correct": true,
+                      "why_md": "Right. The function is built, passed to `log`, and the result is bound to `save`."
+                    },
+                    {
+                      "id": "b",
+                      "md": "`def save(): ...` and then `save = log(save())`",
+                      "correct": false,
+                      "why_md": "`save()` would call the function and pass its return value. The decorator receives the function object itself.",
+                      "misconception": "mc-at-calls-function"
+                    },
+                    {
+                      "id": "c",
+                      "md": "`def save(): ...`, and then `log(save)` runs again every time `save()` is called",
+                      "correct": false,
+                      "why_md": "The decorator is called once, when the `def` runs. Each later call runs whatever `log` returned.",
+                      "misconception": "mc-decorator-runs-per-call"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-pd-decorator-syntax-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "The one difference from writing f = dec(f)",
+                "md": "With `def f(): ...` followed by `f = dec(f)`, the name `f` holds the undecorated function for a moment. If `dec` raises an error, `f` stays bound to the undecorated function. If `dec` looks up the global name `f` while it runs, it finds that original function.\n\nWith `@dec`, Python passes the function to `dec` without binding the name first. If `dec` raises, `f` keeps its earlier value, or stays undefined. If `dec` looks up `f`, it sees that earlier value, not the new function."
+              }
+            },
+            {
+              "id": "blk-pd-decorator-syntax-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Any expression after @ (PEP 614, Python 3.9)",
+                "md": "Before Python 3.9, the grammar allowed only a dotted name, with an optional single call after it: `@a.b.c` or `@a.b(1)`. Writing `@handlers[\"save\"]` was a `SyntaxError`. The workaround was to assign it to a name first: `save_handler = handlers[\"save\"]`, then `@save_handler`.\n\nSince 3.9, any expression works, as long as its value can be called with the function. `@handlers[\"save\"]` means `f = handlers[\"save\"](f)`. The expression is evaluated once, before the function object is built. So a `print` inside it runs before the decorator is called, and it never runs again when `f` is called."
+              }
+            },
+            {
+              "id": "blk-pd-decorator-syntax-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Why @dec and @dec() differ",
+                "md": "Everything after `@` is evaluated first, and the result is then called with the function. `@shout` evaluates to the `shout` function itself, so Python calls `shout(greet)`.\n\n`@shout()` first calls `shout()` with no arguments. Here that raises `TypeError`, because `shout` needs the `func` argument. Even when the first call succeeds, its return value, not `shout`, becomes the decorator."
+              }
+            },
+            {
+              "id": "blk-pd-decorator-syntax-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-decorator-steps",
+                "kind": "memory",
+                "title": "What @shout does, step by step",
+                "alt": "Step 1: the name shout points to the decorator function. Step 2: Python builds the greet function object, but no name points to it yet. Step 3: shout is called with that function as func and prints decorating greet. Step 4: the name greet is bound to what shout returned, the same function object.",
+                "spec": {
+                  "code": "def shout(func):\n    print(\"decorating\", func.__name__)\n    return func\n\n@shout\ndef greet():\n    print(\"hi\")",
+                  "steps": [
+                    {
+                      "step": 1,
+                      "line": 5,
+                      "run": "@shout",
+                      "label": "Evaluate the expression after @: the decorator",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "sh"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "sh",
+                          "type": "function",
+                          "label": "shout"
+                        }
+                      ]
+                    },
+                    {
+                      "step": 2,
+                      "line": 6,
+                      "run": "def greet(): …",
+                      "label": "Build the function object; no name points to it yet",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "sh"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "sh",
+                          "type": "function",
+                          "label": "shout"
+                        },
+                        {
+                          "id": "gr",
+                          "type": "function",
+                          "label": "greet"
+                        }
+                      ]
+                    },
+                    {
+                      "step": 3,
+                      "line": 2,
+                      "run": "shout(<function greet>)",
+                      "label": "Call the decorator with the new function",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "sh"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "shout(func)",
+                          "vars": [
+                            {
+                              "name": "func",
+                              "ref": "gr"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "sh",
+                          "type": "function",
+                          "label": "shout"
+                        },
+                        {
+                          "id": "gr",
+                          "type": "function",
+                          "label": "greet"
+                        }
+                      ],
+                      "output": [
+                        "decorating greet"
+                      ]
+                    },
+                    {
+                      "step": 4,
+                      "line": 6,
+                      "run": "greet = <what shout returned>",
+                      "label": "Bind what shout returned to the name greet",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "sh"
+                            },
+                            {
+                              "name": "greet",
+                              "ref": "gr"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "sh",
+                          "type": "function",
+                          "label": "shout"
+                        },
+                        {
+                          "id": "gr",
+                          "type": "function",
+                          "label": "greet"
+                        }
+                      ],
+                      "output": [
+                        "decorating greet"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

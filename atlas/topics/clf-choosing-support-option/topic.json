@@ -1,0 +1,72 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-choosing-support-option",
+  "version": 1,
+  "title": "Choosing a support plan or help resource",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-cheapest-plan-by-response",
+      "version": 1,
+      "statement": "With the current plans, the cheapest plan for a critical-outage response need is Business Support+ for under 30 minutes, Enterprise Support for under 15 minutes or a designated TAM, and Unified Operations for under 5 minutes."
+    },
+    {
+      "id": "kc-free-help-routing",
+      "version": 1,
+      "statement": "A how-to question with no paid plan goes to re:Post, the Knowledge Center or documentation, and a migration playbook comes from Prescriptive Guidance."
+    },
+    {
+      "id": "kc-people-vs-software-help",
+      "version": 1,
+      "statement": "If the need is people to do the work, use an AWS Partner Network system integrator or AWS Professional Services; if it is packaged third-party software, use AWS Marketplace."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-support-plans",
+    "clf-legacy-support-plans",
+    "clf-marketplace-partner-network"
+  ],
+  "suggests": [
+    "clf-technical-resources",
+    "clf-tam-support-center"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "support option selection"
+  ],
+  "uses": [
+    "support plans",
+    "technical account manager",
+    "aws re:post",
+    "aws knowledge center",
+    "prescriptive guidance",
+    "aws partner network",
+    "professional services",
+    "aws marketplace",
+    "business support plus",
+    "enterprise support",
+    "unified operations",
+    "legacy support plans"
+  ],
+  "problem_ideas": [
+    "Business-critical web store down, need a response within 30 minutes, budget-conscious: predict the cheapest current plan.",
+    "Response within 15 minutes plus a named AWS engineer: which plan, and which cheaper plan is the distractor?",
+    "A mission-critical payments platform needs an Incident Management Engineer within 5 minutes: which plan?",
+    "An SMB has no paid plan and a CloudFront caching question: route it.",
+    "A company needs 6 months of hands-on migration labor: partner, Professional Services or Support? Justify.",
+    "The same scenario is worded with legacy plan names (Business, Enterprise On-Ramp, Enterprise): pick the legacy answer and the current-plan equivalent."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-8-identify-services-fro/choosing-the-appropriate-option-for-busi"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-8-identify-services-fro/customer-enablement-services-for-example"
+    }
+  ],
+  "status": "stub"
+}

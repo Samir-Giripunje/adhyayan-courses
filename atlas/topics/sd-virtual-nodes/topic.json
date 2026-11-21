@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-virtual-nodes",
+  "version": 1,
+  "title": "Virtual nodes and replicas on the ring",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-virtual-nodes",
+      "version": 1,
+      "statement": "Giving each physical node many virtual nodes (positions on the ring) evens out arc sizes, and lets a larger machine take a bigger share by owning more virtual nodes."
+    },
+    {
+      "id": "kc-ring-replication",
+      "version": 1,
+      "statement": "To replicate on a ring, store each key on the next N distinct physical nodes clockwise, skipping virtual nodes that belong to a physical node already chosen."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "sd-consistent-hashing"
+  ],
+  "suggests": [
+    "sd-quorum"
+  ],
+  "confusable_with": [
+    "sd-consistent-hashing"
+  ],
+  "introduces": [
+    "virtual nodes"
+  ],
+  "uses": [
+    "consistent hashing",
+    "hash ring",
+    "replication",
+    "replication factor"
+  ],
+  "problem_ideas": [
+    "Extend a ring so each physical node gets k virtual positions; return the owner for a key",
+    "Measure max/min key share across 5 nodes with k=1 vs k=100",
+    "Give a node twice the RAM twice as many virtual nodes and verify its share",
+    "Write preference_list(key, n) returning n distinct physical nodes clockwise",
+    "Edge case: all three next virtual nodes belong to one machine; show the skip",
+    "Predict how load from a removed node spreads with 1 vs 100 virtual nodes"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "virtual-nodes/virtual-nodes"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "data-replication/data-replication"
+    }
+  ],
+  "status": "stub"
+}

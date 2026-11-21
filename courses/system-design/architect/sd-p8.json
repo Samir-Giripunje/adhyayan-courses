@@ -1,0 +1,1918 @@
+{
+  "stage": {
+    "id": "sd-p8",
+    "title": "Case studies and mock interviews",
+    "outcome": [
+      "o1",
+      "o2",
+      "o3",
+      "o4",
+      "o5",
+      "o6"
+    ],
+    "assumes": [
+      "system design interview framework",
+      "back-of-the-envelope estimation",
+      "api design",
+      "data model",
+      "load balancer",
+      "cdn",
+      "cache-aside",
+      "sharding",
+      "consistent hashing",
+      "replication",
+      "message queue",
+      "publish/subscribe",
+      "fan-out on write",
+      "websockets",
+      "idempotency key",
+      "rate limiting",
+      "token bucket",
+      "circuit breaker",
+      "failover",
+      "object storage"
+    ],
+    "provides": [
+      "url shortener design",
+      "news feed design",
+      "chat system design",
+      "video streaming design",
+      "ride hailing design",
+      "geohash",
+      "quadtree",
+      "web crawler design",
+      "notification service design",
+      "payment system design",
+      "search autocomplete design",
+      "bloom filter",
+      "mock interview"
+    ]
+  },
+  "sections": [
+    {
+      "id": "core-cases",
+      "title": "Classic warm-up designs and the structures behind them",
+      "rank": 1,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "system-design-interview-questions-with-s"
+      }
+    },
+    {
+      "id": "social-realtime",
+      "title": "Social feeds, media sharing and chat",
+      "rank": 2,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "high-level-design-3"
+      }
+    },
+    {
+      "id": "media-location",
+      "title": "Video streaming and location-based systems",
+      "rank": 3,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "high-level-design-5"
+      }
+    },
+    {
+      "id": "reliable-money",
+      "title": "Reliable delivery, payments and bookings",
+      "rank": 4,
+      "source_ref": {
+        "source": "awesome-sd",
+        "section": "system-design-interview-problems"
+      }
+    },
+    {
+      "id": "mocks",
+      "title": "Timed mock interviews",
+      "rank": 5,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "how-to-approach-a-system-design-intervie"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "sd-bloom-filter",
+      "title": "Bloom filters: fast 'definitely not seen' checks",
+      "size": "standard",
+      "est_min": 20,
+      "section": "core-cases",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-bloom-filter-no-false-negatives",
+          "statement": "A Bloom filter sets k hash positions in a bit array per inserted item. A lookup can return a false positive but never a false negative, so a 'no' answer is always correct."
+        },
+        {
+          "id": "kc-bloom-filter-sizing",
+          "statement": "For n items in m bits, the false positive rate is lowest when the number of hash functions is k = (m/n)·ln 2. About 10 bits per item gives roughly a 1% false positive rate."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-case-web-crawler"
+      ],
+      "confusable_with": [
+        "sd-hot-keys-thundering-herd"
+      ],
+      "introduces": [
+        "bloom filter",
+        "false positive rate"
+      ],
+      "uses": [
+        "key-value store"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "database-fundamentals/bloom-filters"
+        }
+      ],
+      "problem_ideas": [
+        "Implement add() and might_contain() over a Python int bitmask using k salted hashes, then test 10,000 inserts for false negatives.",
+        "Compute the bits needed for 1 billion URLs at a 1% false positive rate and convert it to gigabytes.",
+        "Given m = 8n, pick the k that minimises false positives and predict the rate.",
+        "A crawler uses a Bloom filter for seen URLs. Explain what a false positive costs: a page never gets crawled.",
+        "Explain why a plain Bloom filter cannot delete items and what a counting Bloom filter changes.",
+        "Place a Bloom filter in front of a disk-based key-value store to skip lookups for missing keys, and estimate the disk reads saved at a 90% miss rate."
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Deriving the false positive formula (1 - e^(-kn/m))^k"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Counting Bloom filters and cuckoo filters"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Interviewers often bring it up in crawler, dedup and storage deep dives. It is a cheap way to show depth."
+      }
+    },
+    {
+      "id": "sd-case-url-shortener",
+      "title": "Case study: URL shortener",
+      "size": "big",
+      "est_min": 38,
+      "section": "core-cases",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-url-base62-length",
+          "statement": "Base62 encoding with 7 characters gives 62^7 ≈ 3.5 trillion distinct short codes, enough for about 1,000 new URLs per second for over 100 years."
+        },
+        {
+          "id": "kc-url-key-generation-service",
+          "statement": "A key generation service hands out pre-generated unique codes (or counter ranges) to app servers. This avoids the hash collisions and check-then-insert races of hashing the long URL."
+        },
+        {
+          "id": "kc-url-301-vs-302",
+          "statement": "A 301 (permanent) redirect is cacheable by default, so browsers and proxies may serve repeat clicks without reaching the service. A 302 is not cached by default but can be when caching headers allow it, so a shortener that must count every click returns a 302 with Cache-Control: no-store (or private, max-age=0) rather than relying on the status code alone."
+        },
+        {
+          "id": "kc-url-read-heavy-cache",
+          "statement": "Redirect traffic is read-heavy (often around 100:1). A cache-aside cache holding the hottest ~20% of mappings in front of a key-value store sharded by short code serves most redirects."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The URL shortener is one of the classic prompts named in the mock interview outcome."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-qps-estimate",
+          "reason": "Sizing the cache and the code space starts from the stated QPS and the read/write split."
+        },
+        {
+          "topic": "sd-cache-aside",
+          "reason": "The redirect read path is cache-aside over the mapping store."
+        }
+      ],
+      "suggests": [
+        "sd-key-value-store",
+        "sd-sharding-strategies"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "url shortener design",
+        "base62 encoding",
+        "key generation service",
+        "http redirect"
+      ],
+      "uses": [
+        "read-to-write ratio",
+        "peak qps",
+        "storage estimate",
+        "cache-aside",
+        "key-value store",
+        "shard key",
+        "80/20 rule",
+        "http status code",
+        "http header"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design/url-encoding"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design/key-generation-service-kgs"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "system-design-interview-questions-with-s/design-pastebin-com-or-bit-ly"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-url-shortener-like-tinyurl"
+        }
+      ],
+      "problem_ideas": [
+        "With 100M new URLs a month and 500 bytes per row, estimate storage over 5 years.",
+        "How many base62 characters do you need for 50 billion URLs? Show the log.",
+        "Two app servers hash the same long URL with MD5 and truncate it to 7 characters. Walk through the collision and how a key generation service avoids it.",
+        "The marketing team wants click counts per link. Choose the redirect status and the Cache-Control header that keep repeat clicks visible, and say what a 301 would cost.",
+        "Size a redirect cache for 20K reads/s using the 80/20 rule and 500-byte entries.",
+        "Design expiry cleanup for links with a TTL without scanning the whole table at peak hours."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Counter ranges handed out by a coordination service"
+        },
+        {
+          "kind": "edge",
+          "title": "Custom aliases and abuse prevention"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "This is the most common warm-up prompt in system design interviews."
+      }
+    },
+    {
+      "id": "sd-case-rate-limiter",
+      "title": "Case study: designing a rate limiter service",
+      "size": "standard",
+      "est_min": 28,
+      "section": "core-cases",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-rl-design-placement",
+          "statement": "A rate limiter service usually runs at the API gateway or as middleware. It keys limits by user, API key or IP and rejects excess requests with HTTP 429 plus a Retry-After header."
+        },
+        {
+          "id": "kc-rl-design-shared-counters",
+          "statement": "Across many gateway nodes, counters live in a shared in-memory store and are updated with atomic increment or script operations. Separate read-then-write steps race and let bursts through."
+        },
+        {
+          "id": "kc-rl-design-fail-open",
+          "statement": "If the counter store is unavailable, the limiter must choose between failing open (allowing traffic and risking overload) and failing closed (rejecting traffic and hurting availability). Most public APIs fail open with a local fallback limit."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-token-bucket",
+          "reason": "The design applies the token bucket algorithm at scale."
+        },
+        {
+          "topic": "sd-distributed-rate-limiting",
+          "reason": "Shared counters and their races are taught there."
+        }
+      ],
+      "suggests": [
+        "sd-api-gateway"
+      ],
+      "confusable_with": [
+        "sd-back-pressure"
+      ],
+      "introduces": [
+        "rate limiter design",
+        "fail open"
+      ],
+      "uses": [
+        "rate limiting",
+        "token bucket",
+        "http 429",
+        "distributed rate limiting",
+        "race condition",
+        "api gateway"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-rate-limiter"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "rate-limiting-in-distributed-systems/race-conditions"
+        }
+      ],
+      "problem_ideas": [
+        "10 gateway nodes each keep a local 100 req/min limit. Compute the worst-case burst one client can get.",
+        "Rewrite a GET-then-SET counter update as a single atomic operation and explain the race it removes.",
+        "The Redis cluster holding counters goes down at peak. Argue for fail open or fail closed for a payments API and for a search API.",
+        "Design limit rules for free and paid tiers with different buckets per endpoint.",
+        "Estimate counter-store memory for 10M users × 3 rules × 50 bytes.",
+        "Choose the response headers that let well-behaved clients back off."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Sliding window counters in a shared store"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "A frequent standalone prompt, and a common deep dive inside other designs."
+      }
+    },
+    {
+      "id": "sd-case-kv-store",
+      "title": "Case study: distributed key-value store",
+      "size": "standard",
+      "est_min": 28,
+      "section": "core-cases",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-kv-ring-replicas",
+          "statement": "A Dynamo-style key-value store places each key on a hash ring and replicates it to the next N distinct nodes clockwise. Virtual nodes spread load evenly when nodes join or leave."
+        },
+        {
+          "id": "kc-kv-tunable-quorum",
+          "statement": "With N replicas, choosing R + W > N makes every read overlap the latest write. Choosing R = W = 1 maximises availability and speed but allows stale reads."
+        },
+        {
+          "id": "kc-kv-conflict-repair",
+          "statement": "In a leaderless store, concurrent writes to one key can conflict. They are resolved by last-write-wins timestamps or by returning sibling versions, and replicas converge through read repair and background anti-entropy."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-virtual-nodes",
+          "reason": "Replica placement on the ring uses virtual nodes."
+        },
+        {
+          "topic": "sd-quorum",
+          "reason": "The tunable consistency KC applies R + W > N."
+        }
+      ],
+      "suggests": [
+        "sd-cap-theorem",
+        "sd-multi-leader-replication"
+      ],
+      "confusable_with": [
+        "sd-distributed-cache"
+      ],
+      "introduces": [
+        "key-value store design",
+        "read repair"
+      ],
+      "uses": [
+        "consistent hashing",
+        "hash ring",
+        "virtual nodes",
+        "quorum",
+        "leaderless replication",
+        "last-write-wins",
+        "write conflict",
+        "eventual consistency"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-distributed-key-value-store"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "data-replication/data-replication"
+        }
+      ],
+      "problem_ideas": [
+        "With N = 3, list the (R, W) pairs that give strong reads and say which one favours write latency.",
+        "Draw where key 'user:42' and its two replicas land on a ring of 4 nodes with 3 virtual nodes each.",
+        "A node is down for 10 minutes during writes. Explain how the data catches up afterwards.",
+        "Two clients write the same cart key concurrently. Compare last-write-wins with keeping both versions.",
+        "Estimate the node count for 50 TB of data at replication factor 3 and 2 TB usable per node.",
+        "Say whether this store is CP or AP under a network partition with R = W = 1."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Vector clocks and Merkle-tree anti-entropy"
+        },
+        {
+          "kind": "history",
+          "title": "The Amazon Dynamo paper"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "Common at mid and senior levels. It checks replication, quorum and hashing together."
+      }
+    },
+    {
+      "id": "sd-case-web-crawler",
+      "title": "Case study: web crawler",
+      "size": "big",
+      "est_min": 38,
+      "section": "core-cases",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-crawler-frontier-politeness",
+          "statement": "A crawler's URL frontier keeps a separate queue per host so that it fetches from each host one connection at a time with a delay. This politeness policy stops the crawler from overloading any one site."
+        },
+        {
+          "id": "kc-crawler-url-dedup",
+          "statement": "Before a URL enters the frontier, the crawler normalises it and checks a seen-URL set, often a Bloom filter, so the same page is not crawled twice. A false positive only skips a page."
+        },
+        {
+          "id": "kc-crawler-content-dedup",
+          "statement": "Different URLs often serve the same page. The crawler stores a content fingerprint (a hash of the page body) and drops pages whose fingerprint it has already seen."
+        },
+        {
+          "id": "kc-crawler-robots-and-traps",
+          "statement": "A crawler fetches and caches robots.txt for each host and obeys it. It caps URL length and per-host depth to escape crawler traps such as infinite calendar pages."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-bloom-filter",
+          "reason": "URL deduplication uses a Bloom filter."
+        },
+        {
+          "topic": "sd-task-queues-background-jobs",
+          "reason": "Fetchers are workers pulling from the frontier queues."
+        }
+      ],
+      "suggests": [
+        "sd-object-storage"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "web crawler design",
+        "url frontier",
+        "politeness policy",
+        "content fingerprint"
+      ],
+      "uses": [
+        "bloom filter",
+        "worker",
+        "message queue",
+        "object storage",
+        "dns caching",
+        "back-of-the-envelope estimation"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "system-design-interview-questions-with-s/design-a-web-crawler"
+        }
+      ],
+      "problem_ideas": [
+        "Crawl 1 billion pages a month at 100 KB each. Estimate pages per second and storage per month.",
+        "Design the frontier so that 1,000 workers never hit the same host concurrently.",
+        "A site generates /calendar?day=N for every N. Show how the crawler avoids crawling forever.",
+        "http://Example.com/a/../b and http://example.com/b: normalise both and dedupe them.",
+        "Explain why DNS resolution becomes a bottleneck at 10K fetches/s and how caching fixes it.",
+        "Prioritise news sites to be recrawled hourly and static sites monthly in one frontier."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "SimHash for near-duplicate detection"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "A classic prompt that tests queues, deduplication and politeness. It comes up less often than feed or chat."
+      }
+    },
+    {
+      "id": "sd-case-search-autocomplete",
+      "title": "Case study: search autocomplete",
+      "size": "big",
+      "est_min": 38,
+      "section": "core-cases",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-autocomplete-trie-topk",
+          "statement": "Autocomplete stores queries in a trie and caches the top-k completions at every prefix node, so each lookup costs O(prefix length) instead of a subtree scan."
+        },
+        {
+          "id": "kc-autocomplete-offline-build",
+          "statement": "Query frequencies are aggregated offline from search logs (for example hourly or daily), and a new trie is built and swapped in. The serving trie is not updated on every keystroke."
+        },
+        {
+          "id": "kc-autocomplete-client-load",
+          "statement": "Clients debounce keystrokes and cache recent prefix results, which cuts autocomplete requests per search severalfold."
+        },
+        {
+          "id": "kc-autocomplete-shard-by-prefix",
+          "statement": "When the trie outgrows one machine it is sharded by prefix range. Ranges are split by observed traffic rather than by alphabet, because letters like 's' carry far more queries than 'x'."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-sharding-strategies",
+          "reason": "Prefix-range sharding is range-based sharding."
+        }
+      ],
+      "suggests": [
+        "sd-cache-layers"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "search autocomplete design",
+        "trie",
+        "top-k suggestions"
+      ],
+      "uses": [
+        "range-based sharding",
+        "hot shard",
+        "client caching",
+        "qps"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-autocomplete-for-search-engines"
+        }
+      ],
+      "problem_ideas": [
+        "Implement a trie with insert(query, count) and top_k(prefix, k) that caches the top k at each node.",
+        "10M DAU, 10 searches a day, 6 keystrokes per search: compute autocomplete QPS with and without debouncing.",
+        "Predict the memory for a trie of 100M unique queries with top-5 lists cached per node.",
+        "A breaking-news term must appear within minutes. Adjust the weekly offline build without rebuilding on every request.",
+        "Split the prefix space across 4 shards given traffic shares per first letter.",
+        "Filter offensive suggestions without rebuilding the trie."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Compressed tries and serialisation to a blob"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "A popular prompt. It rewards knowing the trie plus offline aggregation pattern."
+      }
+    },
+    {
+      "id": "sd-case-news-feed",
+      "title": "Case study: news feed / Twitter timeline",
+      "size": "big",
+      "est_min": 40,
+      "section": "social-realtime",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-feed-hybrid-fanout",
+          "statement": "A news feed uses fan-out on write for ordinary authors, pushing post ids into followers' cached timelines. Posts from celebrity accounts are merged in at read time, because writing them to millions of timelines is too slow."
+        },
+        {
+          "id": "kc-feed-timeline-cache",
+          "statement": "Each user's home timeline is a capped list of post ids (for example the latest 800) in an in-memory store. Post bodies are fetched separately by id and hydrated from a post cache."
+        },
+        {
+          "id": "kc-feed-storage-split",
+          "statement": "Posts are sharded by post id or author id. The follow graph is stored separately so that 'who follows X' (for fan-out) and 'whom does X follow' (for read-time merge) are both single-key lookups."
+        },
+        {
+          "id": "kc-feed-media-path",
+          "statement": "Images and videos in posts are uploaded to object storage and served through a CDN. The feed service only handles ids and URLs, never media bytes."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "News feed is one of the classic prompts named in the mock interview outcome."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-fan-out",
+          "reason": "The core trade-off of the design is fan-out on write vs on read."
+        },
+        {
+          "topic": "sd-distributed-cache",
+          "reason": "Timelines live in a distributed cache."
+        }
+      ],
+      "suggests": [
+        "sd-shard-key"
+      ],
+      "confusable_with": [
+        "sd-case-notification-service"
+      ],
+      "introduces": [
+        "news feed design",
+        "home timeline"
+      ],
+      "uses": [
+        "fan-out on write",
+        "fan-out on read",
+        "hybrid fan-out",
+        "celebrity problem",
+        "distributed cache",
+        "object storage",
+        "cdn",
+        "shard key",
+        "message queue"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "system-design-interview-questions-with-s/design-the-twitter-timeline-and-search-o"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-3/newsfeed"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-twitter"
+        }
+      ],
+      "problem_ideas": [
+        "300M DAU, 2 posts a day, 200 followers on average: compute fan-out writes per second.",
+        "A user with 50M followers posts. Compare the cost of pushing the post to every timeline with merging it at read time.",
+        "Estimate cache memory for 300M timelines × 800 ids × 8 bytes.",
+        "Pick a follower-count threshold for switching a user to fan-out on read and justify it.",
+        "A user unfollows someone. Decide whether to clean timelines eagerly or filter at read time.",
+        "Design pagination for 'load more' on the home timeline using a cursor."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Ranking a feed instead of sorting by time"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "One of the top three interview prompts, and the canonical fan-out trade-off."
+      }
+    },
+    {
+      "id": "sd-case-photo-sharing",
+      "title": "Case study: photo sharing (Instagram)",
+      "size": "standard",
+      "est_min": 28,
+      "section": "social-realtime",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-photo-presigned-upload",
+          "statement": "Clients upload photos straight to object storage using a short-lived pre-signed upload URL from the API. Large bytes never pass through the app servers."
+        },
+        {
+          "id": "kc-photo-async-thumbnails",
+          "statement": "After upload, an event on a queue triggers workers that generate thumbnails in several sizes. The post becomes visible only after processing completes."
+        },
+        {
+          "id": "kc-photo-storage-dominates",
+          "statement": "For photo apps, media storage and CDN egress dominate cost: 100M uploads a day at 2 MB is about 200 TB of new storage per day before replication."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-object-storage",
+          "reason": "Uploads go straight to object storage."
+        },
+        {
+          "topic": "sd-task-queues-background-jobs",
+          "reason": "Thumbnail generation is a background job."
+        }
+      ],
+      "suggests": [
+        "sd-case-news-feed",
+        "sd-cdn"
+      ],
+      "confusable_with": [
+        "sd-case-video-streaming"
+      ],
+      "introduces": [
+        "photo sharing design",
+        "pre-signed upload url"
+      ],
+      "uses": [
+        "object storage",
+        "blob",
+        "cdn",
+        "background job",
+        "worker",
+        "message queue",
+        "storage estimate",
+        "egress"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-instagram"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "detailed-design-4/media-access-and-storage"
+        }
+      ],
+      "problem_ideas": [
+        "Compute 1-year storage for 50M uploads a day at 3 MB with 3 thumbnails of 100 KB each.",
+        "Estimate CDN egress if each photo is viewed 50 times at the 300 KB size.",
+        "Sequence the upload flow: get URL, PUT to storage, notify API, process, publish.",
+        "A worker crashes halfway through generating thumbnails. Make the job safe to retry.",
+        "Explain why proxying uploads through app servers limits horizontal scaling.",
+        "Decide where 'like' counts are stored and how they avoid becoming a hot key."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Content moderation in the upload pipeline"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "A common prompt that reuses feed design and shows a clean media upload path."
+      }
+    },
+    {
+      "id": "sd-case-chat",
+      "title": "Case study: chat system (WhatsApp)",
+      "size": "big",
+      "est_min": 40,
+      "section": "social-realtime",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-chat-connection-routing",
+          "statement": "Each online user keeps a WebSocket connection to a connection server. A session registry maps user id to server, so a message is routed to the recipient's server and pushed down the open socket."
+        },
+        {
+          "id": "kc-chat-ordering-sequence",
+          "statement": "Message order within a conversation comes from a per-conversation sequence number assigned on write, not from client clocks. Clients sort and detect gaps with it."
+        },
+        {
+          "id": "kc-chat-offline-delivery",
+          "statement": "Messages are persisted before they are acknowledged to the sender. If the recipient is offline, a push notification is sent and stored messages are synced from the last received sequence number when the recipient reconnects."
+        },
+        {
+          "id": "kc-chat-message-store",
+          "statement": "Chat history suits a wide-column store partitioned by conversation id and clustered by sequence number. Reading recent messages is then one partition range scan."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Chat is one of the classic prompts named in the mock interview outcome."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-realtime-at-scale",
+          "reason": "Connection servers and the session registry are taught there."
+        },
+        {
+          "topic": "sd-wide-column-store",
+          "reason": "The message store uses partition and clustering keys."
+        }
+      ],
+      "suggests": [
+        "sd-delivery-guarantees"
+      ],
+      "confusable_with": [
+        "sd-case-notification-service"
+      ],
+      "introduces": [
+        "chat system design",
+        "message sequence number",
+        "push notification"
+      ],
+      "uses": [
+        "websockets",
+        "persistent connection",
+        "connection server",
+        "session registry",
+        "presence",
+        "wide-column store",
+        "partition key",
+        "clustering key",
+        "at-least-once delivery",
+        "acknowledgement"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-2/real-time-messaging"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-2/read-receipts"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-whatsapp"
+        }
+      ],
+      "problem_ideas": [
+        "50M concurrent users at 50K connections per server: how many connection servers are needed?",
+        "Alice sends 3 messages and they arrive at Bob's server out of order. Show how sequence numbers fix it.",
+        "Bob is offline for 2 days. Walk through the push notification and the sync on reconnect.",
+        "A connection server crashes. Explain what happens to its users' registry entries and their reconnects.",
+        "Design read receipts as small messages flowing in the reverse direction.",
+        "Group chat with 500 members: compare fan-out per member with one shared conversation log."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "End-to-end encryption and what the server can still see"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "A top-tier prompt that tests real-time delivery, ordering and storage together."
+      }
+    },
+    {
+      "id": "sd-case-video-streaming",
+      "title": "Case study: video streaming (YouTube / Netflix)",
+      "size": "big",
+      "est_min": 38,
+      "section": "media-location",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-video-transcoding-pipeline",
+          "statement": "An uploaded video is split into chunks and transcoded in parallel by workers into several resolutions and codecs. A pipeline of queued tasks marks the video ready when every rendition finishes."
+        },
+        {
+          "id": "kc-video-abr-segments",
+          "statement": "With adaptive bitrate streaming (HLS/DASH), each rendition is cut into segments a few seconds long and listed in a manifest. The player picks the bitrate for each segment from the measured bandwidth."
+        },
+        {
+          "id": "kc-video-cdn-egress",
+          "statement": "Video egress dominates cost. Popular videos are served from CDN edge servers, and long-tail videos may be served from origin or regional caches."
+        },
+        {
+          "id": "kc-video-storage-multiplier",
+          "statement": "Storage per uploaded minute is multiplied by the number of renditions. Five resolutions can store about 2-3× the bytes of the original."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-case-photo-sharing",
+          "reason": "Reuses the pre-signed upload and async processing pattern."
+        },
+        {
+          "topic": "sd-cdn",
+          "reason": "Delivery is CDN-first."
+        }
+      ],
+      "suggests": [
+        "sd-push-pull-cdn"
+      ],
+      "confusable_with": [
+        "sd-case-photo-sharing"
+      ],
+      "introduces": [
+        "video streaming design",
+        "transcoding",
+        "adaptive bitrate streaming"
+      ],
+      "uses": [
+        "pre-signed upload url",
+        "object storage",
+        "cdn",
+        "edge server",
+        "origin server",
+        "push cdn",
+        "worker",
+        "task queue",
+        "bandwidth estimate",
+        "egress"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-4/video-processing"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-4/video-streaming"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-youtube"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-netflix"
+        }
+      ],
+      "problem_ideas": [
+        "500 hours uploaded per minute at 1 GB/hour across 5 renditions: compute daily storage.",
+        "10M concurrent viewers at an average of 3 Mbps: compute peak egress in Tbps.",
+        "A viewer's bandwidth drops from 8 to 2 Mbps. Predict what the player does at the next segment.",
+        "Choose push or pull CDN for a Netflix-style catalogue and for user uploads.",
+        "Transcoding one chunk fails. Design a retry without redoing the whole video.",
+        "Estimate how 2-second and 10-second segments change startup latency and request rate."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Open Connect: ISP-embedded caches"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "A frequent prompt. Most of the marks come from the CDN and transcoding pipeline."
+      }
+    },
+    {
+      "id": "sd-geohash",
+      "title": "Geohash: turning locations into searchable strings",
+      "size": "standard",
+      "est_min": 28,
+      "section": "media-location",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-geohash-encoding",
+          "statement": "A geohash interleaves longitude and latitude bisection bits and encodes them in base32, so points that share a longer prefix lie in the same, smaller cell."
+        },
+        {
+          "id": "kc-geohash-precision",
+          "statement": "Each extra geohash character adds 5 bits and shrinks the cell about 32×. A 6-character geohash is roughly 1.2 km × 0.6 km."
+        },
+        {
+          "id": "kc-geohash-neighbors",
+          "statement": "Nearby points can sit on opposite sides of a cell boundary and share no prefix. A radius search therefore picks a precision, queries every cell that intersects the search circle, and filters candidates by exact distance; the centre cell plus its 8 neighbours is enough only when those cells are at least as large as the radius at that latitude."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The ride hailing mock needs a spatial index to find nearby drivers."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-database-indexes"
+      ],
+      "confusable_with": [
+        "sd-quadtree"
+      ],
+      "introduces": [
+        "geohash",
+        "geohash precision"
+      ],
+      "uses": [
+        "database index",
+        "key-value store"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "geohashing/how-does-geohashing-work"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "geohashing/use-cases"
+        }
+      ],
+      "problem_ideas": [
+        "Implement encode(lat, lon, precision) in pure Python and check it against a known geohash.",
+        "Predict the cell size for 5, 6 and 7 characters and pick one for a 1 km search.",
+        "Two cafés 50 m apart have geohashes with no common prefix. Explain why and fix the query.",
+        "Implement cells_covering(lat, lon, radius_m, precision) that returns every cell intersecting the circle, and show a 3 km radius at precision 6 needs more than 9 cells.",
+        "Store restaurants in a SQL table with a geohash column and an index, then write the prefix query plus the exact-distance filter.",
+        "Explain why geohash cells near the poles are distorted and how that changes the cells a fixed radius covers."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Google S2 and Uber H3 cells"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Expected in any location prompt, such as ride hailing, Yelp or food delivery."
+      }
+    },
+    {
+      "id": "sd-quadtree",
+      "title": "Quadtrees: adaptive spatial indexes",
+      "size": "standard",
+      "est_min": 20,
+      "section": "media-location",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-quadtree-split",
+          "statement": "A quadtree splits a region into four children whenever a node holds more than a set capacity (for example 100 places). Dense cities get deep, small cells and empty areas stay as large cells."
+        },
+        {
+          "id": "kc-quadtree-vs-geohash",
+          "statement": "A quadtree is usually an in-memory structure rebuilt or updated on the server, while geohash strings fit into any database index. Quadtrees suit uneven density and geohash suits simple prefix queries."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-geohash",
+          "reason": "The comparison KC contrasts the quadtree with geohash."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-geohash"
+      ],
+      "introduces": [
+        "quadtree"
+      ],
+      "uses": [
+        "geohash",
+        "database index"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "quadtrees/quadtrees"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "quadtrees/why-do-we-need-quadtrees"
+        }
+      ],
+      "problem_ideas": [
+        "Insert 500 points into a quadtree with capacity 100 and predict the leaf count for a uniform spread.",
+        "Manhattan has 10,000 restaurants and a rural county has 10. Compare the cell sizes that result.",
+        "Estimate the memory for a quadtree indexing 200M places at 24 bytes each plus node overhead.",
+        "Drivers move every 4 seconds. Argue whether to update a quadtree in place or use geohash buckets.",
+        "Find the k nearest places by expanding to neighbouring quadtree nodes.",
+        "Choose between quadtree and geohash for Yelp (static places) and for Uber (moving drivers)."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "R-trees in spatial databases"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "Often mentioned as the alternative to geohash. Knowing the trade-off is usually enough."
+      }
+    },
+    {
+      "id": "sd-case-ride-hailing",
+      "title": "Case study: ride hailing (Uber)",
+      "size": "big",
+      "est_min": 40,
+      "section": "media-location",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-ride-location-updates",
+          "statement": "Drivers send a location update every few seconds. These writes are the dominant load: 1M active drivers every 4 s is about 250K writes/s, so the latest location is kept in memory keyed by geohash cell, not in a relational database."
+        },
+        {
+          "id": "kc-ride-matching",
+          "statement": "Matching a rider queries every geohash cell that intersects the search radius (the rider's cell and its 8 neighbours only when cells are at least as large as the radius), filters drivers by exact distance and availability, ranks them by ETA, and offers the trip to one driver at a time with a timeout."
+        },
+        {
+          "id": "kc-ride-double-dispatch",
+          "statement": "To stop a driver being assigned to two trips, the matcher claims the driver with an atomic conditional update (set status to 'offered' only if it is still 'available'). A second matcher's claim fails because the condition no longer holds."
+        },
+        {
+          "id": "kc-ride-trip-state",
+          "statement": "A trip moves through explicit states (requested, accepted, in progress, completed, paid). Transitions are persisted durably, and payment runs asynchronously after the trip ends."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Ride hailing is one of the classic prompts named in the mock interview outcome."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-geohash",
+          "reason": "Driver lookup is keyed by geohash cell."
+        }
+      ],
+      "suggests": [
+        "sd-websockets",
+        "sd-case-payment-system",
+        "sd-leader-election"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "ride hailing design",
+        "location update",
+        "driver matching"
+      ],
+      "uses": [
+        "geohash",
+        "websockets",
+        "key-value store",
+        "peak qps",
+        "message queue",
+        "timeout"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-5/location-tracking"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-5/ride-matching"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-uber"
+        }
+      ],
+      "problem_ideas": [
+        "2M drivers online sending updates every 3 s: compute writes/s and the bandwidth at 100 bytes per update.",
+        "Two riders request at once and both pick the same nearest driver. Show the atomic conditional claim and what the losing matcher does.",
+        "A driver doesn't respond to an offer within 15 s. Design what happens next.",
+        "Choose how often to push driver positions to the rider's map and over what transport.",
+        "A rider asks for drivers within 5 km while cells are 1.2 km wide. List which cells to query and why 9 is not enough.",
+        "Decide which data can be lost when a location node fails and which must be durable."
+      ],
+      "depth_threads": [
+        {
+          "kind": "frontier",
+          "title": "Batch matching and surge pricing"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "A classic prompt that tests location indexing, high write rates and correctness under contention."
+      }
+    },
+    {
+      "id": "sd-case-notification-service",
+      "title": "Case study: notification service",
+      "size": "standard",
+      "est_min": 28,
+      "section": "reliable-money",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-notif-channel-queues",
+          "statement": "A notification service accepts requests, checks user preferences and rate limits, and puts each message on a separate queue per channel (push, SMS, email). One slow provider then cannot block the others."
+        },
+        {
+          "id": "kc-notif-retry-dedupe",
+          "statement": "Channel workers retry provider failures with exponential backoff and move exhausted messages to a dead-letter queue. An idempotency key per notification stops retries from sending duplicates."
+        },
+        {
+          "id": "kc-notif-templates-batching",
+          "statement": "Templates are rendered at send time from stored templates and user locale. Bulk campaigns are throttled to protect providers' rate limits and transactional notifications."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-dead-letter-queues",
+          "reason": "Exhausted retries go to a dead-letter queue."
+        },
+        {
+          "topic": "sd-idempotency-keys",
+          "reason": "Deduplication uses idempotency keys."
+        }
+      ],
+      "suggests": [
+        "sd-bulkhead"
+      ],
+      "confusable_with": [
+        "sd-case-news-feed",
+        "sd-case-chat"
+      ],
+      "introduces": [
+        "notification service design",
+        "notification channel"
+      ],
+      "uses": [
+        "message queue",
+        "worker",
+        "retry with backoff",
+        "dead-letter queue",
+        "idempotency key",
+        "rate limiting",
+        "push notification",
+        "bulkhead"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-notification-service"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-2/notifications"
+        }
+      ],
+      "problem_ideas": [
+        "The SMS provider is down for 20 minutes. Trace what happens to push and email notifications.",
+        "A worker sends an email and crashes before the ack. Explain how duplicates are prevented.",
+        "A marketing blast of 50M emails collides with password-reset emails. Design priority handling.",
+        "Estimate the queue depth if the email provider accepts 1,000/s and the campaign enqueues 10,000/s.",
+        "Store user opt-out preferences and check them without a database read per message.",
+        "Design delivery status tracking (sent, delivered, opened) for analytics."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Provider webhooks for delivery receipts"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "A common mid-level prompt that tests queues, retries and deduplication."
+      }
+    },
+    {
+      "id": "sd-case-payment-system",
+      "title": "Case study: payment system",
+      "size": "big",
+      "est_min": 40,
+      "section": "reliable-money",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-payment-idempotent-charge",
+          "statement": "Each checkout sends an idempotency key with the charge request. The payment service stores the key with the result, so a retried request returns the original outcome instead of charging twice."
+        },
+        {
+          "id": "kc-payment-double-entry-ledger",
+          "statement": "A double-entry ledger records every money movement as matching debit and credit entries that sum to zero. Entries are append-only, and corrections are new reversing entries."
+        },
+        {
+          "id": "kc-payment-reconciliation",
+          "statement": "Reconciliation regularly compares the internal ledger with the payment service provider's settlement reports to find mismatches caused by timeouts or partial failures."
+        },
+        {
+          "id": "kc-payment-timeout-unknown",
+          "statement": "A timeout from the payment service provider means the outcome is unknown, not failed. The system marks the payment pending and resolves it by querying the provider or through reconciliation, never by blindly charging again."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-idempotency-keys",
+          "reason": "Charge deduplication is built on idempotency keys."
+        },
+        {
+          "topic": "sd-relational-acid",
+          "reason": "Ledger writes rely on ACID transactions."
+        },
+        {
+          "topic": "sd-sagas",
+          "reason": "Multi-step order and charge flows are coordinated as sagas."
+        }
+      ],
+      "suggests": [
+        "sd-change-data-capture"
+      ],
+      "confusable_with": [
+        "sd-case-ticket-booking"
+      ],
+      "introduces": [
+        "payment system design",
+        "ledger",
+        "double-entry bookkeeping",
+        "reconciliation",
+        "payment service provider"
+      ],
+      "uses": [
+        "idempotency key",
+        "transaction",
+        "acid",
+        "saga",
+        "compensating transaction",
+        "retry with backoff",
+        "timeout",
+        "transactional outbox",
+        "strong consistency"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-payment-system"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-a-digital-wallet"
+        }
+      ],
+      "problem_ideas": [
+        "The client's charge call times out and the user taps Pay again. Walk through both requests with an idempotency key.",
+        "Write the ledger entries for a $100 purchase with a $3 platform fee.",
+        "Tonight's reconciliation finds a charge at the provider with no ledger entry. Decide what to do.",
+        "Order created, payment charged, inventory reservation fails: define the compensating steps.",
+        "Explain why ledger rows are never updated in place.",
+        "Estimate ledger storage for 10M payments a day × 4 entries × 200 bytes over 7 years."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Exactly-once illusions with external providers"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Increasingly common, and it is the best prompt for showing correctness under failure. Enrichment: idempotency and retries themselves are taught in earlier stages."
+      }
+    },
+    {
+      "id": "sd-case-ticket-booking",
+      "title": "Case study: ticket and flight booking",
+      "size": "standard",
+      "est_min": 28,
+      "section": "reliable-money",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-booking-seat-hold",
+          "statement": "Booking places a temporary seat hold with a TTL (for example 10 minutes) while the user pays. If payment does not complete before the hold expires, the seat is released automatically."
+        },
+        {
+          "id": "kc-booking-optimistic-locking",
+          "statement": "Double booking is prevented by a conditional update, for example UPDATE seat SET holder=? WHERE id=? AND holder IS NULL, or by a version check (optimistic locking). Only one concurrent claim succeeds."
+        },
+        {
+          "id": "kc-booking-hot-event-queue",
+          "statement": "For hot on-sales, a virtual waiting room queues users and admits them at a controlled rate. This protects the inventory database from a spike of contended writes."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-relational-acid",
+          "reason": "Seat claims rely on transactional conditional updates."
+        }
+      ],
+      "suggests": [
+        "sd-back-pressure",
+        "sd-case-payment-system"
+      ],
+      "confusable_with": [
+        "sd-case-payment-system"
+      ],
+      "introduces": [
+        "ticket booking design",
+        "seat hold",
+        "optimistic locking",
+        "virtual waiting room"
+      ],
+      "uses": [
+        "transaction",
+        "ttl",
+        "relational database",
+        "strong consistency",
+        "queue-based load leveling",
+        "rate limiting"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-flight-booking-system"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-airbnb"
+        }
+      ],
+      "problem_ideas": [
+        "Two users click the same seat within 5 ms. Show which update succeeds and what the other sees.",
+        "Choose a hold TTL for concert tickets and for flights, and justify both.",
+        "1M users arrive for 50K seats at 10:00. Size the admission rate of the waiting room.",
+        "Payment succeeds just after the hold expired. Design the resolution.",
+        "Compare pessimistic row locks with optimistic version checks under heavy contention.",
+        "Explain why seat inventory must be strongly consistent while event search can be eventually consistent."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Overbooking as a deliberate airline policy"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "Booking prompts (Ticketmaster, Airbnb, flights) are popular, and contention is the deep dive interviewers expect."
+      }
+    },
+    {
+      "id": "sd-mock-method",
+      "title": "How to run and score a mock interview",
+      "size": "standard",
+      "est_min": 28,
+      "section": "mocks",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-mock-rubric",
+          "statement": "A mock interview is scored against a fixed rubric: requirements, estimates, API, data model, high-level design, deep dive and bottlenecks. Each area is marked present, partial or missing."
+        },
+        {
+          "id": "kc-mock-full-attempt",
+          "statement": "A mock counts only when one uninterrupted 45-minute attempt produces a submitted answer covering all seven rubric areas; scoring happens afterwards in separate review time, not during the 45 minutes."
+        },
+        {
+          "id": "kc-mock-self-review",
+          "statement": "After each mock, the learner compares their timeline against the 45-minute budget and writes down the one area that overran or was skipped as the target for the next mock."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The 45-minute mock outcome is checked against this rubric and attempt protocol."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-timed-walkthrough",
+          "reason": "Extends the interview time budget into a scored practice loop."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "mock interview",
+        "mock rubric"
+      ],
+      "uses": [
+        "system design interview framework",
+        "interview time budget",
+        "functional requirements",
+        "non-functional requirements",
+        "deep dive",
+        "bottleneck"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "how-to-approach-a-system-design-intervie/how-to-approach-a-system-design-intervie"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "how-to-answer-a-system-design-interview-/how-to-answer-a-system-design-interview-"
+        }
+      ],
+      "problem_ideas": [
+        "Score a sample transcript that spent 20 minutes on requirements and never reached bottlenecks.",
+        "Allocate 45 minutes across the seven rubric areas and defend the split.",
+        "Rewrite a vague answer ('we'll add caching') into a rubric-complete statement.",
+        "List three clarifying questions that would change the design of a feed.",
+        "Spot the missing area in a short written answer to 'design Pastebin'.",
+        "A learner paused at minute 20 to look up a formula. Decide whether the attempt counts and what to change next time.",
+        "Pick the next practice target from three past rubric sheets."
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.85,
+        "reason": "Practice without a rubric turns into rehearsal. This makes each mock measurable."
+      }
+    },
+    {
+      "id": "sd-mock-url-shortener",
+      "title": "Timed mock: URL shortener",
+      "size": "big",
+      "est_min": 40,
+      "section": "mocks",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-mock-url-requirements",
+          "statement": "In the URL shortener mock, the stated requirements include create, redirect and optional expiry and analytics. The non-functional requirements are low redirect latency, high availability and non-guessable codes."
+        },
+        {
+          "id": "kc-mock-url-estimates",
+          "statement": "In the URL shortener mock, the estimate derives write QPS, read QPS at roughly 100:1, 5-year storage and cache size, and uses them to justify a cache and a key-value store."
+        },
+        {
+          "id": "kc-mock-url-deep-dive",
+          "statement": "In the URL shortener mock, the deep dive defends code generation (key generation service vs hashing) and the redirect status plus cache headers, each with one stated trade-off."
+        },
+        {
+          "id": "kc-mock-url-bottlenecks",
+          "statement": "In the URL shortener mock, the bottleneck review names the key generation service and the cache as single points of failure and gives a fix for each: replicas with failover and pre-allocated key ranges."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "A complete timed answer to a classic prompt is the outcome's observable product."
+        },
+        {
+          "outcome": "o1",
+          "reason": "The mock requires producing QPS, storage and cache estimates under time."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-case-url-shortener",
+          "reason": "The mock applies that design under time."
+        },
+        {
+          "topic": "sd-mock-method",
+          "reason": "The answer is scored with the mock rubric."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [],
+      "uses": [
+        "mock interview",
+        "mock rubric",
+        "url shortener design",
+        "base62 encoding",
+        "key generation service",
+        "single point of failure",
+        "failover",
+        "peak qps",
+        "storage estimate"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "requirements/requirements"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "estimation-and-constraints-2/high-level-estimate"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "identify-and-resolve-bottlenecks-2/identify-and-resolve-bottlenecks"
+        }
+      ],
+      "problem_ideas": [
+        "Core activity: in one uninterrupted 45-minute attempt, submit a complete written answer for 200M new URLs a month covering requirements, estimates, API, data model, diagram, deep dive and bottlenecks; then score all seven areas in a separate review.",
+        "Variant: links must expire after 24 hours by default. Rework storage and cleanup.",
+        "Variant: the interviewer adds 'analytics per link per country'. Extend the design in 5 minutes.",
+        "Estimate the cache size if 20% of links get 80% of clicks.",
+        "Interviewer pushback: 'Why not just use auto-increment ids?' Answer it.",
+        "Present the bottleneck list with a fix for each in under 3 minutes."
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "Most loops include a prompt of this shape. The 45-minute attempt plus review runs as the stage's mock session; topic study time is capped at 40 min by the sizing rules."
+      }
+    },
+    {
+      "id": "sd-mock-news-feed",
+      "title": "Timed mock: news feed",
+      "size": "big",
+      "est_min": 40,
+      "section": "mocks",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-mock-feed-scope",
+          "statement": "In the news feed mock, scope is limited to post, follow and read timeline. Ranking, search and ads are named as out of scope within the first 5 minutes."
+        },
+        {
+          "id": "kc-mock-feed-fanout-justify",
+          "statement": "In the news feed mock, the hybrid fan-out choice is justified from the computed fan-out writes per second and a stated follower threshold for celebrity accounts."
+        },
+        {
+          "id": "kc-mock-feed-data-model",
+          "statement": "In the news feed mock, the data model names posts, the follow graph and timeline caches separately, each with its shard key and store type."
+        },
+        {
+          "id": "kc-mock-feed-bottlenecks",
+          "statement": "In the news feed mock, the bottleneck review covers celebrity posts, hot timeline keys and fan-out queue lag, with a mitigation for each."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "News feed is a named classic prompt in the outcome."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-case-news-feed",
+          "reason": "The mock applies that design under time."
+        },
+        {
+          "topic": "sd-mock-method",
+          "reason": "The answer is scored with the mock rubric."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [],
+      "uses": [
+        "mock interview",
+        "mock rubric",
+        "news feed design",
+        "home timeline",
+        "hybrid fan-out",
+        "celebrity problem",
+        "shard key",
+        "hot key"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "requirements-3/requirements"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "identify-and-resolve-bottlenecks-4/identify-and-resolve-bottlenecks"
+        }
+      ],
+      "problem_ideas": [
+        "Core activity: in one uninterrupted 45-minute attempt, submit a complete answer for 500M DAU covering all seven rubric areas; then score each area in a separate review.",
+        "Variant: the feed must include posts from groups as well as people. Adjust the fan-out.",
+        "Interviewer pushback: 'Fan-out on write wastes work for inactive users.' Respond.",
+        "Re-estimate if the average follower count rises from 200 to 2,000.",
+        "Spend 5 minutes on the deep dive: timeline cache eviction.",
+        "Score a peer's answer that never mentioned media storage."
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "Among the most-asked prompts; the full 45-minute attempt exposes over-long fan-out explanations. Study time is capped at 40 min by sizing rules."
+      }
+    },
+    {
+      "id": "sd-mock-chat",
+      "title": "Timed mock: chat system",
+      "size": "big",
+      "est_min": 40,
+      "section": "mocks",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-mock-chat-scope",
+          "statement": "In the chat mock, requirements pin down 1:1 vs group chat, online/offline delivery, read receipts and history retention before any design is drawn."
+        },
+        {
+          "id": "kc-mock-chat-estimates",
+          "statement": "In the chat mock, the estimate derives concurrent connections, messages per second and storage per year, and uses connections to size the connection server fleet."
+        },
+        {
+          "id": "kc-mock-chat-delivery",
+          "statement": "In the chat mock, the delivery path is narrated end to end: sender socket, persist, sequence number, registry lookup, recipient socket or push notification, acknowledgement."
+        },
+        {
+          "id": "kc-mock-chat-failures",
+          "statement": "In the chat mock, the failure review covers connection server crashes, message store partitions and duplicate delivery after retries, with a fix for each."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Chat is a named classic prompt in the outcome."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-case-chat",
+          "reason": "The mock applies that design under time."
+        },
+        {
+          "topic": "sd-mock-method",
+          "reason": "The answer is scored with the mock rubric."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [],
+      "uses": [
+        "mock interview",
+        "mock rubric",
+        "chat system design",
+        "message sequence number",
+        "push notification",
+        "connection server",
+        "session registry",
+        "idempotent consumer",
+        "failure mode analysis"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "requirements-2/requirements"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "identify-and-resolve-bottlenecks-3/identify-and-resolve-bottlenecks"
+        }
+      ],
+      "problem_ideas": [
+        "Core activity: in one uninterrupted 45-minute attempt, submit a complete answer for 1B users, 100M concurrent, covering all seven rubric areas; then score each area in a separate review.",
+        "Variant: add 'last seen' presence for 1B users. Estimate the heartbeat load.",
+        "Interviewer pushback: 'Why not long polling?' Answer it in 60 seconds.",
+        "Variant: groups of 1,000 members. Rework the fan-out.",
+        "Spend 5 minutes on the deep dive: message ordering across devices.",
+        "Write the bottleneck list from your diagram in 3 minutes."
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "Chat is asked constantly, and the delivery-path narration is where candidates lose time in a full 45-minute attempt."
+      }
+    },
+    {
+      "id": "sd-mock-ride-hailing",
+      "title": "Timed mock: ride hailing",
+      "size": "big",
+      "est_min": 40,
+      "section": "mocks",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-mock-ride-scope",
+          "statement": "In the ride hailing mock, scope covers request, match, track and complete a trip. Payments are shown only as an asynchronous step after the trip ends."
+        },
+        {
+          "id": "kc-mock-ride-estimates",
+          "statement": "In the ride hailing mock, the estimate starts from active drivers and update interval, and uses the resulting location writes per second to justify an in-memory geospatial store."
+        },
+        {
+          "id": "kc-mock-ride-spatial-choice",
+          "statement": "In the ride hailing mock, the spatial index choice (geohash or quadtree) is stated with its precision, how it enumerates every cell covering the search radius, and the exact-distance filter."
+        },
+        {
+          "id": "kc-mock-ride-contention",
+          "statement": "In the ride hailing mock, the deep dive shows how an atomic driver claim prevents double dispatch, and what happens when a matcher fails mid-offer."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Ride hailing is a named classic prompt in the outcome."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-case-ride-hailing",
+          "reason": "The mock applies that design under time."
+        },
+        {
+          "topic": "sd-mock-method",
+          "reason": "The answer is scored with the mock rubric."
+        }
+      ],
+      "suggests": [
+        "sd-quadtree"
+      ],
+      "confusable_with": [],
+      "introduces": [],
+      "uses": [
+        "mock interview",
+        "mock rubric",
+        "ride hailing design",
+        "location update",
+        "driver matching",
+        "geohash",
+        "geohash precision",
+        "quadtree"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "requirements-5/requirements"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "identify-and-resolve-bottlenecks-6/identify-and-resolve-bottlenecks"
+        }
+      ],
+      "problem_ideas": [
+        "Core activity: in one uninterrupted 45-minute attempt, submit a complete answer for 5M drivers and 20M daily rides covering all seven rubric areas; then score each area in a separate review.",
+        "Variant: add shared rides (pooling). Say what changes in matching.",
+        "Interviewer pushback: 'Why not store locations in Postgres with PostGIS?' Respond with numbers.",
+        "Variant: a region's location cluster fails. Design the degraded mode.",
+        "Spend 5 minutes on the deep dive: ETA ranking vs straight-line distance.",
+        "Score a sample answer that stored every location update forever."
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.85,
+        "reason": "A favourite senior-leaning prompt; a full 45-minute attempt combines estimation, spatial indexing and contention."
+      }
+    },
+    {
+      "id": "sd-mock-unseen-prompt",
+      "title": "Timed mock: an unseen prompt",
+      "size": "big",
+      "est_min": 40,
+      "section": "mocks",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-mock-unseen-map-pattern",
+          "statement": "Faced with an unseen prompt, the learner maps it within 5 minutes to known patterns (feed, chat, booking, media pipeline, location) and names which building blocks carry over."
+        },
+        {
+          "id": "kc-mock-unseen-novel-part",
+          "statement": "In an unseen-prompt mock, the deep dive is spent on the part that no known pattern covers, for example inventory consistency in e-commerce, not on re-explaining standard components."
+        },
+        {
+          "id": "kc-mock-unseen-tradeoffs",
+          "statement": "In an unseen-prompt mock, every major choice (store type, consistency level, sync vs async) is stated with one trade-off and the requirement that drove it."
+        },
+        {
+          "id": "kc-mock-unseen-availability",
+          "statement": "In an unseen-prompt mock, the bottleneck review includes an availability figure in nines for the critical path, computed from component availabilities in series and parallel."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Real interviews often use prompts the learner hasn't rehearsed, so the outcome needs transfer beyond the four classics."
+        },
+        {
+          "outcome": "o5",
+          "reason": "The outcome's computed availability figure is produced here on a fresh design."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-mock-method",
+          "reason": "The answer is scored with the mock rubric."
+        },
+        {
+          "topic": "sd-availability-series-parallel",
+          "reason": "Computing the critical-path availability needs the series and parallel formulas."
+        }
+      ],
+      "suggests": [
+        "sd-case-ticket-booking",
+        "sd-case-payment-system"
+      ],
+      "confusable_with": [],
+      "introduces": [],
+      "uses": [
+        "mock interview",
+        "mock rubric",
+        "trade-off",
+        "availability in series",
+        "availability in parallel",
+        "availability nines",
+        "storage design",
+        "failure mode analysis"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-e-commerce-store-like-amazon"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-airbnb"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-food-delivery-app-like-doordash"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-spotify"
+        }
+      ],
+      "problem_ideas": [
+        "Core activity: run 'design an e-commerce checkout' cold as one uninterrupted 45-minute attempt, submit the complete seven-area answer, then score it in a separate review.",
+        "Run 'design DoorDash' and name which parts reuse the ride hailing design.",
+        "Run 'design Spotify' and identify the media pipeline and the novel part.",
+        "Compute critical-path availability for LB → API → DB (99.99%, 99.9%, 99.95%) with 2 API replicas.",
+        "Variant: the interviewer changes the read/write ratio mid-interview. Adapt in 3 minutes.",
+        "Map five unfamiliar prompts to patterns in 60 seconds each."
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.85,
+        "reason": "Interviewers deliberately pick unfamiliar prompts; a full 45-minute cold attempt trains transfer rather than recall."
+      }
+    }
+  ],
+  "groups": {}
+}

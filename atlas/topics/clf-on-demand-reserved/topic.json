@@ -1,0 +1,79 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-on-demand-reserved",
+  "version": 1,
+  "title": "On-Demand pricing and Reserved Instances",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-on-demand-pricing",
+      "version": 1,
+      "statement": "On-Demand Instances are billed per second (60-second minimum for Linux) or per hour with no long-term commitment, which suits short-term, spiky or unpredictable workloads that must not be interrupted."
+    },
+    {
+      "id": "kc-ri-term-payment",
+      "version": 1,
+      "statement": "Reserved Instances commit to a 1- or 3-year term for up to 72% off On-Demand; All Upfront gives the largest discount, then Partial Upfront, then No Upfront, and a 3-year term beats a 1-year term."
+    },
+    {
+      "id": "kc-standard-vs-convertible-ri",
+      "version": 1,
+      "statement": "A Standard RI gives the larger discount but cannot change instance family; a Convertible RI can be exchanged for a different instance family, operating system or tenancy in return for a smaller discount."
+    },
+    {
+      "id": "kc-regional-ri-flexibility",
+      "version": 1,
+      "statement": "A Regional RI applies its discount to matching usage in any Availability Zone of its Region and, for Linux, across sizes within the same instance family; a zonal RI also reserves capacity in one specific AZ."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "clf-pricing-fundamentals"
+  ],
+  "confusable_with": [
+    "clf-savings-plans"
+  ],
+  "introduces": [
+    "on-demand pricing",
+    "reserved instances",
+    "standard reserved instance",
+    "convertible reserved instance",
+    "regional reserved instance",
+    "zonal reserved instance"
+  ],
+  "uses": [
+    "ec2 instance",
+    "instance family",
+    "region",
+    "availability zone"
+  ],
+  "problem_ideas": [
+    "An m5.large costs $0.096/hour On-Demand and $0.060/hour as a 1-year RI: predict the yearly saving for one always-on instance.",
+    "Rank All Upfront, Partial Upfront and No Upfront 3-year RIs from cheapest to most expensive effective hourly rate.",
+    "A company expects to switch from m5 to m7g instances next year but wants to commit now: Standard or Convertible RI?",
+    "A Regional RI for one m5.xlarge (Linux): predict how many m5.large instances it can fully discount.",
+    "A 3-hour weekend load test: why is On-Demand the right choice over any RI?",
+    "A zonal RI is bought in us-east-1a but the instance runs in us-east-1b: does the discount apply?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "ec2/purchasing-options"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-1-compare-aws-pricing-m/identifying-when-to-use-various-compute-"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-1-compare-aws-pricing-m/describing-reserved-instance-flexibility"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/compute-pricing"
+    }
+  ],
+  "status": "stub"
+}

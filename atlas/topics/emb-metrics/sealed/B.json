@@ -1,0 +1,49 @@
+[
+  {
+    "id": "q-proof2-recs",
+    "version": 1,
+    "family": "q-proof2-recs",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-metrics",
+    "kcs": [
+      "kc-metrics-normalization",
+      "kc-production-pitfalls"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "**Transfer:** a music app recommends “songs like this one” using song embeddings. Users complain that the same 5 viral songs appear for everything. The vectors aren't normalized and ranking uses dot product. Explain:",
+    "options": [
+      {
+        "id": "a",
+        "md": "The viral songs' vectors have large magnitudes (perhaps encoding popularity), so they win the dot product. Normalize, or use cosine if popularity shouldn't dominate",
+        "correct": true,
+        "why_md": "Right. This is the long-document bug in a new costume."
+      },
+      {
+        "id": "b",
+        "md": "Viral songs are genuinely similar to everything",
+        "why_md": "The pattern (the same items everywhere) points to magnitude, or to hubness."
+      },
+      {
+        "id": "c",
+        "md": "The ANN index is too small",
+        "why_md": "Index size doesn't produce this pattern."
+      }
+    ],
+    "hints": [
+      "Which idea applies? For unit vectors, cosine, dot product and Euclidean distance give identical rankings.",
+      "Right."
+    ],
+    "solution_md": "Right. This is the long-document bug in a new costume.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

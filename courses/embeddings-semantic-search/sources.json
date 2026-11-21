@@ -1,0 +1,143 @@
+{
+  "entries": [
+    {
+      "id": "roadmap-ai-engineer",
+      "kind": "roadmap.sh",
+      "ref": "https://roadmap.sh/ai-engineer",
+      "fetched": "2026-11-17",
+      "sha256": "6c1ebdfc1428912008b4e7b02ae28bfaf0efe3c2e23c84fbb0e091160ff36ec3",
+      "sections": [
+        {
+          "id": "embeddings",
+          "title": "Embeddings",
+          "order": 1,
+          "entries": [
+            {
+              "id": "what-are-embeddings",
+              "title": "What are embeddings",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "semantic-search",
+              "title": "Semantic search",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "use-cases",
+              "title": "Use cases for embeddings",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "vector-databases",
+          "title": "Vector databases",
+          "order": 2,
+          "entries": [
+            {
+              "id": "indexing-embeddings",
+              "title": "Indexing embeddings",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "performing-similarity-search",
+              "title": "Performing similarity search",
+              "edge_kind": "solid"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "strata-pack",
+      "kind": "pack",
+      "ref": "adhyayan/topics/embeddings.json",
+      "fetched": "2026-11-17",
+      "sha256": "d483d583819b0cc086ab311582cc37830974da60c4a26604a2f409323432af70",
+      "sections": [
+        {
+          "id": "basics",
+          "title": "Meaning as numbers",
+          "order": 1,
+          "entries": []
+        },
+        {
+          "id": "intermediate",
+          "title": "Making retrieval good",
+          "order": 2,
+          "entries": []
+        },
+        {
+          "id": "advanced",
+          "title": "Retrieval at scale",
+          "order": 3,
+          "entries": []
+        }
+      ]
+    },
+    {
+      "id": "sentence-transformers",
+      "kind": "docs",
+      "ref": "https://www.sbert.net/",
+      "fetched": "2026-11-17",
+      "sha256": "e4d1f07d3fcd9b50987dd699561525b73817e02f4463730babd0d420f2a50850",
+      "sections": [
+        {
+          "id": "usage",
+          "title": "Usage",
+          "order": 1,
+          "entries": [
+            {
+              "id": "semantic-textual-similarity",
+              "title": "Semantic textual similarity"
+            },
+            {
+              "id": "semantic-search",
+              "title": "Semantic search"
+            },
+            {
+              "id": "training-overview",
+              "title": "Training overview"
+            },
+            {
+              "id": "max-seq-length",
+              "title": "Input sequence length"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faiss-docs",
+      "kind": "docs",
+      "ref": "https://github.com/facebookresearch/faiss/wiki",
+      "fetched": "2026-11-17",
+      "sha256": "9f15401609ade7729b7f13b4d1db7e25913a3761f581b30f050e0f4ef113ccca",
+      "sections": [
+        {
+          "id": "indexes",
+          "title": "Faiss indexes",
+          "order": 1,
+          "entries": [
+            {
+              "id": "flat",
+              "title": "IndexFlat (exact)"
+            },
+            {
+              "id": "ivf",
+              "title": "IndexIVFFlat"
+            },
+            {
+              "id": "hnsw",
+              "title": "IndexHNSW"
+            },
+            {
+              "id": "pq",
+              "title": "Product quantization"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

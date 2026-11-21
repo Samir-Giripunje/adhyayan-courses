@@ -1,0 +1,56 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-instance-store",
+  "version": 1,
+  "title": "Instance store: fast but temporary",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-instance-store-ephemeral",
+      "version": 1,
+      "statement": "Instance store is block storage physically attached to the EC2 host. Its data survives a reboot but is lost when the instance is stopped or terminated, or when the underlying disk fails."
+    },
+    {
+      "id": "kc-instance-store-use",
+      "version": 1,
+      "statement": "Instance store gives the highest I/O performance at no extra charge, so it suits buffers, caches, scratch data and data replicated elsewhere; anything that must persist belongs on EBS."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-ebs"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-ebs"
+  ],
+  "introduces": [
+    "instance store",
+    "ephemeral storage"
+  ],
+  "uses": [
+    "block storage",
+    "ebs",
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "Predict what is left on an instance store volume after a reboot, a stop/start and a termination.",
+    "A distributed cache rebuilds itself from peers: is instance store safe here, and why?",
+    "A finance app writes transaction records to instance store: name the risk and the fix.",
+    "Rank EBS gp3 and instance store on I/O performance and on durability.",
+    "A distractor says instance store volumes can be detached and moved to another instance: correct it.",
+    "Choose storage for temporary video-render frames that are uploaded to S3 when finished."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "ec2-instance-storage/ec2-instance-store"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/identifying-block-storage-solutions-for-"
+    }
+  ],
+  "status": "stub"
+}

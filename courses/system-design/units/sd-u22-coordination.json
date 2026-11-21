@@ -1,0 +1,34 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u22-coordination",
+  "title": "Microservices, distributed transactions and coordination",
+  "topics": [
+    {
+      "id": "sd-microservices",
+      "tier": "optional",
+      "order": 1
+    },
+    {
+      "id": "sd-two-phase-commit",
+      "tier": "optional",
+      "order": 2
+    },
+    {
+      "id": "sd-sagas",
+      "tier": "recommended",
+      "order": 3
+    },
+    {
+      "id": "sd-leader-election",
+      "tier": "optional",
+      "order": 4
+    },
+    {
+      "id": "sd-consensus",
+      "tier": "optional",
+      "order": 5
+    }
+  ],
+  "halfway_after": null,
+  "status": "stub"
+}

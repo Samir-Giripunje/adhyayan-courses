@@ -1,0 +1,807 @@
+[
+  {
+    "id": "sd-https-tls/set-1",
+    "family": "sd-https-tls-tls-mtls-why-not-browsers",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-mtls"
+    ],
+    "prompt_md": "A food-delivery company uses mTLS between its app servers and its internal payment service. It uses **ordinary** TLS between customers' browsers and its website `www.example.com`. Why do public websites rarely use mTLS with browsers?",
+    "options": [
+      {
+        "id": "a",
+        "md": "mTLS doesn't encrypt the traffic. It only checks identities.",
+        "why_md": "Wrong. mTLS encrypts the traffic just like ordinary TLS does. It adds a check of the client's certificate on top."
+      },
+      {
+        "id": "b",
+        "md": "Ordinary users don't have certificates, so websites have them log in with a password inside HTTPS instead",
+        "correct": true,
+        "why_md": "Right. mTLS needs every client to hold a certificate and its private key. A company's own CA can issue certificates to its internal services. Members of the public don't have one, so they log in with passwords inside HTTPS."
+      },
+      {
+        "id": "c",
+        "md": "It isn't needed, because ordinary TLS already proves who the browser is",
+        "why_md": "Wrong. Ordinary TLS authenticates only the server. TLS alone tells the server nothing about who the client is.",
+        "misconception": "mc-tls-authenticates-client"
+      },
+      {
+        "id": "d",
+        "md": "mTLS works only between machines on the same private network",
+        "why_md": "Wrong. mTLS doesn't depend on the network. Companies use it inside their systems because their services can be given certificates there, not because it only works on private addresses."
+      }
+    ],
+    "hints": [
+      "Think about what mTLS asks the **client** to present during the handshake.",
+      "In mTLS the client must send its own certificate and sign with its private key. Does a typical customer's laptop or phone have one?"
+    ],
+    "solution_md": "1. mTLS adds one step to the handshake: the server asks the client for a certificate, and the client signs the handshake with the matching private key.\n2. A company's own CA can issue each internal service a certificate automatically. Members of the public have no certificate, and getting one installed for every user isn't practical.\n3. So public websites use ordinary TLS, which authenticates only the server. Users prove who they are by logging in with a password inside HTTPS.\n\n**Answer: b.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/set-2",
+    "family": "sd-https-tls-tls-match-handshake-parts",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "A user opens an online bookshop at `www.example.com` over HTTPS. Match each part of HTTPS to the job it does in that connection. One choice on the right is not used.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "Certificate",
+        "why_md": "A signed document saying that the public key inside belongs to `www.example.com` (r1)."
+      },
+      {
+        "id": "l2",
+        "md": "Certificate authority (CA)",
+        "why_md": "The organisation that checks the site controls the domain and then signs its certificate (r2)."
+      },
+      {
+        "id": "l3",
+        "md": "Session keys",
+        "why_md": "Both sides compute them during the handshake and use them for fast symmetric encryption of the HTTP bytes (r3)."
+      },
+      {
+        "id": "r1",
+        "md": "States that a public key belongs to `www.example.com`, with validity dates and the issuer's name",
+        "why_md": "This describes the certificate."
+      },
+      {
+        "id": "r2",
+        "md": "Checks that the site controls the domain, then signs its certificate with its own private key",
+        "why_md": "This describes the certificate authority."
+      },
+      {
+        "id": "r3",
+        "md": "Computed by both sides, never sent over the network, and used to encrypt every HTTP byte with symmetric encryption",
+        "why_md": "This describes the session keys."
+      },
+      {
+        "id": "r4",
+        "md": "Encrypts every HTTP byte with slow public-key (asymmetric) encryption for the whole connection",
+        "why_md": "Nothing in TLS does this. Asymmetric crypto is used only in the handshake, and the HTTP data is encrypted symmetrically.",
+        "misconception": "mc-asymmetric-for-all-data"
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3"
+      }
+    },
+    "hints": [
+      "Remember the handshake's jobs: prove the server's identity (certificate, CA) and agree on session keys.",
+      "Certificate = 'this key belongs to this name'. CA = who signs it. Session keys = the shared symmetric keys for the data."
+    ],
+    "solution_md": "1. A **certificate** says the public key inside belongs to `www.example.com`, and lists its validity dates and issuer → r1.\n2. A **CA** checks that the site controls the domain and signs the certificate → r2.\n3. **Session keys** are computed by both sides during the handshake. They never travel over the network, and they encrypt the HTTP data symmetrically → r3.\n4. r4 isn't used. TLS doesn't use asymmetric encryption for the data.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/set-3",
+    "family": "sd-https-tls-tls-order-connection",
+    "kind": "order",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "A user opens `https://news.example.com/articles/42` in a browser over HTTP/2, on a brand-new TCP connection with a full TLS 1.3 handshake. Put these steps in the order they happen.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The browser checks the certificate: CA signature, name and validity dates",
+        "why_md": "Fourth. The browser can check the certificate only after it has received it."
+      },
+      {
+        "id": "b",
+        "md": "TCP three-way handshake (SYN, SYN-ACK, ACK)",
+        "why_md": "First. TLS runs on top of a TCP connection."
+      },
+      {
+        "id": "c",
+        "md": "The encrypted request `GET /articles/42` is sent",
+        "why_md": "Last. HTTP data is sent only after the server's identity is proved and the keys are agreed."
+      },
+      {
+        "id": "d",
+        "md": "ClientHello: the browser proposes a TLS version and algorithms",
+        "why_md": "Second. This is the browser's first TLS message after the TCP handshake."
+      },
+      {
+        "id": "e",
+        "md": "ServerHello, the certificate and the server's signature come back",
+        "why_md": "Third. This is the server's reply to the ClientHello."
+      }
+    ],
+    "answer": {
+      "sequence": [
+        "b",
+        "d",
+        "e",
+        "a",
+        "c"
+      ]
+    },
+    "hints": [
+      "TLS sits on top of TCP, and HTTP sits on top of TLS. Which layer has to be ready first?",
+      "TCP first, then ClientHello, then the server's reply with the certificate, then the browser's check, then HTTP."
+    ],
+    "solution_md": "1. **TCP handshake** (b): for this TCP-based HTTPS connection, the TCP handshake comes first.\n2. **ClientHello** (d): the browser proposes the TLS settings.\n3. **ServerHello + certificate + signature** (e): the server replies.\n4. **Certificate check** (a): the browser checks the CA signature, the name and the dates.\n5. **Encrypted `GET /articles/42`** (c): HTTP data is sent only after the server's identity is proved and the keys are agreed.\n\nOrder: b, d, e, a, c.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/set-4",
+    "family": "sd-https-tls-tls-rtt-first-byte",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "A user in Lisbon opens a news website. Her round-trip time (RTT) to the site's server is **60 ms**. Her browser opens a **new** connection that uses TCP and a **TLS 1.3** handshake. How many milliseconds pass before the **first byte of the HTTP response** arrives? Ignore DNS, and assume the server answers instantly.",
+    "answer": {
+      "value": 180,
+      "tolerance": 0,
+      "unit": "ms"
+    },
+    "common_wrong": [
+      {
+        "value": 120,
+        "kind": "slip",
+        "why_md": "120 ms is when the request **leaves** (after TCP and TLS). The response needs one more round trip: 120 + 60 = 180."
+      },
+      {
+        "value": 240,
+        "kind": "slip",
+        "why_md": "That counts a 2-RTT handshake, which is TLS 1.2. TLS 1.3 needs only 1 RTT: 60 + 60 + 60 = 180."
+      },
+      {
+        "value": 60,
+        "kind": "misconception",
+        "why_md": "60 ms is only the request/response trip. A new connection first needs the TCP handshake and the TLS handshake."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "rtt = 60\ntcp_rtts = 1\ntls13_rtts = 1\nrequest_response_rtts = 1\nanswer = rtt * (tcp_rtts + tls13_rtts + request_response_rtts)\n"
+    },
+    "hints": [
+      "Count the round trips on a new connection: the TCP handshake, the TLS 1.3 handshake, then the request and its response.",
+      "1 RTT for TCP + 1 RTT for TLS 1.3 + 1 RTT for the request/response = 3 RTTs."
+    ],
+    "solution_md": "1. TCP: SYN out, SYN-ACK back = 1 RTT = 60 ms.\n2. TLS 1.3: ClientHello out, then ServerHello, certificate, signature and Finished back = 1 more RTT, so 120 ms. The request leaves at this point.\n3. The request goes out and the response's first byte comes back = 1 more RTT, so 180 ms.\n\n**Answer: 3 × 60 = 180 ms.** (With TLS 1.2 it would be 240 ms.)",
+    "version": 2,
+    "class": "predict",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/set-5",
+    "family": "sd-https-tls-tls-ar-symmetric-data",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "A traveller on airport Wi-Fi places an order in a shopping app, which sends `POST /orders` to `https://shop.example.com`.\n\n**Assertion (A):** Someone recording the airport Wi-Fi can't read the path `/orders` or the request body.\n\n**Reason (R):** After the handshake, TLS encrypts every HTTP byte with public-key (asymmetric) encryption.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "R is false. TLS uses asymmetric crypto only in the handshake. The HTTP data is encrypted with symmetric session keys.",
+        "misconception": "mc-asymmetric-for-all-data"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R isn't just irrelevant. It is false, because the data is encrypted symmetrically.",
+        "misconception": "mc-asymmetric-for-all-data"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "correct": true,
+        "why_md": "Right. The method, path, headers and body are all inside the encryption, so A is true. R is false: the data is encrypted with fast symmetric encryption using the session keys."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true: HTTPS encrypts the path and body. R is the false one."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. For A, ask what is inside the encryption. For R, ask which kind of encryption protects the data after the handshake.",
+      "The path and body are inside the encryption (A true). The data uses symmetric session keys, not asymmetric encryption (R false)."
+    ],
+    "solution_md": "1. **A:** with HTTPS, the method, path, headers, body and status code are all encrypted. The eavesdropper sees the IP address, port 443, usually the hostname, and how much traffic flows and when. So A is true.\n2. **R:** TLS uses public-key crypto only in the handshake, to check the certificate and agree on session keys. Every HTTP byte afterwards is encrypted with fast symmetric encryption using those keys. So R is false.\n\n**Answer: c (A true, R false).**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/set-6",
+    "family": "sd-https-tls-tls-multi-what-eavesdropper-sees",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "A user in New York, on hotel Wi-Fi, sends `GET /account` with her session cookie over **HTTPS** to an online shop's server at `203.0.113.10`. The server replies `200`. An observer at the hotel router captures her IP packets after Wi-Fi decryption, in both directions. Which of these can that observer read? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The destination IP address `203.0.113.10`",
+        "correct": true,
+        "why_md": "Visible. Packets must carry their destination address outside the TLS encryption so they can be delivered, and this observer sees the IP packets after Wi-Fi decryption."
+      },
+      {
+        "id": "b",
+        "md": "The path `/account`",
+        "why_md": "Hidden. The request line, including the path, is inside the TLS encryption.",
+        "misconception": "mc-wifi-password-is-enough"
+      },
+      {
+        "id": "c",
+        "md": "The destination port 443",
+        "correct": true,
+        "why_md": "Visible. The port is in the TCP header, outside the TLS encryption."
+      },
+      {
+        "id": "d",
+        "md": "The session cookie header",
+        "why_md": "Hidden. Every HTTP header, including cookies, is encrypted by TLS."
+      },
+      {
+        "id": "e",
+        "md": "Roughly how many bytes flow, and when",
+        "correct": true,
+        "why_md": "Visible. Encryption hides the content, not the size or timing of the traffic."
+      },
+      {
+        "id": "f",
+        "md": "The response status code `200`",
+        "why_md": "Hidden. The status code is part of the encrypted HTTP response."
+      }
+    ],
+    "hints": [
+      "Separate what has to stay readable for delivery (addresses, ports, traffic size) from the HTTP message itself, which TLS encrypts.",
+      "Visible to an observer at the router: IP, port 443, size and timing. Encrypted: method, path, headers, cookie, body, status code."
+    ],
+    "solution_md": "The observer sees the user's IP packets after the Wi-Fi protection has been removed, so only TLS stands between them and the HTTP message.\n\n1. **Outside the TLS encryption:** the destination IP `203.0.113.10` (a), port 443 (c), and how many bytes flow and when (e). The site's name usually leaks too, through the DNS lookup and the name sent at the start of the handshake.\n2. **Inside the TLS encryption:** the path `/account` (b), the cookie (d) and the status code `200` (f).\n\nHTTPS hides **what** is said, not **which server** or **how much**. **Answer: a, c, e.**",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/set-7",
+    "family": "sd-https-tls-tls-term-path-routing",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-termination"
+    ],
+    "prompt_md": "A video-streaming website puts an edge proxy in front of two groups of app servers. It wants the proxy to send `/videos/...` requests to one group and `/billing` requests to the other, based on the path. Users connect with HTTPS. Which layout lets the proxy route by path?",
+    "options": [
+      {
+        "id": "a",
+        "md": "TLS passthrough: the proxy forwards the encrypted bytes unopened, and each app server does its own TLS",
+        "why_md": "With passthrough the proxy never decrypts anything, so it can't see paths or headers."
+      },
+      {
+        "id": "b",
+        "md": "TLS passthrough, with the proxy reading the path from the browser's ClientHello",
+        "why_md": "The ClientHello can reveal the site's name, but not the path. The path is part of the HTTP request, which is sent encrypted after the handshake."
+      },
+      {
+        "id": "c",
+        "md": "TLS termination: the proxy holds the certificate, decrypts the request, then forwards plain or re-encrypted HTTP",
+        "correct": true,
+        "why_md": "Right. Once the proxy has decrypted the request, it can read the path and headers and route on them."
+      }
+    ],
+    "hints": [
+      "To route on the path, the proxy has to be able to read the HTTP request. Which layout decrypts it at the proxy?",
+      "Only termination makes the proxy the end of the browser's TLS connection, so only termination lets it see `/billing`."
+    ],
+    "solution_md": "1. The path is inside the encrypted HTTP request.\n2. With **passthrough**, the proxy forwards ciphertext and never sees the path. The ClientHello carries at most the site's name.\n3. With **termination**, the proxy completes the handshake and decrypts the request. It can then route `/videos/...` and `/billing` to different app servers, whether the hop behind it is plain or re-encrypted.\n\n**Answer: c.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/set-8",
+    "family": "sd-https-tls-tls-pattern-mtls-inventory",
+    "kind": "pattern_id",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-mtls"
+    ],
+    "prompt_md": "An online shop runs an internal **inventory service**. It checks every incoming connection: the caller must present a certificate signed by the company's own internal CA that names `orders` or `checkout`, and must sign the handshake with the matching private key. The traffic is encrypted. Which pattern is this?",
+    "options": [
+      {
+        "id": "a",
+        "md": "TLS termination",
+        "why_md": "Termination is about where a proxy decrypts traffic. It says nothing about checking the caller's certificate."
+      },
+      {
+        "id": "b",
+        "md": "TLS passthrough",
+        "why_md": "Passthrough means a proxy forwards encrypted bytes unopened. It doesn't describe checking who the client is."
+      },
+      {
+        "id": "c",
+        "md": "Ordinary HTTPS with a server certificate only",
+        "why_md": "In ordinary TLS only the server shows a certificate. The inventory service would learn nothing about who the caller is.",
+        "misconception": "mc-tls-authenticates-client"
+      },
+      {
+        "id": "d",
+        "md": "Mutual TLS (mTLS)",
+        "correct": true,
+        "why_md": "Right. The client also presents a certificate and proves it holds the private key, so both sides are authenticated."
+      }
+    ],
+    "hints": [
+      "Look at who has to show a certificate here: only the server, or the caller too?",
+      "When the server also demands and checks a client certificate, the TLS is mutual."
+    ],
+    "solution_md": "1. The inventory service asks the **caller** for a certificate from the internal CA and checks the name on it (`orders` or `checkout`).\n2. The caller proves it holds the private key by signing the handshake.\n3. Both sides authenticated, with encrypted traffic, is **mutual TLS**. Termination and passthrough describe where a proxy decrypts. Ordinary HTTPS authenticates only the server.\n\n**Answer: d.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 45,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/set-9",
+    "family": "sd-https-tls-tls-case-card-hop",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-tls-termination"
+    ],
+    "prompt_md": "An online shop at `shop.example.com` has an edge proxy in front of its app servers. It is starting to take card payments, so card numbers will pass through the edge proxy to the app servers. Security sets two goals:\n\n1. **Must:** card data is encrypted on **every** hop, including inside the company's private network.\n2. **Want:** the edge proxy routes requests by path, and the `shop.example.com` private key lives in as few places as possible.\n\nWhich layout do you choose?",
+    "options": [
+      {
+        "id": "a",
+        "md": "TLS passthrough: the proxy forwards the encrypted bytes, and each app server holds the `shop.example.com` key",
+        "why_md": "Viable, second-best. It meets the must-have, because traffic stays encrypted all the way to the app server. But the proxy can't see paths, and the private key is copied to every app server."
+      },
+      {
+        "id": "b",
+        "md": "Terminate TLS at the edge proxy, then re-encrypt with a separate TLS connection to each app server",
+        "correct": true,
+        "why_md": "Best. Every hop is encrypted, the proxy can read and route by path, and the site's private key stays on the proxy. The cost is extra TLS work on the app servers."
+      },
+      {
+        "id": "c",
+        "md": "Terminate TLS at the edge proxy and forward plain HTTP, since the customer's URL is https anyway",
+        "why_md": "Trap. The browser's TLS connection ends at the proxy. The hop to the app server would carry card numbers in plain text, readable by anyone who can watch the internal network.",
+        "misconception": "mc-termination-is-end-to-end"
+      }
+    ],
+    "hints": [
+      "Test each layout against both goals. Ask where TLS ends, and whether the proxy can read the path.",
+      "Plain HTTP inside breaks the must-have. Passthrough keeps encryption but loses routing and spreads the key. One layout gets both."
+    ],
+    "solution_md": "1. **Plain HTTP after termination (c):** TLS ends at the proxy, so card data crosses the private network unencrypted. This fails the must-have.\n2. **Passthrough (a):** encrypted all the way, so it meets the must-have. But the proxy can't read paths, and every app server needs the private key. It is second-best.\n3. **Terminate and re-encrypt (b):** the proxy decrypts, so it can route by path and the key stays in one place. Then it opens a new TLS connection to the app server, so every hop is encrypted. It meets both goals.\n\n**Answer: b.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/set-10",
+    "family": "sd-https-tls-tls-multi-mtls-copied-cert",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-mtls",
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "An online shop's internal payment service uses mTLS. It trusts only the company's internal CA and accepts only clients whose certificate names `orders`. An attacker breaks into another internal machine and copies the orders service's **certificate file**, but **not** its private key. The attacker's program then tries to call the payment service with that certificate. Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The handshake fails, because the attacker's program can't sign the handshake with the private key that matches the certificate",
+        "correct": true,
+        "why_md": "True. Presenting the certificate isn't enough. The client must also sign with the matching private key, which the attacker doesn't have."
+      },
+      {
+        "id": "b",
+        "md": "The attacker succeeds, because the copied certificate is signed by the internal CA and names `orders`",
+        "why_md": "False. A certificate is public information. Without the matching private key, the attacker can't produce the handshake signature."
+      },
+      {
+        "id": "c",
+        "md": "Copying the certificate alone gives no access, because a certificate is public information meant to be shown to others",
+        "correct": true,
+        "why_md": "True. A certificate only binds a public key to a name. Proof of identity comes from signing with the private key."
+      },
+      {
+        "id": "d",
+        "md": "If the payment service used ordinary TLS with only its own server certificate, TLS itself would not stop the attacker's program from connecting",
+        "correct": true,
+        "why_md": "True. Ordinary TLS authenticates only the server. Any client that connects gets an encrypted connection."
+      },
+      {
+        "id": "e",
+        "md": "mTLS identifies the caller by its IP address, so the attacker is stopped only if its machine has a different address",
+        "why_md": "False. mTLS identifies the caller by its certificate and the private-key signature, not by its IP address."
+      }
+    ],
+    "hints": [
+      "In mTLS, the client must do two things: present a certificate, and sign the handshake with the private key that matches it.",
+      "The attacker can do the first but not the second. Then ask what ordinary TLS checks about the client: nothing."
+    ],
+    "solution_md": "1. In mTLS the payment service checks the client certificate (internal CA, dates, the name `orders`) **and** checks that the client signed the handshake with the matching private key.\n2. The attacker has only the certificate, which is public, so the signature step fails and the handshake is rejected: (a) and (c) are true, and (b) is false.\n3. Ordinary TLS checks no client certificate at all, so it would let the attacker's program connect: (d) is true.\n4. Identity comes from certificates and keys, not IP addresses: (e) is false.\n\n**Answer: a, c, d.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/set-11",
+    "family": "sd-https-tls-tls-copied-server-cert",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "An attacker controls the Wi-Fi router in a café. When a customer's browser connects to `shop.example.com`, the router intercepts the connection and sends back the shop's **real** certificate, which it saved from an earlier connection. The attacker doesn't have the shop's private key. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The handshake fails: the attacker can't sign the handshake with the shop's private key, so the browser shows an error instead of the site",
+        "correct": true,
+        "why_md": "Right. The certificate is public, so anyone can copy it. Only the holder of the matching private key can produce the handshake signature."
+      },
+      {
+        "id": "b",
+        "md": "The browser connects normally, because the certificate is signed by a trusted CA, names `shop.example.com` and is in date",
+        "why_md": "Those three checks pass, but the server must also sign the handshake with the certificate's private key. The attacker can't, so the connection fails.",
+        "misconception": "mc-padlock-trustworthy"
+      },
+      {
+        "id": "c",
+        "md": "The browser connects, and the attacker can read the traffic because certificates are public",
+        "why_md": "Being public is exactly why a copied certificate proves nothing. Without the private key the attacker can't complete the handshake, so there is no traffic to read."
+      },
+      {
+        "id": "d",
+        "md": "The browser connects, but encrypts all the data with the shop's public key, so the attacker still can't read it",
+        "why_md": "TLS doesn't encrypt the data with the server's public key. The handshake fails before any data is sent, and data is encrypted with symmetric session keys anyway.",
+        "misconception": "mc-asymmetric-for-all-data"
+      }
+    ],
+    "hints": [
+      "The browser checks three things about the certificate. What else must the real server do, which needs something that isn't in the certificate?",
+      "The server signs the handshake with its private key. The attacker copied the certificate but doesn't have the key."
+    ],
+    "solution_md": "1. The copied certificate passes the browser's three checks: the CA signature, the name and the dates.\n2. But the server must also **sign the handshake with the private key** that matches the certificate's public key.\n3. The attacker doesn't have the shop's private key, so the signature check fails. The browser stops the connection and shows an error (often a security warning), and no HTTP data is sent.\n\n**Answer: a.**",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/set-12",
+    "family": "sd-https-tls-tls-incident-internal-capture",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-tls-termination"
+    ],
+    "prompt_md": "An online shop at `shop.example.com` has an edge proxy in front of its app servers. During a security audit, a packet capture taken on the company's **private network** shows readable card numbers in `POST /orders` requests going from the edge proxy to app server `10.0.1.12`. Customers' browsers show `https://shop.example.com` with no warnings. What is the most likely explanation and fix?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The `shop.example.com` certificate has expired. Renew it.",
+        "why_md": "An expired certificate makes browsers show a full-page warning. Customers see no warnings, and renewing wouldn't change the internal hop."
+      },
+      {
+        "id": "b",
+        "md": "HTTPS encrypts headers but not request bodies. Move the card number into a header.",
+        "why_md": "HTTPS encrypts the whole HTTP message, body included. The problem is where TLS ends."
+      },
+      {
+        "id": "c",
+        "md": "The edge proxy terminates TLS and forwards plain HTTP to the app servers. Re-encrypt the proxy-to-app-server hop.",
+        "correct": true,
+        "why_md": "Right. The browser's TLS connection ends at the proxy. If the proxy forwards plain HTTP, the internal hop is readable. Re-encrypting it fixes that."
+      },
+      {
+        "id": "d",
+        "md": "The proxy uses TLS passthrough. Switch to termination with plain HTTP inside.",
+        "why_md": "With passthrough, the bytes would still be encrypted on the internal hop, which doesn't match the capture. Switching to plain HTTP inside would make things worse, not better."
+      },
+      {
+        "id": "e",
+        "md": "The capture must be wrong: the URL is https, so the traffic is encrypted all the way to the app server",
+        "why_md": "The https in the URL describes only the connection to the first machine that terminates TLS, which here is the edge proxy.",
+        "misconception": "mc-termination-is-end-to-end"
+      }
+    ],
+    "hints": [
+      "Ask where TLS ends. The browser is happy, so the browser-to-proxy hop is fine. What about the hop after it?",
+      "If the proxy terminates TLS and forwards plain HTTP, the internal hop carries readable bytes. The fix is to re-encrypt that hop."
+    ],
+    "solution_md": "1. Browsers show no warning, so the certificate and the browser-to-proxy TLS are fine. That rules out (a).\n2. HTTPS encrypts the body, so (b) is wrong. Passthrough would leave the internal hop encrypted, so (d) doesn't match the capture.\n3. Readable data between the proxy and `10.0.1.12` means TLS ends at the proxy and the request is forwarded as **plain HTTP**. The https URL covers only the connection to the proxy, so (e) is wrong.\n4. Fix: have the proxy open a separate TLS connection to each app server (re-encryption).\n\n**Answer: c.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/exit-1",
+    "family": "sd-https-tls-tls-exit-data-encryption",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "A user's browser has finished the TLS handshake with `www.example.com`. How are the HTTP request and response bytes protected from now on?",
+    "options": [
+      {
+        "id": "a",
+        "md": "With fast symmetric encryption, using the session keys both sides agreed in the handshake",
+        "correct": true,
+        "why_md": "Right. The handshake uses public-key crypto to prove the server's identity and agree on keys. Then the data is encrypted symmetrically."
+      },
+      {
+        "id": "b",
+        "md": "With asymmetric encryption, using the server's public and private keys for every byte",
+        "why_md": "Asymmetric encryption is much slower, so TLS uses it only during the handshake.",
+        "misconception": "mc-asymmetric-for-all-data"
+      },
+      {
+        "id": "c",
+        "md": "They aren't encrypted. TLS protects only the handshake messages.",
+        "why_md": "The whole point of the handshake is to set up keys that encrypt the HTTP data afterwards."
+      }
+    ],
+    "hints": [
+      "Remember which kind of encryption is fast, and which needs a shared key first.",
+      "The handshake produces shared session keys, and a shared key means symmetric encryption."
+    ],
+    "solution_md": "1. The handshake proves the server's identity and lets both sides agree on the same session keys.\n2. With a shared key in place, TLS encrypts every HTTP byte with fast **symmetric** encryption.\n\n**Answer: a.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/exit-2",
+    "family": "sd-https-tls-tls-exit-where-tls-ends",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-tls-termination"
+    ],
+    "prompt_md": "An online shop's edge proxy (`198.51.100.20`) terminates TLS for `shop.example.com` and forwards requests to app servers such as `10.0.1.13`. The app servers store orders in a PostgreSQL database. A customer's browser opens `https://shop.example.com`. Where does the browser's TLS connection end?",
+    "options": [
+      {
+        "id": "a",
+        "md": "At the app server `10.0.1.13`, because the URL starts with https",
+        "why_md": "With termination, the https in the URL describes only the connection to the proxy.",
+        "misconception": "mc-termination-is-end-to-end"
+      },
+      {
+        "id": "b",
+        "md": "At the PostgreSQL database, where the order is finally stored",
+        "why_md": "The browser never connects to the database. Its TLS connection ends at the first machine that terminates TLS."
+      },
+      {
+        "id": "c",
+        "md": "At the edge proxy `198.51.100.20`",
+        "correct": true,
+        "why_md": "Right. The proxy holds the certificate and private key, completes the handshake and decrypts the request."
+      }
+    ],
+    "hints": [
+      "Which machine holds the `shop.example.com` certificate and private key?",
+      "The machine that holds the key and decrypts the traffic is where the browser's TLS ends."
+    ],
+    "solution_md": "1. With TLS termination, the edge proxy holds the certificate and private key and completes the handshake with the browser.\n2. So the browser's TLS connection ends at the proxy, `198.51.100.20`. Whether the hop to `10.0.1.13` is plain or re-encrypted is a separate decision.\n\n**Answer: c.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-https-tls-r2"
+    }
+  },
+  {
+    "id": "sd-https-tls/exit-3",
+    "family": "sd-https-tls-tls-exit-what-mtls-adds",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-mtls"
+    ],
+    "prompt_md": "What does mutual TLS (mTLS) add to an ordinary TLS handshake?",
+    "options": [
+      {
+        "id": "a",
+        "md": "It encrypts the data twice, once with each side's key",
+        "why_md": "mTLS doesn't double-encrypt the data. It adds authentication of the client."
+      },
+      {
+        "id": "b",
+        "md": "The server also asks the client for a certificate, and the client signs the handshake with its own private key",
+        "correct": true,
+        "why_md": "Right. Both sides then check each other's certificate, so the server learns who the client is."
+      },
+      {
+        "id": "c",
+        "md": "The server checks the client's IP address against a list of allowed callers",
+        "why_md": "mTLS identifies the client by its certificate and private-key signature, not by its IP address."
+      },
+      {
+        "id": "d",
+        "md": "Nothing that matters, because ordinary TLS already proves who the client is",
+        "why_md": "Ordinary TLS authenticates only the server. Client authentication is exactly what mTLS adds.",
+        "misconception": "mc-tls-authenticates-client"
+      }
+    ],
+    "hints": [
+      "In ordinary TLS, which side shows a certificate? What is missing?",
+      "mTLS adds the missing half: the client's certificate and its signature."
+    ],
+    "solution_md": "1. In ordinary TLS, only the server presents a certificate.\n2. mTLS adds the other half. The server asks for a client certificate, the client sends one and signs the handshake with its private key, and the server checks it.\n3. Both sides are then authenticated.\n\n**Answer: b.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-https-tls"
+    }
+  }
+]

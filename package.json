@@ -1,0 +1,17 @@
+{
+  "name": "adhyayan-courses",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Course content for Adhyayan, published as a course catalogue on GitHub Pages.",
+  "license": "CC-BY-SA-4.0",
+  "author": "Samir Giripunje",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Samir-Giripunje/adhyayan-courses.git"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs --check"
+  }
+}

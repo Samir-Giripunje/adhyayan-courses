@@ -1,0 +1,109 @@
+[
+  {
+    "id": "sd-estimation-method/placement-1",
+    "family": "sd-estimation-method-probe-est-daily-to-qps",
+    "kind": "estimate",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-seconds-per-day",
+      "kc-estimation-rounding"
+    ],
+    "prompt_md": "An API serves **50 million** requests per day, spread evenly. Estimate the average number of **requests per second**, rounding the length of a day the way you would in an interview.",
+    "answer": {
+      "value": 500,
+      "tolerance": 100,
+      "unit": "requests/s"
+    },
+    "common_wrong": [
+      {
+        "value": 50,
+        "kind": "slip",
+        "why_md": "That divides by 10⁶ instead of 10⁵. A day has about 10⁵ seconds."
+      },
+      {
+        "value": 5000,
+        "kind": "slip",
+        "why_md": "That divides by 10⁴. A day has 86,400 ≈ 10⁵ seconds, not 10⁴."
+      },
+      {
+        "value": 2083333,
+        "kind": "slip",
+        "why_md": "That is requests per **hour** (divided by 24). Divide by seconds in a day instead."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "requests_per_day = 50_000_000\nseconds_per_day_rounded = 100_000\nanswer = requests_per_day / seconds_per_day_rounded\n"
+    },
+    "hints": [
+      "A day has 86,400 seconds, which rounds to 10⁵.",
+      "5 × 10⁷ ÷ 10⁵ = 5 × 10²."
+    ],
+    "solution_md": "1. Seconds per day: 86,400 ≈ 10⁵.\n2. 50,000,000 ÷ 100,000 = **500 requests/s**.\n3. Using the exact 86,400 gives about 579 requests/s, which is the same order of magnitude.\n\nAccepted range: 400–600 requests/s.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-estimation-method",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  },
+  {
+    "id": "sd-estimation-method/placement-2",
+    "family": "sd-estimation-method-probe-est-powers-of-two-cache",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-powers-of-two"
+    ],
+    "prompt_md": "An in-memory cache holds **2²⁰** entries, and each entry is **2 KB** (2¹¹ bytes). Roughly how much memory does the cache use, in **GB** (1 GB = 10⁹ bytes)? Give one decimal place.",
+    "answer": {
+      "value": 2.15,
+      "tolerance": 0.2,
+      "unit": "GB"
+    },
+    "common_wrong": [
+      {
+        "value": 2048,
+        "kind": "slip",
+        "why_md": "That is the size in MB (2²⁰ × 2 KB = 2 × 2²⁰ KB ≈ 2,000 MB). Divide by 1,000 for GB."
+      },
+      {
+        "value": 0.002,
+        "kind": "slip",
+        "why_md": "That treats 2²⁰ as about 1,000 instead of about 10⁶. 2¹⁰ ≈ 10³, so 2²⁰ ≈ 10⁶."
+      },
+      {
+        "value": 2000,
+        "kind": "slip",
+        "why_md": "That is about 2,000 MB written as if it were GB. Convert MB to GB by dividing by 1,000."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "total_bytes = 2**20 * 2**11\nanswer = round(total_bytes / 1e9, 2)\n"
+    },
+    "hints": [
+      "Add the exponents: 2²⁰ × 2¹¹ = 2³¹. Then use 2³⁰ ≈ 10⁹ bytes = 1 GB.",
+      "2³¹ = 2 × 2³⁰ ≈ 2 × 10⁹ bytes ≈ 2 GB (exactly about 2.15 GB)."
+    ],
+    "solution_md": "1. Total bytes: 2²⁰ × 2¹¹ = 2³¹.\n2. 2³⁰ ≈ 10⁹ bytes = 1 GB, so 2³¹ ≈ **2 GB**.\n3. Exactly, 2³¹ = 2,147,483,648 bytes ≈ 2.15 GB.\n\nAccepted range: 1.95–2.35 GB, so both the quick estimate of 2 and the exact 2.15 count.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-estimation-method",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  }
+]

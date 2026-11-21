@@ -1,0 +1,84 @@
+{
+  "goal_text": "AWS Certified Cloud Practitioner CLF2",
+  "pasted": [],
+  "chips": {
+    "level": "some",
+    "target": "exam",
+    "depth": "working",
+    "daily_min": 60,
+    "days": [
+      "mon",
+      "tue",
+      "thu",
+      "sat"
+    ]
+  },
+  "parsed_from": [
+    {
+      "chip": "target",
+      "phrase": "Certified"
+    }
+  ],
+  "fork": {
+    "question": "How much of the AWS Cloud Practitioner ground do you want to cover?",
+    "chosen": "full-exam",
+    "cards": [
+      {
+        "id": "full-exam",
+        "label": "Full CLF-C02 prep: all four exam domains, practice by domain, and two timed mock exams",
+        "stages": [
+          "Cloud concepts and the AWS value proposition",
+          "Global infrastructure, accounts and access",
+          "Core services: compute and storage",
+          "Core services: networking, content delivery and databases",
+          "Security, governance and compliance services",
+          "Deploying, operating and monitoring on AWS",
+          "Integration, analytics, AI/ML and migration services",
+          "Billing, pricing and support",
+          "Exam readiness: strategy and full mocks"
+        ],
+        "effort_h": [
+          45,
+          60
+        ]
+      },
+      {
+        "id": "fast-track",
+        "label": "Fast track: only the most heavily tested concepts and services, then mocks (riskier on niche questions)",
+        "stages": [
+          "Cloud concepts and the AWS value proposition",
+          "Global infrastructure, accounts and access",
+          "Core services: compute and storage",
+          "Core services: networking, content delivery and databases",
+          "Security, governance and compliance services",
+          "Billing, pricing and support",
+          "Exam readiness: strategy and full mocks"
+        ],
+        "effort_h": [
+          28,
+          38
+        ]
+      },
+      {
+        "id": "bridge-associate",
+        "label": "CLF-C02 plus a bridge to Solutions Architect Associate (deeper VPC, storage and resilience design)",
+        "stages": [
+          "Cloud concepts and the AWS value proposition",
+          "Global infrastructure, accounts and access",
+          "Core services: compute and storage",
+          "Core services: networking, content delivery and databases",
+          "Security, governance and compliance services",
+          "Deploying, operating and monitoring on AWS",
+          "Integration, analytics, AI/ML and migration services",
+          "Billing, pricing and support",
+          "Exam readiness: strategy and full mocks",
+          "Associate bridge: resilient and high-performing architectures"
+        ],
+        "effort_h": [
+          85,
+          115
+        ]
+      }
+    ]
+  }
+}

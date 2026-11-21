@@ -1,0 +1,227 @@
+[
+  {
+    "id": "sd-client-server/test-a1",
+    "family": "sd-client-server-cs-forms-delivery-app-server-role",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "Dishly is a food-delivery service. A customer's phone app sends \"place order #8812\" to a Dishly app server. To complete the order, the Dishly app server sends \"can you accept order #8812?\" to the restaurant's own ordering system and waits for its reply.\n\nIn the exchange **between the Dishly app server and the restaurant's ordering system**, what is the Dishly app server?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The server, because it is a Dishly app server",
+        "why_md": "The name describes the machine's usual job, not its role here. In this exchange it sends the request and waits for the answer, so it is the client.",
+        "misconception": "mc-server-never-client"
+      },
+      {
+        "id": "b",
+        "md": "The client, because it sends the request and waits for the reply",
+        "correct": true,
+        "why_md": "Right. Client and server are roles in a single exchange: whoever asks is the client. Here the app server asks and the restaurant's system answers."
+      },
+      {
+        "id": "c",
+        "md": "Neither, because a server cannot send requests of its own",
+        "why_md": "Servers often send requests of their own, for example to a database or an outside service. When they do, they are the client in that exchange.",
+        "misconception": "mc-server-never-client"
+      },
+      {
+        "id": "d",
+        "md": "The client, and from then on it is the client in every exchange, including the one with the customer's phone",
+        "why_md": "Roles belong to one exchange at a time. With the customer's phone, the phone asks and the app server answers, so there the app server is still the server."
+      }
+    ],
+    "hints": [
+      "Client and server are roles in one exchange: who asks, and who answers?",
+      "In this exchange the Dishly app server sends the question and waits, and the restaurant's system answers. Whoever asks is the client."
+    ],
+    "solution_md": "1. Look only at the exchange the question names: Dishly app server → restaurant ordering system.\n2. The Dishly app server sends the request (\"can you accept order #8812?\") and waits. The restaurant's system answers.\n3. Whoever asks is the **client** and whoever answers is the **server**, so here the Dishly app server is the client.\n4. This is a role in one exchange, not a fixed label. With the customer's phone, the Dishly app server is still the server.\n\n**Answer: b.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/test-a2",
+    "family": "sd-client-server-cs-forms-library-who-starts",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "A city library runs an online catalogue. A patron types *bird guides* into the catalogue page in her browser and the results appear.\n\n**Assertion (A):** The results appear because the patron's browser sent a search request and the catalogue server returned a response.\n\n**Reason (R):** In a client-server request–response exchange, the client sends the request, and the server waits for requests, processes them and returns a response.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. A is what happens in this case. R is the general rule that produces it: the browser (client) asks, and the catalogue server waits, does the search and answers."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "Both are true, but R is exactly why A happens. The results arrive only because the client asked and the server responded."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true. In a request–response exchange the client sends the request and the server answers it.",
+        "misconception": "mc-server-starts"
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. The search results are the response to the browser's search request.",
+        "misconception": "mc-server-starts"
+      }
+    ],
+    "hints": [
+      "Judge A and R separately, then ask whether R is the reason A happens.",
+      "The browser asks (client), and the catalogue server waits, searches and answers (server). R states that rule, and A is that rule applied here."
+    ],
+    "solution_md": "1. **A:** The patron's browser sends the search *bird guides*, and the catalogue server processes it and sends back the results. A is true.\n2. **R:** This is how a client-server request–response exchange works: the client sends the request, and the server waits, processes it and responds. R is true.\n3. **Does R explain A?** Yes. The results appear *because* the client asked and the server answered.\n\n**Answer: a.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/test-a3",
+    "family": "sd-client-server-cs-forms-bank-tier-match",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-three-tier"
+    ],
+    "prompt_md": "Northvale Bank's online banking uses a three-tier architecture. Match each component to its tier.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "The Northvale mobile banking app on a customer's phone",
+        "why_md": "This is what the customer sees and taps: the presentation tier."
+      },
+      {
+        "id": "l2",
+        "md": "Northvale's servers that enforce the rule \"a transfer may not exceed the available balance\"",
+        "why_md": "This is a product rule, which is business logic. Business logic runs in the application tier."
+      },
+      {
+        "id": "l3",
+        "md": "The database that stores account balances and transaction history",
+        "why_md": "It stores data and answers queries: the data tier."
+      },
+      {
+        "id": "r1",
+        "md": "Presentation tier",
+        "why_md": "Fits the mobile banking app."
+      },
+      {
+        "id": "r2",
+        "md": "Application tier",
+        "why_md": "Fits the servers that enforce the transfer rule."
+      },
+      {
+        "id": "r3",
+        "md": "Data tier",
+        "why_md": "Fits the database of balances and transactions."
+      },
+      {
+        "id": "r4",
+        "md": "None of the three tiers: it sits outside the design",
+        "why_md": "Never right here. All three components belong to a tier: the app is presentation, the rule-checking servers are application and the database is data."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3"
+      }
+    },
+    "hints": [
+      "Ask what each component does: show things to the user, run the product's rules, or store data.",
+      "App on the phone → presentation. Servers checking the transfer rule (business logic) → application. Database of balances → data."
+    ],
+    "solution_md": "1. **Mobile banking app:** it shows screens and collects taps, so it belongs to the **presentation tier** (r1).\n2. **Servers enforcing \"a transfer may not exceed the available balance\":** this is a business rule, and business logic runs in the **application tier** (r2).\n3. **Database of balances and transactions:** it stores and returns data, so it belongs to the **data tier** (r3).\n4. r4 fits nothing, because every component belongs to one of the three tiers.\n\n**Answer: l1→r1, l2→r2, l3→r3.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/test-a4",
+    "family": "sd-client-server-cs-forms-exam-scale-case",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-three-tier"
+    ],
+    "prompt_md": "Quizora runs online exams on a three-tier architecture: students' browsers, app servers that run the exam logic (timing each exam, shuffling questions, applying the marking rules) and one database.\n\nAt 9:00, when thousands of students start the same exam, pages load slowly. The monitoring shows the **app servers at 100% processor** and the **database at 20%**. You want pages fast again without spending on machines that don't help. What's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Add database machines, because a slow site needs more database capacity",
+        "why_md": "Trap. The database is at 20%, so it is not the bottleneck. More database machines leave the overloaded app servers just as slow.",
+        "misconception": "mc-scale-wrong-tier"
+      },
+      {
+        "id": "b",
+        "md": "Add app servers to the application tier and also add database machines",
+        "why_md": "Viable, second-best. The extra app servers fix the slowdown, but the database machines cost money and do nothing while the database sits at 20%."
+      },
+      {
+        "id": "c",
+        "md": "Add app servers to the application tier only, and watch the database as it gets queries from more app servers",
+        "correct": true,
+        "why_md": "Best. The exam logic is business logic in the application tier, and that tier is maxed out. Scaling only that tier fixes the bottleneck without buying idle machines."
+      }
+    ],
+    "hints": [
+      "Find the bottleneck tier first: which tier is maxed out, and which tier runs the exam logic?",
+      "The app servers (application tier) are at 100% and the database is at 20%. Scale only the tier that is the bottleneck."
+    ],
+    "solution_md": "1. **Find the slow work.** Timing, shuffling and marking rules are business logic, which runs in the **application tier**. Those servers are at 100% processor.\n2. **Check the other tiers.** The database is at 20%, so the data tier is not the bottleneck. The presentation tier is the students' own browsers.\n3. **Scale only the bottleneck tier.** Add app servers. Because the tiers meet only at their boundaries, the browsers and the database stay as they are. Keep an eye on the database, since more app servers will now send it queries.\n4. Option b also fixes the slowdown but buys idle database machines, so it is second-best. Option a scales the wrong tier.\n\n**Answer: c.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-client-server"
+    }
+  }
+]

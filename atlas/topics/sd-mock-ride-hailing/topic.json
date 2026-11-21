@@ -1,0 +1,69 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-mock-ride-hailing",
+  "version": 1,
+  "title": "Timed mock: ride hailing",
+  "size": "big",
+  "est_min": 40,
+  "kcs": [
+    {
+      "id": "kc-mock-ride-scope",
+      "version": 1,
+      "statement": "In the ride hailing mock, scope covers request, match, track and complete a trip. Payments are shown only as an asynchronous step after the trip ends."
+    },
+    {
+      "id": "kc-mock-ride-estimates",
+      "version": 1,
+      "statement": "In the ride hailing mock, the estimate starts from active drivers and update interval, and uses the resulting location writes per second to justify an in-memory geospatial store."
+    },
+    {
+      "id": "kc-mock-ride-spatial-choice",
+      "version": 1,
+      "statement": "In the ride hailing mock, the spatial index choice (geohash or quadtree) is stated with its precision, how it enumerates every cell covering the search radius, and the exact-distance filter."
+    },
+    {
+      "id": "kc-mock-ride-contention",
+      "version": 1,
+      "statement": "In the ride hailing mock, the deep dive shows how an atomic driver claim prevents double dispatch, and what happens when a matcher fails mid-offer."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-case-ride-hailing",
+    "sd-mock-method"
+  ],
+  "suggests": [
+    "sd-quadtree"
+  ],
+  "confusable_with": [],
+  "introduces": [],
+  "uses": [
+    "mock interview",
+    "mock rubric",
+    "ride hailing design",
+    "location update",
+    "driver matching",
+    "geohash",
+    "geohash precision",
+    "quadtree"
+  ],
+  "problem_ideas": [
+    "Core activity: in one uninterrupted 45-minute attempt, submit a complete answer for 5M drivers and 20M daily rides covering all seven rubric areas; then score each area in a separate review.",
+    "Variant: add shared rides (pooling). Say what changes in matching.",
+    "Interviewer pushback: 'Why not store locations in Postgres with PostGIS?' Respond with numbers.",
+    "Variant: a region's location cluster fails. Design the degraded mode.",
+    "Spend 5 minutes on the deep dive: ETA ranking vs straight-line distance.",
+    "Score a sample answer that stored every location update forever."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "requirements-5/requirements"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "identify-and-resolve-bottlenecks-6/identify-and-resolve-bottlenecks"
+    }
+  ],
+  "status": "stub"
+}

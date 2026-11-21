@@ -1,0 +1,79 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-reliability-review",
+  "version": 1,
+  "title": "Failure-mode review of a design under time",
+  "size": "big",
+  "est_min": 38,
+  "kcs": [
+    {
+      "id": "kc-review-trace",
+      "version": 1,
+      "statement": "A failure-mode review walks each component on the request path and names what happens when it dies, slows down or is cut off by a partition."
+    },
+    {
+      "id": "kc-review-fix-map",
+      "version": 1,
+      "statement": "Each failure maps to a standard fix: a single point of failure to redundancy and failover, a slow dependency to a timeout plus a circuit breaker, a transient error to retry with backoff and jitter, and a duplicate request to an idempotency key."
+    },
+    {
+      "id": "kc-review-compute",
+      "version": 1,
+      "statement": "End-to-end availability is estimated by collapsing each redundant tier with the parallel formula and multiplying the tiers in series, both valid only for independent failures, so shared dependencies such as one region or one config service are added as their own series components before converting the result to nines and yearly downtime."
+    },
+    {
+      "id": "kc-review-interview",
+      "version": 1,
+      "statement": "In an interview, reliability belongs in the bottlenecks phase: name the top two or three failure modes of your design and their fixes rather than listing every pattern."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-availability-series-parallel",
+    "sd-failover",
+    "sd-circuit-breaker"
+  ],
+  "suggests": [
+    "sd-retry-backoff-jitter",
+    "sd-idempotency-keys",
+    "sd-bottlenecks"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "failure mode analysis"
+  ],
+  "uses": [
+    "single point of failure",
+    "availability in series",
+    "availability in parallel",
+    "failover",
+    "retry with backoff",
+    "circuit breaker",
+    "idempotency key",
+    "high-level design",
+    "bottleneck"
+  ],
+  "problem_ideas": [
+    "URL shortener: list SPOFs and fixes, then compute availability with 2 LBs, 4 app servers and a primary + replica DB, all in one region",
+    "News feed fan-out workers fall behind during a celebrity post: name the failure mode and the fix",
+    "Payment flow: the card processor times out; specify timeout, retry, breaker and idempotency key",
+    "Raise a 99.5% design to 99.95%: which tier do you make redundant first, and what does the math say?",
+    "You have 5 minutes left in the interview: pick the three failure modes to mention for a chat system",
+    "Critique a candidate answer that adds a circuit breaker but leaves a single database primary"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "reliability-patterns/reliability-patterns"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "system-design-interview-questions-with-s/design-a-system-that-scales-to-millions-"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "core-concepts/spof"
+    }
+  ],
+  "status": "stub"
+}

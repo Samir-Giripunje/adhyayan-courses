@@ -1,0 +1,344 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-hnsw",
+  "version": 1,
+  "title": "HNSW",
+  "size": "standard",
+  "est_min": 29,
+  "kcs": [
+    {
+      "id": "kc-hnsw",
+      "version": 2,
+      "statement": "HNSW runs a greedy beam search over a layered proximity graph."
+    },
+    {
+      "id": "kc-hnsw-build",
+      "version": 1,
+      "statement": "M and efConstruction trade memory and build time for recall."
+    },
+    {
+      "id": "kc-hnsw-efsearch",
+      "version": 1,
+      "statement": "efSearch is the query-time recall and latency knob."
+    }
+  ],
+  "mode_hint": "quiz",
+  "mode": "quiz",
+  "requires": [
+    "emb-exact-cost"
+  ],
+  "suggests": [
+    "emb-ivf"
+  ],
+  "confusable_with": [
+    "emb-ivf"
+  ],
+  "introduces": [
+    "HNSW",
+    "efSearch"
+  ],
+  "uses": [
+    "ANN"
+  ],
+  "misconceptions": [],
+  "glossary": [
+    {
+      "term": "HNSW",
+      "md": "An ANN index built on a layered proximity graph, searched greedily from the top layer down."
+    },
+    {
+      "term": "quantization",
+      "md": "Storing numbers with fewer bits (float16, int8, binary, PQ codes) to save memory."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-hnsw-p1",
+      "title": "HNSW: a highway system for vectors",
+      "beats": [
+        {
+          "id": "b-hnsw",
+          "title": "HNSW: a highway system for vectors",
+          "kcs": [
+            "kc-hnsw"
+          ],
+          "est_minutes": 12,
+          "blocks": [
+            {
+              "id": "blk-emb-hnsw-01",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "**HNSW** (Hierarchical Navigable Small World, Malkov & Yashunin 2016/2018) is the most widely used ANN index today. Build it up in two steps.",
+                  "**A proximity graph.** Connect every vector to up to `M` of its near neighbours. To search, start anywhere and **hop greedily**: move to whichever neighbour is closer to the query, and stop when no neighbour is closer. Graphs like this are “navigable”: a few hops cross the whole dataset.",
+                  "**Express layers.** Hopping across a huge layer-0 graph takes many steps, so HNSW adds sparser layers on top, like motorways above city streets. Each vector reaches layer $\\ell$ with exponentially decreasing probability. A search starts at the top, makes long jumps, and drops down a layer whenever it can't get closer. It finishes on layer 0 with a **beam** of the `efSearch` best candidates, not just one, so it can escape dead ends."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-hnsw-02",
+              "block": {
+                "type": "visual",
+                "id": "v-hnsw",
+                "widget": "hnsw",
+                "title": "Walk the graph",
+                "goal_md": "Place the query, then press **Step** to watch the greedy walk: top layer, then down. Try `ef = 1` (pure greedy) and then a wider beam.",
+                "alt": "A 2-D proximity graph of 150 points with two sparse upper layers drawn above. Pressing Step advances the search one hop and highlights the current node, its neighbours and the path. At the end a readout says whether the true nearest neighbour was found and how many distances were computed.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "With **ef = 1**, find a query where the walk ends at a **local minimum**: it stops, but not at the true nearest neighbour.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "ef",
+                          "op": "==",
+                          "value": 1
+                        },
+                        {
+                          "var": "done",
+                          "op": "==",
+                          "value": 1
+                        },
+                        {
+                          "var": "found_true_nn",
+                          "op": "==",
+                          "value": 0
+                        }
+                      ]
+                    },
+                    "aha_md": "Greedy search stops when no neighbour is closer, even if a better point is two hops away. That's why real searches keep a beam (`efSearch`) of candidates."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Find the true nearest neighbour while computing **fewer than 75 distances** (brute force would need 150).",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "done",
+                          "op": "==",
+                          "value": 1
+                        },
+                        {
+                          "var": "found_true_nn",
+                          "op": "==",
+                          "value": 1
+                        },
+                        {
+                          "var": "distance_computations",
+                          "op": "<",
+                          "value": 75
+                        }
+                      ]
+                    },
+                    "aha_md": "That's ANN in one sentence: the right answer from a fraction of the comparisons. The saving grows with N, because hops grow roughly like log N."
+                  }
+                ],
+                "params": {
+                  "points": 150,
+                  "M": 4,
+                  "ef": 1
+                }
+              }
+            },
+            {
+              "id": "blk-emb-hnsw-03",
+              "block": {
+                "type": "compare",
+                "title": "HNSW knobs",
+                "columns": [
+                  "Knob",
+                  "When",
+                  "Raising it…",
+                  "Costs"
+                ],
+                "rows": [
+                  [
+                    "`M` (links per node)",
+                    "Build",
+                    "Better recall, more robust graph",
+                    "Memory (links per vector) and build time"
+                  ],
+                  [
+                    "`efConstruction`",
+                    "Build",
+                    "Better-quality graph",
+                    "Slower build"
+                  ],
+                  [
+                    "`efSearch`",
+                    "Query",
+                    "Higher recall",
+                    "Higher latency"
+                  ]
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-hnsw-04",
+              "block": {
+                "type": "callout",
+                "kind": "production",
+                "md": "pgvector defaults: `m = 16`, `ef_construction = 64`, `hnsw.ef_search = 40`. Compared with IVF, HNSW usually gives a better speed/recall trade-off and handles inserts incrementally. It costs more memory (the vectors plus the links, in RAM) and builds more slowly.",
+                "title": "Real defaults"
+              }
+            },
+            {
+              "id": "blk-emb-hnsw-05",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-hnsw-ef",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-hnsw"
+                  ],
+                  "prompt_md": "Users report that relevant items are sometimes missing from your HNSW-backed search. Latency has headroom. What's the first knob to try?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Raise `efSearch`",
+                      "why_md": "Right. It's a query-time knob: a wider beam means higher recall, no rebuild, and some extra latency.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "Lower `M`",
+                      "why_md": "Fewer links make the graph sparser, which hurts recall (and needs a rebuild)."
+                    },
+                    {
+                      "id": "c",
+                      "md": "Switch to cosine",
+                      "why_md": "The metric isn't the issue. Recall is a property of the index search."
+                    }
+                  ],
+                  "est_seconds": 70
+                }
+              }
+            },
+            {
+              "id": "blk-emb-hnsw-06",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-hnsw-local-min",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-hnsw"
+                  ],
+                  "prompt_md": "In a pure greedy graph walk (`ef = 1`), the search stops at a node whose neighbours are all farther from the query, but the true nearest neighbour is elsewhere. This is called:",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "A local minimum",
+                      "why_md": "Right. Greedy descent got stuck. Beam search (ef > 1) and the upper layers' long jumps make this rarer.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "A hash collision",
+                      "why_md": "There's no hashing in HNSW."
+                    },
+                    {
+                      "id": "c",
+                      "md": "Quantization error",
+                      "why_md": "No compression is involved here."
+                    }
+                  ],
+                  "est_seconds": 70
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp3-hnsw"
+  ],
+  "recap": {
+    "pitfall": "Raising efSearch buys recall with latency; raising M buys recall with memory and build time."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [
+    {
+      "id": "d-hnsw-layers",
+      "beat": "b-hnsw",
+      "question": "Why do the upper HNSW layers make search faster?",
+      "match": [
+        "layer",
+        "upper",
+        "hierarch",
+        "why faster",
+        "hnsw"
+      ],
+      "answer_md": "The upper layers hold a few nodes connected by **long-range** links, like motorways. Searching starts there and covers big distances in a few hops, then drops to denser layers to refine (city streets). Without them, a greedy walk on the dense bottom graph would need many small hops to cross the dataset.",
+      "deeper_md": "Driving across a country: you take the motorway to the right region, then main roads to the town, then local streets to the house. Starting on local streets would take forever.",
+      "bridge": {
+        "kind": "analogy",
+        "title": "Motorways, main roads, streets",
+        "md": [
+          "- **Top layer:** very few nodes and long links. 1–3 hops get you to the right region.\n- **Middle layers:** more nodes. Get you to the right neighbourhood.\n- **Layer 0:** every node. A beam of `efSearch` candidates refines the exact neighbours.",
+          "Each vector reaches higher layers with exponentially lower probability, so the number of hops grows roughly like log N."
+        ],
+        "verify": {
+          "id": "q-br-hnsw",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-hnsw"
+          ],
+          "prompt_md": "Remove HNSW's upper layers (keep only layer 0). What gets worse first?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Search speed: many more hops to reach the query's region",
+              "why_md": "Right.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "Memory goes up",
+              "why_md": "Upper layers cost a little memory, so removing them saves some."
+            },
+            {
+              "id": "c",
+              "md": "Results become exact",
+              "why_md": "Greedy search on one layer is still approximate."
+            }
+          ],
+          "est_seconds": 70
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Trace a greedy search on a 10-node graph",
+    "Predict recall at efSearch 10 and 100",
+    "Estimate link memory for M = 16 and 10M vectors",
+    "Tune efSearch to recall@10 ≥ 0.95 of exact",
+    "Explain why the top layer has so few nodes",
+    "Choose between IVF and HNSW for a corpus that changes hourly"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-ai-engineer",
+      "entry": "indexing-embeddings"
+    },
+    {
+      "source": "strata-pack",
+      "entry": "advanced/b-hnsw"
+    },
+    {
+      "source": "faiss-docs",
+      "entry": "hnsw"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

@@ -1,0 +1,59 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-identity-federation",
+  "version": 1,
+  "title": "Identity federation: sign in with an existing identity",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-federation-definition",
+      "version": 1,
+      "statement": "Identity federation lets users sign in through an external identity provider (a corporate directory, a SAML 2.0 or OIDC provider, or a social login) and receive temporary AWS credentials, so no long-term IAM user is created for each person."
+    },
+    {
+      "id": "kc-federation-why",
+      "version": 1,
+      "statement": "Federation suits large or changing user populations: access is managed in one directory, nobody has long-term AWS keys to rotate, and disabling someone in the directory removes their AWS access."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-iam-roles"
+  ],
+  "suggests": [
+    "clf-iam-users-groups"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "identity federation",
+    "identity provider",
+    "saml",
+    "single sign-on"
+  ],
+  "uses": [
+    "iam user",
+    "iam role",
+    "temporary credentials",
+    "sts"
+  ],
+  "problem_ideas": [
+    "A company with 3,000 employees in its corporate directory wants them to reach AWS without new passwords. Pick federation or IAM users and justify the choice.",
+    "An employee leaves on Friday. Compare the offboarding steps with 3,000 IAM users and with federation.",
+    "Which kind of credential does a federated user receive: an access key pair, temporary credentials or a root password?",
+    "Match each identity source (Google login, a SAML 2.0 corporate IdP, an OIDC provider) to the federation it supports.",
+    "Spot the anti-pattern: a team creates one shared IAM user and gives its keys to 20 contractors.",
+    "Explain what single sign-on means for a user who needs 5 AWS accounts and 3 SaaS apps."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-3-identify-aws-access-m/understanding-the-types-of-identity-mana"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "advanced-identity/advanced-identity"
+    }
+  ],
+  "status": "stub"
+}

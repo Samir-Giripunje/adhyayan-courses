@@ -1,0 +1,51 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-functools-partial",
+  "version": 1,
+  "title": "functools.partial: freezing arguments",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-partial-freezes",
+      "version": 1,
+      "statement": "functools.partial(func, *args, **kw) returns a callable that calls func with the frozen positional arguments first, followed by those given at call time, and with the frozen keywords merged in."
+    },
+    {
+      "id": "kc-partial-attrs",
+      "version": 1,
+      "statement": "A partial object exposes .func, .args and .keywords, and keyword arguments given at call time override frozen keywords."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "pd-first-class-functions"
+  ],
+  "suggests": [
+    "pd-optional-argument-decorators"
+  ],
+  "confusable_with": [
+    "pd-decorator-factories"
+  ],
+  "introduces": [
+    "functools.partial"
+  ],
+  "uses": [
+    "first-class function"
+  ],
+  "problem_ideas": [
+    "Predict int2 = partial(int, base=2); int2('1010') and int2('10', base=10)",
+    "Build a print_err = partial(print, file=sys.stderr)",
+    "Inspect .func, .args and .keywords of a nested partial",
+    "Predict partial(pow, 2)(5) versus partial(pow, exp=2)(5)",
+    "Replace a three-line lambda with partial and compare repr output",
+    "Explain why partial objects lack __name__ by default"
+  ],
+  "sources": [
+    {
+      "source": "functools-docs",
+      "entry": "class-partial-objects/class-partial-objects"
+    }
+  ],
+  "status": "stub"
+}

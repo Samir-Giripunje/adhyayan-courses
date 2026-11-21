@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u32-support-resources",
+  "title": "Support plans and technical resources",
+  "topics": [
+    {
+      "id": "clf-support-plans",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-legacy-support-plans",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-tam-support-center",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-marketplace-partner-network",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-technical-resources",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-choosing-support-option",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-case-ride-hailing",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: write the code",
+  "blurb": "Uses Geohash: turning locations into searchable strings and Case study: ride hailing (Uber): write a small program and run its tests.",
+  "after": "topic:sd-case-ride-hailing",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "code",
+    "topics": [
+      "sd-geohash",
+      "sd-case-ride-hailing"
+    ],
+    "kcs": [
+      "kc-geohash-encoding",
+      "kc-geohash-precision",
+      "kc-geohash-neighbors",
+      "kc-ride-location-updates",
+      "kc-ride-matching",
+      "kc-ride-double-dispatch",
+      "kc-ride-trip-state"
+    ],
+    "minutes": 21,
+    "why": "Uses Geohash: turning locations into searchable strings and Case study: ride hailing (Uber): write a small program and run its tests."
+  }
+}

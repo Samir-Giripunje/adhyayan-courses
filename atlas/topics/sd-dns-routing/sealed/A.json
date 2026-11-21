@@ -1,0 +1,112 @@
+[
+  {
+    "id": "sd-dns-routing/test-a1",
+    "family": "sd-dns-routing-dns-forms-weighted-share",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "prompt_md": "A streaming service runs in us-east and ap-south. Its authoritative DNS uses weighted round robin with weights **2 : 3** for us-east : ap-south. Out of **15,000** lookups, how many are expected to be answered with the us-east address?",
+    "options": [
+      {
+        "id": "a",
+        "md": "6,000",
+        "correct": true,
+        "why_md": "Right. us-east's share is 2 / (2 + 3) = 2/5, and 2/5 × 15,000 = 6,000."
+      },
+      {
+        "id": "b",
+        "md": "9,000",
+        "why_md": "That is ap-south's share: 3/5 × 15,000. us-east has the smaller weight."
+      },
+      {
+        "id": "c",
+        "md": "7,500",
+        "why_md": "That splits the lookups evenly. Weighted round robin hands out answers in proportion to the weights."
+      },
+      {
+        "id": "d",
+        "md": "10,000",
+        "why_md": "That reads 2 : 3 as the fraction 2/3. The share is the weight over the **total** weight, 2/5."
+      }
+    ],
+    "hints": [
+      "Share of an address = its weight ÷ the sum of all weights.",
+      "2 / (2 + 3) = 2/5 of 15,000."
+    ],
+    "solution_md": "Total weight = 2 + 3 = 5. us-east gets 2/5 of the answers: 2/5 × 15,000 = **6,000** lookups (ap-south gets 9,000). Answer: a.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-routing",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-routing/test-a2",
+    "family": "sd-dns-routing-dns-forms-geo-resolver-multi",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "prompt_md": "A delivery app uses geolocation-based DNS: South America → sa-east, everywhere else → us-east. A user in São Paulo uses a resolver located in Miami, and the resolver attaches nothing about the user's network to its queries. Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The app's authoritative server sees the Miami resolver's IP address, not the user's",
+        "correct": true,
+        "why_md": "True. The authoritative server is queried by the resolver, so by default that is the address it sees."
+      },
+      {
+        "id": "b",
+        "md": "This user is likely to be answered with us-east",
+        "correct": true,
+        "why_md": "True. The server locates the asker, the Miami resolver, outside South America, so it returns us-east."
+      },
+      {
+        "id": "c",
+        "md": "The authoritative server always sees the user's own IP address, so it will pick sa-east",
+        "why_md": "False. It sees the resolver's address unless the resolver chooses to attach part of the user's network address, which this one doesn't.",
+        "misconception": "mc-geo-user-ip"
+      },
+      {
+        "id": "d",
+        "md": "DNS-based routing picks a region per resolver, not per person, so it is approximate",
+        "correct": true,
+        "why_md": "True. Everyone behind the same resolver gets the same region's answer."
+      },
+      {
+        "id": "e",
+        "md": "Switching the policy to weighted round robin would guarantee this user reaches sa-east",
+        "why_md": "False. Weighted round robin splits answers by weight regardless of location; it guarantees no particular region to anyone."
+      }
+    ],
+    "hints": [
+      "Who actually sends the query to the authoritative server: the user's phone or the resolver?",
+      "The server routes on the resolver's location (Miami), so the user can land in us-east. Weighted routing ignores location altogether."
+    ],
+    "solution_md": "The authoritative server is asked by the **resolver**, so it sees Miami's address (a). Miami is outside South America, so the answer is us-east (b). It does not see the user's own IP here (c is false). Routing is per resolver, hence approximate (d). Weighted round robin ignores location, so it can't guarantee sa-east (e is false). Answer: a, b, d.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-routing",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  }
+]

@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-iam-users-groups",
+  "version": 1,
+  "title": "IAM users and groups",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-iam-service",
+      "version": 1,
+      "statement": "IAM is a global, no-cost AWS service that controls who can sign in to an account (authentication) and what they are allowed to do (authorization)."
+    },
+    {
+      "id": "kc-iam-user",
+      "version": 1,
+      "statement": "An IAM user is a long-term identity for one person or application with its own credentials, and a newly created IAM user has no permissions until some are granted."
+    },
+    {
+      "id": "kc-iam-group",
+      "version": 1,
+      "statement": "An IAM group is a collection of IAM users that share the permissions attached to the group; a user can belong to several groups, but groups cannot contain other groups."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-aws-account-root-user"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-iam-roles",
+    "clf-aws-account-root-user"
+  ],
+  "introduces": [
+    "iam",
+    "iam user",
+    "iam group"
+  ],
+  "uses": [
+    "aws account",
+    "root user"
+  ],
+  "problem_ideas": [
+    "Five new developers join: what is the least-effort way to give them identical permissions?",
+    "True/false: you can put the 'Developers' group inside the 'Engineering' group",
+    "A new IAM user signs in and cannot see any EC2 instances: why?",
+    "Is IAM configured per Region? What does that mean for a company in three Regions?",
+    "Two people share one IAM user: name two problems this causes for auditing",
+    "A user is in 'Readers' and 'Billing' groups: what permissions do they end up with?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "iam/iam"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "iam/users-user-groups"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "iam-identity-access-management/what-is-iam"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-3-identify-aws-access-m/identity-and-access-management-for-examp"
+    }
+  ],
+  "status": "stub"
+}

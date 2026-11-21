@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-regions",
+  "version": 1,
+  "title": "AWS Regions and how to choose one",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-region-definition",
+      "version": 1,
+      "statement": "An AWS Region is a separate geographic area made up of multiple isolated Availability Zones, and most AWS resources are created in and scoped to one Region."
+    },
+    {
+      "id": "kc-region-choice-factors",
+      "version": 1,
+      "statement": "The four factors for choosing a Region are compliance and data-residency rules, proximity to users (latency), which services and features are available there, and price, which differs between Regions."
+    },
+    {
+      "id": "kc-data-residency",
+      "version": 1,
+      "statement": "Data stored in a Region stays in that Region unless the customer explicitly copies or moves it elsewhere, so picking a Region inside a country is how data-residency laws are met."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [],
+  "confusable_with": [
+    "clf-availability-zones"
+  ],
+  "introduces": [
+    "region",
+    "data residency"
+  ],
+  "uses": [
+    "global reach"
+  ],
+  "problem_ideas": [
+    "A German health insurer must keep patient records inside the EU: which Region factor decides, and which Regions qualify?",
+    "A startup's users are mostly in São Paulo but the newest AI service only exists in us-east-1: rank the trade-off between latency and service availability",
+    "Same EC2 instance priced differently in two Regions: which selection factor is that, and when should it win?",
+    "True/false: an S3 object uploaded to ap-south-1 is automatically replicated to another Region for durability",
+    "Sort four requirements (GDPR, 20 ms latency for Tokyo gamers, cheapest storage, needs a new service) into the four Region-choice factors",
+    "A company in Canada asks how to make sure its backups never leave the country: name the mechanism and the customer action that would break it"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "introduction/aws-global-infrastructure"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-2-define-the-aws-global/aws-regions-availability-zones-and-edge-"
+    }
+  ],
+  "status": "stub"
+}

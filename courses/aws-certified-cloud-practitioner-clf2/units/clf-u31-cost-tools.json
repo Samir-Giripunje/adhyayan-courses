@@ -1,0 +1,34 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u31-cost-tools",
+  "title": "Cost management tools",
+  "topics": [
+    {
+      "id": "clf-pricing-calculator",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-aws-budgets",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-cost-explorer-cur",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-compute-optimizer",
+      "tier": "optional",
+      "order": 4
+    },
+    {
+      "id": "clf-choosing-cost-tool",
+      "tier": "must",
+      "order": 5
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

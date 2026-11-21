@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-technical-resources",
+  "version": 1,
+  "title": "re:Post, Knowledge Center and Prescriptive Guidance",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-aws-repost",
+      "version": 1,
+      "statement": "AWS re:Post is AWS's free community Q&A site where AWS experts and users answer technical questions; it replaced the AWS Forums."
+    },
+    {
+      "id": "kc-knowledge-center",
+      "version": 1,
+      "statement": "The AWS Knowledge Center, part of re:Post, holds AWS-written articles answering the most frequent customer questions and is open to every Support plan."
+    },
+    {
+      "id": "kc-prescriptive-guidance-docs",
+      "version": 1,
+      "statement": "AWS Prescriptive Guidance offers time-tested strategies, guides and patterns from AWS and partners for migration and modernization, while AWS whitepapers and documentation explain service details and architectural best practice."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-support-plans"
+  ],
+  "confusable_with": [
+    "clf-marketplace-partner-network"
+  ],
+  "introduces": [
+    "aws re:post",
+    "aws knowledge center",
+    "prescriptive guidance",
+    "aws whitepapers",
+    "aws documentation"
+  ],
+  "uses": [
+    "basic support",
+    "migration strategies"
+  ],
+  "problem_ideas": [
+    "A Basic Support user has a how-to question about S3 permissions: name two free places to find an answer.",
+    "A team wants a step-by-step pattern for migrating Oracle to Aurora: which resource?",
+    "Which resource answers 'Why can't I connect to my EC2 instance?' with an AWS-written article?",
+    "A student needs the official explanation of the Well-Architected pillars: where is it published?",
+    "Map each to its source: community answer, AWS-written FAQ article, migration playbook, service API reference.",
+    "Spot the false statement: 're:Post requires a paid Support plan.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-3-identify-aws-technica/resources-and-documentation-available-on"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-3-identify-aws-technica/locating-aws-whitepapers-blogs-and-docum"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "aws-architecting-ecosystem/aws-ecosystem-free-resources"
+    }
+  ],
+  "status": "stub"
+}

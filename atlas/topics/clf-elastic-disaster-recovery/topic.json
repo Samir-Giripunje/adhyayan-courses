@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-elastic-disaster-recovery",
+  "version": 1,
+  "title": "Elastic Disaster Recovery vs AWS Backup and MGN",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-drs-continuous-replication",
+      "version": 1,
+      "statement": "AWS Elastic Disaster Recovery continuously replicates on-premises or cloud servers into a low-cost staging area in AWS, so they can be launched as recovered instances within minutes (recovery time objective) with seconds of data loss (recovery point objective), and failed back after the event."
+    },
+    {
+      "id": "kc-drs-vs-backup",
+      "version": 1,
+      "statement": "AWS Backup centrally schedules, retains and restores point-in-time backups of AWS resources, whereas Elastic Disaster Recovery keeps whole servers continuously replicated for fast failover; a requirement for minutes of downtime and seconds of data loss points to Elastic Disaster Recovery."
+    },
+    {
+      "id": "kc-drs-vs-mgn",
+      "version": 1,
+      "statement": "AWS Application Migration Service (MGN) replicates servers to move them to AWS once, as a lift-and-shift rehost, while Elastic Disaster Recovery keeps replicating indefinitely so servers can be recovered whenever a disaster happens."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-aws-backup"
+  ],
+  "suggests": [
+    "clf-multi-az-multi-region",
+    "clf-migration-strategies"
+  ],
+  "confusable_with": [
+    "clf-aws-backup"
+  ],
+  "introduces": [
+    "elastic disaster recovery",
+    "recovery time objective",
+    "recovery point objective"
+  ],
+  "uses": [
+    "disaster recovery",
+    "aws backup",
+    "ec2 instance",
+    "hybrid cloud",
+    "lift and shift",
+    "region"
+  ],
+  "problem_ideas": [
+    "A factory's on-premises ERP servers must be running in AWS within 15 minutes of a site fire, losing at most a few seconds of data: which service?",
+    "A team keeps nightly backups of RDS and EBS for 35 days to satisfy an auditor: AWS Backup or Elastic Disaster Recovery?",
+    "A company is moving 80 VMware servers to EC2 and will shut the data center next quarter: MGN or Elastic Disaster Recovery?",
+    "Given RTO 4 hours and RPO 24 hours vs RTO 10 minutes and RPO 5 seconds, which requirement needs continuous replication?",
+    "After the disaster is over, the company wants its workloads back on-premises: which Elastic Disaster Recovery capability covers that?",
+    "Distractor drill: 'replicate servers continuously to another Region for failover' with options AWS Backup, MGN, Elastic Disaster Recovery, DataSync."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "other-aws-services/aws-elastic-disaster-recovery-drs"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-aws-services/aws-backup"
+    }
+  ],
+  "status": "stub"
+}

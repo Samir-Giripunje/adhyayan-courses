@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-quicksight-opensearch",
+  "version": 1,
+  "title": "QuickSight dashboards and OpenSearch search",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-quicksight-bi",
+      "version": 1,
+      "statement": "Amazon QuickSight (Quick Sight in the Amazon Quick suite) is a serverless business intelligence service for interactive dashboards and visualisations built from sources such as Athena, Redshift and S3."
+    },
+    {
+      "id": "kc-opensearch-search",
+      "version": 1,
+      "statement": "Amazon OpenSearch Service runs managed OpenSearch clusters for full-text search and log analytics with near-real-time querying."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-redshift-emr"
+  ],
+  "confusable_with": [
+    "clf-athena-glue"
+  ],
+  "introduces": [
+    "quicksight",
+    "business intelligence",
+    "opensearch",
+    "log analytics"
+  ],
+  "uses": [
+    "athena",
+    "redshift",
+    "s3",
+    "serverless"
+  ],
+  "problem_ideas": [
+    "Executives want a sales dashboard on top of Redshift with no servers: which service?",
+    "A website needs a search box with typo tolerance over 2 million product descriptions: which service?",
+    "Ops wants to search and visualise application logs from the last hour: OpenSearch or Athena?",
+    "Spot the distractor: 'QuickSight runs SQL ETL jobs.'",
+    "Match four user roles (analyst, executive, SRE, developer) to the analytics service they would open.",
+    "The exam guide lists 'Amazon Quick': explain what an answer option naming QuickSight refers to."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "analytics/amazon-quick"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "analytics/amazon-opensearch-service"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/amazon-quicksight"
+    }
+  ],
+  "status": "stub"
+}

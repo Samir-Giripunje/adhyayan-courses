@@ -1,0 +1,79 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-message-queues",
+  "version": 1,
+  "title": "Message queues and load leveling",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-queue-holds-until-ack",
+      "version": 1,
+      "statement": "A message queue stores messages from producers durably until a consumer acknowledges them, so producers and consumers do not need to be up at the same time."
+    },
+    {
+      "id": "kc-competing-consumers",
+      "version": 2,
+      "statement": "Competing consumers on one queue split its messages between them instead of each getting a copy of every message, but a message that is not acknowledged may be redelivered, possibly to a different consumer."
+    },
+    {
+      "id": "kc-load-leveling-backlog",
+      "version": 1,
+      "statement": "With queue-based load leveling, when producers enqueue faster than consumers drain, the backlog grows by the rate difference each second and is worked off after the burst ends, keeping consumer load steady."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-sync-vs-async"
+  ],
+  "suggests": [
+    "sd-qps-estimate"
+  ],
+  "confusable_with": [
+    "sd-pub-sub",
+    "sd-event-streaming"
+  ],
+  "introduces": [
+    "message queue",
+    "producer",
+    "consumer",
+    "queue-based load leveling",
+    "competing consumers"
+  ],
+  "uses": [
+    "asynchronous communication",
+    "peak qps",
+    "throughput"
+  ],
+  "problem_ideas": [
+    "A flash sale enqueues 5,000 orders/s for 2 minutes; 10 workers each process 300/s. Compute the peak backlog and how long until it drains",
+    "How many workers are needed to keep the backlog flat at a peak of 12,000 messages/s if each takes 40 ms?",
+    "A queue holds 1.2 million messages with 4 KB payloads: how much storage does the backlog need?",
+    "Draw where a queue goes in a photo-upload pipeline and name the producer and consumer",
+    "A consumer crashes mid-message: what does the queue do with the unacknowledged message?",
+    "Interview prompt: 'writes spike 10× at 9 a.m.'—propose a queue and state one trade-off it introduces"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "asynchronism/message-queues"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "asynchronism/message-queues"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "messaging/queue-based-load-leveling"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "messaging/competing-consumers"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "features-2/features"
+    }
+  ],
+  "status": "stub"
+}

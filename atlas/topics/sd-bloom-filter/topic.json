@@ -1,0 +1,50 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-bloom-filter",
+  "version": 1,
+  "title": "Bloom filters: fast 'definitely not seen' checks",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-bloom-filter-no-false-negatives",
+      "version": 1,
+      "statement": "A Bloom filter sets k hash positions in a bit array per inserted item. A lookup can return a false positive but never a false negative, so a 'no' answer is always correct."
+    },
+    {
+      "id": "kc-bloom-filter-sizing",
+      "version": 1,
+      "statement": "For n items in m bits, the false positive rate is lowest when the number of hash functions is k = (m/n)·ln 2. About 10 bits per item gives roughly a 1% false positive rate."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [],
+  "suggests": [
+    "sd-case-web-crawler"
+  ],
+  "confusable_with": [
+    "sd-hot-keys-thundering-herd"
+  ],
+  "introduces": [
+    "bloom filter",
+    "false positive rate"
+  ],
+  "uses": [
+    "key-value store"
+  ],
+  "problem_ideas": [
+    "Implement add() and might_contain() over a Python int bitmask using k salted hashes, then test 10,000 inserts for false negatives.",
+    "Compute the bits needed for 1 billion URLs at a 1% false positive rate and convert it to gigabytes.",
+    "Given m = 8n, pick the k that minimises false positives and predict the rate.",
+    "A crawler uses a Bloom filter for seen URLs. Explain what a false positive costs: a page never gets crawled.",
+    "Explain why a plain Bloom filter cannot delete items and what a counting Bloom filter changes.",
+    "Place a Bloom filter in front of a disk-based key-value store to skip lookups for missing keys, and estimate the disk reads saved at a 90% miss rate."
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "database-fundamentals/bloom-filters"
+    }
+  ],
+  "status": "stub"
+}

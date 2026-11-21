@@ -1,0 +1,80 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-fargate-ecr",
+  "version": 1,
+  "title": "Fargate and ECR: serverless containers",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-fargate-serverless-containers",
+      "version": 1,
+      "statement": "AWS Fargate is a serverless compute engine for ECS and EKS: you set CPU and memory per task or pod, and AWS runs it with no EC2 instances for you to provision or patch."
+    },
+    {
+      "id": "kc-fargate-vs-lambda",
+      "version": 1,
+      "statement": "Choose Fargate over Lambda for containerized services that run continuously or for jobs longer than Lambda's 15-minute limit, when the team still wants no servers to manage."
+    },
+    {
+      "id": "kc-ecr-registry",
+      "version": 1,
+      "statement": "Amazon ECR is a managed private registry that stores, versions and scans container images. ECS, EKS and Fargate pull images from it at launch."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-ecs-eks",
+    "clf-lambda"
+  ],
+  "suggests": [
+    "clf-containers"
+  ],
+  "confusable_with": [
+    "clf-ecs-eks",
+    "clf-lambda"
+  ],
+  "introduces": [
+    "fargate",
+    "ecr",
+    "container registry"
+  ],
+  "uses": [
+    "serverless",
+    "ecs",
+    "eks",
+    "container image",
+    "lambda"
+  ],
+  "problem_ideas": [
+    "A team wants to run Docker containers on ECS but refuses to patch or scale hosts: which option?",
+    "An always-on container API serves traffic around the clock: Lambda or Fargate, and why?",
+    "Where should a company store its private container images so that ECS can pull them?",
+    "A video-processing container runs for 2 hours per job with no servers to manage: pick the compute option.",
+    "A distractor says 'Fargate is a container image registry': correct it.",
+    "For Fargate, which is AWS's job and which the customer's: host OS patching, container image contents, task CPU and memory settings?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "lambda/fargate"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-compute-section/fargate"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "ecr/ecr"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-compute-section/ecr"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-3-identify-aws-compute-/recognizing-the-appropriate-use-of-vario"
+    }
+  ],
+  "status": "stub"
+}

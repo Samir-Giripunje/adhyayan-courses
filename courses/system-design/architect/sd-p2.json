@@ -1,0 +1,988 @@
+{
+  "stage": {
+    "id": "sd-p2",
+    "title": "The interview framework and estimation",
+    "outcome": [
+      "o1",
+      "o2",
+      "o6"
+    ],
+    "assumes": [
+      "http",
+      "rest",
+      "rpc",
+      "latency",
+      "throughput",
+      "latency numbers"
+    ],
+    "provides": [
+      "system design interview framework",
+      "functional requirements",
+      "non-functional requirements",
+      "back-of-the-envelope estimation",
+      "qps",
+      "peak qps",
+      "storage estimate",
+      "bandwidth estimate",
+      "api design",
+      "data model",
+      "high-level design",
+      "bottleneck"
+    ]
+  },
+  "sections": [
+    {
+      "id": "framework",
+      "title": "The interview framework and scoping",
+      "rank": 1,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "requirements-clarifications"
+      }
+    },
+    {
+      "id": "estimation",
+      "title": "Back-of-the-envelope estimation",
+      "rank": 2,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "how-to-approach-a-system-design-intervie"
+      }
+    },
+    {
+      "id": "design-flow",
+      "title": "From high-level design to a timed answer",
+      "rank": 3,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "high-level-component-design"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "sd-interview-framework",
+      "title": "The system design interview framework",
+      "size": "standard",
+      "est_min": 20,
+      "section": "framework",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-framework-steps",
+          "statement": "A system design interview answer moves through fixed steps in order: requirements, estimation, API, data model, high-level design, deep dive, then bottlenecks and trade-offs."
+        },
+        {
+          "id": "kc-framework-scope-first",
+          "statement": "Drawing components before agreeing on requirements is the most common failure, because every later choice (store, cache, sharding) depends on the agreed scope and scale."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The 45-minute mock answer is structured by exactly these steps"
+        },
+        {
+          "outcome": "o2",
+          "reason": "Scoping a vague prompt starts from knowing which artefacts the framework expects"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-requirements"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "system design interview framework"
+      ],
+      "uses": [
+        "http",
+        "rest"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "introduction/how-to-approach-system-design"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "how-to-approach-a-system-design-intervie/how-to-approach-a-system-design-intervie"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "how-to-answer-a-system-design-interview-/how-to-answer-a-system-design-interview-"
+        }
+      ],
+      "problem_ideas": [
+        "Put eight shuffled interview steps (API, estimates, deep dive, requirements…) into the correct order",
+        "A candidate opens 'design Instagram' by drawing Kafka and Cassandra: name the step they skipped and what it costs them",
+        "Given a transcript excerpt, label which framework step each paragraph belongs to",
+        "Interviewer says 'assume 100M users' at minute 20: which earlier steps must be revisited?",
+        "Rewrite a rambling first two minutes of an answer into a framework-led opening",
+        "Decide which step to cut short when only 30 minutes are available instead of 45"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "How senior-level expectations shift time toward deep dives"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "Interviewers grade structure as much as content; this is the skeleton of every answer you give."
+      }
+    },
+    {
+      "id": "sd-requirements",
+      "title": "Functional and non-functional requirements",
+      "size": "standard",
+      "est_min": 28,
+      "section": "framework",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-functional-requirements",
+          "statement": "Functional requirements state what the system does for users (e.g. 'a user can shorten a URL'), each as a verb on an entity that later maps to an API endpoint."
+        },
+        {
+          "id": "kc-non-functional-requirements",
+          "statement": "Non-functional requirements state how well the system must behave (availability, latency target, consistency, durability, scale), and they drive architecture choices more than functional ones."
+        },
+        {
+          "id": "kc-read-write-ratio",
+          "statement": "Asking for the read-to-write ratio early tells you whether the design is read-heavy (favour replicas and caches) or write-heavy (favour partitioned writes and queues)."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "The written list of functional and non-functional requirements is part of the observable product"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-interview-framework"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "functional requirements",
+        "non-functional requirements",
+        "read-to-write ratio"
+      ],
+      "uses": [
+        "latency",
+        "system design interview framework"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "how-to-approach-a-system-design-intervie/step-1-outline-use-cases-constraints-and"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "requirements-clarifications/functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "requirements-clarifications/non-functional-requirements"
+        }
+      ],
+      "problem_ideas": [
+        "Sort 12 statements about a chat app into functional vs non-functional",
+        "Write five clarifying questions for 'design a URL shortener' and the default you'd assume for each",
+        "A URL shortener has 100:1 reads to writes; say which side of the design gets more attention",
+        "Convert 'it should be fast' into a measurable non-functional requirement with a p99 target",
+        "Spot the out-of-scope requirement in a list for 'design Twitter' and justify cutting it",
+        "Given a news feed prompt, decide whether eventual or strong consistency should be a stated requirement"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Extended requirements: analytics, abuse prevention and how to park them"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "Requirements are the first five minutes of every interview and set up everything you justify later."
+      }
+    },
+    {
+      "id": "sd-api-design",
+      "title": "Sketching the API for an interview prompt",
+      "size": "standard",
+      "est_min": 28,
+      "section": "framework",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-api-from-requirements",
+          "statement": "Each functional requirement maps to at least one endpoint with a method, path or RPC name, parameters and response, e.g. POST /urls {long_url} → {short_code}."
+        },
+        {
+          "id": "kc-api-list-pagination",
+          "statement": "Any endpoint that returns a list (feed, messages, search) must be paginated, and cursor pagination stays correct when new items are inserted while offset pagination does not."
+        },
+        {
+          "id": "kc-api-auth-and-limits",
+          "statement": "An interview API sketch names how callers are identified (API key or token) because it enables per-user rate limits and abuse controls later in the design."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "A REST/RPC API sketch is part of the scoped-design product"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-requirements",
+          "reason": "Endpoints are derived one-for-one from functional requirements"
+        }
+      ],
+      "suggests": [
+        "sd-rest",
+        "sd-rpc"
+      ],
+      "confusable_with": [
+        "sd-data-model"
+      ],
+      "introduces": [
+        "api design",
+        "endpoint"
+      ],
+      "uses": [
+        "rest",
+        "rpc",
+        "http method",
+        "pagination",
+        "cursor",
+        "functional requirements"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "api-design/api-design"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "api-fundamentals/api-design"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "api-design-2/api-design"
+        }
+      ],
+      "problem_ideas": [
+        "Write the three endpoints for a URL shortener (create, redirect, delete) with request and response shapes",
+        "A feed endpoint uses ?page=3; show how a new post makes the user see a duplicate, then fix it with a cursor",
+        "Choose REST or gRPC for a mobile client API vs an internal service-to-service call and justify each",
+        "Find the missing endpoint in an API sketch for a chat app given its functional requirements",
+        "Pick the HTTP status code for a redirect from a short URL (301 vs 302) and explain the analytics trade-off",
+        "Redesign a chatty API that needs 5 calls to render one screen"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Versioning an API without breaking clients"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Interviewers expect a crisp API sketch within the first 10 minutes; it anchors the data model and design."
+      }
+    },
+    {
+      "id": "sd-data-model",
+      "title": "Data models from entities and access patterns",
+      "size": "standard",
+      "est_min": 20,
+      "section": "framework",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-data-model-entities",
+          "statement": "An interview data model lists each entity with its key, main fields and approximate size per record, which feeds directly into the storage estimate."
+        },
+        {
+          "id": "kc-data-model-access-patterns",
+          "statement": "The data model should be shaped by the access patterns the API needs (e.g. 'fetch the latest 20 messages of a chat'), not only by the entities' relationships."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "A data model is part of the scoped-design product"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-api-design",
+          "reason": "Access patterns are read off the endpoints' queries"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-api-design"
+      ],
+      "introduces": [
+        "data model",
+        "entity",
+        "access pattern"
+      ],
+      "uses": [
+        "api design",
+        "functional requirements",
+        "data tier"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "data-model-design/data-model-design"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "data-model-design-2/data-model-design"
+        }
+      ],
+      "problem_ideas": [
+        "List the entities, keys and field sizes for a URL shortener and total the bytes per record",
+        "Given the endpoint 'get latest 50 messages in a chat', choose the key that makes it one lookup",
+        "A Pastebin model stores paste text in the same row as metadata; argue for splitting it",
+        "Identify the access pattern that a proposed Twitter data model cannot serve efficiently",
+        "Estimate the size of a user record with name, email, bio and timestamps",
+        "Draw the relationship between users, follows and tweets and name the hottest query"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Why store choice comes after, not before, the access patterns"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "A clear data model is how interviewers check that your API and storage choices fit together."
+      }
+    },
+    {
+      "id": "sd-estimation-method",
+      "title": "Back-of-the-envelope estimation and powers of two",
+      "size": "standard",
+      "est_min": 28,
+      "section": "estimation",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-seconds-per-day",
+          "statement": "A day has 86,400 seconds, rounded to 10^5 for estimates, so 1 million events per day is about 10 per second."
+        },
+        {
+          "id": "kc-powers-of-two",
+          "statement": "2^10 ≈ 10^3 (KB), 2^20 ≈ 10^6 (MB), 2^30 ≈ 10^9 (GB), 2^40 ≈ 10^12 (TB), so byte counts can be converted with powers of ten in your head."
+        },
+        {
+          "id": "kc-estimation-rounding",
+          "statement": "Estimates round inputs to one significant figure and aim for the right order of magnitude, stating each assumption aloud so the interviewer can correct it."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Every capacity figure in the observable product is computed with these conversions"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-latency-numbers"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "back-of-the-envelope estimation",
+        "powers of two",
+        "order of magnitude"
+      ],
+      "uses": [
+        "latency numbers"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "how-to-approach-a-system-design-intervie/back-of-the-envelope-calculations"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "appendix/powers-of-two-table"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "estimation-and-constraints/estimation-and-constraints"
+        }
+      ],
+      "problem_ideas": [
+        "Convert 500 million events per day to events per second in under 15 seconds",
+        "How many bytes is 3 × 2^30? Express it in GB",
+        "A candidate uses 86,400 exactly and spends 2 minutes on long division: show the rounded version",
+        "Estimate how many 1 KB records fit in 1 TB",
+        "Spot the order-of-magnitude error in a worked estimate that confuses MB and GB",
+        "Read 10 ms per disk seek from the latency table and estimate seeks per second for one disk"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Why order-of-magnitude errors compound when you multiply estimates"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Fast, stated-aloud arithmetic is what makes your capacity numbers credible in the interview."
+      }
+    },
+    {
+      "id": "sd-qps-estimate",
+      "title": "Estimating QPS and peak QPS",
+      "size": "standard",
+      "est_min": 28,
+      "section": "estimation",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-average-qps",
+          "statement": "Average QPS = daily active users × actions per user per day ÷ ~10^5 seconds."
+        },
+        {
+          "id": "kc-peak-qps",
+          "statement": "Peak QPS is estimated as a multiple of average QPS (commonly 2–3×, higher for spiky events), and capacity is sized for peak, not average."
+        },
+        {
+          "id": "kc-read-write-qps",
+          "statement": "Read QPS and write QPS are estimated separately by applying the read-to-write ratio, because they scale with different components."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Peak QPS is the first figure in the observable product"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-estimation-method",
+          "reason": "Uses the 10^5 seconds-per-day conversion and rounding rules"
+        }
+      ],
+      "suggests": [
+        "sd-requirements"
+      ],
+      "confusable_with": [
+        "sd-bandwidth-estimate"
+      ],
+      "introduces": [
+        "qps",
+        "peak qps",
+        "daily active users"
+      ],
+      "uses": [
+        "back-of-the-envelope estimation",
+        "read-to-write ratio",
+        "throughput"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "estimation-and-constraints-2/traffic"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "how-to-approach-a-system-design-intervie/use-back-of-the-envelope-calculations"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "estimation-and-constraints-4/traffic"
+        }
+      ],
+      "problem_ideas": [
+        "200M DAU each post 2 tweets and read 100: compute write QPS and read QPS",
+        "A URL shortener gets 100M new URLs per month with 100:1 reads: compute redirect QPS",
+        "Ticket sale opens at 10:00 and 80% of a day's traffic arrives in one hour: estimate the peak multiple",
+        "Given average 5,000 QPS, size for peak using 3× and state the assumption",
+        "Explain why sizing servers for average QPS caused a Black Friday outage",
+        "Chat app: 50M DAU send 40 messages each; compute messages per second at peak"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Diurnal patterns and global users flattening the peak"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "Almost every prompt asks 'how much traffic?'; peak QPS drives every scaling decision after it."
+      }
+    },
+    {
+      "id": "sd-storage-estimate",
+      "title": "Estimating storage per year",
+      "size": "standard",
+      "est_min": 20,
+      "section": "estimation",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-storage-formula",
+          "statement": "Storage per year = new records per day × bytes per record × 365, plus media stored separately, multiplied by the replication factor if replicas are counted."
+        },
+        {
+          "id": "kc-storage-retention",
+          "statement": "The retention period sets total storage: a 5-year retention needs about 5 times the yearly figure, so stating retention is part of the estimate."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Storage per year is part of the observable product"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-estimation-method",
+          "reason": "Needs powers of two and rounding to convert bytes to TB"
+        }
+      ],
+      "suggests": [
+        "sd-data-model"
+      ],
+      "confusable_with": [
+        "sd-bandwidth-estimate"
+      ],
+      "introduces": [
+        "storage estimate",
+        "retention period",
+        "replication factor"
+      ],
+      "uses": [
+        "back-of-the-envelope estimation",
+        "powers of two",
+        "data model"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "estimation-and-constraints-2/storage"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "estimation-and-constraints-4/storage"
+        }
+      ],
+      "problem_ideas": [
+        "100M new URLs per month at 500 bytes each: storage over 5 years",
+        "10% of 400M daily tweets carry a 200 KB photo: yearly media storage",
+        "Recompute a storage estimate when the interviewer adds 3× replication",
+        "Chat app storing 20B messages per day at 100 bytes: storage per year",
+        "Spot the missing ×365 in a worked storage estimate",
+        "Decide whether text metadata or media dominates storage for an Instagram-like app"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Compression, tiering and deleting expired data"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Storage figures justify your choice of store and sharding later, and interviewers check the arithmetic."
+      }
+    },
+    {
+      "id": "sd-bandwidth-estimate",
+      "title": "Estimating ingress and egress bandwidth",
+      "size": "standard",
+      "est_min": 20,
+      "section": "estimation",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-bandwidth-formula",
+          "statement": "Bandwidth = QPS × payload size per request, computed separately for ingress (writes/uploads) and egress (reads/downloads)."
+        },
+        {
+          "id": "kc-bandwidth-egress-dominates",
+          "statement": "In read-heavy media systems egress bandwidth dwarfs ingress, which is the number that justifies serving content from edge locations."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Bandwidth is part of the observable product"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-qps-estimate",
+          "reason": "Bandwidth is computed from read and write QPS"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-qps-estimate",
+        "sd-storage-estimate"
+      ],
+      "introduces": [
+        "bandwidth estimate",
+        "ingress",
+        "egress"
+      ],
+      "uses": [
+        "qps",
+        "bandwidth",
+        "read-to-write ratio"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "estimation-and-constraints-2/bandwidth"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "core-concepts/latency-vs-throughput-vs-bandwidth"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "estimation-and-constraints-5/bandwidth"
+        }
+      ],
+      "problem_ideas": [
+        "40 writes/s of 500-byte URLs and 4,000 reads/s: ingress and egress in KB/s",
+        "Video service: 1M concurrent viewers at 5 Mbps: egress in Gbps",
+        "Convert 2 GB/s to Gbps and say whether one 10 Gbps NIC is enough",
+        "Photo app: 1,000 uploads/s at 2 MB: ingress per second and per day",
+        "A candidate multiplies bandwidth by storage size instead of request size: find the error",
+        "Compare egress for serving thumbnails vs originals in a feed"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Bits vs bytes: the factor of 8 that breaks estimates"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Bandwidth numbers are what make a CDN or object store a justified choice rather than a reflex."
+      }
+    },
+    {
+      "id": "sd-server-memory-estimate",
+      "title": "Estimating servers and hot-data memory",
+      "size": "standard",
+      "est_min": 20,
+      "section": "estimation",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-server-count",
+          "statement": "Servers needed ≈ peak QPS ÷ sustainable QPS per server, rounded up with headroom (e.g. run at ≤ 70% utilisation)."
+        },
+        {
+          "id": "kc-hot-data-memory",
+          "statement": "Cache memory ≈ number of distinct hot objects × average cached-object size, plus metadata and replication overhead; the hot set is estimated from unique-object counts and popularity (e.g. the most-read 20% of distinct objects), because counting every read request double-counts repeated reads of the same object."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-qps-estimate",
+          "reason": "Server count starts from peak QPS"
+        }
+      ],
+      "suggests": [
+        "sd-latency-throughput"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "server count estimate",
+        "80/20 rule",
+        "memory estimate"
+      ],
+      "uses": [
+        "peak qps",
+        "throughput",
+        "little's law"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "estimation-and-constraints-2/cache"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "estimation-and-constraints-2/high-level-estimate"
+        }
+      ],
+      "problem_ideas": [
+        "Peak 60,000 QPS and 2,000 QPS per server at 70% target: how many servers?",
+        "URL shortener with 50M distinct URLs read per day at 500 bytes each: memory to cache the most-read 20% of them, plus 30% overhead",
+        "A worked estimate caches 0.2 × 350M daily redirects × 500 bytes: explain why it overcounts and recompute from distinct URLs",
+        "Use Little's law: 10,000 QPS at 200 ms latency means how many requests in flight?",
+        "Decide whether the hot set fits on one 64 GB machine or needs several",
+        "Recompute server count after the interviewer halves per-server throughput"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Why utilisation near 100% blows up queueing latency"
+        },
+        {
+          "kind": "math",
+          "title": "Zipf popularity and how hit rate grows with cache size"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Useful polish that impresses interviewers, but not one of the three core capacity figures."
+      }
+    },
+    {
+      "id": "sd-high-level-design",
+      "title": "Drawing the high-level design",
+      "size": "standard",
+      "est_min": 20,
+      "section": "design-flow",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-hld-request-path",
+          "statement": "A high-level design traces each core request from client through the application tier to the data tier, with one box per responsibility and arrows labelled by API call."
+        },
+        {
+          "id": "kc-hld-simple-first",
+          "statement": "Start the high-level design with the simplest version that meets the functional requirements, then add components only when an estimate or non-functional requirement demands them."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The high-level design is a required section of the full mock answer"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-requirements",
+          "reason": "Components are justified against functional and non-functional requirements"
+        }
+      ],
+      "suggests": [
+        "sd-client-server",
+        "sd-data-model"
+      ],
+      "confusable_with": [
+        "sd-data-model"
+      ],
+      "introduces": [
+        "high-level design",
+        "component diagram"
+      ],
+      "uses": [
+        "client-server architecture",
+        "three-tier architecture",
+        "application tier",
+        "data tier",
+        "api design",
+        "non-functional requirements"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "how-to-approach-a-system-design-intervie/step-2-create-a-high-level-design"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "high-level-component-design/high-level-component-design"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "how-to-approach-a-system-design-intervie/step-3-design-core-components"
+        }
+      ],
+      "problem_ideas": [
+        "Draw the minimal boxes for a Pastebin: client, app server, metadata store, blob store",
+        "Trace a 'create short URL' request and a 'redirect' request through the same diagram",
+        "Remove the unjustified component from a 12-box design for a 1,000-user app",
+        "Split the read path and write path of a news feed into separate arrows",
+        "Name the box that owns each functional requirement in a chat app diagram",
+        "Explain to an interviewer why you started with a single database"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Separating read and write paths as a design move"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "The diagram is the centrepiece interviewers remember; a clean request path earns trust."
+      }
+    },
+    {
+      "id": "sd-bottlenecks",
+      "title": "Deep dives, bottlenecks and trade-offs",
+      "size": "standard",
+      "est_min": 28,
+      "section": "design-flow",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-bottleneck-from-estimates",
+          "statement": "A bottleneck is the component that saturates first as load grows; you find it by comparing peak qps, storage and bandwidth estimates against what one instance of each component can handle."
+        },
+        {
+          "id": "kc-deep-dive-choice",
+          "statement": "In the deep dive, pick the one or two components with the hardest requirement (highest load or strictest consistency) and detail them instead of spreading time evenly."
+        },
+        {
+          "id": "kc-state-tradeoffs",
+          "statement": "Every design choice is stated as a trade-off naming what is gained and what is given up (e.g. lower latency for staler data)."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Deep dive and bottlenecks are required sections of the mock answer"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-high-level-design",
+          "reason": "Bottlenecks are located on the high-level design"
+        },
+        {
+          "topic": "sd-qps-estimate",
+          "reason": "Saturation is judged against peak QPS"
+        }
+      ],
+      "suggests": [
+        "sd-storage-estimate",
+        "sd-bandwidth-estimate"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "bottleneck",
+        "deep dive",
+        "trade-off"
+      ],
+      "uses": [
+        "high-level design",
+        "peak qps",
+        "storage estimate",
+        "bandwidth estimate",
+        "non-functional requirements"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "identify-and-resolve-bottlenecks/identify-and-resolve-bottlenecks"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "how-to-approach-a-system-design-intervie/step-4-scale-the-design"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "detailed-design/detailed-design"
+        }
+      ],
+      "problem_ideas": [
+        "A single database handles 5,000 QPS but peak reads are 40,000: name the bottleneck and the next question to ask",
+        "Choose the deep-dive component for a URL shortener vs for a chat app and justify",
+        "Rewrite 'use NoSQL because it scales' as an explicit trade-off",
+        "Rank three components in a feed design by which saturates first",
+        "Interviewer asks 'what breaks at 10× traffic?': produce a structured answer",
+        "Spot the design whose bottleneck is bandwidth rather than QPS"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Amdahl-style thinking: fixing the slowest stage first"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "The deep dive is where interviewers separate levels; naming bottlenecks from numbers is the signal."
+      }
+    },
+    {
+      "id": "sd-timed-walkthrough",
+      "title": "Budgeting 45 minutes: a first timed walkthrough",
+      "size": "standard",
+      "est_min": 20,
+      "section": "design-flow",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-time-budget",
+          "statement": "A workable 45-minute budget is roughly 5 min requirements, 5 min estimates, 5 min API and data model, 10–15 min high-level design, 10–15 min deep dive and bottlenecks, with a few minutes for questions."
+        },
+        {
+          "id": "kc-signpost-transitions",
+          "statement": "Announcing each transition ('requirements are set, now estimates') keeps the interviewer aligned and lets them redirect time before it is lost."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Running the full answer under time needs an explicit time budget"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-interview-framework",
+          "reason": "The budget allocates time across the framework's steps"
+        },
+        {
+          "topic": "sd-bottlenecks",
+          "reason": "The final block of time is the deep dive and bottlenecks"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-interview-framework"
+      ],
+      "introduces": [
+        "interview time budget"
+      ],
+      "uses": [
+        "system design interview framework",
+        "back-of-the-envelope estimation",
+        "deep dive",
+        "high-level design"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "how-to-answer-a-system-design-interview-/how-to-answer-a-system-design-interview-"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "introduction/how-to-approach-system-design"
+        }
+      ],
+      "problem_ideas": [
+        "A candidate reaches the diagram at minute 28: identify where time leaked and re-budget",
+        "Allocate a 35-minute variant of the budget and say which step shrinks",
+        "Write the one-sentence signposts for each transition in a URL shortener answer",
+        "Interviewer says 'skip estimates': redistribute the freed minutes",
+        "Run a 10-minute speed version of a Pastebin answer covering requirements to diagram",
+        "Judge two transcripts: which kept the interviewer in control of depth?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Reading interviewer hints to pick the deep-dive topic"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Running out of time before the deep dive is the most common reason good candidates get marked down."
+      }
+    }
+  ],
+  "groups": {}
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-amazon-connect",
+  "version": 1,
+  "title": "Amazon Connect: a cloud contact center",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-amazon-connect",
+      "version": 1,
+      "statement": "Amazon Connect is a cloud contact center service for setting up customer-service phone and chat channels in minutes, paid per use with no telephony hardware."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-ai-language-speech"
+  ],
+  "confusable_with": [
+    "clf-ses"
+  ],
+  "introduces": [
+    "amazon connect",
+    "contact center"
+  ],
+  "uses": [],
+  "problem_ideas": [
+    "A retailer needs a customer-service phone line with 50 agents working from home next week: which service?",
+    "Spot the distractor: 'Use SES to route inbound customer calls.'",
+    "A contact centre wants call transcripts and sentiment: which AI services pair with Connect?",
+    "Seasonal call volume triples in December: explain why pay-per-use suits it.",
+    "Match three business needs (email campaigns, phone support, internal chat) to services, ruling out Connect where wrong.",
+    "A company wants an IVR menu with self-service balance checks: which service hosts the flow?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "business-applications/amazon-connect"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-8-identify-services-fro/choosing-the-appropriate-service-to-meet"
+    }
+  ],
+  "status": "stub"
+}

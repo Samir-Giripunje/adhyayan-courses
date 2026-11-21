@@ -1,0 +1,59 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-aurora",
+  "version": 1,
+  "title": "Amazon Aurora: AWS-built relational engine",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-aurora-compatible-fast",
+      "version": 1,
+      "statement": "Amazon Aurora is an AWS-built relational engine, compatible with MySQL and PostgreSQL and managed through RDS, that AWS rates at up to 5× MySQL and 3× PostgreSQL throughput."
+    },
+    {
+      "id": "kc-aurora-storage-serverless",
+      "version": 1,
+      "statement": "Aurora keeps six copies of data across three AZs with storage that grows automatically, and Aurora Serverless scales capacity automatically for variable or unpredictable workloads."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-rds"
+  ],
+  "suggests": [
+    "clf-lambda"
+  ],
+  "confusable_with": [
+    "clf-rds"
+  ],
+  "introduces": [
+    "aurora",
+    "aurora serverless"
+  ],
+  "uses": [
+    "rds",
+    "availability zone",
+    "serverless",
+    "relational database"
+  ],
+  "problem_ideas": [
+    "A PostgreSQL app needs more throughput and higher availability with no code changes: choose",
+    "A dev database is idle nights and weekends: which Aurora option cuts cost?",
+    "How many copies of data does Aurora keep, across how many AZs?",
+    "Aurora or DynamoDB for a MySQL-based e-commerce app?",
+    "Spot the wrong claim: 'Aurora is a NoSQL engine'",
+    "Aurora vs RDS for MySQL: list two reasons to pay Aurora's higher price"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "database/amazon-aurora"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/amazon-aurora"
+    }
+  ],
+  "status": "stub"
+}

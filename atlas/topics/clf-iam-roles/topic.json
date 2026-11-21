@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-iam-roles",
+  "version": 1,
+  "title": "IAM roles and temporary credentials",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-role-definition",
+      "version": 1,
+      "statement": "An IAM role is an identity with permissions but no long-term password or access keys, assumed by a trusted entity such as an AWS service, an IAM user, another account or a federated user."
+    },
+    {
+      "id": "kc-temporary-credentials",
+      "version": 1,
+      "statement": "Assuming a role returns temporary credentials from AWS Security Token Service (STS) that expire automatically after a set duration."
+    },
+    {
+      "id": "kc-role-for-services",
+      "version": 1,
+      "statement": "An application running on EC2 should get its AWS permissions from a role attached to the instance rather than from access keys stored on the server."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-iam-policies"
+  ],
+  "suggests": [
+    "clf-iam-users-groups"
+  ],
+  "confusable_with": [
+    "clf-iam-users-groups"
+  ],
+  "introduces": [
+    "iam role",
+    "temporary credentials",
+    "sts"
+  ],
+  "uses": [
+    "iam",
+    "iam user",
+    "iam policy"
+  ],
+  "problem_ideas": [
+    "An EC2 app needs to write to S3: role or IAM user with access keys? Why?",
+    "An auditor from a partner company needs read access for a week: which IAM feature?",
+    "True/false: a role has its own permanent password",
+    "Credentials leaked from a role expire in an hour; credentials leaked from a user's access key do not: explain why",
+    "A Lambda function needs to read DynamoDB: what does it 'assume'?",
+    "Distinguish user, group and role in one line each, then pick one for three scenarios"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "iam/roles"
+    }
+  ],
+  "status": "stub"
+}

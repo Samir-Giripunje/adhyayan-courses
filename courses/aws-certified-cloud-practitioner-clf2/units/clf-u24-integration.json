@@ -1,0 +1,44 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u24-integration",
+  "title": "Application integration: queues, topics, events and email",
+  "topics": [
+    {
+      "id": "clf-loose-coupling",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-sqs",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-sns",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-eventbridge",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-step-functions-mq",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-ses",
+      "tier": "must",
+      "order": 6
+    },
+    {
+      "id": "clf-choosing-messaging",
+      "tier": "must",
+      "order": 7
+    }
+  ],
+  "halfway_after": 4,
+  "status": "stub"
+}

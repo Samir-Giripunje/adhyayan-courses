@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-latency-numbers",
+  "version": 1,
+  "title": "Latency numbers every engineer should know",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-latency-random-access",
+      "version": 1,
+      "statement": "Rough random-access costs: a main memory reference ≈ 100 ns, a random 4 KB SSD read ≈ 150 µs, a spinning-disk seek ≈ 10 ms, so memory is about a thousand times faster than SSD for random reads."
+    },
+    {
+      "id": "kc-latency-sequential-read",
+      "version": 1,
+      "statement": "Reading 1 MB sequentially takes roughly 250 µs from memory, 1 ms from SSD and 20–30 ms from a spinning disk."
+    },
+    {
+      "id": "kc-latency-network-rtt",
+      "version": 1,
+      "statement": "A network round trip within one datacenter is ≈ 0.5 ms, while a cross-continent round trip (California to the Netherlands) is ≈ 150 ms, so sequential cross-region calls dominate a request's latency."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-latency-throughput"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-latency-throughput"
+  ],
+  "introduces": [
+    "latency numbers",
+    "round trip time"
+  ],
+  "uses": [
+    "latency",
+    "throughput"
+  ],
+  "problem_ideas": [
+    "A page makes 5 sequential calls to a service in another continent: estimate the minimum added latency.",
+    "How long to read 1 GB sequentially from SSD vs memory?",
+    "A request does 20 random disk seeks; can it meet a 100 ms latency target?",
+    "Compare serving a profile from an in-memory cache vs a same-datacenter database call vs a cross-region call.",
+    "Rank: memory reference, datacenter round trip, SSD random read, disk seek, cross-continent round trip.",
+    "Why can a single server stream from memory far more MB/s than from spinning disk? Compute both rates from the 1 MB numbers."
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "appendix/latency-numbers-every-programmer-should-"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "appendix/latency-numbers-visualized"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-internet-nat-gateways",
+  "version": 1,
+  "title": "Internet gateways, NAT gateways and route tables",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-igw-two-way-internet",
+      "version": 1,
+      "statement": "An internet gateway attaches to a VPC and allows two-way traffic between the internet and resources with public IP addresses in public subnets."
+    },
+    {
+      "id": "kc-nat-gateway-outbound-only",
+      "version": 1,
+      "statement": "A NAT gateway, placed in a public subnet, lets instances in private subnets start outbound internet connections (for example, to download patches) while blocking connections initiated from the internet."
+    },
+    {
+      "id": "kc-route-table-makes-subnet-public",
+      "version": 1,
+      "statement": "A subnet's route table decides where its traffic goes: a default route to an internet gateway makes the subnet public, while a default route to a NAT gateway keeps it private with outbound-only access."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-vpc-subnets"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-vpc-peering-endpoints"
+  ],
+  "introduces": [
+    "internet gateway",
+    "nat gateway",
+    "route table"
+  ],
+  "uses": [
+    "vpc",
+    "public subnet",
+    "private subnet",
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "Private-subnet app servers must download OS updates but never accept inbound connections: which gateway?",
+    "A NAT gateway was placed in a private subnet and updates still fail: explain why",
+    "A public web server cannot be reached from the internet even though it has a public IP; what is missing in the route table?",
+    "Match each route-table entry (local, 0.0.0.0/0 to igw, 0.0.0.0/0 to nat) to the subnet type it creates",
+    "A company wants the database to have zero internet access, inbound or outbound: which gateways should its subnet route to?",
+    "Order the hops for a private instance fetching a patch: instance, NAT gateway, internet gateway, internet"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "vpc/internet-gateway-nat-gateways"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-5-identify-aws-network-/identifying-the-components-of-a-vpc-for-"
+    }
+  ],
+  "status": "stub"
+}

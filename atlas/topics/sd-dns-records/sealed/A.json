@@ -1,0 +1,132 @@
+[
+  {
+    "id": "sd-dns-records/test-a1",
+    "family": "sd-dns-records-dns-forms-match-record-types",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "prompt_md": "A bakery chain, Bakerly, needs four facts in its DNS. Match each fact to the record type that stores it.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "`shop.bakerly.net` → `192.0.2.81`",
+        "why_md": "A name mapped to an IPv4 address: an A record."
+      },
+      {
+        "id": "l2",
+        "md": "`shop.bakerly.net` → `2001:db8::81`",
+        "why_md": "A name mapped to an IPv6 address: an AAAA record."
+      },
+      {
+        "id": "l3",
+        "md": "`img.bakerly.net` → `bakerly.cdnhost.example`, so the CDN's own DNS supplies the address",
+        "why_md": "A name aliased to another name: a CNAME record."
+      },
+      {
+        "id": "l4",
+        "md": "`bakerly.net` → `ns1.bakerly.net`, the server that holds all of Bakerly's records",
+        "why_md": "A domain mapped to its authoritative server: an NS record."
+      },
+      {
+        "id": "r1",
+        "md": "A",
+        "why_md": "Name → IPv4 address. Fits l1."
+      },
+      {
+        "id": "r2",
+        "md": "AAAA",
+        "why_md": "Name → IPv6 address. Fits l2."
+      },
+      {
+        "id": "r3",
+        "md": "CNAME",
+        "why_md": "Name → another name. Fits l3."
+      },
+      {
+        "id": "r4",
+        "md": "NS",
+        "why_md": "Domain → names of its authoritative servers. Fits l4."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3",
+        "l4": "r4"
+      }
+    },
+    "hints": [
+      "Look at the value: is it an IPv4 address, an IPv6 address, or a name? If a name, is it an alias or the domain's authoritative server?",
+      "Dotted numbers → A; colon-separated hex → AAAA; alias to another name → CNAME; authoritative server for a domain → NS."
+    ],
+    "solution_md": "`192.0.2.81` is IPv4 → **A**. `2001:db8::81` is IPv6 → **AAAA**. `img.bakerly.net` aliased to the CDN's name → **CNAME**. `bakerly.net` naming its authoritative server → **NS**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-records/test-a2",
+    "family": "sd-dns-records-dns-forms-ar-cname-ip",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "prompt_md": "**Assertion (A):** The record `files.bakerly.net  CNAME  203.0.113.7` is **not** a valid way to point `files.bakerly.net` at that address.\n\n**Reason (R):** The value of a CNAME record must be another name, never an IP address.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. A is true, and the reason it is true is exactly R: a CNAME's value is always a name. To map straight to an IPv4 address, use an A record."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is the very reason the record is invalid: it puts an IP address where a CNAME needs a name."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true: a CNAME aliases one name to another name, and the resolver then looks up that name."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. A CNAME cannot hold an IP address, so this record is wrong; an A record is needed.",
+        "misconception": "mc-cname-to-ip"
+      }
+    ],
+    "hints": [
+      "Judge A and R separately, then ask whether R is the reason for A.",
+      "A CNAME's value is always another name. The record's value here is an IPv4 address."
+    ],
+    "solution_md": "R is true: a CNAME maps a name to **another name**. A is true for that reason: `203.0.113.7` is an address, not a name, so the CNAME is invalid. The right record is `files.bakerly.net  A  203.0.113.7`. Answer: a.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  }
+]

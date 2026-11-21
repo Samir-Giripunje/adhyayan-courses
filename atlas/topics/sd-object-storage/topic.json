@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-object-storage",
+  "version": 1,
+  "title": "Object storage for files and media",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-object-storage-model",
+      "version": 1,
+      "statement": "Object storage (S3-style) keeps immutable blobs under keys in a flat namespace with metadata, accessed over HTTP; it scales cheaply to petabytes but cannot update part of an object in place."
+    },
+    {
+      "id": "kc-object-storage-pattern",
+      "version": 1,
+      "statement": "Images and videos go in object storage while the database keeps only each object's key and metadata, and the bytes are served to users through a CDN."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-cdn"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "object storage",
+    "blob"
+  ],
+  "uses": [
+    "http",
+    "cdn",
+    "storage estimate"
+  ],
+  "problem_ideas": [
+    "Instagram stores 100M photos a day at 2 MB each: compute yearly storage and say where it lives",
+    "A teammate stores profile pictures as BLOB columns in Postgres: list three problems",
+    "Design the upload path for a 2 GB video so the bytes never pass through the app servers",
+    "Decide what goes in the database row for a stored video",
+    "Explain why appending a line to a log file in object storage is expensive",
+    "Choose between object storage and a file system for user-uploaded documents shared by many servers"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "object-storage/object-storage"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "file-storage/file-storage"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "block-storage/block-storage"
+    }
+  ],
+  "status": "stub"
+}

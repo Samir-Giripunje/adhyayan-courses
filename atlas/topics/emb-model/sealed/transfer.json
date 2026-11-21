@@ -1,0 +1,313 @@
+[
+  {
+    "id": "emb-model/transfer-1",
+    "version": 1,
+    "family": "emb-model-xfer-recipes",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-def"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "A recipe site embeds its 40,000 recipes, from 2-line notes to 3-page guides, with one embedding model. A product manager asks how a 2-line note can be compared with a 3-page guide at all. What is the best answer?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The model turns every recipe into a vector of the same fixed length, placed so similar recipes land close; cosine then compares any two",
+        "correct": true,
+        "why_md": "Right. Fixed length plus similar-meaning-nearby is what an embedding model provides."
+      },
+      {
+        "id": "b",
+        "md": "The model trims every recipe to the same number of words and compares them word by word",
+        "why_md": "Comparison happens between vectors, not words."
+      },
+      {
+        "id": "c",
+        "md": "Longer recipes get longer vectors, and the extra numbers are ignored when comparing",
+        "why_md": "Every recipe gets the same number of dimensions."
+      },
+      {
+        "id": "d",
+        "md": "It can't: only recipes of similar length can be compared",
+        "why_md": "Text length doesn't matter; the vectors all have the same length."
+      }
+    ],
+    "hints": [
+      "What does the model guarantee about every output, whatever the input?",
+      "Fixed length makes any two recipes comparable; training makes similar recipes land close."
+    ],
+    "solution_md": "The model turns every recipe into a vector of the same fixed length, placed so that recipes with similar meaning land close together. Cosine then compares any two of them, whatever their text length.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/transfer-2",
+    "version": 1,
+    "family": "emb-model-xfer-jobs",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-def"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "A job board embeds résumés and job ads with one model. The résumé line *Built REST APIs in Go* and the ad *Backend engineer, Golang services* share almost no words, yet their embeddings have a high cosine. What does this show?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The model placed texts with similar meaning close together, even without shared words",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "It's a bug: texts without shared words should have a cosine of 0",
+        "why_md": "That's keyword thinking. Embeddings compare meaning, not shared words.",
+        "misconception": "mc-keyword-is-enough"
+      },
+      {
+        "id": "c",
+        "md": "The two texts must contain the same number of words",
+        "why_md": "Text length has no effect on the vectors' length or on their cosine being high."
+      },
+      {
+        "id": "d",
+        "md": "Both texts switched on the model's *programming* dimension",
+        "why_md": "Cosine compares whole vectors, and no dimension is a named *programming* feature.",
+        "misconception": "mc-dims-are-meaningful"
+      }
+    ],
+    "hints": [
+      "What is an embedding model trained to do with texts that mean similar things?",
+      "Similar meaning, nearby vectors, whether or not the words match."
+    ],
+    "solution_md": "The model placed two texts with similar meaning close together even though they share almost no words. That's the defining property of an embedding model, and what keyword matching can't do.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/transfer-3",
+    "version": 1,
+    "family": "emb-model-xfer-law-firm",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "A law firm stores its contracts' vectors from model A and its emails' vectors from model B; both models output 768 numbers. A lawyer wants one ranked list for *termination clause* across contracts and emails. Which approach gives meaningful scores?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Re-embed contracts and emails with one model, embed the query with the same model, and rank everything together",
+        "correct": true,
+        "why_md": "Right. One model on every vector."
+      },
+      {
+        "id": "b",
+        "md": "Embed the query with model B and score it against every stored vector, since all have 768 numbers",
+        "why_md": "The contracts are in model A's space, so half the scores are meaningless.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "c",
+        "md": "Rescale every vector to length 1, then score one query vector against both collections",
+        "why_md": "Rescaling changes lengths, not coordinate systems."
+      },
+      {
+        "id": "d",
+        "md": "Embed the query with model A and score it against both collections",
+        "why_md": "The emails are in model B's space, so those scores are meaningless.",
+        "misconception": "mc-mix-models"
+      }
+    ],
+    "hints": [
+      "Which plans compare vectors that came from two different models?",
+      "Only putting every contract, every email and the query through one model gives scores that share a meaning."
+    ],
+    "solution_md": "Re-embed both collections with one model and embed the query with that same model. Any plan that scores one query vector against both collections mixes two coordinate systems, and rescaling to length 1 doesn't align them.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/transfer-4",
+    "version": 1,
+    "family": "emb-model-xfer-notes-app",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "A notes app embeds each note on the phone with a small model to save battery. Search runs on a server, which embeds queries with a larger model that also outputs 512 numbers. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Scores are meaningless: notes and queries live in two models' coordinate systems, so one model must embed both",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "It works, because both models output 512 numbers",
+        "why_md": "Equal length isn't a shared coordinate system.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "c",
+        "md": "It works, just slightly less accurately than using one model",
+        "why_md": "Not slightly: cross-model scores carry no reliable meaning.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "d",
+        "md": "It works if both models come from the same company",
+        "why_md": "Who built them doesn't matter: two models, two coordinate systems.",
+        "misconception": "mc-mix-models"
+      }
+    ],
+    "hints": [
+      "Do the phone's note vectors and the server's query vectors share a coordinate system?",
+      "Two different models means two coordinate systems; one model must embed both notes and queries."
+    ],
+    "solution_md": "The scores are meaningless: notes and queries come from two different models, each with its own coordinate system. Equal length lets the arithmetic run without error. One model must embed both, for example the small model on the server too.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/transfer-5",
+    "version": 1,
+    "family": "emb-model-xfer-sad-songs",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-dims-opaque"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "A music app embeds song lyrics. An analyst notices that dimension 211 is high for many breakup songs and wants to build a *sad songs* playlist by sorting every song on dimension 211. What is the best advice?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Don't rely on one dimension: compare whole vectors against a few example sad songs instead",
+        "correct": true,
+        "why_md": "Right. Meaning lives in whole-vector relationships."
+      },
+      {
+        "id": "b",
+        "md": "Go ahead: dimension 211 is the model's sadness feature",
+        "why_md": "No dimension is a named feature; the pattern is a coincidence of coordinates.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "c",
+        "md": "Go ahead, after rescaling every vector to length 1",
+        "why_md": "Rescaling doesn't give a coordinate a meaning.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "d",
+        "md": "Go ahead, but first ask the model's makers which dimension holds sadness",
+        "why_md": "Training never assigns concepts to dimensions, so there's nothing to ask.",
+        "misconception": "mc-dims-are-meaningful"
+      }
+    ],
+    "hints": [
+      "Does any single dimension carry a defined, nameable meaning?",
+      "Compare whole vectors against a few example sad songs instead of trusting one coordinate."
+    ],
+    "solution_md": "Don't rely on one dimension: it has no defined meaning, so the pattern can fail on other songs and will change with any new model version. Compare whole vectors against a few example sad songs by cosine instead.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/transfer-6",
+    "version": 1,
+    "family": "emb-model-xfer-rotate-storage",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-dims-opaque"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "As a preparation step for compressing product-description vectors, an engineer applies the same rotation (spinning around the origin by the same angle) to every stored vector and to every incoming query vector. A colleague objects that this will destroy the meaning, since every coordinate changes. Is the objection right?",
+    "options": [
+      {
+        "id": "a",
+        "md": "No: the same rotation on every vector keeps every cosine, so search results don't change",
+        "correct": true,
+        "why_md": "Right. Relative positions carry the meaning, and they survive."
+      },
+      {
+        "id": "b",
+        "md": "Yes: each coordinate held a feature, and rotation scrambles them",
+        "why_md": "Coordinates don't hold named features; the cosines do, and they're unchanged.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "c",
+        "md": "Yes: rotation changes vector lengths, so the cosines change",
+        "why_md": "A rotation keeps every length and every angle."
+      },
+      {
+        "id": "d",
+        "md": "No, but only because product descriptions are short",
+        "why_md": "Text length is irrelevant. A shared rotation keeps every cosine for any texts."
+      }
+    ],
+    "hints": [
+      "What does a rotation do to the angle between two vectors that are both rotated?",
+      "Every cosine survives, so every search result survives; the coordinates never held the meaning."
+    ],
+    "solution_md": "No. Rotating every vector, queries included, by the same rotation keeps every angle, so every cosine and every search result stays the same. The meaning lives in the relative positions, which don't change; individual coordinates never held it.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  }
+]

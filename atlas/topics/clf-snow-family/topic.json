@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-snow-family",
+  "version": 1,
+  "title": "AWS Snow Family: moving data offline and at the edge",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-snow-offline",
+      "version": 1,
+      "statement": "AWS Snow Family devices are rugged physical devices that AWS ships to you to move terabytes to petabytes of data offline into S3 when network transfer would be too slow or costly."
+    },
+    {
+      "id": "kc-snow-edge-compute",
+      "version": 1,
+      "statement": "Snowball Edge devices also provide edge computing: they can run EC2 instances locally at sites with limited or no connectivity, such as ships, mines or field sites."
+    },
+    {
+      "id": "kc-snow-rule-of-thumb",
+      "version": 1,
+      "statement": "AWS guidance: if moving the data over the network would take more than about a week, consider Snow Family devices instead."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-storage-gateway"
+  ],
+  "confusable_with": [
+    "clf-datasync-transfer-choice",
+    "clf-storage-gateway"
+  ],
+  "introduces": [
+    "snow family",
+    "snowball edge",
+    "edge computing",
+    "offline data transfer"
+  ],
+  "uses": [
+    "s3",
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "A film studio must move 400 TB to S3 over a 100 Mbps line: estimate the network time and choose a method.",
+    "A research ship needs to process sensor data at sea for weeks without internet: which device and why?",
+    "Spot the distractor: 'Snowball Edge is a faster internet connection to AWS.'",
+    "Order the steps: request device, load data, ship back, data imported into S3.",
+    "A mining site wants local processing with intermittent connectivity: Snowball Edge or Outposts?",
+    "Explain why encryption on the device matters when data travels by courier."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "amazon-s3/aws-snow-family"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "amazon-s3/snow-family-edge-computing"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "amazon-s3/what-is-edge-computing"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "amazon-s3/aws-opshub"
+    }
+  ],
+  "status": "stub"
+}

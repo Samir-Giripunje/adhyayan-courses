@@ -1,0 +1,400 @@
+{
+  "items": [
+    {
+      "id": "function-decorator-basics",
+      "title": "What a function decorator is",
+      "aliases": [
+        "decorator",
+        "@ syntax",
+        "function wrapper",
+        "higher-order function"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "pep-318",
+          "section": "abstract",
+          "entry": "abstract"
+        },
+        {
+          "source": "pep-318",
+          "section": "background",
+          "entry": "background"
+        },
+        {
+          "source": "pep-318",
+          "section": "on-the-name-decorator",
+          "entry": "on-the-name-decorator"
+        }
+      ]
+    },
+    {
+      "id": "decorator-syntax-semantics",
+      "title": "Decorator syntax and its desugaring (func = dec(func))",
+      "aliases": [
+        "@decorator semantics",
+        "pie syntax",
+        "decorator application"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "pep-318",
+          "section": "current-syntax",
+          "entry": "current-syntax"
+        }
+      ]
+    },
+    {
+      "id": "stacking-decorators",
+      "title": "Stacking multiple decorators and application order",
+      "aliases": [
+        "chained decorators",
+        "decorator order"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "pep-318",
+          "section": "current-syntax",
+          "entry": "current-syntax"
+        }
+      ]
+    },
+    {
+      "id": "decorator-factories",
+      "title": "Decorators with arguments (decorator factories)",
+      "aliases": [
+        "parameterized decorators",
+        "@dec(args)"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "pep-318",
+          "section": "current-syntax",
+          "entry": "current-syntax"
+        },
+        {
+          "source": "pep-318",
+          "section": "examples",
+          "entry": "examples"
+        }
+      ]
+    },
+    {
+      "id": "common-decorator-patterns",
+      "title": "Common decorator patterns (registration, attribute tagging, type checking, singleton)",
+      "aliases": [
+        "decorator examples",
+        "decorator use cases"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "pep-318",
+          "section": "examples",
+          "entry": "examples"
+        }
+      ]
+    },
+    {
+      "id": "decorator-design-history",
+      "title": "Design goals and history of decorator syntax",
+      "aliases": [
+        "why @",
+        "PEP 318 rationale",
+        "syntax alternatives"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "pep-318",
+          "section": "design-goals",
+          "entry": "design-goals"
+        },
+        {
+          "source": "pep-318",
+          "section": "syntax-alternatives",
+          "entry": "syntax-alternatives"
+        },
+        {
+          "source": "pep-318",
+          "section": "syntax-alternatives",
+          "entry": "decorator-location"
+        },
+        {
+          "source": "pep-318",
+          "section": "syntax-alternatives",
+          "entry": "syntax-forms"
+        },
+        {
+          "source": "pep-318",
+          "section": "syntax-alternatives",
+          "entry": "why"
+        },
+        {
+          "source": "pep-318",
+          "section": "current-implementation-history",
+          "entry": "current-implementation-history"
+        },
+        {
+          "source": "pep-318",
+          "section": "current-implementation-history",
+          "entry": "community-consensus"
+        },
+        {
+          "source": "pep-318",
+          "section": "no-longer-open-issues",
+          "entry": "no-longer-open-issues"
+        }
+      ]
+    },
+    {
+      "id": "class-decorators",
+      "title": "Class decorators",
+      "aliases": [
+        "decorating classes",
+        "PEP 3129"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "pep-3129",
+          "section": "abstract",
+          "entry": "abstract"
+        },
+        {
+          "source": "pep-3129",
+          "section": "rationale",
+          "entry": "rationale"
+        },
+        {
+          "source": "pep-3129",
+          "section": "semantics",
+          "entry": "semantics"
+        },
+        {
+          "source": "pep-3129",
+          "section": "implementation",
+          "entry": "implementation"
+        },
+        {
+          "source": "pep-3129",
+          "section": "acceptance",
+          "entry": "acceptance"
+        }
+      ]
+    },
+    {
+      "id": "functools-partial",
+      "title": "functools.partial for building decorators",
+      "aliases": [
+        "partial application",
+        "partial objects"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "functools-docs",
+          "section": "class-partial-objects",
+          "entry": "class-partial-objects"
+        }
+      ]
+    },
+    {
+      "id": "descriptor-protocol",
+      "title": "Descriptor protocol (__get__, __set__) and how it is invoked",
+      "aliases": [
+        "descriptors",
+        "attribute lookup",
+        "__get__"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "descriptor-howto",
+          "section": "primer",
+          "entry": "primer"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "primer",
+          "entry": "simple-example-a-descriptor-that-returns"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "primer",
+          "entry": "dynamic-lookups"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "primer",
+          "entry": "customized-names"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "primer",
+          "entry": "closing-thoughts"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "technical-tutorial",
+          "entry": "technical-tutorial"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "technical-tutorial",
+          "entry": "abstract"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "technical-tutorial",
+          "entry": "definition-and-introduction"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "technical-tutorial",
+          "entry": "descriptor-protocol"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "technical-tutorial",
+          "entry": "overview-of-descriptor-invocation"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "technical-tutorial",
+          "entry": "invocation-from-an-instance"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "technical-tutorial",
+          "entry": "invocation-from-a-class"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "technical-tutorial",
+          "entry": "invocation-from-super"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "technical-tutorial",
+          "entry": "summary-of-invocation-logic"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "technical-tutorial",
+          "entry": "automatic-name-notification"
+        }
+      ]
+    },
+    {
+      "id": "property-decorator",
+      "title": "The @property decorator and managed attributes",
+      "aliases": [
+        "property",
+        "getter/setter",
+        "managed attributes"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "descriptor-howto",
+          "section": "primer",
+          "entry": "managed-attributes"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "pure-python-equivalents",
+          "entry": "pure-python-equivalents"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "pure-python-equivalents",
+          "entry": "properties"
+        }
+      ]
+    },
+    {
+      "id": "decorating-methods",
+      "title": "Functions as descriptors: decorating methods and bound methods",
+      "aliases": [
+        "bound methods",
+        "method decorators",
+        "self binding"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "descriptor-howto",
+          "section": "pure-python-equivalents",
+          "entry": "functions-and-methods"
+        }
+      ]
+    },
+    {
+      "id": "classmethod-staticmethod",
+      "title": "@classmethod and @staticmethod",
+      "aliases": [
+        "class methods",
+        "static methods",
+        "kinds of methods"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "descriptor-howto",
+          "section": "pure-python-equivalents",
+          "entry": "kinds-of-methods"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "pure-python-equivalents",
+          "entry": "static-methods"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "pure-python-equivalents",
+          "entry": "class-methods"
+        }
+      ]
+    },
+    {
+      "id": "validator-descriptors",
+      "title": "Reusable attribute validators with descriptors",
+      "aliases": [
+        "validator class",
+        "ORM-style fields"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "descriptor-howto",
+          "section": "complete-practical-example",
+          "entry": "complete-practical-example"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "complete-practical-example",
+          "entry": "validator-class"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "complete-practical-example",
+          "entry": "custom-validators"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "complete-practical-example",
+          "entry": "practical-application"
+        },
+        {
+          "source": "descriptor-howto",
+          "section": "technical-tutorial",
+          "entry": "orm-example"
+        }
+      ]
+    }
+  ]
+}

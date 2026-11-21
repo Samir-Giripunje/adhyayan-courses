@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-server-memory-estimate",
+  "version": 1,
+  "title": "Estimating servers and hot-data memory",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-server-count",
+      "version": 1,
+      "statement": "Servers needed ≈ peak QPS ÷ sustainable QPS per server, rounded up with headroom (e.g. run at ≤ 70% utilisation)."
+    },
+    {
+      "id": "kc-hot-data-memory",
+      "version": 1,
+      "statement": "Cache memory ≈ number of distinct hot objects × average cached-object size, plus metadata and replication overhead; the hot set is estimated from unique-object counts and popularity (e.g. the most-read 20% of distinct objects), because counting every read request double-counts repeated reads of the same object."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-qps-estimate"
+  ],
+  "suggests": [
+    "sd-latency-throughput"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "server count estimate",
+    "80/20 rule",
+    "memory estimate"
+  ],
+  "uses": [
+    "peak qps",
+    "throughput",
+    "little's law"
+  ],
+  "problem_ideas": [
+    "Peak 60,000 QPS and 2,000 QPS per server at 70% target: how many servers?",
+    "URL shortener with 50M distinct URLs read per day at 500 bytes each: memory to cache the most-read 20% of them, plus 30% overhead",
+    "A worked estimate caches 0.2 × 350M daily redirects × 500 bytes: explain why it overcounts and recompute from distinct URLs",
+    "Use Little's law: 10,000 QPS at 200 ms latency means how many requests in flight?",
+    "Decide whether the hot set fits on one 64 GB machine or needs several",
+    "Recompute server count after the interviewer halves per-server throughput"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "estimation-and-constraints-2/cache"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "estimation-and-constraints-2/high-level-estimate"
+    }
+  ],
+  "status": "stub"
+}

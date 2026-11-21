@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-protect-root-mfa",
+  "version": 1,
+  "title": "Protecting the root user with MFA",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-mfa-definition",
+      "version": 1,
+      "statement": "Multi-factor authentication requires a second factor in addition to the password, such as a code from a virtual authenticator app, a FIDO2 passkey or security key, or a hardware TOTP token."
+    },
+    {
+      "id": "kc-root-protection-steps",
+      "version": 1,
+      "statement": "To protect the root user: enable MFA, set a strong password, do not create root access keys (delete any that exist), and sign in as root only for root-only tasks."
+    },
+    {
+      "id": "kc-mfa-for-humans",
+      "version": 1,
+      "statement": "MFA should be enabled for every human identity with console access, not only the root user, because it stops a stolen password alone from granting access."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-aws-account-root-user"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "mfa"
+  ],
+  "uses": [
+    "root user",
+    "aws account"
+  ],
+  "problem_ideas": [
+    "'What is the best way to protect the root user?' choose from four options including 'share the password with two admins'",
+    "A phishing email stole an admin's password but MFA was on: what does the attacker still lack?",
+    "Classify: authenticator app, YubiKey, SMS code, hardware key fob, as MFA device types",
+    "A root access key was found in a public GitHub repo: list the immediate steps",
+    "Why is 'use root only for root-only tasks' safer than 'use root carefully'?",
+    "Explain 'something you know' plus 'something you have' with an AWS sign-in example"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-3-identify-aws-access-m/understanding-which-methods-can-achieve-"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "iam-identity-access-management/multi-factor-authentication-mfa"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "iam-identity-access-management/mfa-devices-options-in-aws"
+    }
+  ],
+  "status": "stub"
+}

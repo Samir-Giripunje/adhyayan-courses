@@ -1,0 +1,44 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u5-scale-out",
+  "title": "Scaling out and load balancing",
+  "topics": [
+    {
+      "id": "sd-performance-vs-scalability",
+      "tier": "recommended",
+      "order": 1
+    },
+    {
+      "id": "sd-vertical-horizontal-scaling",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-stateless-services",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "sd-load-balancers",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "sd-lb-algorithms",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "sd-l4-vs-l7",
+      "tier": "must",
+      "order": 6
+    },
+    {
+      "id": "sd-reverse-proxy",
+      "tier": "must",
+      "order": 7
+    }
+  ],
+  "halfway_after": 4,
+  "status": "stub"
+}

@@ -1,0 +1,314 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-contrastive",
+  "version": 1,
+  "title": "Learning by contrast",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-training-contrastive",
+      "version": 2,
+      "statement": "Contrastive training pulls matching pairs together and pushes in-batch negatives apart."
+    },
+    {
+      "id": "kc-similar-per-training",
+      "version": 1,
+      "statement": "“Similar” means whatever the training pairs said was similar."
+    }
+  ],
+  "mode_hint": "quiz",
+  "mode": "quiz",
+  "requires": [
+    "emb-model"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "contrastive learning",
+    "in-batch negatives"
+  ],
+  "uses": [
+    "embedding model"
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-similar-means-relevant",
+      "statement": "The highest-similarity result is the right answer.",
+      "tags": [
+        "kc-training-contrastive"
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "contrastive learning",
+      "md": "Training that pulls matching pairs together and pushes non-matching ones apart."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-contrastive-p1",
+      "title": "Where the numbers come from: learning by contrast",
+      "beats": [
+        {
+          "id": "b-training",
+          "title": "Where the numbers come from: learning by contrast",
+          "kcs": [
+            "kc-training-contrastive"
+          ],
+          "est_minutes": 10,
+          "blocks": [
+            {
+              "id": "blk-emb-contrastive-01",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Nobody hand-writes the 384 numbers. They are **learned**, and the idea behind it is older than computers. The linguist J. R. Firth (1957) put it as: *“You shall know a word by the company it keeps.”* Words used in similar contexts tend to have similar meanings. This is the **distributional hypothesis**.",
+                  "**word2vec** (Mikolov et al., 2013) turned this into an algorithm. It slides over billions of words and nudges each word's vector so that it predicts its neighbours. Words that keep similar company end up with similar vectors. The famous party trick is *king − man + woman ≈ queen*. It's real but fragile: it works for some relations, and the usual demo quietly excludes the input words from the answer."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-contrastive-02",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Modern **sentence** embedding models (Sentence-BERT, Reimers & Gurevych 2019, and its descendants) are trained by [[contrastive learning]]:",
+                  "1. Collect **pairs that should match**: a question and its accepted answer, a title and its abstract, two paraphrases.\n2. Embed both sides of a batch of pairs.\n3. Adjust the model so each pair's similarity goes **up**, and its similarity to every *other* item in the batch goes **down**. Those other items are the free **in-batch negatives**.",
+                  "`all-MiniLM-L6-v2`, for example, was fine-tuned with a contrastive objective on over **1 billion** sentence pairs."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-contrastive-03",
+              "block": {
+                "type": "visual",
+                "id": "v-contrastive",
+                "widget": "contrastive",
+                "title": "One training step at a time",
+                "goal_md": "A cartoon of contrastive training in 2-D. Press **Train step** and watch the positive pair pull together while the negatives get pushed away. The loss shrinks as they separate.",
+                "alt": "Five unit vectors on a circle: an anchor, its positive and three negatives. Each train step rotates the positive toward the anchor and the negatives away, and a loss curve and cosine readouts update.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "Train until the positive's cosine with the anchor is above 0.9 **and** every negative is below 0.3.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "cos_pos",
+                          "op": ">",
+                          "value": 0.9
+                        },
+                        {
+                          "var": "max_cos_neg",
+                          "op": "<",
+                          "value": 0.3
+                        }
+                      ]
+                    },
+                    "aha_md": "That's all “learning an embedding” means: move vectors until related pairs are close and unrelated pairs are far. Repeat over a billion pairs and the geometry starts to encode meaning."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Reset, set the learning rate to its maximum, and train 3 steps. Does the loss fall smoothly?",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "lr",
+                          "op": ">=",
+                          "value": 1.5
+                        },
+                        {
+                          "var": "steps",
+                          "op": ">=",
+                          "value": 3
+                        }
+                      ]
+                    },
+                    "aha_md": "Big steps overshoot. Real training uses small learning rates and many steps for the same reason."
+                  }
+                ],
+                "caption_md": "Simplified: real training moves the *model's weights*, and the vectors move as a consequence."
+              }
+            },
+            {
+              "id": "blk-emb-contrastive-04",
+              "block": {
+                "type": "math",
+                "tex": "\\mathcal{L} = -\\log \\frac{\\exp\\big(\\text{sim}(q, p^{+})/\\tau\\big)}{\\sum_{j}\\exp\\big(\\text{sim}(q, p_j)/\\tau\\big)}",
+                "explain_md": "The **InfoNCE** loss (van den Oord et al., 2018), often called *multiple negatives ranking loss* in sentence-transformers. It's a softmax over the batch: the loss is small when the true pair $p^+$ out-scores every other candidate $p_j$.",
+                "parts": [
+                  {
+                    "symbol": "q",
+                    "means": "the anchor (e.g. a question)"
+                  },
+                  {
+                    "symbol": "p⁺",
+                    "means": "its true partner (e.g. its answer)"
+                  },
+                  {
+                    "symbol": "p_j",
+                    "means": "every candidate in the batch, including p⁺"
+                  },
+                  {
+                    "symbol": "τ",
+                    "means": "temperature: smaller τ means sharper preferences"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-contrastive-05",
+              "block": {
+                "type": "callout",
+                "kind": "misconception",
+                "md": "The model learns **whatever its training pairs call similar**. A model trained on paraphrases thinks *“how do I cancel my order”* and *“how do I place an order”* are close: same topic, same shape. For a support bot those intents are *opposites*. Similar is not the same as relevant.",
+                "title": "“High similarity means it's the right answer”",
+                "misconception": "mc-similar-means-relevant"
+              }
+            },
+            {
+              "id": "blk-emb-contrastive-06",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-inbatch",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-training-contrastive"
+                  ],
+                  "prompt_md": "In contrastive training with **in-batch negatives**, where do the negatives come from?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "The other pairs' items in the same training batch",
+                      "why_md": "Right. With a batch of 256 pairs, each anchor gets 255 free negatives. This is one reason large batches help these models.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "A hand-labelled list of wrong answers",
+                      "why_md": "Hand-labelled “hard negatives” are sometimes added, but in-batch negatives are free: they're simply the rest of the batch."
+                    },
+                    {
+                      "id": "c",
+                      "md": "Random noise vectors",
+                      "why_md": "The negatives are real texts, the other examples in the batch."
+                    }
+                  ],
+                  "est_seconds": 70
+                }
+              }
+            },
+            {
+              "id": "blk-emb-contrastive-07",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-paraphrase-model",
+                  "kind": "mcq",
+                  "difficulty": 3,
+                  "kcs": [
+                    "kc-training-contrastive"
+                  ],
+                  "prompt_md": "A model trained only on **paraphrase** pairs is used to match short user questions to long help-center answers. What's the main risk?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "It ranks texts that *look like the question* (other questions, titles) above the passages that *answer* it",
+                      "why_md": "Right. The model learned “same meaning, similar form”. Question → answer is an **asymmetric** task, which is why retrieval models are trained on query → passage pairs.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "It can't embed long text at all",
+                      "why_md": "It can embed long text (within its length limit). The problem is what it treats as similar."
+                    },
+                    {
+                      "id": "c",
+                      "md": "None: similarity is similarity",
+                      "why_md": "What counts as similar depends on the training data.",
+                      "misconception": "mc-similar-means-relevant"
+                    }
+                  ],
+                  "est_seconds": 120
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp2-train"
+  ],
+  "recap": {
+    "pitfall": "A model trained on question–answer pairs calls an answer ‘similar’ to its question; that is not the same as a paraphrase."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [
+    {
+      "id": "d-inbatch",
+      "beat": "b-training",
+      "question": "What are in-batch negatives, really?",
+      "match": [
+        "in-batch",
+        "in batch",
+        "negatives",
+        "negative pairs",
+        "contrastive"
+      ],
+      "answer_md": "In a training batch of, say, 256 (question, answer) pairs, each question's true answer is its positive, and the other 255 answers in the batch are treated as **negatives**: the model is pushed to score them lower. You get 255 negatives for free, with no extra labelling.",
+      "deeper_md": "Picture a quiz show with 256 contestants, each holding a card with one answer. For each question, the model must pick the right card from all 256. Every wrong card is a negative. Larger batches make the quiz harder and the learning sharper.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "A batch of 3, by hand",
+        "md": [
+          "Pairs: (Q1, A1), (Q2, A2), (Q3, A3). Score every Q against every A:",
+          "| | A1 | A2 | A3 |\n|---|---|---|---|\n| Q1 | **0.9** | 0.3 | 0.2 |\n| Q2 | 0.4 | **0.8** | 0.1 |\n| Q3 | 0.2 | 0.5 | **0.7** |",
+          "Training pushes the **diagonal** up and everything off the diagonal down. Each row is a softmax “pick the right answer” problem, and that's the InfoNCE loss."
+        ],
+        "verify": {
+          "id": "q-br-inbatch",
+          "kind": "numeric",
+          "difficulty": 1,
+          "kcs": [
+            "kc-training-contrastive"
+          ],
+          "prompt_md": "Batch of 64 pairs. How many negatives does each anchor get from in-batch negatives?",
+          "answer": {
+            "value": 63,
+            "tolerance": 0
+          },
+          "solution_md": "64 − 1 = 63.",
+          "est_seconds": 40
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Draw one contrastive step for a batch of three pairs",
+    "Explain why in-batch negatives make large batches better",
+    "Predict which pair a QA-trained model scores higher: paraphrase or answer",
+    "Choose training pairs for a duplicate-ticket detector",
+    "Explain why ‘similar’ is not ‘relevant’ for a search engine",
+    "Spot the leakage when test queries appear in training pairs"
+  ],
+  "sources": [
+    {
+      "source": "strata-pack",
+      "entry": "intermediate/b-training"
+    },
+    {
+      "source": "sentence-transformers",
+      "entry": "training-overview"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

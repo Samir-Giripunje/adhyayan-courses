@@ -1,0 +1,137 @@
+[
+  {
+    "id": "q-cp2-train",
+    "version": 1,
+    "family": "q-cp2-train",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-contrastive",
+    "kcs": [
+      "kc-training-contrastive"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Contrastive training pushes which pairs apart?",
+    "options": [
+      {
+        "id": "a",
+        "md": "An anchor and items that are not its partner (e.g. other items in the batch)",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "Words that appear in the same sentence",
+        "why_md": "Co-occurrence pulls words together in word2vec-style training."
+      },
+      {
+        "id": "c",
+        "md": "Every pair equally",
+        "why_md": "Then nothing would be learned."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Contrastive training pulls matching pairs together and pushes in-batch negatives apart.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-i1",
+    "version": 1,
+    "family": "q-dpp-i1",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-contrastive",
+    "kcs": [
+      "kc-training-contrastive"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Firth's *“You shall know a word by the company it keeps”* is the idea behind:",
+    "options": [
+      {
+        "id": "a",
+        "md": "The distributional hypothesis, which word2vec-style training is built on",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "BM25 term weighting",
+        "why_md": "BM25 is lexical scoring, not representation learning."
+      },
+      {
+        "id": "c",
+        "md": "Product quantization",
+        "why_md": "That's a compression method."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Contrastive training pulls matching pairs together and pushes in-batch negatives apart.",
+      "Words in similar contexts get similar vectors."
+    ],
+    "solution_md": "Words in similar contexts get similar vectors. Contrastive sentence models extend this to whole texts.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-i2",
+    "version": 1,
+    "family": "q-dpp-i2",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-contrastive",
+    "kcs": [
+      "kc-training-contrastive"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "A batch has 128 (question, answer) pairs. With in-batch negatives, how many negatives does each question get?",
+    "options": [
+      {
+        "id": "a",
+        "md": "127",
+        "correct": true,
+        "why_md": "Right. Every other answer in the batch."
+      },
+      {
+        "id": "b",
+        "md": "1",
+        "why_md": "That's the number of positives."
+      },
+      {
+        "id": "c",
+        "md": "128",
+        "why_md": "One of the 128 answers is its own positive."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Contrastive training pulls matching pairs together and pushes in-batch negatives apart.",
+      "128 answers minus the 1 true partner = 127 negatives, at no extra cost."
+    ],
+    "solution_md": "128 answers minus the 1 true partner = 127 negatives, at no extra cost.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

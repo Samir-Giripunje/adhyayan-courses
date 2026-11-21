@@ -1,0 +1,88 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "pd-u1-foundations",
+  "title": "Functions, closures and your first decorator",
+  "topics": [
+    {
+      "id": "pd-first-class-functions",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "pd-closures",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "pd-what-is-a-decorator",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "pd-decorator-syntax",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "pd-wrapper-functions",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "pd-decoration-time",
+      "tier": "must",
+      "order": 6
+    },
+    {
+      "id": "pd-functools-wraps",
+      "tier": "must",
+      "order": 7
+    }
+  ],
+  "halfway_after": 4,
+  "status": "drafted",
+  "outcome": "Write a working function decorator from scratch: a closure-based wrapper that passes through *args/**kwargs, returns the result and keeps metadata with functools.wraps. Rewrite its @ line as f = dec(f) and predict which lines print at definition time and which print on each call.",
+  "bench": {
+    "id": "shopkit-pricing",
+    "title": "Shopkit: a three-function pricing module",
+    "description": "A small shop's pricing.py module has three plain functions. unit_price(sku) looks up a dict of 4 SKUs (\"TEA\": 4.50, \"MUG\": 12.00, \"PEN\": 1.25, \"BAG\": 30.00). line_total(sku, qty=1, *, discount_pct=0) returns unit_price × qty × (1 − discount_pct/100). shipping(weight_kg, express=False) returns 5.00 + 2.00 per kg, doubled when express is True. Each function has a one-line docstring. The checkout script imports the module and makes 6 calls: line_total(\"TEA\", 3), line_total(\"MUG\", 2, discount_pct=25), line_total(\"BAG\"), shipping(1.5), shipping(2, express=True) and unit_price(\"PEN\"). The expected results are 13.50, 18.00, 30.00, 8.00, 18.00 and 1.25. The team wants to add call logging and call counting to these functions without editing their bodies. The work must leave every return value, __name__, __doc__ and inspect.signature unchanged."
+  },
+  "case_study": false,
+  "concept_map": "flowchart TD\n  pd-first-class-functions[\"Functions are objects you can pass around\"]\n  pd-closures[\"Closures: inner functions that remember\"]\n  pd-what-is-a-decorator[\"What a decorator is\"]\n  pd-decorator-syntax[\"@ syntax desugars to func = dec(func)\"]\n  pd-wrapper-functions[\"Wrappers that work for any signature\"]\n  pd-decoration-time[\"When decorator code runs: definition vs call\"]\n  pd-functools-wraps[\"Preserving metadata with functools.wraps\"]\n  pd-first-class-functions --> pd-closures\n  pd-first-class-functions --> pd-what-is-a-decorator\n  pd-what-is-a-decorator --> pd-decorator-syntax\n  pd-closures --> pd-wrapper-functions\n  pd-what-is-a-decorator --> pd-wrapper-functions\n  pd-decorator-syntax --> pd-decoration-time\n  pd-wrapper-functions --> pd-decoration-time\n  pd-wrapper-functions --> pd-functools-wraps\n  pd-decoration-time -.->|\"explains when wraps copies metadata\"| pd-functools-wraps",
+  "capstone": {
+    "prompt_md": "**Instrument Shopkit's pricing module without touching the function bodies.**\n\n1. Write a decorator `count_calls(func)`. It should store a counter in a closure using `nonlocal`, or as an attribute on the wrapper, and expose the count as `wrapper.calls`. Write a second decorator, `log_calls(func)`, that prints `-> name(args, kwargs)` before each call and `<- name = result` after it. Both wrappers must use `*args, **kwargs` and **return** the original result.\n2. Put `print(\"decorating\", func.__name__)` in each decorator's outer body, outside the wrapper. Apply `@log_calls` to `line_total` and `shipping`, and `@count_calls` to `unit_price`.\n3. Rewrite each decorated `def` as plain assignments, `name = dec(name)`.\n4. **Predict before running:** how many `decorating …` lines print when the module is imported? What does the full output of the 6 checkout calls look like? What is `unit_price.calls` at the end? Remember that `line_total` calls `unit_price`.\n5. Show that `line_total(\"MUG\", 2, discount_pct=25)` still returns `18.00`. Then remove the `return` from one wrapper, predict the new results and explain the change.\n6. Add `@functools.wraps(func)` to both wrappers. Check that `shipping.__name__`, `shipping.__doc__` and `inspect.signature(shipping)` match the originals, and that `shipping.__wrapped__(2, express=True)` returns `18.00` without logging anything.",
+    "uses": [
+      "pd-first-class-functions",
+      "pd-closures",
+      "pd-what-is-a-decorator",
+      "pd-decorator-syntax",
+      "pd-wrapper-functions",
+      "pd-decoration-time",
+      "pd-functools-wraps"
+    ]
+  },
+  "confusables": [
+    [
+      "pd-decorator-syntax",
+      "pd-decoration-time"
+    ],
+    [
+      "pd-what-is-a-decorator",
+      "pd-wrapper-functions"
+    ],
+    [
+      "pd-closures",
+      "pd-wrapper-functions"
+    ]
+  ],
+  "lab": {
+    "exercises": [
+      "ex-worked-announce",
+      "ex-faded-count-calls",
+      "ex-scratch-log-calls",
+      "ex-debug-audit",
+      "ex-build-instrument"
+    ],
+    "checks": []
+  }
+}

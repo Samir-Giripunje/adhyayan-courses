@@ -1,0 +1,69 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-dms-sct",
+  "version": 1,
+  "title": "Database migration: DMS and the Schema Conversion Tool",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-dms-minimal-downtime",
+      "version": 1,
+      "statement": "AWS Database Migration Service (DMS) migrates databases to AWS while the source stays fully operational, and can continuously replicate changes to keep downtime minimal."
+    },
+    {
+      "id": "kc-homogeneous-heterogeneous",
+      "version": 1,
+      "statement": "A homogeneous migration (for example Oracle to Oracle on RDS) needs only DMS; a heterogeneous migration (for example Oracle to Aurora PostgreSQL) also needs the schema converted first."
+    },
+    {
+      "id": "kc-sct",
+      "version": 1,
+      "statement": "The AWS Schema Conversion Tool (SCT) converts a source database's schema and code, such as stored procedures, to a different target engine and flags what it cannot convert automatically."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-relational-vs-nosql",
+    "clf-aurora"
+  ],
+  "confusable_with": [
+    "clf-migration-discovery-mgn"
+  ],
+  "introduces": [
+    "database migration service",
+    "schema conversion tool",
+    "homogeneous migration",
+    "heterogeneous migration"
+  ],
+  "uses": [
+    "relational database",
+    "rds",
+    "aurora",
+    "database schema"
+  ],
+  "problem_ideas": [
+    "Move a MySQL database to RDS for MySQL with under 5 minutes of downtime: which services?",
+    "Move SQL Server to Aurora PostgreSQL: list the two tools in order.",
+    "Classify six source-target pairs as homogeneous or heterogeneous.",
+    "Spot the distractor: 'Application Migration Service converts stored procedures.'",
+    "The source database must keep taking orders throughout migration: which DMS capability allows it?",
+    "A team wants to consolidate an on-prem Oracle warehouse into Redshift: which tools apply?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "migration-and-transfer/aws-database-migration-service-aws-dms"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "migration-and-transfer/aws-schema-conversion-tool-aws-sct"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-4-identify-aws-database/database-migration"
+    }
+  ],
+  "status": "stub"
+}

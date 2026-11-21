@@ -1,0 +1,79 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-choosing-compute",
+  "version": 1,
+  "title": "Choosing a compute service for a requirement",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-choose-ec2",
+      "version": 1,
+      "statement": "Pick EC2 when a requirement needs full control of the operating system, runs a specific licensed or legacy application, or moves long-running servers by lift and shift."
+    },
+    {
+      "id": "kc-choose-lambda",
+      "version": 1,
+      "statement": "Pick Lambda for short, event-triggered code that finishes within 15 minutes, sits idle between events and should cost nothing when unused."
+    },
+    {
+      "id": "kc-choose-containers",
+      "version": 1,
+      "statement": "Pick ECS or EKS for containerized microservices: EKS when the requirement names Kubernetes, and Fargate as the hosting option when it says not to manage servers."
+    },
+    {
+      "id": "kc-choose-simple-or-batch",
+      "version": 1,
+      "statement": "Pick Lightsail when a requirement stresses simplicity and a fixed monthly price, and AWS Batch when it describes many queued jobs or batch high-performance computing."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-ec2-basics",
+    "clf-fargate-ecr",
+    "clf-batch-lightsail"
+  ],
+  "suggests": [
+    "clf-migration-strategies"
+  ],
+  "confusable_with": [
+    "clf-choosing-storage"
+  ],
+  "introduces": [
+    "compute selection"
+  ],
+  "uses": [
+    "ec2 instance",
+    "lambda",
+    "ecs",
+    "eks",
+    "fargate",
+    "lightsail",
+    "aws batch",
+    "lift and shift",
+    "serverless"
+  ],
+  "problem_ideas": [
+    "Ten one-line requirements: name the compute service for each and the distractor you ruled out.",
+    "A company rehosts 40 VMs as-is during a data-center exit: which service, and which keyword in the requirement gives it away?",
+    "An IoT backend processes sensor events that arrive in bursts a few times an hour: pick and justify.",
+    "A team containerized its app and says 'no servers, but it runs 24/7': which combination?",
+    "A small business wants one blog with a fixed $5-a-month bill: which service?",
+    "Spot the trap: 'run a 30-minute job serverlessly with Lambda.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-3-identify-aws-compute-/aws-compute-services"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-3-identify-aws-compute-/recognizing-the-appropriate-use-of-vario"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-3-identify-aws-compute-/task-statement-3-3-identify-aws-compute-"
+    }
+  ],
+  "status": "stub"
+}

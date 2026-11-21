@@ -1,0 +1,1010 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u1-cloud-basics",
+  "title": "What the cloud is: service and deployment models",
+  "topics": [
+    {
+      "id": "clf-what-is-cloud-computing",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-service-models",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-deployment-models",
+      "tier": "must",
+      "order": 3
+    }
+  ],
+  "halfway_after": 2,
+  "status": "drafted",
+  "outcome": "Given a small company's IT estate, sort each workload into IaaS, PaaS or SaaS by who manages what, and recommend a cloud, hybrid or on-premises deployment with a one-sentence reason tied to on-demand, pay-as-you-go delivery.",
+  "bench": {
+    "id": "harbor-lane-dental",
+    "title": "Harbor Lane Dental: 12 clinics leaving the server closet",
+    "description": "Harbor Lane Dental runs 12 clinics with 140 staff. All IT sits in one server closet at head office: 2 physical servers bought for $60,000, refreshed every 4 years, running at about 15% average CPU. Server A runs the patient booking web app (a custom app on a Windows VM, about 3,000 bookings a week, with a 3x spike on Monday mornings). Server B holds a 4 TB file share of X-ray images, growing by about 80 GB a month. Staff email runs on a self-hosted mail server that one part-time admin patches by hand. A legacy billing system is tied to a vendor contract that requires it to stay in the closet for 2 more years. The owners want to stop buying hardware sized for Monday peaks, cut patching work, and keep billing where it is until the contract ends."
+  },
+  "case_study": false,
+  "concept_map": "flowchart TD\n  clf-what-is-cloud-computing[\"What cloud computing is: on-demand, pay-as-you-go\"]\n  clf-service-models[\"IaaS, PaaS, SaaS: who manages what\"]\n  clf-deployment-models[\"Cloud, hybrid, on-premises deployment\"]\n  clf-what-is-cloud-computing --> clf-service-models\n  clf-what-is-cloud-computing --> clf-deployment-models\n  clf-service-models -.->|\"where each workload runs\"| clf-deployment-models",
+  "capstone": {
+    "prompt_md": "**Harbor Lane Dental: write the move plan.**\n\nUse the bench numbers (2 servers at $60,000 per 4-year refresh, 15% average CPU, a 3x Monday booking spike, a 4 TB X-ray share growing 80 GB a month, a self-hosted mail server, and billing locked on premises for 2 years).\n\n1. In two sentences, explain to the owners how cloud computing changes what they pay for and when, compared with the server closet. Use on-demand delivery and pay-as-you-go pricing, and point to the 15% utilisation and the Monday spike.\n2. For each workload (booking app, X-ray file share, email), propose one way to run it in the cloud and label it **IaaS**, **PaaS** or **SaaS**. For each one, list what Harbor Lane still manages (OS, runtime, application, data, user access) and what the provider takes over.\n3. Name the deployment model Harbor Lane will have for the next 2 years, and the one it could move to after the billing contract ends. Give a one-sentence reason for each, and say why staying fully on premises (a private cloud) would not meet the owners' goals.",
+    "uses": [
+      "clf-what-is-cloud-computing",
+      "clf-service-models",
+      "clf-deployment-models"
+    ]
+  },
+  "confusables": [
+    [
+      "clf-service-models",
+      "clf-deployment-models"
+    ]
+  ],
+  "lab": {
+    "exercises": [
+      "ex-pay-for-what-you-use",
+      "ex-who-manages-what",
+      "ex-label-the-offer",
+      "ex-fix-the-deployment-label",
+      "ex-harbor-lane-move-plan"
+    ],
+    "checks": []
+  },
+  "interview": [
+    {
+      "id": "iq-define-cloud-computing",
+      "tier": "screening",
+      "difficulty": 1,
+      "kcs": [
+        "kc-cloud-computing-definition"
+      ],
+      "prompt": "In one or two sentences, what is cloud computing?",
+      "probing_md": "Checks that the candidate gives the actual definition (on-demand delivery, over the internet, pay-as-you-go pricing) instead of a vague phrase like 'someone else's computer' or 'storing files online'.",
+      "model_answer_md": "Cloud computing is the **on-demand delivery** of IT resources, such as compute, storage and databases, **over the internet** with **pay-as-you-go pricing**. You ask for capacity when you need it and pay for what you use. You do not buy and run the hardware yourself first.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Says resources are delivered on demand, when you need them",
+          "weight": 3,
+          "signals": [
+            "on demand",
+            "on-demand",
+            "when you need",
+            "when needed"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Names pay-as-you-go pricing: you pay for what you use",
+          "weight": 3,
+          "signals": [
+            "pay as you go",
+            "pay-as-you-go",
+            "pay for what you use",
+            "pay only for"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Says the resources are delivered over the internet",
+          "weight": 2,
+          "signals": [
+            "over the internet",
+            "internet",
+            "online"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Gives examples of the resources: compute, storage, databases",
+          "weight": 1,
+          "signals": [
+            "compute",
+            "storage",
+            "database",
+            "servers"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "Cloud computing is storing your files online, like a shared drive.",
+          "why_md": "Online file storage is one use of the cloud. The definition covers compute, storage, databases and other IT resources, and it is about how they are delivered (on demand) and paid for (pay-as-you-go)."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "What does pay-as-you-go change compared with buying a server?",
+          "trigger": "always",
+          "answer_md": "You stop paying up front for hardware sized for your busiest day. You pay for the capacity you run, for the time it runs, so capacity you shut down stops costing money.",
+          "signals": [
+            "up front",
+            "idle",
+            "for the time",
+            "sized for peak",
+            "shut down"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "What does 'on demand' mean in practice?",
+          "trigger": "missed:r1",
+          "answer_md": "You request resources when you need them and release them when you are done. You do not have to order, wait for and install hardware.",
+          "signals": [
+            "request",
+            "release",
+            "no waiting",
+            "when you need"
+          ]
+        }
+      ],
+      "est_minutes": 3
+    },
+    {
+      "id": "iq-cloud-vs-on-premises-cost",
+      "tier": "core",
+      "difficulty": 2,
+      "kcs": [
+        "kc-cloud-vs-on-premises",
+        "kc-cloud-computing-definition"
+      ],
+      "prompt": "A company owns 2 servers, buys new ones for $60,000 every 4 years, and runs them at about 15% average CPU. What is it paying for today, and what changes if it moves to the cloud?",
+      "probing_md": "Checks the on-premises vs cloud ownership split (who buys, houses and maintains hardware) and whether the candidate links low utilisation to paying for idle capacity, without claiming the bill drops to 15%.",
+      "model_answer_md": "On premises, the company buys, houses and maintains its own servers. That costs $60,000 ÷ 4 = **$15,000 a year** in hardware alone, whether the servers are busy or idle. At 15% average CPU, most of that capacity sits unused on an average day.\n\nIn the cloud, the provider owns and runs the hardware. The company rents capacity only when it needs it and pays as it goes. It can run smaller capacity for normal load and add more only for peaks, so it stops paying for hardware sized for the busiest day.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "On premises the company buys, houses and maintains its own hardware",
+          "weight": 3,
+          "signals": [
+            "buy",
+            "own",
+            "maintain",
+            "house",
+            "data center",
+            "server closet"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Does the arithmetic: $60,000 ÷ 4 = $15,000 a year, paid regardless of use",
+          "weight": 2,
+          "signals": [
+            "15,000",
+            "15000",
+            "per year",
+            "a year",
+            "regardless"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "In the cloud the provider owns the hardware and the customer rents capacity when needed",
+          "weight": 3,
+          "signals": [
+            "provider owns",
+            "rent",
+            "when needed",
+            "when it needs",
+            "provider runs"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Links 15% utilisation to paying for idle capacity sized for peak",
+          "weight": 2,
+          "signals": [
+            "idle",
+            "unused",
+            "sized for peak",
+            "85%",
+            "wasted"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "The cloud is always cheaper, so they will save money no matter what.",
+          "why_md": "Savings come from not paying for idle capacity and not buying for the peak. A workload that runs flat out all the time gains much less, so 'always cheaper' is not a safe claim."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "At 15% CPU, will their cloud bill be 15% of what they pay now?",
+          "trigger": "always",
+          "answer_md": "No. You pay for the capacity you provision for the time it runs, not for the CPU percentage you use. The saving comes from choosing smaller capacity and adding more only when demand rises.",
+          "signals": [
+            "provision",
+            "time it runs",
+            "not cpu percentage",
+            "smaller capacity",
+            "scale"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Besides the purchase price, what else does running servers on premises cost?",
+          "trigger": "missed:r1",
+          "answer_md": "The space to house them, power and cooling, and staff time to patch, repair and replace the hardware.",
+          "signals": [
+            "power",
+            "cooling",
+            "space",
+            "staff",
+            "maintenance",
+            "replace"
+          ]
+        }
+      ],
+      "est_minutes": 5
+    },
+    {
+      "id": "iq-service-models-who-manages",
+      "tier": "core",
+      "difficulty": 2,
+      "kcs": [
+        "kc-iaas",
+        "kc-paas",
+        "kc-saas"
+      ],
+      "prompt": "Explain IaaS, PaaS and SaaS by what the customer still manages in each. Give one example of each.",
+      "probing_md": "Checks that the candidate separates the three models by responsibility (who manages the OS, runtime, application, data and user access), not by where the hardware sits, and can tie each to a real example.",
+      "model_answer_md": "- **IaaS** (Infrastructure as a Service): you get virtual servers, storage and networking. You manage the operating system, runtime, application and data. Example: Amazon EC2.\n- **PaaS** (Platform as a Service): the provider runs the infrastructure and the operating system. You deploy and manage your application and its data. Example: AWS Elastic Beanstalk.\n- **SaaS** (Software as a Service): the provider runs the whole application. You use it and manage your own data and user access. Example: web email or a hosted CRM.\n\nFrom IaaS to SaaS, the provider takes on more of the stack and you manage less.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "IaaS: customer manages OS, runtime, application and data; EC2 as example",
+          "weight": 3,
+          "signals": [
+            "operating system",
+            "os",
+            "ec2",
+            "virtual server",
+            "runtime"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "PaaS: provider runs infrastructure and OS; customer manages application and data; Elastic Beanstalk as example",
+          "weight": 3,
+          "signals": [
+            "elastic beanstalk",
+            "beanstalk",
+            "deploy code",
+            "application and data",
+            "provider runs the os"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "SaaS: provider runs the complete app; customer manages data and user access",
+          "weight": 3,
+          "signals": [
+            "complete application",
+            "user access",
+            "web email",
+            "crm",
+            "just use"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "States the pattern: the provider manages more as you go from IaaS to SaaS",
+          "weight": 1,
+          "signals": [
+            "more of the stack",
+            "less to manage",
+            "responsibility shifts",
+            "manage less"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "They differ in where the hardware is: IaaS is in your data center, PaaS is shared and SaaS is in the provider's.",
+          "why_md": "All three run on the provider's hardware. They differ in how much of the stack the provider manages for you, not in location."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Who patches the operating system in each model?",
+          "trigger": "always",
+          "answer_md": "In IaaS, the customer does. In PaaS and SaaS, the provider does.",
+          "signals": [
+            "customer patches",
+            "provider patches",
+            "iaas customer",
+            "paas provider"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "With SaaS, what is still the customer's job?",
+          "trigger": "missed:r3",
+          "answer_md": "The customer's own data and user access: who has an account, what they can see, and removing people who leave.",
+          "signals": [
+            "data",
+            "user access",
+            "accounts",
+            "who can log in"
+          ]
+        }
+      ],
+      "est_minutes": 5
+    },
+    {
+      "id": "iq-classify-three-workloads",
+      "tier": "core",
+      "difficulty": 2,
+      "kcs": [
+        "kc-iaas",
+        "kc-paas",
+        "kc-saas"
+      ],
+      "prompt": "Label each as IaaS, PaaS or SaaS and say why. (1) A team launches EC2 instances, installs Windows updates each month and runs its own app on them. (2) A team uploads its application code to Elastic Beanstalk, which sets up and runs the servers. (3) Staff sign in to a hosted web email service; IT only creates accounts and resets passwords.",
+      "probing_md": "Checks that the candidate labels by what the customer manages, not by what runs underneath, and does not think user-account work makes SaaS into something else.",
+      "model_answer_md": "1. **IaaS**: the team gets virtual servers and still manages the OS (the monthly updates), the runtime, the app and the data.\n2. **PaaS**: Elastic Beanstalk runs the servers and OS. The team only deploys and manages its code and data.\n3. **SaaS**: the provider runs the whole email application. IT manages user access (accounts, passwords), which is the customer's part even in SaaS.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "(1) is IaaS because the team manages the OS and above",
+          "weight": 2,
+          "signals": [
+            "iaas",
+            "manages the os",
+            "patches",
+            "windows updates"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "(2) is PaaS because the provider runs servers and OS and the team manages only code and data",
+          "weight": 2,
+          "signals": [
+            "paas",
+            "only code",
+            "beanstalk runs",
+            "manages the application"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "(3) is SaaS; managing accounts is the customer's user-access job",
+          "weight": 2,
+          "signals": [
+            "saas",
+            "user access",
+            "accounts",
+            "complete application"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "(2) is IaaS because Elastic Beanstalk still runs on EC2 instances.",
+          "why_md": "Elastic Beanstalk does create EC2 instances underneath, but the label depends on what the customer manages. The team manages only its code and data, so it is PaaS."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Which of the three takes the most admin time from the customer, and why?",
+          "trigger": "always",
+          "answer_md": "Item 1, the IaaS setup. The team must patch and maintain the operating system and runtime as well as the app and data.",
+          "signals": [
+            "iaas",
+            "item 1",
+            "operating system",
+            "patching"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "In item 3, IT still creates accounts. Doesn't that make it PaaS?",
+          "trigger": "missed:r3",
+          "answer_md": "No. PaaS means you deploy and manage your own application. In item 3 the provider runs the application; managing who can sign in is the customer's user-access duty in SaaS.",
+          "signals": [
+            "no",
+            "provider runs the application",
+            "user access",
+            "still saas"
+          ]
+        }
+      ],
+      "est_minutes": 4
+    },
+    {
+      "id": "iq-saas-still-your-job",
+      "tier": "deep",
+      "difficulty": 3,
+      "kcs": [
+        "kc-saas"
+      ],
+      "prompt": "A manager says: 'Once we move email to SaaS, security is entirely the provider's problem.' What is right and what is wrong in that statement?",
+      "probing_md": "Probes the common misconception that SaaS removes all customer responsibility. A strong answer splits the work cleanly and gives a concrete customer-side task.",
+      "model_answer_md": "**Right:** the provider operates the whole application, including the servers, the operating system and the patching of the email software.\n\n**Wrong:** the customer still manages its own **data** and **user access**. That means deciding who gets an account and what each person can see, setting sign-in rules, and removing accounts when staff leave. A former employee whose mailbox stays active is the customer's failure, not the provider's.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Agrees the provider runs and patches the application and its infrastructure",
+          "weight": 2,
+          "signals": [
+            "provider runs",
+            "provider patches",
+            "operating system",
+            "servers"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "States the customer still manages user access",
+          "weight": 3,
+          "signals": [
+            "user access",
+            "accounts",
+            "who can log in",
+            "permissions"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "States the customer still manages its own data",
+          "weight": 2,
+          "signals": [
+            "own data",
+            "the data",
+            "what is stored"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Gives a concrete customer-side example, such as removing leavers' accounts",
+          "weight": 2,
+          "signals": [
+            "leaver",
+            "left the company",
+            "remove accounts",
+            "disable",
+            "offboarding"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "The manager is right: with SaaS the customer just uses the app and has no responsibilities.",
+          "why_md": "The customer still controls who can sign in and what data goes in. Those choices are not the provider's to make."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Compare that with running the same mail server software on EC2. What extra work comes back to the customer?",
+          "trigger": "always",
+          "answer_md": "With EC2 (IaaS) the customer also patches the operating system and the mail software, and manages the runtime, as well as the data and user access.",
+          "signals": [
+            "operating system",
+            "patch",
+            "mail software",
+            "iaas"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Name one user-access task the customer must do in SaaS.",
+          "trigger": "missed:r2",
+          "answer_md": "Create accounts for new staff, remove accounts for people who leave, or decide who can see shared mailboxes.",
+          "signals": [
+            "create accounts",
+            "remove accounts",
+            "leavers",
+            "who can see"
+          ]
+        }
+      ],
+      "est_minutes": 4
+    },
+    {
+      "id": "iq-deployment-models-compare",
+      "tier": "deep",
+      "difficulty": 3,
+      "kcs": [
+        "kc-cloud-deployment-all-in",
+        "kc-hybrid-deployment",
+        "kc-on-premises-private-cloud"
+      ],
+      "prompt": "Compare cloud (all-in), hybrid and on-premises (private cloud) deployment. Give one situation where each fits.",
+      "probing_md": "Checks the three AWS deployment models and that the candidate knows a private cloud keeps the control of on premises but not the cost benefits of the public cloud.",
+      "model_answer_md": "- **Cloud (all-in):** every part of the application runs in the cloud, whether it was built there or moved from on premises. Fits a new web app, or a company that has moved everything off its own servers.\n- **Hybrid:** cloud resources are connected to on-premises infrastructure. Fits a company that must keep a legacy system in its own data center while new features run in AWS.\n- **On-premises (private cloud):** virtualisation and resource management tools run in the organisation's own data center. It gives full control, but the organisation still buys and maintains the hardware, so it misses the cost benefits of the public cloud.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "All-in cloud: every part runs in the cloud, built there or migrated",
+          "weight": 2,
+          "signals": [
+            "every part",
+            "all in",
+            "all-in",
+            "migrated",
+            "built in the cloud"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Hybrid: connects cloud resources to on-premises infrastructure, such as a legacy system kept on site",
+          "weight": 3,
+          "signals": [
+            "connects",
+            "legacy",
+            "on-premises and cloud",
+            "both"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Private cloud: virtualisation in your own data center; full control",
+          "weight": 2,
+          "signals": [
+            "virtualisation",
+            "virtualization",
+            "own data center",
+            "full control"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Private cloud lacks the public cloud's cost benefits",
+          "weight": 3,
+          "signals": [
+            "no cost benefit",
+            "still buy hardware",
+            "not pay-as-you-go",
+            "capital"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "A private cloud gives the same savings as AWS because it also uses virtualisation.",
+          "why_md": "Virtualisation makes better use of hardware you already own. You still buy, house and maintain servers sized for your peak, so you do not get pay-as-you-go pricing."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "An app was built on premises and then moved entirely to AWS. Which deployment model is it now?",
+          "trigger": "always",
+          "answer_md": "Cloud (all-in). Where the app started does not matter; every part now runs in the cloud.",
+          "signals": [
+            "cloud",
+            "all-in",
+            "all in",
+            "does not matter"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Give a concrete example of a hybrid deployment.",
+          "trigger": "missed:r2",
+          "answer_md": "A billing system that must stay in the company's server room under a vendor contract, connected to a booking app that runs in AWS.",
+          "signals": [
+            "legacy",
+            "stay on premises",
+            "connected",
+            "contract"
+          ]
+        }
+      ],
+      "est_minutes": 5
+    },
+    {
+      "id": "iq-harbor-lane-move-plan",
+      "tier": "design",
+      "difficulty": 4,
+      "kcs": [
+        "kc-cloud-computing-definition",
+        "kc-cloud-vs-on-premises",
+        "kc-iaas",
+        "kc-paas",
+        "kc-saas",
+        "kc-cloud-deployment-all-in",
+        "kc-hybrid-deployment",
+        "kc-on-premises-private-cloud"
+      ],
+      "prompt": "Harbor Lane Dental runs 12 clinics from one server closet: 2 servers bought for $60,000 every 4 years at about 15% average CPU. Server A runs a custom booking web app on a Windows VM (about 3,000 bookings a week, 3x spike on Monday mornings). Server B holds a 4 TB X-ray file share growing 80 GB a month. Email is a self-hosted mail server patched by hand. A billing system must stay in the closet for 2 more years under a vendor contract. Design the move: explain the cost change, place each workload in a service model, and name the deployment model now and later.",
+      "probing_md": "Checks whether the candidate can combine the unit: tie pay-as-you-go to the 15% utilisation and Monday spike, choose and label a service model per workload with a correct responsibility split, and spot that the billing contract forces hybrid now, with all-in cloud possible later.",
+      "model_answer_md": "**Cost.** Today Harbor Lane pays $60,000 ÷ 4 = $15,000 a year for hardware sized for the Monday peak, which sits at about 15% CPU on average. In the cloud it rents capacity on demand and pays as it goes. It can run smaller capacity most of the week and add capacity for Monday mornings only.\n\n**Workloads.**\n- *Booking app:* deploy on Elastic Beanstalk (**PaaS**). Harbor Lane manages the app code and booking data; AWS runs the servers and OS. If the app cannot be repackaged, moving the VM to EC2 (**IaaS**) works, but Harbor Lane still patches Windows.\n- *X-ray share:* a file server on EC2 with attached storage (**IaaS**). Harbor Lane manages the OS, the file-share software, the images and who can open them; AWS runs the hardware, storage and network. Growth is 24 × 80 GB = 1,920 GB in 2 years, so about 5.9 TB, added as needed instead of bought up front.\n- *Email:* a hosted email service (**SaaS**). The provider runs and patches it; Harbor Lane manages mailboxes' data and staff accounts.\n\n**Deployment.** For 2 years: **hybrid**, because billing stays in the closet and connects to the cloud workloads. After the contract: **cloud (all-in)**, once billing moves or is replaced. A private cloud would keep them buying peak-sized hardware and patching it, which misses both goals.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Ties on-demand, pay-as-you-go pricing to the 15% utilisation and the Monday spike",
+          "weight": 3,
+          "signals": [
+            "pay as you go",
+            "pay-as-you-go",
+            "on demand",
+            "monday",
+            "15%",
+            "peak"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Labels each workload correctly and lists what Harbor Lane still manages versus the provider",
+          "weight": 3,
+          "signals": [
+            "paas",
+            "iaas",
+            "saas",
+            "beanstalk",
+            "ec2",
+            "hosted email",
+            "user access"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Names hybrid for the next 2 years because billing must stay on premises",
+          "weight": 3,
+          "signals": [
+            "hybrid",
+            "billing",
+            "contract",
+            "stay in the closet"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Names cloud (all-in) as the target after the contract ends",
+          "weight": 2,
+          "signals": [
+            "all-in",
+            "all in",
+            "fully in the cloud",
+            "after the contract"
+          ]
+        },
+        {
+          "id": "r5",
+          "point": "Explains why a private cloud misses the goals: still buying peak-sized hardware and patching",
+          "weight": 2,
+          "signals": [
+            "private cloud",
+            "still buy hardware",
+            "no cost benefit",
+            "still patch"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "Move everything, including billing, to AWS right away.",
+          "why_md": "The vendor contract keeps billing in the closet for 2 more years. The honest model for that period is hybrid."
+        },
+        {
+          "answer": "Virtualise both servers in the closet as a private cloud; that is a cloud move.",
+          "why_md": "It is still on-premises deployment. Harbor Lane would keep buying hardware sized for Monday peaks and patching it, which is exactly what the owners want to stop."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Why not keep the booking app on EC2 as a straight copy of today's VM?",
+          "trigger": "always",
+          "answer_md": "It is a valid first step and stops hardware purchases, but it is IaaS: the part-time admin still patches Windows. PaaS removes the OS patching, which is one of the owners' goals.",
+          "signals": [
+            "iaas",
+            "still patch",
+            "windows",
+            "paas removes"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Where does billing run for the next 2 years, and what does that make the deployment?",
+          "trigger": "missed:r3",
+          "answer_md": "In the server closet, connected to the cloud workloads. Cloud plus on-premises connected together is a hybrid deployment.",
+          "signals": [
+            "closet",
+            "on premises",
+            "hybrid",
+            "connected"
+          ]
+        },
+        {
+          "id": "f3",
+          "q": "Why would a private cloud in the closet not meet the owners' goals?",
+          "trigger": "missed:r5",
+          "answer_md": "A private cloud still runs on hardware Harbor Lane buys and maintains, sized for the Monday peak. It gives control but not pay-as-you-go pricing, and someone still patches it.",
+          "signals": [
+            "still buy",
+            "sized for peak",
+            "no pay-as-you-go",
+            "still patch"
+          ]
+        }
+      ],
+      "est_minutes": 12
+    }
+  ],
+  "cases": [
+    {
+      "id": "harbor-lane-booking-app",
+      "title": "Harbor Lane Dental: moving a booking app with a Monday spike",
+      "domain": "Healthcare scheduling",
+      "archetype": true,
+      "context_md": "A 12-clinic dental group runs its patient booking web app on a Windows VM on one physical server in a head-office closet. The server was sized so Monday mornings, at about 3x normal load, do not slow down. For the rest of the week it idles. The owners want to stop buying hardware for the peak and cut the hand-patching done by one part-time admin.",
+      "pipeline": [
+        {
+          "step": "Patient opens the booking page",
+          "detail": "The request travels over the internet to the head-office closet."
+        },
+        {
+          "step": "Windows VM runs the custom app",
+          "detail": "The app checks free slots and saves the booking; the admin patches Windows and the app by hand."
+        },
+        {
+          "step": "Confirmation is sent",
+          "detail": "The patient gets a confirmation; on Monday mornings about 3x the usual number arrive at once."
+        },
+        {
+          "step": "Hardware refresh",
+          "detail": "Every 4 years the group buys new servers sized for the Monday peak."
+        }
+      ],
+      "numbers": [
+        {
+          "label": "Bookings per week",
+          "value": "about 3,000"
+        },
+        {
+          "label": "Monday morning load",
+          "value": "3x normal"
+        },
+        {
+          "label": "Average CPU",
+          "value": "about 15%",
+          "note": "Most paid-for capacity is unused on an average day"
+        },
+        {
+          "label": "Hardware cost",
+          "value": "$60,000 every 4 years",
+          "note": "$60,000 ÷ 4 = $15,000 a year for both servers, busy or idle"
+        }
+      ],
+      "decision": {
+        "prompt_md": "How should the booking app run after the move?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Buy a larger server for the closet, sized for future Monday peaks.",
+            "verdict": "trap",
+            "outcome_md": "Repeats the problem at a higher price: capacity is bought for the peak and sits idle most of the week, and the admin still patches everything."
+          },
+          {
+            "id": "b",
+            "md": "Copy the Windows VM to an Amazon EC2 instance (IaaS).",
+            "verdict": "viable",
+            "outcome_md": "No more hardware purchases, and capacity can be added for Monday mornings. But Harbor Lane still manages and patches the OS and runtime, so the patching goal is only partly met."
+          },
+          {
+            "id": "c",
+            "md": "Deploy the app on AWS Elastic Beanstalk (PaaS) and let it add capacity for the Monday spike.",
+            "verdict": "best",
+            "outcome_md": "AWS runs the servers and OS; Harbor Lane manages only the app code and booking data. It pays as it goes for normal load plus the Monday spike. The app may need repackaging for a supported platform first."
+          }
+        ]
+      },
+      "failure_modes": [
+        "hardware-sized-for-peak",
+        "iaas-patching-left-unowned",
+        "mislabel-paas-as-iaas"
+      ],
+      "lessons_md": "Pay-as-you-go helps most when load is spiky and average use is low. Moving a VM as-is (IaaS) stops hardware purchases but keeps OS patching with you; PaaS takes the OS off your list too."
+    },
+    {
+      "id": "seasonal-accounting-firm-capacity",
+      "title": "An accounting firm sized for tax season",
+      "domain": "Professional services",
+      "archetype": true,
+      "context_md": "A 30-person accounting firm runs a client document portal and its tax-preparation tools on servers in its own office. From February to April the load needs 8 servers; the other 9 months it needs 2. The firm owns 8 servers so tax season never stalls, and is due to replace them.",
+      "pipeline": [
+        {
+          "step": "Clients upload documents",
+          "detail": "Uploads arrive through the client portal, mostly in February to April."
+        },
+        {
+          "step": "Staff prepare returns",
+          "detail": "Tax tools run on the office servers; heavy use for 3 months a year."
+        },
+        {
+          "step": "Off-season",
+          "detail": "Load drops to what 2 servers can carry; the other 6 sit idle but still need power, space and patching."
+        }
+      ],
+      "numbers": [
+        {
+          "label": "Servers needed in tax season",
+          "value": "8",
+          "note": "February to April, 3 months"
+        },
+        {
+          "label": "Servers needed off-season",
+          "value": "2",
+          "note": "9 months a year"
+        },
+        {
+          "label": "Idle server-months per year",
+          "value": "54 of 96",
+          "note": "6 idle servers × 9 months = 54; 8 servers × 12 months = 96; about 56% of owned capacity unused"
+        }
+      ],
+      "decision": {
+        "prompt_md": "What should the firm do instead of replacing the 8 servers?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Buy 8 new servers, as before.",
+            "verdict": "trap",
+            "outcome_md": "Locks in another refresh where over half the server-months go unused, with all the upkeep of owning hardware."
+          },
+          {
+            "id": "b",
+            "md": "Buy 8 servers and add virtualisation and resource management tools to make a private cloud.",
+            "verdict": "trap",
+            "outcome_md": "Better control and sharing of the hardware, but the firm still buys and maintains capacity for the 3-month peak. It gets none of the public cloud's pay-as-you-go savings."
+          },
+          {
+            "id": "c",
+            "md": "Move the portal and tax tools to the cloud: run capacity for 2 servers most of the year and add capacity for 8 from February to April.",
+            "verdict": "best",
+            "outcome_md": "The provider owns the hardware. The firm rents capacity on demand and pays as it goes, so the 6 extra servers' worth is paid for only in the 3 busy months."
+          }
+        ]
+      },
+      "failure_modes": [
+        "hardware-sized-for-peak",
+        "private-cloud-mistaken-for-cost-savings"
+      ],
+      "lessons_md": "When peak demand is several times the normal load and lasts a few months, owning for the peak wastes most of the capacity. A private cloud improves control, not cost; on-demand capacity is what removes the idle months from the bill."
+    },
+    {
+      "id": "plant-floor-hybrid",
+      "title": "A parts maker that cannot move its machine controls",
+      "domain": "Manufacturing",
+      "archetype": true,
+      "context_md": "A parts maker runs 3 plants. Each plant's machine-control system is wired to the machines on the factory network, and the vendor supports it only on site. Head office wants new production dashboards and reports that managers can open from anywhere, built on machine data from all 3 plants.",
+      "pipeline": [
+        {
+          "step": "Machines report data",
+          "detail": "Each plant's control system collects counts and fault codes on the factory network."
+        },
+        {
+          "step": "Data leaves the plant",
+          "detail": "A connection sends the collected data from each plant to the cloud."
+        },
+        {
+          "step": "Dashboards run in the cloud",
+          "detail": "New reporting features run in AWS and are opened by managers over the internet."
+        },
+        {
+          "step": "Controls stay local",
+          "detail": "Machine control keeps running on site, connected to but not replaced by the cloud side."
+        }
+      ],
+      "numbers": [
+        {
+          "label": "Plants",
+          "value": "3"
+        },
+        {
+          "label": "Machine data per plant",
+          "value": "about 2 GB a day"
+        },
+        {
+          "label": "Data from all plants",
+          "value": "about 180 GB a month",
+          "note": "3 plants × 2 GB × 30 days = 180 GB"
+        }
+      ],
+      "decision": {
+        "prompt_md": "Which deployment model fits?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Move everything, including the machine-control systems, to the cloud (all-in).",
+            "verdict": "trap",
+            "outcome_md": "The control systems are wired to the machines and supported only on site; moving them breaks the vendor support and the physical setup."
+          },
+          {
+            "id": "b",
+            "md": "Keep everything on premises and build the dashboards on a new private cloud at head office.",
+            "verdict": "viable",
+            "outcome_md": "Works and gives full control, but the firm buys and maintains new hardware for a growing data set and gets none of the public cloud's pay-as-you-go pricing."
+          },
+          {
+            "id": "c",
+            "md": "Hybrid: keep machine control in each plant and connect it to dashboards and storage in AWS.",
+            "verdict": "best",
+            "outcome_md": "What must stay on site stays on site. The new features run in the cloud, where storage grows with the data and is paid for as used."
+          }
+        ]
+      },
+      "failure_modes": [
+        "moving-site-bound-systems",
+        "private-cloud-mistaken-for-cost-savings"
+      ],
+      "lessons_md": "Hybrid is the honest answer when some systems must stay on premises and new work can run in the cloud. Name what keeps a system on site (wiring, vendor terms, contracts) before choosing all-in."
+    },
+    {
+      "id": "harbor-lane-email",
+      "title": "Harbor Lane Dental: retiring the hand-patched mail server",
+      "domain": "Small-business IT",
+      "archetype": true,
+      "context_md": "Harbor Lane Dental's 140 staff across 12 clinics use a self-hosted mail server in the head-office closet. One part-time admin patches the server and the mail software by hand. The owners want to cut that patching work without losing control of who can read the mail.",
+      "pipeline": [
+        {
+          "step": "Staff send and receive mail",
+          "detail": "Mail clients in 12 clinics connect to the server in the closet."
+        },
+        {
+          "step": "Admin patches by hand",
+          "detail": "The operating system and mail software are updated when the part-time admin has time."
+        },
+        {
+          "step": "Accounts are managed",
+          "detail": "The admin creates mailboxes for new staff and should remove them for leavers."
+        }
+      ],
+      "numbers": [
+        {
+          "label": "Staff mailboxes",
+          "value": "about 140"
+        },
+        {
+          "label": "Clinics",
+          "value": "12"
+        },
+        {
+          "label": "Admin time",
+          "value": "1 part-time person",
+          "note": "Covers patching, backups and accounts"
+        }
+      ],
+      "decision": {
+        "prompt_md": "Where should email run after the move?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Keep the mail server in the closet and schedule patching more often.",
+            "verdict": "trap",
+            "outcome_md": "Adds patching work rather than cutting it, and the hardware still needs replacing."
+          },
+          {
+            "id": "b",
+            "md": "Run the same mail server software on an EC2 instance (IaaS).",
+            "verdict": "viable",
+            "outcome_md": "Removes the hardware, but the admin still patches the OS and the mail software. The main goal is missed."
+          },
+          {
+            "id": "c",
+            "md": "Move to a hosted email service (SaaS) and keep account management in-house.",
+            "verdict": "best",
+            "outcome_md": "The provider runs and patches the application. Harbor Lane manages only its mail data and user access, including removing leavers' accounts."
+          }
+        ]
+      },
+      "failure_modes": [
+        "saas-assumed-zero-responsibility",
+        "unremoved-leaver-accounts",
+        "iaas-patching-left-unowned"
+      ],
+      "lessons_md": "SaaS removes the running and patching of the application, which is often the biggest admin cost for a small team. It does not remove the customer's duty to manage its data and who can sign in."
+    }
+  ]
+}

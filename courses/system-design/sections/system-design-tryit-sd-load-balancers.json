@@ -1,0 +1,32 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-load-balancers",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: explain it in your own words",
+  "blurb": "Uses Vertical vs horizontal scaling, Stateless services and where session state goes and Load balancers: what they do and why you need two: predict, then explain in your own words.",
+  "after": "topic:sd-load-balancers",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "written",
+    "topics": [
+      "sd-vertical-horizontal-scaling",
+      "sd-stateless-services",
+      "sd-load-balancers"
+    ],
+    "kcs": [
+      "kc-vertical-scaling",
+      "kc-horizontal-scaling",
+      "kc-scale-up-first",
+      "kc-stateless-service",
+      "kc-externalize-session",
+      "kc-lb-role",
+      "kc-lb-tls-termination",
+      "kc-lb-redundancy"
+    ],
+    "minutes": 18,
+    "why": "Uses Vertical vs horizontal scaling, Stateless services and where session state goes and Load balancers: what they do and why you need two: predict, then explain in your own words."
+  }
+}

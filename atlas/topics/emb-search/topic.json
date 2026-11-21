@@ -1,0 +1,930 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-search",
+  "version": 1,
+  "title": "Semantic search in four moves",
+  "size": "standard",
+  "est_min": 18,
+  "kcs": [
+    {
+      "id": "kc-search-pipeline",
+      "version": 2,
+      "statement": "Embed documents offline, embed the query with the same model, rank by similarity, return the top-k."
+    },
+    {
+      "id": "kc-search-offline-online",
+      "version": 1,
+      "statement": "Which steps run once and which run per query, and what each costs."
+    }
+  ],
+  "mode_hint": "prediction",
+  "mode": "prediction",
+  "requires": [
+    "emb-model",
+    "emb-cosine"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "semantic search",
+    "top-k"
+  ],
+  "uses": [
+    "embedding model",
+    "cosine similarity",
+    "dimension",
+    "dot product"
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-reembed-per-query",
+      "statement": "Every query re-embeds the stored documents.",
+      "tags": [
+        "kc-search-offline-online"
+      ]
+    },
+    {
+      "id": "mc-topk-cuts-work",
+      "statement": "Asking for fewer results (a smaller k) means fewer documents get scored.",
+      "tags": [
+        "kc-search-offline-online",
+        "kc-search-pipeline"
+      ]
+    },
+    {
+      "id": "mc-reindex-all-on-edit",
+      "statement": "Editing or adding one document means re-embedding the whole collection.",
+      "tags": [
+        "kc-search-offline-online"
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "semantic search",
+      "md": "Search by meaning: rank documents by the similarity of their embeddings to the query's embedding."
+    },
+    {
+      "term": "top-k",
+      "md": "The k highest-scoring results."
+    },
+    {
+      "term": "chunk",
+      "md": "A passage cut from a document that is embedded and retrieved as a unit."
+    },
+    {
+      "term": "model call",
+      "md": "One run of the embedding model on one piece of text, giving that text's vector."
+    },
+    {
+      "term": "offline step",
+      "md": "Work done once, before any query arrives: embed every document (or chunk) and store the vectors. Redone only for a document that is added or edited, or for all of them when the model changes."
+    },
+    {
+      "term": "online step",
+      "md": "Work done again for every query: embed the query with the same model, score it against every stored vector, sort, and keep the top-k."
+    },
+    {
+      "term": "index",
+      "md": "The stored document vectors, each kept next to its document or chunk ID, that every query is scored against."
+    },
+    {
+      "term": "multiply-add",
+      "md": "One multiplication whose result is added to a running total. A dot product of two vectors with d numbers takes d of them."
+    },
+    {
+      "term": "brute-force search",
+      "md": "Scoring the query against every stored vector, then sorting. It always finds the true top-k, and costs N × d multiply-adds per query. Later units call it exact search and compare it with faster approximate indexes."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-search-p1",
+      "title": "Semantic search in four moves",
+      "beats": [
+        {
+          "id": "b-search",
+          "title": "Semantic search in four moves",
+          "kcs": [
+            "kc-search-pipeline"
+          ],
+          "est_minutes": 8,
+          "blocks": [
+            {
+              "id": "blk-emb-search-01",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Now assemble the pieces into [[semantic search]]:",
+                  "**Offline, once:** (1) split your documents into passages (*chunks*), (2) embed every chunk, and store the vectors next to their chunk IDs.",
+                  "**Online, per query:** (3) embed the query with **the same model**, (4) score every stored vector against it (cosine), sort, and return the [[top-k]].",
+                  "That's it. Everything in the Intermediate and Advanced layers is about doing these four moves *well*: what to embed, which model to use, how to score fast at scale, and how to measure whether it works."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-search-02",
+              "block": {
+                "type": "visual",
+                "id": "v-pipeline",
+                "widget": "search-pipeline",
+                "title": "The pipeline, step by step",
+                "goal_md": "Step through indexing and querying. Watch a document turn into a vector and a query find its nearest neighbours.",
+                "alt": "A two-lane diagram. The offline lane goes from documents to chunks to vectors to the index. The online lane goes from query to vector to similarity scores to top-k. A step button highlights each stage and shows example data.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "Step through the whole pipeline to the final ranked results.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "step",
+                          "op": ">=",
+                          "value": 6
+                        }
+                      ]
+                    },
+                    "aha_md": "Notice that the expensive part (embedding every document) happens once, offline. Per query you embed one short text and do a fast vector lookup."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-search-03",
+              "block": {
+                "type": "worked_example",
+                "title": "Rank three help articles by hand",
+                "problem_md": "Three help articles have 3-D toy embeddings: **D1** *Reset your password* `[0.9, 0.1, 0.0]`, **D2** *Track your parcel* `[0.0, 0.2, 0.95]`, **D3** *Update your billing card* `[0.1, 0.95, 0.1]`. The query *can't log in* embeds to `[0.8, 0.0, 0.1]`. Rank the articles.",
+                "steps": [
+                  {
+                    "md": "Query length: $\\sqrt{0.8^2 + 0^2 + 0.1^2} = \\sqrt{0.65} \\approx 0.806$"
+                  },
+                  {
+                    "md": "D1: dot $= 0.72$, length $\\approx 0.906$, cosine $\\approx \\dfrac{0.72}{0.806 \\times 0.906} \\approx 0.986$"
+                  },
+                  {
+                    "md": "D2: dot $= 0.095$, length $\\approx 0.971$, cosine $\\approx 0.121$"
+                  },
+                  {
+                    "md": "D3: dot $= 0.09$, length $\\approx 0.960$, cosine $\\approx 0.116$",
+                    "why_md": "D2 and D3 are close. Small toy vectors make near-ties common, and real systems see them too."
+                  }
+                ],
+                "answer_md": "Ranking: **D1 (0.99)** ≫ D2 (0.12) > D3 (0.12). *Can't log in* shares no words with *Reset your password*, and it still finds it. That's semantic search."
+              }
+            },
+            {
+              "id": "blk-emb-search-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-pipeline-order",
+                  "kind": "order",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-search-pipeline"
+                  ],
+                  "prompt_md": "Put the semantic-search steps in order, starting from the first thing you do.",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Embed the query",
+                      "why_md": "Online step: happens per query, with the same model as the documents."
+                    },
+                    {
+                      "id": "b",
+                      "md": "Split documents into chunks",
+                      "why_md": "Offline step 1: decide the units you will retrieve."
+                    },
+                    {
+                      "id": "c",
+                      "md": "Return the top-k chunks",
+                      "why_md": "The last step: sort by score and cut."
+                    },
+                    {
+                      "id": "d",
+                      "md": "Embed every chunk and store the vectors",
+                      "why_md": "Offline step 2: done once, ahead of time."
+                    },
+                    {
+                      "id": "e",
+                      "md": "Score the query vector against stored vectors",
+                      "why_md": "Online: cosine (or dot) against the index."
+                    }
+                  ],
+                  "answer": {
+                    "sequence": [
+                      "b",
+                      "d",
+                      "a",
+                      "e",
+                      "c"
+                    ]
+                  },
+                  "est_seconds": 70
+                }
+              }
+            },
+            {
+              "id": "blk-emb-search-05",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-mixed-models",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-search-pipeline",
+                    "kc-embedding-def"
+                  ],
+                  "prompt_md": "Your documents were embedded with model **A** last year. A new teammate embeds queries with model **B**, which has the same dimension count. What happens?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Results are effectively random",
+                      "why_md": "Right. Each model learns its own coordinate system. Same length doesn't mean same space: dimension 5 in A has nothing to do with dimension 5 in B.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "It works, just slightly worse",
+                      "why_md": "It isn't “slightly worse”. Cross-model similarity scores have no meaning.",
+                      "misconception": "mc-mix-models"
+                    },
+                    {
+                      "id": "c",
+                      "md": "It works because both are 768-dimensional",
+                      "why_md": "Matching dimension counts only means the arithmetic runs. The meanings of the axes don't line up.",
+                      "misconception": "mc-mix-models"
+                    }
+                  ],
+                  "est_seconds": 70
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b-offline-online",
+          "title": "Once vs every query: what search costs",
+          "kcs": [
+            "kc-search-offline-online"
+          ],
+          "est_minutes": 8,
+          "blocks": [
+            {
+              "id": "blk-emb-search-06",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "The capstone runs 10 labelled queries against the 25-article help centre, and a live help centre answers queries all day. So before you code it, sort the four moves by **when** they run. Some work is done once and reused by every query. Some is done again for every single query.",
+                  "Getting this split wrong is the classic first-prototype bug: the search runs the embedding model far more often than it needs to, and nothing in the results tells you."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-search-07",
+              "block": {
+                "type": "predict",
+                "question": {
+                  "id": "q-predict-model-calls",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-search-offline-online"
+                  ],
+                  "prompt_md": "All 25 help articles were embedded last night and their vectors are stored. A customer now types *where is my parcel?*. To answer this one query, how many times does the embedding model run?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "1: only the query is embedded",
+                      "correct": true,
+                      "why_md": "Right. The article vectors are already stored and don't depend on the query. Only the query's text still needs to become a vector."
+                    },
+                    {
+                      "id": "b",
+                      "md": "26: all 25 articles again, plus the query",
+                      "misconception": "mc-reembed-per-query",
+                      "why_md": "That repeats last night's work. The articles haven't changed, so their stored vectors are still valid. Hold on to this guess: it is the bug this beat is about."
+                    },
+                    {
+                      "id": "c",
+                      "md": "25: once per article it is compared with",
+                      "why_md": "Comparing the query with an article is a dot product of their two vectors: arithmetic, not a model run. The model runs once for each text that still needs a vector."
+                    },
+                    {
+                      "id": "d",
+                      "md": "0: the query text is compared with the stored vectors directly",
+                      "why_md": "A text and a vector can't be compared. The query first has to become a vector, using the same model as the articles."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            },
+            {
+              "id": "blk-emb-search-08",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Split the four moves by when they run. One term first: a [[model call]] is one run of the embedding model on one piece of text, giving that text's vector.",
+                  "The [[offline step]] happens before any query exists: one model call per article, and each vector is stored next to its article ID. That stored collection is the [[index]]. Nothing in it depends on a query, so every query reuses it. You only touch it again when an article is added or edited (embed just that article) or when you switch models (embed every article again, because a new model means a new space).",
+                  "The [[online step]] happens for every query: (1) one model call to embed the query, with the same model; (2) a score for every stored vector; (3) sort the scores and keep the [[top-k]].",
+                  "Step (2) has a cost you can count. A dot product of two vectors with $d$ numbers multiplies position 1 by position 1, position 2 by position 2, and so on, adding each product to a running total. Each multiply-then-add is one [[multiply-add]], so one dot product costs $d$ multiply-adds. Scoring the query against all $N$ stored vectors is called [[brute-force search]]. It costs $N \\times d$ multiply-adds for every query, whatever k is.",
+                  "Picture a library card catalogue. A card is written once, when a book arrives: that's offline. Each visitor's question is new: that's online. With brute force, someone checks the question against every card, for every visitor."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-search-09",
+              "block": {
+                "type": "math",
+                "tex": "\\text{offline, once: } N \\text{ model calls} \\qquad \\text{online, per query: } 1 \\text{ model call},\\;\\; N \\times d \\text{ multiply-adds},\\;\\; \\text{a sort of } N \\text{ scores}",
+                "explain_md": "Keep the kinds of work in separate columns instead of adding them up: one model call runs a whole neural network over a text, which is far more arithmetic than one multiply-add. What matters here is **which work repeats**. Only the right-hand side is paid again for every query.",
+                "parts": [
+                  {
+                    "symbol": "N",
+                    "means": "number of stored vectors (one per article here; one per chunk once articles are split)"
+                  },
+                  {
+                    "symbol": "d",
+                    "means": "numbers per vector, the model's dimension count (384 for all-MiniLM-L6-v2)"
+                  },
+                  {
+                    "symbol": "N × d",
+                    "means": "one multiply-add for every stored number, per query"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-search-10",
+              "block": {
+                "type": "worked_example",
+                "title": "Count the work for the help centre by hand",
+                "problem_md": "The help centre has **25** articles. The model outputs **384** numbers per text (like `all-MiniLM-L6-v2` from the last topic), and stored vectors are scored with a dot product. Count the model calls and multiply-adds (a) to build the index, (b) for a first query *can't log in*, (c) for a second query *where is my parcel?*, and (d) for all 10 labelled queries.",
+                "steps": [
+                  {
+                    "md": "**(a) Offline.** One model call per article: **25 model calls**. The index stores $25 \\times 384 = 9{,}600$ numbers, each vector next to its article ID.",
+                    "why_md": "This happens once. It is the only time the articles go through the model."
+                  },
+                  {
+                    "md": "**(b) Query 1, embed.** One model call turns *can't log in* into a 384-number query vector, with the same model as the articles."
+                  },
+                  {
+                    "md": "**(b) Query 1, score.** One dot product per stored vector: $25 \\times 384 = 9{,}600$ multiply-adds. Then sort the 25 scores and keep the top 3.",
+                    "why_md": "9,600 again, and not by coincidence: each of the 9,600 stored numbers is multiplied by its matching query number exactly once."
+                  },
+                  {
+                    "md": "**(c) Query 2.** The 25 stored vectors are reused as they are: **0** article embeddings. The cost is the same as query 1: 1 model call, 9,600 multiply-adds and a sort of 25 scores.",
+                    "why_md": "The index doesn't depend on which query comes next. Only the query vector is new."
+                  },
+                  {
+                    "md": "**(d) All 10 labelled queries.** Model calls: $25 + 10 \\times 1 = 35$. Multiply-adds: $10 \\times 9{,}600 = 96{,}000$."
+                  }
+                ],
+                "answer_md": "Offline: **25 model calls**, once. Per query: **1 model call**, **9,600 multiply-adds** and a sort of 25 scores. Code that re-embedded the articles for every query would make $10 \\times (25 + 1) = 260$ model calls for the 10 queries instead of 35."
+              }
+            },
+            {
+              "id": "blk-emb-search-11",
+              "block": {
+                "type": "visual",
+                "id": "v-search-cost",
+                "widget": "calc",
+                "title": "Once vs per query: the cost calculator",
+                "params": {
+                  "inputs": [
+                    {
+                      "name": "articles",
+                      "label": "Articles stored (N)",
+                      "value": 25,
+                      "step": 5,
+                      "min": 5,
+                      "max": 1000
+                    },
+                    {
+                      "name": "dims",
+                      "label": "Numbers per vector (d)",
+                      "value": 384,
+                      "step": 128,
+                      "min": 128,
+                      "max": 1536
+                    },
+                    {
+                      "name": "queries",
+                      "label": "Queries run",
+                      "value": 1,
+                      "step": 1,
+                      "min": 1,
+                      "max": 100
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "offline_calls",
+                      "label": "Model calls offline, once",
+                      "expr": "articles",
+                      "digits": 0
+                    },
+                    {
+                      "name": "total_calls",
+                      "label": "Model calls in total (offline + one per query)",
+                      "expr": "articles + queries",
+                      "digits": 0
+                    },
+                    {
+                      "name": "madds_per_query",
+                      "label": "Multiply-adds per query",
+                      "expr": "articles * dims",
+                      "digits": 0
+                    },
+                    {
+                      "name": "madds_total",
+                      "label": "Multiply-adds for all queries",
+                      "expr": "queries * articles * dims",
+                      "digits": 0
+                    },
+                    {
+                      "name": "calls_if_reembedding",
+                      "label": "Model calls if every query re-embedded the articles",
+                      "expr": "queries * (articles + 1)",
+                      "digits": 0
+                    }
+                  ]
+                },
+                "goal_md": "Change the corpus size, the vector size and the number of queries, and watch which costs move and which stay put.",
+                "alt": "A calculator with three inputs: articles stored (starts at 25), numbers per vector (starts at 384) and queries run (starts at 1). It shows the offline model calls, total model calls, multiply-adds per query, multiply-adds for all queries, and how many model calls a version that re-embeds the articles on every query would make.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "Run the bench's labelled queries: set the number of queries to 10.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "queries",
+                          "op": ">=",
+                          "value": 10
+                        }
+                      ]
+                    },
+                    "aha_md": "Each extra query adds 1 model call; the re-embedding version adds N + 1. With 25 articles and 10 queries that is 35 calls against 260. Offline work is paid once, however many queries follow."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Double the help centre to 50 articles.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "articles",
+                          "op": ">=",
+                          "value": 50
+                        }
+                      ]
+                    },
+                    "aha_md": "Multiply-adds per query double: 50 × 384 = 19,200. Embedding offline doesn't make queries free. Every stored vector is still scored, so online cost grows with N."
+                  },
+                  {
+                    "id": "t3",
+                    "prompt": "Switch to a model with 768 numbers per vector.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "dims",
+                          "op": ">=",
+                          "value": 768
+                        }
+                      ]
+                    },
+                    "aha_md": "Every dot product is twice as long, so per-query scoring doubles. A new model is also a new space: every article must be re-embedded offline before the first query."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-search-12",
+              "block": {
+                "type": "callout",
+                "kind": "misconception",
+                "title": "“Every search re-embeds the documents”",
+                "misconception": "mc-reembed-per-query",
+                "md": [
+                  "The article vectors don't depend on the query, so they are computed once, offline, and stored. A query embeds **only itself**.",
+                  "Re-embed an article when its text changes (just that one), and re-embed all of them only when you switch models. If your search function calls the model on every article each time it runs, that's this bug: correct results, and a cost that grows with every query."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-search-13",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-check-madds-200",
+                  "kind": "numeric",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-search-offline-online"
+                  ],
+                  "prompt_md": "The help centre grows to **200** articles. Same 384-number model, dot-product scoring, and the page shows the **top 3**. How many multiply-adds does brute-force scoring take for **one** query?",
+                  "answer": {
+                    "value": 76800,
+                    "tolerance": 0,
+                    "unit": "multiply-adds",
+                    "common_wrong": [
+                      {
+                        "value": 1152,
+                        "why_md": "$3 \\times 384$ scores only the three results. You can't know which three are best until all 200 articles are scored; k only decides where the sorted list is cut.",
+                        "misconception": "mc-topk-cuts-work"
+                      },
+                      {
+                        "value": 200,
+                        "why_md": "That counts dot products. Each dot product is 384 multiply-adds."
+                      }
+                    ]
+                  },
+                  "hint_md": "One dot product per stored vector, and $d$ multiply-adds per dot product.",
+                  "solution_md": "$200 \\times 384 = 76{,}800$ multiply-adds. The top-3 cut happens after scoring and doesn't change this.",
+                  "est_seconds": 60
+                }
+              }
+            },
+            {
+              "id": "blk-emb-search-14",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-check-article-edit",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-search-offline-online"
+                  ],
+                  "prompt_md": "The article *Update your billing card* is rewritten. The model stays the same. What must happen so search reflects the new text?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Re-embed that one article and replace its stored vector",
+                      "correct": true,
+                      "why_md": "Right. A vector depends on two things, the text and the model. Only this article's text changed, so only its vector is stale."
+                    },
+                    {
+                      "id": "b",
+                      "md": "Re-embed all 25 articles",
+                      "misconception": "mc-reindex-all-on-edit",
+                      "why_md": "The other 24 texts and the model are unchanged, so their vectors are still right. Re-embedding everything is only needed when you switch models."
+                    },
+                    {
+                      "id": "c",
+                      "md": "Nothing: the next query re-embeds it anyway",
+                      "misconception": "mc-reembed-per-query",
+                      "why_md": "Queries embed only themselves. Without a re-embed, the index keeps scoring the old text."
+                    },
+                    {
+                      "id": "d",
+                      "md": "Nothing: the title didn't change, so the vector still matches",
+                      "why_md": "The vector came from the article's text, not just its title. Changed text means a stale vector."
+                    }
+                  ],
+                  "solution_md": "Embed the rewritten article once and replace its vector in the index. Everything else stays.",
+                  "est_seconds": 50
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp1-same",
+    "emb-search/exit-1",
+    "emb-search/exit-2"
+  ],
+  "recap": {
+    "formula": "offline, once: N model calls · online, per query: 1 model call + N × d multiply-adds + a sort of N scores",
+    "template": "chunk → embed (offline) · embed query → rank → top-k (per query)",
+    "pitfall": "Embedding the query with a different model than the documents silently breaks ranking."
+  },
+  "depth_threads": [
+    {
+      "id": "emb-search-dt-unit-length",
+      "kind": "math",
+      "title": "Why scaling every vector to length 1 lets a plain dot product rank like cosine",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "emb-search-dt-matrix",
+      "kind": "implementation",
+      "title": "Scoring all N stored vectors at once as one matrix–vector product",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "emb-search-dt-index-updates",
+      "kind": "edge",
+      "title": "Adding, editing and deleting documents in a live index",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "emb-search-dt-topk-select",
+      "kind": "mechanism",
+      "title": "Picking the top-k without sorting all N scores",
+      "level": 3,
+      "status": "stub"
+    }
+  ],
+  "anticipated_doubts": [
+    {
+      "id": "d-same-model",
+      "beat": "b-search",
+      "question": "Why must the query use the same model as the documents?",
+      "match": [
+        "same model",
+        "different model",
+        "why same",
+        "mix models",
+        "another model"
+      ],
+      "answer_md": "Every model invents its own coordinate system while training. In model A, dimension 5 might partly track “finance-ness”; in model B, dimension 5 tracks something unrelated. Comparing a vector from A with one from B is like comparing GPS coordinates with street addresses. Both are locations, in incompatible systems.",
+      "deeper_md": "Two cartographers each draw a map of the same city, with different scales, orientations and origins. A point at (3, 4) on map A and (3, 4) on map B are different places. Embeddings from different models are maps by different cartographers.",
+      "bridge": {
+        "kind": "analogy",
+        "title": "Two maps, one city",
+        "md": [
+          "Each embedding model is a **map of meaning**. Train two models and you get two maps of the same city, rotated, stretched and shifted differently.",
+          "- Points on the **same** map: distances mean something.\n- A point from map A against a point on map B: the number is meaningless, even when both maps use 1,536 coordinates.",
+          "So: **one index, one model, one version**. Store the `model_id` with every vector."
+        ],
+        "verify": {
+          "id": "q-br-samemodel",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-embedding-def",
+            "kc-production-pitfalls"
+          ],
+          "prompt_md": "You re-train your embedding model on new data (same architecture, same 768 dims). Existing index vectors:",
+          "options": [
+            {
+              "id": "a",
+              "md": "Must be re-embedded: retraining produces a new space",
+              "why_md": "Right. Even the same architecture lands in a different coordinate system after retraining.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "Are still valid, since the architecture is unchanged",
+              "why_md": "Weights changed, so the map changed.",
+              "misconception": "mc-mix-models"
+            },
+            {
+              "id": "c",
+              "md": "Need only re-normalization",
+              "why_md": "Normalizing doesn't align two spaces."
+            }
+          ],
+          "est_seconds": 70
+        }
+      }
+    },
+    {
+      "id": "d-choose-k",
+      "beat": "b-search",
+      "question": "How do I choose k?",
+      "match": [
+        "choose k",
+        "what is k",
+        "how many results",
+        "pick k",
+        "value of k",
+        "how big should k"
+      ],
+      "answer_md": "k is simply how many results you hand back, so choose it from what happens next: a help page might show 3 to 5 article links, and nobody reads 50. Changing k doesn't change any score. Every article is scored and sorted the same way; k only decides where you cut the list. Whether the right article actually lands inside the top k is something you measure later, in *Measuring retrieval*.",
+      "deeper_md": "Think of a results page with room for three links. You still rank every article, then show the first three. If the page grows to five slots, the ranking is identical; you just show two more rows of it.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Same scores, different k",
+        "md": [
+          "Scores for five articles, already sorted: password 0.91, login 0.82, billing 0.67, refund 0.31, parcel 0.12.",
+          "- k = 3 → password, login, billing.\n- k = 5 → the same three, then refund and parcel.",
+          "Raising k never reorders the top of the list. It only shows more of it."
+        ],
+        "verify": {
+          "id": "q-br-choose-k",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-search-pipeline"
+          ],
+          "prompt_md": "You raise k from 3 to 5 for the same query. What happens to the first three results?",
+          "options": [
+            {
+              "id": "a",
+              "md": "They stay the same; two more results appear after them",
+              "correct": true,
+              "why_md": "Right. k only decides where the sorted list is cut."
+            },
+            {
+              "id": "b",
+              "md": "They can change, because more articles get compared",
+              "misconception": "mc-topk-cuts-work",
+              "why_md": "Every article was already scored for k = 3. The scores and their order don't depend on k."
+            },
+            {
+              "id": "c",
+              "md": "Their scores drop, because the score is shared among more results",
+              "why_md": "Each score is a cosine (or dot product) of the query with one article on its own. It isn't a share of a total."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-when-reembed",
+      "beat": "b-offline-online",
+      "question": "When do the articles need to be embedded again?",
+      "match": [
+        "embed again",
+        "re-embed",
+        "reembed",
+        "article changes",
+        "new article",
+        "update the index",
+        "refresh the index"
+      ],
+      "answer_md": "In two cases only. (1) An article is added or its text changes: embed **that article** and add or replace its vector. The other vectors came from unchanged text and the same model, so they are still right. (2) You switch to a different model, or a new version of it: embed **every** article again, because the new model's vectors live in a different space (*What an embedding model is*). A new query never re-embeds articles.",
+      "deeper_md": "An article's vector depends on exactly two things: its text and the model. Ask whether either changed. Text changed: redo that article. Model changed: redo every article. Neither: reuse the stored vector.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "What changed decides what to redo",
+        "md": [
+          "| What changed | Articles to re-embed |\n|---|---|\n| One article's text | That one article |\n| A new article arrives | That one article |\n| The model | Every article |\n| Nothing: a new query arrives | None; embed only the query |"
+        ],
+        "verify": {
+          "id": "q-br-reembed-when",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-search-offline-online"
+          ],
+          "prompt_md": "This week 3 of the 25 articles were edited, 1 new article was added, and the model stayed the same. How many article embeddings must the system run?",
+          "options": [
+            {
+              "id": "a",
+              "md": "4",
+              "correct": true,
+              "why_md": "Right: the 3 edited articles plus the new one. The other 22 vectors are unchanged."
+            },
+            {
+              "id": "b",
+              "md": "26",
+              "misconception": "mc-reindex-all-on-edit",
+              "why_md": "That re-embeds all 26 articles. Only a model change requires that."
+            },
+            {
+              "id": "c",
+              "md": "0: the next query will embed them",
+              "misconception": "mc-reembed-per-query",
+              "why_md": "Queries embed only themselves. Articles are embedded offline."
+            }
+          ],
+          "est_seconds": 50
+        }
+      }
+    },
+    {
+      "id": "d-cosine-lengths",
+      "beat": "b-offline-online",
+      "question": "Cosine also divides by the vector lengths. Doesn't that add to the per-query cost?",
+      "match": [
+        "vector length",
+        "lengths",
+        "cosine cost",
+        "divide by",
+        "norm",
+        "magnitude"
+      ],
+      "answer_md": "A little, and most of it can move offline. Cosine is $\\dfrac{q \\cdot v}{\\|q\\|\\,\\|v\\|}$. Each article's length $\\|v\\|$ depends only on the article, so compute it once offline and store it next to the vector. The query's length $\\|q\\|$ costs $d$ more multiply-adds **once per query**, not once per article. Per query that adds $N$ divisions to the $N \\times d$ multiply-adds. And because $\\|q\\|$ is the same number in all $N$ scores, dividing by it can't change the ranking.",
+      "deeper_md": "Divide every score by the same positive number, say 2: 0.8 becomes 0.4 and 0.6 becomes 0.3. Smaller, but in the same order. The query's length is that same number for every article.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "Where the length work goes",
+        "md": [
+          "For 25 articles at 384 numbers each:",
+          "- Offline, once: 25 article lengths, 384 multiply-adds each.\n- Per query: the query's length (384 multiply-adds), 25 dot products (9,600 multiply-adds) and 25 divisions.",
+          "The dot products are still most of the per-query arithmetic. *Metrics and normalisation* later shows how scaling every vector to length 1 offline removes the divisions altogether."
+        ],
+        "verify": {
+          "id": "q-br-cos-lengths",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-search-offline-online"
+          ],
+          "prompt_md": "Every article's score is divided by the same positive number (the query's length). What happens to the ranking?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Nothing: dividing every score by the same positive number keeps their order",
+              "correct": true,
+              "why_md": "Right. Each score shrinks by the same factor, so no article overtakes another."
+            },
+            {
+              "id": "b",
+              "md": "Articles with longer vectors move up",
+              "why_md": "Every score is divided by the same number, so no article gains on another."
+            },
+            {
+              "id": "c",
+              "md": "The order reverses",
+              "why_md": "Dividing by a positive number keeps the order. Only a negative number would flip it."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-why-score-all",
+      "beat": "b-offline-online",
+      "question": "If I only want the top 3, why score all 25 articles?",
+      "match": [
+        "only want the top",
+        "why score all",
+        "score every",
+        "stop early",
+        "fewer results",
+        "smaller k",
+        "skip some"
+      ],
+      "answer_md": "Because scores don't arrive in order. Until an article is scored you don't know where it ranks, so stopping after three decent matches can miss a better one further down the list. Brute-force search scores all $N$ stored vectors and then cuts: $N \\times d$ multiply-adds per query, whatever k is. Indexes that skip most vectors, and accept occasionally missing a true top result, are the subject of *Retrieval at scale*; they pay off only when N gets large.",
+      "deeper_md": "To name the three tallest people in a room you have to look at everyone. Stopping after the first three tall people you notice can miss the tallest one standing at the back.",
+      "bridge": {
+        "kind": "analogy",
+        "title": "The three tallest in the room",
+        "md": [
+          "To name the three tallest of 25 people, you measure all 25, then pick the top three.",
+          "Measuring only until you've seen three tall people is quicker, but the tallest might be the 24th person you'd have measured.",
+          "Brute-force search is measure-everyone: it always finds the true top-k, and it pays $N \\times d$ multiply-adds per query to do it."
+        ],
+        "verify": {
+          "id": "q-br-score-all",
+          "kind": "numeric",
+          "difficulty": 2,
+          "kcs": [
+            "kc-search-offline-online"
+          ],
+          "prompt_md": "40 articles, 384 numbers per vector, brute-force scoring with dot products, and k = 1. How many multiply-adds does scoring take per query?",
+          "answer": {
+            "value": 15360,
+            "tolerance": 0,
+            "unit": "multiply-adds",
+            "common_wrong": [
+              {
+                "value": 384,
+                "why_md": "That scores only one article. All 40 must be scored to know which one is best.",
+                "misconception": "mc-topk-cuts-work"
+              }
+            ]
+          },
+          "solution_md": "$40 \\times 384 = 15{,}360$.",
+          "est_seconds": 50
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Trace a query through the four moves on the help-centre bench",
+    "Estimate per-query cost for 10k documents with exact ranking",
+    "Decide which step must be redone when an article changes",
+    "Predict the top-3 for a query given a small similarity table",
+    "Find the bug when queries are embedded with a different model",
+    "Explain why top-k is cut after ranking, not before"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-ai-engineer",
+      "entry": "semantic-search"
+    },
+    {
+      "source": "strata-pack",
+      "entry": "basics/b-search"
+    },
+    {
+      "source": "sentence-transformers",
+      "entry": "semantic-search"
+    },
+    {
+      "source": "faiss-docs",
+      "entry": "flat"
+    }
+  ],
+  "provenance": {
+    "origin": "static",
+    "job": "u1-emb-search"
+  },
+  "status": "stocked"
+}

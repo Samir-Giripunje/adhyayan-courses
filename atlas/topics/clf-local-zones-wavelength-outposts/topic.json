@@ -1,0 +1,75 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-local-zones-wavelength-outposts",
+  "version": 1,
+  "title": "Local Zones, Wavelength and Outposts",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-local-zone",
+      "version": 1,
+      "statement": "A Local Zone extends a Region into a large metro area by placing AWS compute and storage close to end users there, for single-digit-millisecond latency (for example, media rendering or real-time gaming)."
+    },
+    {
+      "id": "kc-wavelength-zone",
+      "version": 1,
+      "statement": "A Wavelength Zone embeds AWS compute and storage inside a telecom provider's 5G network, so mobile and connected devices reach applications without traffic leaving the carrier network."
+    },
+    {
+      "id": "kc-outposts",
+      "version": 1,
+      "statement": "AWS Outposts are AWS-managed racks installed in the customer's own data center that run AWS services on premises, used for very low latency to local systems, local data processing or data that must stay on site."
+    },
+    {
+      "id": "kc-extension-choice",
+      "version": 1,
+      "statement": "Placement rule: users concentrated in one city needing ultra-low latency means Local Zone, 5G mobile devices means Wavelength, and workloads that must run in the customer's own facility means Outposts."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-availability-zones"
+  ],
+  "suggests": [
+    "clf-edge-locations"
+  ],
+  "confusable_with": [
+    "clf-edge-locations"
+  ],
+  "introduces": [
+    "local zone",
+    "wavelength zone",
+    "outposts"
+  ],
+  "uses": [
+    "region",
+    "availability zone",
+    "edge location",
+    "hybrid cloud",
+    "data residency"
+  ],
+  "problem_ideas": [
+    "A film studio in Los Angeles needs single-digit-ms access to render nodes while its Region is in Oregon: pick the option",
+    "An AR game streams to phones on a carrier's 5G network: which zone type and why not a Local Zone?",
+    "A factory's control system must keep running on site even if the internet link drops: which option fits?",
+    "A regulator forbids data from leaving the hospital building: Outposts or a Region in the same country?",
+    "Match four scenarios to Local Zone, Wavelength, Outposts and edge location",
+    "Who owns and maintains the hardware in an Outpost, and who owns the floor space and power?"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "global-infrastructure/aws-local-zones"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "global-infrastructure/aws-wavelength"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "global-infrastructure/aws-outposts"
+    }
+  ],
+  "status": "stub"
+}

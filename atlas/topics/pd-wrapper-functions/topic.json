@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-wrapper-functions",
+  "version": 1,
+  "title": "Writing a wrapper that works for any signature",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-wrapper-pattern",
+      "version": 1,
+      "statement": "A typical decorator defines an inner wrapper that runs extra code, calls the original function captured in its closure, and is returned in its place."
+    },
+    {
+      "id": "kc-pass-through-args",
+      "version": 1,
+      "statement": "A wrapper defined as wrapper(*args, **kwargs) that calls func(*args, **kwargs) works for any signature of the decorated function."
+    },
+    {
+      "id": "kc-wrapper-return-value",
+      "version": 1,
+      "statement": "A wrapper must return the result of calling the original function; omitting the return makes every decorated call return None."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "pd-closures",
+    "pd-what-is-a-decorator"
+  ],
+  "suggests": [
+    "pd-functools-wraps"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "wrapper function"
+  ],
+  "uses": [
+    "closure",
+    "decorator",
+    "*args and **kwargs"
+  ],
+  "problem_ideas": [
+    "Write a @log_calls decorator that prints arguments and return value",
+    "Write a @timer decorator using time.perf_counter",
+    "Fix a decorator whose wrapper takes only (x) and breaks on keyword arguments",
+    "Find why a decorated add(2, 3) returns None",
+    "Write @double_result that multiplies the wrapped return value by 2",
+    "Write @suppress_errors that returns None if the call raises ValueError"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "current-syntax/current-syntax"
+    }
+  ],
+  "status": "stub"
+}

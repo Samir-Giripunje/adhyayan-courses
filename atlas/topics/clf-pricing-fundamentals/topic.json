@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-pricing-fundamentals",
+  "version": 1,
+  "title": "How AWS charges: the three pricing principles",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-aws-cost-drivers",
+      "version": 1,
+      "statement": "AWS's three fundamental cost drivers are compute, storage and outbound data transfer; inbound data transfer from the internet is generally free."
+    },
+    {
+      "id": "kc-aws-pricing-principles",
+      "version": 1,
+      "statement": "AWS pricing follows three principles: pay as you go for what you use, save when you commit to a term, and pay less per unit as your usage volume grows."
+    },
+    {
+      "id": "kc-aws-free-tier",
+      "version": 1,
+      "statement": "The AWS Free Tier includes always-free offers that never expire (such as Lambda's 1 million free requests per month) alongside time-limited offers for new accounts; usage above the free limits is billed at normal rates."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-fixed-vs-variable-costs",
+    "clf-tco-on-premises-costs"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "pricing dimensions",
+    "aws free tier",
+    "tiered pricing"
+  ],
+  "uses": [
+    "pay-as-you-go pricing",
+    "variable costs",
+    "lambda"
+  ],
+  "problem_ideas": [
+    "A startup's first bill shows charges for EC2, S3 and 'DataTransfer-Out-Bytes'; which line is the one that is usually free in the other direction?",
+    "A student uploads 500 GB of video into S3 from home: which part of that is billed, the upload or the storage?",
+    "Match each slogan ('use more, pay less per GB', 'commit and save', 'no upfront cost') to the pricing principle it describes.",
+    "An account runs 800,000 Lambda requests a month: predict the request charge under the always-free tier.",
+    "A team assumes the Free Tier covers a large t3.xlarge instance; spot the mistake.",
+    "Which of these is not a fundamental AWS cost driver: compute, storage, data transfer out, number of IAM users?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-1-compare-aws-pricing-m/task-statement-4-1-compare-aws-pricing-m"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-2-understand-resources-/pricing-information-for-aws-services"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/pricing-models-in-aws"
+    }
+  ],
+  "status": "stub"
+}

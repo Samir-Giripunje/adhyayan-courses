@@ -1,0 +1,51 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-containers",
+  "version": 1,
+  "title": "Containers: an app packed with its dependencies",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-container-definition",
+      "version": 1,
+      "statement": "A container packages an application with its libraries and dependencies into an image that runs the same way on any host with a container runtime such as Docker."
+    },
+    {
+      "id": "kc-container-vs-vm",
+      "version": 1,
+      "statement": "Containers share the host's operating system kernel, so they start in seconds and pack more densely than virtual machines, each of which runs its own full guest operating system."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-ec2-basics"
+  ],
+  "confusable_with": [
+    "clf-amis-user-data"
+  ],
+  "introduces": [
+    "container",
+    "container image",
+    "docker"
+  ],
+  "uses": [
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "A team says the app 'works on my laptop but not in production': explain how a container image prevents this.",
+    "Compare boot time and per-host density for 20 small services run as containers versus as separate EC2 instances.",
+    "Decide whether each item lives inside a container image: app code, language runtime, host kernel, system libraries.",
+    "Explain the difference between an AMI and a container image in one sentence each.",
+    "A monolith is being split into 12 microservices: why are containers a natural fit?",
+    "Spot the false statement: 'Each container runs its own full operating system kernel.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "other-compute-section/what-is-docker"
+    }
+  ],
+  "status": "stub"
+}

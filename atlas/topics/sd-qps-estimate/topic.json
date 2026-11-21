@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-qps-estimate",
+  "version": 1,
+  "title": "Estimating QPS and peak QPS",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-average-qps",
+      "version": 1,
+      "statement": "Average QPS = daily active users × actions per user per day ÷ ~10^5 seconds."
+    },
+    {
+      "id": "kc-peak-qps",
+      "version": 1,
+      "statement": "Peak QPS is estimated as a multiple of average QPS (commonly 2–3×, higher for spiky events), and capacity is sized for peak, not average."
+    },
+    {
+      "id": "kc-read-write-qps",
+      "version": 1,
+      "statement": "Read QPS and write QPS are estimated separately by applying the read-to-write ratio, because they scale with different components."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-estimation-method"
+  ],
+  "suggests": [
+    "sd-requirements"
+  ],
+  "confusable_with": [
+    "sd-bandwidth-estimate"
+  ],
+  "introduces": [
+    "qps",
+    "peak qps",
+    "daily active users"
+  ],
+  "uses": [
+    "back-of-the-envelope estimation",
+    "read-to-write ratio",
+    "throughput"
+  ],
+  "problem_ideas": [
+    "200M DAU each post 2 tweets and read 100: compute write QPS and read QPS",
+    "A URL shortener gets 100M new URLs per month with 100:1 reads: compute redirect QPS",
+    "Ticket sale opens at 10:00 and 80% of a day's traffic arrives in one hour: estimate the peak multiple",
+    "Given average 5,000 QPS, size for peak using 3× and state the assumption",
+    "Explain why sizing servers for average QPS caused a Black Friday outage",
+    "Chat app: 50M DAU send 40 messages each; compute messages per second at peak"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "estimation-and-constraints-2/traffic"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "how-to-approach-a-system-design-intervie/use-back-of-the-envelope-calculations"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "estimation-and-constraints-4/traffic"
+    }
+  ],
+  "status": "stub"
+}

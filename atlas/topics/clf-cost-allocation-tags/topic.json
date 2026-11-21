@@ -1,0 +1,53 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-cost-allocation-tags",
+  "version": 1,
+  "title": "Cost allocation tags: splitting the bill",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-tag-activation",
+      "version": 1,
+      "statement": "Cost allocation tags are key-value tags that must be activated in the Billing and Cost Management console before they appear as a dimension in cost reports; activation normally affects subsequent reporting, but management-account users can request up to 12 months of backfill for periods when the resource already carried the tag."
+    },
+    {
+      "id": "kc-tag-types",
+      "version": 1,
+      "statement": "There are two kinds of cost allocation tags, AWS-generated tags (such as aws:createdBy) and user-defined tags (such as Project=checkout), and they are used to split one bill by team, project or environment."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-consolidated-billing"
+  ],
+  "confusable_with": [
+    "clf-consolidated-billing"
+  ],
+  "introduces": [
+    "cost allocation tags",
+    "resource tag",
+    "billing and cost management console"
+  ],
+  "uses": [
+    "aws account",
+    "member account"
+  ],
+  "problem_ideas": [
+    "A team tags every resource with Team=search but the tag never appears in reports: what step was missed?",
+    "Finance wants last quarter's costs by project; the resources carried a Project tag all quarter, but the tag was activated only today: what can the management account do to see last quarter?",
+    "A Project tag was added to resources yesterday and a 6-month backfill is requested: which months can show the tag and why?",
+    "Classify these as AWS-generated or user-defined: aws:createdBy, Environment=prod, CostCenter=4410.",
+    "Two products share one AWS account: which feature separates their costs on the bill?",
+    "Choose between separate accounts and cost allocation tags for charging back 3 teams in one account.",
+    "Spot the error: 'Cost allocation tags are activated per resource in the EC2 console.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-2-understand-resources-/aws-cost-allocation-tags"
+    }
+  ],
+  "status": "stub"
+}

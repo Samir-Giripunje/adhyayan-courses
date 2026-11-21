@@ -1,0 +1,51 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-singleton-decorator",
+  "version": 1,
+  "title": "Replacing a class: the singleton decorator",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-singleton-decorator",
+      "version": 1,
+      "statement": "PEP 318's singleton decorator replaces a class with a function that creates one instance on the first call and returns that same instance on every later call."
+    },
+    {
+      "id": "kc-singleton-tradeoff",
+      "version": 1,
+      "statement": "Because the singleton decorator rebinds the class name to a function, isinstance(x, Name) raises TypeError and the class can no longer be subclassed by name."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "pd-class-decorators",
+    "pd-closures"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "pd-class-decorators"
+  ],
+  "introduces": [
+    "singleton decorator"
+  ],
+  "uses": [
+    "class decorator",
+    "closure"
+  ],
+  "problem_ideas": [
+    "Implement PEP 318's @singleton and check a() is a() for two calls",
+    "Predict the error from isinstance(obj, Config) after @singleton",
+    "Rewrite the singleton as a modify-in-place class decorator that keeps the class",
+    "Decide whether a module-level instance would be simpler for a config object",
+    "Predict what happens to constructor arguments on the second call",
+    "Explain why class Child(Config) fails after decoration"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "examples/examples"
+    }
+  ],
+  "status": "stub"
+}

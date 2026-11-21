@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u4-design-flow",
+  "title": "From high-level design to a timed answer",
+  "topics": [
+    {
+      "id": "sd-high-level-design",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-bottlenecks",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-timed-walkthrough",
+      "tier": "must",
+      "order": 3
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

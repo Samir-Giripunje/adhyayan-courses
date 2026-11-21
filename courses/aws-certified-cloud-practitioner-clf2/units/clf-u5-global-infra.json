@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u5-global-infra",
+  "title": "AWS global infrastructure",
+  "topics": [
+    {
+      "id": "clf-regions",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-availability-zones",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-multi-az-multi-region",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-edge-locations",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-local-zones-wavelength-outposts",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-global-infra-placement",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

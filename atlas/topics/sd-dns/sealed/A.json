@@ -1,0 +1,224 @@
+[
+  {
+    "id": "sd-dns/test-a1",
+    "family": "sd-dns-dns-forms-order-cold-org",
+    "kind": "order",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-resolution"
+    ],
+    "prompt_md": "A student's laptop and its resolver have nothing cached. The student opens `docs.quillnote.org`. Put the steps of the lookup in the order they happen.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The resolver asks the `quillnote.org` authoritative server and receives the A record",
+        "why_md": "Fourth: only the authoritative server holds the address, and the resolver reaches it last."
+      },
+      {
+        "id": "b",
+        "md": "The laptop asks its resolver for the IP address of `docs.quillnote.org`",
+        "why_md": "First: the laptop does not walk the chain itself; it hands the question to a resolver."
+      },
+      {
+        "id": "c",
+        "md": "The resolver asks a `.org` TLD server and gets a referral to `quillnote.org`'s authoritative servers",
+        "why_md": "Third: the TLD server knows which servers are in charge of `quillnote.org`, not the address."
+      },
+      {
+        "id": "d",
+        "md": "The resolver returns the IP address to the laptop",
+        "why_md": "Fifth: once the resolver has the answer, it passes it back."
+      },
+      {
+        "id": "e",
+        "md": "The resolver asks a root server and gets a referral to the `.org` servers",
+        "why_md": "Second: with an empty cache the resolver starts at the root, which only knows the TLD servers."
+      }
+    ],
+    "answer": {
+      "sequence": [
+        "b",
+        "e",
+        "c",
+        "a",
+        "d"
+      ]
+    },
+    "hints": [
+      "The laptop asks a resolver; the resolver then works down the name from right to left: root, TLD, authoritative.",
+      "Laptop → resolver; resolver → root (referral to .org) → .org TLD (referral to quillnote.org) → authoritative (the A record); resolver → laptop."
+    ],
+    "solution_md": "1. The laptop asks its resolver (b).\n2. The resolver asks a root server, which refers it to the `.org` servers (e).\n3. It asks a `.org` TLD server, which refers it to `quillnote.org`'s authoritative servers (c).\n4. It asks the authoritative server, which returns the A record (a).\n5. The resolver hands the address back to the laptop (d).\n\nOrder: b, e, c, a, d.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/test-a2",
+    "family": "sd-dns-dns-forms-tld-reply",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-resolution"
+    ],
+    "prompt_md": "During a cold lookup of `docs.quillnote.org`, the resolver sends its query to a `.org` TLD server. What does that TLD server reply with?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The IP address of `docs.quillnote.org`",
+        "why_md": "The TLD server doesn't know Quillnote's address. Only Quillnote's authoritative server returns it.",
+        "misconception": "mc-root-knows-ip"
+      },
+      {
+        "id": "b",
+        "md": "A referral naming the authoritative servers for `quillnote.org`",
+        "correct": true,
+        "why_md": "Right. A `.org` server only knows which servers are in charge of each `.org` domain, so it refers the resolver there."
+      },
+      {
+        "id": "c",
+        "md": "A referral back to the root servers",
+        "why_md": "The resolver has just come from the root. The TLD server moves it one level down the name, not back up."
+      },
+      {
+        "id": "d",
+        "md": "The full list of IP addresses for every `.org` name, since TLD servers store them all",
+        "why_md": "No server stores every name's address. Each level only points to the next level.",
+        "misconception": "mc-dns-one-server"
+      }
+    ],
+    "hints": [
+      "Each level of the name has its own servers, and each knows only the next level down.",
+      "A `.org` server knows which servers handle `quillnote.org`; it hands those names (and their addresses) back as a referral."
+    ],
+    "solution_md": "The chain is root → TLD → authoritative. A `.org` TLD server knows, for each `.org` domain, which servers are authoritative for it. So it replies with a **referral**: \"`quillnote.org` is handled by these servers\". The resolver then asks one of them for the IP address. Answer: b.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/test-a5",
+    "family": "sd-dns-dns-forms-stale-window-partial",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "prompt_md": "A resolver fetches a game studio's A record, which has a TTL of **600 s**, at 14:10:00. The studio changes the record's IP address at 14:13:00. Assuming the resolver honours the TTL, for how many seconds **after the change** can this resolver keep handing out the old address?",
+    "options": [
+      {
+        "id": "a",
+        "md": "0 s: the change takes effect at once",
+        "why_md": "The change only updates the authoritative server. The resolver's copy stays valid until its TTL runs out.",
+        "misconception": "mc-dns-instant"
+      },
+      {
+        "id": "b",
+        "md": "180 s",
+        "why_md": "180 s is the time between the fetch and the change. That part of the TTL has already been used up; the question asks what is left after it."
+      },
+      {
+        "id": "c",
+        "md": "420 s",
+        "correct": true,
+        "why_md": "Right. The copy expires at 14:10:00 + 600 s = 14:20:00, which is 420 s after the 14:13:00 change."
+      },
+      {
+        "id": "d",
+        "md": "600 s",
+        "why_md": "600 s would be right only if the copy had been fetched at the moment of the change. This one was fetched 180 s earlier."
+      },
+      {
+        "id": "e",
+        "md": "86,400 s: DNS changes take a day to propagate",
+        "why_md": "There is no fixed day. A cached copy lives for its TTL, here 600 s from the fetch.",
+        "misconception": "mc-dns-instant"
+      }
+    ],
+    "hints": [
+      "A copy expires at fetch time + TTL. Compare that with the time of the change.",
+      "14:10:00 + 600 s = 14:20:00. How long after 14:13:00 is that?"
+    ],
+    "solution_md": "Expiry = fetch time + TTL = 14:10:00 + 600 s = 14:20:00. The change happened at 14:13:00, so the resolver can keep handing out the old address for 14:20:00 − 14:13:00 = **420 s** (7 minutes). Answer: c.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/test-a6",
+    "family": "sd-dns-dns-forms-case-migration-ttl",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "prompt_md": "A news site's A record has a TTL of **86,400 s** (one day). On Saturday at 06:00 it must move to a new server, and it wants users to reach the old server for **at most 5 minutes** after the move. It is now Wednesday. What's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "On Saturday at 06:00, lower the TTL to 300 and change the IP address in the same edit",
+        "why_md": "Trap. Copies cached before Saturday still carry the old TTL of 86,400 s, so some users can reach the old server for up to a day.",
+        "misconception": "mc-dns-instant"
+      },
+      {
+        "id": "b",
+        "md": "Lower the TTL to 300 by Friday 06:00 at the latest, change the IP on Saturday at 06:00, and keep the old server running for at least 5 minutes after",
+        "correct": true,
+        "why_md": "Best. Lowering the TTL at least one old TTL (one day) ahead means every cached copy has TTL 300 by Saturday, so the stale window is at most 5 minutes, and the old server covers it."
+      },
+      {
+        "id": "c",
+        "md": "Keep the TTL at 86,400, change the IP on Saturday at 06:00, and keep the old server running for a full day",
+        "why_md": "Viable, second-best. No user is dropped, because the old server serves everyone still holding a copy, but users can reach it for up to a day, not the 5 minutes the site wants."
+      }
+    ],
+    "hints": [
+      "Copies already handed out keep the TTL they were cached with. When must the TTL be lowered for all of them to carry the short one?",
+      "Lower the TTL at least one old TTL (86,400 s) before the change; then the stale window is at most the new TTL."
+    ],
+    "solution_md": "The stale window after a change is at most the TTL of the copies in caches. Copies fetched before a TTL change keep the old 86,400 s TTL, so lowering it at the moment of the move (a) still allows a day of stale answers. Lowering it to 300 at least one day ahead (by Friday 06:00) means every copy has TTL 300 by Saturday, so the window is ≤ 5 minutes; keep the old server running through it (b). Option c is safe but leaves users on the old server for up to a day. Answer: b.\n\nThis assumes every cache honours the TTL and the authoritative servers already serve the new record. A few resolvers and apps keep answers longer, so the window is not an absolute deadline: keep the old server running a little beyond it.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  }
+]

@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-tam-support-center",
+  "version": 1,
+  "title": "TAMs, Concierge and the Support Center",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-tam-role",
+      "version": 1,
+      "statement": "A technical account manager (TAM) is a named AWS technical contact who gives proactive architecture, operations and cost guidance; Enterprise Support provides a designated TAM, while the legacy Enterprise On-Ramp plan gave only a pool of TAMs."
+    },
+    {
+      "id": "kc-concierge-iem",
+      "version": 1,
+      "statement": "Enterprise-level plans add the Concierge Support Team for billing and account questions and Infrastructure Event Management help for planned launches and peak events."
+    },
+    {
+      "id": "kc-support-center",
+      "version": 1,
+      "statement": "AWS Support Center in the console is where you open and track support cases; on Basic Support you can open only account and billing cases, not technical ones."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-support-plans",
+    "clf-legacy-support-plans"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-support-plans"
+  ],
+  "introduces": [
+    "technical account manager",
+    "concierge support team",
+    "infrastructure event management",
+    "aws support center"
+  ],
+  "uses": [
+    "support plans",
+    "enterprise support",
+    "enterprise on-ramp support",
+    "basic support"
+  ],
+  "problem_ideas": [
+    "A company wants one named AWS engineer who knows its workloads: which plan is the minimum?",
+    "A finance team has complex invoicing questions across 200 accounts: which support team helps, and at which plan level?",
+    "A retailer plans a Super Bowl ad launch and wants AWS to help prepare: name the offering.",
+    "A Basic Support user wants to report an EC2 networking bug through Support Center: what happens?",
+    "Pool of TAMs versus designated TAM: map each to its plan.",
+    "Spot the false statement: 'Business Support+ includes a designated technical account manager.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-3-identify-aws-technica/aws-support-center"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-3-identify-aws-technica/aws-support-plans"
+    }
+  ],
+  "status": "stub"
+}

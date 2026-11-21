@@ -1,0 +1,785 @@
+[
+  {
+    "id": "sd-http/set-1",
+    "family": "sd-http-http-stay-logged-in",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-http-request-response"
+    ],
+    "prompt_md": "A user logs in to a ticket-booking website at `www.example.com`. In its login response the server sends a session id in a `Set-Cookie` header. Ten minutes later, in the same browser, the user opens `https://www.example.com/account` and is still logged in. Which statement explains why the server knows it is the same user?",
+    "options": [
+      {
+        "id": "a",
+        "md": "HTTP keeps a memory of who sent the earlier requests, so the server knows the second request is from the same user",
+        "misconception": "mc-http-keeps-state",
+        "why_md": "HTTP is stateless. The protocol itself keeps no memory of earlier requests."
+      },
+      {
+        "id": "b",
+        "md": "The browser sends the session id it got in `Set-Cookie` back in a `Cookie` header on this request, because the request matches the cookie's domain and path, the cookie has not expired, and its security settings and the browser's policy allow it. The server looks that id up in its session store",
+        "correct": true,
+        "why_md": "Right. The state lives in the browser (the cookie) and in the server's store, not in HTTP. The browser attaches the cookie only to requests that match its rules, and this request does."
+      },
+      {
+        "id": "c",
+        "md": "The server recognises the user because both requests come from the same IP address",
+        "why_md": "An IP address does not identify a person. Many users can share one address, and one user's address can change. The server needs something in the request itself, such as a cookie."
+      }
+    ],
+    "hints": [
+      "Remember that HTTP is stateless. So where does the 'logged in' information live?",
+      "After login the server sends `Set-Cookie`. When does the browser send that cookie back, and what does the server do with it?"
+    ],
+    "solution_md": "1. HTTP is stateless: the server is not required to remember anything about earlier requests.\n2. At login the server sends a session id in a `Set-Cookie` header.\n3. The browser stores the cookie. It sends it back in a `Cookie` header on a later request when the request matches the cookie's domain (`www.example.com`) and path, the cookie has not expired, and its security settings and the browser's policy allow it. `GET /account` over HTTPS on `www.example.com` meets these rules, so it carries the cookie.\n4. The server looks the id up in its session store and finds the user's account.\n\nAnswer: **b**. The protocol remembers nothing. The browser and the server's store hold the state.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r7"
+    }
+  },
+  {
+    "id": "sd-http/set-2",
+    "family": "sd-http-http-code-meaning-match",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-http-status-codes"
+    ],
+    "prompt_md": "A ticket-booking website's server sends back the status codes on the left. Match each code to its meaning. One meaning is not used.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "`200 OK`",
+        "why_md": "2xx means success: here is what you asked for."
+      },
+      {
+        "id": "l2",
+        "md": "`301 Moved Permanently`",
+        "why_md": "3xx means redirection. 301 says to use the new URL from now on."
+      },
+      {
+        "id": "l3",
+        "md": "`429 Too Many Requests`",
+        "why_md": "4xx means client error. 429 says the client is sending too fast."
+      },
+      {
+        "id": "l4",
+        "md": "`503 Service Unavailable`",
+        "why_md": "5xx means server error. 503 says the server is overloaded or down for now."
+      },
+      {
+        "id": "r1",
+        "md": "Success: here is the resource you asked for",
+        "why_md": "Fits 200."
+      },
+      {
+        "id": "r2",
+        "md": "Redirection: use the URL in `Location` from now on",
+        "why_md": "Fits 301."
+      },
+      {
+        "id": "r3",
+        "md": "Client error: this client is sending requests too fast",
+        "why_md": "Fits 429."
+      },
+      {
+        "id": "r4",
+        "md": "Server error: the server is overloaded or down for now",
+        "why_md": "Fits 503."
+      },
+      {
+        "id": "r5",
+        "md": "Server error: the server broke because the client sent too many requests",
+        "misconception": "mc-4xx-server-fault",
+        "why_md": "Not used. A 429 comes from a healthy server that is correctly refusing a client. 4xx blames the client, not the server."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3",
+        "l4": "r4"
+      }
+    },
+    "hints": [
+      "Read the first digit: 2 success, 3 redirect, 4 client fault, 5 server fault.",
+      "200 → success, 301 → permanent redirect, 429 → client sending too fast, 503 → server overloaded. The leftover option blames the server for a 4xx."
+    ],
+    "solution_md": "The first digit gives the class.\n- 200: 2xx success → r1.\n- 301: 3xx redirection, permanent → r2.\n- 429: 4xx client error, too many requests → r3.\n- 503: 5xx server error, overloaded or down → r4.\n\nr5 is unused. A 429 reports that the client exceeded a request rate limit; it does not establish whether the server is healthy or why the limit was imposed.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r7"
+    }
+  },
+  {
+    "id": "sd-http/set-3",
+    "family": "sd-http-http-page-load-order",
+    "kind": "order",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-http-request-response"
+    ],
+    "prompt_md": "A user types `https://www.example.com/events/42` into the browser. The browser uses HTTP/1.1 over TCP, and the name `www.example.com` resolves to `203.0.113.10`. Put these steps of the page load in order, first to last. Nothing is cached and no connection is open yet. (The TLS handshake is left out.)",
+    "options": [
+      {
+        "id": "a",
+        "md": "The browser sends `GET /events/42` with a `Host: www.example.com` header",
+        "why_md": "Third. The request can only be sent after there is a connection to carry it."
+      },
+      {
+        "id": "b",
+        "md": "DNS resolves `www.example.com` to `203.0.113.10`",
+        "why_md": "First. The browser needs an IP address before it can connect."
+      },
+      {
+        "id": "c",
+        "md": "The server reads the method and path and picks a status code",
+        "why_md": "Fourth. The server can only answer a request it has received."
+      },
+      {
+        "id": "d",
+        "md": "The browser opens a TCP connection to `203.0.113.10` on port 443",
+        "why_md": "Second. HTTP/1.1 needs a TCP connection to carry its messages."
+      },
+      {
+        "id": "e",
+        "md": "The browser renders the body of the response",
+        "why_md": "Last. The body arrives in the response."
+      }
+    ],
+    "answer": {
+      "sequence": [
+        "b",
+        "d",
+        "a",
+        "c",
+        "e"
+      ]
+    },
+    "hints": [
+      "Find the address first, then build a transport connection, and only then exchange HTTP messages.",
+      "DNS → TCP connection → request → server picks the code → render the body."
+    ],
+    "solution_md": "1. DNS turns the name into `203.0.113.10` (b).\n2. The browser opens a TCP connection to port 443 (d).\n3. The browser sends the HTTP request `GET /events/42` (a).\n4. The server reads the method and path and picks a status code such as 200 (c).\n5. The browser renders the response body (e).\n\nOrder: **b, d, a, c, e**.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r7"
+    }
+  },
+  {
+    "id": "sd-http/set-4",
+    "family": "sd-http-http-idempotent-select",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-methods"
+    ],
+    "prompt_md": "A ticket-booking website has an API. Each request below is sent **twice** in a row, and both copies reach the server. Which ones leave the server in the same state as sending it once? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "`GET /events/42`",
+        "correct": true,
+        "why_md": "Yes. A read changes nothing, so two reads leave the same state."
+      },
+      {
+        "id": "b",
+        "md": "`POST /orders` with a 2-ticket order",
+        "misconception": "mc-retry-always-safe",
+        "why_md": "No. Each POST creates a new order, so two copies give two orders."
+      },
+      {
+        "id": "c",
+        "md": "`PUT /users/42` with the full profile in the body",
+        "correct": true,
+        "why_md": "Yes. Replacing the profile with the same content twice still leaves that content."
+      },
+      {
+        "id": "d",
+        "md": "`DELETE /comments/7`",
+        "correct": true,
+        "why_md": "Yes. After the first delete the comment is gone, and the second changes nothing. The second reply may be 404, but idempotence is about state, not replies."
+      },
+      {
+        "id": "e",
+        "md": "`PATCH /events/42` with `{\"add_to_sold\": 1}` (add 1 to the tickets-sold count)",
+        "why_md": "No. Each copy adds another 1, so two copies raise the count by 2."
+      },
+      {
+        "id": "f",
+        "md": "`PATCH /users/42` with `{\"bio\": \"Live music fan\"}` (set the bio)",
+        "correct": true,
+        "why_md": "Yes. Setting the bio to the same value twice leaves the same bio. This PATCH happens to be idempotent."
+      }
+    ],
+    "hints": [
+      "Idempotent means the server ends in the same state after one copy or two. Ask what the second copy changes.",
+      "Reads, full replacements, deletes and 'set to X' patches add nothing on a repeat. Creates and 'add 1' patches do."
+    ],
+    "solution_md": "For each request, compare the server state after one copy and after two:\n- GET: nothing changes → same. ✔\n- POST /orders: 1 order vs 2 orders → different.\n- PUT full profile: same profile → same. ✔\n- DELETE: comment gone either way → same. ✔\n- PATCH add 1: +1 vs +2 → different.\n- PATCH set bio: same bio → same. ✔\n\nAnswer: **a, c, d, f**.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r7"
+    }
+  },
+  {
+    "id": "sd-http/set-5",
+    "family": "sd-http-http3-quic-ar",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-request-response"
+    ],
+    "prompt_md": "**Assertion (A):** HTTP/3 requests are not carried over TCP.\n\n**Reason (R):** HTTP/3 runs over QUIC, a transport protocol built on top of UDP.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. HTTP/3 uses QUIC as its transport, and QUIC runs on UDP, so TCP is not used for HTTP/3."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is the reason A holds. HTTP/3 avoids TCP because its transport is QUIC on UDP."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true. The lesson says HTTP/3 runs over QUIC, which is built on top of UDP."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "misconception": "mc-http-always-tcp",
+        "why_md": "A is true. HTTP/1.1 and HTTP/2 usually run over TCP, but HTTP/3 does not."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately, then ask whether R is the cause of A.",
+      "HTTP/1.1 and HTTP/2 run over TCP. HTTP/3 runs over QUIC, and QUIC sits on UDP."
+    ],
+    "solution_md": "A: true. HTTP/3 is the version that does not run over TCP.\nR: true. HTTP/3's transport is QUIC, which is built on UDP and adds reliability, ordering and encryption itself.\nR explains A: HTTP/3 is not on TCP *because* it runs on QUIC over UDP.\n\nAnswer: **a**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/set-6",
+    "family": "sd-http-http-content-length-count",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-request-response"
+    ],
+    "prompt_md": "A shopping app's API answers `POST /cart/check` with this exact JSON body, with no spaces or newlines:\n\n```\n{\"id\":7,\"ok\":true}\n```\n\nEvery character is one byte. What value goes in the `Content-Length` header?",
+    "answer": {
+      "value": 18,
+      "tolerance": 0,
+      "unit": "bytes"
+    },
+    "common_wrong": [
+      {
+        "value": 14,
+        "kind": "slip",
+        "why_md": "That leaves out the 4 quote marks around `id` and `ok`. Quotes are bytes too."
+      },
+      {
+        "value": 16,
+        "kind": "slip",
+        "why_md": "That leaves out the opening and closing braces. Every character in the body counts."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "body = '{\"id\":7,\"ok\":true}'\nanswer = len(body.encode('utf-8'))\n"
+    },
+    "hints": [
+      "`Content-Length` is the body size in bytes. Count every character, including braces, quotes, colons and commas.",
+      "`{`=1, `\"id\"`=4, `:`=1, `7`=1, `,`=1, `\"ok\"`=4, `:`=1, `true`=4, `}`=1."
+    ],
+    "solution_md": "Count the pieces:\n`{` = 1, `\"id\"` = 4, `:` = 1, `7` = 1, `,` = 1, `\"ok\"` = 4, `:` = 1, `true` = 4, `}` = 1.\n\nTotal: 1 + 4 + 1 + 1 + 1 + 4 + 1 + 4 + 1 = **18**, so the header is `Content-Length: 18`.",
+    "version": 2,
+    "class": "predict",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r7"
+    }
+  },
+  {
+    "id": "sd-http/set-7",
+    "family": "sd-http-http-post-retry-charge",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-methods"
+    ],
+    "prompt_md": "A fan orders **3** tickets at **€45** each. The app sends `POST /orders` with no idempotency key. The response times out, so the app automatically retries **twice** more with the same body. All three attempts reach the server, and each one creates an order and charges the fan for it. How much is the fan charged in total, in euros?",
+    "answer": {
+      "value": 405,
+      "tolerance": 0,
+      "unit": "EUR"
+    },
+    "common_wrong": [
+      {
+        "value": 135,
+        "kind": "misconception",
+        "tag": "mc-retry-always-safe",
+        "why_md": "That assumes the retries are harmless. POST is not idempotent, so each attempt creates another order."
+      },
+      {
+        "value": 270,
+        "kind": "slip",
+        "why_md": "That counts only the 2 retries. The first attempt also reached the server: 3 attempts in total."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "tickets = 3\nprice = 45\nattempts = 1 + 2\nanswer = tickets * price * attempts\n"
+    },
+    "hints": [
+      "Work out the cost of one order, then count how many orders the POSTs created.",
+      "One order = 3 × €45 = €135. The original plus 2 retries = 3 POSTs, which create 3 orders."
+    ],
+    "solution_md": "1. One order: 3 × €45 = €135.\n2. POST is not idempotent, so each attempt that reaches the server creates a new order.\n3. Attempts: 1 original + 2 retries = 3 orders.\n4. Total: 3 × €135 = **€405**, instead of the intended €135.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/set-8",
+    "family": "sd-http-http-malformed-400",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-status-codes"
+    ],
+    "prompt_md": "A shopping app has a bug. It sends `POST /orders` to the shop's API with a JSON body that is cut off halfway (the closing `}` is missing). The user is logged in, `/orders` exists, and the server is healthy, but it cannot parse the body. Which status code fits best?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`500 Internal Server Error`",
+        "misconception": "mc-4xx-server-fault",
+        "why_md": "Nothing broke inside the server. The request itself is broken, which makes it a client error (4xx)."
+      },
+      {
+        "id": "b",
+        "md": "`404 Not Found`",
+        "why_md": "`/orders` exists. The problem is the body, not a missing resource."
+      },
+      {
+        "id": "c",
+        "md": "`400 Bad Request`",
+        "correct": true,
+        "why_md": "Right. The request is malformed, so this is a client error. Sending it again unchanged will not help."
+      },
+      {
+        "id": "d",
+        "md": "`401 Unauthorized`",
+        "why_md": "The user is logged in. The problem is the malformed body, not missing credentials."
+      }
+    ],
+    "hints": [
+      "First decide whose fault it is (4xx client or 5xx server), then pick the exact code.",
+      "The client sent a broken request to a healthy server. Which 4xx means 'malformed'?"
+    ],
+    "solution_md": "1. Whose fault? The app sent a body the server cannot parse, and the server is healthy, so it is the client's fault → 4xx.\n2. Which 4xx? The resource exists (not 404) and the user is logged in (not 401). The request is malformed → **400 Bad Request**.\n\nAnswer: **c**.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r7"
+    }
+  },
+  {
+    "id": "sd-http/set-9",
+    "family": "sd-http-http-checkout-retry-case",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-http-methods"
+    ],
+    "prompt_md": "During a big concert ticket sale, some `POST /orders` calls from a ticket-booking phone app time out. Support reports customers who were charged twice. You want two things: (1) a timed-out purchase still gets completed without the customer doing anything, and (2) no customer is ever charged twice for one purchase attempt. Which design do you choose?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Turn off automatic retries for `POST /orders` and show: *Something went wrong. Check My Orders before you buy again.*",
+        "why_md": "Viable, second-best. It stops automatic double charges, but it fails goal (1): the customer has to act. A customer who taps Buy again before the first order appears can still pay twice."
+      },
+      {
+        "id": "b",
+        "md": "Keep retrying `POST /orders` automatically up to 3 times, because a timeout means the request never reached the server",
+        "misconception": "mc-retry-always-safe",
+        "why_md": "Trap. A timeout does not mean the request was lost. The order may have been created and only the response lost, so each retry can create another order and charge."
+      },
+      {
+        "id": "c",
+        "md": "Keep `POST /orders`, but have the app create one unique `Idempotency-Key` per purchase attempt and send the same key on every retry. The server stores the keys it has processed and returns the original result for a repeat.",
+        "correct": true,
+        "why_md": "Best. Retries happen automatically (goal 1), and a repeated key returns the first order instead of creating a second one (goal 2)."
+      }
+    ],
+    "hints": [
+      "Check each option against both goals: completion without the customer acting, and no double charge.",
+      "A timeout leaves the client unsure whether the order was created. Only one option lets it retry and also lets the server recognise the repeat."
+    ],
+    "solution_md": "1. A timeout is ambiguous: the request may be lost, or the order may exist and only the response was lost.\n2. Blind POST retries (b) can create extra orders, which fails goal 2.\n3. No retries (a) avoids automatic duplicates but fails goal 1, and a customer who taps Buy again can still double-pay.\n4. An idempotency key (c) makes the retried POST safe. The server sees a key it has already processed and returns the original result.\n\nAnswer: **c**.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r7"
+    }
+  },
+  {
+    "id": "sd-http/set-10",
+    "family": "sd-http-http-dashboard-page-count",
+    "kind": "predict_output",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-http-status-codes"
+    ],
+    "prompt_md": "A naive dashboard pages the on-call engineer for every status code of 400 or above. A better one pages only for codes of 500 or above. The Python code below takes a log of response status codes and prints how many more responses the naive rule would page for than the better rule.\n\n```python\nlog = [200, 404, 429, 503, 201, 401, 500, 301, 429]\npages = [c for c in log if c >= 500]\nerrors = [c for c in log if c >= 400]\nprint(len(errors) - len(pages))\n```\n\nWhat does this code print? Type the printed value exactly.",
+    "code": "log = [200, 404, 429, 503, 201, 401, 500, 301, 429]\npages = [c for c in log if c >= 500]\nerrors = [c for c in log if c >= 400]\nprint(len(errors) - len(pages))\n",
+    "answer": {
+      "value": "4",
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import io, contextlib\nsrc = 'log = [200, 404, 429, 503, 201, 401, 500, 301, 429]\\npages = [c for c in log if c >= 500]\\nerrors = [c for c in log if c >= 400]\\nprint(len(errors) - len(pages))\\n'\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    exec(src, {})\nanswer = buf.getvalue().strip()\n"
+    },
+    "hints": [
+      "Count the codes in `log` that are 400 or above. Then count the ones that are 500 or above, and subtract the second count from the first.",
+      "Codes ≥ 400: 404, 429, 503, 401, 500, 429 (6 codes). Codes ≥ 500: 503, 500 (2 codes)."
+    ],
+    "solution_md": "1. `errors` (≥ 400): 404, 429, 503, 401, 500, 429 → 6 codes. (200, 201 and 301 are below 400.)\n2. `pages` (≥ 500): 503, 500 → 2 codes.\n3. 6 − 2 = **4**.\n\nIt prints `4`. The difference is the four 4xx responses (404, 429, 401, 429). Those four responses are classified as client errors. This paging rule excludes them, but their status codes alone do not establish server health; unexpected increases can warrant investigation.",
+    "version": 3,
+    "class": "predict",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r3"
+    }
+  },
+  {
+    "id": "sd-http/set-11",
+    "family": "sd-http-http-retry-state-trace",
+    "kind": "trace",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-http-methods"
+    ],
+    "prompt_md": "An online shop's order server starts with **0** orders, and no order 981 exists yet. Each request below reaches the server and is handled normally. A POST creates a new order with an id the server chooses: the first POST creates order **1001** and the retried POST creates order **1002**, so neither one uses id 981. A PUT to `/orders/981` with a full order body creates order 981 if it does not exist and replaces it if it does. Fill each `?` with the total number of orders on the server after that step.",
+    "context_md": "| step | request | orders after |\n|---|---|---|\n| 1 | `POST /orders` (2 items) | ? |\n| 2 | the same `POST /orders`, retried | ? |\n| 3 | `PUT /orders/981` (full 2-item order) | ? |\n| 4 | the same `PUT /orders/981`, retried | ? |\n| 5 | `DELETE /orders/981` | ? |\n| 6 | the same `DELETE /orders/981`, retried | ? |",
+    "answer": {
+      "cells": {
+        "0,2": "1",
+        "1,2": "2",
+        "2,2": "3",
+        "3,2": "3",
+        "4,2": "2",
+        "5,2": "2"
+      }
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "orders = set()\ncounts = []\n# 1, 2: POST twice, server picks ids 1001 and 1002\nfor oid in (1001, 1002):\n    orders.add(oid)\n    counts.append(len(orders))\n# 3, 4: PUT /orders/981 twice (create, then replace)\nfor _ in range(2):\n    orders.add(981)\n    counts.append(len(orders))\n# 5, 6: DELETE /orders/981 twice\nfor _ in range(2):\n    orders.discard(981)\n    counts.append(len(orders))\nanswer = {f'{i},2': str(c) for i, c in enumerate(counts)}\n"
+    },
+    "hints": [
+      "For each step, ask whether repeating the same request adds another change. POST is not idempotent; PUT and DELETE are.",
+      "POST: 1, then 2 (orders 1001 and 1002). PUT creates 981 (3), and the repeat replaces it (still 3). DELETE removes 981 (2), and the repeat finds nothing to remove (still 2)."
+    ],
+    "solution_md": "1. POST creates order 1001 → **1**.\n2. Retried POST creates order 1002 → **2**.\n3. PUT creates order 981, which did not exist yet → **3**.\n4. Retried PUT replaces 981 with the same content → **3**.\n5. DELETE removes 981 → **2**.\n6. Retried DELETE: 981 is already gone, so nothing changes → **2**. The reply may be a 404, but the server state is the same.\n\nCells: 1, 2, 3, 3, 2, 2.",
+    "version": 3,
+    "class": "predict",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r7"
+    }
+  },
+  {
+    "id": "sd-http/set-12",
+    "family": "sd-http-http-raw-response-read",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-http-request-response",
+      "kc-http-status-codes"
+    ],
+    "prompt_md": "A browser that asked for `/events/aurora-2025` receives this exact HTTP/1.1 message:\n\n```\nHTTP/1.1 301 Moved Permanently\nLocation: /events/42\nContent-Length: 0\n\n```\n\nSelect all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "This message is a response, because its first line is a version followed by a status code",
+        "correct": true,
+        "why_md": "True. A request line starts with a method and a path; a status line starts with the version and a code."
+      },
+      {
+        "id": "b",
+        "md": "The browser's next step is to request `/events/42`",
+        "correct": true,
+        "why_md": "True. A 3xx response sends the client to the URL in its `Location` header."
+      },
+      {
+        "id": "c",
+        "md": "On the browser's next request, the server will remember that this browser asked for the old URL, even if no cookie is sent",
+        "misconception": "mc-http-keeps-state",
+        "why_md": "False. HTTP is stateless. Each request stands alone, and the server keeps no memory of this browser unless the request carries something that identifies it."
+      },
+      {
+        "id": "d",
+        "md": "This response has an empty body",
+        "correct": true,
+        "why_md": "True. `Content-Length: 0` means the body is 0 bytes."
+      },
+      {
+        "id": "e",
+        "md": "The first digit 3 means the browser's request had an error",
+        "misconception": "mc-4xx-server-fault",
+        "why_md": "False. 3xx means redirection. Client errors are 4xx."
+      }
+    ],
+    "hints": [
+      "Read the message part by part: first line, headers, body. Then recall what the first digit of the code means.",
+      "Status line → response. 3xx with `Location` → go there next. `Content-Length: 0` → no body. HTTP is stateless."
+    ],
+    "solution_md": "1. The first line, `HTTP/1.1 301 Moved Permanently`, is a status line, so this is a response (a ✔).\n2. 301 is a 3xx redirect, and `Location: /events/42` tells the browser where to go next (b ✔). It is not an error (e ✘).\n3. `Content-Length: 0` means the body is empty (d ✔).\n4. HTTP does not automatically identify this request as belonging to the same browser session. A server may keep request history, but this redirect alone doesn't establish how it would link the next request to this browser, so (c) is not guaranteed (c ✘).\n\nAnswer: **a, b, d**.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/exit-1",
+    "family": "sd-http-http3-transport-exit",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-http-request-response"
+    ],
+    "prompt_md": "Which transport carries **HTTP/3**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "TCP, the same as every HTTP version",
+        "misconception": "mc-http-always-tcp",
+        "why_md": "HTTP/1.1 and HTTP/2 usually run over TCP, but HTTP/3 does not."
+      },
+      {
+        "id": "b",
+        "md": "Plain UDP, with no reliability or ordering added",
+        "why_md": "UDP is underneath, but QUIC adds reliability, ordering and encryption on top of it."
+      },
+      {
+        "id": "c",
+        "md": "QUIC, a transport protocol built on top of UDP",
+        "correct": true,
+        "why_md": "Right. HTTP/3 runs over QUIC, and QUIC runs on UDP."
+      }
+    ],
+    "hints": [
+      "HTTP/1.1 and HTTP/2 usually use TCP. HTTP/3 uses a newer transport.",
+      "That newer transport is built on UDP and adds reliability and encryption itself."
+    ],
+    "solution_md": "HTTP/3 runs over **QUIC**. QUIC is a transport built on top of UDP that provides reliability, ordering and encryption itself. Answer: **c**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/exit-2",
+    "family": "sd-http-http-delete-idempotent-exit",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-methods"
+    ],
+    "prompt_md": "A client sends `DELETE /orders/981` twice. The first reply is `200`, and the second is `404`. A teammate says this proves DELETE is not idempotent. Who is right, and why?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The teammate is right: the two replies differ, so DELETE is not idempotent",
+        "misconception": "mc-idempotent-same-response",
+        "why_md": "Idempotence is about server state, not about getting identical replies."
+      },
+      {
+        "id": "b",
+        "md": "The teammate is wrong: after one DELETE or two, the server is in the same state, with no order 981",
+        "correct": true,
+        "why_md": "Right. The replies differ, but the effect on the server is the same."
+      },
+      {
+        "id": "c",
+        "md": "The teammate is right: DELETE changes server state, and an idempotent request changes nothing",
+        "misconception": "mc-idempotent-same-response",
+        "why_md": "Idempotent does not mean 'changes nothing'. It means repeats leave the same state as one call. PUT and DELETE change state and are still idempotent."
+      }
+    ],
+    "hints": [
+      "Idempotent is defined by the server's state after one call compared with several calls.",
+      "After the first DELETE, order 981 is gone. What does the second DELETE change?"
+    ],
+    "solution_md": "1. After one DELETE: no order 981.\n2. After two DELETEs: still no order 981. The second call changes nothing.\n3. The state is the same, so DELETE is idempotent, even though the replies (200, then 404) differ.\n\nAnswer: **b**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/exit-3",
+    "family": "sd-http-http-404-exit",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-http-status-codes"
+    ],
+    "prompt_md": "A user's browser sends a well-formed `GET /events/99999` to a ticket-booking website, but the site has no event with that id and never had one. The server is healthy. Which status code fits?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`500 Internal Server Error`",
+        "misconception": "mc-4xx-server-fault",
+        "why_md": "Nothing broke in the server. The requested resource does not exist, which is a client error."
+      },
+      {
+        "id": "b",
+        "md": "`301 Moved Permanently`",
+        "why_md": "The event did not move to a new URL. It does not exist."
+      },
+      {
+        "id": "c",
+        "md": "`400 Bad Request`",
+        "why_md": "The request is well formed. It names a resource that does not exist."
+      },
+      {
+        "id": "d",
+        "md": "`404 Not Found`",
+        "correct": true,
+        "why_md": "Right. There is no such resource: a 4xx client error."
+      }
+    ],
+    "hints": [
+      "Whose fault is it, and what exactly is wrong: the format, or the thing asked for?",
+      "The request is well formed, but it names a resource that does not exist."
+    ],
+    "solution_md": "The server is healthy and the request is well formed, but no event 99999 exists. That is a client error (4xx), specifically **404 Not Found**. Answer: **d**.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r7"
+    }
+  }
+]

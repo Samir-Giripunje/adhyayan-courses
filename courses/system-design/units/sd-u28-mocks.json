@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u28-mocks",
+  "title": "Timed mock interviews",
+  "topics": [
+    {
+      "id": "sd-mock-method",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-mock-url-shortener",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-mock-news-feed",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "sd-mock-chat",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "sd-mock-ride-hailing",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "sd-mock-unseen-prompt",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

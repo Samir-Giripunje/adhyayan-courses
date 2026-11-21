@@ -1,0 +1,248 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-exact-cost",
+  "version": 1,
+  "title": "Why exact search stops scaling",
+  "size": "micro",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-ann-tradeoff",
+      "version": 1,
+      "statement": "Exact search costs N·d per query; ANN indexes trade a little recall for large speedups, measured against an exact baseline."
+    }
+  ],
+  "mode_hint": "prediction",
+  "mode": "prediction",
+  "requires": [
+    "emb-search"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "visual_fit": {
+    "kind": "chart",
+    "why": "Exact search cost grows in a straight line with the number of vectors; a chart makes the scale visible."
+  },
+  "introduces": [
+    "ANN",
+    "exact search"
+  ],
+  "uses": [
+    "semantic search",
+    "dimension"
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-ann-exact",
+      "statement": "A vector database returns the exact nearest neighbours.",
+      "tags": [
+        "kc-ann-tradeoff"
+      ]
+    }
+  ],
+  "glossary": [],
+  "parts": [
+    {
+      "id": "emb-exact-cost-p1",
+      "title": "Why exact search stops scaling",
+      "beats": [
+        {
+          "id": "b-brute",
+          "title": "Why exact search stops scaling",
+          "kcs": [
+            "kc-ann-tradeoff"
+          ],
+          "est_minutes": 6,
+          "blocks": [
+            {
+              "id": "blk-emb-exact-cost-01",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "The search from the Basics layer compares the query with **every** vector. That's called *flat* or *exact* search. For $N$ vectors of $d$ dimensions it costs about $N \\times d$ multiply-adds per query.",
+                  "- 10,000 chunks × 384 dims ≈ 3.8 million operations: **instant**.\n- 10,000,000 chunks × 768 dims ≈ **7.7 billion** operations, and $10^7 \\times 768 \\times 4$ bytes ≈ **30.7 GB** of float32 read from memory **per query**. At typical server memory bandwidth of tens of GB/s, that's on the order of a second per query, before you serve 1,000 users at once.",
+                  "[[ANN]] (approximate nearest neighbour) indexes avoid looking at most vectors. They return the **probably** nearest neighbours in milliseconds. You pay with **recall**, measured against exact search: an ANN index at 0.95 recall@10 returns 9.5 of the true top-10 on average."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-exact-cost-02",
+              "block": {
+                "type": "callout",
+                "kind": "misconception",
+                "md": "Almost every production vector database runs ANN, so results are **approximate by design**, and the index has knobs that trade speed for recall. Measure recall against an exact baseline on a sample of queries.",
+                "title": "“The vector DB returns the true nearest neighbours”",
+                "misconception": "mc-ann-exact"
+              }
+            },
+            {
+              "id": "blk-emb-exact-cost-03",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "md": "Up to tens or hundreds of thousands of vectors, exact search with a good matrix library (or a GPU) is often fast enough. It is exact, simple, and needs no tuning. Reach for ANN when latency or cost forces you to.",
+                "title": "Don't reach for ANN too early"
+              }
+            },
+            {
+              "id": "blk-emb-exact-cost-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-mem-1m",
+                  "kind": "numeric",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-ann-tradeoff"
+                  ],
+                  "prompt_md": "How much memory do **1,000,000** vectors of **1,536** float32 dimensions take? Answer in GB (1 GB = 10⁹ bytes), 1 decimal.",
+                  "answer": {
+                    "value": 6.1,
+                    "tolerance": 0.1,
+                    "unit": "GB",
+                    "common_wrong": [
+                      {
+                        "value": 1.5,
+                        "why_md": "That counts 1 byte per dimension. float32 is 4 bytes."
+                      }
+                    ]
+                  },
+                  "solution_md": "$10^6 \\times 1536 \\times 4 = 6.144 \\times 10^9$ bytes ≈ **6.1 GB**, before any index overhead.",
+                  "est_seconds": 70
+                }
+              }
+            },
+            {
+              "id": "blk-emb-exact-cost-05",
+              "block": {
+                "type": "diagram",
+                "id": "dg-exact-cost",
+                "kind": "chart",
+                "title": "Exact search reads every vector, every query",
+                "alt": "A line chart of memory read per query against vectors stored, from 0 to 10 million, for float32 vectors. At 768 dimensions it grows to 30.7 GB per query at 10 million vectors; at 384 dimensions it reaches 15.4 GB.",
+                "caption_md": "Memory read per query = $N \\times d \\times 4$ bytes for float32 vectors. At tens of GB/s of memory bandwidth, the top of this chart is about a second per query.",
+                "spec": {
+                  "type": "line",
+                  "x": {
+                    "label": "Vectors stored",
+                    "unit": "millions",
+                    "min": 0,
+                    "max": 10
+                  },
+                  "y": {
+                    "label": "Read per query",
+                    "unit": "GB",
+                    "min": 0,
+                    "max": 35
+                  },
+                  "series": [
+                    {
+                      "label": "768 dims",
+                      "points": [
+                        [
+                          0,
+                          0
+                        ],
+                        [
+                          2,
+                          6.1
+                        ],
+                        [
+                          4,
+                          12.3
+                        ],
+                        [
+                          6,
+                          18.4
+                        ],
+                        [
+                          8,
+                          24.6
+                        ],
+                        [
+                          10,
+                          30.7
+                        ]
+                      ]
+                    },
+                    {
+                      "label": "384 dims",
+                      "points": [
+                        [
+                          0,
+                          0
+                        ],
+                        [
+                          2,
+                          3.1
+                        ],
+                        [
+                          4,
+                          6.1
+                        ],
+                        [
+                          6,
+                          9.2
+                        ],
+                        [
+                          8,
+                          12.3
+                        ],
+                        [
+                          10,
+                          15.4
+                        ]
+                      ]
+                    }
+                  ],
+                  "annotations": [
+                    {
+                      "x": 10,
+                      "y": 30.7,
+                      "label": "10M × 768 dims: 30.7 GB"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp3-ann"
+  ],
+  "recap": {
+    "formula": "exact cost per query = N · d multiply-adds",
+    "pitfall": "Measure ANN recall against an exact baseline, or you cannot tell what you gave up."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [],
+  "problem_ideas": [
+    "Compute multiply-adds per query for 10M × 768",
+    "Estimate exact-search latency on one CPU core",
+    "Decide at which corpus size exact search stops meeting 50 ms",
+    "Explain what ‘recall against exact’ measures",
+    "Predict how latency grows when the corpus doubles",
+    "Name two ways to cut exact cost without ANN"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-ai-engineer",
+      "entry": "indexing-embeddings"
+    },
+    {
+      "source": "strata-pack",
+      "entry": "advanced/b-brute"
+    },
+    {
+      "source": "faiss-docs",
+      "entry": "flat"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

@@ -1,0 +1,331 @@
+[
+  {
+    "id": "sd-tcp-udp/test-b1",
+    "family": "sd-tcp-udp-fb-tcp-chat-hol",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tcp-reliable"
+    ],
+    "prompt_md": "A team-chat app keeps one TCP connection open to its server. The server sends messages M7, M8, M9 and M10 in that order, and each fits in one segment. M7 is lost. M8, M9 and M10 arrive. The round-trip time is 120 ms. What does the user's chat app show?",
+    "options": [
+      {
+        "id": "a",
+        "md": "M8–M10 appear at once, and M7 is slotted in above them when the resent copy arrives",
+        "why_md": "TCP never hands later data to the program before a gap is filled. M8–M10 wait in the buffer.",
+        "misconception": "mc-tcp-out-of-order"
+      },
+      {
+        "id": "b",
+        "md": "M8–M10 appear at once, and M7 never appears",
+        "why_md": "That is UDP behaviour. TCP retransmits the unacknowledged M7."
+      },
+      {
+        "id": "c",
+        "md": "No new message appears until the resent M7 arrives, at least about 120 ms after it was first sent. Then M7, M8, M9 and M10 appear together, in order.",
+        "correct": true,
+        "why_md": "Right. This is head-of-line blocking: data that has already arrived waits behind the one missing segment."
+      },
+      {
+        "id": "d",
+        "md": "TCP throws away M8–M10, and the server must resend M7, M8, M9 and M10",
+        "why_md": "In the lesson's model the receiver holds M8–M10 in a buffer. Only the missing M7 is resent."
+      }
+    ],
+    "hints": [
+      "TCP delivers bytes in order and retransmits what isn't acknowledged. What happens to data that arrives behind a gap?",
+      "M8–M10 are held until M7 is retransmitted (at least about one RTT later). Then all four are handed over together, in order."
+    ],
+    "solution_md": "1. M7 is lost, so the receiver's acknowledgments keep saying it has everything only up to M6.\n2. M8, M9 and M10 arrive and are **held**, not handed to the app.\n3. M7 isn't acknowledged in time, so the server retransmits it, at least about one RTT (120 ms) after the first send.\n4. When M7 arrives, M7–M10 are handed to the app together, in order.\n5. Messages that already arrived waited behind the missing one. This is head-of-line blocking.\n\n**Answer: c.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/test-b2",
+    "family": "sd-tcp-udp-fb-tcp-handshake-cost-ar",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tcp-reliable"
+    ],
+    "prompt_md": "A client is **50 ms one way** from a server. Ignore TLS.\n\n**Assertion (A):** Over a new TCP connection, the first request reaches the server about 100 ms later than it would over an already-open connection.\n\n**Reason (R):** The client puts the request inside its SYN message, so the handshake and the request travel together.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "R is false. The SYN only opens the connection. The request waits until the handshake is done."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is false, not merely unrelated. The request can't leave until after SYN and SYN-ACK."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "correct": true,
+        "why_md": "Right. The handshake costs one round trip (2 × 50 = 100 ms) before the request can be sent, and the request does not ride in the SYN."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. A new connection adds one RTT, which is 100 ms here. R is the false one."
+      }
+    ],
+    "hints": [
+      "Time both cases. On a new connection, when can the request leave the client? Work out RTT = 2 × one-way latency.",
+      "New: SYN arrives at 50 ms, SYN-ACK is back at 100 ms, ACK + request arrive at 150 ms. Open: the request arrives at 50 ms. The request is not inside the SYN."
+    ],
+    "solution_md": "1. RTT = 2 × 50 ms = 100 ms.\n2. New connection: SYN arrives at 50 ms, SYN-ACK is back at 100 ms, then ACK + request arrive at 150 ms.\n3. Open connection: the request arrives at 50 ms.\n4. Difference = 150 − 50 = 100 ms, one RTT. A is true.\n5. R is false. In the three-way handshake the request is sent only after SYN and SYN-ACK, which is exactly why it costs a round trip.\n\n**Answer: c (A true; R false).**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/test-b3",
+    "family": "sd-tcp-udp-fb-udp-weather-statements",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-udp-connectionless"
+    ],
+    "prompt_md": "A weather station sends one temperature reading per second to a server, each in its own **UDP** datagram. Which statements are true? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The first datagram carries a reading straight away, with no handshake before it",
+        "correct": true,
+        "why_md": "True. UDP has no handshake."
+      },
+      {
+        "id": "b",
+        "md": "If a datagram is lost, UDP automatically sends it again",
+        "why_md": "False. UDP has no acknowledgments or retransmission, so a lost datagram stays lost unless the application resends it."
+      },
+      {
+        "id": "c",
+        "md": "Because the readings go over UDP, they must be data that doesn't matter",
+        "why_md": "False. The protocol choice says nothing about how important the data is. DNS answers matter a lot and still use UDP. UDP fits when on time beats complete, or when one small message can simply be sent again.",
+        "misconception": "mc-udp-unimportant-data"
+      },
+      {
+        "id": "d",
+        "md": "Readings may reach the server program in a different order from the one they were sent in",
+        "correct": true,
+        "why_md": "True. UDP doesn't reorder: datagrams reach the program in whatever order they arrive."
+      }
+    ],
+    "hints": [
+      "List what UDP leaves out: a handshake, acknowledgments and retransmission, and ordering. Check each statement against that list.",
+      "True: no handshake, possible reordering. False: automatic resending, and the idea that UDP data must be unimportant."
+    ],
+    "solution_md": "1. UDP has no handshake, so the first datagram carries data: (a) is true.\n2. UDP has no acknowledgments or retransmission, so lost datagrams stay lost: (b) is false.\n3. Choosing UDP doesn't mean the data is unimportant (DNS is the counter-example): (c) is false.\n4. UDP has no ordering, so datagrams arrive as they arrive: (d) is true.\n\n**Answer: a, d.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/test-b4",
+    "family": "sd-tcp-udp-fb-udp-case-chess",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-udp-connectionless"
+    ],
+    "prompt_md": "A team is building an online **turn-based chess** app. Each move is a tiny message. Every move must arrive, and moves must be applied in the order they were played: a missing or swapped move corrupts the game. An engineer says: \"Use UDP, it's faster.\" What's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Plain UDP, because speed matters in a game",
+        "why_md": "Trap. Plain UDP may lose or reorder moves and never resends them. That corrupts the game, and a late move is still needed, so being complete matters more than shaving latency.",
+        "misconception": "mc-udp-always-faster-better"
+      },
+      {
+        "id": "b",
+        "md": "UDP, with the app adding its own acknowledgments, retransmission and ordering for moves",
+        "why_md": "Viable, second-best. It can work, since an app can add the guarantees it needs, but it rebuilds the reliable, ordered delivery that TCP already provides, for no gain in a turn-based game."
+      },
+      {
+        "id": "c",
+        "md": "TCP: every move must arrive, in order, and a late move is still needed",
+        "correct": true,
+        "why_md": "Best. TCP retransmits lost segments and delivers in order. The one-RTT handshake is paid once per game, which is negligible."
+      }
+    ],
+    "hints": [
+      "Apply the rule: must every message arrive complete and in order, or is late data worthless?",
+      "In chess a late move is still needed, and the order matters, so pick the protocol that already provides both."
+    ],
+    "solution_md": "1. A chess move is not live data whose value expires: a late move must still be applied, in the right order.\n2. TCP gives exactly that: retransmission of lost segments and in-order delivery. Its handshake costs one RTT, once per connection.\n3. UDP with home-made acknowledgments and ordering can work, but it rebuilds TCP (second-best).\n4. Plain UDP may silently lose or reorder moves. \"Faster\" doesn't help when the result is a broken game (trap).\n\n**Answer: c.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/test-b5",
+    "family": "sd-tcp-udp-fb-l4-path-ar",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-osi-l4-l7"
+    ],
+    "prompt_md": "An online bookshop has one load balancer that works at **layer 4**.\n\n**Assertion (A):** This balancer can send requests for `/checkout` to a separate pool of payment servers.\n\n**Reason (R):** A layer-4 component reads IP addresses, ports and the protocol (TCP or UDP).",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "A is false. The path `/checkout` is inside the HTTP request at layer 7, and IPs and ports are not enough to see it.",
+        "misconception": "mc-l4-reads-urls"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "A is false. A layer-4 balancer can't see the URL path.",
+        "misconception": "mc-l4-reads-urls"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true: those are exactly the layer-4 labels. A is the false statement."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "correct": true,
+        "why_md": "Right. A layer-4 balancer routes on IPs, ports and the protocol, not HTTP content (R), so it can't tell `/checkout` from any other path (A is false)."
+      }
+    ],
+    "hints": [
+      "Where does the path `/checkout` live: in the TCP/IP labels or in the HTTP request?",
+      "The path is layer 7. A layer-4 balancer reads only IPs, ports and the protocol, so requests for `/checkout` and `/books` look identical to it."
+    ],
+    "solution_md": "1. R: a layer-4 component reads IP addresses, ports and TCP or UDP. True.\n2. The path `/checkout` is part of the HTTP request, which is layer 7.\n3. A request for `/checkout` and one for `/books` carry the same layer-4 labels: same client, same server IP and port. So a layer-4 balancer can't split them. A is false.\n4. Path-based routing needs a layer-7 balancer.\n\n**Answer: d (A false; R true).**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/test-b6",
+    "family": "sd-tcp-udp-fb-osi-job-to-layer",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-osi-l4-l7"
+    ],
+    "prompt_md": "An online bookshop's network team lists three jobs. For each job, choose the **lowest** OSI layer whose information is enough to do it. Each layer is used at most once.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "Send requests whose URL path starts with `/ebooks/` to the e-book servers",
+        "why_md": "The URL path is only visible in the HTTP request: layer 7."
+      },
+      {
+        "id": "l2",
+        "md": "Send traffic to port 22 (SSH logins) to a bastion server and traffic to port 443 to the web servers",
+        "why_md": "Ports are transport labels: layer 4. Layer 3 works with IP addresses, not ports or HTTP."
+      },
+      {
+        "id": "l3",
+        "md": "Carry a packet from the shop's server `203.0.113.10` to a customer's router `192.0.2.44` across the internet",
+        "why_md": "Machine-to-machine delivery across networks by IP address is the network layer: layer 3."
+      },
+      {
+        "id": "r1",
+        "md": "Layer 3 (network)",
+        "why_md": "Fits the IP delivery job (l3)."
+      },
+      {
+        "id": "r2",
+        "md": "Layer 4 (transport)",
+        "why_md": "Fits routing by port (l2)."
+      },
+      {
+        "id": "r3",
+        "md": "Layer 7 (application)",
+        "why_md": "Fits routing by URL path (l1)."
+      },
+      {
+        "id": "r4",
+        "md": "Layer 6 (presentation), because that is where the customer's browser lives",
+        "why_md": "Never right here. The browser belongs to the presentation tier, a role in the system, not to OSI layer 6. OSI layers describe communication functions, not machines, and the browser's HTTP requests are layer 7.",
+        "misconception": "mc-osi-layer-is-tier"
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r3",
+        "l2": "r2",
+        "l3": "r1"
+      }
+    },
+    "hints": [
+      "For each job, ask which label it needs: an IP address (layer 3), a port (layer 4), or the URL, headers or cookies (layer 7).",
+      "Path → layer 7. Port → layer 4. IP delivery between machines → layer 3. Layer 6 is not where a browser \"lives\"."
+    ],
+    "solution_md": "1. `/ebooks/` routing needs the URL path, which only the HTTP request (layer 7) contains: l1 → r3.\n2. Splitting port 22 from port 443 needs ports, which are layer-4 labels. Layer 3 has only IPs: l2 → r2.\n3. Getting a packet from one IP address to another across networks is the network layer's job: l3 → r1.\n4. r4 mixes up the presentation tier with OSI layer 6. OSI layers describe communication functions, not machines or tiers. End hosts running HTTP, such as the customer's browser, use application-layer functions as well as the lower layers; intermediate devices such as IP routers may process only the lower layers. The browser's HTTP requests are layer 7, so r4 is not used.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp-r3"
+    }
+  }
+]

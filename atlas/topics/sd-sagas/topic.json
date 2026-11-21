@@ -1,0 +1,77 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-sagas",
+  "version": 1,
+  "title": "Sagas and compensating transactions",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-saga-def",
+      "version": 1,
+      "statement": "A saga splits a distributed transaction into a sequence of local transactions, each paired with a compensating transaction that semantically undoes it if a later step fails."
+    },
+    {
+      "id": "kc-saga-orch-chor",
+      "version": 1,
+      "statement": "In an orchestrated saga a central orchestrator tells each service what to do next; in a choreographed saga each service reacts to events from the previous step, with no central controller."
+    },
+    {
+      "id": "kc-saga-isolation",
+      "version": 1,
+      "statement": "Unlike two-phase commit, a saga holds no locks across steps, so other requests can see intermediate states, and its steps and compensations must be idempotent because they may be retried."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-two-phase-commit"
+  ],
+  "suggests": [
+    "sd-change-data-capture",
+    "sd-idempotency-keys"
+  ],
+  "confusable_with": [
+    "sd-two-phase-commit"
+  ],
+  "introduces": [
+    "saga",
+    "compensating transaction",
+    "orchestration",
+    "choreography"
+  ],
+  "uses": [
+    "two-phase commit",
+    "distributed transaction",
+    "transaction",
+    "message queue",
+    "idempotency",
+    "transactional outbox"
+  ],
+  "problem_ideas": [
+    "Write the steps and compensations for order → reserve stock → charge card → ship",
+    "The charge step fails after stock was reserved: list the compensations that run",
+    "Choose orchestration or choreography for a 6-step travel booking and justify",
+    "A compensation itself fails: what should the saga do?",
+    "Two users see 'seat reserved' for the same seat mid-saga: which property did the saga give up?",
+    "Why does each saga step need an outbox or CDC to publish its event reliably?"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "sagas/sagas"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "sagas/coordination"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "security/compensating-transaction"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "messaging/choreography"
+    }
+  ],
+  "status": "stub"
+}

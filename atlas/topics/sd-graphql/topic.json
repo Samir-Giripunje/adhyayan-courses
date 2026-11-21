@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-graphql",
+  "version": 1,
+  "title": "GraphQL in one idea",
+  "size": "micro",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-graphql-fetching",
+      "version": 1,
+      "statement": "GraphQL exposes a single endpoint where the client specifies exactly which fields it needs, avoiding the over-fetching and multiple round trips of several REST calls, at the cost of harder HTTP caching and query-cost control."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-rest"
+  ],
+  "suggests": [
+    "sd-rpc"
+  ],
+  "confusable_with": [
+    "sd-rest"
+  ],
+  "introduces": [
+    "graphql",
+    "over-fetching"
+  ],
+  "uses": [
+    "rest",
+    "http",
+    "client"
+  ],
+  "problem_ideas": [
+    "A mobile profile screen needs 3 REST calls returning 40 fields but shows 6; how would GraphQL change this?",
+    "Why can a CDN cache GET /products/9 easily but not a GraphQL POST query?",
+    "A client sends a deeply nested query that hits the database 10,000 times; name a defence.",
+    "Choose REST or GraphQL for a public payments API and for a dashboard with many widgets.",
+    "Count round trips over a 150 ms link for 3 sequential REST calls vs 1 GraphQL query.",
+    "Write the GraphQL query for a user's name and their last 5 post titles."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "graphql/graphql"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "rest-vs-graphql-vs-grpc/rest-vs-graphql-vs-grpc"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "api-fundamentals/rest-vs-graphql"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,566 @@
+{
+  "parts": [
+    {
+      "id": "p1",
+      "title": "IP addresses: IPv4, IPv6, public and private",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "IP addresses: IPv4, IPv6, public and private",
+          "kcs": [
+            "kc-ipv4-ipv6",
+            "kc-public-private-ip"
+          ],
+          "est_minutes": 5,
+          "blocks": [
+            {
+              "id": "blk-sd-ip-addresses-01",
+              "block": {
+                "type": "prose",
+                "md": "An **IP address** is the number that identifies a device on a network, so data can be delivered to it. Data travels in small pieces called **packets**, and each one carries its sender's and destination's IP addresses."
+              }
+            },
+            {
+              "id": "blk-sd-ip-addresses-02",
+              "block": {
+                "type": "prose",
+                "md": "Your phone on home Wi-Fi might have the address `192.168.1.23`. That is an **IPv4** address: four numbers from 0 to 255, separated by dots. Your home router has a different address that the rest of the internet can reach. Many websites also have a longer **IPv6** address. One of Wikipedia's is `2001:df2:e500:ed1a::1`."
+              }
+            },
+            {
+              "id": "blk-sd-ip-addresses-03",
+              "block": {
+                "type": "prose",
+                "md": "**Two versions.** An IPv4 address is 32 **bits** (binary digits, each 0 or 1), written as four numbers from 0 to 255. That allows 2³² ≈ 4.3 billion addresses, too few for every device on Earth. **IPv6** was designed because that supply was expected to run out. Its addresses are 128 bits, written as eight groups of **hexadecimal** digits (0–9 and a–f).\n\n**Public and private.** Internet routers deliver packets to **public** addresses. Three ranges are set aside as **private**: `10.x.x.x`, `172.16.x.x` to `172.31.x.x`, and `192.168.x.x`. Internet routers don't deliver to them, so every home and company can reuse them inside its own network.\n\nA device with a private address usually reaches the internet through **NAT** (network address translation): the router swaps the private source address for its own public one, and swaps it back on the reply. An application proxy is another option."
+              }
+            },
+            {
+              "id": "blk-sd-ip-addresses-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-ip-which-private",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-public-private-ip"
+                  ],
+                  "prompt_md": "Which of these addresses is in one of the three private ranges?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "`10.20.30.40`",
+                      "correct": true,
+                      "why_md": "Right. Every address that starts with 10 is in the private range 10.x.x.x."
+                    },
+                    {
+                      "id": "b",
+                      "md": "`172.32.0.5`",
+                      "why_md": "Only 172.16 to 172.31 are private. 172.32 is just outside that range.",
+                      "misconception": "mc-172-all-private"
+                    },
+                    {
+                      "id": "c",
+                      "md": "`8.8.8.8`",
+                      "why_md": "This is a public address: it's Google's public DNS service."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-sd-ip-addresses-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Reading the ranges: what /8, /12 and /16 mean",
+                "md": "The private ranges are written as `10.0.0.0/8`, `172.16.0.0/12` and `192.168.0.0/16`. The number after the slash says how many leading bits are fixed; the remaining bits can vary.\n\n- `/8` leaves 24 bits: 2²⁴ ≈ 16.8 million addresses, from 10.0.0.0 to 10.255.255.255.\n- `/12` leaves 20 bits: 2²⁰ ≈ 1 million, from 172.16.0.0 to 172.31.255.255.\n- `/16` leaves 16 bits: 65,536, from 192.168.0.0 to 192.168.255.255.\n\nAn address outside these ranges isn't automatically public. Some ranges are reserved for other uses, such as `127.0.0.1` (this device itself) and documentation ranges such as `203.0.113.0/24`, which should never appear on the public internet."
+              }
+            },
+            {
+              "id": "blk-sd-ip-addresses-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Writing IPv6 addresses shorter",
+                "md": "Two rules shorten an IPv6 address. Drop the leading zeros in each group (`0db8` → `db8`). Then replace one run of all-zero groups with `::`, only once per address, or it would be ambiguous. So `2001:0db8:0000:0000:0000:0000:0000:0001` becomes `2001:db8::1`. To expand an address, add zero groups back until there are eight.\n\nIPv6 doesn't give four times as many addresses as IPv4. Each extra bit doubles the count, so 128 bits allow 2⁹⁶ times as many as 32 bits."
+              }
+            },
+            {
+              "id": "blk-sd-ip-addresses-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "How NAT lets many devices share one public address",
+                "md": "The router keeps a table. When your phone sends from `192.168.1.23` port 51000, the router rewrites the source to its public address and a port of its own, say 40001, and records the pair. A reply that arrives on port 40001 is rewritten back to `192.168.1.23:51000`.\n\nTwo homes can both use `192.168.1.23`: each router has its own public address, so nothing clashes. Nothing on the internet can send packets straight to a private address, because internet routers have no route to it. Letting outsiders in needs extra set-up, such as port forwarding."
+              }
+            },
+            {
+              "id": "blk-sd-ip-addresses-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-nat-swap",
+                "kind": "sequence",
+                "title": "NAT swaps the source address and back",
+                "alt": "A phone at private address 192.168.1.23 sends a request to the home router, which forwards it to a website from its own public address 203.0.113.7. The reply comes back to 203.0.113.7, and the router hands it to the phone at 192.168.1.23.",
+                "caption_md": "`203.0.113.7` stands in for the router's public address; it is from a range set aside for examples.",
+                "spec": {
+                  "participants": [
+                    {
+                      "id": "phone",
+                      "label": "Phone",
+                      "sub": "192.168.1.23",
+                      "type": "client"
+                    },
+                    {
+                      "id": "router",
+                      "label": "Home router",
+                      "sub": "NAT · 203.0.113.7",
+                      "type": "lb"
+                    },
+                    {
+                      "id": "site",
+                      "label": "Website",
+                      "sub": "public address",
+                      "type": "server"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "from": "phone",
+                      "to": "router",
+                      "label": "from 192.168.1.23",
+                      "detail": "The packet leaves the phone with its private source address."
+                    },
+                    {
+                      "from": "router",
+                      "to": "site",
+                      "label": "from 203.0.113.7",
+                      "detail": "NAT swaps the private source for the router's public address."
+                    },
+                    {
+                      "from": "router",
+                      "kind": "note",
+                      "label": "NAT remembers which device asked"
+                    },
+                    {
+                      "from": "site",
+                      "to": "router",
+                      "kind": "reply",
+                      "label": "to 203.0.113.7",
+                      "detail": "The website can only answer the public address it saw."
+                    },
+                    {
+                      "from": "router",
+                      "to": "phone",
+                      "kind": "reply",
+                      "label": "to 192.168.1.23",
+                      "detail": "NAT swaps the address back and hands the reply to the phone."
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "answer": "An **IP address** is the number that identifies a device on a network, so data can be delivered to it. Data travels in small pieces called **packets**, and each one carries its sender's and destination's IP addresses.",
+  "example": "Your phone on home Wi-Fi might have the address `192.168.1.23`. That is an **IPv4** address: four numbers from 0 to 255, separated by dots. Your home router has a different address that the rest of the internet can reach. Many websites also have a longer **IPv6** address. One of Wikipedia's is `2001:df2:e500:ed1a::1`.",
+  "how": {
+    "md": "**Two versions.** An IPv4 address is 32 **bits** (binary digits, each 0 or 1), written as four numbers from 0 to 255. That allows 2³² ≈ 4.3 billion addresses, too few for every device on Earth. **IPv6** was designed because that supply was expected to run out. Its addresses are 128 bits, written as eight groups of **hexadecimal** digits (0–9 and a–f).\n\n**Public and private.** Internet routers deliver packets to **public** addresses. Three ranges are set aside as **private**: `10.x.x.x`, `172.16.x.x` to `172.31.x.x`, and `192.168.x.x`. Internet routers don't deliver to them, so every home and company can reuse them inside its own network.\n\nA device with a private address usually reaches the internet through **NAT** (network address translation): the router swaps the private source address for its own public one, and swaps it back on the reply. An application proxy is another option.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-nat-swap",
+      "kind": "sequence",
+      "title": "NAT swaps the source address and back",
+      "alt": "A phone at private address 192.168.1.23 sends a request to the home router, which forwards it to a website from its own public address 203.0.113.7. The reply comes back to 203.0.113.7, and the router hands it to the phone at 192.168.1.23.",
+      "caption_md": "`203.0.113.7` stands in for the router's public address; it is from a range set aside for examples.",
+      "spec": {
+        "participants": [
+          {
+            "id": "phone",
+            "label": "Phone",
+            "sub": "192.168.1.23",
+            "type": "client"
+          },
+          {
+            "id": "router",
+            "label": "Home router",
+            "sub": "NAT · 203.0.113.7",
+            "type": "lb"
+          },
+          {
+            "id": "site",
+            "label": "Website",
+            "sub": "public address",
+            "type": "server"
+          }
+        ],
+        "messages": [
+          {
+            "from": "phone",
+            "to": "router",
+            "label": "from 192.168.1.23",
+            "detail": "The packet leaves the phone with its private source address."
+          },
+          {
+            "from": "router",
+            "to": "site",
+            "label": "from 203.0.113.7",
+            "detail": "NAT swaps the private source for the router's public address."
+          },
+          {
+            "from": "router",
+            "kind": "note",
+            "label": "NAT remembers which device asked"
+          },
+          {
+            "from": "site",
+            "to": "router",
+            "kind": "reply",
+            "label": "to 203.0.113.7",
+            "detail": "The website can only answer the public address it saw."
+          },
+          {
+            "from": "router",
+            "to": "phone",
+            "kind": "reply",
+            "label": "to 192.168.1.23",
+            "detail": "NAT swaps the address back and hands the reply to the phone."
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-ip-which-private",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "Which of these addresses is in one of the three private ranges?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`10.20.30.40`",
+        "correct": true,
+        "why_md": "Right. Every address that starts with 10 is in the private range 10.x.x.x."
+      },
+      {
+        "id": "b",
+        "md": "`172.32.0.5`",
+        "why_md": "Only 172.16 to 172.31 are private. 172.32 is just outside that range.",
+        "misconception": "mc-172-all-private"
+      },
+      {
+        "id": "c",
+        "md": "`8.8.8.8`",
+        "why_md": "This is a public address: it's Google's public DNS service."
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "Reading the ranges: what /8, /12 and /16 mean",
+      "md": "The private ranges are written as `10.0.0.0/8`, `172.16.0.0/12` and `192.168.0.0/16`. The number after the slash says how many leading bits are fixed; the remaining bits can vary.\n\n- `/8` leaves 24 bits: 2²⁴ ≈ 16.8 million addresses, from 10.0.0.0 to 10.255.255.255.\n- `/12` leaves 20 bits: 2²⁰ ≈ 1 million, from 172.16.0.0 to 172.31.255.255.\n- `/16` leaves 16 bits: 65,536, from 192.168.0.0 to 192.168.255.255.\n\nAn address outside these ranges isn't automatically public. Some ranges are reserved for other uses, such as `127.0.0.1` (this device itself) and documentation ranges such as `203.0.113.0/24`, which should never appear on the public internet."
+    },
+    {
+      "title": "Writing IPv6 addresses shorter",
+      "md": "Two rules shorten an IPv6 address. Drop the leading zeros in each group (`0db8` → `db8`). Then replace one run of all-zero groups with `::`, only once per address, or it would be ambiguous. So `2001:0db8:0000:0000:0000:0000:0000:0001` becomes `2001:db8::1`. To expand an address, add zero groups back until there are eight.\n\nIPv6 doesn't give four times as many addresses as IPv4. Each extra bit doubles the count, so 128 bits allow 2⁹⁶ times as many as 32 bits."
+    },
+    {
+      "title": "How NAT lets many devices share one public address",
+      "md": "The router keeps a table. When your phone sends from `192.168.1.23` port 51000, the router rewrites the source to its public address and a port of its own, say 40001, and records the pair. A reply that arrives on port 40001 is rewritten back to `192.168.1.23:51000`.\n\nTwo homes can both use `192.168.1.23`: each router has its own public address, so nothing clashes. Nothing on the internet can send packets straight to a private address, because internet routers have no route to it. Letting outsiders in needs extra set-up, such as port forwarding."
+    }
+  ],
+  "visual_fit": {
+    "kind": "sequence",
+    "why": "NAT is a swap of addresses on the way out and back, an exchange over time that prose describes but cannot show."
+  },
+  "glossary": [
+    {
+      "term": "ip address",
+      "md": "The number that identifies a device on a network, so packets can be delivered to it. Every packet carries a source and a destination IP address."
+    },
+    {
+      "term": "ipv4",
+      "md": "Internet Protocol version 4: 32-bit addresses written as four numbers from 0 to 255, such as `192.168.1.23`; about 4.3 billion in total."
+    },
+    {
+      "term": "ipv6",
+      "md": "Internet Protocol version 6: 128-bit addresses written as eight groups of hexadecimal digits, such as `2001:db8::1`. Designed because IPv4's supply was expected to run out."
+    },
+    {
+      "term": "private ip address",
+      "md": "An address from the ranges 10.0.0.0/8, 172.16.0.0/12 or 192.168.0.0/16. Internet routers don't deliver to them, so any network can reuse them inside."
+    },
+    {
+      "term": "public ip address",
+      "md": "An address that internet routers deliver packets to, so it must be unique across the internet."
+    },
+    {
+      "term": "nat",
+      "md": "Network address translation: a router swaps a private source address for its own public address on the way out, and swaps it back on the reply."
+    },
+    {
+      "term": "packet",
+      "md": "A small piece of data sent across a network. Each packet carries the IP addresses of its sender and its destination."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-ipv6-4x",
+      "statement": "IPv6 has 4 times as many addresses as IPv4 because its addresses are 4 times longer (or it exists to make the internet faster).",
+      "tags": [
+        "kc-ipv4-ipv6"
+      ]
+    },
+    {
+      "id": "mc-private-unique",
+      "statement": "A private IP address must be unique worldwide and can be reached from anywhere if you know it.",
+      "tags": [
+        "kc-public-private-ip"
+      ]
+    },
+    {
+      "id": "mc-172-all-private",
+      "statement": "Every address starting with 172 is private.",
+      "tags": [
+        "kc-public-private-ip"
+      ]
+    },
+    {
+      "id": "mc-outside-private-is-public",
+      "statement": "Any address outside the three private ranges is a public address that internet routers will carry.",
+      "tags": [
+        "kc-public-private-ip"
+      ]
+    }
+  ],
+  "recap": {
+    "formula": "Addresses in an n-bit space: 2ⁿ. A /k block holds 2^(32−k) IPv4 addresses.",
+    "pitfall": "Only 172.16.x.x to 172.31.x.x are private, not every address starting with 172."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-why-255",
+      "beat": "b-lesson",
+      "question": "Why does each number in an IPv4 address stop at 255?",
+      "match": [
+        "why 255",
+        "max 255",
+        "256",
+        "each number"
+      ],
+      "answer_md": "Each of the four numbers is 8 bits, and 8 bits can hold 2⁸ = 256 values: 0 to 255. Four of them make the 32 bits of an IPv4 address.",
+      "deeper_md": "The dots are only for people. A computer sees one 32-bit number; `192.168.1.23` is that number split into four 8-bit pieces and written in decimal.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "Four 8-bit pieces",
+        "md": "`192.168.1.23` = 192 | 168 | 1 | 23. Each piece is 8 bits, so it ranges from 0 (00000000) to 255 (11111111). 4 × 8 = 32 bits.",
+        "verify": {
+          "id": "q-br-why-255",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-ipv4-ipv6"
+          ],
+          "prompt_md": "Which of these is a valid IPv4 address?",
+          "options": [
+            {
+              "id": "a",
+              "md": "`192.168.1.256`",
+              "why_md": "256 doesn't fit in 8 bits; the largest piece is 255."
+            },
+            {
+              "id": "b",
+              "md": "`192.168.1.254`",
+              "correct": true,
+              "why_md": "Right. Four pieces, each from 0 to 255."
+            },
+            {
+              "id": "c",
+              "md": "`192.168.1`",
+              "why_md": "An IPv4 address has four pieces, not three."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-same-address",
+      "beat": "b-lesson",
+      "question": "My laptop and my friend's laptop in another city both show 192.168.1.5. Isn't that a conflict?",
+      "match": [
+        "same address",
+        "same ip",
+        "two laptops",
+        "conflict"
+      ],
+      "answer_md": "No. 192.168.1.5 is private, so it only has to be unique inside each home network. On the internet, each home appears as its router's own public address.",
+      "deeper_md": "Private addresses are like room numbers: many buildings have a room 5. The router's public address is the building's street address, and that one is unique.",
+      "bridge": {
+        "kind": "analogy",
+        "title": "Room numbers and street addresses",
+        "md": "Inside the house, the router uses room numbers (private addresses). Outside, everything is addressed to the house (the public address). The analogy breaks a little: NAT also rewrites port numbers to keep the rooms apart.",
+        "verify": {
+          "id": "q-br-same-address",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-public-private-ip"
+          ],
+          "prompt_md": "Two offices in different cities both give a printer the address `10.0.0.9`. The offices' networks are not connected to each other. Is that a problem?",
+          "options": [
+            {
+              "id": "a",
+              "md": "No: private addresses only need to be unique within each network",
+              "correct": true,
+              "why_md": "Right. They never meet on the internet."
+            },
+            {
+              "id": "b",
+              "md": "Yes: every IP address must be unique worldwide",
+              "why_md": "That holds for public addresses only.",
+              "misconception": "mc-private-unique"
+            },
+            {
+              "id": "c",
+              "md": "Yes, unless both offices use IPv6",
+              "why_md": "The IP version is irrelevant; private ranges can be reused."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-slash-notation",
+      "beat": "b-lesson",
+      "question": "What does the /16 in 192.168.0.0/16 mean?",
+      "match": [
+        "slash",
+        "/16",
+        "/8",
+        "cidr"
+      ],
+      "answer_md": "It means the first 16 bits are fixed, here `192.168`, and the remaining 16 bits can be anything. So the block holds 2¹⁶ = 65,536 addresses.",
+      "deeper_md": "A smaller number after the slash fixes fewer bits, so the block is bigger: a /8 holds 2²⁴ ≈ 16.8 million addresses.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Counting a block",
+        "md": "`10.0.0.0/8`: 32 − 8 = 24 free bits, so 2²⁴ = 16,777,216 addresses, from 10.0.0.0 to 10.255.255.255.",
+        "verify": {
+          "id": "q-br-slash",
+          "kind": "numeric",
+          "difficulty": 2,
+          "kcs": [
+            "kc-public-private-ip"
+          ],
+          "prompt_md": "How many IPv4 addresses are in a /24 block?",
+          "answer": {
+            "value": 256,
+            "tolerance": 0
+          }
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-cidr-subnets",
+      "kind": "mechanism",
+      "title": "CIDR and subnetting: splitting 10.0.0.0/16 into per-tier subnets",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-nat-ports",
+      "kind": "mechanism",
+      "title": "How NAT uses port numbers to share one public address among many devices",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-dual-stack",
+      "kind": "adjacent",
+      "title": "Dual stack: serving IPv4 and IPv6 side by side (A and AAAA records)",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "sd-ip-addresses",
+  "version": 1,
+  "title": "IP addresses: IPv4, IPv6, public and private",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-ipv4-ipv6",
+      "version": 2,
+      "statement": "An IPv4 address is 32 bits (2^32, about 4.3 billion addresses, written as four decimal numbers like 203.0.113.7), and an IPv6 address is 128 bits (written as eight groups of hexadecimal digits). IPv6 was designed because IPv4's limited address space was expected to run out."
+    },
+    {
+      "id": "kc-public-private-ip",
+      "version": 2,
+      "statement": "Public IP addresses are routed on the global internet. The RFC 1918 private ranges (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) are not, so a private host usually reaches the internet through a device that has a public address, typically outbound NAT (sometimes an application proxy)."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-dns"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "ip address",
+    "ipv4",
+    "ipv6",
+    "private ip address",
+    "nat"
+  ],
+  "uses": [
+    "client",
+    "server"
+  ],
+  "problem_ideas": [
+    "Classify 10.2.3.4, 172.20.0.1, 172.32.0.1 and 8.8.8.8 as public or private.",
+    "How many times more addresses does IPv6 have than IPv4? Express as a power of two.",
+    "Your database servers sit in 10.0.0.0/16: can a laptop on the internet reach them directly? Why is that good?",
+    "Two home laptops both show 192.168.1.5; explain why there is no conflict.",
+    "A server's dynamic public IP changes after reboot and clients break; what fixes it?",
+    "Estimate how many hosts fit in a /24 private subnet."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "versions/ipv4"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "versions/ipv6"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "types/private"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "networking-fundamentals/ip-addresses"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [
+    "sd-ip-addresses/exit-1",
+    "sd-ip-addresses/exit-2",
+    "sd-ip-addresses/exit-3"
+  ],
+  "status": "stocked",
+  "provenance": {
+    "origin": "generated",
+    "job": "reauthor-sd-u0"
+  }
+}

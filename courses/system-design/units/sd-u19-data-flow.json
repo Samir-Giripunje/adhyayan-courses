@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u19-data-flow",
+  "title": "Fan-out, change data capture and CQRS",
+  "topics": [
+    {
+      "id": "sd-fan-out",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-change-data-capture",
+      "tier": "optional",
+      "order": 2
+    },
+    {
+      "id": "sd-cqrs-event-sourcing",
+      "tier": "optional",
+      "order": 3
+    }
+  ],
+  "halfway_after": null,
+  "status": "stub"
+}

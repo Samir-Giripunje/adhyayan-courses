@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-scale-to-millions",
+  "version": 1,
+  "title": "Assembling the request path for millions of users",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-scaling-path",
+      "version": 1,
+      "statement": "A typical web app scales in steps, each taken only when a measured bottleneck demands it: single server, then a separate database, then a load balancer over several stateless app servers, then a CDN for static assets, then caching, read replicas and sharding."
+    },
+    {
+      "id": "kc-request-path-order",
+      "version": 1,
+      "statement": "On a scaled request path, the client resolves DNS, fetches static assets from the CDN, and sends API calls through a load balancer or API gateway, where rate limits apply, to stateless application servers."
+    },
+    {
+      "id": "kc-tier-load",
+      "version": 1,
+      "statement": "Each tier is sized only for the traffic that reaches it: if 80% of 50,000 peak requests/s are static assets served at a 95% CDN hit ratio, the origin sees 10,000 API QPS plus 2,000 asset misses."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-cdn",
+    "sd-load-balancers",
+    "sd-stateless-services"
+  ],
+  "suggests": [
+    "sd-api-gateway",
+    "sd-rate-limiting"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "scaling path"
+  ],
+  "uses": [
+    "dns",
+    "cdn",
+    "cdn hit ratio",
+    "load balancer",
+    "api gateway",
+    "rate limiting",
+    "stateless service",
+    "peak qps",
+    "bottleneck",
+    "high-level design",
+    "read-to-write ratio"
+  ],
+  "problem_ideas": [
+    "Given 1,000 users today and 10 million in a year, list the scaling steps in order and the signal that triggers each",
+    "Compute origin QPS when 70% of 30,000 peak requests/s are images at a 90% CDN hit ratio",
+    "Draw the full request path for a photo-sharing app and label which tier terminates TLS",
+    "App servers handle 2,000 QPS each and must take the origin load above: how many nodes with 30% headroom?",
+    "A design jumps straight to sharding at 500 QPS: critique it as an interviewer would",
+    "Trace one request end to end and estimate the latency of each hop from known round trip times"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "system-design-interview-questions-with-s/design-a-system-that-scales-to-millions-"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "how-to-approach-a-system-design-intervie/step-4-scale-the-design"
+    }
+  ],
+  "status": "stub"
+}

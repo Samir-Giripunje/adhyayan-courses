@@ -1,0 +1,3695 @@
+{
+  "schema": "adhy.course/1",
+  "id": "aws-certified-cloud-practitioner-clf2",
+  "version": 2,
+  "title": "AWS Certified Cloud Practitioner (CLF-C02)",
+  "archetype": "syllabus",
+  "scope_class": "field",
+  "goal": {
+    "text": "AWS Certified Cloud Practitioner CLF2",
+    "target": "exam",
+    "level": "some",
+    "depth": "working",
+    "fork": {
+      "question": "How much of the AWS Cloud Practitioner ground do you want to cover?",
+      "chosen": "full-exam",
+      "cards": [
+        {
+          "id": "full-exam",
+          "label": "Full CLF-C02 prep: all four exam domains, practice by domain, and two timed mock exams",
+          "stages": [
+            "Cloud concepts and the AWS value proposition",
+            "Global infrastructure, accounts and access",
+            "Core services: compute and storage",
+            "Core services: networking, content delivery and databases",
+            "Security, governance and compliance services",
+            "Deploying, operating and monitoring on AWS",
+            "Integration, analytics, AI/ML and migration services",
+            "Billing, pricing and support",
+            "Exam readiness: strategy and full mocks"
+          ]
+        },
+        {
+          "id": "fast-track",
+          "label": "Fast track: only the most heavily tested concepts and services, then mocks (riskier on niche questions)",
+          "stages": [
+            "Cloud concepts and the AWS value proposition",
+            "Global infrastructure, accounts and access",
+            "Core services: compute and storage",
+            "Core services: networking, content delivery and databases",
+            "Security, governance and compliance services",
+            "Billing, pricing and support",
+            "Exam readiness: strategy and full mocks"
+          ]
+        },
+        {
+          "id": "bridge-associate",
+          "label": "CLF-C02 plus a bridge to Solutions Architect Associate (deeper VPC, storage and resilience design)",
+          "stages": [
+            "Cloud concepts and the AWS value proposition",
+            "Global infrastructure, accounts and access",
+            "Core services: compute and storage",
+            "Core services: networking, content delivery and databases",
+            "Security, governance and compliance services",
+            "Deploying, operating and monitoring on AWS",
+            "Integration, analytics, AI/ML and migration services",
+            "Billing, pricing and support",
+            "Exam readiness: strategy and full mocks",
+            "Associate bridge: resilient and high-performing architectures"
+          ]
+        }
+      ]
+    }
+  },
+  "budget": {
+    "daily_min": 60,
+    "days": [
+      "mon",
+      "tue",
+      "thu",
+      "sat"
+    ],
+    "review_min": 15,
+    "test_share": 0.4,
+    "weekly_slot": "sat"
+  },
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Explain cloud concepts and the AWS value proposition",
+      "observable": "Given a business scenario, pick the cloud benefit, Well-Architected pillar, Cloud Adoption Framework perspective or migration strategy (the 7 Rs) that fits, and justify the choice in one sentence"
+    },
+    {
+      "id": "o2",
+      "text": "Choose AWS global infrastructure placement",
+      "observable": "For a stated latency, availability or data-residency requirement, choose between Regions, Availability Zones, edge locations, Local Zones, Wavelength and Outposts and name the reason"
+    },
+    {
+      "id": "o3",
+      "text": "Apply the shared responsibility model and AWS security services",
+      "observable": "Sort a list of security tasks into AWS versus customer responsibility for EC2, RDS and Lambda, and name the IAM feature or security service (GuardDuty, Shield, WAF, KMS, Inspector, Macie, CloudTrail, Config, Artifact) that answers a stated security or compliance need"
+    },
+    {
+      "id": "o4",
+      "text": "Identify the right AWS service for a requirement",
+      "observable": "Given a one-paragraph requirement, name the matching service across compute, storage, networking, database, integration, analytics, AI/ML, migration and management categories, and rule out the closest distractor"
+    },
+    {
+      "id": "o5",
+      "text": "Compare pricing models and choose cost and support resources",
+      "observable": "For a described workload, choose On-Demand, Reserved Instances, Savings Plans or Spot and estimate the relative saving; pick the right tool (Pricing Calculator, Budgets, Cost Explorer, Cost and Usage Report) and the cheapest Support plan that meets a stated response-time need"
+    },
+    {
+      "id": "o6",
+      "text": "Pass the CLF-C02 exam under exam conditions",
+      "observable": "Score at least 80% on two timed, full-length 65-question mock exams (90 minutes each) with every domain at or above 70%"
+    }
+  ],
+  "exclusions": [
+    {
+      "text": "Hands-on console labs and deploying real workloads",
+      "why": "CLF-C02 tests recognition and selection of services, not operating them; labs would roughly double the time without raising the score"
+    },
+    {
+      "text": "Associate-level architecture depth (subnet CIDR math, VPC routing design, database tuning)",
+      "why": "These belong to Solutions Architect Associate; the Cloud Practitioner exam only asks what each component is for"
+    },
+    {
+      "text": "Writing code, CloudFormation templates or CLI scripts",
+      "why": "The exam asks which deployment method fits, never to write one"
+    },
+    {
+      "text": "Services the CLF-C02 exam guide lists as out of scope",
+      "why": "They are not examined and would dilute study time"
+    },
+    {
+      "text": "Exam registration, booking and testing-centre logistics",
+      "why": "Administrative steps covered on the AWS Certification site, not exam content"
+    },
+    {
+      "text": "Other AWS certifications (AI Practitioner, Associate and Professional tracks)",
+      "why": "Separate exams with their own syllabi"
+    }
+  ],
+  "committed_route": {
+    "version": 2,
+    "topics": [
+      "clf-what-is-cloud-computing",
+      "clf-service-models",
+      "clf-deployment-models",
+      "clf-vertical-horizontal-scaling",
+      "clf-elasticity-agility",
+      "clf-high-availability",
+      "clf-fixed-vs-variable-costs",
+      "clf-tco-on-premises-costs",
+      "clf-economies-of-scale-automation",
+      "clf-rightsizing",
+      "clf-six-advantages",
+      "clf-well-architected-framework",
+      "clf-wa-pillars-ops-security-reliability",
+      "clf-wa-pillars-performance-cost-sustainability",
+      "clf-cloud-adoption-framework",
+      "clf-migration-strategies",
+      "clf-regions",
+      "clf-availability-zones",
+      "clf-multi-az-multi-region",
+      "clf-edge-locations",
+      "clf-local-zones-wavelength-outposts",
+      "clf-global-infra-placement",
+      "clf-shared-responsibility-model",
+      "clf-shared-responsibility-by-service",
+      "clf-shared-controls",
+      "clf-aws-account-root-user",
+      "clf-protect-root-mfa",
+      "clf-iam-users-groups",
+      "clf-iam-policies",
+      "clf-iam-roles",
+      "clf-least-privilege",
+      "clf-access-methods",
+      "clf-ec2-basics",
+      "clf-ec2-instance-types",
+      "clf-elastic-load-balancing",
+      "clf-auto-scaling-groups",
+      "clf-containers",
+      "clf-ecs-eks",
+      "clf-lambda",
+      "clf-fargate-ecr",
+      "clf-batch-lightsail",
+      "clf-choosing-compute",
+      "clf-storage-types",
+      "clf-ebs",
+      "clf-instance-store",
+      "clf-efs-fsx",
+      "clf-s3-basics",
+      "clf-s3-storage-classes",
+      "clf-s3-lifecycle",
+      "clf-storage-gateway",
+      "clf-aws-backup",
+      "clf-choosing-storage",
+      "clf-vpc-subnets",
+      "clf-internet-nat-gateways",
+      "clf-security-groups-nacls",
+      "clf-vpc-peering-endpoints",
+      "clf-site-to-site-vpn",
+      "clf-direct-connect",
+      "clf-transit-gateway",
+      "clf-route53",
+      "clf-cloudfront",
+      "clf-global-accelerator",
+      "clf-relational-vs-nosql",
+      "clf-managed-vs-self-managed-db",
+      "clf-rds",
+      "clf-aurora",
+      "clf-dynamodb",
+      "clf-elasticache",
+      "clf-documentdb-neptune",
+      "clf-choosing-database",
+      "clf-organizations",
+      "clf-service-control-policies",
+      "clf-identity-federation",
+      "clf-iam-identity-center",
+      "clf-encryption-rest-transit",
+      "clf-kms",
+      "clf-shield-ddos",
+      "clf-waf",
+      "clf-cloudtrail",
+      "clf-aws-config",
+      "clf-guardduty",
+      "clf-inspector-macie",
+      "clf-security-hub-detective",
+      "clf-compliance-programs",
+      "clf-aws-artifact",
+      "clf-security-resources",
+      "clf-choosing-security-service",
+      "clf-one-time-vs-repeatable",
+      "clf-cloudformation",
+      "clf-elastic-beanstalk",
+      "clf-ci-cd-pipeline",
+      "clf-choosing-deployment-method",
+      "clf-cloudwatch-metrics-logs",
+      "clf-cloudwatch-alarms",
+      "clf-x-ray",
+      "clf-health-dashboard",
+      "clf-systems-manager",
+      "clf-monitoring-vs-auditing",
+      "clf-elastic-disaster-recovery",
+      "clf-trusted-advisor",
+      "clf-service-quotas",
+      "clf-license-manager",
+      "clf-well-architected-tool",
+      "clf-control-tower",
+      "clf-service-catalog",
+      "clf-loose-coupling",
+      "clf-sqs",
+      "clf-sns",
+      "clf-eventbridge",
+      "clf-step-functions-mq",
+      "clf-ses",
+      "clf-choosing-messaging",
+      "clf-kinesis",
+      "clf-athena-glue",
+      "clf-redshift-emr",
+      "clf-quicksight-opensearch",
+      "clf-choosing-analytics",
+      "clf-ai-language-speech",
+      "clf-ai-vision-documents",
+      "clf-sagemaker",
+      "clf-generative-ai-q-bedrock",
+      "clf-dms-sct",
+      "clf-migration-discovery-mgn",
+      "clf-snow-family",
+      "clf-datasync-transfer-choice",
+      "clf-amazon-connect",
+      "clf-workspaces-appstream",
+      "clf-amplify-iot",
+      "clf-pricing-fundamentals",
+      "clf-on-demand-reserved",
+      "clf-savings-plans",
+      "clf-spot-instances",
+      "clf-dedicated-hosts",
+      "clf-choosing-purchase-option",
+      "clf-storage-pricing",
+      "clf-data-transfer-costs",
+      "clf-consolidated-billing",
+      "clf-cost-allocation-tags",
+      "clf-pricing-calculator",
+      "clf-aws-budgets",
+      "clf-cost-explorer-cur",
+      "clf-choosing-cost-tool",
+      "clf-support-plans",
+      "clf-legacy-support-plans",
+      "clf-tam-support-center",
+      "clf-marketplace-partner-network",
+      "clf-technical-resources",
+      "clf-choosing-support-option",
+      "clf-exam-format-scoring",
+      "clf-question-keywords-distractors",
+      "clf-service-verb-lens",
+      "clf-timed-mock-pacing",
+      "clf-domain1-practice",
+      "clf-domain2-practice",
+      "clf-domain3-practice",
+      "clf-domain4-practice",
+      "clf-mock-exam-1",
+      "clf-mock-exam-review",
+      "clf-mock-exam-2"
+    ],
+    "from": {
+      "depth": "working",
+      "picks": {},
+      "kept_threads": [],
+      "diffs": [
+        "learner-1"
+      ]
+    }
+  },
+  "completion": {
+    "rule": "full-proof-or-kept",
+    "final": "final-test"
+  },
+  "sources": [
+    {
+      "id": "roadmap-aws",
+      "kind": "roadmap.sh",
+      "ref": "https://roadmap.sh/aws",
+      "fetched": "2026-11-18",
+      "hash": "13ebfc3b3c663068014092864f5135a7ac6247343416e3abfb535df42fab1641"
+    },
+    {
+      "id": "clf-c02-guide",
+      "kind": "syllabus",
+      "ref": "https://docs.aws.amazon.com/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02.md",
+      "fetched": "2026-11-18",
+      "hash": "2c7dc8928869c83b5dad3797bb9e3c73ba3dac2e6b1b98f71bf3d953b7aa3d4c"
+    },
+    {
+      "id": "clf-notes",
+      "kind": "toc",
+      "ref": "https://raw.githubusercontent.com/kananinirav/AWS-Certified-Cloud-Practitioner-Notes/master/README.md",
+      "fetched": "2026-11-18",
+      "hash": "865f509434c17185665400f638117ffbb445b5646c26e025631acf584e9e82cd"
+    }
+  ],
+  "stages": [
+    {
+      "id": "clf-p1",
+      "title": "Cloud concepts and the AWS value proposition",
+      "outcome": [
+        "o1",
+        "o6"
+      ],
+      "units": [
+        "clf-u1-cloud-basics",
+        "clf-u2-cloud-benefits",
+        "clf-u3-cloud-economics",
+        "clf-u4-design-and-migration"
+      ],
+      "exam": "stage@1",
+      "provisional": false
+    },
+    {
+      "id": "clf-p2",
+      "title": "Global infrastructure, accounts and access",
+      "outcome": [
+        "o2",
+        "o3",
+        "o6"
+      ],
+      "units": [
+        "clf-u5-global-infra",
+        "clf-u6-shared-resp",
+        "clf-u7-accounts-iam"
+      ],
+      "exam": "stage@1",
+      "provisional": true
+    },
+    {
+      "id": "clf-p3",
+      "title": "Core services: compute and storage",
+      "outcome": [
+        "o4",
+        "o6"
+      ],
+      "units": [
+        "clf-u8-ec2",
+        "clf-u9-containers-serverless",
+        "clf-u10-block-file",
+        "clf-u11-s3-hybrid"
+      ],
+      "exam": "stage@1",
+      "provisional": true
+    },
+    {
+      "id": "clf-p4",
+      "title": "Core services: networking, content delivery and databases",
+      "outcome": [
+        "o2",
+        "o4",
+        "o6"
+      ],
+      "units": [
+        "clf-u12-vpc",
+        "clf-u13-hybrid-connectivity",
+        "clf-u14-dns-edge",
+        "clf-u15-databases"
+      ],
+      "exam": "stage@1",
+      "provisional": true
+    },
+    {
+      "id": "clf-p5",
+      "title": "Security, governance and compliance services",
+      "outcome": [
+        "o3",
+        "o6"
+      ],
+      "units": [
+        "clf-u16-identity-governance",
+        "clf-u17-data-protection",
+        "clf-u18-edge-protection",
+        "clf-u19-detection-audit",
+        "clf-u20-compliance-resources"
+      ],
+      "exam": "stage@1",
+      "provisional": true
+    },
+    {
+      "id": "clf-p6",
+      "title": "Deploying, operating and monitoring on AWS",
+      "outcome": [
+        "o1",
+        "o4",
+        "o6"
+      ],
+      "units": [
+        "clf-u21-deploy",
+        "clf-u22-monitor",
+        "clf-u23-govern"
+      ],
+      "exam": "stage@1",
+      "provisional": true
+    },
+    {
+      "id": "clf-p7",
+      "title": "Integration, analytics, AI/ML and migration services",
+      "outcome": [
+        "o1",
+        "o4",
+        "o6"
+      ],
+      "units": [
+        "clf-u24-integration",
+        "clf-u25-analytics",
+        "clf-u26-ai-ml",
+        "clf-u27-migration",
+        "clf-u28-end-user-apps"
+      ],
+      "exam": "stage@1",
+      "provisional": true
+    },
+    {
+      "id": "clf-p8",
+      "title": "Billing, pricing and support",
+      "outcome": [
+        "o5",
+        "o6"
+      ],
+      "units": [
+        "clf-u29-pricing-models",
+        "clf-u30-storage-transfer-billing",
+        "clf-u31-cost-tools",
+        "clf-u32-support-resources"
+      ],
+      "exam": "stage@1",
+      "provisional": true
+    },
+    {
+      "id": "clf-p9",
+      "title": "Exam readiness: strategy and full mocks",
+      "outcome": [
+        "o6"
+      ],
+      "units": [
+        "clf-u33-exam-readiness",
+        "clf-u34-domain-practice",
+        "clf-u35-full-mocks"
+      ],
+      "exam": null,
+      "provisional": true
+    }
+  ],
+  "placements": {
+    "clf-what-is-cloud-computing": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-notes",
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u1-cloud-basics",
+      "order": 1,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "clf-service-models": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u1-cloud-basics",
+      "order": 2,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "clf-deployment-models": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide",
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u1-cloud-basics",
+      "order": 3,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "roadmap.sh"
+      ]
+    },
+    "clf-vertical-horizontal-scaling": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "via": [
+          "clf-elasticity-agility"
+        ],
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u2-cloud-benefits",
+      "order": 4,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-elasticity-agility": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u2-cloud-benefits",
+      "order": 5,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-high-availability": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "clf-notes",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u2-cloud-benefits",
+      "order": 6,
+      "status": "planned",
+      "badges": [
+        "book",
+        "syllabus"
+      ]
+    },
+    "clf-fixed-vs-variable-costs": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u3-cloud-economics",
+      "order": 7,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-tco-on-premises-costs": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u3-cloud-economics",
+      "order": 8,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-economies-of-scale-automation": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u3-cloud-economics",
+      "order": 9,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-rightsizing": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u3-cloud-economics",
+      "order": 10,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-six-advantages": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "clf-c02-guide",
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u3-cloud-economics",
+      "order": 11,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "roadmap.sh"
+      ]
+    },
+    "clf-well-architected-framework": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "clf-c02-guide",
+          "roadmap-aws",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u4-design-and-migration",
+      "order": 12,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "clf-wa-pillars-ops-security-reliability": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes",
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u4-design-and-migration",
+      "order": 13,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "clf-wa-pillars-performance-cost-sustainability": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u4-design-and-migration",
+      "order": 14,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-cloud-adoption-framework": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u4-design-and-migration",
+      "order": 15,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-migration-strategies": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u4-design-and-migration",
+      "order": 16,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-regions": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u5-global-infra",
+      "order": 17,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus"
+      ]
+    },
+    "clf-availability-zones": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u5-global-infra",
+      "order": 18,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-multi-az-multi-region": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u5-global-infra",
+      "order": 19,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-edge-locations": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u5-global-infra",
+      "order": 20,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-local-zones-wavelength-outposts": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u5-global-infra",
+      "order": 21,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-global-infra-placement": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u5-global-infra",
+      "order": 22,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-shared-responsibility-model": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u6-shared-resp",
+      "order": 23,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus"
+      ]
+    },
+    "clf-shared-responsibility-by-service": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-notes",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u6-shared-resp",
+      "order": 24,
+      "status": "planned",
+      "badges": [
+        "book",
+        "syllabus"
+      ]
+    },
+    "clf-shared-controls": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u6-shared-resp",
+      "order": 25,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-aws-account-root-user": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u7-accounts-iam",
+      "order": 26,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-protect-root-mfa": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u7-accounts-iam",
+      "order": 27,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-iam-users-groups": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-aws",
+          "clf-notes",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u7-accounts-iam",
+      "order": 28,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "syllabus"
+      ]
+    },
+    "clf-iam-policies": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u7-accounts-iam",
+      "order": 29,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "clf-iam-roles": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u7-accounts-iam",
+      "order": 30,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "clf-least-privilege": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u7-accounts-iam",
+      "order": 31,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-access-methods": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u7-accounts-iam",
+      "order": 32,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-ec2-basics": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes",
+          "roadmap-aws",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u8-ec2",
+      "order": 33,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh",
+        "syllabus"
+      ]
+    },
+    "clf-ec2-instance-types": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u8-ec2",
+      "order": 34,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus"
+      ]
+    },
+    "clf-instance-naming-burstable": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2733,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.3333,
+          "fanout": 0,
+          "lens": 0.35,
+          "lens_reason": "Name decoding and CPU credits are background detail; the exam rarely tests them directly."
+        },
+        "sources": [
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u8-ec2",
+      "order": 35,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "clf-amis-user-data": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.3033,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.3333,
+          "fanout": 0,
+          "lens": 0.5,
+          "lens_reason": "Comes up as a supporting detail in launch and scaling questions, rarely on its own."
+        },
+        "sources": [
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u8-ec2",
+      "order": 36,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "clf-elastic-load-balancing": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u8-ec2",
+      "order": 37,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-auto-scaling-groups": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u8-ec2",
+      "order": 38,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-containers": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "via": [
+          "clf-ecs-eks"
+        ],
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u9-containers-serverless",
+      "order": 39,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-ecs-eks": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes",
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u9-containers-serverless",
+      "order": 40,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "clf-lambda": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u9-containers-serverless",
+      "order": 41,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "clf-fargate-ecr": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-notes",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u9-containers-serverless",
+      "order": 42,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "syllabus"
+      ]
+    },
+    "clf-batch-lightsail": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "via": [
+          "clf-choosing-compute"
+        ],
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u9-containers-serverless",
+      "order": 43,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-choosing-compute": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u9-containers-serverless",
+      "order": 44,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-storage-types": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u10-block-file",
+      "order": 45,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-ebs": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u10-block-file",
+      "order": 46,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-instance-store": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u10-block-file",
+      "order": 47,
+      "status": "planned",
+      "badges": [
+        "book",
+        "syllabus"
+      ]
+    },
+    "clf-efs-fsx": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u10-block-file",
+      "order": 48,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-s3-basics": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u11-s3-hybrid",
+      "order": 49,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-s3-storage-classes": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u11-s3-hybrid",
+      "order": 50,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus"
+      ]
+    },
+    "clf-s3-lifecycle": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u11-s3-hybrid",
+      "order": 51,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-storage-gateway": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u11-s3-hybrid",
+      "order": 52,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-aws-backup": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u11-s3-hybrid",
+      "order": 53,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-choosing-storage": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u11-s3-hybrid",
+      "order": 54,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-vpc-subnets": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u12-vpc",
+      "order": 55,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-internet-nat-gateways": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u12-vpc",
+      "order": 56,
+      "status": "planned",
+      "badges": [
+        "book",
+        "syllabus"
+      ]
+    },
+    "clf-security-groups-nacls": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u12-vpc",
+      "order": 57,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-vpc-flow-logs": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1633,
+        "terms": {
+          "spine": 0,
+          "support": 0.3333,
+          "fanout": 0,
+          "lens": 0.4,
+          "lens_reason": "Occasionally a distractor or a troubleshooting answer; low weight but quick."
+        },
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u12-vpc",
+      "order": 58,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-vpc-peering-endpoints": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u12-vpc",
+      "order": 59,
+      "status": "planned",
+      "badges": [
+        "book",
+        "syllabus"
+      ]
+    },
+    "clf-site-to-site-vpn": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u13-hybrid-connectivity",
+      "order": 60,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-direct-connect": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u13-hybrid-connectivity",
+      "order": 61,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-transit-gateway": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u13-hybrid-connectivity",
+      "order": 62,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-route53": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u14-dns-edge",
+      "order": 63,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus"
+      ]
+    },
+    "clf-route53-routing-policies": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.3033,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.3333,
+          "fanout": 0,
+          "lens": 0.5,
+          "lens_reason": "Lightly tested; useful for scenario questions on DR and global users."
+        },
+        "sources": [
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u14-dns-edge",
+      "order": 64,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "clf-cloudfront": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u14-dns-edge",
+      "order": 65,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus"
+      ]
+    },
+    "clf-global-accelerator": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u14-dns-edge",
+      "order": 66,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-relational-vs-nosql": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u15-databases",
+      "order": 67,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-managed-vs-self-managed-db": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u15-databases",
+      "order": 68,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-rds": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u15-databases",
+      "order": 69,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-aurora": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u15-databases",
+      "order": 70,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-dynamodb": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u15-databases",
+      "order": 71,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-elasticache": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u15-databases",
+      "order": 72,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-documentdb-neptune": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u15-databases",
+      "order": 73,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-choosing-database": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u15-databases",
+      "order": 74,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-organizations": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-notes",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u16-identity-governance",
+      "order": 75,
+      "status": "planned",
+      "badges": [
+        "book",
+        "syllabus"
+      ]
+    },
+    "clf-service-control-policies": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u16-identity-governance",
+      "order": 76,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-identity-federation": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u16-identity-governance",
+      "order": 77,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-iam-identity-center": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u16-identity-governance",
+      "order": 78,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-cognito-directory-service": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2767,
+        "terms": {
+          "spine": 0,
+          "support": 0.6667,
+          "fanout": 0,
+          "lens": 0.55,
+          "lens_reason": "These appear as distractors and in occasional 'app users' or 'Active Directory' questions."
+        },
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u16-identity-governance",
+      "order": 79,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-encryption-rest-transit": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u17-data-protection",
+      "order": 80,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-kms": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u17-data-protection",
+      "order": 81,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-cloudhsm": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2667,
+        "terms": {
+          "spine": 0,
+          "support": 0.6667,
+          "fanout": 0,
+          "lens": 0.5,
+          "lens_reason": "A typical distractor next to KMS. The words 'dedicated' and 'single-tenant' point to it."
+        },
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u17-data-protection",
+      "order": 82,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-acm": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2667,
+        "terms": {
+          "spine": 0,
+          "support": 0.6667,
+          "fanout": 0,
+          "lens": 0.5,
+          "lens_reason": "A short service-matching item: 'SSL/TLS certificate' points to ACM."
+        },
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u17-data-protection",
+      "order": 83,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-secrets-manager": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2767,
+        "terms": {
+          "spine": 0,
+          "support": 0.6667,
+          "fanout": 0,
+          "lens": 0.55,
+          "lens_reason": "Questions about storing or rotating credentials point to Secrets Manager."
+        },
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u17-data-protection",
+      "order": 84,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-shield-ddos": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u18-edge-protection",
+      "order": 85,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-waf": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u18-edge-protection",
+      "order": 86,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-firewall-manager": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1733,
+        "terms": {
+          "spine": 0,
+          "support": 0.3333,
+          "fanout": 0,
+          "lens": 0.45,
+          "lens_reason": "A niche service-matching item whose keyword is 'across accounts'."
+        },
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u18-edge-protection",
+      "order": 87,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-cloudtrail": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u19-detection-audit",
+      "order": 88,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-aws-config": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u19-detection-audit",
+      "order": 89,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-guardduty": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u19-detection-audit",
+      "order": 90,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-inspector-macie": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u19-detection-audit",
+      "order": 91,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-security-hub-detective": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "via": [
+          "clf-choosing-security-service"
+        ],
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u19-detection-audit",
+      "order": 92,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-compliance-programs": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u20-compliance-resources",
+      "order": 93,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-aws-artifact": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u20-compliance-resources",
+      "order": 94,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-security-resources": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u20-compliance-resources",
+      "order": 95,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-choosing-security-service": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u20-compliance-resources",
+      "order": 96,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-one-time-vs-repeatable": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u21-deploy",
+      "order": 97,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-cloudformation": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u21-deploy",
+      "order": 98,
+      "status": "planned",
+      "badges": [
+        "book",
+        "syllabus"
+      ]
+    },
+    "clf-cdk": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1533,
+        "terms": {
+          "spine": 0,
+          "support": 0.3333,
+          "fanout": 0,
+          "lens": 0.35,
+          "lens_reason": "Shows up as a distractor or an occasional answer next to CloudFormation; one fact is enough."
+        },
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u21-deploy",
+      "order": 99,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-elastic-beanstalk": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u21-deploy",
+      "order": 100,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-ci-cd-pipeline": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u21-deploy",
+      "order": 101,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-choosing-deployment-method": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u21-deploy",
+      "order": 102,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-cloudwatch-metrics-logs": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-aws",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u22-monitor",
+      "order": 103,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "clf-cloudwatch-alarms": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes",
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u22-monitor",
+      "order": 104,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "clf-x-ray": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u22-monitor",
+      "order": 105,
+      "status": "planned",
+      "badges": [
+        "book",
+        "syllabus"
+      ]
+    },
+    "clf-health-dashboard": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u22-monitor",
+      "order": 106,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-systems-manager": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u22-monitor",
+      "order": 107,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-monitoring-vs-auditing": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u22-monitor",
+      "order": 108,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-elastic-disaster-recovery": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u22-monitor",
+      "order": 109,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-trusted-advisor": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u23-govern",
+      "order": 110,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-service-quotas": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u23-govern",
+      "order": 111,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-license-manager": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u23-govern",
+      "order": 112,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-well-architected-tool": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u23-govern",
+      "order": 113,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-control-tower": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u23-govern",
+      "order": 114,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-service-catalog": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u23-govern",
+      "order": 115,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-loose-coupling": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "via": [
+          "clf-sqs"
+        ],
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u24-integration",
+      "order": 116,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-sqs": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u24-integration",
+      "order": 117,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-sns": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u24-integration",
+      "order": 118,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-eventbridge": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u24-integration",
+      "order": 119,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "roadmap.sh"
+      ]
+    },
+    "clf-step-functions-mq": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u24-integration",
+      "order": 120,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-ses": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u24-integration",
+      "order": 121,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "roadmap.sh"
+      ]
+    },
+    "clf-choosing-messaging": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u24-integration",
+      "order": 122,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-kinesis": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u25-analytics",
+      "order": 123,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-athena-glue": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u25-analytics",
+      "order": 124,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-redshift-emr": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u25-analytics",
+      "order": 125,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-quicksight-opensearch": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u25-analytics",
+      "order": 126,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-choosing-analytics": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u25-analytics",
+      "order": 127,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-ai-language-speech": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u26-ai-ml",
+      "order": 128,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-ai-vision-documents": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u26-ai-ml",
+      "order": 129,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-sagemaker": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u26-ai-ml",
+      "order": 130,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-generative-ai-q-bedrock": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u26-ai-ml",
+      "order": 131,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-dms-sct": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u27-migration",
+      "order": 132,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-migration-discovery-mgn": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u27-migration",
+      "order": 133,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-snow-family": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u27-migration",
+      "order": 134,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-datasync-transfer-choice": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u27-migration",
+      "order": 135,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-amazon-connect": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u28-end-user-apps",
+      "order": 136,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-workspaces-appstream": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u28-end-user-apps",
+      "order": 137,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-amplify-iot": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u28-end-user-apps",
+      "order": 138,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-pricing-fundamentals": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u29-pricing-models",
+      "order": 139,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-on-demand-reserved": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "roadmap-aws",
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u29-pricing-models",
+      "order": 140,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-savings-plans": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u29-pricing-models",
+      "order": 141,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-spot-instances": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "roadmap-aws",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u29-pricing-models",
+      "order": 142,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "clf-dedicated-hosts": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "roadmap-aws",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u29-pricing-models",
+      "order": 143,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "clf-choosing-purchase-option": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "clf-c02-guide",
+          "roadmap-aws"
+        ]
+      },
+      "unit": "clf-u29-pricing-models",
+      "order": 144,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "roadmap.sh"
+      ]
+    },
+    "clf-storage-pricing": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u30-storage-transfer-billing",
+      "order": 145,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-data-transfer-costs": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u30-storage-transfer-billing",
+      "order": 146,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "clf-consolidated-billing": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u30-storage-transfer-billing",
+      "order": 147,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-cost-allocation-tags": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u30-storage-transfer-billing",
+      "order": 148,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-pricing-calculator": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u31-cost-tools",
+      "order": 149,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-aws-budgets": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u31-cost-tools",
+      "order": 150,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-cost-explorer-cur": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u31-cost-tools",
+      "order": 151,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-compute-optimizer": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2767,
+        "terms": {
+          "spine": 0,
+          "support": 0.6667,
+          "fanout": 0,
+          "lens": 0.55,
+          "lens_reason": "An occasional exam item, usually set against Trusted Advisor as the distractor."
+        },
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u31-cost-tools",
+      "order": 152,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-choosing-cost-tool": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u31-cost-tools",
+      "order": 153,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-support-plans": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u32-support-resources",
+      "order": 154,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-legacy-support-plans": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u32-support-resources",
+      "order": 155,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-tam-support-center": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u32-support-resources",
+      "order": 156,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-marketplace-partner-network": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-notes",
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u32-support-resources",
+      "order": 157,
+      "status": "planned",
+      "badges": [
+        "book",
+        "syllabus"
+      ]
+    },
+    "clf-technical-resources": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u32-support-resources",
+      "order": 158,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-choosing-support-option": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u32-support-resources",
+      "order": 159,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-exam-format-scoring": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u33-exam-readiness",
+      "order": 160,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-question-keywords-distractors": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u33-exam-readiness",
+      "order": 161,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-service-verb-lens": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u33-exam-readiness",
+      "order": 162,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-timed-mock-pacing": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u33-exam-readiness",
+      "order": 163,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-domain1-practice": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u34-domain-practice",
+      "order": 164,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-domain2-practice": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u34-domain-practice",
+      "order": 165,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-domain3-practice": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u34-domain-practice",
+      "order": 166,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-domain4-practice": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide",
+          "clf-notes"
+        ]
+      },
+      "unit": "clf-u34-domain-practice",
+      "order": 167,
+      "status": "planned",
+      "badges": [
+        "syllabus",
+        "book"
+      ]
+    },
+    "clf-mock-exam-1": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u35-full-mocks",
+      "order": 168,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-mock-exam-review": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u35-full-mocks",
+      "order": 169,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    },
+    "clf-mock-exam-2": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "clf-c02-guide"
+        ]
+      },
+      "unit": "clf-u35-full-mocks",
+      "order": 170,
+      "status": "planned",
+      "badges": [
+        "syllabus"
+      ]
+    }
+  },
+  "groups": {},
+  "cadence": {
+    "recall_thresholds": [
+      10,
+      15,
+      20,
+      30
+    ],
+    "recall_repeat": 30,
+    "small_course": false,
+    "mocks": "end+every-2-stages",
+    "interview_rounds": false
+  },
+  "resolution": {
+    "units_cut_for": [
+      "clf-p1"
+    ],
+    "written": [
+      "clf-u1-cloud-basics"
+    ]
+  },
+  "overrides": []
+}

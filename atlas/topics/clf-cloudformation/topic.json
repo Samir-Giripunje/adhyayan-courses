@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-cloudformation",
+  "version": 1,
+  "title": "Infrastructure as code with AWS CloudFormation",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-iac-definition",
+      "version": 1,
+      "statement": "Infrastructure as code describes cloud resources in machine-readable template files that can be version-controlled and reviewed, so the same environment can be created again and again."
+    },
+    {
+      "id": "kc-cloudformation-stack",
+      "version": 1,
+      "statement": "AWS CloudFormation reads a JSON or YAML template and creates, updates or deletes all of its resources together as one stack, handling the order in which they depend on each other."
+    },
+    {
+      "id": "kc-cloudformation-pricing-delete",
+      "version": 1,
+      "statement": "There is no extra charge for using CloudFormation with AWS resources; you pay for the resources the stack creates, and deleting the stack deletes those resources."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-one-time-vs-repeatable"
+  ],
+  "confusable_with": [
+    "clf-elastic-beanstalk",
+    "clf-cdk"
+  ],
+  "introduces": [
+    "infrastructure as code",
+    "cloudformation",
+    "cloudformation template",
+    "cloudformation stack"
+  ],
+  "uses": [
+    "repeatable process",
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "A company needs identical stacks in us-east-1 and eu-west-1 for disaster recovery: which service, and which artifact do they reuse?",
+    "A test environment costs $40/day and is used one week a month: how does deleting and recreating a stack save money?",
+    "A template creates an EC2 instance that needs a security group created first: who works out the order?",
+    "A manager asks what CloudFormation itself costs for a stack of 20 EC2 and RDS resources: answer and explain.",
+    "A reviewer wants to see infrastructure changes in a pull request before they ship: which practice makes that possible?",
+    "Distractor drill: CloudFormation vs Elastic Beanstalk vs Systems Manager for 'model and provision all resources of an application as code'."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "deploying-and-managing-infrastructure-at/what-is-cloudformation"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "deploying-and-managing-infrastructure-at/deploying-and-managing-infrastructure-at"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-1-define-methods-of-dep/various-ways-of-provisioning-and-operati"
+    }
+  ],
+  "status": "stub"
+}

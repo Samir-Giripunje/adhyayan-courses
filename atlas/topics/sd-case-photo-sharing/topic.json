@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-photo-sharing",
+  "version": 1,
+  "title": "Case study: photo sharing (Instagram)",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-photo-presigned-upload",
+      "version": 1,
+      "statement": "Clients upload photos straight to object storage using a short-lived pre-signed upload URL from the API. Large bytes never pass through the app servers."
+    },
+    {
+      "id": "kc-photo-async-thumbnails",
+      "version": 1,
+      "statement": "After upload, an event on a queue triggers workers that generate thumbnails in several sizes. The post becomes visible only after processing completes."
+    },
+    {
+      "id": "kc-photo-storage-dominates",
+      "version": 1,
+      "statement": "For photo apps, media storage and CDN egress dominate cost: 100M uploads a day at 2 MB is about 200 TB of new storage per day before replication."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-object-storage",
+    "sd-task-queues-background-jobs"
+  ],
+  "suggests": [
+    "sd-case-news-feed",
+    "sd-cdn"
+  ],
+  "confusable_with": [
+    "sd-case-video-streaming"
+  ],
+  "introduces": [
+    "photo sharing design",
+    "pre-signed upload url"
+  ],
+  "uses": [
+    "object storage",
+    "blob",
+    "cdn",
+    "background job",
+    "worker",
+    "message queue",
+    "storage estimate",
+    "egress"
+  ],
+  "problem_ideas": [
+    "Compute 1-year storage for 50M uploads a day at 3 MB with 3 thumbnails of 100 KB each.",
+    "Estimate CDN egress if each photo is viewed 50 times at the 300 KB size.",
+    "Sequence the upload flow: get URL, PUT to storage, notify API, process, publish.",
+    "A worker crashes halfway through generating thumbnails. Make the job safe to retry.",
+    "Explain why proxying uploads through app servers limits horizontal scaling.",
+    "Decide where 'like' counts are stored and how they avoid becoming a hot key."
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-instagram"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "detailed-design-4/media-access-and-storage"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,76 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-ride-hailing",
+  "version": 1,
+  "title": "Case study: ride hailing (Uber)",
+  "size": "big",
+  "est_min": 40,
+  "kcs": [
+    {
+      "id": "kc-ride-location-updates",
+      "version": 1,
+      "statement": "Drivers send a location update every few seconds. These writes are the dominant load: 1M active drivers every 4 s is about 250K writes/s, so the latest location is kept in memory keyed by geohash cell, not in a relational database."
+    },
+    {
+      "id": "kc-ride-matching",
+      "version": 1,
+      "statement": "Matching a rider queries every geohash cell that intersects the search radius (the rider's cell and its 8 neighbours only when cells are at least as large as the radius), filters drivers by exact distance and availability, ranks them by ETA, and offers the trip to one driver at a time with a timeout."
+    },
+    {
+      "id": "kc-ride-double-dispatch",
+      "version": 1,
+      "statement": "To stop a driver being assigned to two trips, the matcher claims the driver with an atomic conditional update (set status to 'offered' only if it is still 'available'). A second matcher's claim fails because the condition no longer holds."
+    },
+    {
+      "id": "kc-ride-trip-state",
+      "version": 1,
+      "statement": "A trip moves through explicit states (requested, accepted, in progress, completed, paid). Transitions are persisted durably, and payment runs asynchronously after the trip ends."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-geohash"
+  ],
+  "suggests": [
+    "sd-websockets",
+    "sd-case-payment-system",
+    "sd-leader-election"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "ride hailing design",
+    "location update",
+    "driver matching"
+  ],
+  "uses": [
+    "geohash",
+    "websockets",
+    "key-value store",
+    "peak qps",
+    "message queue",
+    "timeout"
+  ],
+  "problem_ideas": [
+    "2M drivers online sending updates every 3 s: compute writes/s and the bandwidth at 100 bytes per update.",
+    "Two riders request at once and both pick the same nearest driver. Show the atomic conditional claim and what the losing matcher does.",
+    "A driver doesn't respond to an offer within 15 s. Design what happens next.",
+    "Choose how often to push driver positions to the rider's map and over what transport.",
+    "A rider asks for drivers within 5 km while cells are 1.2 km wide. List which cells to query and why 9 is not enough.",
+    "Decide which data can be lost when a location node fails and which must be durable."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-5/location-tracking"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-5/ride-matching"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-uber"
+    }
+  ],
+  "status": "stub"
+}

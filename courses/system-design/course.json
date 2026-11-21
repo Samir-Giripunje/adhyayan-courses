@@ -1,0 +1,3392 @@
+{
+  "schema": "adhy.course/1",
+  "id": "system-design",
+  "version": 1,
+  "title": "System Design for Interviews",
+  "archetype": "field",
+  "scope_class": "field",
+  "goal": {
+    "text": "System design (interview-focused)",
+    "target": "interview",
+    "level": "some",
+    "depth": "working",
+    "fork": {
+      "question": "How far do you want to go for your system design interviews?",
+      "chosen": "interview-core",
+      "cards": [
+        {
+          "id": "interview-core",
+          "label": "Interview core: building blocks, trade-offs, then 10+ case studies and timed mocks",
+          "stages": [
+            "Foundations: how a request travels the web",
+            "The interview framework and estimation",
+            "Scaling the request path",
+            "Caching",
+            "Data storage and distribution",
+            "Asynchronism, messaging and real-time delivery",
+            "Reliability, availability and coordination",
+            "Case studies and mock interviews"
+          ]
+        },
+        {
+          "id": "fast-track",
+          "label": "Fast track: framework, the must-know building blocks and the five classic case studies",
+          "stages": [
+            "The interview framework and estimation",
+            "Scaling the request path",
+            "Caching",
+            "Data storage and distribution",
+            "Case studies and mock interviews"
+          ]
+        },
+        {
+          "id": "senior-deep",
+          "label": "Senior / staff depth: interview core plus consensus, distributed transactions, cloud patterns and harder case studies",
+          "stages": [
+            "Foundations: how a request travels the web",
+            "The interview framework and estimation",
+            "Scaling the request path",
+            "Caching",
+            "Data storage and distribution",
+            "Asynchronism, messaging and real-time delivery",
+            "Reliability, availability and coordination",
+            "Distributed systems deep dive",
+            "Cloud design patterns for architects",
+            "Advanced case studies (payments, collaborative editing, maps, video conferencing)"
+          ]
+        }
+      ]
+    }
+  },
+  "budget": {
+    "daily_min": 90,
+    "days": [
+      "mon",
+      "tue",
+      "wed",
+      "thu",
+      "fri"
+    ],
+    "review_min": 23,
+    "test_share": 0.4,
+    "weekly_slot": "fri"
+  },
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Estimate the capacity a stated workload needs",
+      "observable": "Given DAU, actions per user and payload sizes, produce peak QPS, storage per year and bandwidth figures within 2× of a reference answer, showing the arithmetic"
+    },
+    {
+      "id": "o2",
+      "text": "Turn a vague prompt into a scoped design",
+      "observable": "A written list of functional and non-functional requirements, a REST/RPC API sketch and a data model for a prompt, produced in under 10 minutes"
+    },
+    {
+      "id": "o3",
+      "text": "Choose and justify a data storage design",
+      "observable": "For a workload, a named store type (SQL, key-value, document, wide-column), replication mode, shard key and consistency level, each with one stated trade-off"
+    },
+    {
+      "id": "o4",
+      "text": "Scale the request path with standard building blocks",
+      "observable": "A high-level diagram placing load balancers, caches, CDN and queues, with a cache strategy and load-balancing choice justified against the stated reads/writes ratio"
+    },
+    {
+      "id": "o5",
+      "text": "Find failure modes and specify reliability mechanisms",
+      "observable": "For a given design, a list of single points of failure with a fix for each (failover, retries with backoff, circuit breaker, idempotency key) and a computed availability figure in nines"
+    },
+    {
+      "id": "o6",
+      "text": "Run a full system design interview under time",
+      "observable": "A complete 45-minute mock answer to a classic prompt (URL shortener, news feed, chat, ride hailing) covering requirements, estimates, API, data model, high-level design, deep dive and bottlenecks"
+    }
+  ],
+  "exclusions": [
+    {
+      "text": "Object-oriented / low-level design (class diagrams, design patterns in code)",
+      "why": "A separate interview round with different skills; it would double the course"
+    },
+    {
+      "text": "Authentication and identity protocols in depth (OAuth 2.0 flows, OIDC, SAML, SSO)",
+      "why": "Interviews rarely go beyond 'use a token at the gateway'; covered in one security overview topic only"
+    },
+    {
+      "text": "The full cloud design patterns catalogue (valet key, strangler fig, deployment stamps, gatekeeper, etc.)",
+      "why": "Mostly migration and operations patterns that rarely come up in design interviews"
+    },
+    {
+      "text": "Storage hardware and file systems (RAID, block volumes, HDFS internals)",
+      "why": "Below the abstraction level interviewers expect; object storage is covered as a building block"
+    },
+    {
+      "text": "VMs, containers and orchestration (Kubernetes)",
+      "why": "Deployment tooling, not a design decision in typical interview prompts"
+    },
+    {
+      "text": "Machine-learning system design (recommendation and ranking pipelines)",
+      "why": "A specialised interview track with its own body of knowledge"
+    },
+    {
+      "text": "Vendor-specific configuration (Redis, Kafka, Nginx, AWS service settings)",
+      "why": "Interviews test the concept and trade-off, not the configuration syntax"
+    }
+  ],
+  "committed_route": {
+    "version": 1,
+    "topics": [
+      "sd-ip-addresses",
+      "sd-dns",
+      "sd-dns-records",
+      "sd-dns-routing",
+      "sd-http",
+      "sd-latency-throughput",
+      "sd-rest",
+      "sd-rpc",
+      "sd-interview-framework",
+      "sd-requirements",
+      "sd-api-design",
+      "sd-data-model",
+      "sd-estimation-method",
+      "sd-qps-estimate",
+      "sd-storage-estimate",
+      "sd-bandwidth-estimate",
+      "sd-high-level-design",
+      "sd-bottlenecks",
+      "sd-timed-walkthrough",
+      "sd-performance-vs-scalability",
+      "sd-vertical-horizontal-scaling",
+      "sd-stateless-services",
+      "sd-load-balancers",
+      "sd-lb-algorithms",
+      "sd-l4-vs-l7",
+      "sd-reverse-proxy",
+      "sd-cdn",
+      "sd-push-pull-cdn",
+      "sd-api-gateway",
+      "sd-rate-limiting",
+      "sd-scale-to-millions",
+      "sd-cache-basics",
+      "sd-cache-layers",
+      "sd-cache-aside",
+      "sd-cache-invalidation-ttl",
+      "sd-read-write-through",
+      "sd-choose-cache-strategy",
+      "sd-distributed-cache",
+      "sd-relational-acid",
+      "sd-denormalization",
+      "sd-nosql-base",
+      "sd-key-value-store",
+      "sd-document-store",
+      "sd-wide-column-store",
+      "sd-object-storage",
+      "sd-sql-vs-nosql",
+      "sd-replication-leader-follower",
+      "sd-sync-async-replication",
+      "sd-replication-lag",
+      "sd-consistency-models",
+      "sd-cap-theorem",
+      "sd-quorum",
+      "sd-partitioning-basics",
+      "sd-sharding-strategies",
+      "sd-shard-key",
+      "sd-consistent-hashing",
+      "sd-storage-design-choice",
+      "sd-sync-vs-async",
+      "sd-message-queues",
+      "sd-task-queues-background-jobs",
+      "sd-back-pressure",
+      "sd-pub-sub",
+      "sd-delivery-guarantees",
+      "sd-idempotency",
+      "sd-idempotency-keys",
+      "sd-polling-long-polling",
+      "sd-websockets",
+      "sd-realtime-at-scale",
+      "sd-fan-out",
+      "sd-availability-nines",
+      "sd-availability-series-parallel",
+      "sd-single-points-of-failure",
+      "sd-health-checks-heartbeats",
+      "sd-failover",
+      "sd-timeouts",
+      "sd-retry-backoff-jitter",
+      "sd-circuit-breaker",
+      "sd-sagas",
+      "sd-monitoring-observability",
+      "sd-security-overview",
+      "sd-reliability-review",
+      "sd-case-url-shortener",
+      "sd-case-news-feed",
+      "sd-case-chat",
+      "sd-geohash",
+      "sd-case-ride-hailing",
+      "sd-mock-method",
+      "sd-mock-url-shortener",
+      "sd-mock-news-feed",
+      "sd-mock-chat",
+      "sd-mock-ride-hailing",
+      "sd-mock-unseen-prompt"
+    ],
+    "from": {
+      "depth": "working",
+      "picks": {},
+      "kept_threads": [],
+      "diffs": []
+    }
+  },
+  "completion": {
+    "rule": "full-proof-or-kept",
+    "final": "final-test"
+  },
+  "sources": [
+    {
+      "id": "roadmap-system-design",
+      "kind": "roadmap.sh",
+      "ref": "https://roadmap.sh/system-design",
+      "fetched": "2026-11-17",
+      "hash": "65a0e83ab936abb4a906cfd244f78e48fa4c9aa9197cb7f356b71cb4a0f3e756"
+    },
+    {
+      "id": "sd-primer",
+      "kind": "toc",
+      "ref": "https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md",
+      "fetched": "2026-11-17",
+      "hash": "390a8cad315d703c10cfbdf6832c2f320882bd4c3feaf2cea78c820995903cf1"
+    },
+    {
+      "id": "karan-sd",
+      "kind": "toc",
+      "ref": "https://raw.githubusercontent.com/karanpratapsingh/system-design/main/README.md",
+      "fetched": "2026-11-17",
+      "hash": "7a287c491e079277450f5e77928607bb47fab7c0d72fe8c00722f32c25a500bd"
+    },
+    {
+      "id": "awesome-sd",
+      "kind": "sheet",
+      "ref": "https://raw.githubusercontent.com/ashishps1/awesome-system-design-resources/main/README.md",
+      "fetched": "2026-11-17",
+      "hash": "30e7ca63718a3682885c47a847299ad11e318cb30d26a4592e97fdba09b28d18"
+    }
+  ],
+  "stages": [
+    {
+      "id": "sd-p1",
+      "title": "Foundations: how a request travels the web",
+      "outcome": [
+        "o2",
+        "o4"
+      ],
+      "units": [
+        "sd-u0-request-path",
+        "sd-u1-speed-and-apis"
+      ],
+      "exam": "stage@1",
+      "provisional": false
+    },
+    {
+      "id": "sd-p2",
+      "title": "The interview framework and estimation",
+      "outcome": [
+        "o1",
+        "o2",
+        "o6"
+      ],
+      "units": [
+        "sd-u2-framework",
+        "sd-u3-estimation",
+        "sd-u4-design-flow"
+      ],
+      "exam": "stage@1",
+      "interview_round": {
+        "minutes": 32,
+        "blueprint": "interview@1"
+      },
+      "provisional": true
+    },
+    {
+      "id": "sd-p3",
+      "title": "Scaling the request path",
+      "outcome": [
+        "o4",
+        "o6"
+      ],
+      "units": [
+        "sd-u5-scale-out",
+        "sd-u6-edge-gateway",
+        "sd-u7-protect-assemble"
+      ],
+      "exam": "stage@1",
+      "interview_round": {
+        "minutes": 32,
+        "blueprint": "interview@1"
+      },
+      "provisional": true
+    },
+    {
+      "id": "sd-p4",
+      "title": "Caching",
+      "outcome": [
+        "o4",
+        "o6"
+      ],
+      "units": [
+        "sd-u8-cache-fundamentals",
+        "sd-u9-write-strategies",
+        "sd-u10-scaling-caches"
+      ],
+      "exam": "stage@1",
+      "interview_round": {
+        "minutes": 32,
+        "blueprint": "interview@1"
+      },
+      "provisional": true
+    },
+    {
+      "id": "sd-p5",
+      "title": "Data storage and distribution",
+      "outcome": [
+        "o3",
+        "o6"
+      ],
+      "units": [
+        "sd-u11-relational",
+        "sd-u12-nosql",
+        "sd-u13-replication",
+        "sd-u14-consistency",
+        "sd-u15-partitioning"
+      ],
+      "exam": "stage@1",
+      "interview_round": {
+        "minutes": 32,
+        "blueprint": "interview@1"
+      },
+      "provisional": true
+    },
+    {
+      "id": "sd-p6",
+      "title": "Asynchronism, messaging and real-time delivery",
+      "outcome": [
+        "o4",
+        "o5",
+        "o6"
+      ],
+      "units": [
+        "sd-u16-messaging",
+        "sd-u17-delivery",
+        "sd-u18-realtime",
+        "sd-u19-data-flow"
+      ],
+      "exam": "stage@1",
+      "interview_round": {
+        "minutes": 32,
+        "blueprint": "interview@1"
+      },
+      "provisional": true
+    },
+    {
+      "id": "sd-p7",
+      "title": "Reliability, availability and coordination",
+      "outcome": [
+        "o5",
+        "o6"
+      ],
+      "units": [
+        "sd-u20-availability",
+        "sd-u21-resilience",
+        "sd-u22-coordination",
+        "sd-u23-operations"
+      ],
+      "exam": "stage@1",
+      "interview_round": {
+        "minutes": 32,
+        "blueprint": "interview@1"
+      },
+      "provisional": true
+    },
+    {
+      "id": "sd-p8",
+      "title": "Case studies and mock interviews",
+      "outcome": [
+        "o1",
+        "o2",
+        "o3",
+        "o4",
+        "o5",
+        "o6"
+      ],
+      "units": [
+        "sd-u24-core-cases",
+        "sd-u25-social-realtime",
+        "sd-u26-media-location",
+        "sd-u27-reliable-money",
+        "sd-u28-mocks"
+      ],
+      "exam": null,
+      "interview_round": {
+        "minutes": 32,
+        "blueprint": "interview@1"
+      },
+      "provisional": true
+    }
+  ],
+  "placements": {
+    "sd-client-server": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.245,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.6,
+          "lens_reason": "Every interview diagram starts with clients, an app tier and a data tier; you need the vocabulary, not the theory."
+        },
+        "sources": [
+          "awesome-sd",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u0-request-path",
+      "order": 1,
+      "status": "planned",
+      "badges": [
+        "sheet",
+        "book"
+      ]
+    },
+    "sd-ip-addresses": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "via": [
+          "sd-dns-records",
+          "sd-dns"
+        ],
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u0-request-path",
+      "order": 2,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-tcp-udp": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.235,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.55,
+          "lens_reason": "You will justify UDP for real-time media and need layer 4 vs layer 7 to discuss load balancers later."
+        },
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u0-request-path",
+      "order": 3,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-dns": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "via": [
+          "sd-dns-records"
+        ],
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u0-request-path",
+      "order": 4,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-dns-records": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u0-request-path",
+      "order": 5,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-dns-routing": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u0-request-path",
+      "order": 6,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-http": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "sd-primer",
+          "awesome-sd",
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u0-request-path",
+      "order": 7,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet",
+        "roadmap.sh"
+      ]
+    },
+    "sd-https-tls": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1675,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0.1,
+          "lens": 0.4,
+          "lens_reason": "Usually one sentence in an interview ('terminate TLS at the edge'), but you must say it correctly."
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u0-request-path",
+      "order": 8,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-latency-throughput": {
+      "topic_version": 1,
+      "tier": "recommended",
+      "why": {
+        "rule": "score",
+        "score": 0.6425,
+        "terms": {
+          "spine": 1,
+          "support": 0.75,
+          "fanout": 0.1,
+          "lens": 0.65,
+          "lens_reason": "Non-functional requirements are stated as latency and throughput targets; you must not mix them up."
+        },
+        "sources": [
+          "sd-primer",
+          "awesome-sd",
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u1-speed-and-apis",
+      "order": 9,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet",
+        "roadmap.sh"
+      ]
+    },
+    "sd-latency-numbers": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1825,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.6,
+          "lens_reason": "Quoting the right order of magnitude is how you justify a cache or a regional deployment in an interview."
+        },
+        "sources": [
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u1-speed-and-apis",
+      "order": 10,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-rest": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u1-speed-and-apis",
+      "order": 11,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-rpc": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "sd-primer",
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u1-speed-and-apis",
+      "order": 12,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-graphql": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.175,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.25,
+          "lens_reason": "Optional: mention it only when a client needs flexible data shapes; few interviews go deeper."
+        },
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u1-speed-and-apis",
+      "order": 13,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-interview-framework": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u2-framework",
+      "order": 14,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-requirements": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u2-framework",
+      "order": 15,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-api-design": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u2-framework",
+      "order": 16,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-data-model": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u2-framework",
+      "order": 17,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-estimation-method": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u3-estimation",
+      "order": 18,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-qps-estimate": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "karan-sd",
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u3-estimation",
+      "order": 19,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-storage-estimate": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u3-estimation",
+      "order": 20,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-bandwidth-estimate": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u3-estimation",
+      "order": 21,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-server-memory-estimate": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1825,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.6,
+          "lens_reason": "Useful polish that impresses interviewers, but not one of the three core capacity figures."
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u3-estimation",
+      "order": 22,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-high-level-design": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u4-design-flow",
+      "order": 23,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-bottlenecks": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd",
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u4-design-flow",
+      "order": 24,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-timed-walkthrough": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "awesome-sd",
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u4-design-flow",
+      "order": 25,
+      "status": "planned",
+      "badges": [
+        "sheet",
+        "roadmap.sh"
+      ]
+    },
+    "sd-performance-vs-scalability": {
+      "topic_version": 1,
+      "tier": "recommended",
+      "why": {
+        "rule": "score",
+        "score": 0.6075,
+        "terms": {
+          "spine": 1,
+          "support": 0.75,
+          "fanout": 0,
+          "lens": 0.6,
+          "lens_reason": "Interviewers expect you to tell 'slow' apart from 'does not scale' before you propose fixes."
+        },
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u5-scale-out",
+      "order": 26,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-vertical-horizontal-scaling": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "karan-sd",
+          "sd-primer",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u5-scale-out",
+      "order": 27,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-stateless-services": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u5-scale-out",
+      "order": 28,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-load-balancers": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u5-scale-out",
+      "order": 29,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-lb-algorithms": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u5-scale-out",
+      "order": 30,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-l4-vs-l7": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u5-scale-out",
+      "order": 31,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-reverse-proxy": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "via": [
+          "sd-api-gateway"
+        ],
+        "sources": [
+          "sd-primer",
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u5-scale-out",
+      "order": 32,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-cdn": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u6-edge-gateway",
+      "order": 33,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-push-pull-cdn": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "sd-primer",
+          "roadmap-system-design",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u6-edge-gateway",
+      "order": 34,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "sd-api-gateway": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd",
+          "roadmap-system-design",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u6-edge-gateway",
+      "order": 35,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh",
+        "sheet"
+      ]
+    },
+    "sd-service-discovery": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.205,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.4,
+          "lens_reason": "Comes up in microservice deep dives, where a one-line mention is usually enough."
+        },
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u6-edge-gateway",
+      "order": 36,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-rate-limiting": {
+      "topic_version": 1,
+      "tier": "recommended",
+      "why": {
+        "rule": "score",
+        "score": 0.5575,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.75,
+          "fanout": 0.4,
+          "lens": 0.75,
+          "lens_reason": "'Design a rate limiter' is a classic prompt, and rate limits appear in most API designs."
+        },
+        "sources": [
+          "karan-sd",
+          "roadmap-system-design",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u7-protect-assemble",
+      "order": 37,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh",
+        "sheet"
+      ]
+    },
+    "sd-token-bucket": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2525,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0.2,
+          "lens": 0.7,
+          "lens_reason": "The default answer to 'which rate-limiting algorithm?', and interviewers like seeing it worked through."
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u7-protect-assemble",
+      "order": 38,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-rate-limit-algorithms": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1725,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.55,
+          "lens_reason": "Useful when the prompt is 'design a rate limiter'; elsewhere, naming one algorithm is enough."
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u7-protect-assemble",
+      "order": 39,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-distributed-rate-limiting": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2075,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0.1,
+          "lens": 0.6,
+          "lens_reason": "The usual deep-dive follow-up once you put a rate limiter on a scaled-out gateway."
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u7-protect-assemble",
+      "order": 40,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-scale-to-millions": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u7-protect-assemble",
+      "order": 41,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-cache-basics": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-system-design",
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u8-cache-fundamentals",
+      "order": 42,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-cache-layers": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "sd-primer",
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u8-cache-fundamentals",
+      "order": 43,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "sd-cache-aside": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "sd-primer",
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u8-cache-fundamentals",
+      "order": 44,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "sd-cache-invalidation-ttl": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "karan-sd",
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u8-cache-fundamentals",
+      "order": 45,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-read-write-through": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "sd-primer",
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u9-write-strategies",
+      "order": 46,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-write-behind-around": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.245,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.6,
+          "lens_reason": "Named in interviews mainly as alternatives you can rule in or out"
+        },
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u9-write-strategies",
+      "order": 47,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-refresh-ahead": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.325,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.4,
+          "lens_reason": "A nice-to-name option for hot read paths, rarely required"
+        },
+        "sources": [
+          "sd-primer",
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u9-write-strategies",
+      "order": 48,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "sd-choose-cache-strategy": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "awesome-sd",
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u9-write-strategies",
+      "order": 49,
+      "status": "planned",
+      "badges": [
+        "sheet",
+        "book"
+      ]
+    },
+    "sd-eviction-lru": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.245,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.6,
+          "lens_reason": "LRU is a frequent coding follow-up; policies rarely decide a design"
+        },
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u10-scaling-caches",
+      "order": 50,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-distributed-cache": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u10-scaling-caches",
+      "order": 51,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-hot-keys-thundering-herd": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.265,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.7,
+          "lens_reason": "A favourite deep-dive question once your design has a cache tier"
+        },
+        "sources": [
+          "awesome-sd",
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u10-scaling-caches",
+      "order": 52,
+      "status": "planned",
+      "badges": [
+        "sheet",
+        "book"
+      ]
+    },
+    "sd-relational-acid": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "sd-primer",
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u11-relational",
+      "order": 53,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-database-indexes": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.3275,
+        "terms": {
+          "spine": 0,
+          "support": 0.75,
+          "fanout": 0,
+          "lens": 0.7,
+          "lens_reason": "Interviewers expect you to name the index behind each hot query in your data model and admit its write cost."
+        },
+        "sources": [
+          "sd-primer",
+          "awesome-sd",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u11-relational",
+      "order": 54,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-normalization": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2125,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0.2,
+          "lens": 0.5,
+          "lens_reason": "Useful vocabulary for the data-model step; interviews rarely ask for normal forms by name."
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u11-relational",
+      "order": 55,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-denormalization": {
+      "topic_version": 1,
+      "tier": "recommended",
+      "why": {
+        "rule": "score",
+        "score": 0.4825,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.75,
+          "fanout": 0.1,
+          "lens": 0.75,
+          "lens_reason": "Read-heavy interview prompts almost always end with a denormalized read model; you must name its cost."
+        },
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u11-relational",
+      "order": 56,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-nosql-base": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u12-nosql",
+      "order": 57,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-key-value-store": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u12-nosql",
+      "order": 58,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-document-store": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u12-nosql",
+      "order": 59,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-wide-column-store": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u12-nosql",
+      "order": 60,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-graph-database": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.325,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.4,
+          "lens_reason": "Rarely the main store in an interview; worth one sentence when a prompt is about relationships."
+        },
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u12-nosql",
+      "order": 61,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-object-storage": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u12-nosql",
+      "order": 62,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-sql-vs-nosql": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u12-nosql",
+      "order": 63,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-replication-leader-follower": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u13-replication",
+      "order": 64,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-sync-async-replication": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u13-replication",
+      "order": 65,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-replication-lag": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "via": [
+          "sd-consistency-models"
+        ],
+        "sources": [
+          "karan-sd",
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u13-replication",
+      "order": 66,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-multi-leader-replication": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.235,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.55,
+          "lens_reason": "Comes up for multi-region prompts; most designs stay single-leader, so know when not to use it."
+        },
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u13-replication",
+      "order": 67,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-consistency-models": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u14-consistency",
+      "order": 68,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-cap-theorem": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u14-consistency",
+      "order": 69,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-quorum": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "karan-sd",
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u14-consistency",
+      "order": 70,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-partitioning-basics": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "karan-sd",
+          "roadmap-system-design",
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u15-partitioning",
+      "order": 71,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "sd-sharding-strategies": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u15-partitioning",
+      "order": 72,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-shard-key": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u15-partitioning",
+      "order": 73,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-consistent-hashing": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u15-partitioning",
+      "order": 74,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-virtual-nodes": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2075,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0.1,
+          "lens": 0.6,
+          "lens_reason": "The usual follow-up after consistent hashing: 'how do you avoid uneven load?'"
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u15-partitioning",
+      "order": 75,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-storage-design-choice": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u15-partitioning",
+      "order": 76,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-sync-vs-async": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u16-messaging",
+      "order": 77,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-message-queues": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "sd-primer",
+          "roadmap-system-design",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u16-messaging",
+      "order": 78,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "sd-task-queues-background-jobs": {
+      "topic_version": 1,
+      "tier": "recommended",
+      "why": {
+        "rule": "score",
+        "score": 0.64,
+        "terms": {
+          "spine": 1,
+          "support": 0.5,
+          "fanout": 0.3,
+          "lens": 0.7,
+          "lens_reason": "Video processing, notifications and crawlers all rely on workers pulling jobs; interviewers expect you to name them."
+        },
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u16-messaging",
+      "order": 79,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-back-pressure": {
+      "topic_version": 1,
+      "tier": "recommended",
+      "why": {
+        "rule": "score",
+        "score": 0.4175,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.75,
+          "fanout": 0,
+          "lens": 0.55,
+          "lens_reason": "A strong bottleneck answer: says what happens when the queue you added can't keep up."
+        },
+        "sources": [
+          "sd-primer",
+          "roadmap-system-design",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u16-messaging",
+      "order": 80,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "sd-pub-sub": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "roadmap-system-design",
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u16-messaging",
+      "order": 81,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-event-streaming": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.315,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0.2,
+          "lens": 0.7,
+          "lens_reason": "Interviewers often say 'Kafka' expecting you to know partitions, offsets and per-partition ordering."
+        },
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u16-messaging",
+      "order": 82,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-delivery-guarantees": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u17-delivery",
+      "order": 83,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-idempotency": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "roadmap-system-design",
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u17-delivery",
+      "order": 84,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-idempotency-keys": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u17-delivery",
+      "order": 85,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-dead-letter-queues": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2075,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0.1,
+          "lens": 0.6,
+          "lens_reason": "A quick, credible answer to 'what if a message keeps failing?' in reliability deep dives."
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u17-delivery",
+      "order": 86,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-polling-long-polling": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "via": [
+          "sd-websockets"
+        ],
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u18-realtime",
+      "order": 87,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-websockets": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u18-realtime",
+      "order": 88,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-server-sent-events": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1725,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.55,
+          "lens_reason": "Lets you justify the push mechanism instead of reflexively saying WebSockets."
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u18-realtime",
+      "order": 89,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-realtime-at-scale": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u18-realtime",
+      "order": 90,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-fan-out": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd",
+          "sd-primer",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u19-data-flow",
+      "order": 91,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-change-data-capture": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1625,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.5,
+          "lens_reason": "A senior-sounding fix for keeping caches and search indexes consistent with the database."
+        },
+        "sources": [
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u19-data-flow",
+      "order": 92,
+      "status": "planned",
+      "badges": [
+        "sheet"
+      ]
+    },
+    "sd-cqrs-event-sourcing": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.325,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.4,
+          "lens_reason": "Comes up as a named pattern in senior interviews; enough to recognise it and know when not to use it."
+        },
+        "sources": [
+          "roadmap-system-design",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u19-data-flow",
+      "order": 93,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-availability-nines": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u20-availability",
+      "order": 94,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-availability-series-parallel": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u20-availability",
+      "order": 95,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-reliability-fault-tolerance": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.235,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.55,
+          "lens_reason": "Precise vocabulary helps you state non-functional requirements crisply."
+        },
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u20-availability",
+      "order": 96,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-single-points-of-failure": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "awesome-sd",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u20-availability",
+      "order": 97,
+      "status": "planned",
+      "badges": [
+        "sheet",
+        "book"
+      ]
+    },
+    "sd-health-checks-heartbeats": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "via": [
+          "sd-failover"
+        ],
+        "sources": [
+          "roadmap-system-design",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u20-availability",
+      "order": 98,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "sheet"
+      ]
+    },
+    "sd-failover": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u20-availability",
+      "order": 99,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-timeouts": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "via": [
+          "sd-retry-backoff-jitter"
+        ],
+        "sources": [
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u21-resilience",
+      "order": 100,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "sd-retry-backoff-jitter": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u21-resilience",
+      "order": 101,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "sd-circuit-breaker": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "karan-sd",
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u21-resilience",
+      "order": 102,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "sd-bulkhead": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2725,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.45,
+          "lens_reason": "A good extra to name after a circuit breaker; rarely asked about on its own."
+        },
+        "sources": [
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u21-resilience",
+      "order": 103,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "sd-microservices": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.245,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.6,
+          "lens_reason": "Interviewers often ask whether to split services; you need the trade-off in one breath."
+        },
+        "sources": [
+          "karan-sd",
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u22-coordination",
+      "order": 104,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-two-phase-commit": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2325,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0.2,
+          "lens": 0.6,
+          "lens_reason": "Comes up when a design spans two databases; know why you usually avoid it."
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u22-coordination",
+      "order": 105,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-sagas": {
+      "topic_version": 1,
+      "tier": "recommended",
+      "why": {
+        "rule": "score",
+        "score": 0.41,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.5,
+          "fanout": 0.1,
+          "lens": 0.7,
+          "lens_reason": "The expected answer for cross-service payments and bookings in interviews."
+        },
+        "sources": [
+          "karan-sd",
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u22-coordination",
+      "order": 106,
+      "status": "planned",
+      "badges": [
+        "book",
+        "roadmap.sh"
+      ]
+    },
+    "sd-leader-election": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.3175,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.25,
+          "fanout": 0.1,
+          "lens": 0.55,
+          "lens_reason": "Asked when a design has one writer or one scheduler; split brain is the key word."
+        },
+        "sources": [
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u22-coordination",
+      "order": 107,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "sd-consensus": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.215,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.45,
+          "lens_reason": "Name-level knowledge is enough for most interviews; senior rounds may probe it."
+        },
+        "sources": [
+          "awesome-sd",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u22-coordination",
+      "order": 108,
+      "status": "planned",
+      "badges": [
+        "sheet",
+        "book"
+      ]
+    },
+    "sd-sla-slo-sli": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1825,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.6,
+          "lens_reason": "Turns vague 'highly available' requirements into numbers interviewers respect."
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u23-operations",
+      "order": 109,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-monitoring-observability": {
+      "topic_version": 1,
+      "tier": "recommended",
+      "why": {
+        "rule": "score",
+        "score": 0.4875,
+        "terms": {
+          "spine": 1,
+          "support": 0.25,
+          "fanout": 0.1,
+          "lens": 0.5,
+          "lens_reason": "A short monitoring mention closes a design answer well; depth is rarely probed."
+        },
+        "sources": [
+          "roadmap-system-design"
+        ]
+      },
+      "unit": "sd-u23-operations",
+      "order": 110,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "sd-distributed-tracing": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1325,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.35,
+          "lens_reason": "Worth naming when microservices appear in your design."
+        },
+        "sources": [
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u23-operations",
+      "order": 111,
+      "status": "planned",
+      "badges": [
+        "sheet"
+      ]
+    },
+    "sd-security-overview": {
+      "topic_version": 1,
+      "tier": "recommended",
+      "why": {
+        "rule": "score",
+        "score": 0.5875,
+        "terms": {
+          "spine": 1,
+          "support": 0.75,
+          "fanout": 0,
+          "lens": 0.5,
+          "lens_reason": "Interviewers expect one crisp sentence on where authentication and authorization happen; protocol flows are excluded."
+        },
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u23-operations",
+      "order": 112,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book"
+      ]
+    },
+    "sd-disaster-recovery": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.225,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.5,
+          "lens_reason": "Region-loss questions come up in senior rounds; RPO/RTO is the expected vocabulary."
+        },
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u23-operations",
+      "order": 113,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-reliability-review": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "roadmap-system-design",
+          "sd-primer",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u23-operations",
+      "order": 114,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-bloom-filter": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1975,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0.1,
+          "lens": 0.55,
+          "lens_reason": "Interviewers often bring it up in crawler, dedup and storage deep dives. It is a cheap way to show depth."
+        },
+        "sources": [
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u24-core-cases",
+      "order": 115,
+      "status": "planned",
+      "badges": [
+        "sheet"
+      ]
+    },
+    "sd-case-url-shortener": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd",
+          "sd-primer",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u24-core-cases",
+      "order": 116,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-case-rate-limiter": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.275,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.75,
+          "lens_reason": "A frequent standalone prompt, and a common deep dive inside other designs."
+        },
+        "sources": [
+          "awesome-sd",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u24-core-cases",
+      "order": 117,
+      "status": "planned",
+      "badges": [
+        "sheet",
+        "book"
+      ]
+    },
+    "sd-case-kv-store": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.255,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.65,
+          "lens_reason": "Common at mid and senior levels. It checks replication, quorum and hashing together."
+        },
+        "sources": [
+          "awesome-sd",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u24-core-cases",
+      "order": 118,
+      "status": "planned",
+      "badges": [
+        "sheet",
+        "book"
+      ]
+    },
+    "sd-case-web-crawler": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1825,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.6,
+          "lens_reason": "A classic prompt that tests queues, deduplication and politeness. It comes up less often than feed or chat."
+        },
+        "sources": [
+          "sd-primer"
+        ]
+      },
+      "unit": "sd-u24-core-cases",
+      "order": 119,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-case-search-autocomplete": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1825,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.6,
+          "lens_reason": "A popular prompt. It rewards knowing the trie plus offline aggregation pattern."
+        },
+        "sources": [
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u24-core-cases",
+      "order": 120,
+      "status": "planned",
+      "badges": [
+        "sheet"
+      ]
+    },
+    "sd-case-news-feed": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "sd-primer",
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u25-social-realtime",
+      "order": 121,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-case-photo-sharing": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.29,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0.1,
+          "lens": 0.7,
+          "lens_reason": "A common prompt that reuses feed design and shows a clean media upload path."
+        },
+        "sources": [
+          "awesome-sd",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u25-social-realtime",
+      "order": 122,
+      "status": "planned",
+      "badges": [
+        "sheet",
+        "book"
+      ]
+    },
+    "sd-case-chat": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u25-social-realtime",
+      "order": 123,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-case-video-streaming": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.275,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.75,
+          "lens_reason": "A frequent prompt. Most of the marks come from the CDN and transcoding pipeline."
+        },
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u26-media-location",
+      "order": 124,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-geohash": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u26-media-location",
+      "order": 125,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-quadtree": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1625,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.5,
+          "lens_reason": "Often mentioned as the alternative to geohash. Knowing the trade-off is usually enough."
+        },
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u26-media-location",
+      "order": 126,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-case-ride-hailing": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u26-media-location",
+      "order": 127,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-case-notification-service": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.265,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.7,
+          "lens_reason": "A common mid-level prompt that tests queues, retries and deduplication."
+        },
+        "sources": [
+          "awesome-sd",
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u27-reliable-money",
+      "order": 128,
+      "status": "planned",
+      "badges": [
+        "sheet",
+        "book"
+      ]
+    },
+    "sd-case-payment-system": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.2225,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.8,
+          "lens_reason": "Increasingly common, and it is the best prompt for showing correctness under failure. Enrichment: idempotency and retries themselves are taught in earlier stages."
+        },
+        "sources": [
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u27-reliable-money",
+      "order": 129,
+      "status": "planned",
+      "badges": [
+        "sheet"
+      ]
+    },
+    "sd-case-ticket-booking": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1925,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.65,
+          "lens_reason": "Booking prompts (Ticketmaster, Airbnb, flights) are popular, and contention is the deep dive interviewers expect."
+        },
+        "sources": [
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u27-reliable-money",
+      "order": 130,
+      "status": "planned",
+      "badges": [
+        "sheet"
+      ]
+    },
+    "sd-mock-method": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "sd-primer",
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u28-mocks",
+      "order": 131,
+      "status": "planned",
+      "badges": [
+        "book",
+        "sheet"
+      ]
+    },
+    "sd-mock-url-shortener": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u28-mocks",
+      "order": 132,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-mock-news-feed": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u28-mocks",
+      "order": 133,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-mock-chat": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u28-mocks",
+      "order": 134,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-mock-ride-hailing": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "karan-sd"
+        ]
+      },
+      "unit": "sd-u28-mocks",
+      "order": 135,
+      "status": "planned",
+      "badges": [
+        "book"
+      ]
+    },
+    "sd-mock-unseen-prompt": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o6",
+        "sources": [
+          "awesome-sd"
+        ]
+      },
+      "unit": "sd-u28-mocks",
+      "order": 136,
+      "status": "planned",
+      "badges": [
+        "sheet"
+      ]
+    }
+  },
+  "groups": {},
+  "cadence": {
+    "recall_thresholds": [
+      10,
+      15,
+      20,
+      30
+    ],
+    "recall_repeat": 30,
+    "small_course": false,
+    "mocks": "end+every-2-stages",
+    "interview_rounds": true
+  },
+  "resolution": {
+    "units_cut_for": [
+      "sd-p1"
+    ],
+    "written": [
+      "sd-u0-request-path",
+      "sd-u1-speed-and-apis"
+    ]
+  },
+  "overrides": []
+}

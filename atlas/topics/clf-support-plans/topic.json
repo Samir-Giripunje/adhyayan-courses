@@ -1,0 +1,77 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-support-plans",
+  "version": 1,
+  "title": "AWS Support plans today: Basic to Unified Operations",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-basic-support",
+      "version": 1,
+      "statement": "Basic Support is free for every account and includes 24/7 account and billing customer service, documentation, re:Post, the Health Dashboard and core Trusted Advisor checks, but no technical support cases."
+    },
+    {
+      "id": "kc-business-support-plus",
+      "version": 1,
+      "statement": "Business Support+ is the entry paid plan in AWS's current Support lineup, giving 24/7 technical support and a response target of under 30 minutes for critical cases such as a business-critical system being down."
+    },
+    {
+      "id": "kc-enterprise-support-plan",
+      "version": 1,
+      "statement": "Enterprise Support targets a response in under 15 minutes when a business-critical system is down and includes a designated technical account manager."
+    },
+    {
+      "id": "kc-unified-operations",
+      "version": 1,
+      "statement": "Unified Operations is the top Support tier for mission-critical workloads, targeting a response within 5 minutes on critical incidents from an Incident Management Engineer."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-trusted-advisor",
+    "clf-health-dashboard"
+  ],
+  "confusable_with": [
+    "clf-legacy-support-plans",
+    "clf-tam-support-center"
+  ],
+  "introduces": [
+    "support plans",
+    "basic support",
+    "business support plus",
+    "enterprise support",
+    "unified operations",
+    "incident management engineer",
+    "support response time"
+  ],
+  "uses": [
+    "trusted advisor",
+    "trusted advisor check",
+    "health dashboard"
+  ],
+  "problem_ideas": [
+    "Build the current plan ladder from memory: Basic, Business Support+, Enterprise Support, Unified Operations, each with its critical-response target.",
+    "A startup needs 24/7 technical help with a 30-minute target when its checkout is down, at the lowest price: which plan?",
+    "A bank needs a response within 15 minutes and one named AWS engineer: which plan?",
+    "A trading platform wants an Incident Management Engineer engaged within 5 minutes of a critical outage: which plan?",
+    "Spot the false statement: 'Basic Support lets you open technical support cases.'",
+    "A hobbyist's account has no paid plan: list three things Basic Support still gives them."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-3-identify-aws-technica/aws-support-plans"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-3-identify-aws-technica/task-statement-4-3-identify-aws-technica"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-8-identify-services-fro/customer-enablement-services-for-example"
+    }
+  ],
+  "status": "stub"
+}

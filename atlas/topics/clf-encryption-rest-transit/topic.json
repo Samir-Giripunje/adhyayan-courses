@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-encryption-rest-transit",
+  "version": 1,
+  "title": "Encryption at rest and in transit",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-enc-at-rest",
+      "version": 1,
+      "statement": "Encryption at rest protects stored data, such as EBS volumes, S3 objects and RDS databases, so a copied disk, snapshot or backup can't be read without the key."
+    },
+    {
+      "id": "kc-enc-in-transit",
+      "version": 1,
+      "statement": "Encryption in transit protects data moving across a network, usually with TLS (HTTPS) for client traffic or IPsec for VPN tunnels."
+    },
+    {
+      "id": "kc-enc-customer-responsibility",
+      "version": 1,
+      "statement": "Under the shared responsibility model, AWS provides the encryption features and some services encrypt by default (S3 has encrypted every new object since January 2023). The customer remains responsible for deciding how data is encrypted and who may use the keys."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-shared-responsibility-by-service"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "encryption at rest",
+    "encryption in transit",
+    "tls"
+  ],
+  "uses": [
+    "ebs",
+    "s3",
+    "rds",
+    "ipsec",
+    "shared responsibility model"
+  ],
+  "problem_ideas": [
+    "Label each as at rest or in transit: an HTTPS checkout page, an encrypted EBS snapshot, a Site-to-Site VPN tunnel, an S3 object with SSE-KMS.",
+    "A laptop on hotel Wi-Fi uploads files to S3 over HTTP. Which kind of encryption is missing?",
+    "Who is responsible for turning on encryption for an RDS database: AWS or the customer?",
+    "An attacker steals an unencrypted EBS snapshot shared publicly by mistake. Which control would have made it useless?",
+    "Identify the false statement: 'Because AWS encrypts S3 by default, customers have no encryption responsibilities.'",
+    "A healthcare app must encrypt data both in the database and between the browser and the load balancer. List the two controls."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-2-understand-aws-cloud-/benefits-of-cloud-security-for-example-e"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-2-understand-aws-cloud-/identifying-encryption-options-for-examp"
+    }
+  ],
+  "status": "stub"
+}

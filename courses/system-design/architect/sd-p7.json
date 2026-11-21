@@ -1,0 +1,1749 @@
+{
+  "stage": {
+    "id": "sd-p7",
+    "title": "Reliability, availability and coordination",
+    "outcome": [
+      "o5",
+      "o6"
+    ],
+    "assumes": [
+      "load balancer",
+      "replication",
+      "leader-follower replication",
+      "quorum",
+      "message queue",
+      "idempotency",
+      "retries",
+      "transaction",
+      "consistent hashing"
+    ],
+    "provides": [
+      "availability nines",
+      "availability in series",
+      "availability in parallel",
+      "single point of failure",
+      "failover",
+      "active-passive",
+      "active-active",
+      "fault tolerance",
+      "retry with backoff",
+      "jitter",
+      "circuit breaker",
+      "bulkhead",
+      "timeout",
+      "health check",
+      "heartbeat",
+      "leader election",
+      "consensus",
+      "two-phase commit",
+      "saga",
+      "sla",
+      "slo",
+      "sli",
+      "monitoring",
+      "distributed tracing",
+      "disaster recovery",
+      "rpo",
+      "rto",
+      "microservices"
+    ]
+  },
+  "sections": [
+    {
+      "id": "availability",
+      "title": "Availability math, redundancy and failover",
+      "rank": 1,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "availability-patterns"
+      }
+    },
+    {
+      "id": "resilience",
+      "title": "Resilience patterns between services",
+      "rank": 2,
+      "source_ref": {
+        "source": "roadmap-system-design",
+        "section": "high-availability"
+      }
+    },
+    {
+      "id": "coordination",
+      "title": "Microservices, distributed transactions and coordination",
+      "rank": 3,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "sagas"
+      }
+    },
+    {
+      "id": "operations",
+      "title": "SLOs, observability, security, disaster recovery and failure reviews",
+      "rank": 4,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "sla"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "sd-availability-nines",
+      "title": "Availability in nines and downtime budgets",
+      "size": "standard",
+      "est_min": 20,
+      "section": "availability",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-availability-definition",
+          "statement": "Availability is the fraction of time (or of requests) a system serves successfully: uptime / (uptime + downtime)."
+        },
+        {
+          "id": "kc-nines-downtime",
+          "statement": "99.9% availability allows about 8.77 hours of downtime per year (about 43.8 minutes per month); each extra nine cuts the allowed downtime by 10×."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "The o5 product ends in an availability figure expressed in nines."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-availability-series-parallel"
+      ],
+      "confusable_with": [
+        "sd-sla-slo-sli"
+      ],
+      "introduces": [
+        "availability nines",
+        "downtime budget"
+      ],
+      "uses": [],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "availability-patterns/availability-in-numbers"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "availability-patterns/99-9-availability-three-9s"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "the-nine-s-of-availability/the-nine-s-of-availability"
+        }
+      ],
+      "problem_ideas": [
+        "Convert 99.95% into minutes of allowed downtime per month",
+        "A service was down 4 hours last year: how many nines did it achieve?",
+        "How much downtime per week does four nines allow?",
+        "A deploy causes a 2-minute outage each release; how many releases per month fit in a 99.99% budget?",
+        "Request-based: 1.2 billion requests, 300,000 failed. What is the availability?",
+        "Rank 99.9%, 99.95% and 99.99% by yearly downtime and give each figure"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Time-based vs request-based availability and why they diverge"
+        },
+        {
+          "kind": "edge",
+          "title": "Planned maintenance: does it count against availability?"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Interviewers expect you to translate 'highly available' into a nines figure and a downtime budget."
+      }
+    },
+    {
+      "id": "sd-availability-series-parallel",
+      "title": "Availability in series and in parallel",
+      "size": "standard",
+      "est_min": 28,
+      "section": "availability",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-avail-series",
+          "statement": "Components in series (all must work) have availability equal to the probability that all of them are up at once; only when their failures are independent is this the product of their availabilities, so two independent 99.9% components give about 99.8%."
+        },
+        {
+          "id": "kc-avail-parallel",
+          "statement": "Redundant components in parallel (any one suffices) have availability 1 − (1 − A)^n when their failures are independent: two independent 99.9% replicas give 99.9999%."
+        },
+        {
+          "id": "kc-avail-independence",
+          "statement": "Both the series product and the parallel formula assume independent failures; a shared dependency such as one power feed, one region or one config push correlates failures, so replicas fail together and the parallel figure overstates availability, and the shared dependency must be counted as its own component in series."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Computing the availability figure for a design requires combining tiers in series and in parallel."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-availability-nines",
+          "reason": "The results are stated and compared in nines."
+        }
+      ],
+      "suggests": [
+        "sd-single-points-of-failure"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "availability in series",
+        "availability in parallel"
+      ],
+      "uses": [
+        "availability nines",
+        "load balancer"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "availability-patterns/availability-in-parallel-vs-in-sequence"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "availability-in-sequence-vs-parallel/availability-in-sequence-vs-parallel"
+        }
+      ],
+      "problem_ideas": [
+        "LB (99.99%) → app (99.9%) → DB (99.95%) in series, failures independent: compute end-to-end availability",
+        "Three app servers at 99% each in parallel: what is the tier's availability?",
+        "How many 99% replicas do you need to reach five nines for one tier?",
+        "Adding a cache in series at 99.9% to a 99.95% path: what happens to availability?",
+        "Two replicas in the same rack fail together 50% of the time; why does the parallel formula overstate availability?",
+        "Two 99.99% replicas in parallel both depend on one 99.9% region: model the region in series and compute the result"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Partial redundancy: k-of-n availability"
+        },
+        {
+          "kind": "edge",
+          "title": "Correlated failures and blast radius"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "The most common reliability number interviewers ask you to compute on a whiteboard."
+      }
+    },
+    {
+      "id": "sd-reliability-fault-tolerance",
+      "title": "Reliability, high availability and fault tolerance",
+      "size": "standard",
+      "est_min": 18,
+      "section": "availability",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-reliability-vs-availability",
+          "statement": "Availability measures whether the system is up when asked; reliability measures whether it performs correctly over time, so a system can be up yet unreliable when it returns wrong results."
+        },
+        {
+          "id": "kc-ha-vs-fault-tolerance",
+          "statement": "High availability minimises downtime by recovering quickly and accepts a brief blip during failover; fault tolerance keeps operating with no interruption through a failure, at higher cost through full redundancy."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-availability-nines"
+      ],
+      "confusable_with": [
+        "sd-failover"
+      ],
+      "introduces": [
+        "reliability",
+        "high availability",
+        "fault tolerance"
+      ],
+      "uses": [
+        "availability nines"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "availability-vs-reliability/availability-vs-reliability"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "high-availability-vs-fault-tolerance/high-availability-vs-fault-tolerance"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "core-concepts/fault-tolerance"
+        }
+      ],
+      "problem_ideas": [
+        "A payment API is up 99.99% but double-charges 0.1% of users: is it available, reliable, both?",
+        "Classify: an aircraft flight computer with triple redundancy vs a web app with a standby DB",
+        "A 20-second failover pause: high availability or fault tolerance?",
+        "Which costs more for a chat service, and when is it worth it?",
+        "A search service returns stale results during an outage: which property degraded?",
+        "Rewrite the NFR 'must never go down' into a precise availability and reliability requirement"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "MTBF and MTTR: availability as MTBF / (MTBF + MTTR)"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Precise vocabulary helps you state non-functional requirements crisply."
+      }
+    },
+    {
+      "id": "sd-single-points-of-failure",
+      "title": "Finding and removing single points of failure",
+      "size": "standard",
+      "est_min": 20,
+      "section": "availability",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-spof-definition",
+          "statement": "A single point of failure is any component whose failure alone takes the whole system down; find them by tracing the request path and asking what happens if each component dies."
+        },
+        {
+          "id": "kc-spof-redundancy",
+          "statement": "Remove a single point of failure by adding redundancy, such as a second load balancer sharing a floating IP, database replicas or several app servers, including often-forgotten ones such as DNS, a single region or one config service."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "o5 asks for a list of single points of failure in a design."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-availability-series-parallel",
+          "reason": "Redundancy is justified by the parallel availability formula."
+        }
+      ],
+      "suggests": [
+        "sd-load-balancers"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "single point of failure",
+        "redundancy"
+      ],
+      "uses": [
+        "availability in series",
+        "availability in parallel",
+        "load balancer",
+        "replication"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "core-concepts/spof"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "redundant-load-balancers/redundant-load-balancers"
+        }
+      ],
+      "problem_ideas": [
+        "List every SPOF in: one LB → 3 app servers → one Postgres primary",
+        "A key generation service in a URL shortener: is it a SPOF and how do you fix it?",
+        "The whole system runs in one region; what fails if that region goes down?",
+        "A single Redis instance holds sessions: what breaks when it restarts?",
+        "Spot the hidden SPOF: a shared config file loaded from one NFS server",
+        "Order four SPOF fixes by cost-effectiveness for a startup with a 99.9% target"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Hidden SPOFs: certificates, DNS providers, CI/CD and humans"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "'What are the single points of failure?' is a standard interviewer follow-up."
+      }
+    },
+    {
+      "id": "sd-health-checks-heartbeats",
+      "title": "Health checks and heartbeats",
+      "size": "standard",
+      "est_min": 20,
+      "section": "availability",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-health-check-lb",
+          "statement": "A load balancer sends periodic health checks to each backend, removes a backend from the pool after N consecutive failures and adds it back after it passes again."
+        },
+        {
+          "id": "kc-heartbeat-timeout",
+          "statement": "With heartbeats, a node is declared dead after its heartbeats are missing for a timeout; a short timeout detects failures faster but causes false positives during slow networks or GC pauses."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-load-balancers"
+      ],
+      "confusable_with": [
+        "sd-monitoring-observability"
+      ],
+      "introduces": [
+        "health check",
+        "heartbeat",
+        "failure detection"
+      ],
+      "uses": [
+        "load balancer",
+        "backend pool"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "high-availability/health-endpoint-monitoring"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "distributed-system-and-microservices/heartbeats"
+        }
+      ],
+      "problem_ideas": [
+        "Checks every 5 s with 3 failures to evict: worst-case seconds of traffic sent to a dead server",
+        "A health endpoint that checks the database: what happens to the pool when the DB blips?",
+        "Shallow vs deep health checks: pick one for a stateless API and justify",
+        "A JVM GC pause of 8 s with a 5 s heartbeat timeout: what goes wrong?",
+        "Design heartbeat intervals for 10,000 WebSocket servers reporting to a registry",
+        "Why should a node be added back only after several consecutive passing checks?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Phi-accrual failure detectors"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Gossip-based membership"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "The mechanism behind every failover answer; interviewers probe how failures are detected."
+      }
+    },
+    {
+      "id": "sd-failover",
+      "title": "Failover: active-passive and active-active",
+      "size": "standard",
+      "est_min": 28,
+      "section": "availability",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-active-passive",
+          "statement": "In active-passive failover a standby takes over the active node's role (often its IP) when heartbeats stop; downtime is detection time plus promotion time, and a hot standby recovers faster than a cold one."
+        },
+        {
+          "id": "kc-active-active",
+          "statement": "In active-active, all nodes serve traffic and a failed node's load is redistributed, so each node must keep enough headroom to absorb its share."
+        },
+        {
+          "id": "kc-failover-data-loss",
+          "statement": "Failing over to an asynchronously replicated database replica can lose the writes that had not yet replicated when the primary died."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Failover is the named fix for most single points of failure in o5."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-health-checks-heartbeats",
+          "reason": "Failover is triggered by health checks or missed heartbeats."
+        },
+        {
+          "topic": "sd-single-points-of-failure",
+          "reason": "Failover is presented as the fix for a single point of failure."
+        }
+      ],
+      "suggests": [
+        "sd-sync-async-replication",
+        "sd-disaster-recovery"
+      ],
+      "confusable_with": [
+        "sd-reliability-fault-tolerance"
+      ],
+      "introduces": [
+        "failover",
+        "active-passive",
+        "active-active",
+        "hot standby"
+      ],
+      "uses": [
+        "single point of failure",
+        "health check",
+        "heartbeat",
+        "leader-follower replication",
+        "asynchronous replication",
+        "dns"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "availability-patterns/fail-over"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "availability-patterns/active-passive"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "availability-patterns/active-active"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "configurations/configurations"
+        }
+      ],
+      "problem_ideas": [
+        "Two active-active servers each at 70% CPU: what happens when one fails?",
+        "Detection 15 s + promotion 30 s + DNS TTL 60 s: estimate user-visible downtime",
+        "Primary dies with 2 s of replication lag at 5,000 writes/s: how many writes may be lost?",
+        "Choose active-passive or active-active for a payment ledger database and justify",
+        "Cold vs warm vs hot standby: rank by cost and recovery time",
+        "How should clients find the new primary after failover: floating IP, DNS or service discovery?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Flapping: failing back and forth between nodes"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Multi-region active-active and conflict handling"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "The default answer to 'what if this server dies?' in every design interview."
+      }
+    },
+    {
+      "id": "sd-timeouts",
+      "title": "Timeouts and cascading failures",
+      "size": "standard",
+      "est_min": 18,
+      "section": "resilience",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-timeout-needed",
+          "statement": "Every remote call needs a timeout; without one, a hung dependency holds threads or connections until the caller's pool is exhausted and the failure cascades upstream."
+        },
+        {
+          "id": "kc-timeout-setting",
+          "statement": "Set a call's timeout from the dependency's tail latency (a little above its p99) and below the caller's own deadline, so the caller still has time to respond or fall back."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-latency-throughput"
+      ],
+      "confusable_with": [
+        "sd-circuit-breaker"
+      ],
+      "introduces": [
+        "timeout",
+        "cascading failure"
+      ],
+      "uses": [
+        "latency",
+        "tail latency",
+        "synchronous communication"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "resiliency/resiliency"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "performance-antipatterns/synchronous-i-o"
+        }
+      ],
+      "problem_ideas": [
+        "200 threads, a dependency hangs, 50 req/s arrive: how many seconds until the pool is exhausted?",
+        "A dependency's p99 is 120 ms; the API deadline is 500 ms with 3 downstream calls in sequence. Set timeouts.",
+        "Why is a 30-second default client timeout dangerous behind a 1-second user deadline?",
+        "Trace a cascading failure from a slow recommendations service to a down homepage",
+        "Should a timeout on a write be retried? What do you need to know?",
+        "Deadline propagation: what should service C do if only 20 ms remain of the request's budget?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Deadline propagation across service hops"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "Timeouts underpin retries and circuit breakers, which interviewers ask about directly."
+      }
+    },
+    {
+      "id": "sd-retry-backoff-jitter",
+      "title": "Retries with exponential backoff and jitter",
+      "size": "standard",
+      "est_min": 28,
+      "section": "resilience",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-retry-backoff",
+          "statement": "Exponential backoff doubles the wait between retries (for example 100 ms, 200 ms, 400 ms) up to a cap, giving a struggling dependency time to recover."
+        },
+        {
+          "id": "kc-retry-jitter",
+          "statement": "Jitter randomises each backoff delay (for example uniformly between 0 and the computed delay) so clients that failed together do not retry in synchronised waves."
+        },
+        {
+          "id": "kc-retry-safety",
+          "statement": "Retry only transient errors (timeouts, 503, 429) and only idempotent operations or calls carrying an idempotency key, with a cap on attempts so retries do not become a retry storm."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Retries with backoff are one of the fixes o5 explicitly names."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-timeouts",
+          "reason": "A retry is triggered by a timeout and must fit inside the caller's deadline."
+        },
+        {
+          "topic": "sd-idempotency",
+          "reason": "Whether a call is safe to retry depends on idempotency."
+        }
+      ],
+      "suggests": [
+        "sd-idempotency-keys",
+        "sd-hot-keys-thundering-herd"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "retry with backoff",
+        "jitter",
+        "retry storm"
+      ],
+      "uses": [
+        "timeout",
+        "retries",
+        "idempotency",
+        "idempotency key",
+        "thundering herd"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "security/retry"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "performance-antipatterns/retry-storm"
+        }
+      ],
+      "problem_ideas": [
+        "Write backoff_delays(base_ms, factor, cap_ms, attempts) returning the delay schedule",
+        "Add full jitter: return random delays in [0, computed] given a seeded RNG",
+        "Each of 3 layers retries 3 times: how many calls hit the database for one user request?",
+        "10,000 clients fail at t=0 and retry at exactly 1 s: sketch the load spike with and without jitter",
+        "Classify 400, 404, 409, 429, 500, 503 and a timeout as retryable or not",
+        "Retry a POST /payments safely: what must the client send?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Full vs equal vs decorrelated jitter"
+        },
+        {
+          "kind": "edge",
+          "title": "Retry budgets: capping retries as a fraction of traffic"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Interviewers expect 'retry with exponential backoff and jitter, on idempotent calls' word for word."
+      }
+    },
+    {
+      "id": "sd-circuit-breaker",
+      "title": "Circuit breakers: failing fast",
+      "size": "standard",
+      "est_min": 28,
+      "section": "resilience",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-cb-states",
+          "statement": "A circuit breaker stays closed (calls pass) until failures exceed a threshold, then opens (calls fail immediately without reaching the dependency), then after a cool-down goes half-open, where a few trial calls decide whether to close or reopen."
+        },
+        {
+          "id": "kc-cb-purpose",
+          "statement": "Failing fast while the breaker is open stops the caller from wasting threads on a dead dependency and gives the dependency room to recover, preventing a cascading failure."
+        },
+        {
+          "id": "kc-cb-fallback",
+          "statement": "While the breaker is open, the caller returns a fallback such as cached data, a default or a degraded response instead of an error, where the product allows it."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "The circuit breaker is one of the fixes o5 explicitly names."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-timeouts",
+          "reason": "Timeouts are the failures the breaker counts and the cascade it prevents."
+        }
+      ],
+      "suggests": [
+        "sd-retry-backoff-jitter",
+        "sd-bulkhead"
+      ],
+      "confusable_with": [
+        "sd-timeouts",
+        "sd-rate-limiting"
+      ],
+      "introduces": [
+        "circuit breaker",
+        "half-open state",
+        "fallback"
+      ],
+      "uses": [
+        "timeout",
+        "cascading failure",
+        "retry storm"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "why-do-we-need-circuit-breaking/why-do-we-need-circuit-breaking"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "states-2/states"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "high-availability/circuit-breaker"
+        }
+      ],
+      "problem_ideas": [
+        "Implement a CircuitBreaker class with closed/open/half-open states driven by a fake clock",
+        "Given a sequence of call results and timestamps, output the breaker state after each call",
+        "Threshold 50% failures over 20 calls, cool-down 30 s: trace a 2-minute outage",
+        "Pick a fallback for a product page when the reviews service's breaker is open",
+        "Why combine retries with a breaker, and in which order do they wrap the call?",
+        "A breaker per host vs per service: which isolates a single bad instance?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Sliding-window failure counting"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Load shedding and graceful degradation"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "A favourite deep-dive question about protecting a design from a failing dependency."
+      }
+    },
+    {
+      "id": "sd-bulkhead",
+      "title": "Bulkheads: isolating failure",
+      "size": "micro",
+      "est_min": 10,
+      "section": "resilience",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-bulkhead",
+          "statement": "A bulkhead gives each dependency or workload its own isolated pool of threads, connections or instances, so exhaustion in one cannot starve the others."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-circuit-breaker"
+      ],
+      "confusable_with": [
+        "sd-circuit-breaker"
+      ],
+      "introduces": [
+        "bulkhead"
+      ],
+      "uses": [
+        "cascading failure",
+        "circuit breaker"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "high-availability/bulkhead"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "security/bulkhead"
+        }
+      ],
+      "problem_ideas": [
+        "A 100-thread pool shared by payments and recommendations: split it with bulkheads",
+        "Separate worker pools for free and paid tenants: what failure does it contain?",
+        "Bulkhead or circuit breaker: which stops a slow dependency from taking all threads?",
+        "Size two connection pools given each dependency's QPS and latency using Little's law",
+        "A noisy-neighbour tenant floods a shared queue: apply the bulkhead idea",
+        "What does a bulkhead cost you in utilisation?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Cell-based architecture as a large-scale bulkhead"
+        }
+      ],
+      "lens": {
+        "score": 0.45,
+        "reason": "A good extra to name after a circuit breaker; rarely asked about on its own."
+      }
+    },
+    {
+      "id": "sd-microservices",
+      "title": "Microservices vs monoliths",
+      "size": "standard",
+      "est_min": 25,
+      "section": "coordination",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-microservices-def",
+          "statement": "Microservices split an application into independently deployable services, each owning its own data and communicating over the network through APIs or messages."
+        },
+        {
+          "id": "kc-microservices-tradeoffs",
+          "statement": "Microservices buy independent scaling and deployment at the cost of network latency, partial failures, distributed transactions and harder debugging, so a monolith is often the right starting point."
+        },
+        {
+          "id": "kc-distributed-monolith",
+          "statement": "Services that share one database or must be deployed together form a distributed monolith: they carry the costs of distribution without the independence."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-api-gateway",
+        "sd-service-discovery"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "microservices",
+        "monolith",
+        "distributed monolith"
+      ],
+      "uses": [
+        "api gateway",
+        "service discovery",
+        "synchronous communication",
+        "asynchronous communication"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "microservices/microservices"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "application-layer/microservices"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "monoliths/monoliths"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "beware-of-the-distributed-monolith/beware-of-the-distributed-monolith"
+        }
+      ],
+      "problem_ideas": [
+        "Split a ride-hailing app into services and name each one's data",
+        "A 5-engineer startup asks for microservices: argue for a modular monolith",
+        "Two services read and write the same orders table: diagnose the problem",
+        "One page load calls 8 services in series at 20 ms each: what latency does it add?",
+        "Which service boundary for an e-commerce checkout keeps transactions local?",
+        "When does independent scaling justify a separate service? Give a QPS-based example"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Modular monoliths and service boundaries"
+        },
+        {
+          "kind": "history",
+          "title": "From SOA and ESBs to microservices"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Interviewers often ask whether to split services; you need the trade-off in one breath."
+      }
+    },
+    {
+      "id": "sd-two-phase-commit",
+      "title": "Distributed transactions and two-phase commit",
+      "size": "standard",
+      "est_min": 25,
+      "section": "coordination",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-2pc-phases",
+          "statement": "In two-phase commit a coordinator first asks every participant to prepare (each votes yes only after durably recording its changes and holding locks), then sends commit if all voted yes and abort otherwise."
+        },
+        {
+          "id": "kc-2pc-blocking",
+          "statement": "Two-phase commit is blocking: if the coordinator fails after participants voted yes, they keep holding locks and cannot decide on their own until it recovers."
+        },
+        {
+          "id": "kc-2pc-when",
+          "statement": "Two-phase commit gives atomicity across stores at the cost of latency and availability, so it suits a few tightly coupled databases, not long-running business flows across services."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-relational-acid",
+          "reason": "2PC extends the atomicity of a local transaction across nodes."
+        }
+      ],
+      "suggests": [
+        "sd-microservices"
+      ],
+      "confusable_with": [
+        "sd-sagas"
+      ],
+      "introduces": [
+        "two-phase commit",
+        "distributed transaction",
+        "coordinator"
+      ],
+      "uses": [
+        "transaction",
+        "acid",
+        "microservices",
+        "single point of failure"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "why-do-we-need-distributed-transactions/why-do-we-need-distributed-transactions"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "two-phase-commit/phases"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "two-phase-commit/problems"
+        }
+      ],
+      "problem_ideas": [
+        "Trace 2PC message by message for a transfer between two bank shards",
+        "Participant B votes no: what does each participant do?",
+        "The coordinator crashes after collecting all yes votes: what state are the locks in?",
+        "Count network round trips for a 2PC commit across 3 participants",
+        "Why is 2PC a poor fit for book-flight + book-hotel + charge-card across companies?",
+        "Three-phase commit adds a pre-commit phase: what problem does it try to fix?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Three-phase commit and why it is rarely used"
+        },
+        {
+          "kind": "adjacent",
+          "title": "XA transactions in practice"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Comes up when a design spans two databases; know why you usually avoid it."
+      }
+    },
+    {
+      "id": "sd-sagas",
+      "title": "Sagas and compensating transactions",
+      "size": "standard",
+      "est_min": 28,
+      "section": "coordination",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-saga-def",
+          "statement": "A saga splits a distributed transaction into a sequence of local transactions, each paired with a compensating transaction that semantically undoes it if a later step fails."
+        },
+        {
+          "id": "kc-saga-orch-chor",
+          "statement": "In an orchestrated saga a central orchestrator tells each service what to do next; in a choreographed saga each service reacts to events from the previous step, with no central controller."
+        },
+        {
+          "id": "kc-saga-isolation",
+          "statement": "Unlike two-phase commit, a saga holds no locks across steps, so other requests can see intermediate states, and its steps and compensations must be idempotent because they may be retried."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-two-phase-commit",
+          "reason": "Sagas are defined and justified in contrast to two-phase commit."
+        }
+      ],
+      "suggests": [
+        "sd-change-data-capture",
+        "sd-idempotency-keys"
+      ],
+      "confusable_with": [
+        "sd-two-phase-commit"
+      ],
+      "introduces": [
+        "saga",
+        "compensating transaction",
+        "orchestration",
+        "choreography"
+      ],
+      "uses": [
+        "two-phase commit",
+        "distributed transaction",
+        "transaction",
+        "message queue",
+        "idempotency",
+        "transactional outbox"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "sagas/sagas"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "sagas/coordination"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "security/compensating-transaction"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "messaging/choreography"
+        }
+      ],
+      "problem_ideas": [
+        "Write the steps and compensations for order → reserve stock → charge card → ship",
+        "The charge step fails after stock was reserved: list the compensations that run",
+        "Choose orchestration or choreography for a 6-step travel booking and justify",
+        "A compensation itself fails: what should the saga do?",
+        "Two users see 'seat reserved' for the same seat mid-saga: which property did the saga give up?",
+        "Why does each saga step need an outbox or CDC to publish its event reliably?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Semantic locks and countermeasures for saga isolation"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Workflow engines for orchestration"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "The expected answer for cross-service payments and bookings in interviews."
+      }
+    },
+    {
+      "id": "sd-leader-election",
+      "title": "Leader election, split brain and fencing",
+      "size": "standard",
+      "est_min": 25,
+      "section": "coordination",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-leader-election-why",
+          "statement": "Leader election picks exactly one node to perform a role, such as accepting writes or running a scheduler, and picks a new one when heartbeats show the leader is gone."
+        },
+        {
+          "id": "kc-split-brain",
+          "statement": "Split brain happens when a network partition lets two nodes both believe they are leader; requiring votes from a majority prevents it because only one side of a partition can hold a majority."
+        },
+        {
+          "id": "kc-fencing-token",
+          "statement": "A leader holds a time-limited lease, and a fencing token (a number that increases with each new leader) lets storage reject writes from a stale former leader whose lease has expired."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-health-checks-heartbeats",
+          "reason": "Leader failure is detected through missed heartbeats."
+        }
+      ],
+      "suggests": [
+        "sd-failover",
+        "sd-consensus"
+      ],
+      "confusable_with": [
+        "sd-consensus"
+      ],
+      "introduces": [
+        "leader election",
+        "split brain",
+        "lease",
+        "fencing token"
+      ],
+      "uses": [
+        "heartbeat",
+        "leader-follower replication",
+        "failover",
+        "network partition"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "design-implementation/leader-election"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "security/leader-election"
+        }
+      ],
+      "problem_ideas": [
+        "A cron scheduler runs on 3 nodes: how do you make each job run once?",
+        "A 5-node cluster splits 3/2: which side may elect a leader, and why?",
+        "An old leader wakes from a 40 s GC pause and writes: how does a fencing token stop it?",
+        "Lease 10 s, heartbeat 3 s: worst-case time with no leader after a crash",
+        "Two database primaries accepted writes for 30 s: list the consequences",
+        "Why is an even number of voting nodes a poor choice?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Lease clocks and why clock skew matters"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Distributed locks built on leases"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Asked when a design has one writer or one scheduler; split brain is the key word."
+      }
+    },
+    {
+      "id": "sd-consensus",
+      "title": "Consensus in one idea: Raft and coordination services",
+      "size": "standard",
+      "est_min": 20,
+      "section": "coordination",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-consensus-def",
+          "statement": "Consensus algorithms such as Raft and Paxos let a cluster agree on a value or log order; a cluster of 2f+1 nodes tolerates f failures, so 5 nodes survive 2."
+        },
+        {
+          "id": "kc-consensus-use",
+          "statement": "Designs rarely implement consensus directly; they use a coordination service built on it, such as ZooKeeper or etcd, for leader election, locks and configuration."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-leader-election",
+          "reason": "Consensus is presented as the safe mechanism behind leader election."
+        },
+        {
+          "topic": "sd-quorum",
+          "reason": "Majority-based fault tolerance builds on quorum sizes."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-quorum",
+        "sd-leader-election"
+      ],
+      "introduces": [
+        "consensus",
+        "raft",
+        "coordination service"
+      ],
+      "uses": [
+        "leader election",
+        "quorum",
+        "split brain",
+        "network partition"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "distributed-system-and-microservices/consensus-algorithms"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "examples-15/apache-zookeeper"
+        }
+      ],
+      "problem_ideas": [
+        "How many node failures does a 3-node etcd cluster tolerate? A 4-node one?",
+        "Why do consensus clusters stay small (3–7 nodes) instead of 50?",
+        "Every write needs a majority acknowledgement across 3 regions 80 ms apart: estimate commit latency",
+        "Where would a URL shortener's key ranges be stored, and why a coordination service?",
+        "Raft in three steps: election, log replication, commit; put given events in order",
+        "Quorum replication vs consensus: what extra guarantee does consensus provide?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Raft terms, log matching and commit index"
+        },
+        {
+          "kind": "history",
+          "title": "Paxos and the FLP impossibility result"
+        }
+      ],
+      "lens": {
+        "score": 0.45,
+        "reason": "Name-level knowledge is enough for most interviews; senior rounds may probe it."
+      }
+    },
+    {
+      "id": "sd-sla-slo-sli",
+      "title": "SLAs, SLOs, SLIs and error budgets",
+      "size": "standard",
+      "est_min": 25,
+      "section": "operations",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-sli-slo-sla",
+          "statement": "An SLI is a measured indicator (for example the share of requests served under 300 ms), an SLO is the internal target for it (99.9%), and an SLA is the external contract with penalties, usually set looser than the SLO."
+        },
+        {
+          "id": "kc-error-budget",
+          "statement": "The error budget is 1 − SLO: at a 99.9% monthly SLO, about 43 minutes of downtime or 0.1% of requests may fail before releases should slow down."
+        },
+        {
+          "id": "kc-sli-from-nfr",
+          "statement": "SLIs should be chosen from the user's view of the stated non-functional requirements, such as availability, latency or freshness, so each SLO maps to one requirement."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-availability-nines",
+          "reason": "SLO targets and error budgets are expressed in nines and downtime."
+        }
+      ],
+      "suggests": [
+        "sd-requirements"
+      ],
+      "confusable_with": [
+        "sd-availability-nines"
+      ],
+      "introduces": [
+        "sla",
+        "slo",
+        "sli",
+        "error budget"
+      ],
+      "uses": [
+        "availability nines",
+        "downtime budget",
+        "latency",
+        "tail latency",
+        "non-functional requirements"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "sla/sla"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "slo/slo"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "sli/sli"
+        }
+      ],
+      "problem_ideas": [
+        "10 million requests this month, SLO 99.95%: how many failures are allowed?",
+        "Label: '99.9% uptime or 10% credit', 'p99 < 200 ms target', 'fraction of 2xx responses'",
+        "Half the monthly error budget was spent in week one: what should the team do?",
+        "Write two SLIs and SLOs for a chat app's message delivery",
+        "Why set the SLA looser than the SLO?",
+        "A dependency's SLA is 99.9%; can your service promise 99.99%?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Burn-rate alerting on error budgets"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Turns vague 'highly available' requirements into numbers interviewers respect."
+      }
+    },
+    {
+      "id": "sd-monitoring-observability",
+      "title": "Monitoring: metrics, logs, traces and alerts",
+      "size": "standard",
+      "est_min": 20,
+      "section": "operations",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-observability-signals",
+          "statement": "Observability rests on three signals: metrics (cheap numeric time series for dashboards and alerts), logs (detailed records of individual events) and traces (one request's path across services)."
+        },
+        {
+          "id": "kc-golden-signals",
+          "statement": "The four golden signals to monitor for any service are latency, traffic, errors and saturation, and alerts should fire on user-facing symptoms such as SLO burn rather than on every internal cause."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-sla-slo-sli"
+      ],
+      "confusable_with": [
+        "sd-health-checks-heartbeats"
+      ],
+      "introduces": [
+        "monitoring",
+        "metrics",
+        "structured logs",
+        "alerting",
+        "golden signals"
+      ],
+      "uses": [
+        "sli",
+        "slo",
+        "health check",
+        "throughput",
+        "latency"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "monitoring/monitoring"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "monitoring/instrumentation"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "monitoring/visualization-alerts"
+        }
+      ],
+      "problem_ideas": [
+        "Pick the right signal: count of 5xx per minute, one failed checkout's details, a slow request's path",
+        "Map four metrics of a queue worker to the golden signals",
+        "Why page on 'error rate above 2% for 5 minutes' instead of 'CPU above 80%'?",
+        "Estimate log volume: 50,000 req/s × 1 KB per log line, per day",
+        "Which dashboards would you name at the end of a URL shortener interview?",
+        "High-cardinality labels (user id) in metrics: what goes wrong?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Instrumentation: counters, gauges and histograms"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "A short monitoring mention closes a design answer well; depth is rarely probed."
+      }
+    },
+    {
+      "id": "sd-distributed-tracing",
+      "title": "Distributed tracing across services",
+      "size": "micro",
+      "est_min": 10,
+      "section": "operations",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-distributed-tracing",
+          "statement": "Distributed tracing propagates a trace id through every service call, and each hop records a span with its timings, so you can see which service made a request slow."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-monitoring-observability",
+          "reason": "Traces are introduced as one of the three observability signals."
+        }
+      ],
+      "suggests": [
+        "sd-microservices"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "distributed tracing",
+        "trace id",
+        "span"
+      ],
+      "uses": [
+        "microservices",
+        "latency",
+        "metrics",
+        "structured logs"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "distributed-system-and-microservices/distributed-tracing"
+        }
+      ],
+      "problem_ideas": [
+        "Given five spans with start and end times, find the service on the critical path",
+        "Where is the trace id created and how is it passed over HTTP and a message queue?",
+        "Sampling 1% of traces at 100,000 req/s: how many traces per second are stored?",
+        "Why can't per-service logs alone explain a slow checkout across 6 services?",
+        "A span shows 300 ms in a queue before a worker starts: what does that point to?",
+        "Join a trace with logs: which field makes it possible?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Head-based vs tail-based sampling"
+        }
+      ],
+      "lens": {
+        "score": 0.35,
+        "reason": "Worth naming when microservices appear in your design."
+      }
+    },
+    {
+      "id": "sd-security-overview",
+      "title": "Security overview: authn, authz, encryption, abuse",
+      "size": "standard",
+      "est_min": 28,
+      "section": "operations",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-authn-vs-authz",
+          "statement": "Authentication establishes who the caller is; authorization decides whether that identity may perform this action on this specific resource, so it must be checked by the service that owns the resource, not only at the edge."
+        },
+        {
+          "id": "kc-token-at-ingress",
+          "statement": "An API gateway validates the caller's signed access token once at ingress (signature, expiry and audience), rejects invalid requests with 401, and forwards the verified identity to internal services, which still enforce authorization and return 403 when access is denied."
+        },
+        {
+          "id": "kc-transport-and-abuse",
+          "statement": "Encrypt data in transit with TLS from client to edge and TLS or mTLS between internal services, and limit abuse with per-user or per-key rate limiting, input validation and least-privilege credentials for each service."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-api-gateway",
+          "reason": "Token validation at ingress is placed on the API gateway."
+        },
+        {
+          "topic": "sd-https-tls",
+          "reason": "Transport encryption builds on TLS, TLS termination and mTLS."
+        }
+      ],
+      "suggests": [
+        "sd-rate-limiting",
+        "sd-microservices"
+      ],
+      "confusable_with": [
+        "sd-rate-limiting"
+      ],
+      "introduces": [
+        "authentication",
+        "authorization",
+        "access token",
+        "least privilege"
+      ],
+      "uses": [
+        "api gateway",
+        "tls",
+        "tls termination",
+        "mtls",
+        "rate limiting",
+        "http status code",
+        "microservices"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "security/security"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "security/security"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "mtls/why-use-mtls"
+        }
+      ],
+      "problem_ideas": [
+        "A gateway validates tokens, but the orders service returns any order id it is asked for: name the vulnerability and the fix",
+        "Classify each response: expired token, valid token for another user's file, missing token; choose 401 or 403",
+        "TLS terminates at the load balancer: is traffic to app servers encrypted? What would you add for a payments system?",
+        "A leaked API key sends 50,000 req/s: which controls limit the damage?",
+        "A notification worker holds database admin credentials: apply least privilege",
+        "Where in a URL shortener design would you put authentication, authorization and rate limiting? Draw the request path"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Session cookies vs bearer tokens and token revocation"
+        },
+        {
+          "kind": "edge",
+          "title": "Confused deputy: forwarding identity between services"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "Interviewers expect one crisp sentence on where authentication and authorization happen; protocol flows are excluded."
+      }
+    },
+    {
+      "id": "sd-disaster-recovery",
+      "title": "Disaster recovery: RPO, RTO and DR strategies",
+      "size": "standard",
+      "est_min": 28,
+      "section": "operations",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-rpo-rto",
+          "statement": "RPO is the maximum acceptable data loss measured in time (how old the last good copy may be); RTO is the maximum acceptable time to restore service after a disaster."
+        },
+        {
+          "id": "kc-dr-strategies",
+          "statement": "Disaster recovery strategies trade cost for recovery speed: backup and restore (cheapest, RTO of hours), cold site, warm standby, and hot site or multi-region active-active (most expensive, RTO of seconds to minutes)."
+        },
+        {
+          "id": "kc-rpo-from-replication",
+          "statement": "Nightly backups give an RPO of up to 24 hours, continuous asynchronous replication to another region shrinks RPO to the replication lag, and synchronous replication brings it near zero."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-failover",
+          "reason": "DR strategies are failover at the scale of a site or region."
+        },
+        {
+          "topic": "sd-sync-async-replication",
+          "reason": "RPO is derived from the replication mode."
+        }
+      ],
+      "suggests": [
+        "sd-replication-lag"
+      ],
+      "confusable_with": [
+        "sd-failover"
+      ],
+      "introduces": [
+        "disaster recovery",
+        "rpo",
+        "rto",
+        "hot site",
+        "cold site"
+      ],
+      "uses": [
+        "failover",
+        "hot standby",
+        "asynchronous replication",
+        "synchronous replication",
+        "replication lag",
+        "active-active"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "terms-2/rpo"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "terms-2/rto"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "strategies/strategies"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "distributed-system-and-microservices/disaster-recovery"
+        }
+      ],
+      "problem_ideas": [
+        "Backups every 6 hours, restore takes 2 hours: state the RPO and RTO",
+        "A bank needs RPO 0 and RTO under 5 minutes: which strategy and what does it cost?",
+        "Async cross-region replication with 3 s lag at 2,000 writes/s: writes at risk in a region loss",
+        "Choose a DR strategy for an internal analytics dashboard and justify the low tier",
+        "Why must DR plans be tested regularly? Give a failure story",
+        "Order backup, cold, warm and hot site by RTO and by monthly cost"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Logical corruption: why replicas are not backups"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "Region-loss questions come up in senior rounds; RPO/RTO is the expected vocabulary."
+      }
+    },
+    {
+      "id": "sd-reliability-review",
+      "title": "Failure-mode review of a design under time",
+      "size": "big",
+      "est_min": 38,
+      "section": "operations",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-review-trace",
+          "statement": "A failure-mode review walks each component on the request path and names what happens when it dies, slows down or is cut off by a partition."
+        },
+        {
+          "id": "kc-review-fix-map",
+          "statement": "Each failure maps to a standard fix: a single point of failure to redundancy and failover, a slow dependency to a timeout plus a circuit breaker, a transient error to retry with backoff and jitter, and a duplicate request to an idempotency key."
+        },
+        {
+          "id": "kc-review-compute",
+          "statement": "End-to-end availability is estimated by collapsing each redundant tier with the parallel formula and multiplying the tiers in series, both valid only for independent failures, so shared dependencies such as one region or one config service are added as their own series components before converting the result to nines and yearly downtime."
+        },
+        {
+          "id": "kc-review-interview",
+          "statement": "In an interview, reliability belongs in the bottlenecks phase: name the top two or three failure modes of your design and their fixes rather than listing every pattern."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "This topic produces o5's observable product: SPOF list, fixes and an availability figure."
+        },
+        {
+          "outcome": "o6",
+          "reason": "The bottlenecks and failure part of a full mock interview is practised here."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-availability-series-parallel",
+          "reason": "The review computes end-to-end availability."
+        },
+        {
+          "topic": "sd-failover",
+          "reason": "Failover is the fix for most identified SPOFs."
+        },
+        {
+          "topic": "sd-circuit-breaker",
+          "reason": "Slow-dependency failures are fixed with timeouts and circuit breakers."
+        }
+      ],
+      "suggests": [
+        "sd-retry-backoff-jitter",
+        "sd-idempotency-keys",
+        "sd-bottlenecks"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "failure mode analysis"
+      ],
+      "uses": [
+        "single point of failure",
+        "availability in series",
+        "availability in parallel",
+        "failover",
+        "retry with backoff",
+        "circuit breaker",
+        "idempotency key",
+        "high-level design",
+        "bottleneck"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "reliability-patterns/reliability-patterns"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "system-design-interview-questions-with-s/design-a-system-that-scales-to-millions-"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "core-concepts/spof"
+        }
+      ],
+      "problem_ideas": [
+        "URL shortener: list SPOFs and fixes, then compute availability with 2 LBs, 4 app servers and a primary + replica DB, all in one region",
+        "News feed fan-out workers fall behind during a celebrity post: name the failure mode and the fix",
+        "Payment flow: the card processor times out; specify timeout, retry, breaker and idempotency key",
+        "Raise a 99.5% design to 99.95%: which tier do you make redundant first, and what does the math say?",
+        "You have 5 minutes left in the interview: pick the three failure modes to mention for a chat system",
+        "Critique a candidate answer that adds a circuit breaker but leaves a single database primary"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Chaos engineering and game days"
+        },
+        {
+          "kind": "edge",
+          "title": "Gray failures: partially working components"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "This is exactly the 'what can fail and how do you fix it?' segment of every design interview."
+      }
+    }
+  ],
+  "groups": {}
+}

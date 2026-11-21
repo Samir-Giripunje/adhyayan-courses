@@ -1,0 +1,69 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-athena-glue",
+  "version": 1,
+  "title": "Athena and Glue: querying a data lake in S3",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-athena-serverless-sql",
+      "version": 1,
+      "statement": "Amazon Athena runs standard SQL queries directly on data stored in S3, with no servers to manage, and charges by the amount of data each query scans."
+    },
+    {
+      "id": "kc-glue-etl",
+      "version": 1,
+      "statement": "AWS Glue is a serverless ETL service: crawlers discover data and record its schema in the Glue Data Catalog, and Glue jobs extract, transform and load data between stores."
+    },
+    {
+      "id": "kc-data-lake",
+      "version": 1,
+      "statement": "A data lake keeps raw data of any format centrally in S3; Glue catalogues it and Athena queries it in place without loading it into a database."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-s3-basics",
+    "clf-relational-vs-nosql"
+  ],
+  "confusable_with": [
+    "clf-redshift-emr"
+  ],
+  "introduces": [
+    "athena",
+    "glue",
+    "etl",
+    "glue data catalog",
+    "data lake"
+  ],
+  "uses": [
+    "s3",
+    "sql",
+    "serverless"
+  ],
+  "problem_ideas": [
+    "Analysts want to run SQL on 3 years of CSV logs in S3 once a month without a database: which service?",
+    "A query scans 2 TB at about $5 per TB; estimate the cost, then estimate it after converting to compressed columnar files that scan 200 GB.",
+    "Which Glue component tells Athena what columns a set of S3 files has?",
+    "Spot the distractor: 'Glue is a dashboard tool for business users.'",
+    "A team must clean and reformat JSON from three sources nightly before analysis: name the service.",
+    "Order the steps of a minimal data lake: land in S3, crawl, catalogue, query."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "analytics/amazon-athena"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "analytics/aws-glue"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/amazon-athena"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,666 @@
+[
+  {
+    "id": "sd-dns/set-1",
+    "family": "sd-dns-dns-who-returns-ip",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-resolution"
+    ],
+    "prompt_md": "A resolver with an empty cache looks up `www.bandhub.net`. It sends queries to several servers. **Of the servers the resolver queries**, which one replies with the IP address of `www.bandhub.net`?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A root server",
+        "why_md": "A root server only knows which servers handle each TLD. It replies with a referral to the `.net` servers, not an IP address for `www.bandhub.net`.",
+        "misconception": "mc-root-knows-ip"
+      },
+      {
+        "id": "b",
+        "md": "A `.net` TLD server",
+        "why_md": "The `.net` server only knows which servers are authoritative for `bandhub.net`. It replies with a referral to them.",
+        "misconception": "mc-root-knows-ip"
+      },
+      {
+        "id": "c",
+        "md": "The authoritative DNS server for `bandhub.net`",
+        "correct": true,
+        "why_md": "Right. Only the domain's authoritative server holds its records, so only it returns the IP address."
+      },
+      {
+        "id": "d",
+        "md": "One central DNS server that stores the IP address of every name",
+        "why_md": "No such server exists. The work is split across levels: root, then TLD, then the domain's authoritative server.",
+        "misconception": "mc-dns-one-server"
+      }
+    ],
+    "hints": [
+      "Read the name from right to left: root, then the TLD, then the domain. Which level holds the domain's own records?",
+      "Root and TLD servers only send referrals (\"ask these servers\"). The last server in the chain holds the answer."
+    ],
+    "solution_md": "1. The resolver asks a root server. The reply is a referral to the `.net` TLD servers.\n2. It asks a `.net` server. The reply is a referral to the authoritative servers for `bandhub.net`.\n3. It asks the `bandhub.net` authoritative server. That server holds the A record and replies with the IP address.\n\nAnswer: **the authoritative DNS server for `bandhub.net`**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/set-3",
+    "family": "sd-dns-dns-ttl-minutes",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "prompt_md": "A resolver caches the A record of `www.gigpass.example`. The record's TTL is **900**. For at most how many **minutes** may the resolver reuse this copy before it must ask again?",
+    "answer": {
+      "value": 15,
+      "tolerance": 0,
+      "unit": "minutes"
+    },
+    "common_wrong": [
+      {
+        "value": 900,
+        "kind": "slip",
+        "why_md": "900 is the TTL in seconds. The question asks for minutes: 900 / 60 = 15."
+      },
+      {
+        "value": 9,
+        "kind": "slip",
+        "why_md": "TTL is in seconds, not hundreds of seconds. 900 s / 60 = 15 minutes."
+      },
+      {
+        "value": 1440,
+        "kind": "misconception",
+        "tag": "mc-dns-instant",
+        "why_md": "There is no fixed one-day propagation time. A copy lives exactly as long as its TTL."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "ttl_seconds = 900\nanswer = ttl_seconds / 60\n"
+    },
+    "hints": [
+      "TTL is the number of seconds a cached copy may be kept.",
+      "900 seconds ÷ 60 seconds per minute."
+    ],
+    "solution_md": "1. The TTL says how many **seconds** a copy may be kept: 900 s.\n2. Convert to minutes: 900 / 60 = **15 minutes**.\n3. After that the copy expires, and the next lookup asks the authoritative server again.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-dns",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/set-4",
+    "family": "sd-dns-dns-order-cold-lookup",
+    "kind": "order",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-resolution"
+    ],
+    "prompt_md": "A laptop and its resolver have nothing cached. Put the steps of looking up `tickets.venue.org` in order.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The resolver asks the `venue.org` authoritative server and gets the IP address",
+        "why_md": "Fourth: only after the `.org` referral does the resolver know which server to ask."
+      },
+      {
+        "id": "b",
+        "md": "The laptop asks its resolver for the IP address of `tickets.venue.org`",
+        "why_md": "First: the laptop doesn't walk the chain itself. It hands the job to the resolver."
+      },
+      {
+        "id": "c",
+        "md": "The resolver asks a `.org` TLD server and gets a referral to `venue.org`'s authoritative servers",
+        "why_md": "Third: the TLD server knows which servers handle `venue.org`."
+      },
+      {
+        "id": "d",
+        "md": "The resolver asks a root server and gets a referral to the `.org` servers",
+        "why_md": "Second: with an empty cache the resolver starts at the root."
+      },
+      {
+        "id": "e",
+        "md": "The resolver returns the IP address to the laptop",
+        "why_md": "Last: the resolver hands the final answer back."
+      }
+    ],
+    "answer": {
+      "sequence": [
+        "b",
+        "d",
+        "c",
+        "a",
+        "e"
+      ]
+    },
+    "hints": [
+      "The resolver walks the name from right to left: root, then TLD, then the domain.",
+      "Laptop → resolver; resolver → root → `.org` → `venue.org` authoritative; resolver → laptop."
+    ],
+    "solution_md": "1. (b) The laptop asks the resolver.\n2. (d) The resolver asks a root server: referral to `.org`.\n3. (c) It asks a `.org` server: referral to `venue.org`'s authoritative servers.\n4. (a) It asks the `venue.org` authoritative server: the IP address.\n5. (e) It returns the address to the laptop.\n\nOrder: **b, d, c, a, e**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/set-7",
+    "family": "sd-dns-dns-ar-lower-ttl-late",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "prompt_md": "A record has TTL 3600 s. In a single edit at 10:00:00, the team lowers its TTL to 60 s **and** changes its IP address.\n\n**Assertion (A):** Some users can still be sent to the old IP address for up to about an hour after 10:00:00.\n\n**Reason (R):** Copies cached before the edit keep the TTL they were handed out with, here 3600 s.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. A copy cached just before 10:00:00 carries TTL 3600, so it can be reused until about 11:00:00. That is exactly why A happens."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is the direct cause of A: the old copies' 3600 s TTL is what keeps the old address alive for an hour."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true. The new TTL of 60 applies only to copies fetched after the edit; old copies keep their 3600 s."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. Lowering the TTL at the moment of the change doesn't shorten copies already cached.",
+        "misconception": "mc-dns-instant"
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. Which copies does the new TTL of 60 apply to?",
+      "A copy fetched at 09:59:59 got TTL 3600, so it may be reused until about 10:59:59. That is why the TTL must be lowered one old TTL ahead."
+    ],
+    "solution_md": "1. A copy fetched just before 10:00:00 was handed out with TTL 3600.\n2. Caches reuse it until fetch time + 3600 s, about 11:00:00, whatever the authoritative server now says. So A is true.\n3. R states exactly this mechanism, and it is true.\n4. R explains A. Answer: **a**. The fix is to lower the TTL at least one old TTL (3600 s) before the change.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/set-8",
+    "family": "sd-dns-dns-count-queries-two-names",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-resolution"
+    ],
+    "prompt_md": "A laptop and its resolver start with empty caches. The laptop looks up `www.festgo.org`. One minute later it looks up `api.festgo.org`. The resolver keeps the referrals it received.\n\nCount **every** query sent for both lookups together: the laptop's queries to the resolver plus the resolver's queries to other servers.",
+    "answer": {
+      "value": 6,
+      "tolerance": 0,
+      "unit": "queries"
+    },
+    "common_wrong": [
+      {
+        "value": 8,
+        "kind": "slip",
+        "why_md": "That repeats the full chain for `api.festgo.org`. The resolver remembers that `festgo.org` is served by its authoritative servers, so it skips the root and `.org`."
+      },
+      {
+        "value": 5,
+        "kind": "slip",
+        "why_md": "That forgets the laptop's own query to the resolver for the second name: 4 + (1 + 1) = 6."
+      },
+      {
+        "value": 2,
+        "kind": "slip",
+        "why_md": "That counts only the laptop's queries. The resolver's queries to root, TLD and authoritative servers count too."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "cold = 1 + 3  # laptop->resolver, then root, .org TLD, authoritative\nwarm = 1 + 1  # laptop->resolver, then authoritative only\nanswer = cold + warm\n"
+    },
+    "hints": [
+      "Count the cold lookup like the worked example, then ask which referrals the resolver can reuse for a second name in the same domain.",
+      "Cold: 1 + 3 = 4. Second name: the resolver goes straight to the `festgo.org` authoritative server, so 1 + 1 = 2."
+    ],
+    "solution_md": "1. Cold lookup of `www.festgo.org`: laptop → resolver (1); resolver → root, → `.org` TLD, → `festgo.org` authoritative (3). Subtotal **4**.\n2. `api.festgo.org` is a different name, so nothing has its answer cached. But the resolver remembers which servers are authoritative for `festgo.org`.\n3. Laptop → resolver (1); resolver → `festgo.org` authoritative (1). Subtotal **2**.\n4. Total = 4 + 2 = **6 queries**.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-dns",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/set-10",
+    "family": "sd-dns-dns-case-migration-plan",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "prompt_md": "The A record for `www.gigpass.example` has **TTL 3600 s**. At **02:00 on Saturday** Gigpass will move the site from its old server to a new IP address. The goal: after 02:00, users should be sent to the old address for **at most about a minute**, and nobody should hit a dead server. It is now Friday afternoon. What's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "At 02:00, in one edit, lower the TTL to 60 s and change the IP address. Switch the old server off at 02:01.",
+        "why_md": "Trap. Copies cached just before 02:00 still carry TTL 3600, so some users keep getting the old address until about 03:00, and they hit a dead server after 02:01.",
+        "misconception": "mc-dns-instant"
+      },
+      {
+        "id": "b",
+        "md": "By 01:00 Saturday at the latest (one old TTL ahead), lower the TTL to 60 s. At 02:00 change the IP address. Keep the old server running for a while after 02:00.",
+        "correct": true,
+        "why_md": "Best. By 02:00 every copy with the 3600 s TTL has expired, so all copies carry TTL 60 and the old address lingers at most 60 s. Keeping the old server up covers that window."
+      },
+      {
+        "id": "c",
+        "md": "Leave the TTL at 3600 s, change the IP address at 02:00, and keep the old server running until at least 03:00.",
+        "why_md": "Viable, second-best. Nobody hits a dead server, but users can be sent to the old address for up to an hour, missing the one-minute goal."
+      }
+    ],
+    "hints": [
+      "Stale window after a change ≤ the TTL that cached copies carry. What TTL will copies carry at 02:00 under each plan?",
+      "The new TTL only applies to copies fetched after it was set. Old 3600 s copies need 3600 s to expire, so lower the TTL at least an hour ahead."
+    ],
+    "solution_md": "1. Stale window after a change ≤ the TTL of the copies already cached.\n2. Plan a: copies fetched just before 02:00 have TTL 3600, so the old address lingers until about 03:00. Switching the old server off at 02:01 strands those users. **Trap.**\n3. Plan c: safe, because the old server stays up, but the stale window is up to 3600 s. **Viable, misses the goal.**\n4. Plan b: lowering the TTL by 01:00 means every 3600 s copy has expired by 02:00. After the change, copies carry TTL 60, so the stale window is ≤ 60 s, and the old server covers it. **Best.**\n\nThis assumes every cache honours the TTL and the authoritative servers already serve the new record. A few resolvers and apps keep answers longer, so the window is not an absolute deadline: keep the old server running a little beyond it.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/set-14",
+    "family": "sd-dns-dns-trace-cache-timeline",
+    "kind": "trace",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "prompt_md": "Gigpass's A record has **TTL 300 s**. Three laptops (A, B, C) share one resolver.\n\n- Before **09:58:00** the resolver's cache is empty.\n- At **09:58:00** laptop C asks. The resolver fetches the address `old` from the authoritative server, caches it for 300 s and hands it to C.\n- At **10:00:00** Gigpass changes its address from `old` to `new` on the authoritative server.\n\nThe resolver hands out the **remaining** TTL of its copy. Each laptop caches what it gets for that long. When a copy expires, the next lookup asks the next level again.\n\nThe table lists the later lookups in time order. Fill every `?`: write `old` or `new` for the address, and a whole number of seconds for the TTL left on the laptop's copy just after the lookup.",
+    "context_md": "| time | lookup | address the laptop gets | TTL left on the laptop's copy (s) |\n|---|---|---|---|\n| 10:01:00 | laptop A asks (nothing cached on A) | ? | ? |\n| 10:03:30 | laptop B asks (nothing cached on B) | ? | ? |\n| 10:05:00 | laptop A looks the name up again | ? | ? |",
+    "answer": {
+      "cells": {
+        "0,2": "old",
+        "0,3": "120",
+        "1,2": "new",
+        "1,3": "300",
+        "2,2": "new",
+        "2,3": "210"
+      }
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "def t(h, m, s=0):\n    return h * 3600 + m * 60 + s\n\nTTL = 300\nCHANGE = t(10, 0)\nres = {'fetched': t(9, 58), 'value': 'old'}\n\ndef authoritative(now):\n    return 'new' if now >= CHANGE else 'old'\n\ndef resolver(now):\n    if now >= res['fetched'] + TTL:\n        res['fetched'] = now\n        res['value'] = authoritative(now)\n    return res['value'], res['fetched'] + TTL - now\n\nlaptops = {}\n\ndef lookup(name, now):\n    c = laptops.get(name)\n    if c and now < c['expires']:\n        return c['value'], c['expires'] - now\n    v, left = resolver(now)\n    laptops[name] = {'value': v, 'expires': now + left}\n    return v, left\n\nanswer = {}\nv, l = lookup('A', t(10, 1)); answer['0,2'] = v; answer['0,3'] = str(l)\nv, l = lookup('B', t(10, 3, 30)); answer['1,2'] = v; answer['1,3'] = str(l)\nv, l = lookup('A', t(10, 5)); answer['2,2'] = v; answer['2,3'] = str(l)\n"
+    },
+    "hints": [
+      "The resolver's copy expires at fetch time + TTL. Until then it hands out the cached value with the remaining TTL. After that it asks the authoritative server again.",
+      "Resolver copy: 09:58:00 + 300 s = 10:03:00. Laptop A's first copy expires at 10:01:00 + its remaining TTL. At 10:03:30 the resolver fetches again and gets whatever the authoritative server holds then."
+    ],
+    "solution_md": "1. The resolver fetched `old` at 09:58:00, so its copy expires at 09:58:00 + 300 s = **10:03:00**.\n2. Row 1, 10:01:00, laptop A: the resolver's copy is still valid, so A gets **old** with 10:03:00 − 10:01:00 = **120 s** left. A's copy expires at 10:03:00.\n3. Row 2, 10:03:30, laptop B: the resolver's copy has expired, so the resolver asks the authoritative server, which has held `new` since 10:00:00. B gets **new** with a fresh **300 s**. The resolver's new copy expires at 10:03:30 + 300 s = 10:08:30.\n4. Row 3, 10:05:00, laptop A again: A's own copy expired at 10:03:00, so A asks the resolver. The resolver's copy is `new` with 10:08:30 − 10:05:00 = **210 s** left.\n\nNote: laptop A was sent to the old address after the change, but never later than one TTL after it.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-dns",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/exit-1",
+    "family": "sd-dns-dns-root-reply",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-resolution"
+    ],
+    "prompt_md": "A resolver with an empty cache asks a root server for the IP address of `www.ticketbay.org`. What does the root server reply?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The IP address of `www.ticketbay.org`",
+        "why_md": "Root servers don't know any website's address. Only the domain's authoritative server does.",
+        "misconception": "mc-root-knows-ip"
+      },
+      {
+        "id": "b",
+        "md": "A referral to the `.org` TLD servers",
+        "correct": true,
+        "why_md": "Right. A root server only knows which servers handle each TLD."
+      },
+      {
+        "id": "c",
+        "md": "A referral straight to the authoritative servers for `ticketbay.org`",
+        "why_md": "The root doesn't know which servers handle each domain. That is the `.org` TLD server's job."
+      },
+      {
+        "id": "d",
+        "md": "\"Unknown name: ask the central DNS server that stores every name\"",
+        "why_md": "There is no central server holding every name. Each level refers the resolver to the next.",
+        "misconception": "mc-dns-one-server"
+      }
+    ],
+    "hints": [
+      "What is the only thing a root server knows?",
+      "Root servers know which servers handle each TLD, such as `.org`."
+    ],
+    "solution_md": "1. A root server only knows which servers handle each top-level domain.\n2. The TLD of `www.ticketbay.org` is `org`.\n3. So the root replies with a **referral to the `.org` TLD servers**. Those refer the resolver to `ticketbay.org`'s authoritative servers, which return the IP address.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/exit-3",
+    "family": "sd-dns-dns-stale-seconds",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "prompt_md": "A resolver fetches an A record with **TTL 120 s** at **14:20:00**. The record's IP address is changed on the authoritative server at **14:21:00**. For how many seconds **after the change** can this resolver keep handing out the old address?",
+    "answer": {
+      "value": 60,
+      "tolerance": 0,
+      "unit": "s"
+    },
+    "common_wrong": [
+      {
+        "value": 120,
+        "kind": "slip",
+        "why_md": "The TTL counts from when the copy was fetched (14:20:00), not from the change. It expires at 14:22:00."
+      },
+      {
+        "value": 0,
+        "kind": "misconception",
+        "tag": "mc-dns-instant",
+        "why_md": "Changing the record updates only the authoritative server. The resolver keeps its copy until the TTL runs out."
+      },
+      {
+        "value": 180,
+        "kind": "slip",
+        "why_md": "That adds the TTL to the change time. The copy expires at fetch time + TTL = 14:22:00."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "fetch = 14*3600 + 20*60\nchange = 14*3600 + 21*60\nttl = 120\nanswer = fetch + ttl - change\n"
+    },
+    "hints": [
+      "t_expire = t_fetch + TTL.",
+      "The copy expires at 14:20:00 + 120 s = 14:22:00. How long is that after 14:21:00?"
+    ],
+    "solution_md": "1. Expiry = fetch time + TTL = 14:20:00 + 120 s = 14:22:00.\n2. The change happened at 14:21:00.\n3. 14:22:00 − 14:21:00 = **60 s** of handing out the old address.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-dns",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/set-15",
+    "family": "sd-dns-referral-cache-start",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-resolution",
+      "kc-dns-caching"
+    ],
+    "use": "set",
+    "prompt_md": "Yesterday at noon a resolver looked up `mail.example.org`. It received a referral to the `.org` servers with a TTL of 2 days, and a referral to `example.org`'s authoritative servers with a TTL of 1 hour. It has never looked up `www.example.org`. Today a laptop asks it for `www.example.org`. Which server does the resolver ask **first**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A root server",
+        "why_md": "The `.org` referral is still cached for another day, so the resolver can skip the root."
+      },
+      {
+        "id": "b",
+        "md": "A `.org` TLD server",
+        "correct": true,
+        "why_md": "Right. The `example.org` referral expired an hour after yesterday's lookup, but the `.org` referral is still valid, so the resolver starts there."
+      },
+      {
+        "id": "c",
+        "md": "`example.org`'s authoritative server",
+        "why_md": "That referral had a TTL of 1 hour, so it expired yesterday afternoon."
+      },
+      {
+        "id": "d",
+        "md": "None: it answers from its cache",
+        "why_md": "It never fetched `www.example.org`, so there is no cached answer for that name."
+      }
+    ],
+    "hints": [
+      "Check each cached item: is it still within its TTL today?",
+      "The 1-hour referral to `example.org`'s servers has expired; the 2-day `.org` referral has not."
+    ],
+    "solution_md": "1. The resolver starts as far down the chain as its valid cache allows.\n2. `www.example.org` itself was never fetched, so there is no answer to reuse.\n3. The referral to `example.org`'s authoritative servers had a TTL of 1 hour, so it expired yesterday at about 13:00.\n4. The referral to the `.org` servers had a TTL of 2 days, so it is still valid.\n5. The resolver therefore skips the root and asks a **`.org` TLD server** first. Answer: **b**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  },
+  {
+    "id": "sd-dns/set-16",
+    "family": "sd-dns-ttl-refresh-rate",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "use": "set",
+    "prompt_md": "A busy resolver gets requests for `www.example.com` at least once every second, all day. The record's TTL is **300 s**. Each time its cached copy expires, the resolver fetches a fresh copy from the authoritative server on the next request. About how many times per **hour** does this resolver query the authoritative server for this record?",
+    "answer": {
+      "value": 12,
+      "tolerance": 0,
+      "unit": "queries per hour"
+    },
+    "common_wrong": [
+      {
+        "value": 3600,
+        "kind": "slip",
+        "why_md": "That counts every request. Requests within the TTL are answered from the cache."
+      },
+      {
+        "value": 5,
+        "kind": "slip",
+        "why_md": "That is 300 ÷ 60, the TTL in minutes. Divide the hour by the TTL instead: 3,600 ÷ 300."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "ttl = 300\nhour = 3600\nanswer = hour // ttl\n"
+    },
+    "hints": [
+      "Requests that arrive while the copy is still valid never reach the authoritative server.",
+      "One fetch per TTL: 3,600 s ÷ 300 s."
+    ],
+    "solution_md": "1. A cached copy is reused for 300 s, so every request inside that window is answered from the cache.\n2. Because requests never stop, the resolver refetches as soon as each copy expires: once every 300 s.\n3. 3,600 ÷ 300 = **12 queries per hour**.\n\nA lower TTL makes changes reach users sooner but sends more queries to the authoritative server: with TTL 60 s it would be 60 per hour.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-dns",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  },
+  {
+    "id": "sd-dns/set-17",
+    "family": "sd-dns-two-resolvers-expiry",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "use": "set",
+    "prompt_md": "An A record has TTL **600 s**. Resolver R1 caches it at **10:00:00**, and resolver R2 caches it at **10:08:00**. Laptops get the answer from these resolvers' caches throughout. The address changes on the authoritative server at **10:09:00**. Assuming every cache honours the TTL, by what time has **every** copy of the old address expired, in both resolvers and every laptop?",
+    "options": [
+      {
+        "id": "a",
+        "md": "10:10:00",
+        "why_md": "That is only R1's copy. R2 fetched its copy later, so it lasts longer."
+      },
+      {
+        "id": "b",
+        "md": "10:18:00",
+        "correct": true,
+        "why_md": "Right. R2's copy expires at 10:08:00 + 600 s = 10:18:00, and the laptops' copies from R2 carry only the time that was left, so they expire then too."
+      },
+      {
+        "id": "c",
+        "md": "10:19:00",
+        "why_md": "That adds the TTL to the time of the change. Copies expire 600 s after they were fetched, not after the change.",
+        "misconception": "mc-dns-instant"
+      },
+      {
+        "id": "d",
+        "md": "10:28:00",
+        "why_md": "That assumes a laptop that asked R2 at 10:18:00 got a fresh 600 s. Resolvers answering from cache pass on only the remaining TTL, and a copy that has expired is fetched again, giving the new address."
+      }
+    ],
+    "hints": [
+      "Each copy expires 600 s after it was fetched from the authoritative server.",
+      "A resolver answering from its cache hands out the time left, so its clients' copies expire when its own does."
+    ],
+    "solution_md": "1. R1's copy: fetched 10:00:00, expires 10:10:00.\n2. R2's copy: fetched 10:08:00, expires 10:18:00.\n3. A laptop that got the answer from R2's cache received only the remaining TTL, so its copy also expires at 10:18:00 at the latest.\n4. After 10:18:00, any lookup reaches the authoritative server again and gets the new address.\n\nEvery old copy is gone by **10:18:00**. Answer: **b**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  },
+  {
+    "id": "sd-dns/exit-5",
+    "family": "sd-dns-what-is-referral",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-resolution"
+    ],
+    "use": "exit",
+    "prompt_md": "During a DNS lookup, a server answers the resolver with a **referral**. What does a referral tell the resolver?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The final IP address of the name",
+        "why_md": "Only the authoritative server gives the final address. A referral gives directions.",
+        "misconception": "mc-root-knows-ip"
+      },
+      {
+        "id": "b",
+        "md": "Which servers to ask next",
+        "correct": true,
+        "why_md": "Right. \"I don't know, but ask these servers\" is a referral."
+      },
+      {
+        "id": "c",
+        "md": "That the name doesn't exist",
+        "why_md": "That is a different reply. A referral points onward."
+      }
+    ],
+    "hints": [
+      "Think of the root server's reply.",
+      "A referral says \"ask these servers instead\"."
+    ],
+    "solution_md": "The root and TLD servers don't hold the answer. They reply with a **referral**: the servers to ask next, one level down the name. Answer: **b**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  }
+]

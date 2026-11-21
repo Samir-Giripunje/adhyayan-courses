@@ -1,0 +1,52 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-set-name",
+  "version": 1,
+  "title": "__set_name__: descriptors that know their name",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-set-name-called",
+      "version": 1,
+      "statement": "When a class is created, type.__new__ calls __set_name__(self, owner, name) on each class attribute that defines it, passing the attribute's name."
+    },
+    {
+      "id": "kc-set-name-storage",
+      "version": 1,
+      "statement": "A descriptor should store per-instance values on the instance, for example under a private name derived in __set_name__; storing them on the descriptor itself shares one value across all instances."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "pd-descriptor-protocol"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "__set_name__"
+  ],
+  "uses": [
+    "descriptor",
+    "data descriptor"
+  ],
+  "problem_ideas": [
+    "Write a LoggedAccess descriptor that logs 'reading age' using the name from __set_name__",
+    "Find the bug where two Person instances share one age value",
+    "Predict whether __set_name__ runs for a descriptor added with setattr after class creation",
+    "Store values under '_' + name and inspect vars(obj)",
+    "Use one descriptor class for both name and age attributes",
+    "Predict the owner argument when the descriptor is defined in a base class"
+  ],
+  "sources": [
+    {
+      "source": "descriptor-howto",
+      "entry": "primer/customized-names"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "technical-tutorial/automatic-name-notification"
+    }
+  ],
+  "status": "stub"
+}

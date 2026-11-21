@@ -1,0 +1,107 @@
+[
+  {
+    "id": "emb-keyword-gap/test-b1",
+    "version": 1,
+    "family": "kg-add-words-fix",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "A help centre's keyword search finds an article through the query words that appear in its text as the exact same word (little words such as *in* are skipped). People who type **can't sign in** never see *Reset your password*, because that article contains neither *can't* nor *sign*. Which single change lets keyword search find the article for this query?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Add the sentence *Can't sign in? Reset your password here.* to the article",
+        "correct": true,
+        "why_md": "Right. The article now contains *can't* and *sign*, so it shares two words with the query and is found. It fixes only this wording, though."
+      },
+      {
+        "id": "b",
+        "md": "Add more detail about choosing a strong password",
+        "why_md": "More *password* words don't help: the query's words are *can't* and *sign*, and the article still contains neither."
+      },
+      {
+        "id": "c",
+        "md": "Move the article to the top of the help-centre menu",
+        "why_md": "Menu position does not change matching: the search still finds no shared word."
+      },
+      {
+        "id": "d",
+        "md": "Nothing can help: keyword search can never find an article worded differently from the query",
+        "why_md": "Keyword search finds the article as soon as it contains the query's words. The catch is that each such fix covers only the wording you added.",
+        "misconception": "mc-keyword-is-enough"
+      }
+    ],
+    "hints": [
+      "Keyword search only finds an article through words it shares with the query. Which change adds the query's words?",
+      "The query's real words are *can't* and *sign*. Only one option puts them into the article."
+    ],
+    "solution_md": "Keyword search finds an article only through shared strings. The query's real words are *can't* and *sign*. Adding a sentence that contains them gives the article two shared words, so it is found. Users who type other words the article doesn't contain would still miss it, which is why meaning-based search exists.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  },
+  {
+    "id": "emb-keyword-gap/test-b2",
+    "version": 1,
+    "family": "kg-codes-vs-wording",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "An electronics shop's search uses plain keyword matching. Customers who type a product code such as `PA-65W` land on the right product at once. Customers who type **laptop charger** get nothing useful, though the shop sells *Power adapter for notebooks*. Which statement is correct?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The code works because customers type exactly the string stored on the product page; *laptop charger* shares no word with *Power adapter for notebooks*, so it misses",
+        "correct": true,
+        "why_md": "Right. Keyword search compares strings: the code is an exact match, and the everyday wording shares nothing."
+      },
+      {
+        "id": "b",
+        "md": "Keyword search is simply outdated: meaning-based search beats it on every kind of query, codes included",
+        "why_md": "Meaning-based search would help *laptop charger*, but it is weaker on exact codes: it can rank look-alike codes as close. That is why systems often combine both.",
+        "misconception": "mc-meaning-search-handles-codes"
+      },
+      {
+        "id": "c",
+        "md": "Adding *laptop = notebook* to a synonym list would let keyword search match every way customers describe this product",
+        "why_md": "It rescues one word, not *charger* vs *power adapter*, nor a wording nobody listed. A list covers only pairs someone wrote down.",
+        "misconception": "mc-synonym-list-closes-gap"
+      },
+      {
+        "id": "d",
+        "md": "Keyword search understands product codes better than everyday words",
+        "why_md": "It understands neither. A code matches because the same string is stored, not because anything is understood."
+      }
+    ],
+    "hints": [
+      "For each statement, ask what keyword search actually compares.",
+      "Keyword search compares strings. The code is stored exactly as typed; *laptop charger* and *Power adapter for notebooks* share no word."
+    ],
+    "solution_md": "Keyword search compares strings. `PA-65W` is stored exactly as customers type it, so it matches. *laptop charger* shares no word with *Power adapter for notebooks*, so it misses. Meaning-based search would help the second query but is weaker on exact codes, and a synonym list only covers pairs someone wrote down.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  }
+]

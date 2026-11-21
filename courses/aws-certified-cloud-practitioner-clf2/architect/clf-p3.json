@@ -1,0 +1,1907 @@
+{
+  "stage": {
+    "id": "clf-p3",
+    "title": "Core services: compute and storage",
+    "outcome": [
+      "o4",
+      "o6"
+    ],
+    "assumes": [
+      "region",
+      "availability zone",
+      "iam role",
+      "shared responsibility model",
+      "horizontal scaling",
+      "vertical scaling",
+      "elasticity",
+      "high availability"
+    ],
+    "provides": [
+      "ec2 instance",
+      "instance type",
+      "ami",
+      "user data",
+      "elastic load balancing",
+      "auto scaling group",
+      "container",
+      "ecs",
+      "eks",
+      "fargate",
+      "ecr",
+      "serverless",
+      "lambda",
+      "object storage",
+      "block storage",
+      "file storage",
+      "ebs",
+      "instance store",
+      "efs",
+      "fsx",
+      "s3",
+      "s3 storage class",
+      "s3 lifecycle policy",
+      "storage gateway",
+      "aws backup"
+    ]
+  },
+  "sections": [
+    {
+      "id": "ec2",
+      "title": "EC2, load balancing and Auto Scaling",
+      "rank": 1,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-3-3-identify-aws-compute-"
+      }
+    },
+    {
+      "id": "containers-serverless",
+      "title": "Containers, serverless and choosing compute",
+      "rank": 2,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-3-3-identify-aws-compute-"
+      }
+    },
+    {
+      "id": "block-file",
+      "title": "Block and file storage",
+      "rank": 3,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-3-6-identify-aws-storage-"
+      }
+    },
+    {
+      "id": "s3-hybrid",
+      "title": "S3, hybrid storage and backup",
+      "rank": 4,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-3-6-identify-aws-storage-"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "clf-ec2-basics",
+      "title": "Amazon EC2: virtual servers you rent",
+      "size": "standard",
+      "est_min": 10,
+      "section": "ec2",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-ec2-virtual-server",
+          "statement": "Amazon EC2 provides resizable virtual servers (instances) in an Availability Zone, where you choose the operating system, instance type, storage and network settings. It is AWS's core IaaS compute service."
+        },
+        {
+          "id": "kc-ec2-billing-per-second",
+          "statement": "On-Demand EC2 instances running Linux or Windows are billed per second, with a 60-second minimum. A stopped instance stops incurring compute charges, but its attached storage volumes are still billed."
+        },
+        {
+          "id": "kc-ec2-customer-responsibility",
+          "statement": "On EC2 the customer patches the guest operating system and installed software, configures instance firewall rules, protects data and grants the instance permissions through an IAM role. AWS secures the physical hosts, network and hypervisor."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "EC2 is the default answer and the main distractor in almost every compute-selection question."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-shared-responsibility-by-service"
+      ],
+      "confusable_with": [
+        "clf-lambda"
+      ],
+      "introduces": [
+        "ec2",
+        "ec2 instance"
+      ],
+      "uses": [
+        "iaas",
+        "availability zone",
+        "region",
+        "shared responsibility model",
+        "iam role"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "ec2-virtual-machines/what-is-amazon-ec2"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "ec2/ec2"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-3-identify-aws-compute-/aws-compute-services"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "ec2-virtual-machines/shared-responsibility-model-for-ec2"
+        }
+      ],
+      "problem_ideas": [
+        "A startup runs a web app for 3 hours and 20 minutes on one On-Demand Linux instance: how many seconds are billed, and what if it ran only 40 seconds?",
+        "Sort six tasks (patch the kernel, replace a failed disk in the data center, rotate the app's database password, update the hypervisor, open port 443, encrypt data on the volume) into AWS versus customer for EC2.",
+        "A team stops its dev instances every night yet the bill is not zero: name the line item that keeps charging.",
+        "An app on EC2 must read from S3 without storing access keys on the server: what should the instance use?",
+        "A legacy app needs a specific Windows Server build and registry tweaks: which service model and service fit, and why not a managed platform?",
+        "A distractor says 'AWS patches the OS on your EC2 instances': explain in one sentence why that is false."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "The Nitro hypervisor and how virtual servers share a physical host"
+        },
+        {
+          "kind": "history",
+          "title": "From per-hour to per-second EC2 billing"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "EC2 appears throughout the exam, from compute choice to shared responsibility and pricing."
+      }
+    },
+    {
+      "id": "clf-ec2-instance-types",
+      "title": "EC2 instance families: matching the workload",
+      "size": "micro",
+      "est_min": 6,
+      "section": "ec2",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-instance-family-match",
+          "statement": "Each EC2 instance family suits a kind of workload: general purpose (M, T) for balanced web servers, compute optimized (C) for batch processing and gaming servers, memory optimized (R, X) for in-memory databases, storage optimized (I, D) for high local disk I/O, and accelerated computing (P, G) for GPU and machine learning work."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task Statement 3.3 expects learners to match a workload to an EC2 instance family (for example compute optimized versus storage optimized), and no other topic teaches it."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-ec2-basics",
+          "reason": "An instance family is a property of an EC2 instance, so the learner must first know what an instance is."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-amis-user-data",
+        "clf-instance-naming-burstable"
+      ],
+      "introduces": [
+        "instance type",
+        "instance family"
+      ],
+      "uses": [
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "ec2/instance-types"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-3-identify-aws-compute-/aws-compute-services"
+        }
+      ],
+      "problem_ideas": [
+        "Match five workloads (Redis-style in-memory cache, video transcoding farm, ML model training, low-traffic blog, data warehouse with heavy local scans) to an instance family.",
+        "A gaming company needs high single-thread CPU for game servers: which family, and why not memory optimized?",
+        "A distractor offers 'storage optimized' for a workload that stores all its data in S3: explain why it is wrong.",
+        "A real-time analytics engine keeps a 400 GB dataset in RAM: which family?",
+        "A company trains deep-learning models on GPUs: which family letter would you look for?",
+        "Spot the mismatch: 'Use compute optimized instances for a NoSQL database doing millions of random reads on local disks.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Graviton (Arm) instances and price-performance"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Matching a workload to compute, memory or storage optimized instances is named in Task 3.3 and appears on the exam."
+      }
+    },
+    {
+      "id": "clf-instance-naming-burstable",
+      "title": "Instance type names and burstable T instances",
+      "size": "micro",
+      "est_min": 6,
+      "section": "ec2",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-instance-type-naming",
+          "statement": "An instance type name such as m5.2xlarge encodes the family (m), the generation (5) and the size (2xlarge); moving to a larger size is vertical scaling. T-family burstable instances earn CPU credits while idle and spend them on bursts."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "clf-ec2-instance-types",
+          "reason": "Decoding a name means reading its family letter, so the families must already be known."
+        }
+      ],
+      "suggests": [
+        "clf-vertical-horizontal-scaling"
+      ],
+      "confusable_with": [
+        "clf-ec2-instance-types"
+      ],
+      "introduces": [
+        "burstable instance"
+      ],
+      "uses": [
+        "ec2 instance",
+        "instance type",
+        "instance family",
+        "vertical scaling"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "ec2/cpu-credits"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "ec2/instance-types"
+        }
+      ],
+      "problem_ideas": [
+        "Decode c6g.4xlarge and r5.large: family, generation and relative size.",
+        "A T3 web server slows down every afternoon after a quiet morning: explain what ran out.",
+        "A database outgrows an m5.large: name the scaling direction if you switch to m5.4xlarge and the downtime it implies.",
+        "Order t3.micro, t3.large and t3.2xlarge by size and explain what changes between them.",
+        "A low-traffic internal tool idles 95% of the day: why is a burstable instance a good fit?",
+        "Which part of 'm7i.xlarge' tells you it is a newer generation than 'm5.xlarge'?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How CPU credits accrue and the unlimited mode"
+        }
+      ],
+      "lens": {
+        "score": 0.35,
+        "reason": "Name decoding and CPU credits are background detail; the exam rarely tests them directly."
+      }
+    },
+    {
+      "id": "clf-amis-user-data",
+      "title": "AMIs, launch templates and user data",
+      "size": "standard",
+      "est_min": 8,
+      "section": "ec2",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-ami-template",
+          "statement": "An AMI is a template containing the operating system and preinstalled software used to launch EC2 instances. AMIs belong to one Region and must be copied to another Region to launch the same image there."
+        },
+        {
+          "id": "kc-user-data-bootstrap",
+          "statement": "EC2 user data is a script that runs once, as root, at an instance's first boot to install or configure software. A launch template bundles the AMI, instance type and user data so identical instances can be launched repeatedly."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "clf-ec2-basics",
+          "reason": "AMIs and user data only make sense as inputs to launching an EC2 instance."
+        }
+      ],
+      "suggests": [
+        "clf-regions"
+      ],
+      "confusable_with": [
+        "clf-ec2-instance-types"
+      ],
+      "introduces": [
+        "ami",
+        "user data",
+        "launch template"
+      ],
+      "uses": [
+        "ec2 instance",
+        "region",
+        "instance type"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "auto-scaling/amis"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "ec2/user-data-scripts"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "auto-scaling/launch-templates"
+        }
+      ],
+      "problem_ideas": [
+        "A team's custom AMI works in us-east-1 but cannot be found in eu-west-1: what step is missing?",
+        "New web servers take 12 minutes to install packages at boot: compare baking a golden AMI with user data and pick one for faster scale-out.",
+        "A user data script was edited after launch, but nothing changed on reboot: explain why.",
+        "List the three things a launch template captures that an Auto Scaling group will need.",
+        "A security team wants every instance hardened the same way before any app is installed: AMI or user data?",
+        "Decide which of these an AMI contains: OS, installed packages, instance type, the instance's Availability Zone."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "EC2 Image Builder and golden-image pipelines"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "Comes up as a supporting detail in launch and scaling questions, rarely on its own."
+      }
+    },
+    {
+      "id": "clf-elastic-load-balancing",
+      "title": "Elastic Load Balancing: spreading traffic",
+      "size": "standard",
+      "est_min": 10,
+      "section": "ec2",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-elb-purpose",
+          "statement": "Elastic Load Balancing spreads incoming traffic across targets in multiple Availability Zones behind a single DNS endpoint, so no single server is a single point of failure."
+        },
+        {
+          "id": "kc-elb-health-checks",
+          "statement": "A load balancer runs health checks on its targets and stops sending traffic to any target that fails them until it passes again."
+        },
+        {
+          "id": "kc-elb-types",
+          "statement": "Application Load Balancer routes HTTP/HTTPS (layer 7) by path or host name. Network Load Balancer handles TCP/UDP (layer 4) at very high throughput with static IP addresses. Gateway Load Balancer (layer 3) sends traffic through third-party virtual appliances such as firewalls."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide asks learners to identify the purposes of load balancers and to pick the right load balancer type."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-ec2-basics",
+          "reason": "Load balancer targets are mostly EC2 instances, so the learner must know what an instance is."
+        }
+      ],
+      "suggests": [
+        "clf-high-availability",
+        "clf-multi-az-multi-region"
+      ],
+      "confusable_with": [
+        "clf-auto-scaling-groups"
+      ],
+      "introduces": [
+        "elastic load balancing",
+        "health check",
+        "application load balancer",
+        "network load balancer",
+        "gateway load balancer"
+      ],
+      "uses": [
+        "ec2 instance",
+        "availability zone",
+        "high availability",
+        "horizontal scaling",
+        "single point of failure"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "auto-scaling/elastic-load-balancers"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-3-identify-aws-compute-/identifying-the-purposes-of-load-balance"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "elastic-load-balancing-auto-scaling-grou/what-is-load-balancing"
+        }
+      ],
+      "problem_ideas": [
+        "An app must send /api/* to one fleet and /images/* to another: which load balancer type?",
+        "A trading system needs millions of TCP connections per second and a fixed IP for client allow-lists: which type?",
+        "A company must inspect all traffic through a third-party firewall appliance: which type?",
+        "Three instances sit in one AZ behind a load balancer and that AZ fails: what went wrong in the design?",
+        "One of four targets starts returning HTTP 500 errors: describe what the load balancer does next.",
+        "A distractor says a load balancer adds instances when traffic rises: which service actually does that?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Layer 4 vs layer 7: what the load balancer can see"
+        },
+        {
+          "kind": "edge",
+          "title": "Cross-zone load balancing and uneven AZ capacity"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Load balancer purpose and type are tested directly, and questions pair them with Auto Scaling."
+      }
+    },
+    {
+      "id": "clf-auto-scaling-groups",
+      "title": "Auto Scaling groups: elasticity for EC2",
+      "size": "standard",
+      "est_min": 10,
+      "section": "ec2",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-asg-capacity",
+          "statement": "An Auto Scaling group keeps its number of EC2 instances between a set minimum and maximum, starting at a desired capacity, and replaces instances that fail health checks."
+        },
+        {
+          "id": "kc-asg-elasticity",
+          "statement": "Auto Scaling provides elasticity: it adds instances when demand rises and removes them when demand falls, so you pay only for the capacity the load needs."
+        },
+        {
+          "id": "kc-asg-scaling-policies",
+          "statement": "Target tracking scaling holds a metric such as 50% average CPU. Step scaling reacts to alarm thresholds. Scheduled scaling changes capacity at set times. Predictive scaling forecasts load from history."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide states that auto scaling provides elasticity, and learners must pick it for variable-demand requirements."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-ec2-basics",
+          "reason": "An Auto Scaling group launches and terminates EC2 instances."
+        }
+      ],
+      "suggests": [
+        "clf-amis-user-data",
+        "clf-elastic-load-balancing",
+        "clf-elasticity-agility"
+      ],
+      "confusable_with": [
+        "clf-elastic-load-balancing"
+      ],
+      "introduces": [
+        "auto scaling group",
+        "scaling policy",
+        "desired capacity"
+      ],
+      "uses": [
+        "ec2 instance",
+        "elasticity",
+        "horizontal scaling",
+        "health check",
+        "elastic load balancing"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "auto-scaling/auto-scaling-groups"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "auto-scaling/scaling-policies"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-3-identify-aws-compute-/recognizing-that-auto-scaling-provides-e"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "elastic-load-balancing-auto-scaling-grou/what-s-an-auto-scaling-group"
+        }
+      ],
+      "problem_ideas": [
+        "An Auto Scaling group has min 2, desired 4, max 10; traffic doubles and each instance can serve 25% more: predict the new instance count.",
+        "With target tracking at 50% CPU, 4 instances average 80%: roughly how many instances will the group grow to?",
+        "A retailer knows traffic triples every Black Friday at 09:00: which scaling policy fits best?",
+        "One instance fails its health check overnight: predict the group's instance count before and after replacement.",
+        "At 03:00 the load drops to almost nothing but the group stays at 2 instances: explain why.",
+        "Compare monthly instance-hours for a fixed fleet of 10 versus an Auto Scaling group running 3 instances for 16 hours a day and 10 for 8 hours a day."
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "How target tracking computes the new capacity"
+        },
+        {
+          "kind": "edge",
+          "title": "Cooldowns, warm-up and flapping"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "'Auto Scaling gives elasticity' is one of the most frequently tested compute facts."
+      }
+    },
+    {
+      "id": "clf-containers",
+      "title": "Containers: an app packed with its dependencies",
+      "size": "standard",
+      "est_min": 8,
+      "section": "containers-serverless",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-container-definition",
+          "statement": "A container packages an application with its libraries and dependencies into an image that runs the same way on any host with a container runtime such as Docker."
+        },
+        {
+          "id": "kc-container-vs-vm",
+          "statement": "Containers share the host's operating system kernel, so they start in seconds and pack more densely than virtual machines, each of which runs its own full guest operating system."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "clf-ec2-basics"
+      ],
+      "confusable_with": [
+        "clf-amis-user-data"
+      ],
+      "introduces": [
+        "container",
+        "container image",
+        "docker"
+      ],
+      "uses": [
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "other-compute-section/what-is-docker"
+        }
+      ],
+      "problem_ideas": [
+        "A team says the app 'works on my laptop but not in production': explain how a container image prevents this.",
+        "Compare boot time and per-host density for 20 small services run as containers versus as separate EC2 instances.",
+        "Decide whether each item lives inside a container image: app code, language runtime, host kernel, system libraries.",
+        "Explain the difference between an AMI and a container image in one sentence each.",
+        "A monolith is being split into 12 microservices: why are containers a natural fit?",
+        "Spot the false statement: 'Each container runs its own full operating system kernel.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Namespaces and cgroups: how containers isolate processes"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Background needed to tell ECS, EKS and Fargate apart; rarely tested on its own."
+      }
+    },
+    {
+      "id": "clf-ecs-eks",
+      "title": "ECS and EKS: running containers at scale",
+      "size": "standard",
+      "est_min": 10,
+      "section": "containers-serverless",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-container-orchestration",
+          "statement": "A container orchestrator places containers on hosts, restarts failed ones and scales how many run. On AWS the orchestration services are Amazon ECS and Amazon EKS."
+        },
+        {
+          "id": "kc-ecs-vs-eks",
+          "statement": "Amazon ECS is AWS's own container orchestration service. Amazon EKS runs managed open-source Kubernetes and is the choice when a team already uses Kubernetes or needs portability across clouds and on-premises."
+        },
+        {
+          "id": "kc-ecs-eks-ec2-hosts",
+          "statement": "When containers run on EC2 hosts, the customer provisions, patches and scales those instances. ECS itself has no extra charge, while EKS adds an hourly fee per cluster."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Telling ECS from EKS is a standard service-identification item in the compute task statement."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-containers",
+          "reason": "Orchestration schedules containers, so the learner must know what a container is."
+        },
+        {
+          "topic": "clf-ec2-basics",
+          "reason": "The EC2 hosting option and the customer's duties for it build on EC2 instances."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-fargate-ecr"
+      ],
+      "introduces": [
+        "container orchestration",
+        "ecs",
+        "eks",
+        "kubernetes"
+      ],
+      "uses": [
+        "container",
+        "ec2 instance",
+        "managed service"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "other-compute-section/ecs"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "ecr/services"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "eks/eks"
+        }
+      ],
+      "problem_ideas": [
+        "A company runs Kubernetes on premises and wants the same manifests on AWS: ECS or EKS?",
+        "A small team new to containers wants the simplest AWS-native orchestration with no control-plane fee: which service?",
+        "An ECS cluster on EC2 has an unpatched kernel: whose responsibility is it?",
+        "Three containers keep crashing at night and nobody restarts them: which capability is missing?",
+        "A distractor offers 'Amazon ECR' for running containers: what does ECR do instead?",
+        "Estimate the monthly EKS control-plane fee for 3 clusters at $0.10 per hour."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Tasks, services and pods: the units each orchestrator schedules"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "The ECS versus EKS choice is a reliable exam question."
+      }
+    },
+    {
+      "id": "clf-lambda",
+      "title": "Serverless computing with AWS Lambda",
+      "size": "big",
+      "est_min": 14,
+      "section": "containers-serverless",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-serverless-definition",
+          "statement": "Serverless means AWS provisions, scales, patches and runs the servers: the customer manages only code or configuration, pays for actual use and never manages an instance."
+        },
+        {
+          "id": "kc-lambda-model",
+          "statement": "AWS Lambda runs a function in response to an event such as a file upload, an API call or a schedule. It scales automatically with the number of requests, and each invocation can run for at most 15 minutes."
+        },
+        {
+          "id": "kc-lambda-pricing",
+          "statement": "Lambda is billed per request and per GB-second of duration (allocated memory × run time, metered in milliseconds), so a function that is never invoked costs nothing."
+        },
+        {
+          "id": "kc-api-gateway",
+          "statement": "Amazon API Gateway is a managed service for creating, publishing and securing REST, HTTP and WebSocket APIs. It is commonly placed in front of Lambda to build a serverless backend."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide asks learners to recognise when serverless compute such as Lambda is the right choice."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-ec2-basics",
+        "clf-shared-responsibility-by-service"
+      ],
+      "confusable_with": [
+        "clf-fargate-ecr",
+        "clf-batch-lightsail"
+      ],
+      "introduces": [
+        "serverless",
+        "lambda",
+        "lambda function",
+        "event-driven",
+        "api gateway"
+      ],
+      "uses": [
+        "elasticity",
+        "managed service",
+        "pay-as-you-go pricing"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "lambda/lambda"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-compute-section/what-s-serverless"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-compute-section/why-aws-lambda"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "lambda/cold-start-and-limitations"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-compute-section/amazon-api-gateway"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "lambda/api-gateway"
+        }
+      ],
+      "problem_ideas": [
+        "A function with 512 MB of memory runs 200 ms per call, 1 million calls a month: compute the GB-seconds billed.",
+        "Compare the cost of a function invoked 50 times a day with a t3.micro running all month: which is cheaper, and why?",
+        "A nightly job needs 40 minutes: can Lambda run it in one invocation? Name an alternative.",
+        "An image must be resized whenever a photo is uploaded: name the trigger and the compute service.",
+        "A mobile app needs a public HTTPS API with no servers: which two services together?",
+        "Sort these tasks for Lambda into AWS versus customer: OS patching, function code, runtime scaling, IAM permissions on the function."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Cold starts and execution environments"
+        },
+        {
+          "kind": "edge",
+          "title": "Concurrency limits and throttling"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "Lambda and the serverless idea are among the most heavily tested compute topics."
+      }
+    },
+    {
+      "id": "clf-fargate-ecr",
+      "title": "Fargate and ECR: serverless containers",
+      "size": "standard",
+      "est_min": 10,
+      "section": "containers-serverless",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-fargate-serverless-containers",
+          "statement": "AWS Fargate is a serverless compute engine for ECS and EKS: you set CPU and memory per task or pod, and AWS runs it with no EC2 instances for you to provision or patch."
+        },
+        {
+          "id": "kc-fargate-vs-lambda",
+          "statement": "Choose Fargate over Lambda for containerized services that run continuously or for jobs longer than Lambda's 15-minute limit, when the team still wants no servers to manage."
+        },
+        {
+          "id": "kc-ecr-registry",
+          "statement": "Amazon ECR is a managed private registry that stores, versions and scans container images. ECS, EKS and Fargate pull images from it at launch."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide names Fargate as a serverless compute option to choose against Lambda, and ECR is a standard container distractor."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-ecs-eks",
+          "reason": "Fargate is a hosting option for ECS and EKS, so the learner must know those orchestrators."
+        },
+        {
+          "topic": "clf-lambda",
+          "reason": "Fargate is defined as serverless and contrasted with Lambda's limits."
+        }
+      ],
+      "suggests": [
+        "clf-containers"
+      ],
+      "confusable_with": [
+        "clf-ecs-eks",
+        "clf-lambda"
+      ],
+      "introduces": [
+        "fargate",
+        "ecr",
+        "container registry"
+      ],
+      "uses": [
+        "serverless",
+        "ecs",
+        "eks",
+        "container image",
+        "lambda"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "lambda/fargate"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-compute-section/fargate"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "ecr/ecr"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-compute-section/ecr"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-3-identify-aws-compute-/recognizing-the-appropriate-use-of-vario"
+        }
+      ],
+      "problem_ideas": [
+        "A team wants to run Docker containers on ECS but refuses to patch or scale hosts: which option?",
+        "An always-on container API serves traffic around the clock: Lambda or Fargate, and why?",
+        "Where should a company store its private container images so that ECS can pull them?",
+        "A video-processing container runs for 2 hours per job with no servers to manage: pick the compute option.",
+        "A distractor says 'Fargate is a container image registry': correct it.",
+        "For Fargate, which is AWS's job and which the customer's: host OS patching, container image contents, task CPU and memory settings?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Lambda container images vs Fargate tasks"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "'Containers with no servers to manage' points to Fargate, a common exam answer."
+      }
+    },
+    {
+      "id": "clf-batch-lightsail",
+      "title": "AWS Batch and Amazon Lightsail",
+      "size": "standard",
+      "est_min": 8,
+      "section": "containers-serverless",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-aws-batch",
+          "statement": "AWS Batch runs large numbers of batch jobs, packaged as container images, on managed EC2 (including Spot) or Fargate capacity. Unlike Lambda, it has no 15-minute limit."
+        },
+        {
+          "id": "kc-lightsail",
+          "statement": "Amazon Lightsail bundles virtual servers, storage, databases and networking at a low, predictable monthly price for simple websites and for users with little cloud experience."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "clf-lambda",
+          "reason": "Batch is defined by contrast with Lambda's 15-minute limit."
+        }
+      ],
+      "suggests": [
+        "clf-containers",
+        "clf-ec2-basics"
+      ],
+      "confusable_with": [
+        "clf-lambda",
+        "clf-ec2-basics"
+      ],
+      "introduces": [
+        "aws batch",
+        "lightsail"
+      ],
+      "uses": [
+        "lambda",
+        "container image",
+        "ec2 instance",
+        "fargate"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "other-compute-section/aws-batch"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-compute-section/batch-vs-lambda"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-compute-section/amazon-lightsail"
+        }
+      ],
+      "problem_ideas": [
+        "A genomics lab queues 10,000 analysis jobs of 3 hours each: which service schedules them?",
+        "A freelancer wants a WordPress site for a fixed monthly price without learning EC2 and VPC: which service?",
+        "Compare Batch and Lambda on maximum run time, packaging and how they are triggered.",
+        "A distractor offers Lightsail for a global, auto-scaling microservices platform: why is it a poor fit?",
+        "A nightly 6-hour risk calculation could tolerate interruption: what capacity could AWS Batch use to cut cost?",
+        "Sort four requirements into Lambda, Batch or Lightsail."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Lightsail to EC2: when to graduate"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Each appears in a few exam questions as an answer or a distractor."
+      }
+    },
+    {
+      "id": "clf-choosing-compute",
+      "title": "Choosing a compute service for a requirement",
+      "size": "big",
+      "est_min": 14,
+      "section": "containers-serverless",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-choose-ec2",
+          "statement": "Pick EC2 when a requirement needs full control of the operating system, runs a specific licensed or legacy application, or moves long-running servers by lift and shift."
+        },
+        {
+          "id": "kc-choose-lambda",
+          "statement": "Pick Lambda for short, event-triggered code that finishes within 15 minutes, sits idle between events and should cost nothing when unused."
+        },
+        {
+          "id": "kc-choose-containers",
+          "statement": "Pick ECS or EKS for containerized microservices: EKS when the requirement names Kubernetes, and Fargate as the hosting option when it says not to manage servers."
+        },
+        {
+          "id": "kc-choose-simple-or-batch",
+          "statement": "Pick Lightsail when a requirement stresses simplicity and a fixed monthly price, and AWS Batch when it describes many queued jobs or batch high-performance computing."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Picking the compute service for a one-paragraph requirement and ruling out the nearest distractor is exactly o4's observable product."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-ec2-basics",
+          "reason": "EC2 is one of the options being compared."
+        },
+        {
+          "topic": "clf-fargate-ecr",
+          "reason": "The container choice depends on knowing Fargate, ECS and EKS."
+        },
+        {
+          "topic": "clf-batch-lightsail",
+          "reason": "Lightsail and Batch are two of the options being compared."
+        }
+      ],
+      "suggests": [
+        "clf-migration-strategies"
+      ],
+      "confusable_with": [
+        "clf-choosing-storage"
+      ],
+      "introduces": [
+        "compute selection"
+      ],
+      "uses": [
+        "ec2 instance",
+        "lambda",
+        "ecs",
+        "eks",
+        "fargate",
+        "lightsail",
+        "aws batch",
+        "lift and shift",
+        "serverless"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-3-identify-aws-compute-/aws-compute-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-3-identify-aws-compute-/recognizing-the-appropriate-use-of-vario"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-3-identify-aws-compute-/task-statement-3-3-identify-aws-compute-"
+        }
+      ],
+      "problem_ideas": [
+        "Ten one-line requirements: name the compute service for each and the distractor you ruled out.",
+        "A company rehosts 40 VMs as-is during a data-center exit: which service, and which keyword in the requirement gives it away?",
+        "An IoT backend processes sensor events that arrive in bursts a few times an hour: pick and justify.",
+        "A team containerized its app and says 'no servers, but it runs 24/7': which combination?",
+        "A small business wants one blog with a fixed $5-a-month bill: which service?",
+        "Spot the trap: 'run a 30-minute job serverlessly with Lambda.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Keyword cues in exam stems: 'no servers', 'Kubernetes', 'OS access'"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "Choosing a compute service from a short scenario is the most common question format in Domain 3."
+      }
+    },
+    {
+      "id": "clf-storage-types",
+      "title": "Object, block and file storage",
+      "size": "standard",
+      "est_min": 10,
+      "section": "block-file",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-block-storage",
+          "statement": "Block storage presents a raw volume to one server, which formats it with a file system. It gives low-latency random reads and writes for operating systems and databases; on AWS this is EBS and instance store."
+        },
+        {
+          "id": "kc-file-storage",
+          "statement": "File storage is a shared hierarchical file system that many servers mount at once over a network protocol such as NFS or SMB; on AWS this is EFS and FSx."
+        },
+        {
+          "id": "kc-object-storage",
+          "statement": "Object storage keeps each file as a whole object, with metadata and a unique key, in a flat namespace accessed over HTTP APIs. Objects are replaced, not edited in place; on AWS this is S3."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Storage-selection questions start from deciding whether the need is object, block or file storage."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-ec2-basics"
+      ],
+      "confusable_with": [
+        "clf-choosing-storage"
+      ],
+      "introduces": [
+        "object storage",
+        "block storage",
+        "file storage"
+      ],
+      "uses": [
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/aws-storage-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/task-statement-3-6-identify-aws-storage-"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "ec2-instance-storage/ec2-instance-storage"
+        }
+      ],
+      "problem_ideas": [
+        "Classify six needs as object, block or file: OS boot disk, shared home directories, 2 million product photos, a MySQL data volume, a team's SMB share, nightly log archives.",
+        "Explain why changing one byte in a 1 GB object means rewriting the whole object.",
+        "Twenty servers must read and write the same folder at once: which storage type?",
+        "A distractor offers block storage for serving images directly to browsers: why is it a poor fit?",
+        "Name the AWS services behind each type: block, file and object.",
+        "A database needs low-latency random writes: which type, and why not object storage?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "What 'block', 'file' and 'object' mean at the API level"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "The exam guide asks you to identify object, block and file storage by name."
+      }
+    },
+    {
+      "id": "clf-ebs",
+      "title": "Amazon EBS: network drives for EC2",
+      "size": "standard",
+      "est_min": 10,
+      "section": "block-file",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-ebs-az-bound",
+          "statement": "An EBS volume is network-attached block storage that persists independently of the instance. It lives in one Availability Zone and normally attaches to one instance in that same AZ at a time."
+        },
+        {
+          "id": "kc-ebs-snapshots",
+          "statement": "An EBS snapshot is a point-in-time, incremental backup of a volume, stored durably by AWS. Snapshots can be copied to other Regions and used to create volumes in any AZ, which is how a volume is moved or restored."
+        },
+        {
+          "id": "kc-ebs-volume-types",
+          "statement": "EBS SSD volumes (gp3/gp2 general purpose; io2/io1 Provisioned IOPS for demanding databases) cost more than HDD volumes (st1 throughput optimized; sc1 cold) but perform better. Only SSD types can be boot volumes."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "EBS is the block-storage answer the exam expects for EC2 boot and database volumes."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-storage-types",
+          "reason": "EBS is introduced as AWS's block storage."
+        },
+        {
+          "topic": "clf-ec2-basics",
+          "reason": "EBS volumes attach to EC2 instances."
+        }
+      ],
+      "suggests": [
+        "clf-availability-zones"
+      ],
+      "confusable_with": [
+        "clf-instance-store",
+        "clf-efs-fsx"
+      ],
+      "introduces": [
+        "ebs",
+        "ebs snapshot",
+        "ebs volume type"
+      ],
+      "uses": [
+        "block storage",
+        "ec2 instance",
+        "availability zone",
+        "region"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "ec2/storage-volumes"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/identifying-block-storage-solutions-for-"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "ec2-instance-storage/ebs-volumes"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "ec2-instance-storage/shared-responsibility-model-for-ec2-stor"
+        }
+      ],
+      "problem_ideas": [
+        "A volume in us-east-1a must be attached to an instance in us-east-1b: list the steps.",
+        "An instance is stopped and started again: what happens to data on its EBS volume?",
+        "A high-transaction Oracle database needs consistent 50,000 IOPS: which volume family?",
+        "A log-processing job streams large sequential files cheaply: which HDD type, and can it be the boot volume?",
+        "For EBS, who handles disk replication within the AZ and who handles snapshots and encryption settings?",
+        "Recover a volume after an accidental deletion of files yesterday: what must have existed beforehand?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How incremental snapshots save only changed blocks"
+        },
+        {
+          "kind": "edge",
+          "title": "Multi-Attach for io1/io2 volumes"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Exam questions on EBS persistence, AZ scope and snapshots come up often, usually next to instance store."
+      }
+    },
+    {
+      "id": "clf-instance-store",
+      "title": "Instance store: fast but temporary",
+      "size": "standard",
+      "est_min": 8,
+      "section": "block-file",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-instance-store-ephemeral",
+          "statement": "Instance store is block storage physically attached to the EC2 host. Its data survives a reboot but is lost when the instance is stopped or terminated, or when the underlying disk fails."
+        },
+        {
+          "id": "kc-instance-store-use",
+          "statement": "Instance store gives the highest I/O performance at no extra charge, so it suits buffers, caches, scratch data and data replicated elsewhere; anything that must persist belongs on EBS."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide lists instance store with EBS among the block storage options learners must tell apart."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-ebs",
+          "reason": "Instance store is taught by contrast with persistent EBS volumes."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-ebs"
+      ],
+      "introduces": [
+        "instance store",
+        "ephemeral storage"
+      ],
+      "uses": [
+        "block storage",
+        "ebs",
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "ec2-instance-storage/ec2-instance-store"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/identifying-block-storage-solutions-for-"
+        }
+      ],
+      "problem_ideas": [
+        "Predict what is left on an instance store volume after a reboot, a stop/start and a termination.",
+        "A distributed cache rebuilds itself from peers: is instance store safe here, and why?",
+        "A finance app writes transaction records to instance store: name the risk and the fix.",
+        "Rank EBS gp3 and instance store on I/O performance and on durability.",
+        "A distractor says instance store volumes can be detached and moved to another instance: correct it.",
+        "Choose storage for temporary video-render frames that are uploaded to S3 when finished."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Why stop/start moves an instance to a new host"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "'Temporary, high-performance storage' is a reliable exam cue for instance store."
+      }
+    },
+    {
+      "id": "clf-efs-fsx",
+      "title": "EFS and FSx: shared file systems",
+      "size": "standard",
+      "est_min": 10,
+      "section": "block-file",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-efs",
+          "statement": "Amazon EFS is a managed NFS file system for Linux that many EC2 instances across multiple Availability Zones can mount at once. It grows and shrinks automatically and is billed per GB stored."
+        },
+        {
+          "id": "kc-efs-ia",
+          "statement": "EFS lifecycle management moves files that have not been accessed for a chosen period to the lower-cost EFS Infrequent Access storage class."
+        },
+        {
+          "id": "kc-fsx",
+          "statement": "Amazon FSx provides fully managed third-party file systems: FSx for Windows File Server (SMB, Active Directory integration), FSx for Lustre (high-performance computing and ML), and FSx for NetApp ONTAP and OpenZFS."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide names EFS and FSx as the file services to identify."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-storage-types",
+          "reason": "EFS and FSx are introduced as AWS's file storage."
+        }
+      ],
+      "suggests": [
+        "clf-ebs"
+      ],
+      "confusable_with": [
+        "clf-ebs",
+        "clf-storage-gateway"
+      ],
+      "introduces": [
+        "efs",
+        "fsx",
+        "efs infrequent access"
+      ],
+      "uses": [
+        "file storage",
+        "ec2 instance",
+        "availability zone"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/identifying-file-services-for-example-am"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "ec2-instance-storage/efs-elastic-file-system"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "ec2-instance-storage/efs-infrequent-access-efs-ia"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "ec2-instance-storage/amazon-fsx-overview"
+        }
+      ],
+      "problem_ideas": [
+        "A Linux web fleet across three AZs must share uploaded files: which service?",
+        "A Windows app needs SMB shares joined to Active Directory: which service?",
+        "An ML team needs a file system with very high throughput fed from S3 for training: which FSx flavour?",
+        "Files untouched for 60 days make up 80% of an EFS file system: name the feature that cuts cost.",
+        "A distractor offers EBS for 50 instances sharing one folder: why does it fail?",
+        "Match four requirements to EFS, FSx for Windows, FSx for Lustre or FSx for NetApp ONTAP."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "NFS vs SMB: Linux and Windows file sharing"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "EFS versus FSx versus EBS is a classic exam trio for 'shared file access' questions."
+      }
+    },
+    {
+      "id": "clf-s3-basics",
+      "title": "Amazon S3: buckets and objects",
+      "size": "standard",
+      "est_min": 10,
+      "section": "s3-hybrid",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-s3-buckets-objects",
+          "statement": "S3 stores objects, each up to 50 TB, in buckets. A bucket's name is globally unique, but the bucket itself is created in one Region you choose."
+        },
+        {
+          "id": "kc-s3-durability",
+          "statement": "S3 is designed for 99.999999999% (11 nines) durability: standard classes store data redundantly across at least three Availability Zones. It scales to virtually unlimited storage."
+        },
+        {
+          "id": "kc-s3-use-cases",
+          "statement": "Typical S3 uses are backup and archive, static website hosting, data lakes for analytics and media distribution. Versioning keeps earlier versions of each object so overwrites and deletes can be undone."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "S3 is the expected answer for object-storage requirements across the exam."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-storage-types",
+          "reason": "S3 is introduced as AWS's object storage."
+        }
+      ],
+      "suggests": [
+        "clf-regions"
+      ],
+      "confusable_with": [
+        "clf-ebs",
+        "clf-efs-fsx"
+      ],
+      "introduces": [
+        "s3",
+        "s3 bucket",
+        "s3 object",
+        "s3 versioning",
+        "static website hosting"
+      ],
+      "uses": [
+        "object storage",
+        "region",
+        "availability zone"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/identifying-the-uses-for-object-storage"
+        }
+      ],
+      "problem_ideas": [
+        "A team tries to create a bucket named 'backup' and gets an error: explain why.",
+        "A 60 TB raw video master must be stored in S3: can it be one object, and what is the limit?",
+        "Data must stay in Germany: what decides where an S3 bucket's data lives?",
+        "An intern overwrites a critical config object: which feature would have saved the old copy?",
+        "A marketing site is plain HTML, CSS and images: host it with no servers at all.",
+        "Out of 10 million objects at 11 nines durability, how many would you expect to lose in 10,000 years?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Block Public Access and how S3 data leaks happen"
+        },
+        {
+          "kind": "math",
+          "title": "What 11 nines of durability means in practice"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "S3 is the single most-tested storage service on CLF-C02."
+      }
+    },
+    {
+      "id": "clf-s3-storage-classes",
+      "title": "S3 storage classes: hot to frozen",
+      "size": "big",
+      "est_min": 14,
+      "section": "s3-hybrid",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-s3-standard-ia",
+          "statement": "S3 Standard suits frequently accessed data. S3 Standard-IA costs less to store but adds a per-GB retrieval fee and a 30-day minimum, for data read about once a month or less. S3 One Zone-IA is cheaper still but keeps data in a single AZ, so it suits re-creatable data."
+        },
+        {
+          "id": "kc-s3-glacier-classes",
+          "statement": "S3 Glacier Instant Retrieval returns archived data in milliseconds, Glacier Flexible Retrieval in minutes to 12 hours, and Glacier Deep Archive, the cheapest class, within 12–48 hours. Their minimum storage durations are 90, 90 and 180 days."
+        },
+        {
+          "id": "kc-s3-intelligent-tiering",
+          "statement": "S3 Intelligent-Tiering moves each object between access tiers automatically based on its access pattern, for a small monthly monitoring fee and no retrieval fees. It is the choice when access patterns are unknown or change over time."
+        },
+        {
+          "id": "kc-s3-class-tradeoff",
+          "statement": "Every S3 storage class trades storage price against retrieval fee, retrieval time and minimum storage duration: the less often data is read and the longer a read can wait, the colder and cheaper the right class."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide asks learners to recognise the differences between S3 storage classes and pick one for an access pattern."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-s3-basics",
+          "reason": "Storage classes are a property of S3 objects."
+        }
+      ],
+      "suggests": [
+        "clf-availability-zones"
+      ],
+      "confusable_with": [
+        "clf-s3-lifecycle"
+      ],
+      "introduces": [
+        "s3 storage class",
+        "s3 standard-ia",
+        "s3 one zone-ia",
+        "s3 intelligent-tiering",
+        "s3 glacier"
+      ],
+      "uses": [
+        "s3",
+        "s3 object",
+        "availability zone"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "storage-types/storage-types"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "storage-types/standard"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "storage-types/s3-ia"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "storage-types/glacier"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/recognizing-the-differences-in-amazon-s3"
+        }
+      ],
+      "problem_ideas": [
+        "Medical images are read rarely but must open in milliseconds when a doctor asks: which class?",
+        "Regulatory archives are kept 7 years and read perhaps once, with 48 hours' notice: which class?",
+        "Thumbnails can be regenerated from originals: which IA class saves the most, and what risk do you accept?",
+        "A new app's access pattern is unknown: which class avoids guessing?",
+        "A team moves objects to Deep Archive and deletes them after 30 days: what extra charge appears?",
+        "Rank Standard, Standard-IA, Glacier Flexible Retrieval and Deep Archive by storage price and by retrieval time."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Minimum duration and minimum object size charges"
+        },
+        {
+          "kind": "adjacent",
+          "title": "S3 Express One Zone for single-digit-millisecond access"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "Questions asking you to pick a storage class come up on nearly every CLF-C02 exam."
+      }
+    },
+    {
+      "id": "clf-s3-lifecycle",
+      "title": "S3 lifecycle policies: automatic tiering",
+      "size": "standard",
+      "est_min": 8,
+      "section": "s3-hybrid",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-lifecycle-transitions",
+          "statement": "An S3 lifecycle configuration holds rules, scoped to a bucket, prefix or tag, that move objects to cheaper storage classes after a set age; for example Standard to Standard-IA at 30 days, then to Glacier Deep Archive at 180."
+        },
+        {
+          "id": "kc-lifecycle-expiration",
+          "statement": "Lifecycle expiration actions delete objects, or old noncurrent versions, after a set age, so logs and temporary data stop adding storage cost automatically."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide lists use cases for lifecycle policies as a storage item."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-s3-storage-classes",
+          "reason": "Transitions move objects between storage classes, so the classes must be known."
+        }
+      ],
+      "suggests": [
+        "clf-s3-basics"
+      ],
+      "confusable_with": [
+        "clf-s3-storage-classes",
+        "clf-aws-backup"
+      ],
+      "introduces": [
+        "s3 lifecycle policy",
+        "transition action",
+        "expiration action"
+      ],
+      "uses": [
+        "s3",
+        "s3 storage class",
+        "s3 versioning",
+        "s3 standard-ia",
+        "s3 glacier"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/understanding-use-cases-for-lifecycle-po"
+        }
+      ],
+      "problem_ideas": [
+        "Given rules 'Standard-IA at 30 days, Deep Archive at 180, expire at 365', say where a 45-day-old, a 200-day-old and a 400-day-old object are.",
+        "Logs are read for 1 week, kept for audit for 1 year, then deleted: pick the transition and expiration actions that fit.",
+        "Apply a rule only to objects under the prefix 'raw/': what scopes the rule?",
+        "A versioned bucket keeps growing although users delete files: which lifecycle action fixes it?",
+        "Compute the monthly storage bill for 10 TB of logs with and without a 30-day transition to Standard-IA, given per-GB prices.",
+        "Which tool fits each need: lifecycle rule or Intelligent-Tiering, for a known versus an unknown access pattern?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Transition constraints between classes"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Exam questions about cutting S3 cost automatically usually expect a lifecycle policy; you choose the rule, never write it."
+      }
+    },
+    {
+      "id": "clf-storage-gateway",
+      "title": "Storage Gateway: on-premises access to AWS storage",
+      "size": "standard",
+      "est_min": 10,
+      "section": "s3-hybrid",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-storage-gateway-hybrid",
+          "statement": "AWS Storage Gateway is a hybrid cloud storage service that gives on-premises applications access to virtually unlimited AWS storage, keeping frequently used data in a local cache for low-latency access."
+        },
+        {
+          "id": "kc-gateway-types",
+          "statement": "S3 File Gateway exposes S3 as NFS/SMB file shares. Volume Gateway presents iSCSI block volumes backed by S3 with EBS snapshots. Tape Gateway replaces physical backup tapes with a virtual tape library stored in S3 and Glacier."
+        },
+        {
+          "id": "kc-storage-gateway-ongoing",
+          "statement": "Storage Gateway is for ongoing hybrid access to cloud storage from on-premises applications, not for a one-time bulk transfer of data into AWS."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide names Storage Gateway as the cached file system service to identify."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-s3-basics",
+          "reason": "Gateway types store their data in S3."
+        },
+        {
+          "topic": "clf-storage-types",
+          "reason": "The gateway types map to file, block and tape-style access."
+        }
+      ],
+      "suggests": [
+        "clf-deployment-models",
+        "clf-ebs"
+      ],
+      "confusable_with": [
+        "clf-efs-fsx",
+        "clf-aws-backup"
+      ],
+      "introduces": [
+        "storage gateway",
+        "file gateway",
+        "volume gateway",
+        "tape gateway"
+      ],
+      "uses": [
+        "hybrid cloud",
+        "on-premises deployment",
+        "s3",
+        "s3 glacier",
+        "ebs snapshot",
+        "file storage",
+        "block storage"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/identifying-cached-file-systems-for-exam"
+        }
+      ],
+      "problem_ideas": [
+        "A company's backup software writes to tape libraries it wants to retire: which gateway type?",
+        "Office file servers run out of disk, but users need fast access to recent files: which gateway type?",
+        "An on-premises app needs iSCSI disks with cloud-backed snapshots: which gateway type?",
+        "A distractor offers Storage Gateway for a one-time 500 TB move: why is it the wrong tool?",
+        "Explain what the local cache gives on-premises users.",
+        "Classify each scenario as hybrid cloud or a pure cloud deployment, and say whether Storage Gateway fits."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Gateway appliances: VM versus hardware"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Exam questions about hybrid storage, and especially tape backup, expect Storage Gateway."
+      }
+    },
+    {
+      "id": "clf-aws-backup",
+      "title": "AWS Backup: central backup management",
+      "size": "standard",
+      "est_min": 8,
+      "section": "s3-hybrid",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-aws-backup-central",
+          "statement": "AWS Backup centrally automates backups across services such as EC2, EBS, EFS, FSx, RDS, DynamoDB and S3, using backup plans that set the schedule and retention."
+        },
+        {
+          "id": "kc-aws-backup-cross",
+          "statement": "AWS Backup can copy backups to another Region or to another account in the same organization for disaster recovery and compliance, and Vault Lock can make backups immutable."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide lists use cases for AWS Backup as a storage item."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-ebs",
+        "clf-multi-az-multi-region"
+      ],
+      "confusable_with": [
+        "clf-storage-gateway",
+        "clf-s3-lifecycle"
+      ],
+      "introduces": [
+        "aws backup",
+        "backup plan"
+      ],
+      "uses": [
+        "ebs",
+        "efs",
+        "fsx",
+        "s3",
+        "region",
+        "disaster recovery"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/understanding-use-cases-for-aws-backup"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-aws-services/aws-backup"
+        }
+      ],
+      "problem_ideas": [
+        "A company scripts snapshots separately for EBS, RDS and EFS and keeps missing some: which service unifies them?",
+        "Auditors require daily backups kept for 35 days and monthly backups kept for 7 years: what do you configure?",
+        "Backups must survive the loss of an entire Region: which AWS Backup feature?",
+        "Ransomware could delete backups using stolen admin credentials: which feature prevents it?",
+        "Distinguish AWS Backup from an S3 lifecycle policy in one sentence each.",
+        "Choose between AWS Backup and Storage Gateway for each of three scenarios."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Backup vs disaster recovery: RPO and RTO"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Exam questions about centrally managed backups across many services expect AWS Backup."
+      }
+    },
+    {
+      "id": "clf-choosing-storage",
+      "title": "Choosing a storage service for a requirement",
+      "size": "standard",
+      "est_min": 10,
+      "section": "s3-hybrid",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-choose-block-volume",
+          "statement": "A boot or database volume for one EC2 instance calls for EBS. Temporary, very fast scratch space that can be lost calls for instance store."
+        },
+        {
+          "id": "kc-choose-shared-files",
+          "statement": "Shared file access from many Linux instances calls for EFS. Windows SMB shares or Lustre high-performance computing call for FSx."
+        },
+        {
+          "id": "kc-choose-object-hybrid-backup",
+          "statement": "Unlimited storage for files, backups or static web content reachable over HTTP calls for S3. Low-latency on-premises access to cloud storage calls for Storage Gateway. Centrally scheduled backups across services call for AWS Backup."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Picking the storage service for a one-paragraph requirement and ruling out the nearest distractor is o4's observable product."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-instance-store",
+          "reason": "The block choice contrasts EBS with instance store."
+        },
+        {
+          "topic": "clf-efs-fsx",
+          "reason": "The shared-file choice depends on EFS and FSx."
+        },
+        {
+          "topic": "clf-storage-gateway",
+          "reason": "The hybrid choice depends on Storage Gateway."
+        }
+      ],
+      "suggests": [
+        "clf-aws-backup",
+        "clf-s3-storage-classes"
+      ],
+      "confusable_with": [
+        "clf-storage-types",
+        "clf-choosing-compute"
+      ],
+      "introduces": [
+        "storage selection"
+      ],
+      "uses": [
+        "ebs",
+        "instance store",
+        "efs",
+        "fsx",
+        "s3",
+        "storage gateway",
+        "aws backup"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/task-statement-3-6-identify-aws-storage-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-6-identify-aws-storage-/aws-storage-services"
+        }
+      ],
+      "problem_ideas": [
+        "Twelve one-line requirements: name the storage service and the distractor you ruled out.",
+        "A WordPress fleet behind a load balancer needs a shared uploads folder: EBS, EFS or S3, and why?",
+        "A SQL Server database on EC2 needs a fast persistent data volume: which service and volume family?",
+        "A media company serves 50 TB of videos to browsers worldwide: which storage, and which words in the stem point there?",
+        "A branch office needs SMB shares with a local cache of cloud data: which service?",
+        "Spot the trap: 'use instance store for the only copy of customer orders.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Exam-stem keywords for each storage service"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Choosing a storage service from a short scenario is a staple of Domain 3."
+      }
+    }
+  ],
+  "groups": {}
+}

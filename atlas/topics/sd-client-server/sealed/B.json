@@ -1,0 +1,208 @@
+[
+  {
+    "id": "sd-client-server/test-b1",
+    "family": "sd-client-server-cs-forms-ebook-roles-multi",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "Pagewise is an e-book app. When a reader opens chapter 5, these request-response exchanges happen:\n\n1. The reader's phone app sends the request \"give me chapter 5\" to a Pagewise book server.\n2. The book server sends the request \"does this reader own this book?\" to a separate licensing service and waits for the answer.\n3. The book server sends chapter 5 back to the phone as the response to step 1.\n\nThousands of readers' phones use the same book server and its single stored copy of the catalogue.\n\nWhich statements about these exchanges are correct? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "In step 1, the phone app is the client and the book server is the server",
+        "correct": true,
+        "why_md": "True. The phone app sends the request and the book server answers it."
+      },
+      {
+        "id": "b",
+        "md": "In step 2, the book server is the client",
+        "correct": true,
+        "why_md": "True. In that exchange the book server sends the request and the licensing service answers, so the book server is the client."
+      },
+      {
+        "id": "c",
+        "md": "The book server is the server in every one of these exchanges, because client and server are fixed labels for machines",
+        "why_md": "False. Client and server are roles in a single exchange. In step 2 the book server sends the request, so it is the client.",
+        "misconception": "mc-server-never-client"
+      },
+      {
+        "id": "d",
+        "md": "In step 1, the book server sends the request and the phone app answers it",
+        "why_md": "False. The trace says the phone app sends \"give me chapter 5\", so the phone starts that exchange and the book server answers.",
+        "misconception": "mc-server-starts"
+      },
+      {
+        "id": "e",
+        "md": "The many readers' phones share the book server's resources, including its one copy of the catalogue",
+        "correct": true,
+        "why_md": "True. One server answers many clients, and they all share its processor, memory and data."
+      }
+    ],
+    "hints": [
+      "For each numbered exchange, mark who sends the request (client) and who answers (server). Then recall what many clients share.",
+      "Step 1: the phone asks and the book server answers. Step 2: the book server asks and the licensing service answers. Many phones share one book server."
+    ],
+    "solution_md": "1. **Step 1:** the phone sends the request and the book server answers, so the phone is the client and the book server is the server. **(a) is true** and **(d) is false**, because (d) reverses who sent the request.\n2. **Step 2:** the book server sends the request and the licensing service answers, so in that exchange the book server is the client. **(b) is true.** This makes **(c) false**: roles belong to an exchange, not to a machine.\n3. **Sharing:** one book server answers many phones, and they share its processor, memory and its one copy of the catalogue. **(e) is true.**\n\n**Answer: a, b, e.**",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/test-b2",
+    "family": "sd-client-server-cs-forms-homework-server-role",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-client-server-roles"
+    ],
+    "prompt_md": "A school's homework portal follows client-server architecture. Students' browsers connect to one portal server, which stores the homework list. The portal sends a browser nothing until that browser asks. Which sentence correctly describes the **portal server's** role?",
+    "options": [
+      {
+        "id": "a",
+        "md": "It starts each exchange by sending homework to students' browsers before they ask",
+        "why_md": "In client-server architecture the server does not start the exchange. The browser asks first, then the server responds.",
+        "misconception": "mc-server-starts"
+      },
+      {
+        "id": "b",
+        "md": "It needs one dedicated copy of itself per student, each holding a separate homework list",
+        "why_md": "One server answers many clients, and they share its resources, including one copy of the homework list."
+      },
+      {
+        "id": "c",
+        "md": "It waits for requests from students' browsers, processes each one and sends back a response, while many browsers share it",
+        "correct": true,
+        "why_md": "Right. This is the server's role: wait, process, respond, with many clients sharing one server's resources."
+      }
+    ],
+    "hints": [
+      "Recall the definition of a server: what does it do between requests, and how many clients does it serve?",
+      "A server waits for requests, processes them and responds. Many clients share one server."
+    ],
+    "solution_md": "1. A **server** waits for requests, does the work each one needs and sends back a response.\n2. Clients, here the students' browsers, start every exchange. That rules out (a).\n3. One server answers **many** clients, and they share its processor, memory and data, including one homework list. That rules out (b).\n\n**Answer: c.**",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-client-server"
+    }
+  },
+  {
+    "id": "sd-client-server/test-b3",
+    "family": "sd-client-server-cs-forms-cinema-two-tier-ar",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-three-tier"
+    ],
+    "prompt_md": "Reelhouse, a cinema chain, is thinking about removing its app servers so that its booking app sends SQL database queries straight to the database. In the proposed design:\n\n- every copy of the booking app contains the same database login and password;\n- the rule \"at most 6 seats per booking\" is checked only by code, and with no app servers that code runs inside the booking app (the database does not enforce it);\n- the app queries the database tables directly, with no compatibility layer such as views.\n\n**Assertion (A):** Under these assumptions, letting the booking app query the database directly, with no application tier in between, has real downsides.\n\n**Reason (R):** Without an application tier, the database can no longer store booking data.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "R is false. In a two-tier design the database still stores bookings. The real downsides come from the stated assumptions: the shared password ships in every app, and a modified app can skip the seat limit."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is false, not just irrelevant. The database can still store data when clients query it directly."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "correct": true,
+        "why_md": "Right. Under the stated assumptions A is true: anyone can pull the shared password out of the app, a modified app can skip the 6-seat rule because nothing else checks it, and changing the table layout breaks installed apps that haven't been updated. R is false: the database still stores booking data."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. With a shared embedded password and a seat rule checked only in the app, dropping the application tier is not harmless. R is the false statement: the database can still store data.",
+        "misconception": "mc-two-tier-harmless"
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. For A, use the three stated assumptions about the proposed design. For R, ask whether the database can still store data when the app queries it directly.",
+      "A: the shared password is in every copy of the app, the 6-seat rule exists only in app code that a user could modify, and the app depends on the exact table layout, so A is true. R: the database still stores data, so R is false. That makes the answer A true, R false."
+    ],
+    "solution_md": "1. **A:** Check A against the stated assumptions.\n   - Every copy of the app carries the same database password, so anyone who extracts it can query the database.\n   - The 6-seat rule is checked only in the app's code, so a modified app can skip it and the database will accept the booking.\n   - The app queries the tables directly with no views, so renaming or removing a table or column its queries use breaks installed apps until users update.\n   These are real downsides, so **A is true**.\n2. **R:** The database keeps storing and returning data whether queries come from app servers or straight from the app. **R is false.**\n3. A true and R false matches option c.\n\n**Answer: c (A true; R false).**",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-client-server-r2"
+    }
+  },
+  {
+    "id": "sd-client-server/test-b4",
+    "family": "sd-client-server-cs-forms-hotel-rule-tier",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-three-tier"
+    ],
+    "prompt_md": "Staybright Hotels uses a three-tier architecture: its website and mobile app, 6 app servers across 2 regions, and one database. Staybright wants to change the rule \"free cancellation up to 48 hours before check-in\" to **24 hours**. Guests must **not** need to install an app update, and nobody should be able to get around the rule with a modified app.\n\nWhere should this rule run?",
+    "options": [
+      {
+        "id": "a",
+        "md": "In the presentation tier, inside the mobile app and website, because that is where guests press *Cancel*",
+        "why_md": "Then every guest would need an app update to get the new rule, and a modified app could skip the rule entirely."
+      },
+      {
+        "id": "b",
+        "md": "In the application tier, on Staybright's app servers, because the rule is business logic",
+        "correct": true,
+        "why_md": "Right. Business logic runs in the application tier. Changing it there updates the rule for every guest at once, and a modified app cannot bypass it."
+      },
+      {
+        "id": "c",
+        "md": "On whichever single machine is least busy, because each tier is exactly one machine",
+        "why_md": "Tiers are not single machines: Staybright's application tier alone has 6 app servers. A rule belongs to a tier because of what it is, not because a machine has spare capacity.",
+        "misconception": "mc-tier-one-machine"
+      }
+    ],
+    "hints": [
+      "Ask which kind of thing the cancellation rule is, and which tier runs that kind of thing.",
+      "It's a business rule, so it runs on Staybright's app servers (application tier). Changing it there needs no app update, and the app can't skip it."
+    ],
+    "solution_md": "1. \"Free cancellation up to N hours before check-in\" is a **business rule**.\n2. Business logic runs in the **application tier**, on Staybright's 6 app servers.\n3. Because the tiers meet only at their boundaries, changing the rule there updates it for every guest without touching the app. A modified app can't skip it, because the server enforces it.\n4. Putting it in the app (a) would require updates and could be bypassed. Option (c) wrongly treats each tier as one machine.\n\n**Answer: b.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-client-server",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-client-server"
+    }
+  }
+]

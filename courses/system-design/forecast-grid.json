@@ -1,0 +1,492 @@
+{
+  "forecasts": [
+    {
+      "source": "gate",
+      "seeds": 101,
+      "D": 60,
+      "days": 5,
+      "s": 0.3,
+      "h": 6,
+      "K": 3,
+      "R": 15,
+      "components": {
+        "analysis": 488,
+        "debrief": 716,
+        "final": 145,
+        "halfway": 152,
+        "hands_on": 4752,
+        "lab_checks": 178,
+        "lab_practice": 71,
+        "lessons": 2341,
+        "mocks": 423,
+        "recall": 53,
+        "repairs": 535,
+        "retests": 147,
+        "reviews": 1349,
+        "revision": 228,
+        "sets": 878,
+        "stage": 200,
+        "unit_tests": 564,
+        "weekly": 591
+      },
+      "tests": 2789,
+      "total": 9059,
+      "weeks": 50,
+      "p90_weeks": 56.71,
+      "closed_form_weeks": 34.9,
+      "binding": "reviews",
+      "pace": {
+        "month1": 0.76,
+        "sustained": 0.34
+      },
+      "by_month": [
+        {
+          "month": 1,
+          "topics_per_day": 0.76,
+          "review_min": 1.87,
+          "test_min": 8.84,
+          "hands_on_min": 17.04,
+          "binding": "ceiling"
+        },
+        {
+          "month": 2,
+          "topics_per_day": 0.58,
+          "review_min": 3.55,
+          "test_min": 13.16,
+          "hands_on_min": 14.15,
+          "binding": "ceiling"
+        },
+        {
+          "month": 3,
+          "topics_per_day": 0.47,
+          "review_min": 4.5,
+          "test_min": 15.49,
+          "hands_on_min": 13.37,
+          "binding": "time"
+        },
+        {
+          "month": 4,
+          "topics_per_day": 0.43,
+          "review_min": 5.04,
+          "test_min": 15.07,
+          "hands_on_min": 15.67,
+          "binding": "time"
+        },
+        {
+          "month": 5,
+          "topics_per_day": 0.49,
+          "review_min": 5.79,
+          "test_min": 9.63,
+          "hands_on_min": 18.17,
+          "binding": "reviews"
+        },
+        {
+          "month": 6,
+          "topics_per_day": 0.38,
+          "review_min": 6.37,
+          "test_min": 11.47,
+          "hands_on_min": 19.53,
+          "binding": "reviews"
+        },
+        {
+          "month": 7,
+          "topics_per_day": 0.37,
+          "review_min": 6.32,
+          "test_min": 12.82,
+          "hands_on_min": 20.15,
+          "binding": "reviews"
+        },
+        {
+          "month": 8,
+          "topics_per_day": 0.35,
+          "review_min": 6.41,
+          "test_min": 10.56,
+          "hands_on_min": 22.75,
+          "binding": "reviews"
+        },
+        {
+          "month": 9,
+          "topics_per_day": 0.31,
+          "review_min": 6.42,
+          "test_min": 10.72,
+          "hands_on_min": 23.17,
+          "binding": "reviews"
+        },
+        {
+          "month": 10,
+          "topics_per_day": 0.24,
+          "review_min": 6.76,
+          "test_min": 10.6,
+          "hands_on_min": 24.82,
+          "binding": "reviews"
+        },
+        {
+          "month": 11,
+          "topics_per_day": 0.25,
+          "review_min": 6.94,
+          "test_min": 9.32,
+          "hands_on_min": 24.6,
+          "binding": "reviews"
+        },
+        {
+          "month": 12,
+          "topics_per_day": 0.19,
+          "review_min": 7.18,
+          "test_min": 10.38,
+          "hands_on_min": 26.6,
+          "binding": "reviews"
+        },
+        {
+          "month": 13,
+          "topics_per_day": 0.16,
+          "review_min": 7.1,
+          "test_min": 12.76,
+          "hands_on_min": 25.83,
+          "binding": "reviews"
+        },
+        {
+          "month": 14,
+          "topics_per_day": 0.14,
+          "review_min": 6.95,
+          "test_min": 14.59,
+          "hands_on_min": 24.6,
+          "binding": "tests"
+        },
+        {
+          "month": 15,
+          "topics_per_day": 0.11,
+          "review_min": 6.64,
+          "test_min": 19.7,
+          "hands_on_min": 21.28,
+          "binding": "tests"
+        },
+        {
+          "month": 16,
+          "topics_per_day": 0.17,
+          "review_min": 7.8,
+          "test_min": 8.21,
+          "hands_on_min": 31.21,
+          "binding": "reviews"
+        },
+        {
+          "month": 17,
+          "topics_per_day": 0.08,
+          "review_min": 6.11,
+          "test_min": 23.5,
+          "hands_on_min": 18.67,
+          "binding": "tests"
+        }
+      ],
+      "retained_coverage": 1,
+      "completed": "101/101"
+    },
+    {
+      "source": "gate",
+      "seeds": 101,
+      "D": 90,
+      "days": 5,
+      "s": 0.3,
+      "h": 9,
+      "K": 3,
+      "R": 23,
+      "components": {
+        "analysis": 533,
+        "debrief": 445,
+        "final": 155,
+        "halfway": 152,
+        "hands_on": 4592,
+        "lab_checks": 178,
+        "lab_practice": 28,
+        "lessons": 2335,
+        "mocks": 448,
+        "recall": 70,
+        "repairs": 500,
+        "retests": 135,
+        "reviews": 1019,
+        "revision": 230,
+        "sets": 873,
+        "stage": 267,
+        "unit_tests": 565,
+        "weekly": 473
+      },
+      "tests": 2824,
+      "total": 8406,
+      "weeks": 31.29,
+      "p90_weeks": 33.29,
+      "closed_form_weeks": 23.6,
+      "binding": "ceiling",
+      "pace": {
+        "month1": 0.97,
+        "sustained": 0.53
+      },
+      "by_month": [
+        {
+          "month": 1,
+          "topics_per_day": 0.97,
+          "review_min": 2.48,
+          "test_min": 11.36,
+          "hands_on_min": 35.83,
+          "binding": "ceiling"
+        },
+        {
+          "month": 2,
+          "topics_per_day": 0.74,
+          "review_min": 4.51,
+          "test_min": 20.83,
+          "hands_on_min": 27.22,
+          "binding": "ceiling"
+        },
+        {
+          "month": 3,
+          "topics_per_day": 0.67,
+          "review_min": 5.96,
+          "test_min": 21.87,
+          "hands_on_min": 28,
+          "binding": "ceiling"
+        },
+        {
+          "month": 4,
+          "topics_per_day": 0.72,
+          "review_min": 7.41,
+          "test_min": 17.35,
+          "hands_on_min": 27.57,
+          "binding": "ceiling"
+        },
+        {
+          "month": 5,
+          "topics_per_day": 0.59,
+          "review_min": 8.17,
+          "test_min": 21.44,
+          "hands_on_min": 29.25,
+          "binding": "ceiling"
+        },
+        {
+          "month": 6,
+          "topics_per_day": 0.55,
+          "review_min": 8.61,
+          "test_min": 17.23,
+          "hands_on_min": 33.29,
+          "binding": "ceiling"
+        },
+        {
+          "month": 7,
+          "topics_per_day": 0.42,
+          "review_min": 9.01,
+          "test_min": 18.87,
+          "hands_on_min": 32.78,
+          "binding": "reviews"
+        },
+        {
+          "month": 8,
+          "topics_per_day": 0.27,
+          "review_min": 9.41,
+          "test_min": 22.66,
+          "hands_on_min": 36.36,
+          "binding": "tests"
+        },
+        {
+          "month": 9,
+          "topics_per_day": 0.07,
+          "review_min": 8.65,
+          "test_min": 38.52,
+          "hands_on_min": 33.26,
+          "binding": "tests"
+        }
+      ],
+      "retained_coverage": 1,
+      "completed": "101/101"
+    },
+    {
+      "source": "gate",
+      "seeds": 101,
+      "D": 120,
+      "days": 5,
+      "s": 0.4,
+      "h": 12,
+      "K": 12,
+      "R": 30,
+      "components": {
+        "analysis": 504,
+        "debrief": 316,
+        "final": 155,
+        "halfway": 152,
+        "hands_on": 4326,
+        "lab_checks": 179,
+        "lab_practice": 40,
+        "lessons": 2335,
+        "mocks": 442,
+        "recall": 48,
+        "repairs": 501,
+        "retests": 141,
+        "reviews": 826,
+        "revision": 225,
+        "sets": 859,
+        "stage": 334,
+        "unit_tests": 565,
+        "weekly": 398
+      },
+      "tests": 2766,
+      "total": 8020,
+      "weeks": 22.14,
+      "p90_weeks": 23.71,
+      "closed_form_weeks": 15.13,
+      "binding": "tests",
+      "pace": {
+        "month1": 1.42,
+        "sustained": 0.6
+      },
+      "by_month": [
+        {
+          "month": 1,
+          "topics_per_day": 1.42,
+          "review_min": 3.46,
+          "test_min": 19.69,
+          "hands_on_min": 37.86,
+          "binding": "time"
+        },
+        {
+          "month": 2,
+          "topics_per_day": 0.88,
+          "review_min": 5.75,
+          "test_min": 26.84,
+          "hands_on_min": 42.86,
+          "binding": "tests"
+        },
+        {
+          "month": 3,
+          "topics_per_day": 1.04,
+          "review_min": 8.35,
+          "test_min": 27.46,
+          "hands_on_min": 32.82,
+          "binding": "time"
+        },
+        {
+          "month": 4,
+          "topics_per_day": 0.81,
+          "review_min": 9.72,
+          "test_min": 27.82,
+          "hands_on_min": 40.4,
+          "binding": "tests"
+        },
+        {
+          "month": 5,
+          "topics_per_day": 0.58,
+          "review_min": 10.35,
+          "test_min": 25.58,
+          "hands_on_min": 45.64,
+          "binding": "tests"
+        },
+        {
+          "month": 6,
+          "topics_per_day": 0.26,
+          "review_min": 10.66,
+          "test_min": 32.94,
+          "hands_on_min": 54.67,
+          "binding": "tests"
+        },
+        {
+          "month": 7,
+          "topics_per_day": 0.04,
+          "review_min": 9.59,
+          "test_min": 39.37,
+          "hands_on_min": 63,
+          "binding": "tests"
+        }
+      ],
+      "retained_coverage": 1,
+      "completed": "101/101"
+    },
+    {
+      "source": "gate",
+      "seeds": 101,
+      "D": 180,
+      "days": 5,
+      "s": 0.4,
+      "h": 18,
+      "K": 12,
+      "R": 45,
+      "components": {
+        "analysis": 450,
+        "debrief": 258,
+        "final": 155,
+        "halfway": 152,
+        "hands_on": 7587,
+        "lab_checks": 178,
+        "lab_practice": 26,
+        "lessons": 2334,
+        "mocks": 350,
+        "recall": 45,
+        "repairs": 495,
+        "retests": 143,
+        "reviews": 724,
+        "revision": 222,
+        "sets": 869,
+        "stage": 393,
+        "unit_tests": 566,
+        "weekly": 309
+      },
+      "tests": 2589,
+      "total": 7669,
+      "weeks": 18.14,
+      "p90_weeks": 20,
+      "closed_form_weeks": 10.33,
+      "binding": "tests",
+      "pace": {
+        "month1": 1.61,
+        "sustained": 0.62
+      },
+      "by_month": [
+        {
+          "month": 1,
+          "topics_per_day": 1.61,
+          "review_min": 3.78,
+          "test_min": 22.54,
+          "hands_on_min": 86.62,
+          "binding": "tests"
+        },
+        {
+          "month": 2,
+          "topics_per_day": 1.15,
+          "review_min": 6.99,
+          "test_min": 27.04,
+          "hands_on_min": 90.4,
+          "binding": "tests"
+        },
+        {
+          "month": 3,
+          "topics_per_day": 1.13,
+          "review_min": 10.09,
+          "test_min": 31.08,
+          "hands_on_min": 82.56,
+          "binding": "tests"
+        },
+        {
+          "month": 4,
+          "topics_per_day": 0.78,
+          "review_min": 11.41,
+          "test_min": 32.99,
+          "hands_on_min": 87.79,
+          "binding": "tests"
+        },
+        {
+          "month": 5,
+          "topics_per_day": 0.33,
+          "review_min": 11.09,
+          "test_min": 42.49,
+          "hands_on_min": 100.15,
+          "binding": "tests"
+        },
+        {
+          "month": 6,
+          "topics_per_day": 0,
+          "review_min": 11.48,
+          "test_min": 46.81,
+          "hands_on_min": 116.7,
+          "binding": "tests"
+        }
+      ],
+      "retained_coverage": 1,
+      "completed": "101/101"
+    }
+  ]
+}

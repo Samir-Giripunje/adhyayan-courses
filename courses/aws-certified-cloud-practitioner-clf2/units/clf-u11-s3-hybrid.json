@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u11-s3-hybrid",
+  "title": "S3, hybrid storage and backup",
+  "topics": [
+    {
+      "id": "clf-s3-basics",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-s3-storage-classes",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-s3-lifecycle",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-storage-gateway",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-aws-backup",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-choosing-storage",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

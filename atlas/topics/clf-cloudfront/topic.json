@@ -1,0 +1,80 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-cloudfront",
+  "version": 1,
+  "title": "Amazon CloudFront: caching content at the edge",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-cloudfront-cdn-edge",
+      "version": 1,
+      "statement": "Amazon CloudFront is a content delivery network that caches copies of content at edge locations, so users get lower latency than fetching from the origin Region."
+    },
+    {
+      "id": "kc-cloudfront-origin-ttl",
+      "version": 1,
+      "statement": "A CloudFront distribution fetches content from an origin such as an S3 bucket, a load balancer or an EC2 instance, and serves cached copies until they expire or are invalidated."
+    },
+    {
+      "id": "kc-cloudfront-protects-origin",
+      "version": 1,
+      "statement": "CloudFront reduces load on the origin because cached requests never reach it, and AWS Shield Standard DDoS protection applies to CloudFront at no extra cost."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-edge-locations"
+  ],
+  "suggests": [
+    "clf-s3-basics"
+  ],
+  "confusable_with": [
+    "clf-global-accelerator",
+    "clf-route53"
+  ],
+  "introduces": [
+    "cloudfront",
+    "content delivery network",
+    "origin",
+    "cache invalidation"
+  ],
+  "uses": [
+    "edge location",
+    "s3 bucket",
+    "elastic load balancing",
+    "ec2 instance",
+    "region"
+  ],
+  "problem_ideas": [
+    "Product images in an S3 bucket in us-east-1 load slowly for users in Australia: what fixes it with least effort?",
+    "You updated logo.png but users still see the old one: explain and fix",
+    "Name three valid CloudFront origins",
+    "A flash sale will multiply page views 20×: how does CloudFront protect the origin servers?",
+    "Choose between copying the bucket to five Regions and putting CloudFront in front",
+    "Which service hosts the data and which delivers it: S3 or CloudFront?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "cloudfront/cloudfront"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "cloudfront/distributions"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "cloudfront/invalidations"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "cloudfront/policies"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "networking-and-content-delivery/amazon-cloudfront"
+    }
+  ],
+  "status": "stub"
+}

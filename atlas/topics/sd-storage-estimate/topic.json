@@ -1,0 +1,59 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-storage-estimate",
+  "version": 1,
+  "title": "Estimating storage per year",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-storage-formula",
+      "version": 1,
+      "statement": "Storage per year = new records per day × bytes per record × 365, plus media stored separately, multiplied by the replication factor if replicas are counted."
+    },
+    {
+      "id": "kc-storage-retention",
+      "version": 1,
+      "statement": "The retention period sets total storage: a 5-year retention needs about 5 times the yearly figure, so stating retention is part of the estimate."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-estimation-method"
+  ],
+  "suggests": [
+    "sd-data-model"
+  ],
+  "confusable_with": [
+    "sd-bandwidth-estimate"
+  ],
+  "introduces": [
+    "storage estimate",
+    "retention period",
+    "replication factor"
+  ],
+  "uses": [
+    "back-of-the-envelope estimation",
+    "powers of two",
+    "data model"
+  ],
+  "problem_ideas": [
+    "100M new URLs per month at 500 bytes each: storage over 5 years",
+    "10% of 400M daily tweets carry a 200 KB photo: yearly media storage",
+    "Recompute a storage estimate when the interviewer adds 3× replication",
+    "Chat app storing 20B messages per day at 100 bytes: storage per year",
+    "Spot the missing ×365 in a worked storage estimate",
+    "Decide whether text metadata or media dominates storage for an Instagram-like app"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "estimation-and-constraints-2/storage"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "estimation-and-constraints-4/storage"
+    }
+  ],
+  "status": "stub"
+}

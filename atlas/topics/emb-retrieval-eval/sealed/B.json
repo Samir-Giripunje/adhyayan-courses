@@ -1,0 +1,34 @@
+[
+  {
+    "id": "q-proof2-mrr",
+    "version": 1,
+    "family": "q-proof2-mrr",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-retrieval-eval",
+    "kcs": [
+      "kc-retrieval-eval"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "prompt_md": "**Transfer:** a reranker moves the first relevant result from rank 4 to rank 1 on half the queries, and leaves the other half at rank 2. New MRR?",
+    "answer": {
+      "value": 0.75,
+      "tolerance": 0.01
+    },
+    "hints": [
+      "Which idea applies? Retrieval quality is measured on labelled queries.",
+      "Half the queries at 1 and half at 1/2: mean = 0.75."
+    ],
+    "solution_md": "Half the queries at 1 and half at 1/2: mean = 0.75.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

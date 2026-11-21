@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-sns",
+  "version": 1,
+  "title": "Amazon SNS: publish once, notify many",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-sns-pubsub",
+      "version": 1,
+      "statement": "Amazon SNS is a publish/subscribe service: a publisher sends one message to a topic and SNS immediately pushes a copy to every subscriber; messages are not kept for later polling."
+    },
+    {
+      "id": "kc-sns-subscribers",
+      "version": 1,
+      "statement": "SNS topic subscribers can be SQS queues, Lambda functions, HTTP/S endpoints, email addresses, SMS phone numbers and mobile push endpoints."
+    },
+    {
+      "id": "kc-sns-fanout",
+      "version": 1,
+      "statement": "Fan-out pairs one SNS topic with several SQS queues so a single event is processed independently and durably by several services."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-loose-coupling",
+    "clf-sqs"
+  ],
+  "suggests": [
+    "clf-cloudwatch-alarms"
+  ],
+  "confusable_with": [
+    "clf-sqs",
+    "clf-ses",
+    "clf-eventbridge"
+  ],
+  "introduces": [
+    "sns",
+    "sns topic",
+    "publish/subscribe",
+    "fan-out"
+  ],
+  "uses": [
+    "loose coupling",
+    "sqs",
+    "lambda"
+  ],
+  "problem_ideas": [
+    "A new order must trigger billing, shipping and analytics independently; sketch the SNS-plus-SQS fan-out.",
+    "Send an SMS to an on-call engineer when a server fails: which service and which subscriber type?",
+    "A subscriber endpoint is down when SNS publishes; compare what happens with and without an SQS queue subscribed.",
+    "Match five subscriber types (email, SQS, Lambda, HTTPS, SMS) to five scenarios.",
+    "Spot the distractor: 'SNS stores messages until a consumer polls for them.'",
+    "A team wants each of three microservices to receive every price-change event; SQS alone or SNS topic?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "application-integration/amazon-simple-notification-service-amazo"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "cloud-integration/amazon-sns"
+    }
+  ],
+  "status": "stub"
+}

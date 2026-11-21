@@ -1,0 +1,56 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-timeouts",
+  "version": 1,
+  "title": "Timeouts and cascading failures",
+  "size": "standard",
+  "est_min": 18,
+  "kcs": [
+    {
+      "id": "kc-timeout-needed",
+      "version": 1,
+      "statement": "Every remote call needs a timeout; without one, a hung dependency holds threads or connections until the caller's pool is exhausted and the failure cascades upstream."
+    },
+    {
+      "id": "kc-timeout-setting",
+      "version": 1,
+      "statement": "Set a call's timeout from the dependency's tail latency (a little above its p99) and below the caller's own deadline, so the caller still has time to respond or fall back."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-latency-throughput"
+  ],
+  "confusable_with": [
+    "sd-circuit-breaker"
+  ],
+  "introduces": [
+    "timeout",
+    "cascading failure"
+  ],
+  "uses": [
+    "latency",
+    "tail latency",
+    "synchronous communication"
+  ],
+  "problem_ideas": [
+    "200 threads, a dependency hangs, 50 req/s arrive: how many seconds until the pool is exhausted?",
+    "A dependency's p99 is 120 ms; the API deadline is 500 ms with 3 downstream calls in sequence. Set timeouts.",
+    "Why is a 30-second default client timeout dangerous behind a 1-second user deadline?",
+    "Trace a cascading failure from a slow recommendations service to a down homepage",
+    "Should a timeout on a write be retried? What do you need to know?",
+    "Deadline propagation: what should service C do if only 20 ms remain of the request's budget?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "resiliency/resiliency"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "performance-antipatterns/synchronous-i-o"
+    }
+  ],
+  "status": "stub"
+}

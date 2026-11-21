@@ -1,0 +1,296 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-pitfalls",
+  "version": 1,
+  "title": "Production pitfalls",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-production-pitfalls",
+      "version": 2,
+      "statement": "Model migrations need full re-embedding, and stored vectors go stale."
+    },
+    {
+      "id": "kc-filter-starvation",
+      "version": 1,
+      "statement": "Post-filtering after ANN search can starve the results."
+    },
+    {
+      "id": "kc-borrowed-thresholds",
+      "version": 1,
+      "statement": "Similarity thresholds are model-specific; never borrow one."
+    }
+  ],
+  "mode_hint": "quiz",
+  "mode": "quiz",
+  "requires": [
+    "emb-model-choice",
+    "emb-chunking",
+    "emb-hnsw"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "visual_fit": {
+    "kind": "flow",
+    "why": "Filter starvation is a count shrinking through two steps (40 candidates, 10% kept, about 4 left); a flow shows where the results go."
+  },
+  "introduces": [
+    "filter starvation",
+    "re-embedding"
+  ],
+  "uses": [
+    "HNSW",
+    "chunk",
+    "query prefix"
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-threshold-universal",
+      "statement": "A cosine of 0.8 means ‘relevant’ for any model.",
+      "tags": [
+        "kc-production-pitfalls"
+      ]
+    },
+    {
+      "id": "mc-filter-after-is-fine",
+      "statement": "Filtering after an ANN search still returns k results.",
+      "tags": [
+        "kc-production-pitfalls"
+      ]
+    }
+  ],
+  "glossary": [],
+  "parts": [
+    {
+      "id": "emb-pitfalls-p1",
+      "title": "Pitfalls at scale",
+      "beats": [
+        {
+          "id": "b-pitfalls",
+          "title": "Pitfalls at scale",
+          "kcs": [
+            "kc-production-pitfalls"
+          ],
+          "est_minutes": 11,
+          "blocks": [
+            {
+              "id": "blk-emb-pitfalls-01",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "**1. Filters starve ANN results.** *“Only tenant 42's docs”* sounds simple. If you filter *after* the ANN search, most candidates get dropped. pgvector's docs give the example: with the default `ef_search = 40` and a filter matching 10% of rows, you get about **4** results back. Fixes: iterative or filtered index scans (pgvector 0.8+ supports iterative scans), partitioning by tenant, or engines with filter-aware ANN.",
+                  "**2. A model upgrade means re-embedding everything.** Vectors from different models live in different spaces. Store `model_id` and `model_version` with every vector, build the new index alongside the old one, evaluate it, then cut over with an alias swap.",
+                  "**3. Thresholds don't transfer.** *“Show a match if cosine > 0.8”* means something different for every model. With many models, unrelated texts still score well above 0, and the meaningful range is a narrow band. This is partly because embeddings occupy a narrow cone of the space; Ethayarajh (2019) measured this **anisotropy** in contextual models. Calibrate thresholds per model on labelled pairs.",
+                  "**4. Stale vectors.** When documents change, re-embed the changed chunks, and handle deletes (some indexes need tombstones or periodic rebuilds).",
+                  "**5. Hubness.** In high dimensions some points become nearest neighbours of a disproportionate number of queries (Radovanović et al., 2010). If one chunk shows up everywhere, inspect it before blaming users."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-pitfalls-02",
+              "block": {
+                "type": "callout",
+                "kind": "misconception",
+                "md": "Asking an ANN index for k = 10 and then filtering can return 3, or 0. Either make the search filter-aware or over-fetch and re-query.",
+                "title": "“Post-filtering still returns k results”",
+                "misconception": "mc-filter-after-is-fine"
+              }
+            },
+            {
+              "id": "blk-emb-pitfalls-03",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-filter",
+                  "kind": "mcq",
+                  "difficulty": 3,
+                  "kcs": [
+                    "kc-production-pitfalls"
+                  ],
+                  "prompt_md": "Multi-tenant search: you ask HNSW for the top 10, then drop results from other tenants. Small tenants get **0–2 results**, even though they have relevant docs. Why?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "The filter runs after the ANN search. A small tenant's docs rarely appear among the global top candidates",
+                      "why_md": "Right. Use filter-aware or iterative scans, per-tenant partitions or indexes, or over-fetch.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "HNSW can't store tenant IDs",
+                      "why_md": "Metadata storage isn't the issue. Filter *ordering* is."
+                    },
+                    {
+                      "id": "c",
+                      "md": "Their docs weren't normalized",
+                      "why_md": "Normalization doesn't explain a tenant-shaped pattern."
+                    }
+                  ],
+                  "est_seconds": 120
+                }
+              }
+            },
+            {
+              "id": "blk-emb-pitfalls-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-threshold",
+                  "kind": "mcq",
+                  "difficulty": 3,
+                  "kcs": [
+                    "kc-production-pitfalls"
+                  ],
+                  "prompt_md": "Duplicate detection used “cosine > 0.85 = duplicate” with model A. After switching to model B, it flags almost every pair as a duplicate. Why?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Model B's scores occupy a different (higher, narrower) range, so the threshold must be recalibrated on labelled pairs",
+                      "why_md": "Right. Thresholds are model-specific.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "Model B is broken",
+                      "why_md": "It may be perfectly good. Its score distribution is just different."
+                    },
+                    {
+                      "id": "c",
+                      "md": "Cosine stops working above 0.85",
+                      "why_md": "Cosine works the same everywhere. What a given value *means* depends on the model.",
+                      "misconception": "mc-threshold-universal"
+                    }
+                  ],
+                  "est_seconds": 120
+                }
+              }
+            },
+            {
+              "id": "blk-emb-pitfalls-05",
+              "block": {
+                "type": "diagram",
+                "id": "dg-filter-starvation",
+                "kind": "flow",
+                "title": "Filtering after ANN search starves the results",
+                "alt": "A query asks for 10 results. The ANN search with ef_search 40 returns 40 candidates. A filter for tenant 42 keeps the 10% that match, so about 4 results come back instead of 10.",
+                "caption_md": "The numbers are pgvector's example: default `ef_search = 40`, a filter matching 10% of rows.",
+                "spec": {
+                  "nodes": [
+                    {
+                      "id": "q",
+                      "label": "Query",
+                      "sub": "wants k = 10",
+                      "shape": "pill"
+                    },
+                    {
+                      "id": "ann",
+                      "label": "ANN search",
+                      "sub": "ef_search = 40"
+                    },
+                    {
+                      "id": "f",
+                      "label": "Filter: tenant 42",
+                      "sub": "keeps 10%"
+                    },
+                    {
+                      "id": "r",
+                      "label": "About 4 results",
+                      "sub": "not 10",
+                      "shape": "pill"
+                    }
+                  ],
+                  "edges": [
+                    {
+                      "from": "q",
+                      "to": "ann",
+                      "label": "search"
+                    },
+                    {
+                      "from": "ann",
+                      "to": "f",
+                      "label": "40 candidates",
+                      "detail": "The index only looks this far."
+                    },
+                    {
+                      "from": "f",
+                      "to": "r",
+                      "label": "~4 survive",
+                      "detail": "40 × 10% = 4: the filter ran after the search."
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [],
+  "recap": {
+    "pitfall": "A 0.8 threshold from one model means nothing in another; recalibrate on your own pairs."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [
+    {
+      "id": "d-filtering",
+      "beat": "b-pitfalls",
+      "question": "Why does filtering break vector search?",
+      "match": [
+        "filter",
+        "tenant",
+        "metadata",
+        "where clause",
+        "fewer results"
+      ],
+      "answer_md": "An ANN index explores only a small candidate set near the query (with HNSW, about `ef_search` candidates). If you filter **afterwards** (tenant = 42), most candidates get thrown away, and when the filter is selective, few or none remain. pgvector's docs show it: ef_search = 40 with a filter matching 10% of rows gives about 4 results.",
+      "deeper_md": "You ask a librarian for the 40 books nearest your topic, then throw away every book not in Hindi. If 5% of the library is in Hindi, you're left with about 2, even though the library holds hundreds of relevant Hindi books that weren't among the first 40.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Expected results after a post-filter",
+        "md": [
+          "Candidates examined: 40. Filter selectivity: 10%. Expected survivors: 40 × 0.10 = **4**, against the 10 you asked for.",
+          "Fixes: iterative or filter-aware scans (keep searching until k survivors are found), per-tenant partitions, or exact search over small tenants."
+        ],
+        "verify": {
+          "id": "q-br-filter",
+          "kind": "numeric",
+          "difficulty": 1,
+          "kcs": [
+            "kc-production-pitfalls"
+          ],
+          "prompt_md": "ANN examines 100 candidates, and the filter keeps 3% of rows. Expected results after post-filtering?",
+          "answer": {
+            "value": 3,
+            "tolerance": 0
+          },
+          "solution_md": "100 × 0.03 = 3.",
+          "est_seconds": 40
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Diagnose a search that returns 2 results when 10 were asked for with a filter",
+    "Plan a zero-downtime re-embedding after a model upgrade",
+    "Recalibrate a duplicate threshold for a new model",
+    "Find the stale vectors after an article edit",
+    "Explain why mixing two models' vectors breaks ranking",
+    "Write a monitoring check that catches truncation in production"
+  ],
+  "sources": [
+    {
+      "source": "strata-pack",
+      "entry": "advanced/b-pitfalls"
+    },
+    {
+      "source": "faiss-docs",
+      "entry": "hnsw"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

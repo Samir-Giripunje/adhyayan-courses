@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-x-ray",
+  "version": 1,
+  "title": "AWS X-Ray: tracing requests across services",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-x-ray-tracing",
+      "version": 1,
+      "statement": "AWS X-Ray traces requests as they travel through a distributed application and builds a service map showing each component's latency and errors."
+    },
+    {
+      "id": "kc-x-ray-when",
+      "version": 1,
+      "statement": "X-Ray is the answer when a question asks you to debug or find the performance bottleneck across microservices or serverless applications, rather than to watch a single resource's metrics."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-cloudwatch-metrics-logs",
+    "clf-lambda"
+  ],
+  "confusable_with": [
+    "clf-cloudwatch-metrics-logs",
+    "clf-cloudtrail"
+  ],
+  "introduces": [
+    "x-ray",
+    "distributed tracing",
+    "service map"
+  ],
+  "uses": [
+    "lambda",
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "A checkout request passes through an API, Lambda, two microservices and DynamoDB, and takes 4 s: which service shows where the 3.5 s goes?",
+    "A service map shows one node in red with 12% errors: what does red tell you, and which tool drew the map?",
+    "CloudWatch shows overall latency went up, but the team doesn't know which service is slow: which tool comes next?",
+    "True or false: X-Ray records which IAM user deleted a bucket.",
+    "Pick the service: 'visualize the components of a serverless app and the calls between them'.",
+    "Match three tools (CloudWatch, X-Ray, CloudTrail) to three symptoms: high CPU, a slow request that crosses many services, an unexpected API call."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "cloud-monitoring/aws-x-ray"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-8-identify-services-fro/developer-tool-services-and-capabilities"
+    }
+  ],
+  "status": "stub"
+}

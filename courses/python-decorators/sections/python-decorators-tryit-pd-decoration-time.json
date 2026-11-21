@@ -1,0 +1,93 @@
+{
+  "schema": "adhy.section/1",
+  "id": "python-decorators-tryit-pd-decoration-time",
+  "course": "python-decorators",
+  "kind": "try-it",
+  "title": "Fix a decorator that runs at the wrong time",
+  "blurb": "A decorator should record a function once and count its calls. It does neither; find out why and fix it.",
+  "after": "topic:pd-decoration-time",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "ready",
+  "brief": {
+    "format": "code",
+    "topics": [
+      "pd-decorator-syntax",
+      "pd-wrapper-functions",
+      "pd-decoration-time"
+    ],
+    "kcs": [
+      "kc-at-desugar",
+      "kc-pass-through-args",
+      "kc-decorators-run-at-definition",
+      "kc-wrapper-runs-per-call"
+    ],
+    "minutes": 18,
+    "why": "Uses Decorator syntax, Wrapper functions and When decorators run: write a small program and run its tests."
+  },
+  "tryit": {
+    "format": "code",
+    "exercise": {
+      "id": "ex-tryit-pd-decoration-time",
+      "title": "Fix a decorator that runs at the wrong time",
+      "stage": "debug",
+      "difficulty": 2,
+      "kcs": [
+        "kc-at-desugar",
+        "kc-pass-through-args",
+        "kc-decorators-run-at-definition",
+        "kc-wrapper-runs-per-call"
+      ],
+      "est_minutes": 18,
+      "brief_md": "`tracked` should do two things:\n\n1. add the function's name to `registry` **once, when the function is decorated** (before it is ever called);\n2. count **every call** in `wrapper.calls`.\n\nRight now it does neither. **Predict first**: after decorating `ping` and calling it twice, what is in `registry`, and what is `ping.calls`? Then run the tests, find which lines run at the wrong time, and fix them.\n\n```python\n@tracked\ndef ping():\n    return \"pong\"\n\nregistry        # [\"ping\"] straight after the def\nping(); ping()\nping.calls      # 2\n```",
+      "starter": "registry = []\n\n\ndef tracked(func):\n    \"\"\"Record func's name in registry once, when it is decorated,\n    and count every call in wrapper.calls.\"\"\"\n    def wrapper(*args, **kwargs):\n        registry.append(func.__name__)\n        return func(*args, **kwargs)\n    wrapper.calls = 0\n    return wrapper\n",
+      "solution": "registry = []\n\n\ndef tracked(func):\n    \"\"\"Record func's name in registry once, when it is decorated,\n    and count every call in wrapper.calls.\"\"\"\n    registry.append(func.__name__)\n\n    def wrapper(*args, **kwargs):\n        wrapper.calls += 1\n        return func(*args, **kwargs)\n    wrapper.calls = 0\n    return wrapper\n",
+      "solution_walkthrough_md": "The decorator's own body runs once, when `@tracked` is applied (at the `def`). The wrapper's body runs on every call. So the registration moves out of the wrapper into `tracked` itself, and the counter goes inside the wrapper.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "registers at decoration time",
+          "code": "registry.clear()\n@tracked\ndef ping():\n    return \"pong\"\nassert registry == [\"ping\"], f\"registry is {registry!r} right after decorating\"",
+          "fail_md": "Nothing was recorded when the function was decorated: code that should run once at the `def` is sitting inside the wrapper."
+        },
+        {
+          "id": "t2",
+          "name": "counts every call",
+          "code": "@tracked\ndef add(a, b):\n    return a + b\nadd(1, 2)\nadd(3, 4)\nassert add.calls == 2, f\"calls is {add.calls}\"",
+          "fail_md": "The counter never moves: the wrapper runs on every call, so that is where the count has to go up."
+        },
+        {
+          "id": "t3",
+          "name": "calls do not register again",
+          "code": "registry.clear()\n@tracked\ndef f():\n    return 1\nf(); f(); f()\nassert registry == [\"f\"], f\"registry is {registry!r}\"",
+          "fail_md": "The name is added on every call. Registration belongs to decoration time, which happens once."
+        },
+        {
+          "id": "t4",
+          "name": "passes arguments and returns the result",
+          "code": "@tracked\ndef greet(name, punct=\"!\"):\n    return \"hi \" + name + punct\nassert greet(\"ada\", punct=\"?\") == \"hi ada?\"",
+          "fail_md": "The wrapper must pass every argument through and return what the original function returns."
+        },
+        {
+          "id": "t5",
+          "name": "each function has its own counter",
+          "hidden": true,
+          "code": "@tracked\ndef a():\n    pass\n@tracked\ndef b():\n    pass\na(); a(); b()\nassert (a.calls, b.calls) == (2, 1), (a.calls, b.calls)",
+          "fail_md": "The count is shared between functions: keep it on each wrapper, not in one global."
+        },
+        {
+          "id": "t6",
+          "name": "same as the manual form",
+          "hidden": true,
+          "code": "registry.clear()\ndef g():\n    return 5\ng = tracked(g)\nassert registry == [\"g\"] and g() == 5 and g.calls == 1",
+          "fail_md": "`@tracked` above `def g` is the same as `g = tracked(g)`: both must register once and count calls."
+        }
+      ],
+      "hints": [
+        "Which lines run when `@tracked` is applied, and which run each time you call the function?",
+        "Move the line that records the name out of `wrapper`, into `tracked` itself.",
+        "Inside `wrapper`, add 1 to `wrapper.calls` before calling `func`."
+      ]
+    }
+  }
+}

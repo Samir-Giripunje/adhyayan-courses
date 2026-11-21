@@ -1,0 +1,693 @@
+{
+  "answer": "A **first-class function** is a function you can handle like any other value, such as a number or a string. You can give it another name, store it in a dict, pass it to a function, or return it.",
+  "example": "Python's built-in `len` is a function.\n\n```python\nprint(len)          # <built-in function len>\nprint(len('abc'))   # 3\nsorted(['kiwi', 'fig', 'banana'], key=len)\n# ['fig', 'kiwi', 'banana']\n```\n\n`print(len)` shows the function object itself. `print(len('abc'))` calls it and shows its result, 3. `key=len` passes the function to `sorted()`, which calls it on each word and sorts by length.",
+  "how": {
+    "md": "```python\ndef shout(s):\n    return s.upper()\n\nyell = shout                # no (): nothing runs\nprint(yell('hi'))           # HI\nactions = {'loud': shout}\nprint(actions['loud']('hi'))  # HI\n```\n\n1. `def` builds a function object and binds the name `shout` to it.\n2. Writing `shout` without parentheses gives you that object. `yell = shout` adds a second name for the same object; it does not run or copy it.\n3. Adding `()` calls the object. The whole expression becomes its return value.\n4. Since the function is a value, a dict can hold it and another function can take it or return it: `def pick(): return shout`, then `pick()('hi')` gives `'HI'`.\n\nA common slip: `x = shout('hi')` stores the result `'HI'`, not the function.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-names-one-function",
+      "kind": "memory",
+      "title": "Two names, one function object",
+      "alt": "After def, the global name shout points to a function object. yell = shout adds a second name pointing to the same object. Calling yell with hi runs that function in a new frame where s is hi, and it returns HI. Finally a dict holds the same function under the key loud.",
+      "spec": {
+        "steps": [
+          {
+            "step": 1,
+            "run": "def shout(s): …",
+            "label": "def builds a function object and binds shout to it",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "fn"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "fn",
+                "type": "function",
+                "label": "shout"
+              }
+            ]
+          },
+          {
+            "step": 2,
+            "run": "yell = shout",
+            "label": "A second name for the same object; nothing runs",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "fn"
+                  },
+                  {
+                    "name": "yell",
+                    "ref": "fn"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "fn",
+                "type": "function",
+                "label": "shout"
+              }
+            ]
+          },
+          {
+            "step": 3,
+            "run": "yell('hi')",
+            "label": "() calls the object: a new frame runs with s = 'hi'",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "fn"
+                  },
+                  {
+                    "name": "yell",
+                    "ref": "fn"
+                  }
+                ]
+              },
+              {
+                "name": "shout('hi')",
+                "vars": [
+                  {
+                    "name": "s",
+                    "value": "'hi'"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "fn",
+                "type": "function",
+                "label": "shout"
+              }
+            ],
+            "output": [
+              "HI"
+            ]
+          },
+          {
+            "step": 4,
+            "run": "actions = {'loud': shout}",
+            "label": "A dict can hold the function too: still the same object",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "fn"
+                  },
+                  {
+                    "name": "yell",
+                    "ref": "fn"
+                  },
+                  {
+                    "name": "actions",
+                    "ref": "d"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "fn",
+                "type": "function",
+                "label": "shout"
+              },
+              {
+                "id": "d",
+                "type": "dict",
+                "label": "actions",
+                "fields": [
+                  {
+                    "name": "'loud'",
+                    "ref": "fn"
+                  }
+                ]
+              }
+            ],
+            "output": [
+              "HI"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-name-vs-call",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-function-name-vs-call",
+      "kc-functions-are-objects"
+    ],
+    "prompt_md": "After `def greet(): return 'hello'` and `x = greet`, what is `x`?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The function object `greet`, so `x()` returns `'hello'`",
+        "correct": true,
+        "why_md": "Right. With no parentheses, `greet` is the function itself, and `x` is a second name for it."
+      },
+      {
+        "id": "b",
+        "md": "The string `'hello'`",
+        "correct": false,
+        "why_md": "That would need `x = greet()`. Without `()` the function never runs.",
+        "misconception": "mc-name-runs-function"
+      },
+      {
+        "id": "c",
+        "md": "A separate copy of `greet`",
+        "correct": false,
+        "why_md": "Assignment never copies. `x` and `greet` name the same object: `x is greet` is `True`.",
+        "misconception": "mc-assign-copies"
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "The callback bug: handler vs handler()",
+      "md": "Code that registers a callback expects the function itself, for example `sorted(words, key=str.lower)`. If you write `key=str.lower()` you call it too early, with no argument, and get a `TypeError`. In a GUI, `button.on_click(save())` runs `save` once, right away, and registers its return value, usually `None`. Pass `save` with no parentheses."
+    },
+    {
+      "title": "A function keeps its own name",
+      "md": "The name you assign does not rename the object. After `yell = shout`, `yell.__name__` is still `'shout'`, because `__name__` is an attribute stored on the function object when `def` runs. Functions carry other attributes too, such as `__doc__` for the docstring."
+    },
+    {
+      "title": "Why this course starts here",
+      "md": "The `@` syntax later in this course rests on two facts from this topic. A function can be passed to another function, and the result that comes back can be bound to the original name: `f = something(f)`. PEP 318 describes it in exactly those terms."
+    }
+  ],
+  "visual_fit": {
+    "kind": "memory",
+    "why": "Names pointing at one function object is program state; arrows show that yell and shout are the same object."
+  },
+  "glossary": [
+    {
+      "term": "first-class function",
+      "md": "A function that is an ordinary value: it can be assigned to a name, stored in a container, passed as an argument and returned from another function. Every Python function is one."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-name-runs-function",
+      "statement": "Writing a function's name without parentheses runs the function.",
+      "tags": [
+        "kc-function-name-vs-call"
+      ]
+    },
+    {
+      "id": "mc-assign-copies",
+      "statement": "Assigning a function to a new name makes a copy of it.",
+      "tags": [
+        "kc-functions-are-objects"
+      ]
+    },
+    {
+      "id": "mc-only-data-passed",
+      "statement": "Only data such as numbers and strings can be passed to or returned from functions, not functions themselves.",
+      "tags": [
+        "kc-functions-are-objects"
+      ]
+    }
+  ],
+  "recap": {
+    "formula": "f → the function object;  f() → its return value",
+    "pitfall": "Writing `handler()` where Python expects a function passes the call's result, not the function."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-why-no-parentheses",
+      "beat": "b-lesson",
+      "question": "Why is it key=len and not key=len()?",
+      "match": [
+        "key=len",
+        "without parentheses",
+        "no parentheses",
+        "why not len()"
+      ],
+      "answer_md": "`sorted()` needs the function itself so it can call it on each item later. `len()` would call it right now with no argument, which raises a `TypeError`.",
+      "deeper_md": "Think of handing someone a tool versus handing them what the tool made. `sorted()` wants the tool.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "The tool versus its output",
+        "md": "`len` is the function object. `len('fig')` is `3`. `sorted(words, key=len)` gives `sorted` the object, and `sorted` makes the calls `len('kiwi')`, `len('fig')` and so on itself.",
+        "verify": {
+          "id": "q-br-key-len",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-function-name-vs-call"
+          ],
+          "prompt_md": "Which call sorts `words` by length?",
+          "options": [
+            {
+              "id": "a",
+              "md": "`sorted(words, key=len)`",
+              "correct": true,
+              "why_md": "Right. It passes the function, and `sorted` calls it on each word."
+            },
+            {
+              "id": "b",
+              "md": "`sorted(words, key=len())`",
+              "correct": false,
+              "why_md": "`len()` runs immediately with no argument and raises a `TypeError`."
+            },
+            {
+              "id": "c",
+              "md": "`sorted(words, key='len')`",
+              "correct": false,
+              "why_md": "That is a string, not a function. `sorted` cannot call it."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-what-is-printed",
+      "beat": "b-lesson",
+      "question": "What is that <built-in function len> thing that print shows?",
+      "match": [
+        "built-in function",
+        "<function",
+        "print a function",
+        "what does print show"
+      ],
+      "answer_md": "It is how Python displays a function object: its kind and its name. For your own functions you see something like `<function shout at 0x...>`, where the hex number identifies the object.",
+      "deeper_md": "Printing a function never calls it. It only describes the object, the same way printing a list describes the list.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Printing versus calling",
+        "md": "`print(shout)` shows `<function shout at 0x...>`. `print(shout('hi'))` shows `HI`. Only the second line runs the function body.",
+        "verify": {
+          "id": "q-br-print-function",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-function-name-vs-call"
+          ],
+          "prompt_md": "What does `print(len)` show?",
+          "options": [
+            {
+              "id": "a",
+              "md": "`<built-in function len>`",
+              "correct": true,
+              "why_md": "Right. It describes the function object without calling it."
+            },
+            {
+              "id": "b",
+              "md": "`0`",
+              "correct": false,
+              "why_md": "`len` is not called here, so no length is computed."
+            },
+            {
+              "id": "c",
+              "md": "An error",
+              "correct": false,
+              "why_md": "A function is a value, so printing it is allowed."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-assign-copy",
+      "beat": "b-lesson",
+      "question": "Does yell = shout make a copy of the function?",
+      "match": [
+        "make a copy",
+        "copy of the function",
+        "second function",
+        "duplicate"
+      ],
+      "answer_md": "No. Both names point to one function object. `yell is shout` is `True`, and `yell.__name__` is still `'shout'`.",
+      "deeper_md": "Names in Python are labels on objects. Assignment adds a label; it never builds a new object.",
+      "bridge": {
+        "kind": "rewind",
+        "title": "Names are labels",
+        "md": "`def shout` creates one object labelled `shout`. `yell = shout` sticks a second label on the same object. Calling through either label runs the same code.",
+        "verify": {
+          "id": "q-br-assign-copy",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-functions-are-objects"
+          ],
+          "prompt_md": "After `yell = shout`, what is `yell is shout`?",
+          "options": [
+            {
+              "id": "a",
+              "md": "`True`",
+              "correct": true,
+              "why_md": "Right. Both names refer to the same function object."
+            },
+            {
+              "id": "b",
+              "md": "`False`",
+              "correct": false,
+              "why_md": "That would need a new object. Assignment only adds a name.",
+              "misconception": "mc-assign-copies"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-function-object-attributes",
+      "kind": "mechanism",
+      "title": "What a function object holds: __name__, __code__, __defaults__",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-higher-order-builtins",
+      "kind": "adjacent",
+      "title": "Built-ins that take functions: map, filter, sorted, max",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "pd-first-class-functions",
+  "version": 1,
+  "title": "Functions are objects you can pass around",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-functions-are-objects",
+      "version": 1,
+      "statement": "In Python a function is an object: it can be assigned to a name, stored in a container, passed as an argument and returned from another function."
+    },
+    {
+      "id": "kc-function-name-vs-call",
+      "version": 1,
+      "statement": "Writing f refers to the function object itself; writing f() calls it and evaluates to its return value."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "pd-closures"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "first-class function"
+  ],
+  "uses": [
+    "function"
+  ],
+  "problem_ideas": [
+    "Store three formatting functions in a dict and dispatch on a key string",
+    "Predict what print(len) versus print(len('abc')) shows",
+    "Pass a key function to sorted() to sort words by their last letter",
+    "Write apply_twice(f, x) and trace apply_twice(lambda n: n * 3, 2)",
+    "Spot the bug where a callback is registered as handler() instead of handler",
+    "Return one of two functions from a chooser and call the result immediately"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "on-the-name-decorator/on-the-name-decorator"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [],
+  "status": "drafted",
+  "provenance": {
+    "origin": "generated",
+    "job": "lesson-pd-first-class-functions"
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "title": "Functions are objects you can pass around",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "Functions are objects you can pass around",
+          "kcs": [
+            "kc-functions-are-objects",
+            "kc-function-name-vs-call"
+          ],
+          "est_minutes": 5,
+          "blocks": [
+            {
+              "id": "blk-pd-first-class-functions-01",
+              "block": {
+                "type": "prose",
+                "md": "A **first-class function** is a function you can handle like any other value, such as a number or a string. You can give it another name, store it in a dict, pass it to a function, or return it."
+              }
+            },
+            {
+              "id": "blk-pd-first-class-functions-02",
+              "block": {
+                "type": "prose",
+                "md": "Python's built-in `len` is a function.\n\n```python\nprint(len)          # <built-in function len>\nprint(len('abc'))   # 3\nsorted(['kiwi', 'fig', 'banana'], key=len)\n# ['fig', 'kiwi', 'banana']\n```\n\n`print(len)` shows the function object itself. `print(len('abc'))` calls it and shows its result, 3. `key=len` passes the function to `sorted()`, which calls it on each word and sorts by length."
+              }
+            },
+            {
+              "id": "blk-pd-first-class-functions-03",
+              "block": {
+                "type": "prose",
+                "md": "```python\ndef shout(s):\n    return s.upper()\n\nyell = shout                # no (): nothing runs\nprint(yell('hi'))           # HI\nactions = {'loud': shout}\nprint(actions['loud']('hi'))  # HI\n```\n\n1. `def` builds a function object and binds the name `shout` to it.\n2. Writing `shout` without parentheses gives you that object. `yell = shout` adds a second name for the same object; it does not run or copy it.\n3. Adding `()` calls the object. The whole expression becomes its return value.\n4. Since the function is a value, a dict can hold it and another function can take it or return it: `def pick(): return shout`, then `pick()('hi')` gives `'HI'`.\n\nA common slip: `x = shout('hi')` stores the result `'HI'`, not the function."
+              }
+            },
+            {
+              "id": "blk-pd-first-class-functions-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-name-vs-call",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-function-name-vs-call",
+                    "kc-functions-are-objects"
+                  ],
+                  "prompt_md": "After `def greet(): return 'hello'` and `x = greet`, what is `x`?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "The function object `greet`, so `x()` returns `'hello'`",
+                      "correct": true,
+                      "why_md": "Right. With no parentheses, `greet` is the function itself, and `x` is a second name for it."
+                    },
+                    {
+                      "id": "b",
+                      "md": "The string `'hello'`",
+                      "correct": false,
+                      "why_md": "That would need `x = greet()`. Without `()` the function never runs.",
+                      "misconception": "mc-name-runs-function"
+                    },
+                    {
+                      "id": "c",
+                      "md": "A separate copy of `greet`",
+                      "correct": false,
+                      "why_md": "Assignment never copies. `x` and `greet` name the same object: `x is greet` is `True`.",
+                      "misconception": "mc-assign-copies"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-pd-first-class-functions-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "The callback bug: handler vs handler()",
+                "md": "Code that registers a callback expects the function itself, for example `sorted(words, key=str.lower)`. If you write `key=str.lower()` you call it too early, with no argument, and get a `TypeError`. In a GUI, `button.on_click(save())` runs `save` once, right away, and registers its return value, usually `None`. Pass `save` with no parentheses."
+              }
+            },
+            {
+              "id": "blk-pd-first-class-functions-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "A function keeps its own name",
+                "md": "The name you assign does not rename the object. After `yell = shout`, `yell.__name__` is still `'shout'`, because `__name__` is an attribute stored on the function object when `def` runs. Functions carry other attributes too, such as `__doc__` for the docstring."
+              }
+            },
+            {
+              "id": "blk-pd-first-class-functions-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Why this course starts here",
+                "md": "The `@` syntax later in this course rests on two facts from this topic. A function can be passed to another function, and the result that comes back can be bound to the original name: `f = something(f)`. PEP 318 describes it in exactly those terms."
+              }
+            },
+            {
+              "id": "blk-pd-first-class-functions-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-names-one-function",
+                "kind": "memory",
+                "title": "Two names, one function object",
+                "alt": "After def, the global name shout points to a function object. yell = shout adds a second name pointing to the same object. Calling yell with hi runs that function in a new frame where s is hi, and it returns HI. Finally a dict holds the same function under the key loud.",
+                "spec": {
+                  "steps": [
+                    {
+                      "step": 1,
+                      "run": "def shout(s): …",
+                      "label": "def builds a function object and binds shout to it",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "fn"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "fn",
+                          "type": "function",
+                          "label": "shout"
+                        }
+                      ]
+                    },
+                    {
+                      "step": 2,
+                      "run": "yell = shout",
+                      "label": "A second name for the same object; nothing runs",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "fn"
+                            },
+                            {
+                              "name": "yell",
+                              "ref": "fn"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "fn",
+                          "type": "function",
+                          "label": "shout"
+                        }
+                      ]
+                    },
+                    {
+                      "step": 3,
+                      "run": "yell('hi')",
+                      "label": "() calls the object: a new frame runs with s = 'hi'",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "fn"
+                            },
+                            {
+                              "name": "yell",
+                              "ref": "fn"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "shout('hi')",
+                          "vars": [
+                            {
+                              "name": "s",
+                              "value": "'hi'"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "fn",
+                          "type": "function",
+                          "label": "shout"
+                        }
+                      ],
+                      "output": [
+                        "HI"
+                      ]
+                    },
+                    {
+                      "step": 4,
+                      "run": "actions = {'loud': shout}",
+                      "label": "A dict can hold the function too: still the same object",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "fn"
+                            },
+                            {
+                              "name": "yell",
+                              "ref": "fn"
+                            },
+                            {
+                              "name": "actions",
+                              "ref": "d"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "fn",
+                          "type": "function",
+                          "label": "shout"
+                        },
+                        {
+                          "id": "d",
+                          "type": "dict",
+                          "label": "actions",
+                          "fields": [
+                            {
+                              "name": "'loud'",
+                              "ref": "fn"
+                            }
+                          ]
+                        }
+                      ],
+                      "output": [
+                        "HI"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

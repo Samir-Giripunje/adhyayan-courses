@@ -1,0 +1,139 @@
+[
+  {
+    "id": "q-cp2-e5",
+    "version": 1,
+    "family": "q-cp2-e5",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model-choice",
+    "kcs": [
+      "kc-model-choice"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Retrieval quality with an E5 model is oddly poor. You notice queries are embedded as plain text. Likely fix?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Add the `query: ` prefix to queries and `passage: ` to documents, then re-embed",
+        "correct": true,
+        "why_md": "Right. The prefixes are part of how the model was trained."
+      },
+      {
+        "id": "b",
+        "md": "Switch to Euclidean distance",
+        "why_md": "The metric isn't the problem."
+      },
+      {
+        "id": "c",
+        "md": "Increase k",
+        "why_md": "That hides the problem without fixing the embeddings."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Choose an embedding model by language and domain, max input, dimensions and cost.",
+      "Right."
+    ],
+    "solution_md": "Right. The prefixes are part of how the model was trained.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-i9",
+    "version": 1,
+    "family": "q-dpp-i9",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-model-choice",
+    "kcs": [
+      "kc-model-choice"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "When should you choose an embedding model with **fewer** dimensions?",
+    "options": [
+      {
+        "id": "a",
+        "md": "When an eval on your data shows similar quality and memory or latency matters",
+        "correct": true,
+        "why_md": "Right. Measure, then take the cheaper option."
+      },
+      {
+        "id": "b",
+        "md": "Never. More dimensions are always better",
+        "why_md": "More dimensions cost memory and don't guarantee quality.",
+        "misconception": "mc-bigger-dims-better"
+      },
+      {
+        "id": "c",
+        "md": "Only for non-English text",
+        "why_md": "Language coverage is a separate question."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Choose an embedding model by language and domain, max input, dimensions and cost.",
+      "Dimensions are a cost."
+    ],
+    "solution_md": "Dimensions are a cost. Pay for them only when the eval says they buy quality.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-i10",
+    "version": 1,
+    "family": "q-dpp-i10",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model-choice",
+    "kcs": [
+      "kc-model-choice",
+      "kc-metrics-normalization"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "You truncate a Matryoshka-trained 1,024-d vector to its first 256 numbers. What must you do before comparing with cosine-as-dot?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Re-normalize the truncated vector to length 1",
+        "correct": true,
+        "why_md": "Right. Truncation shortens the vector, so dot ≠ cosine until you re-normalize."
+      },
+      {
+        "id": "b",
+        "md": "Nothing",
+        "why_md": "Its length is now below 1, so the dot product would be distorted."
+      },
+      {
+        "id": "c",
+        "md": "Pad it back to 1,024 with zeros",
+        "why_md": "Padding doesn't change the length problem, and it wastes memory."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Choose an embedding model by language and domain, max input, dimensions and cost.",
+      "OpenAI's docs say the same: if you shorten manually, normalize the result."
+    ],
+    "solution_md": "OpenAI's docs say the same: if you shorten manually, normalize the result.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

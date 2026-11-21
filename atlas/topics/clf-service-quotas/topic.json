@@ -1,0 +1,49 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-service-quotas",
+  "version": 1,
+  "title": "Service Quotas: viewing and raising account limits",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-service-quotas-purpose",
+      "version": 1,
+      "statement": "Service Quotas shows the default and applied quotas (formerly called service limits) for AWS services in each Region of an account, lets you request a quota increase, and can trigger a CloudWatch alarm when usage nears a quota."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-trusted-advisor",
+    "clf-cloudwatch-alarms"
+  ],
+  "confusable_with": [
+    "clf-trusted-advisor"
+  ],
+  "introduces": [
+    "service quotas",
+    "service quota"
+  ],
+  "uses": [
+    "region",
+    "cloudwatch alarm",
+    "trusted advisor",
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "A launch fails because the account has hit its limit of running On-Demand vCPUs in us-east-1: where do you request more?",
+    "A team wants a warning when Elastic IP usage reaches 80% of its quota: which two services work together?",
+    "Trusted Advisor flags a quota at 85%: which service do you use to actually raise it?",
+    "True or false: a quota raised in eu-west-1 also applies in ap-south-1.",
+    "Old name, new name: what were service quotas called in older AWS documentation?",
+    "Distractor drill: 'request an increase to the number of VPCs per Region' with options Service Quotas, Trusted Advisor, Organizations, Cost Explorer."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "management-and-governance/aws-trusted-advisor"
+    }
+  ],
+  "status": "stub"
+}

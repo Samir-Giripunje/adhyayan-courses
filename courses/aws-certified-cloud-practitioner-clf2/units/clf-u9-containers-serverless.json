@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u9-containers-serverless",
+  "title": "Containers, serverless and choosing compute",
+  "topics": [
+    {
+      "id": "clf-containers",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-ecs-eks",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-lambda",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-fargate-ecr",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-batch-lightsail",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-choosing-compute",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

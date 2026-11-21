@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-multi-az-multi-region",
+  "version": 1,
+  "title": "High availability with multiple AZs and Regions",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-multi-az-ha",
+      "version": 1,
+      "statement": "Running an application's resources in at least two Availability Zones keeps it available when one AZ fails, and is the standard way to achieve high availability within a Region."
+    },
+    {
+      "id": "kc-multi-region-reasons",
+      "version": 1,
+      "statement": "A second Region is used for disaster recovery from a Region-wide outage, for lower latency to users on another continent, or to meet residency rules in several countries."
+    },
+    {
+      "id": "kc-multi-region-cost",
+      "version": 1,
+      "statement": "Multi-Region designs add cost and complexity (cross-Region replication and data transfer), so multi-AZ is the default for availability and multi-Region is chosen only when a requirement demands it."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-availability-zones"
+  ],
+  "suggests": [
+    "clf-regions"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "multi-az deployment",
+    "disaster recovery"
+  ],
+  "uses": [
+    "region",
+    "availability zone",
+    "high availability"
+  ],
+  "problem_ideas": [
+    "A web shop runs two EC2 instances, both in eu-west-1a: what single change gives high availability?",
+    "A bank must keep running if an entire Region goes offline: multi-AZ or multi-Region, and why?",
+    "An app with users in Sydney and London is slow for one group: is the fix more AZs or another Region?",
+    "A team proposes three Regions for an internal HR tool used in one office: argue the cost against the requirement",
+    "Order these by blast radius: one server, one AZ, one Region",
+    "Which phrase in a question ('fault tolerant within a Region', 'regional disaster', 'global users') maps to which design?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-2-define-the-aws-global/describing-how-to-achieve-high-availabil"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-2-define-the-aws-global/use-of-multiple-regions"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "global-infrastructure/why-make-a-global-application"
+    }
+  ],
+  "status": "stub"
+}

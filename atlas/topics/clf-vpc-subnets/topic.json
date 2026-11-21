@@ -1,0 +1,79 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-vpc-subnets",
+  "version": 1,
+  "title": "Amazon VPC and public vs private subnets",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-vpc-isolated-network",
+      "version": 1,
+      "statement": "A VPC is a logically isolated virtual network in one AWS Region, defined by an IP address range (a CIDR block), that can span all Availability Zones in that Region."
+    },
+    {
+      "id": "kc-vpc-subnet-one-az",
+      "version": 1,
+      "statement": "Each subnet lives in exactly one Availability Zone, so a highly available design places subnets in at least two AZs."
+    },
+    {
+      "id": "kc-vpc-public-vs-private-subnet",
+      "version": 1,
+      "statement": "A public subnet has a route to an internet gateway; a private subnet has no direct route to the internet, so back-end resources such as databases are placed there."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-availability-zones"
+  ],
+  "suggests": [
+    "clf-regions"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "vpc",
+    "subnet",
+    "public subnet",
+    "private subnet",
+    "cidr block"
+  ],
+  "uses": [
+    "region",
+    "availability zone"
+  ],
+  "problem_ideas": [
+    "A web tier and a MySQL database: which goes in a public subnet, which in a private subnet, and why?",
+    "A VPC in eu-west-1 needs to survive an AZ outage: how many subnets, at minimum, and in which AZs?",
+    "True or false: one subnet can stretch across two Availability Zones",
+    "A team wants a VPC that spans us-east-1 and us-west-2; spot the misconception",
+    "Classify five resources (load balancer, RDS database, batch worker, bastion host, cache) by subnet type",
+    "Given a diagram with a subnet that has no internet gateway route, predict whether an instance there is reachable from the internet"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "vpc/vpc"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "vpc/subnets"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "vpc/public-subnet"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "vpc/private-subnet"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-5-identify-aws-network-/identifying-the-components-of-a-vpc-for-"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "vpc/vpc-subnets-primer"
+    }
+  ],
+  "status": "stub"
+}

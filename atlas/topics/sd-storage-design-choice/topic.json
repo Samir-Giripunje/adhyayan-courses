@@ -1,0 +1,76 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-storage-design-choice",
+  "version": 1,
+  "title": "Putting it together: a storage design in 5 minutes",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-storage-design-steps",
+      "version": 1,
+      "statement": "A storage answer names, for each main entity, the store type, replication mode, shard key and consistency level, deriving each from the access pattern, read-to-write ratio and storage estimate."
+    },
+    {
+      "id": "kc-storage-tradeoff-statement",
+      "version": 1,
+      "statement": "Each storage choice is stated with one trade-off it accepts, for example 'asynchronous replication: low write latency, may lose the last seconds of writes if the leader fails'."
+    },
+    {
+      "id": "kc-storage-scale-trigger",
+      "version": 1,
+      "statement": "Shard only when the storage estimate or write QPS exceeds what one replicated leader can hold or absorb; below that, a single leader with read replicas is simpler and keeps joins and transactions."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-sql-vs-nosql",
+    "sd-shard-key",
+    "sd-cap-theorem"
+  ],
+  "suggests": [
+    "sd-sync-async-replication",
+    "sd-quorum"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "storage design"
+  ],
+  "uses": [
+    "relational database",
+    "nosql",
+    "replication",
+    "asynchronous replication",
+    "sharding",
+    "shard key",
+    "strong consistency",
+    "eventual consistency",
+    "storage estimate",
+    "qps",
+    "read-to-write ratio",
+    "access pattern"
+  ],
+  "problem_ideas": [
+    "URL shortener: 100M new URLs/month, 100:1 reads: write the full four-part storage design in 5 minutes",
+    "Chat app with 500M messages/day: choose store, replication, shard key and consistency",
+    "Hotel booking with 1k bookings/s: argue that sharding is not needed yet, with numbers",
+    "Critique a given design that shards a 50 GB table across 32 nodes",
+    "Twitter timeline: state the consistency level for tweets vs follower counts and the trade-off for each",
+    "Ride hailing: split trips and driver locations into two storage designs"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "data-model-design-2/what-kind-of-database-should-we-use"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "data-model-design-4/what-kind-of-database-should-we-use"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "database-fundamentals/database-scaling"
+    }
+  ],
+  "status": "stub"
+}

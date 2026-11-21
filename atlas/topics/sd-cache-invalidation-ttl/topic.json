@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-cache-invalidation-ttl",
+  "version": 1,
+  "title": "Cache invalidation and TTLs",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-ttl",
+      "version": 2,
+      "statement": "A fixed TTL limits how long an entry stays in the cache: at most one TTL after it was inserted or last refreshed. It bounds how far the value lags behind source writes only if the value was current when it was cached. A read from a stale replica, or a slow read whose result is written to the cache after a newer write, can break that assumption."
+    },
+    {
+      "id": "kc-invalidation-on-write",
+      "version": 1,
+      "statement": "Explicit invalidation removes or updates the cache entry when the source data changes; keeping a TTL as well bounds staleness when an invalidation message is lost."
+    },
+    {
+      "id": "kc-delete-not-set",
+      "version": 1,
+      "statement": "On a write it is safer to delete the cache key than to set the new value, because two concurrent writers can update the cache in the opposite order from the database and leave a stale value."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-cache-aside"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-eviction-lru"
+  ],
+  "introduces": [
+    "cache invalidation",
+    "ttl",
+    "stale data"
+  ],
+  "uses": [
+    "cache-aside",
+    "cache hit",
+    "cache miss"
+  ],
+  "problem_ideas": [
+    "Pick a TTL for stock prices, user avatars and a product catalogue, with one-line reasons",
+    "Interleave two writers' DB and cache updates to produce a stale cache value",
+    "An invalidation event is dropped; with TTL 5 minutes, what is the worst-case staleness?",
+    "A 1-hour TTL is cut to 1 minute: predict the effect on hit ratio and database load",
+    "Explain why 'there are only two hard things' applies to a social profile cache",
+    "Design invalidation for a cached 'top 10 posts' list when one post is deleted"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "cache-invalidation/cache-invalidation"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "cache/when-to-update-the-cache"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,1346 @@
+{
+  "stage": {
+    "id": "sd-p3",
+    "title": "Scaling the request path",
+    "outcome": [
+      "o4",
+      "o6"
+    ],
+    "assumes": [
+      "http",
+      "https",
+      "dns",
+      "tls",
+      "latency",
+      "throughput",
+      "qps",
+      "high-level design",
+      "bottleneck"
+    ],
+    "provides": [
+      "vertical scaling",
+      "horizontal scaling",
+      "stateless service",
+      "load balancer",
+      "load balancing algorithm",
+      "layer 4 load balancing",
+      "layer 7 load balancing",
+      "reverse proxy",
+      "cdn",
+      "push cdn",
+      "pull cdn",
+      "api gateway",
+      "rate limiting",
+      "token bucket",
+      "performance vs scalability"
+    ]
+  },
+  "sections": [
+    {
+      "id": "scale-out",
+      "title": "Scaling out and load balancing",
+      "rank": 1,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "load-balancer"
+      }
+    },
+    {
+      "id": "edge-gateway",
+      "title": "The edge: CDNs, gateways and discovery",
+      "rank": 2,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "content-delivery-network"
+      }
+    },
+    {
+      "id": "protect-assemble",
+      "title": "Rate limiting and assembling the request path",
+      "rank": 3,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "algorithms"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "sd-performance-vs-scalability",
+      "title": "Performance vs scalability",
+      "size": "standard",
+      "est_min": 20,
+      "section": "scale-out",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-performance-vs-scalability",
+          "statement": "A system has a performance problem if it is slow for a single user, and a scalability problem if it is fast for one user but slows down under heavy load."
+        },
+        {
+          "id": "kc-scalability-definition",
+          "statement": "A service is scalable if adding resources increases its capacity (throughput) roughly in proportion to the resources added."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-vertical-horizontal-scaling"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "performance vs scalability",
+        "scalability"
+      ],
+      "uses": [
+        "latency",
+        "throughput",
+        "bottleneck"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "performance-vs-scalability/performance-vs-scalability"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "performance-vs-scalability/performance-vs-scalability"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "core-concepts/scalability"
+        }
+      ],
+      "problem_ideas": [
+        "A product page takes 4 s for a single test user: label it a performance or a scalability problem and name the first thing to profile",
+        "p99 latency is 80 ms at 1,000 QPS and 2 s at 5,000 QPS on the same code: classify the problem and say what the graph shows",
+        "Doubling servers from 4 to 8 raises throughput from 4,000 to 5,000 QPS: is the system scalable, and where might the shared bottleneck be?",
+        "Pick which of five incident reports describe scalability failures and which describe performance failures",
+        "An interviewer says 'make it scale': rewrite this as two measurable targets, one for latency and one for throughput",
+        "A batch job finishes in 10 min on 1 node and 9 min on 4 nodes: explain what likely limits it"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Amdahl's law and why serial parts cap scale-out"
+        },
+        {
+          "kind": "edge",
+          "title": "Coordination overhead: when adding nodes makes things slower"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Interviewers expect you to tell 'slow' apart from 'does not scale' before you propose fixes."
+      }
+    },
+    {
+      "id": "sd-vertical-horizontal-scaling",
+      "title": "Vertical vs horizontal scaling",
+      "size": "standard",
+      "est_min": 28,
+      "section": "scale-out",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-vertical-scaling",
+          "statement": "Vertical scaling adds CPU, memory or disk to one machine; it needs no code changes but hits a hardware ceiling and leaves that one machine as a point of failure."
+        },
+        {
+          "id": "kc-horizontal-scaling",
+          "statement": "Horizontal scaling adds more machines that share the load; capacity grows by adding nodes, but the application must tolerate any request landing on any node."
+        },
+        {
+          "id": "kc-scale-up-first",
+          "statement": "Scaling up is often the sensible first step because state stays on one machine; scaling out becomes necessary when one machine's capacity at peak QPS, or its availability, is no longer enough."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The high-level diagram must justify why the web tier is a pool of machines rather than one bigger box."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-performance-vs-scalability"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "vertical scaling",
+        "horizontal scaling"
+      ],
+      "uses": [
+        "throughput",
+        "qps",
+        "peak qps"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "vertical-scaling/vertical-scaling"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "horizontal-scaling/horizontal-scaling"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "load-balancer/horizontal-scaling"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-tradeoffs/vertical-vs-horizontal-scaling"
+        }
+      ],
+      "problem_ideas": [
+        "A database server is at 85% CPU on 16 cores and the largest instance has 128 cores: how much headroom does scaling up buy, and what does it not fix?",
+        "A startup at 300 QPS asks whether to shard on day one: argue for scaling up first",
+        "Peak QPS will be 60,000 and one app server handles 2,500: how many servers, and what happens if one dies at peak?",
+        "List three code changes needed before a single-server app can be scaled horizontally",
+        "Compare cost: one 64-core machine vs eight 8-core machines when traffic is 10x higher at noon than at midnight",
+        "Failure story: the one big server reboots for a kernel patch and the whole site is down for 20 minutes; which scaling choice caused this?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Why databases are the hardest tier to scale out"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Nearly every design answer starts by scaling out a stateless tier, and you must be able to say why."
+      }
+    },
+    {
+      "id": "sd-stateless-services",
+      "title": "Stateless services and where session state goes",
+      "size": "standard",
+      "est_min": 20,
+      "section": "scale-out",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-stateless-service",
+          "statement": "A stateless service keeps no per-user session data in local memory between requests, so any instance can serve any request and instances can be added or removed freely."
+        },
+        {
+          "id": "kc-externalize-session",
+          "statement": "To make a stateful web tier stateless, move session state to a shared store (a cache or database) or into a signed client token; sticky sessions are a workaround that skews load and loses sessions when a node dies."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Placing a load balancer in front of the app tier is only correct if that tier is stateless."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-vertical-horizontal-scaling",
+          "reason": "Statelessness is defined as the property that lets a tier scale horizontally."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "stateless service",
+        "session state",
+        "sticky sessions"
+      ],
+      "uses": [
+        "horizontal scaling",
+        "http"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "application-layer/application-layer"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "application-layer/application-layer"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-tradeoffs/stateful-vs-stateless-design"
+        }
+      ],
+      "problem_ideas": [
+        "Shopping carts are stored in server memory and users lose them after a deploy: redesign so carts survive",
+        "With sticky sessions, one server holds 40% of users after a viral event: explain why and propose a fix",
+        "Decide where to keep a 2 KB login session for 10 million users: local memory, shared cache, database or signed token",
+        "A WebSocket chat server is inherently stateful: what around it can still be made stateless?",
+        "Autoscaling removes an instance mid-request: what does the user see with and without a stateless design?",
+        "Spot the hidden state: local file uploads, in-process rate counters, in-memory caches; which ones break horizontal scaling?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Signed session tokens: what to put in them and what not to"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "'Make the app tier stateless' is the sentence that unlocks every scale-out diagram in an interview."
+      }
+    },
+    {
+      "id": "sd-load-balancers",
+      "title": "Load balancers: what they do and why you need two",
+      "size": "standard",
+      "est_min": 28,
+      "section": "scale-out",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-lb-role",
+          "statement": "A load balancer receives client traffic and spreads it across a pool of backend servers, taking servers out of rotation when periodic health probes fail."
+        },
+        {
+          "id": "kc-lb-tls-termination",
+          "statement": "Load balancers commonly terminate TLS, decrypting HTTPS once at the edge so backend servers handle plain HTTP inside the private network."
+        },
+        {
+          "id": "kc-lb-redundancy",
+          "statement": "A single load balancer is itself a single point of failure, so production setups run at least two (active-passive or active-active) behind a shared virtual IP or multiple DNS records."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The diagram must place load balancers in front of each scaled-out tier."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-vertical-horizontal-scaling",
+          "reason": "A load balancer is defined as the component that distributes traffic across a horizontally scaled pool."
+        }
+      ],
+      "suggests": [
+        "sd-stateless-services"
+      ],
+      "confusable_with": [
+        "sd-reverse-proxy",
+        "sd-api-gateway"
+      ],
+      "introduces": [
+        "load balancer",
+        "backend pool"
+      ],
+      "uses": [
+        "horizontal scaling",
+        "https",
+        "tls termination",
+        "ip address",
+        "dns"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "load-balancers/load-balancers"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "load-balancer/load-balancer"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "workload-distribution/workload-distribution"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "redundant-load-balancers/redundant-load-balancers"
+        }
+      ],
+      "problem_ideas": [
+        "Draw where the load balancers go for a three-tier app with web, API and database tiers",
+        "One of six backends starts returning 500s: walk through what the load balancer does and how fast",
+        "A design has one load balancer in front of 50 servers: name the flaw and fix it",
+        "Should traffic between the load balancer and backends be re-encrypted? Argue both sides for a payments API",
+        "A 10 Gbps load balancer fronts traffic that peaks at 14 Gbps: what are your options?",
+        "Failure story: health checks hit '/', which returns 200 even when the database is down; what goes wrong?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Virtual IPs and how a standby load balancer takes over"
+        },
+        {
+          "kind": "edge",
+          "title": "Connection draining during deploys"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "The load balancer is in every interview diagram, and misplacing it or forgetting redundancy is a common red flag."
+      }
+    },
+    {
+      "id": "sd-lb-algorithms",
+      "title": "Load balancing algorithms",
+      "size": "standard",
+      "est_min": 28,
+      "section": "scale-out",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-round-robin",
+          "statement": "Round robin sends requests to servers in a fixed rotation; weighted round robin gives a server with weight w a share w/Σweights of requests, useful when servers differ in capacity."
+        },
+        {
+          "id": "kc-least-connections",
+          "statement": "Least-connections routes each new request to the server with the fewest active connections, which balances better than round robin when request durations vary widely."
+        },
+        {
+          "id": "kc-hash-based-routing",
+          "statement": "IP-hash or key-hash routing sends the same client or key to the same server, giving affinity, but with hash-mod-N most keys move to a different server when N changes."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The outcome asks for a load-balancing choice justified against the workload."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-load-balancers",
+          "reason": "Algorithms are the policy a load balancer uses to pick a backend."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "load balancing algorithm",
+        "round robin",
+        "weighted round robin",
+        "least connections",
+        "hash-based routing"
+      ],
+      "uses": [
+        "load balancer",
+        "backend pool",
+        "ip address",
+        "sticky sessions"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "load-balancers/load-balancing-algorithms"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "load-balancer/round-robin-or-weighted-round-robin"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "routing-algorithms/routing-algorithms"
+        }
+      ],
+      "problem_ideas": [
+        "Implement weighted round robin for weights {A:3, B:1, C:1} and print the first 10 picks",
+        "Implement least-connections over a stream of (start, end) request events and report each server's peak load",
+        "Requests take either 5 ms or 5 s at random: simulate round robin vs least connections and compare the longest queue",
+        "With hash(ip) mod 4, compute what fraction of clients change server when a fifth server is added",
+        "Pick an algorithm for long-lived WebSocket connections and justify it",
+        "Two servers with 8 and 32 cores: choose weights and estimate each one's QPS at 10,000 total"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Power of two random choices"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Consistent hashing as the fix for hash-mod-N reshuffles"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Interviewers often ask 'which algorithm, and why?', and one sentence of justification earns credit."
+      }
+    },
+    {
+      "id": "sd-l4-vs-l7",
+      "title": "Layer 4 vs layer 7 load balancing",
+      "size": "standard",
+      "est_min": 20,
+      "section": "scale-out",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-l4-lb",
+          "statement": "A layer 4 load balancer routes on IP address and TCP/UDP port without reading the request content, so it is fast and protocol-agnostic but cannot route by URL path or header."
+        },
+        {
+          "id": "kc-l7-lb",
+          "statement": "A layer 7 load balancer parses the HTTP request, so it can route by path, host or header (e.g. /api to one pool, /images to another) at the cost of more CPU and terminating the client connection."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Choosing L4 or L7 is part of justifying the load-balancing choice in the diagram."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-load-balancers",
+          "reason": "Compares two kinds of load balancer."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-reverse-proxy"
+      ],
+      "introduces": [
+        "layer 4 load balancing",
+        "layer 7 load balancing",
+        "path-based routing"
+      ],
+      "uses": [
+        "load balancer",
+        "transport layer",
+        "application layer",
+        "tcp",
+        "udp",
+        "port",
+        "http header",
+        "ip address"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "load-balancers/layer-4-load-balancing"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "load-balancers/layer-7-load-balancing"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "load-balancer/layer-4-load-balancing"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "load-balancer/layer-7-load-balancing"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "layers-2/layers"
+        }
+      ],
+      "problem_ideas": [
+        "Route /video/* to a streaming pool and /api/* to the API pool: which layer is needed?",
+        "A game server uses UDP on port 7777: which load balancer type fits?",
+        "Send 5% of traffic to a canary based on a header value: L4 or L7, and why?",
+        "Estimate the extra cost of L7: if TLS termination plus parsing costs 0.2 ms of CPU per request, how many cores does 50,000 QPS need?",
+        "A gRPC service over HTTP/2 shows all traffic pinned to one backend behind an L4 balancer: explain why",
+        "Classify six routing rules as possible at L4 or L7-only"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "HTTP/2 and long-lived connections defeating L4 balancing"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "A favourite follow-up question; knowing what each layer can see is enough to answer it."
+      }
+    },
+    {
+      "id": "sd-reverse-proxy",
+      "title": "Forward and reverse proxies",
+      "size": "standard",
+      "est_min": 20,
+      "section": "scale-out",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-forward-vs-reverse-proxy",
+          "statement": "A forward proxy acts on behalf of clients and hides them from servers; a reverse proxy sits in front of servers and hides them from clients."
+        },
+        {
+          "id": "kc-reverse-proxy-uses",
+          "statement": "A reverse proxy is useful even with one backend (TLS termination, compression, serving static files, hiding internal addresses), whereas a load balancer only adds value when there are several backends."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-load-balancers",
+          "reason": "The key KC contrasts a reverse proxy with a load balancer."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-load-balancers",
+        "sd-api-gateway"
+      ],
+      "introduces": [
+        "reverse proxy",
+        "forward proxy"
+      ],
+      "uses": [
+        "load balancer",
+        "tls termination",
+        "ip address"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "reverse-proxy-web-server/reverse-proxy-web-server"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "reverse-proxy-web-server/load-balancer-vs-reverse-proxy"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "types-5/reverse-proxy"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "networking-fundamentals/proxy-vs-reverse-proxy"
+        }
+      ],
+      "problem_ideas": [
+        "A corporate network forces all outbound web traffic through one box: forward or reverse proxy?",
+        "A single-server blog wants HTTPS and gzip without touching app code: what do you add?",
+        "List three things a reverse proxy hides from the internet",
+        "Is a CDN edge a forward or a reverse proxy? Justify",
+        "An attacker scans backend IPs directly and bypasses the proxy: what configuration mistake allowed it?",
+        "Sort these into forward proxy, reverse proxy or both: VPN egress, TLS terminator, content filter, static file server"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Sidecar proxies inside a service mesh"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "A common 'what is the difference?' question, rarely a design decision on its own."
+      }
+    },
+    {
+      "id": "sd-cdn",
+      "title": "Content delivery networks",
+      "size": "standard",
+      "est_min": 28,
+      "section": "edge-gateway",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-cdn-role",
+          "statement": "A CDN serves static content (images, video, scripts, stylesheets) from edge servers close to users, cutting round trip time and offloading bandwidth from origin servers."
+        },
+        {
+          "id": "kc-cdn-routing",
+          "statement": "Users reach a nearby CDN edge through DNS-based routing or anycast, so asset URLs point at a CDN hostname rather than at the origin server."
+        },
+        {
+          "id": "kc-cdn-offload-estimate",
+          "statement": "Origin egress ≈ total egress × (1 − CDN hit ratio): at a 95% hit ratio, a 10 Gbps egress workload sends only 0.5 Gbps from the origin."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The outcome's diagram must place a CDN and justify it."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-load-balancers"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "cdn",
+        "edge server",
+        "origin server",
+        "cdn hit ratio"
+      ],
+      "uses": [
+        "round trip time",
+        "dns-based routing",
+        "egress",
+        "bandwidth",
+        "latency"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "content-delivery-networks/content-delivery-networks"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "content-delivery-network/content-delivery-network"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "how-does-a-cdn-work/how-does-a-cdn-work"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "why-use-a-cdn/why-use-a-cdn"
+        }
+      ],
+      "problem_ideas": [
+        "Users in Mumbai see 300 ms per image from a US origin: estimate the saving with an edge 20 ms away",
+        "40 Gbps of video egress at a 98% hit ratio: how much leaves the origin?",
+        "Which of these responses should go through a CDN: profile photo, account balance, JS bundle, search results?",
+        "The hit ratio drops from 95% to 80% after a deploy: by what factor does origin load grow?",
+        "Name two downsides of a CDN for content that changes every minute",
+        "Failure story: a CDN outage takes down the site even though the origin servers are healthy; how would you design for it?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Anycast routing to the nearest edge"
+        },
+        {
+          "kind": "edge",
+          "title": "Cache keys and query strings that kill the hit ratio"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Any media-heavy prompt expects a CDN in the diagram and a quick offload estimate."
+      }
+    },
+    {
+      "id": "sd-push-pull-cdn",
+      "title": "Push vs pull CDNs",
+      "size": "standard",
+      "est_min": 20,
+      "section": "edge-gateway",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-pull-cdn",
+          "statement": "A pull CDN fetches an object from the origin on its first request and keeps it until it expires; it suits high-traffic sites with large content sets, at the cost of slow first requests."
+        },
+        {
+          "id": "kc-push-cdn",
+          "statement": "A push CDN stores content only when the origin uploads it; it suits small or rarely changing content sets and gives control over what is stored, but the origin must push every update."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The diagram's CDN choice is justified by picking push or pull for the content."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-cdn",
+          "reason": "Both KCs describe how a CDN edge gets content from the origin server."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "push cdn",
+        "pull cdn"
+      ],
+      "uses": [
+        "cdn",
+        "origin server",
+        "edge server"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "content-delivery-network/push-cdns"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "content-delivery-network/pull-cdns"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "content-delivery-networks/pull-cdns"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "types-4/push-cdns"
+        }
+      ],
+      "problem_ideas": [
+        "A streaming service releases a new season at midnight to 5 million viewers: push or pull, and why?",
+        "A user-generated photo site holds 2 billion images, most rarely viewed: push or pull?",
+        "Estimate origin load right after a pull CDN purge, with 1,000 edges each requesting a popular 2 MB file",
+        "A docs site with 300 pages updated weekly: pick a CDN type",
+        "Failure story: a pushed asset was never uploaded to one region; what do users there see?",
+        "List what the origin must do on every deploy for each CDN type"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Origin shield: a mid-tier cache that protects the origin"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "A quick trade-off to name when a prompt involves large media or launch-day spikes."
+      }
+    },
+    {
+      "id": "sd-api-gateway",
+      "title": "API gateways",
+      "size": "standard",
+      "est_min": 28,
+      "section": "edge-gateway",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-api-gateway-role",
+          "statement": "An API gateway is a single entry point that routes each client request to the right backend service and centralises cross-cutting concerns such as authentication, rate limiting and request logging."
+        },
+        {
+          "id": "kc-gateway-aggregation",
+          "statement": "Gateway aggregation lets one client call fan out to several backend services and combine their responses, reducing round trips for clients on slow mobile networks."
+        },
+        {
+          "id": "kc-gateway-vs-lb",
+          "statement": "A load balancer spreads requests across identical instances of one service, while an API gateway routes between different services and applies policy; they are often layered, with the gateway in front of per-service load balancers."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Full mock answers to multi-service prompts need a gateway as the client entry point and the home for auth and rate limits."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-l4-vs-l7",
+          "reason": "Gateway routing is layer 7 routing by path and header; the lesson builds on it."
+        },
+        {
+          "topic": "sd-reverse-proxy",
+          "reason": "A gateway is a specialised reverse proxy, and the contrast is part of the KC."
+        }
+      ],
+      "suggests": [
+        "sd-load-balancers"
+      ],
+      "confusable_with": [
+        "sd-load-balancers",
+        "sd-reverse-proxy"
+      ],
+      "introduces": [
+        "api gateway",
+        "gateway aggregation"
+      ],
+      "uses": [
+        "load balancer",
+        "reverse proxy",
+        "layer 7 load balancing",
+        "path-based routing",
+        "round trip time",
+        "endpoint"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "why-do-we-need-an-api-gateway/why-do-we-need-an-api-gateway"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "features-4/features"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "design-implementation/gateway-routing"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "design-implementation/gateway-aggregation"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "api-fundamentals/api-gateway"
+        }
+      ],
+      "problem_ideas": [
+        "A mobile home screen calls 6 services in sequence at 150 ms RTT each: estimate the time saved by gateway aggregation",
+        "Decide which concerns belong in the gateway and which in each service: auth, input validation, rate limiting, business rules",
+        "Draw the gateway, load balancers and three services for a food-delivery app",
+        "The gateway is now the slowest hop at p99: list three possible causes",
+        "Failure story: a gateway deploy with a bad route config takes down every service; how do you limit the blast radius?",
+        "Is an API gateway needed for a single monolith with one group of endpoints? Argue it"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Backends for frontends: one gateway per client type"
+        },
+        {
+          "kind": "edge",
+          "title": "The gateway as a bottleneck and single point of failure"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Multi-service designs in interviews put auth and rate limits at the gateway, and you should say so in one line."
+      }
+    },
+    {
+      "id": "sd-service-discovery",
+      "title": "Service discovery and registries",
+      "size": "standard",
+      "est_min": 20,
+      "section": "edge-gateway",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-service-registry",
+          "statement": "Service discovery keeps a registry of the live network locations of service instances, updated when instances register on start and removed when they stop or fail health probes."
+        },
+        {
+          "id": "kc-client-vs-server-discovery",
+          "statement": "In client-side discovery the caller queries the registry and picks an instance itself; in server-side discovery the caller sends to a load balancer or gateway that queries the registry for it."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-api-gateway",
+        "sd-load-balancers"
+      ],
+      "confusable_with": [
+        "sd-dns"
+      ],
+      "introduces": [
+        "service discovery",
+        "service registry"
+      ],
+      "uses": [
+        "load balancer",
+        "api gateway",
+        "ip address",
+        "port",
+        "dns"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "application-layer/service-discovery"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "why-do-we-need-service-discovery/why-do-we-need-service-discovery"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "implementations/client-side-discovery"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "implementations/server-side-discovery"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "service-registry/service-registry"
+        }
+      ],
+      "problem_ideas": [
+        "Autoscaling adds 20 instances in a minute: how do callers learn their addresses?",
+        "Why is a hard-coded IP list in config a problem when containers restart often?",
+        "Compare client-side and server-side discovery for a system written in five languages",
+        "An instance crashes without deregistering: how long can callers keep hitting it, and what bounds that time?",
+        "Can plain DNS act as a service registry? Give one strength and one weakness",
+        "Failure story: the registry cluster is down; what should callers do with their cached instance lists?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Service mesh: discovery and retries in a sidecar"
+        }
+      ],
+      "lens": {
+        "score": 0.4,
+        "reason": "Comes up in microservice deep dives, where a one-line mention is usually enough."
+      }
+    },
+    {
+      "id": "sd-rate-limiting",
+      "title": "Rate limiting: why and where",
+      "size": "standard",
+      "est_min": 20,
+      "section": "protect-assemble",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-rate-limiting-purpose",
+          "statement": "Rate limiting caps how many requests a client (identified by user, API key or IP) may make per time window, protecting backends from abuse, accidental overload and runaway cost."
+        },
+        {
+          "id": "kc-rate-limit-response",
+          "statement": "A rate-limited HTTP request is rejected with status 429 Too Many Requests, ideally with a Retry-After header, and the limiter usually runs in the API gateway or middleware before business logic."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-api-gateway"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "rate limiting",
+        "http 429"
+      ],
+      "uses": [
+        "api gateway",
+        "http status code",
+        "http header",
+        "ip address",
+        "qps"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "why-do-we-need-rate-limiting/why-do-we-need-rate-limiting"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "availability/throttling"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "api-fundamentals/rate-limiting"
+        }
+      ],
+      "problem_ideas": [
+        "Choose the client key to limit on for a public API, a logged-in web app and a login endpoint",
+        "A free tier allows 100 requests/min: what does a client see on request 101, header by header?",
+        "Limiting by IP blocks a whole office behind one NAT: what key would you use instead?",
+        "Place the rate limiter in a diagram with a CDN, a gateway and services, and justify the spot",
+        "A bot sends 50,000 QPS of login attempts: which limits protect the auth service?",
+        "Should internal service-to-service calls be rate limited? Argue with a failure scenario"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Rate limiting vs load shedding under overload"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "'Design a rate limiter' is a classic prompt, and rate limits appear in most API designs."
+      }
+    },
+    {
+      "id": "sd-token-bucket",
+      "title": "The token bucket algorithm",
+      "size": "standard",
+      "est_min": 20,
+      "section": "protect-assemble",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-token-bucket-mechanism",
+          "statement": "A token bucket holds up to C tokens, refills at r tokens per second, and admits a request only if at least one token is available, removing one token per admitted request."
+        },
+        {
+          "id": "kc-token-bucket-burst",
+          "statement": "A full token bucket admits a burst of up to C requests at once, then sustains r requests per second; with C=10 and r=2/s, 10 requests pass instantly and then one every 0.5 s."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-rate-limiting",
+          "reason": "The algorithm implements the rate limiting policy defined there."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-rate-limit-algorithms"
+      ],
+      "introduces": [
+        "token bucket",
+        "refill rate",
+        "bucket capacity"
+      ],
+      "uses": [
+        "rate limiting"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "algorithms/token-bucket"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "algorithms/algorithms"
+        }
+      ],
+      "problem_ideas": [
+        "Implement allow(now) for a token bucket that refills lazily from elapsed time",
+        "Given C=5, r=1/s and request times [0,0,0,0,0,0,1.5,2,2], list which requests are admitted",
+        "Choose C and r for an API that should allow 600 requests/min with bursts of 50",
+        "Implement a map of per-user buckets and expire buckets idle for an hour",
+        "Prove with a test that the bucket never exceeds its capacity after a long idle period",
+        "Compute the most requests admitted in any 10-second window for C=20, r=3/s"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Lazy refill: no timers needed"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "The default answer to 'which rate-limiting algorithm?', and interviewers like seeing it worked through."
+      }
+    },
+    {
+      "id": "sd-rate-limit-algorithms",
+      "title": "Fixed window, sliding window and leaky bucket",
+      "size": "standard",
+      "est_min": 28,
+      "section": "protect-assemble",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-fixed-window",
+          "statement": "A fixed-window counter allows N requests per clock-aligned window; it is cheap but can let up to 2N requests through in a short span around a window boundary."
+        },
+        {
+          "id": "kc-sliding-window",
+          "statement": "A sliding-window log stores every request timestamp and counts those in the last window, which is exact but uses memory proportional to the request rate; a sliding-window counter approximates it by weighting the previous window's count."
+        },
+        {
+          "id": "kc-leaky-bucket",
+          "statement": "A leaky bucket queues requests and processes them at a constant rate, turning bursts into a steady outflow and dropping requests when the queue is full, unlike a token bucket, which lets bursts through."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-token-bucket",
+          "reason": "The leaky bucket KC is stated as a contrast with the token bucket."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-token-bucket"
+      ],
+      "introduces": [
+        "fixed window counter",
+        "sliding window log",
+        "sliding window counter",
+        "leaky bucket"
+      ],
+      "uses": [
+        "rate limiting",
+        "token bucket"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "algorithms/fixed-window"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "algorithms/sliding-log"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "algorithms/sliding-window"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "algorithms/leaky-bucket"
+        }
+      ],
+      "problem_ideas": [
+        "Limit 100/min with a fixed window: 100 requests at 0:59 and 100 at 1:01; how many pass, and why is that a problem?",
+        "Sliding-window counter: the previous minute had 80, the current has 30, we are 25% into the window, the limit is 100; is the next request allowed?",
+        "Memory for a sliding-window log at 1,000 req/min per user with 8-byte timestamps for 1 million users",
+        "Pick an algorithm for calling a payment provider that must receive at most 10 calls/s, evenly spaced",
+        "Pick an algorithm for a public API that tolerates short bursts",
+        "Rank the four algorithms by memory per client and by accuracy"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Error bound of the sliding-window counter"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Useful when the prompt is 'design a rate limiter'; elsewhere, naming one algorithm is enough."
+      }
+    },
+    {
+      "id": "sd-distributed-rate-limiting",
+      "title": "Rate limiting across many servers",
+      "size": "standard",
+      "est_min": 20,
+      "section": "protect-assemble",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-shared-counter",
+          "statement": "When N gateway instances enforce one limit with local counters, a client can exceed the limit by up to N times; a shared counter store (e.g. an in-memory key-value store) keeps one global count."
+        },
+        {
+          "id": "kc-atomic-counter-update",
+          "statement": "Read-then-write counter updates race under concurrency, so two requests can both take the last slot; an atomic increment, or one script that checks and updates together, prevents this."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-rate-limiting",
+          "reason": "Extends the single-node limiter to many nodes."
+        }
+      ],
+      "suggests": [
+        "sd-token-bucket"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "distributed rate limiting",
+        "race condition"
+      ],
+      "uses": [
+        "rate limiting",
+        "api gateway",
+        "horizontal scaling",
+        "round trip time"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "rate-limiting-in-distributed-systems/rate-limiting-in-distributed-systems"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "rate-limiting-in-distributed-systems/inconsistencies"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "rate-limiting-in-distributed-systems/race-conditions"
+        }
+      ],
+      "problem_ideas": [
+        "10 gateway nodes each allow 100/min locally: what is the worst-case global rate for one user?",
+        "Trace two concurrent requests through GET-then-SET on a counter at 99/100 and show both passing",
+        "A shared counter store adds 1 ms per request: what does that cost at 50,000 QPS of gateway traffic?",
+        "The shared counter store goes down: fail open or fail closed, for a public API and for a login endpoint?",
+        "Propose local pre-limiting with periodic sync and state its accuracy trade-off",
+        "Multi-region: should limits be global or per region? Argue with a latency number"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Atomic check-and-update scripts in a key-value store"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "The usual deep-dive follow-up once you put a rate limiter on a scaled-out gateway."
+      }
+    },
+    {
+      "id": "sd-scale-to-millions",
+      "title": "Assembling the request path for millions of users",
+      "size": "standard",
+      "est_min": 28,
+      "section": "protect-assemble",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-scaling-path",
+          "statement": "A typical web app scales in steps, each taken only when a measured bottleneck demands it: single server, then a separate database, then a load balancer over several stateless app servers, then a CDN for static assets, then caching, read replicas and sharding."
+        },
+        {
+          "id": "kc-request-path-order",
+          "statement": "On a scaled request path, the client resolves DNS, fetches static assets from the CDN, and sends API calls through a load balancer or API gateway, where rate limits apply, to stateless application servers."
+        },
+        {
+          "id": "kc-tier-load",
+          "statement": "Each tier is sized only for the traffic that reaches it: if 80% of 50,000 peak requests/s are static assets served at a 95% CDN hit ratio, the origin sees 10,000 API QPS plus 2,000 asset misses."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "This is the outcome's product: a diagram that places the LB, CDN and gateway, justified by the traffic each tier receives."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-cdn",
+          "reason": "The tier-load KC uses the CDN hit ratio."
+        },
+        {
+          "topic": "sd-load-balancers",
+          "reason": "The request path places load balancers in front of the app tier."
+        },
+        {
+          "topic": "sd-stateless-services",
+          "reason": "Scaling the app tier depends on statelessness."
+        }
+      ],
+      "suggests": [
+        "sd-api-gateway",
+        "sd-rate-limiting"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "scaling path"
+      ],
+      "uses": [
+        "dns",
+        "cdn",
+        "cdn hit ratio",
+        "load balancer",
+        "api gateway",
+        "rate limiting",
+        "stateless service",
+        "peak qps",
+        "bottleneck",
+        "high-level design",
+        "read-to-write ratio"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "system-design-interview-questions-with-s/design-a-system-that-scales-to-millions-"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "how-to-approach-a-system-design-intervie/step-4-scale-the-design"
+        }
+      ],
+      "problem_ideas": [
+        "Given 1,000 users today and 10 million in a year, list the scaling steps in order and the signal that triggers each",
+        "Compute origin QPS when 70% of 30,000 peak requests/s are images at a 90% CDN hit ratio",
+        "Draw the full request path for a photo-sharing app and label which tier terminates TLS",
+        "App servers handle 2,000 QPS each and must take the origin load above: how many nodes with 30% headroom?",
+        "A design jumps straight to sharding at 500 QPS: critique it as an interviewer would",
+        "Trace one request end to end and estimate the latency of each hop from known round trip times"
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "How real companies grew from one server to many regions"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "This is the high-level diagram interviewers expect in the first 15 minutes of most prompts."
+      }
+    }
+  ],
+  "groups": {}
+}

@@ -1,0 +1,725 @@
+[
+  {
+    "id": "emb-features/set-1",
+    "version": 1,
+    "family": "emb-features-encode-article",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "A help centre describes every article with three yes/no features, always in this order: `[money, sign-in, delivery]` (1 = yes, 0 = no). Which vector describes *Where is my parcel?*",
+    "options": [
+      {
+        "id": "a",
+        "md": "`[0, 0, 1]`",
+        "correct": true,
+        "why_md": "Right. It isn't about money (0) or signing in (0), and it is about delivery (1). Each position answers one fixed question."
+      },
+      {
+        "id": "b",
+        "md": "`[1, 0, 0]`",
+        "why_md": "This puts the 1 in the *money* position, which would describe a payment article. The order is part of the meaning: position 1 always means *money*.",
+        "misconception": "mc-vector-order-free"
+      },
+      {
+        "id": "c",
+        "md": "`[1]`",
+        "why_md": "Every article gets one number per feature, including the 0s. A one-number list cannot say which feature its 1 belongs to."
+      },
+      {
+        "id": "d",
+        "md": "`[0, 1, 1]`",
+        "why_md": "The middle 1 claims the article is about signing in. *Where is my parcel?* isn't."
+      }
+    ],
+    "hints": [
+      "Read the order: position 1 asks *money?*, position 2 *sign-in?*, position 3 *delivery?*",
+      "Money: no → 0. Sign-in: no → 0. Delivery: yes → 1. Write them in that order."
+    ],
+    "solution_md": "Answer each feature in the fixed order: money? no (0). sign-in? no (0). delivery? yes (1). The vector is `[0, 0, 1]`.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/set-2",
+    "version": 1,
+    "family": "emb-features-onehot-length",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "The titles of the help centre's 25 articles use **87** different words. You give each word a one-hot vector: its own slot set to 1, every other slot 0. How many dimensions does each word's vector have?",
+    "answer": {
+      "value": 87,
+      "tolerance": 0
+    },
+    "common_wrong": [
+      {
+        "value": 1,
+        "kind": "slip",
+        "why_md": "A one-hot vector has only one 1, but it also has a 0 for every other word. Its length is the number of words in the vocabulary."
+      },
+      {
+        "value": 25,
+        "kind": "slip",
+        "why_md": "25 is the number of articles. Here each **word** gets a slot, so the length is the number of different words."
+      },
+      {
+        "value": 86,
+        "kind": "slip",
+        "why_md": "86 counts only the 0s. Add the word's own slot: 86 + 1 = 87."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "distinct_words = 87\nanswer = distinct_words"
+    },
+    "hints": [
+      "In one-hot, every word in the vocabulary gets its own slot. Count the slots.",
+      "One slot per different word: 87 words means 87 slots, one of which is set to 1."
+    ],
+    "solution_md": "One-hot gives every different word its own position. With 87 different words, every vector has 87 positions: a single 1 in the word's own slot and 86 zeros. **87 dimensions.**",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/set-3",
+    "version": 1,
+    "family": "emb-features-feature-to-pair",
+    "kind": "match",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Suppose the help centre describes articles with **just one** yes/no feature. Match each feature to the pair of articles it would make look similar (both articles have a 1 for it). One pair matches no feature.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "`money`",
+        "why_md": "Both payment guides have a 1 for money."
+      },
+      {
+        "id": "l2",
+        "md": "`fixing a problem`",
+        "why_md": "Both complaints have a 1 for fixing a problem, even though their subjects differ."
+      },
+      {
+        "id": "l3",
+        "md": "`delivery`",
+        "why_md": "Both delivery articles have a 1 for delivery, even though one is a guide and one a complaint."
+      },
+      {
+        "id": "r1",
+        "md": "*Download your invoice* and *Change your billing card*",
+        "why_md": "Both are about money; neither is about delivery or a complaint. Only `money` gives both a 1."
+      },
+      {
+        "id": "r2",
+        "md": "*Why was I charged twice?* and *My parcel arrived damaged*",
+        "why_md": "One is about money, the other about delivery, but both are complaints. Only `fixing a problem` gives both a 1."
+      },
+      {
+        "id": "r3",
+        "md": "*Update your delivery address* and *Where is my parcel?*",
+        "why_md": "Both are about delivery; only one is a complaint. Only `delivery` gives both a 1."
+      },
+      {
+        "id": "r4",
+        "md": "*Reset your password* and *Turn on two-step sign-in*",
+        "why_md": "Neither is about money or delivery, and turning on two-step sign-in isn't fixing a problem, so no feature on the left gives both a 1. They would need a `sign-in` feature, which nobody picked."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3"
+      }
+    },
+    "hints": [
+      "For each feature, ask: does *each* article in the pair get a 1?",
+      "`money` fits the invoice and billing-card guides; `fixing a problem` fits the two complaints; `delivery` fits the address guide and the parcel question. The sign-in pair fits none."
+    ],
+    "solution_md": "A single feature makes two articles similar only if **both** have a 1 for it. `money` → invoice + billing card. `fixing a problem` → charged twice + parcel damaged (different subjects, both complaints). `delivery` → delivery address + where is my parcel. The sign-in pair matches no row: with no `sign-in` feature, nothing on this list can make them similar.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/set-4",
+    "version": 1,
+    "family": "emb-features-switch-list-reasoning",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "With topic features `[money, sign-in, delivery]`, the Related box under *Why was I charged twice?* shows payment articles such as *Download your invoice*. The team switches to task features `[how-to steps, fixing a problem]`. Of these three articles, which now matches *Why was I charged twice?* best?",
+    "options": [
+      {
+        "id": "a",
+        "md": "*My parcel arrived damaged*",
+        "correct": true,
+        "why_md": "Right. Both are complaints about something that went wrong, so both are `[0, 1]` under task features and share 1 feature. Their subjects differ, but subject is no longer a feature."
+      },
+      {
+        "id": "b",
+        "md": "*Download your invoice*, since both are still about money",
+        "why_md": "Money isn't a task feature, so it is invisible now. The invoice guide is `[1, 0]` and the complaint `[0, 1]`: 0 shared features.",
+        "misconception": "mc-similarity-built-in"
+      },
+      {
+        "id": "c",
+        "md": "*Change your billing card*",
+        "why_md": "Another payment article, and a how-to guide: `[1, 0]` under task features, sharing nothing with the complaint `[0, 1]`."
+      }
+    ],
+    "hints": [
+      "Write each article as `[how-to steps, fixing a problem]`, then count positions where both are 1.",
+      "*Why was I charged twice?* is `[0, 1]`. The invoice and billing-card guides are `[1, 0]`; *My parcel arrived damaged* is `[0, 1]`."
+    ],
+    "solution_md": "Under `[how-to steps, fixing a problem]`: charged twice `[0, 1]`, invoice `[1, 0]`, billing card `[1, 0]`, parcel damaged `[0, 1]`. Shared with charged twice: invoice 0, billing card 0, parcel damaged **1**. The topic link (money) disappeared with the topic features.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/set-5",
+    "version": 1,
+    "family": "emb-features-vector-rules",
+    "kind": "multi",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Each help article is described as `[money, sign-in, word count in thousands]`. For example, *Change your billing card* is `[1, 0, 0.4]`: about money, not about sign-in, 400 words. Which statements are true? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Every article's vector has exactly 3 numbers.",
+        "correct": true,
+        "why_md": "Right. One number per feature, for every article, even when the answer is 0."
+      },
+      {
+        "id": "b",
+        "md": "`[1, 0, 0.4]` and `[0, 1, 0.4]` describe the same article, since they hold the same numbers.",
+        "why_md": "Order carries the meaning. The first is a 400-word money article; the second a 400-word sign-in article.",
+        "misconception": "mc-vector-order-free"
+      },
+      {
+        "id": "c",
+        "md": "The second number in every article's vector answers the same question: is it about sign-in?",
+        "correct": true,
+        "why_md": "Right. A position means the same feature for every item. That is what makes two vectors comparable at all."
+      },
+      {
+        "id": "d",
+        "md": "An article that isn't about money can leave the first number out.",
+        "why_md": "Dropping it would shift every later number into the wrong position. “Not about money” is written as 0."
+      },
+      {
+        "id": "e",
+        "md": "A feature can be a measured amount, not only yes/no.",
+        "correct": true,
+        "why_md": "Right. Word count in thousands (0.4) is a measurement, like *size* in the animal example."
+      }
+    ],
+    "hints": [
+      "Recall the two rules: one number per feature, and one fixed order shared by every article.",
+      "a and c follow from the two rules; e is true because 0.4 is a measurement. b breaks the order rule and d breaks the one-number-per-feature rule."
+    ],
+    "solution_md": "True: **a** (one number per feature), **c** (each position always means the same feature) and **e** (features can be measurements, such as word count). False: **b** (same numbers in a different order describe a different article) and **d** (a “no” is written as 0, never left out).",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/set-6",
+    "version": 1,
+    "family": "emb-features-distance-by-hand",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Using `[money, sign-in, word count in thousands]`: *Cancel your subscription* is `[1, 0, 0.6]` and *Update your billing address* is `[1, 0, 0.2]`. What is the straight-line distance between them? (2 decimals)",
+    "answer": {
+      "value": 0.4,
+      "tolerance": 0.005
+    },
+    "common_wrong": [
+      {
+        "value": 0.16,
+        "kind": "slip",
+        "why_md": "That is the sum of squared differences. Take the square root: √0.16 = 0.4."
+      },
+      {
+        "value": 0.8,
+        "kind": "slip",
+        "why_md": "0.6 + 0.2 adds the word counts. Subtract matching positions instead: 0.6 − 0.2 = 0.4."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "a = [1, 0, 0.6]\nb = [1, 0, 0.2]\nanswer = round(sum((x - y) ** 2 for x, y in zip(a, b)) ** 0.5, 2)"
+    },
+    "hints": [
+      "Straight-line distance: subtract position by position, square, add, then take the square root.",
+      "Differences: 0, 0, 0.4. Squares: 0, 0, 0.16. Now take √0.16."
+    ],
+    "solution_md": "$\\sqrt{(1-1)^2 + (0-0)^2 + (0.6-0.2)^2} = \\sqrt{0 + 0 + 0.16} = 0.4$. Only the word-count feature differs, so it alone sets the distance.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/set-7",
+    "version": 1,
+    "family": "emb-features-onehot-related-box",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "A teammate builds the Related box with one-hot vectors: each of the 25 articles gets its own slot (25 dimensions). The box ranks the other articles by shared features. What does it show under *Reset your password*?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Nothing useful: all 24 other articles tie at 0 shared features",
+        "correct": true,
+        "why_md": "Right. Each article's only 1 sits in its own slot, so no two articles ever share a 1. These features only say *which* article it is, never what it is about."
+      },
+      {
+        "id": "b",
+        "md": "*Change your password*, because it is the closest topic",
+        "why_md": "One-hot vectors hold no topics. *Change your password* has its 1 in a different slot, so it shares 0 features, exactly like every other article.",
+        "misconception": "mc-onehot-relatedness"
+      },
+      {
+        "id": "c",
+        "md": "The article in the next slot, because neighbouring slots are close",
+        "why_md": "Slot numbers are just IDs, like locker numbers. Slot 7 is no more like slot 8 than like slot 20: it shares 0 features with both."
+      }
+    ],
+    "hints": [
+      "Write two different articles as one-hot vectors and count positions where both are 1.",
+      "Article 7 is all 0s except slot 7; article 8 is all 0s except slot 8. No position has a 1 in both."
+    ],
+    "solution_md": "In one-hot, every article's vector has a single 1 in its own slot. Any two different articles have their 1s in different slots, so they share **0** features. All 24 other articles tie, and the box has no basis for ranking them.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/set-8",
+    "version": 1,
+    "family": "emb-features-keep-two-features",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Five yes/no features describe three articles:\n\n| | money | sign-in | delivery | how-to steps | fixing a problem |\n|---|---|---|---|---|---|\n| *Why was I charged twice?* | 1 | 0 | 0 | 0 | 1 |\n| *Where is my parcel?* | 0 | 0 | 1 | 0 | 1 |\n| *Download your invoice* | 1 | 0 | 0 | 1 | 0 |\n\nYou may keep only **two** features. Which pair makes *Why was I charged twice?* share **more** features with *Where is my parcel?* than with *Download your invoice*?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`[money, how-to steps]`",
+        "why_md": "Charged twice `[1, 0]`, parcel `[0, 0]`, invoice `[1, 1]`: 0 shared with the parcel, 1 with the invoice. The opposite of what you want."
+      },
+      {
+        "id": "b",
+        "md": "`[delivery, fixing a problem]`",
+        "correct": true,
+        "why_md": "Right. Charged twice `[0, 1]`, parcel `[1, 1]`, invoice `[0, 0]`: 1 shared with the parcel, 0 with the invoice. Keeping *fixing a problem* and dropping *money* makes the two complaints the closer pair."
+      },
+      {
+        "id": "c",
+        "md": "`[money, fixing a problem]`",
+        "why_md": "Charged twice `[1, 1]`, parcel `[0, 1]`, invoice `[1, 0]`: 1 shared with each. That is a tie, not *more*."
+      },
+      {
+        "id": "d",
+        "md": "`[money, sign-in]`",
+        "why_md": "Charged twice `[1, 0]`, parcel `[0, 0]`, invoice `[1, 0]`: 0 shared with the parcel, 1 with the invoice."
+      }
+    ],
+    "hints": [
+      "For each option, rewrite the three articles using only those two columns, then count positions where both are 1.",
+      "The feature linking the two complaints is *fixing a problem*; the one linking charged twice to the invoice is *money*. You need the first kept and the second dropped."
+    ],
+    "solution_md": "Score (charged twice vs parcel, charged twice vs invoice) for each option. a `[money, how-to]`: (0, 1). **b `[delivery, fixing a problem]`: (1, 0)**. c `[money, fixing a problem]`: (1, 1), a tie. d `[money, sign-in]`: (0, 1). Only b gives the parcel more shared features. The features you keep decide which pair counts as similar.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/set-9",
+    "version": 1,
+    "family": "emb-features-choice-statements",
+    "kind": "multi",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Which statements about choosing features are true? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The same two articles can share a feature under one feature list and share none under another.",
+        "correct": true,
+        "why_md": "Right. *Change your billing card* and *Why was I charged twice?* share *money* under topic features and nothing under task features."
+      },
+      {
+        "id": "b",
+        "md": "Adding a feature that doesn't matter to readers, such as `updated in 2024`, can change which article counts as most similar.",
+        "correct": true,
+        "why_md": "Right. The score counts every feature; it cannot tell which ones matter to readers."
+      },
+      {
+        "id": "c",
+        "md": "Good enough features reveal the one true similarity between articles, whatever the task.",
+        "why_md": "There is no single true similarity. Topic features and task features give different, equally valid answers to different questions.",
+        "misconception": "mc-similarity-built-in"
+      },
+      {
+        "id": "d",
+        "md": "Adding more features always makes similarity more accurate.",
+        "why_md": "Only features that capture what “similar” should mean help. Irrelevant ones add noise and can outvote the useful ones.",
+        "misconception": "mc-more-features-better"
+      },
+      {
+        "id": "e",
+        "md": "The features inside an embedding model are learned from data, not hand-picked by people.",
+        "correct": true,
+        "why_md": "Right. Embedding models (later in this unit) learn hundreds of features from data, and nobody names or chooses them. What they learned still decides what lands close."
+      }
+    ],
+    "hints": [
+      "Test each statement against the billing-card example: what changed when the feature list changed?",
+      "a and b are what the lesson showed; e is its forward pointer. c and d are the two misconceptions it warned about."
+    ],
+    "solution_md": "True: **a**, **b**, **e**. Similarity is always relative to the chosen features (a), every feature counts whether or not it matters (b), and embedding models learn their features rather than having them hand-picked (e). False: c (no feature-free “true” similarity exists) and d (irrelevant features make similarity worse, not better).",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/set-10",
+    "version": 1,
+    "family": "emb-features-count-disagreeing-pairs",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Five articles under two feature lists:\n\n| | topic `[money, sign-in, delivery]` | task `[how-to steps, fixing a problem]` |\n|---|---|---|\n| A *Change your billing card* | `[1, 0, 0]` | `[1, 0]` |\n| B *Why was I charged twice?* | `[1, 0, 0]` | `[0, 1]` |\n| C *Where is my parcel?* | `[0, 0, 1]` | `[0, 1]` |\n| D *Update your delivery address* | `[0, 0, 1]` | `[1, 0]` |\n| E *Change your password* | `[0, 1, 0]` | `[1, 0]` |\n\nCall a pair *similar* if it shares at least one feature. Of the 10 possible pairs, how many are similar under **exactly one** of the two lists?",
+    "answer": {
+      "value": 6,
+      "tolerance": 0
+    },
+    "common_wrong": [
+      {
+        "value": 4,
+        "kind": "slip",
+        "why_md": "4 counts only the pairs similar under the task list. Add the 2 pairs similar only under the topic list (A–B, C–D)."
+      },
+      {
+        "value": 2,
+        "kind": "slip",
+        "why_md": "2 counts only the topic-list pairs. Add the 4 task-list pairs."
+      },
+      {
+        "value": 0,
+        "kind": "slip",
+        "why_md": "0 is the number of pairs similar under **both** lists. The question asks for exactly one."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "from itertools import combinations\ntopic = {'A': [1, 0, 0], 'B': [1, 0, 0], 'C': [0, 0, 1], 'D': [0, 0, 1], 'E': [0, 1, 0]}\ntask = {'A': [1, 0], 'B': [0, 1], 'C': [0, 1], 'D': [1, 0], 'E': [1, 0]}\n\ndef shares(u, v):\n    return sum(x * y for x, y in zip(u, v)) > 0\n\nanswer = sum(shares(topic[p], topic[q]) != shares(task[p], task[q]) for p, q in combinations('ABCDE', 2))"
+    },
+    "hints": [
+      "Group the articles by shared 1s in each list: every pair inside a group is similar. Then compare the two lists' pairs.",
+      "Topic: {A, B} share money, {C, D} share delivery → 2 pairs. Task: {A, D, E} share how-to → 3 pairs, {B, C} share fixing a problem → 1 pair. Do any pairs appear in both lists?"
+    ],
+    "solution_md": "Topic list similar pairs: A–B (money), C–D (delivery): **2**. Task list similar pairs: A–D, A–E, D–E (how-to) and B–C (fixing a problem): **4**. No pair appears in both, so pairs similar under exactly one list = 2 + 4 = **6**. Six of ten pairs change their verdict when the features change.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/set-11",
+    "version": 1,
+    "family": "emb-features-explain-relative",
+    "kind": "explain",
+    "class": "judged",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 180,
+    "prompt_md": "A teammate says: “*Change your billing card* and *Change your password* are obviously similar articles.” In 3–5 sentences, explain why that claim is incomplete. Use feature vectors: give one feature list under which the two articles share a feature and one under which they share none, and say how you would decide which list the help centre should use.",
+    "rubric": {
+      "criteria": [
+        {
+          "id": "relative",
+          "text": "States that similarity depends on the chosen features, not on the two articles alone.",
+          "weight": 2
+        },
+        {
+          "id": "sharing-list",
+          "text": "Gives a feature list, with vectors, under which the two articles share at least one feature (e.g. `[how-to steps, fixing a problem]`: both `[1, 0]`).",
+          "weight": 1
+        },
+        {
+          "id": "non-sharing-list",
+          "text": "Gives a feature list, with vectors, under which they share none (e.g. `[money, sign-in, delivery]`: `[1, 0, 0]` and `[0, 1, 0]`).",
+          "weight": 1
+        },
+        {
+          "id": "choose-by-task",
+          "text": "Says the list should be chosen by what “similar” must mean for the task, e.g. checked against pairs known to belong together or the labelled queries.",
+          "weight": 1
+        }
+      ],
+      "quotes_required": true
+    },
+    "hints": [
+      "Use the two feature lists from the lesson: topic and task.",
+      "Under task features both are how-to guides, `[1, 0]`; under topic features one is money `[1, 0, 0]` and the other sign-in `[0, 1, 0]`. Then say what decides which list to use."
+    ],
+    "solution_md": "A model answer: “Whether they are similar depends on which features we describe them with. Under `[how-to steps, fixing a problem]` both are how-to guides, `[1, 0]` and `[1, 0]`, so they share a feature. Under `[money, sign-in, delivery]` the billing card is `[1, 0, 0]` and the password article `[0, 1, 0]`, so they share none. The right list is the one whose idea of similar matches the job: for a Related box about the same subject we would use the topic list, and we would check it against the labelled queries.”",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/exit-1",
+    "version": 1,
+    "family": "emb-features-onehot-shared-count",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "A 500-word vocabulary gives every word a one-hot vector. *refund* and *reimbursement* are different words. How many features do their vectors share (positions where **both** are 1)?",
+    "options": [
+      {
+        "id": "a",
+        "md": "0",
+        "correct": true,
+        "why_md": "Right. Each vector's only 1 sits in its own word's slot, and the two slots differ. One-hot cannot see that the words mean nearly the same thing."
+      },
+      {
+        "id": "b",
+        "md": "1, because the words mean nearly the same",
+        "why_md": "One-hot vectors know nothing about meaning; each word just has a private slot.",
+        "misconception": "mc-onehot-relatedness"
+      },
+      {
+        "id": "c",
+        "md": "498, the zeros they agree on",
+        "why_md": "They do agree on 498 zeros, but a shared 0 only says “neither is this word”. Shared features count positions where both are 1."
+      }
+    ],
+    "hints": [
+      "Where is the single 1 in each vector?",
+      "*refund* has its 1 in its own slot and *reimbursement* in a different slot, so no position holds a 1 in both."
+    ],
+    "solution_md": "Each one-hot vector has exactly one 1, in its own word's slot. Different words use different slots, so no position has a 1 in both: **0** shared features, whatever the words mean.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/exit-2",
+    "version": 1,
+    "family": "emb-features-count-dimensions",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Each help article gets one yes/no feature for each of the help centre's **6** sections, plus `has screenshots` (yes/no) and `word count in thousands`. How many dimensions does each article's feature vector have?",
+    "answer": {
+      "value": 8,
+      "tolerance": 0
+    },
+    "common_wrong": [
+      {
+        "value": 3,
+        "kind": "slip",
+        "why_md": "3 counts the kinds of feature. Each of the 6 sections is its own feature: 6 + 1 + 1 = 8."
+      },
+      {
+        "value": 7,
+        "kind": "slip",
+        "why_md": "Word count is a feature too, just not a yes/no one: 6 + 1 + 1 = 8."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "section_features = 6\nscreenshots_feature = 1\nword_count_feature = 1\nanswer = section_features + screenshots_feature + word_count_feature"
+    },
+    "hints": [
+      "One dimension per feature. Count every feature, including the measured one.",
+      "6 section features + `has screenshots` + `word count in thousands` = ?"
+    ],
+    "solution_md": "One dimension per feature: 6 section features + 1 (`has screenshots`) + 1 (`word count`) = **8**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/exit-3",
+    "version": 1,
+    "family": "emb-features-same-pair-verdicts",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "*Why was I charged twice?* and *Change your billing card*, under two feature lists:\n\n- topic `[money, sign-in, delivery]`: `[1, 0, 0]` and `[1, 0, 0]`\n- task `[how-to steps, fixing a problem]`: `[0, 1]` and `[1, 0]`\n\nAre the two articles similar?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Under the topic list yes (1 shared feature), under the task list no (0): it depends on the features",
+        "correct": true,
+        "why_md": "Right. Both verdicts are correct for their own features. “Similar” only has a meaning once you say which features."
+      },
+      {
+        "id": "b",
+        "md": "Yes under both lists, because they're both about money",
+        "why_md": "Money is a feature only in the topic list. Under task features one is a complaint `[0, 1]` and the other a guide `[1, 0]`: nothing shared.",
+        "misconception": "mc-similarity-built-in"
+      },
+      {
+        "id": "c",
+        "md": "No under both lists, because their titles share no words",
+        "why_md": "Shared words are what keyword search checks, not feature vectors. Under topic features they share *money*."
+      }
+    ],
+    "hints": [
+      "Count positions where both vectors have a 1, separately for each list.",
+      "Topic: both `[1, 0, 0]` share 1. Task: `[0, 1]` and `[1, 0]` share 0."
+    ],
+    "solution_md": "Topic list: `[1, 0, 0]` and `[1, 0, 0]` share **1** feature (money). Task list: `[0, 1]` and `[1, 0]` share **0**. The same pair is similar under one list and unrelated under the other, so the answer depends on the features chosen.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  }
+]

@@ -1,0 +1,828 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-features",
+  "version": 1,
+  "title": "Describing things with numbers",
+  "size": "standard",
+  "est_min": 19,
+  "kcs": [
+    {
+      "id": "kc-vectors-as-features",
+      "version": 2,
+      "statement": "A vector is a list of feature values that describes a thing."
+    },
+    {
+      "id": "kc-features-define-similarity",
+      "version": 1,
+      "statement": "The features you choose decide what “similar” means."
+    }
+  ],
+  "mode_hint": "quiz",
+  "mode": "quiz",
+  "requires": [],
+  "suggests": [
+    "emb-keyword-gap"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "feature vector",
+    "dimension"
+  ],
+  "uses": [
+    "vector"
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-vector-order-free",
+      "statement": "A vector is just a bunch of numbers; their order doesn't matter.",
+      "tags": [
+        "kc-vectors-as-features"
+      ]
+    },
+    {
+      "id": "mc-onehot-relatedness",
+      "statement": "One-hot vectors give related words, such as dog and puppy, some similarity.",
+      "tags": [
+        "kc-vectors-as-features"
+      ]
+    },
+    {
+      "id": "mc-similarity-built-in",
+      "statement": "Two things are simply similar or not; the features used to describe them don't change that.",
+      "tags": [
+        "kc-features-define-similarity"
+      ]
+    },
+    {
+      "id": "mc-more-features-better",
+      "statement": "Adding more features always makes similarity more accurate.",
+      "tags": [
+        "kc-features-define-similarity"
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "vector",
+      "md": "An ordered list of numbers, e.g. `[0.2, 0.9]`. Can be drawn as an arrow from the origin."
+    },
+    {
+      "term": "dimension",
+      "md": "One position in a vector. A 384-dimensional vector has 384 numbers."
+    },
+    {
+      "term": "magnitude",
+      "md": "A vector's length: $\\sqrt{\\sum a_i^2}$."
+    },
+    {
+      "term": "dot product",
+      "md": "Multiply matching positions and add: $a\\cdot b = \\sum a_i b_i$."
+    },
+    {
+      "term": "cosine similarity",
+      "md": "$\\frac{a\\cdot b}{\\|a\\|\\|b\\|}$: the cosine of the angle between two vectors. −1 to 1; ignores length."
+    },
+    {
+      "term": "embedding",
+      "md": "A vector produced by a model to represent an input so that similar inputs land close together."
+    },
+    {
+      "term": "embedding model",
+      "md": "A model that maps an input to a fixed-length embedding vector."
+    },
+    {
+      "term": "feature",
+      "md": "One property you choose to describe things by, such as *size* or *is it about money?*. Each feature fills one position in a feature vector."
+    },
+    {
+      "term": "feature vector",
+      "md": "A vector holding one number per chosen feature, in a fixed order that is the same for every item. With `[money, sign-in, delivery]`, *Change your billing card* is `[1, 0, 0]`. It has one dimension per feature."
+    },
+    {
+      "term": "one-hot vector",
+      "md": "A vector with one slot per word (or item): 1 in the item's own slot, 0 everywhere else. Two different items never have a 1 in the same position, so every pair looks equally unrelated."
+    },
+    {
+      "term": "shared features",
+      "md": "For yes/no (0/1) features: the number of positions where both vectors have a 1. `[1, 0, 1]` and `[1, 1, 1]` share 2."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-features-p1",
+      "title": "Describing things with numbers",
+      "beats": [
+        {
+          "id": "b-features",
+          "title": "Describing things with numbers",
+          "kcs": [
+            "kc-vectors-as-features"
+          ],
+          "est_minutes": 9,
+          "blocks": [
+            {
+              "id": "blk-emb-features-01",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Forget text for a minute. Let's describe **animals** with numbers, and pick two properties:",
+                  "- **size**, from 0 (tiny) to 1 (huge)\n- **tameness**, from 0 (wild) to 1 (lives on your sofa)",
+                  "A puppy is small and tame: `[0.2, 0.9]`. A wolf is bigger and wild: `[0.6, 0.1]`. Each animal is now a **list of numbers**, which mathematicians call a [[vector]]. Each position in the list is a [[dimension]]. Two numbers = two dimensions = a point on a flat sheet of paper."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-features-02",
+              "block": {
+                "type": "rewind",
+                "title": "Vectors in 60 seconds",
+                "md": [
+                  "A **vector** is an ordered list of numbers, such as `[0.2, 0.9]`. Order matters: `[0.2, 0.9]` and `[0.9, 0.2]` are different vectors.",
+                  "You can draw a 2-number vector as an arrow from the origin `(0, 0)` to the point `(0.2, 0.9)`. A 3-number vector is a point in 3-D space. A 384-number vector is a point in 384-D space. You can't picture it, but the arithmetic is exactly the same.",
+                  "**Distance** between two points (the straight-line, Euclidean distance) is $\\sqrt{(x_1-x_2)^2 + (y_1-y_2)^2}$: Pythagoras."
+                ],
+                "prereq": "vectors-basics"
+              }
+            },
+            {
+              "id": "blk-emb-features-03",
+              "block": {
+                "type": "worked_example",
+                "title": "Who is closest to the puppy?",
+                "problem_md": "Using `[size, tameness]`: puppy `[0.2, 0.9]`, dog `[0.5, 0.9]`, kitten `[0.1, 0.95]`, wolf `[0.6, 0.1]`. Which animal is nearest to the puppy by straight-line distance?",
+                "steps": [
+                  {
+                    "md": "puppy → dog: $\\sqrt{(0.2-0.5)^2 + (0.9-0.9)^2} = \\sqrt{0.09} = 0.30$",
+                    "why_md": "Subtract coordinate by coordinate, square, add, square-root."
+                  },
+                  {
+                    "md": "puppy → kitten: $\\sqrt{(0.1)^2 + (0.05)^2} = \\sqrt{0.0125} \\approx 0.11$"
+                  },
+                  {
+                    "md": "puppy → wolf: $\\sqrt{(0.4)^2 + (0.8)^2} = \\sqrt{0.80} \\approx 0.89$"
+                  },
+                  {
+                    "md": "Surprise: the **kitten** is closest, not the dog. Our two features say nothing about *species*.",
+                    "why_md": "Similarity is only as good as the features. That is the single most important idea on this page."
+                  },
+                  {
+                    "md": "Add a third feature, **canine** (1 or 0): puppy `[0.2, 0.9, 1]`, dog `[0.5, 0.9, 1]`, kitten `[0.1, 0.95, 0]`. Now puppy → dog is still 0.30, but puppy → kitten becomes $\\sqrt{0.0125 + 1} \\approx 1.01$.",
+                    "why_md": "One more dimension fixed the notion of “similar”."
+                  }
+                ],
+                "answer_md": "With `[size, tameness, canine]`, the dog is nearest. **Which features you have decides what “similar” means.** Embedding models get their power by *learning* hundreds of features instead of us hand-picking two or three."
+              }
+            },
+            {
+              "id": "blk-emb-features-04",
+              "block": {
+                "type": "visual",
+                "id": "v-onehot",
+                "widget": "onehot-dense",
+                "title": "Why not just number the words?",
+                "goal_md": "See why giving each word its own slot (one-hot) makes every pair of words equally unrelated, and how dense feature vectors fix that.",
+                "alt": "A step-through with four stages. A one-hot table where every word pair has similarity 0, then hand-made feature vectors, then learned unlabeled dimensions, then the scale of real models. A similarity heatmap updates at each stage.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "In the **hand-made features** stage, click the heat-map cell pairing **puppy** with the word most similar to it.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "stage",
+                          "op": "==",
+                          "value": 1
+                        },
+                        {
+                          "var": "picked_pair",
+                          "op": "==",
+                          "value": "dog|puppy"
+                        }
+                      ]
+                    },
+                    "aha_md": "dog wins: puppy and dog share *animal* and *canine*. kitten shares only *animal* and *young*. In one-hot space that same cell was 0."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Go to the **learned dimensions** stage and find a pair whose similarity is negative.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "stage",
+                          "op": ">=",
+                          "value": 2
+                        },
+                        {
+                          "var": "picked_sim",
+                          "op": "<",
+                          "value": 0
+                        }
+                      ]
+                    },
+                    "aha_md": "Learned dimensions can be negative, so cosine can be negative too. The numbers have no names: no one told the model what d1 means."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-features-05",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-onehot-sim",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-vectors-as-features"
+                  ],
+                  "prompt_md": "With **one-hot** vectors (each word gets its own dimension set to 1, all others 0), what is the similarity between *dog* and *puppy*?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "0: they share no non-zero dimension",
+                      "why_md": "Right. Their dot product is 0, so one-hot vectors say *dog* is as unrelated to *puppy* as to *spreadsheet*. One-hot encodes identity, not meaning.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "High, because they are related words",
+                      "why_md": "One-hot vectors know nothing about relations. Each word has its own private dimension, so every pair of different words has dot product 0."
+                    },
+                    {
+                      "id": "c",
+                      "md": "1, because both vectors have length 1",
+                      "why_md": "Equal length isn't the same as pointing the same way. The vectors are perpendicular, so the similarity is 0."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b-feature-choice",
+          "title": "Choosing features chooses what “similar” means",
+          "kcs": [
+            "kc-features-define-similarity"
+          ],
+          "est_minutes": 10,
+          "blocks": [
+            {
+              "id": "blk-emb-features-06",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "The puppy surprise in the last beat wasn't bad luck. It is the rule this beat is about. A list like `[size, tameness]`, with one number per chosen feature and always in the same order, is called a [[feature vector]]. Whoever picks the features also picks, often without noticing, what “similar” will mean.",
+                  "Here is where that bites in our help centre. Every one of its 25 articles has a **Related articles** box showing the articles nearest to the one you are reading. Before trying anything clever, two teammates offer to describe each article by hand with a few yes/no features (1 = yes, 0 = no):",
+                  "- Priya's **topic** features `[money, sign-in, delivery]` ask *what is this article about?*\n- Sam's **task** features `[how-to steps, fixing a problem]` ask *what kind of help is it?* A how-to article walks you through changing something yourself; a fixing-a-problem article helps when something went wrong.",
+                  "Same 25 articles, two feature lists. Do they give the same Related box?"
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-features-07",
+              "block": {
+                "type": "predict",
+                "question": {
+                  "id": "q-predict-related",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-features-define-similarity"
+                  ],
+                  "prompt_md": "With Priya's topic features, *Change your billing card* and *Why was I charged twice?* are both `[1, 0, 0]`: both about money, so the Related box pairs them.\n\nNow switch to Sam's task features `[how-to steps, fixing a problem]`. A third article is *Change your password*. Without computing anything, which article does *Change your billing card* now sit closest to?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "*Why was I charged twice?*: they're both about money, so they stay together",
+                      "why_md": "Money isn't one of Sam's features, so his vectors can't see it. Under `[how-to steps, fixing a problem]` the billing-card guide is `[1, 0]` and the double-charge complaint is `[0, 1]`: they share nothing.",
+                      "misconception": "mc-similarity-built-in"
+                    },
+                    {
+                      "id": "b",
+                      "md": "*Change your password*",
+                      "why_md": "Right. Both are step-by-step guides for changing something yourself, so both are `[1, 0]` under Sam's features. Nothing about the articles changed. The features did.",
+                      "correct": true
+                    },
+                    {
+                      "id": "c",
+                      "md": "Neither: one is about money and the other about signing in",
+                      "why_md": "That's reasoning with Priya's topic features. Sam's features can't see topics at all: both guides are `[1, 0]`, identical vectors."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            },
+            {
+              "id": "blk-emb-features-08",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "The articles didn't change. The **ruler** did. A feature vector only sees what its features ask about. Priya's features ask *what is this about?*, so articles on the same subject land together. Sam's features ask *what kind of help is this?*, so guides land with guides and complaints with complaints. Whatever a feature list leaves out is invisible to it: in the last beat, `[size, tameness]` had no feature for species, so the kitten beat the dog.",
+                  "To score “shares these features” with yes/no features, count the **shared features**: the positions where *both* vectors have a 1. `[1, 0, 1]` and `[1, 1, 1]` share 2. Straight-line distance from the last beat works too: for yes/no vectors it is the square root of the number of positions where the two differ, so smaller means more alike. Either score can only look at the features you gave it. (For 0/1 vectors, multiplying matching positions and adding gives exactly the shared-feature count. That multiply-and-add is the [[dot product]], and the next topic builds a similarity score for any numbers from it.)",
+                  "One-hot vectors are the extreme case. Each word gets a single feature of its own, *is it this exact word?*, so two different words never have a 1 in the same position. Every pair shares 0 features, and *dog* is exactly as close to *puppy* as to *spreadsheet*. The arithmetic is fine; those features just say nothing about meaning.",
+                  "So no feature list is neutral. Choosing the features **is** choosing what “similar” means, and the right choice depends on the job. People can hand-pick a few features for 25 articles, but not features that cover every way users phrase a problem. That is why the embedding models later in this unit *learn* hundreds of features from data instead of anyone choosing them. The rule still holds: what the features capture decides what lands close."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-features-09",
+              "block": {
+                "type": "worked_example",
+                "title": "Two feature lists, two different neighbours",
+                "problem_md": [
+                  "Four help-centre articles, each described with both feature lists:",
+                  "| | Priya: `[money, sign-in, delivery]` | Sam: `[how-to steps, fixing a problem]` |\n|---|---|---|\n| A *Change your password* | `[0, 1, 0]` | `[1, 0]` |\n| **B** *Change your billing card* | `[1, 0, 0]` | `[1, 0]` |\n| C *Why was I charged twice?* | `[1, 0, 0]` | `[0, 1]` |\n| D *Where is my parcel?* | `[0, 0, 1]` | `[0, 1]` |",
+                  "Which article is nearest to **B** (*Change your billing card*) under each list? Score by shared features: positions where both vectors have a 1."
+                ],
+                "steps": [
+                  {
+                    "md": "Priya's list, B = `[1, 0, 0]`. With A `[0, 1, 0]`: no position has a 1 in both, so **0**. With C `[1, 0, 0]`: both have a 1 at *money*, so **1**. With D `[0, 0, 1]`: **0**.",
+                    "why_md": "Only positions where both are 1 count. Agreeing on a 0 (“neither is about delivery”) says little: plenty of articles are not about delivery."
+                  },
+                  {
+                    "md": "Nearest to B under Priya's list: **C** (*Why was I charged twice?*), with 1 shared feature against 0 and 0."
+                  },
+                  {
+                    "md": "Sam's list, B = `[1, 0]`. With A `[1, 0]`: **1** (*how-to steps*). With C `[0, 1]`: **0**. With D `[0, 1]`: **0**. Nearest: **A** (*Change your password*).",
+                    "why_md": "C went from B's nearest to tied for last. C didn't change; the question the features ask did."
+                  },
+                  {
+                    "md": "Check with straight-line distance. Priya: B→C $= \\sqrt{0^2+0^2+0^2} = 0$, B→A $= \\sqrt{1^2+1^2+0^2} = \\sqrt2 \\approx 1.41$, B→D $= \\sqrt{1^2+0^2+1^2} \\approx 1.41$. Sam: B→A $= \\sqrt{0^2+0^2} = 0$, B→C $= \\sqrt{1^2+1^2} \\approx 1.41$, B→D $\\approx 1.41$.",
+                    "why_md": "Same winners. The flip came from the features, not from the way we scored them."
+                  },
+                  {
+                    "md": "Which list is right? Ask what the box is for. If it should offer more on the same subject, Priya's list fits. If it should group articles by the kind of help they give, Sam's does.",
+                    "why_md": "Neither list is wrong. Each one answers a different question about the articles."
+                  }
+                ],
+                "answer_md": "Under `[money, sign-in, delivery]`, B's nearest is **C** (1 shared feature). Under `[how-to steps, fixing a problem]`, it is **A** (1 shared feature), and C drops to 0. **Same articles, different features, different “similar”.**"
+              }
+            },
+            {
+              "id": "blk-emb-features-10",
+              "block": {
+                "type": "visual",
+                "id": "v-feature-choice",
+                "widget": "compare",
+                "title": "Swap the feature list",
+                "goal_md": "Switch between three feature lists for the same four articles and watch which article lands nearest to *Change your billing card*.",
+                "alt": "A toggle between three feature lists for four help articles: one slot per article, topic features and task features. Each variant shows every article's vector and how many features it shares with Change your billing card.",
+                "params": {
+                  "variants": [
+                    {
+                      "label": "One slot per article (one-hot)",
+                      "md": [
+                        "| | vector |\n|---|---|\n| A *Change your password* | `[1, 0, 0, 0]` |\n| **B** *Change your billing card* | `[0, 1, 0, 0]` |\n| C *Why was I charged twice?* | `[0, 0, 1, 0]` |\n| D *Where is my parcel?* | `[0, 0, 0, 1]` |",
+                        "Shared with B: A **0** · C **0** · D **0**. Every pair ties at 0, so B has no neighbour at all."
+                      ],
+                      "metrics": {
+                        "shared_with_password": 0,
+                        "shared_with_charged": 0,
+                        "shared_with_parcel": 0
+                      }
+                    },
+                    {
+                      "label": "Topic: [money, sign-in, delivery]",
+                      "md": [
+                        "| | vector |\n|---|---|\n| A *Change your password* | `[0, 1, 0]` |\n| **B** *Change your billing card* | `[1, 0, 0]` |\n| C *Why was I charged twice?* | `[1, 0, 0]` |\n| D *Where is my parcel?* | `[0, 0, 1]` |",
+                        "Shared with B: A **0** · C **1** · D **0**. Nearest: *Why was I charged twice?*"
+                      ],
+                      "metrics": {
+                        "shared_with_password": 0,
+                        "shared_with_charged": 1,
+                        "shared_with_parcel": 0
+                      }
+                    },
+                    {
+                      "label": "Task: [how-to steps, fixing a problem]",
+                      "md": [
+                        "| | vector |\n|---|---|\n| A *Change your password* | `[1, 0]` |\n| **B** *Change your billing card* | `[1, 0]` |\n| C *Why was I charged twice?* | `[0, 1]` |\n| D *Where is my parcel?* | `[0, 1]` |",
+                        "Shared with B: A **1** · C **0** · D **0**. Nearest: *Change your password*."
+                      ],
+                      "metrics": {
+                        "shared_with_password": 1,
+                        "shared_with_charged": 0,
+                        "shared_with_parcel": 0
+                      }
+                    }
+                  ]
+                },
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "Find the feature list under which *Change your billing card* shares a feature with *Why was I charged twice?*.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "shared_with_charged",
+                          "op": ">=",
+                          "value": 1
+                        }
+                      ]
+                    },
+                    "aha_md": "Topic features put them together: both are about money. Under one-hot they shared nothing."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Now find the list under which *Change your billing card* shares a feature with *Change your password* instead.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "shared_with_password",
+                          "op": ">=",
+                          "value": 1
+                        }
+                      ]
+                    },
+                    "aha_md": "Task features pair the two how-to guides and push the double-charge complaint to 0. Same four articles, a different nearest neighbour."
+                  }
+                ],
+                "storyboard": [
+                  {
+                    "frame": 1,
+                    "md": "One slot per article: A `[1,0,0,0]`, B `[0,1,0,0]`, C `[0,0,1,0]`, D `[0,0,0,1]`. B shares 0 features with everyone."
+                  },
+                  {
+                    "frame": 2,
+                    "md": "Topic `[money, sign-in, delivery]`: B `[1,0,0]` shares 1 with C `[1,0,0]` and 0 with A and D. Nearest: C."
+                  },
+                  {
+                    "frame": 3,
+                    "md": "Task `[how-to steps, fixing a problem]`: B `[1,0]` shares 1 with A `[1,0]` and 0 with C and D. Nearest: A."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-features-11",
+              "block": {
+                "type": "callout",
+                "kind": "misconception",
+                "title": "“Two things are either similar or not”",
+                "md": "Similarity isn't stored inside the articles. It is always similarity **with respect to some features**. *Change your billing card* and *Why was I charged twice?* are close under topic features and unrelated under task features, and both verdicts are correct for their features. Before you trust any “nearest” result, ask: *which features made these two near?*",
+                "misconception": "mc-similarity-built-in"
+              }
+            },
+            {
+              "id": "blk-emb-features-12",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-pick-features",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-features-define-similarity"
+                  ],
+                  "prompt_md": "The help centre wants the Related box under *Why was I charged twice?* to show other **payment** articles, such as *Change your billing card* and *Download your invoice*, rather than other complaints. Which feature list should describe the articles?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "`[money, sign-in, delivery]`",
+                      "why_md": "Right. These features ask what an article is about, so every payment article has a 1 for *money* and shares it with *Why was I charged twice?*.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "`[how-to steps, fixing a problem]`",
+                      "why_md": "These ask what kind of help an article gives. *Why was I charged twice?* `[0, 1]` would sit with other complaints such as *Where is my parcel?*, and the payment guides `[1, 0]` would share nothing with it."
+                    },
+                    {
+                      "id": "c",
+                      "md": "One slot per article (one-hot)",
+                      "why_md": "Every pair of different articles would share 0 features, so the box would have no reason to prefer payment articles over anything else."
+                    }
+                  ],
+                  "hint_md": "Which list has a feature that every payment article has a 1 for?",
+                  "est_seconds": 60
+                }
+              }
+            },
+            {
+              "id": "blk-emb-features-13",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-irrelevant-feature",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-features-define-similarity"
+                  ],
+                  "prompt_md": "A teammate adds a fourth feature to the topic list: `[money, sign-in, delivery, updated in 2024]`. *Change your password* and *Where is my parcel?* were both updated in 2024, and nothing else about them overlaps. What changes?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "They now share 1 feature, so they look a bit similar, even though the update year has nothing to do with what a reader needs",
+                      "why_md": "Right. Password is now `[0, 1, 0, 1]` and parcel `[0, 0, 1, 1]`: they share the last position. The score counts every feature, whether or not it matters for the task.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "Nothing: similarity depends on what the articles are about, and the update year isn't about anything",
+                      "why_md": "The score can't tell a meaningful feature from an irrelevant one. Both vectors have a 1 in the new position, so they now share a feature.",
+                      "misconception": "mc-similarity-built-in"
+                    },
+                    {
+                      "id": "c",
+                      "md": "Similarity gets more accurate, because more features always describe the articles better",
+                      "why_md": "More features only help when they capture what “similar” should mean for your task. This one captures the update year, which pulls two unrelated articles together.",
+                      "misconception": "mc-more-features-better"
+                    }
+                  ],
+                  "hint_md": "Write both articles with the new four-feature list and count positions where both are 1.",
+                  "est_seconds": 60
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "emb-features/exit-1",
+    "emb-features/exit-2",
+    "emb-features/exit-3"
+  ],
+  "recap": {
+    "formula": "Feature vector: `[f₁, f₂, …, f_d]`, one number per chosen feature, in the same order for every item (d features = d dimensions). Shared yes/no features $= \\sum_i a_i b_i$, the count of positions where both are 1.",
+    "template": "1. Decide what “similar” should mean for the job. 2. Pick features that capture exactly that. 3. Write every item as a feature vector in the same order. 4. Score pairs, then check the nearest neighbours against pairs you know should (or shouldn't) be close.",
+    "pitfall": "One-hot features make every pair equally far apart; similarity only exists in the features you chose."
+  },
+  "depth_threads": [
+    {
+      "id": "dt-feature-scale",
+      "kind": "edge",
+      "title": "Feature scale: why a 0–100 feature drowns out 0–1 features",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-hand-to-learned",
+      "kind": "history",
+      "title": "From hand-built features (bag of words, TF-IDF) to learned embeddings",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "anticipated_doubts": [
+    {
+      "id": "d-what-dimension",
+      "beat": "b-features",
+      "question": "What exactly is a dimension?",
+      "match": [
+        "what is a dimension",
+        "dimension mean",
+        "what are dimensions",
+        "dimensions",
+        "384"
+      ],
+      "answer_md": "A dimension is one **position** in the list. `[0.2, 0.9]` has 2 dimensions: position 1 and position 2. In our animal example, each position had a name (size, tameness). In a learned embedding, each of the 384 positions is a number the model uses, but no human named them.",
+      "deeper_md": "Think of a spreadsheet row describing a house: `[bedrooms, area, age]` is a 3-D vector, and each column is a dimension. An embedding is a row with 384 columns whose headers are blank. You can still compare rows; you just can't read the headers.",
+      "bridge": {
+        "kind": "rewind",
+        "title": "Dimension = one column",
+        "md": [
+          "| | size | tameness | canine |\n|---|---|---|---|\n| puppy | 0.2 | 0.9 | 1 |\n| wolf | 0.6 | 0.1 | 1 |",
+          "Each **column** is a dimension, and each **row** is a vector. A real embedding has the same shape with 384–3,072 columns and **no headers**: the model learned what the columns are for. You never read a single column; you compare whole rows."
+        ],
+        "verify": {
+          "id": "q-br-dim",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-embedding-def",
+            "kc-vectors-as-features"
+          ],
+          "prompt_md": "A 1,536-dimensional embedding is:",
+          "options": [
+            {
+              "id": "a",
+              "md": "A list of 1,536 numbers",
+              "why_md": "Right.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "1,536 separate vectors",
+              "why_md": "It's one vector with 1,536 entries."
+            },
+            {
+              "id": "c",
+              "md": "A text split into 1,536 words",
+              "why_md": "Dimensions aren't words."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-onehot-zero",
+      "beat": "b-features",
+      "question": "Why is one-hot similarity always zero?",
+      "match": [
+        "one-hot",
+        "one hot",
+        "onehot",
+        "why zero",
+        "always zero"
+      ],
+      "answer_md": "In one-hot encoding every word gets its **own** dimension: *dog* = `[1,0,0,…]`, *puppy* = `[0,1,0,…]`. Any two different words have their 1s in different places, so every product in the dot product is 0. One-hot vectors are all perpendicular, so they can't express “a bit similar”.",
+      "deeper_md": "It's like giving every person a unique locker number. Locker 17 and locker 18 aren't “similar people” because the numbers are close. The number is just an ID. Dense vectors describe *properties*, and properties can overlap.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "One-hot dot product, by hand",
+        "md": [
+          "Vocabulary: dog, puppy, car. One-hot vectors: dog `[1,0,0]`, puppy `[0,1,0]`, car `[0,0,1]`.",
+          "dog · puppy = 1·0 + 0·1 + 0·0 = **0**. dog · car = **0**. Every pair is 0.",
+          "Dense version with `[animal, young]`: dog `[1, 0.2]`, puppy `[1, 0.9]`, car `[0, 0.1]`. Then dog · puppy = 1 + 0.18 = **1.18** and dog · car = **0.02**. Shared properties produce similarity."
+        ],
+        "verify": {
+          "id": "q-br-onehot",
+          "kind": "numeric",
+          "difficulty": 1,
+          "kcs": [
+            "kc-vectors-as-features"
+          ],
+          "prompt_md": "With dense `[animal, young]`: kitten `[1, 0.95]`, puppy `[1, 0.9]`. Their dot product? (3 decimals)",
+          "answer": {
+            "value": 1.855,
+            "tolerance": 0.005
+          },
+          "solution_md": "$1\\cdot1 + 0.95\\cdot0.9 = 1 + 0.855 = 1.855$.",
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-which-features-right",
+      "beat": "b-feature-choice",
+      "question": "So which feature list is the right one?",
+      "match": [
+        "which features",
+        "right features",
+        "best features",
+        "which list",
+        "which one is right",
+        "how do i choose",
+        "how to pick features"
+      ],
+      "answer_md": "The one whose idea of “similar” matches what you need. Write down a few pairs you *know* should come out close (and a few that shouldn't), then see which list gets them right. Our bench does exactly this: 10 queries, each labelled with the article that answers it. A feature list is good for this help centre if, for most of those queries, the labelled article comes out nearest.",
+      "deeper_md": "Think of sorting a bookshelf. Sort by colour and the two red books sit together; sort by author and the two Tolkiens do. Neither shelf is wrong, but only one helps you find the next Tolkien. Features are the sorting rule: decide what you want to find first, then pick features that sort that way.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Same pairs, two verdicts",
+        "md": [
+          "| Pair | Topic `[money, sign-in, delivery]` | Task `[how-to steps, fixing a problem]` |\n|---|---|---|\n| billing card · charged twice | 1 shared | 0 shared |\n| billing card · change password | 0 shared | 1 shared |",
+          "Both columns are correct arithmetic. Which column you want depends on what the Related box is for."
+        ],
+        "verify": {
+          "id": "q-br-which-features",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-features-define-similarity"
+          ],
+          "prompt_md": "You are building a box that suggests **other troubleshooting articles** to someone reading *Where is my parcel?*. Which feature list fits?",
+          "options": [
+            {
+              "id": "a",
+              "md": "`[money, sign-in, delivery]`",
+              "why_md": "This groups by subject, so the parcel question would sit with delivery guides such as *Update your delivery address*, not with other troubleshooting articles."
+            },
+            {
+              "id": "b",
+              "md": "`[how-to steps, fixing a problem]`",
+              "why_md": "Right. *fixing a problem* is exactly the property every troubleshooting article shares.",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "md": "One slot per article (one-hot)",
+              "why_md": "Every pair shares 0 features, so nothing would be suggested ahead of anything else."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-more-features-better",
+      "beat": "b-feature-choice",
+      "question": "Why not just add every feature we can think of?",
+      "match": [
+        "more features",
+        "every feature",
+        "all the features",
+        "add features",
+        "too many features",
+        "irrelevant"
+      ],
+      "answer_md": "Because every feature gets a say in the score, including ones that don't matter for your task. Add `updated in 2024` and two unrelated articles updated that year start to look alike. Add a handful of such features and they can outvote the few that matter. More features help only when they capture what you mean by similar.",
+      "deeper_md": "Imagine matching flatmates by comparing 50 answers, 45 of them about favourite colours and shoe sizes. Two people who would fight about cleaning could still come out as a great match. A comparison is only as good as the questions it asks.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Irrelevant features outvote relevant ones",
+        "md": [
+          "Topic features `[money, sign-in, delivery]`: *Change your billing card* `[1, 0, 0]`, *Why was I charged twice?* `[1, 0, 0]`, *Change your password* `[0, 1, 0]`. The billing card shares **1** feature with the double-charge article and **0** with password.",
+          "Add two features nobody reading cares about, `[updated in 2024, has screenshots]`. Billing card `[1, 0, 0, 1, 1]`, charged twice `[1, 0, 0, 0, 0]`, password `[0, 1, 0, 1, 1]`. Now the billing card shares **1** with charged twice and **2** with password.",
+          "Two irrelevant features flipped the billing card's nearest neighbour."
+        ],
+        "verify": {
+          "id": "q-br-irrelevant",
+          "kind": "numeric",
+          "difficulty": 1,
+          "kcs": [
+            "kc-features-define-similarity"
+          ],
+          "prompt_md": "Same setup. Add a third irrelevant feature, `mobile app`, where the billing card and password articles are both 1 and charged twice is 0. How many features does the billing card now share with password?",
+          "answer": {
+            "value": 3,
+            "tolerance": 0
+          },
+          "solution_md": "Billing card `[1, 0, 0, 1, 1, 1]`, password `[0, 1, 0, 1, 1, 1]`. Both are 1 at *updated in 2024*, *has screenshots* and *mobile app*: **3**. Charged twice still shares only 1.",
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-shared-zeros",
+      "beat": "b-feature-choice",
+      "question": "Why don't positions where both are 0 count as shared?",
+      "match": [
+        "both zero",
+        "both 0",
+        "shared zero",
+        "zeros count",
+        "both lack",
+        "agree on 0"
+      ],
+      "answer_md": "A shared 0 only says *neither* article has that feature. “Neither is about delivery” is true of most articles, so it tells you very little about these two. One-hot shows the extreme: *dog* and *puppy* agree on thousands of 0s and share no 1, and they are rightly scored as sharing nothing. (Straight-line distance treats an agreeing 0 like an agreeing 1: both add nothing to the distance. The shared-feature count rewards only agreeing 1s.)",
+      "deeper_md": "If two strangers both don't own a giraffe, you haven't learned they are alike: almost nobody owns a giraffe. If they both own a sailing boat, that is a real thing in common. Shared features count the boats, not the missing giraffes.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "Count the 1s, not the 0s",
+        "md": [
+          "With `[money, sign-in, delivery, fixing a problem]`: *Change your billing card* `[1, 0, 0, 0]`, *Download your invoice* `[1, 0, 0, 0]`.",
+          "Position by position: money 1 and 1 (shared), sign-in 0 and 0, delivery 0 and 0, problem 0 and 0. Shared features = **1**. The three agreeing 0s add nothing."
+        ],
+        "verify": {
+          "id": "q-br-shared-zeros",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-features-define-similarity"
+          ],
+          "prompt_md": "With `[money, sign-in, delivery, fixing a problem]`, *Where is my parcel?* is `[0, 0, 1, 1]` and *Update your delivery address* is `[0, 0, 1, 0]`. How many shared features?",
+          "options": [
+            {
+              "id": "a",
+              "md": "1",
+              "why_md": "Right. Only *delivery* has a 1 in both.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "3: they agree in three positions",
+              "why_md": "They agree in three positions, but two of those agreements are 0s. Shared features count positions where both are 1."
+            },
+            {
+              "id": "c",
+              "md": "2: the parcel article has two features",
+              "why_md": "The parcel article has two 1s, but the address article has a 1 only at *delivery*. Count positions where *both* have a 1."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Describe five animals with three hand-picked features and find each one's nearest neighbour",
+    "Change one feature's scale and watch the neighbours change",
+    "Explain why one-hot vectors make dog and puppy as different as dog and truck",
+    "Pick features that make two support tickets similar for routing",
+    "Count the dimensions of a feature vector for a product catalogue",
+    "Argue which of two feature sets better captures ‘similar recipes’"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-ai-engineer",
+      "entry": "what-are-embeddings"
+    },
+    {
+      "source": "strata-pack",
+      "entry": "basics/b-features"
+    }
+  ],
+  "provenance": {
+    "origin": "static",
+    "job": "u1-emb-features"
+  },
+  "status": "stocked"
+}

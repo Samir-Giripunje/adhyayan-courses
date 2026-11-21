@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-validator-descriptors",
+  "version": 1,
+  "title": "Reusable validators built from descriptors",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-validator-abc",
+      "version": 1,
+      "statement": "The Descriptor HowTo's Validator base class is a data descriptor whose __set__ calls an abstract validate(value) before storing, so subclasses only implement validate."
+    },
+    {
+      "id": "kc-validator-checks-every-assignment",
+      "version": 1,
+      "statement": "Because validation runs in __set__, assignments in __init__ and every later assignment are checked, and an invalid value raises before anything is stored."
+    },
+    {
+      "id": "kc-validator-reuse",
+      "version": 1,
+      "statement": "One validator class, such as Number(minvalue=0), can guard many attributes across classes because each descriptor instance gets its own name from __set_name__."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "pd-set-name",
+    "pd-descriptor-protocol"
+  ],
+  "suggests": [
+    "pd-property"
+  ],
+  "confusable_with": [
+    "pd-property"
+  ],
+  "introduces": [
+    "validator descriptor"
+  ],
+  "uses": [
+    "data descriptor",
+    "__set_name__"
+  ],
+  "problem_ideas": [
+    "Implement OneOf('wood', 'metal') and Number(minvalue=0) validators",
+    "Predict which line raises for Component('Widget', 'metal', -5)",
+    "Write a String(maxsize=10, predicate=str.isupper) validator",
+    "Refactor three repeated properties into one validator class",
+    "Predict whether an invalid value is left in obj.__dict__ after the exception",
+    "Use validators on a mini ORM-style Movie class and check every field"
+  ],
+  "sources": [
+    {
+      "source": "descriptor-howto",
+      "entry": "complete-practical-example/complete-practical-example"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "complete-practical-example/validator-class"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "complete-practical-example/custom-validators"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "complete-practical-example/practical-application"
+    }
+  ],
+  "status": "stub"
+}

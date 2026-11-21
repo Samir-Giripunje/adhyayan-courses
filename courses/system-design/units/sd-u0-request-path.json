@@ -1,0 +1,1126 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u0-request-path",
+  "title": "The request path: addresses, transport, DNS and HTTP",
+  "topics": [
+    {
+      "id": "sd-client-server",
+      "tier": "optional",
+      "order": 1
+    },
+    {
+      "id": "sd-ip-addresses",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-tcp-udp",
+      "tier": "optional",
+      "order": 3
+    },
+    {
+      "id": "sd-dns",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "sd-dns-records",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "sd-dns-routing",
+      "tier": "must",
+      "order": 6
+    },
+    {
+      "id": "sd-http",
+      "tier": "must",
+      "order": 7
+    },
+    {
+      "id": "sd-https-tls",
+      "tier": "optional",
+      "order": 8
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stocked",
+  "outcome": "Trace one browser request to a real site, from typing the URL to the HTTP response. For each hop, name the IP address, DNS record, transport protocol, TLS step, HTTP method and status code involved.",
+  "bench": {
+    "id": "stubwhistle-ticket-site",
+    "title": "Stubwhistle: a concert-ticket booking site",
+    "description": "Stubwhistle sells concert tickets at www.stubwhistle.example to about 2 million daily users. Peak load is 3,000 requests per second when a big show goes on sale. It runs in two regions, us-east and eu-west, and has three tiers. The presentation tier is the browser and mobile app. The application tier is 4 app servers per region on private addresses 10.0.1.11-10.0.1.14, behind one edge proxy per region. The us-east proxy has public IPv4 203.0.113.10 and IPv6 2001:db8::10; the eu-west proxy has 198.51.100.20. The data tier is one PostgreSQL database at 10.0.2.5. App servers reach an external payment API through a NAT gateway. The authoritative DNS server for stubwhistle.example has A and AAAA records with a 300-second TTL and routes users to the nearest region by geolocation. static.stubwhistle.example is a CNAME to a CDN hostname. The edge proxy terminates TLS for www.stubwhistle.example. App servers call the internal payment service over mTLS. Each request uses HTTP: GET /events/42 returns 200, POST /orders creates an order and returns 201, a repeated checkout risks a double charge, a retired event URL returns 301, an expired session returns 401, a flood of refreshes returns 429, and overloaded servers return 503. Each event page also loads about 20 assets over HTTP/2 on TCP. The app's live 'stage cam' preview streams over UDP."
+  },
+  "case_study": false,
+  "concept_map": "flowchart TD\nsd-client-server[\"Client-server and three-tier architecture\"]\nsd-ip-addresses[\"IP addresses: IPv4, IPv6, public and private\"]\nsd-tcp-udp[\"TCP vs UDP and the transport layer\"]\nsd-dns[\"DNS: how a name becomes an address\"]\nsd-dns-records[\"DNS records: A, AAAA, CNAME and NS\"]\nsd-dns-routing[\"DNS routing: different users, different answers\"]\nsd-http[\"HTTP: requests, methods and status codes\"]\nsd-https-tls[\"HTTPS, TLS and where encryption ends\"]\nsd-ip-addresses --> sd-tcp-udp\nsd-ip-addresses --> sd-dns\nsd-dns --> sd-dns-records\nsd-dns --> sd-dns-routing\nsd-http --> sd-https-tls\nsd-client-server -.->|\"who sends the request\"| sd-ip-addresses\nsd-client-server -.->|\"request/response model\"| sd-http\nsd-tcp-udp -.->|\"HTTP/1.1 and HTTP/2 run over TCP\"| sd-http\nsd-dns -.->|\"name resolved before the request\"| sd-http\nsd-dns-records -.->|\"CNAME to a CDN edge\"| sd-http\nsd-tcp-udp -.->|\"handshake before TLS\"| sd-https-tls",
+  "capstone": {
+    "prompt_md": "**Trace a ticket purchase on Stubwhistle.** A fan in Berlin opens `https://www.stubwhistle.example/events/42` on a laptop with the private address 192.168.1.23. Later the fan clicks **Buy**. Write a numbered trace of everything that happens, from the browser to the PostgreSQL database and back. Cover these points:\n\n1. **Tiers:** label each component in the trace as presentation, application or data tier.\n2. **Addresses:** which addresses in the trace are public and which are private? Where does NAT happen, on the fan's side and on Stubwhistle's side? Why can't the fan's packets reach 10.0.1.11 directly?\n3. **DNS:** list the resolver's queries step by step, from the root server to the authoritative server. Which record types are returned for `www.stubwhistle.example` and for `static.stubwhistle.example`? Which region does the fan reach, and why? Stubwhistle moves eu-west to a new IP: how long can it take before the fan sees the change?\n4. **Transport:** which protocol and port does the page load use? Which protocol does the stage-cam preview use? Give one reason for each choice. Does a layer-4 or a layer-7 component see the path `/events/42`?\n5. **TLS:** where is HTTPS decrypted? What does the certificate prove? How is the hop from an app server to the payment service secured?\n6. **HTTP:** write the request line and two headers for the page load and for the purchase. Give the status code you expect in each case: success, retired event URL, expired session, refresh flood and overload. Explain why retrying the purchase POST is riskier than retrying the GET.",
+    "uses": [
+      "sd-client-server",
+      "sd-ip-addresses",
+      "sd-tcp-udp",
+      "sd-dns",
+      "sd-dns-records",
+      "sd-dns-routing",
+      "sd-http",
+      "sd-https-tls"
+    ]
+  },
+  "confusables": [
+    [
+      "sd-http",
+      "sd-https-tls"
+    ],
+    [
+      "sd-tcp-udp",
+      "sd-http"
+    ],
+    [
+      "sd-ip-addresses",
+      "sd-dns"
+    ]
+  ],
+  "lab": {
+    "exercises": [
+      "ex-private-or-public",
+      "ex-dns-ttl-cache",
+      "ex-follow-cname",
+      "ex-safe-retry",
+      "ex-trace-request"
+    ],
+    "checks": []
+  },
+  "interview": [
+    {
+      "id": "iq-url-to-response",
+      "tier": "core",
+      "difficulty": 2,
+      "kcs": [
+        "kc-dns-resolution",
+        "kc-dns-records",
+        "kc-tcp-reliable",
+        "kc-tls-handshake",
+        "kc-http-request-response",
+        "kc-http-status-codes"
+      ],
+      "prompt": "A fan types https://www.stubwhistle.example/events/42 into a browser and presses Enter. Walk me through what happens until the page appears.",
+      "probing_md": "Checks whether the candidate can put the request path in the right order (DNS, then TCP, then TLS, then HTTP) and name a concrete protocol detail at each hop, not just list buzzwords.",
+      "model_answer_md": "1. **DNS:** the browser checks its own cache and the OS cache. On a miss, the OS asks a recursive resolver. If the resolver has nothing cached it asks a root server, which refers it to the .example TLD servers. These refer it to Stubwhistle's authoritative server, which returns an A record (IPv4) and/or an AAAA record (IPv6). Because Stubwhistle routes by geolocation, a fan in Europe gets the eu-west proxy (198.51.100.20). The answer is cached for its 300-second TTL.\n2. **TCP:** the browser opens a connection to that IP on port 443 with the three-way handshake (SYN, SYN-ACK, ACK).\n3. **TLS:** the edge proxy presents a certificate for www.stubwhistle.example signed by a trusted certificate authority. Client and proxy agree on session keys, and from then on traffic is encrypted symmetrically.\n4. **HTTP:** the browser sends `GET /events/42` with headers such as `Host: www.stubwhistle.example` and its cookie. The proxy decrypts the request (TLS termination) and forwards it to an app server on a private address such as 10.0.1.11. The app server reads PostgreSQL at 10.0.2.5 and builds the page.\n5. **Response:** `200 OK` with HTML. The browser then fetches about 20 assets from static.stubwhistle.example, which is a CNAME to a CDN, over HTTP/2.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Correct order: DNS lookup before the TCP connection, TCP before TLS, TLS before the HTTP request",
+          "weight": 3,
+          "signals": [
+            "dns first",
+            "three-way handshake",
+            "then tls",
+            "then the http request",
+            "syn, syn-ack, ack"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "DNS detail: caches checked first, then root → TLD → authoritative; A/AAAA record returned with a TTL",
+          "weight": 2,
+          "signals": [
+            "root server",
+            "tld",
+            "authoritative",
+            "a record",
+            "aaaa",
+            "ttl",
+            "cache"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "TLS detail: certificate proves server identity; session keys agreed; terminated at edge proxy",
+          "weight": 2,
+          "signals": [
+            "certificate",
+            "certificate authority",
+            "session key",
+            "tls termination",
+            "edge proxy decrypts"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "HTTP detail: method, path, Host header, status 200; backend on private IP talks to database",
+          "weight": 2,
+          "signals": [
+            "get /events/42",
+            "host header",
+            "200",
+            "private ip",
+            "database"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "The browser sends the HTTP request to the DNS server, which forwards it to the web server.",
+          "why_md": "DNS only turns the name into an IP address. The HTTP request goes straight from the browser to that IP; the DNS server never sees it."
+        },
+        {
+          "answer": "The browser connects directly to the app server at 10.0.1.11.",
+          "why_md": "10.0.1.11 is a private address and is not routable on the internet. The browser reaches the public edge proxy, which forwards the request inside Stubwhistle's network."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Where does the path /events/42 first become visible to Stubwhistle's infrastructure?",
+          "trigger": "always",
+          "answer_md": "At the edge proxy, after it decrypts TLS. Before that the path sits inside encrypted bytes, so routers and any layer-4 device see only IP addresses and ports.",
+          "signals": [
+            "after tls termination",
+            "edge proxy",
+            "layer 7",
+            "encrypted"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Roughly how many round trips happen before the first byte of HTML arrives on a cold start?",
+          "trigger": "missed:r1",
+          "answer_md": "With nothing cached: one or more DNS round trips, 1 RTT for the TCP handshake, 1 RTT for a TLS 1.3 handshake (2 for TLS 1.2), then 1 RTT for the HTTP request and response. That is why connection reuse and DNS caching matter.",
+          "signals": [
+            "round trip",
+            "rtt",
+            "tls 1.3",
+            "connection reuse"
+          ]
+        }
+      ],
+      "est_minutes": 8
+    },
+    {
+      "id": "iq-public-private-nat",
+      "tier": "screening",
+      "difficulty": 1,
+      "kcs": [
+        "kc-public-private-ip",
+        "kc-ipv4-ipv6"
+      ],
+      "prompt": "Stubwhistle's app servers sit on 10.0.1.11–10.0.1.14, and its edge proxy has 203.0.113.10. Why the difference, and how do the app servers call the external payment API?",
+      "probing_md": "Checks that the candidate knows the private ranges, knows that they are not routable on the internet, and knows that NAT lets private hosts reach out.",
+      "model_answer_md": "10.0.0.0/8 is a private range: it is routable only inside Stubwhistle's network, so nobody on the internet can send packets to 10.0.1.11. Only the edge proxy needs a public address (203.0.113.10, plus the IPv6 address 2001:db8::10). This keeps the app servers unreachable from outside and saves scarce public IPv4 addresses. To call the payment API, an app server sends traffic through the NAT gateway. The gateway rewrites the source to its own public address and maps the replies back to the right server.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Names 10.0.0.0/8 (or 172.16.0.0/12, 192.168.0.0/16) as private and not routable on the internet",
+          "weight": 3,
+          "signals": [
+            "private range",
+            "not routable",
+            "10.0.0.0/8",
+            "192.168"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Explains NAT rewriting the source address for outbound traffic",
+          "weight": 2,
+          "signals": [
+            "nat",
+            "rewrites",
+            "translate",
+            "public address of the gateway"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Gives a reason: security (no direct inbound reach) and/or saving IPv4 addresses",
+          "weight": 2,
+          "signals": [
+            "security",
+            "not exposed",
+            "ipv4 exhaustion",
+            "ran out",
+            "save addresses"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "Private addresses are encrypted public addresses.",
+          "why_md": "Being private has nothing to do with encryption. A private address comes from a reserved range that internet routers do not forward."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "How big is an IPv4 address space versus IPv6, and why does IPv6 exist?",
+          "trigger": "always",
+          "answer_md": "IPv4 uses 32 bits, about 4.3 billion addresses. IPv6 uses 128 bits. IPv6 exists because IPv4 addresses ran out.",
+          "signals": [
+            "32 bits",
+            "128 bits",
+            "4.3 billion",
+            "ran out"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "The fan's laptop is 192.168.1.23. What address does Stubwhistle's proxy see as the source?",
+          "trigger": "missed:r2",
+          "answer_md": "The public address of the fan's home router, which applies NAT. The proxy never sees 192.168.1.23.",
+          "signals": [
+            "router's public ip",
+            "nat",
+            "home router"
+          ]
+        }
+      ],
+      "est_minutes": 4
+    },
+    {
+      "id": "iq-status-codes",
+      "tier": "screening",
+      "difficulty": 1,
+      "kcs": [
+        "kc-http-status-codes"
+      ],
+      "prompt": "Give the status code Stubwhistle should return for each case: an event page loads; a new order is created; a retired event URL; an expired session; a fan refreshing too fast; servers overloaded.",
+      "probing_md": "Checks whether the candidate knows the classes and the common codes, and especially whether they can tell a client error (4xx) from a server error (5xx).",
+      "model_answer_md": "200 OK for the page. 201 Created for the new order. 301 Moved Permanently, with a Location header, for the retired URL. 401 Unauthorized for the expired session (the client must authenticate again). 429 Too Many Requests for the refresh flood. 503 Service Unavailable for overload. 429 and 503 can both carry a Retry-After header. 4xx means the client's request is the problem; 5xx means the server failed.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Correct codes: 200, 201, 301, 401, 429, 503",
+          "weight": 3,
+          "signals": [
+            "200",
+            "201",
+            "301",
+            "401",
+            "429",
+            "503"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Explains the classes: 2xx success, 3xx redirect, 4xx client error, 5xx server error",
+          "weight": 2,
+          "signals": [
+            "2xx",
+            "3xx",
+            "4xx client",
+            "5xx server"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Mentions Location for 301 or Retry-After for 429/503",
+          "weight": 1,
+          "signals": [
+            "location header",
+            "retry-after"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "Overload should return 429 because there are too many requests.",
+          "why_md": "429 says that one client sent too many requests. When the whole service is overloaded the failure is on the server side, so the right code is 503."
+        },
+        {
+          "answer": "Expired session returns 403.",
+          "why_md": "403 means the server knows who you are and still refuses. An expired session means the client is no longer authenticated, which is 401."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Why does it matter to a client whether it gets a 4xx or a 5xx?",
+          "trigger": "always",
+          "answer_md": "Sending the same request again after a 4xx usually fails the same way, so the client should change the request (log in again, slow down). A 5xx may succeed later, so a careful retry with backoff can make sense.",
+          "signals": [
+            "retry",
+            "backoff",
+            "change the request"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "What is the difference between 301 and 302?",
+          "trigger": "missed:r1",
+          "answer_md": "301 is a permanent move, so clients and search engines may cache it. 302 is a temporary redirect.",
+          "signals": [
+            "permanent",
+            "temporary",
+            "cache"
+          ]
+        }
+      ],
+      "est_minutes": 3
+    },
+    {
+      "id": "iq-tcp-udp-stage-cam",
+      "tier": "core",
+      "difficulty": 2,
+      "kcs": [
+        "kc-tcp-reliable",
+        "kc-udp-connectionless",
+        "kc-osi-l4-l7"
+      ],
+      "prompt": "Stubwhistle loads event pages over HTTP/2 on TCP but streams the live stage-cam preview over UDP. Justify both choices. Then: can a layer-4 load balancer route /events/* and /orders/* to different server pools?",
+      "probing_md": "Checks whether the candidate links reliability and ordering to the use case. Also checks that they know what a layer-4 device can and cannot see.",
+      "model_answer_md": "A page and its assets must arrive complete and in order; one missing byte breaks the HTML or a script. TCP gives this with its handshake, acknowledgements and retransmission. For live video, a frame that arrives late is useless, and waiting for a retransmission adds delay. UDP has no handshake, ordering or retransmission, so the player just skips a lost packet and stays live. On the second question: no. A layer-4 balancer sees only IP addresses and ports. Routing by path needs a layer-7 component that can read the URL, and for HTTPS that component must terminate TLS first.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "TCP for pages: in-order, reliable delivery via handshake, ACKs, retransmission",
+          "weight": 3,
+          "signals": [
+            "reliable",
+            "in order",
+            "retransmit",
+            "handshake",
+            "acknowledg"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "UDP for live video: low latency, late data useless, tolerates loss",
+          "weight": 3,
+          "signals": [
+            "latency",
+            "late frame",
+            "tolerate loss",
+            "no retransmission",
+            "live"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Layer 4 sees only IPs/ports; path routing needs layer 7",
+          "weight": 2,
+          "signals": [
+            "layer 7",
+            "only ip and port",
+            "can't see the path",
+            "read the url"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "UDP is used because it is more secure for video.",
+          "why_md": "UDP adds no security at all. It is chosen for low latency: there is no handshake and no waiting for retransmissions."
+        },
+        {
+          "answer": "A layer-4 balancer can read the path from the TCP header.",
+          "why_md": "TCP headers carry ports, not URLs. The path is inside the HTTP data, and with HTTPS that data is encrypted too."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "DNS lookups also usually use UDP. Why?",
+          "trigger": "always",
+          "answer_md": "A lookup is one small question and one small answer. UDP avoids a handshake round trip, and the client can simply ask again if the reply is lost. DNS falls back to TCP for large responses.",
+          "signals": [
+            "small",
+            "one round trip",
+            "no handshake",
+            "retry",
+            "falls back to tcp"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "What does HTTP/3 change about this picture?",
+          "trigger": "missed:r1",
+          "answer_md": "HTTP/3 runs over QUIC on UDP. QUIC itself provides reliable, ordered streams, so the application still gets reliability without TCP.",
+          "signals": [
+            "quic",
+            "over udp",
+            "streams"
+          ]
+        }
+      ],
+      "est_minutes": 5
+    },
+    {
+      "id": "iq-dns-region-move",
+      "tier": "core",
+      "difficulty": 2,
+      "kcs": [
+        "kc-dns-caching",
+        "kc-dns-routing",
+        "kc-dns-records"
+      ],
+      "prompt": "Stubwhistle's DNS sends European users to eu-west by geolocation, with a 300-second TTL. Stubwhistle must move eu-west to a new IP. How long until users see the change, and how would you plan the move?",
+      "probing_md": "Checks whether the candidate understands that caches, not the authoritative server, set how fast a change spreads. Also checks whether they plan for the old IP to stay reachable while caches expire.",
+      "model_answer_md": "Browsers, operating systems and resolvers cache the old A record for up to its TTL. A cache filled just before the change can serve the old IP for up to about 300 seconds after it. Some clients hold records longer than the TTL, so traffic can trickle in later still. Plan: (1) well before the move, lower the TTL (for example to 60 s), and wait at least the old 300 s so that every cache holds the short TTL; (2) bring up the new proxy and update the A record; (3) keep the old IP serving until its traffic drains; (4) raise the TTL again.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Change visible only after cached copies expire; up to the TTL (~300 s), possibly longer for misbehaving caches",
+          "weight": 3,
+          "signals": [
+            "cache",
+            "ttl",
+            "300 seconds",
+            "5 minutes",
+            "expire"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Lower TTL in advance, waiting out the old TTL",
+          "weight": 2,
+          "signals": [
+            "lower the ttl",
+            "in advance",
+            "before the move"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Keep the old IP serving during the overlap",
+          "weight": 2,
+          "signals": [
+            "keep the old",
+            "overlap",
+            "drain",
+            "both ips"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Notes the geolocation routing is done by the authoritative server per query",
+          "weight": 1,
+          "signals": [
+            "geolocation",
+            "authoritative",
+            "nearest region",
+            "per query"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "DNS changes are instant once the authoritative record is updated.",
+          "why_md": "The authoritative server answers new queries right away, but caches across the internet keep the old answer until their TTL runs out."
+        },
+        {
+          "answer": "Set the TTL to 0 permanently so changes are always instant.",
+          "why_md": "Then every request needs a fresh lookup, which adds latency and load on the DNS servers, and some resolvers apply their own minimum TTL anyway."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "static.stubwhistle.example is a CNAME. What does that mean for the lookup?",
+          "trigger": "always",
+          "answer_md": "The resolver gets an alias to the CDN's hostname and must resolve that name too. The final A/AAAA record comes from the CDN's DNS, which can choose a nearby edge server.",
+          "signals": [
+            "alias",
+            "resolve again",
+            "cdn hostname",
+            "another name"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Can DNS alone give fast failover if eu-west dies?",
+          "trigger": "missed:r1",
+          "answer_md": "Only as fast as caches expire. With a 300 s TTL, many users keep hitting the dead IP for minutes. Faster failover needs short TTLs or a mechanism that does not depend on DNS.",
+          "signals": [
+            "only as fast",
+            "ttl",
+            "minutes",
+            "cached"
+          ]
+        }
+      ],
+      "est_minutes": 5
+    },
+    {
+      "id": "iq-checkout-idempotency",
+      "tier": "deep",
+      "difficulty": 3,
+      "kcs": [
+        "kc-http-methods",
+        "kc-http-request-response",
+        "kc-http-status-codes"
+      ],
+      "prompt": "A fan clicks Buy, POST /orders times out, and the app retries. The fan is charged twice. Why did this happen, and how do you make checkout safe to retry?",
+      "probing_md": "Checks idempotency: whether the candidate knows why POST is not idempotent, knows that a timeout does not tell you whether the server acted, and can design an idempotency key.",
+      "model_answer_md": "A timeout does not tell the client whether the server acted. The first POST may have created the order and charged the card, with only the response lost. POST is not idempotent, so the retry created a second order. GET /events/42 is safe to retry because reading has no side effect. Fix: the client creates a unique idempotency key for each purchase attempt and sends it in a header on every retry. The server stores the key with the result, in the same transaction that creates the order. A repeat with the same key returns the stored 201 response instead of creating a new order. Pass the same idea through to the payment API, which should also take an idempotency key, so the charge happens at most once.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Timeout ≠ failure: the first request may have succeeded",
+          "weight": 3,
+          "signals": [
+            "may have succeeded",
+            "response was lost",
+            "don't know",
+            "timeout"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "POST is not idempotent; GET/PUT/DELETE are",
+          "weight": 2,
+          "signals": [
+            "not idempotent",
+            "post",
+            "get is idempotent",
+            "same effect"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Idempotency key generated by client, stored server-side, replay returns stored result",
+          "weight": 3,
+          "signals": [
+            "idempotency key",
+            "unique key",
+            "store",
+            "return the same result",
+            "dedupe"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Extends protection to the payment API call",
+          "weight": 1,
+          "signals": [
+            "payment api",
+            "downstream",
+            "charge once"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "Change the endpoint to GET so retries are safe.",
+          "why_md": "GET must not change state. Making a purchase a GET breaks HTTP's meaning and does not stop double charges. Caches and prefetchers could even trigger purchases."
+        },
+        {
+          "answer": "Just never retry.",
+          "why_md": "Then a fan whose order did fail gets no ticket and no clear answer. The goal is to make retries safe, not to remove them."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Two retries with the same key arrive at the same moment on two app servers. What can go wrong?",
+          "trigger": "always",
+          "answer_md": "Both servers might check the key, find nothing and both insert an order. Use a unique constraint on the key in PostgreSQL (or an atomic insert), so only one succeeds and the other reads the stored result.",
+          "signals": [
+            "race",
+            "unique constraint",
+            "atomic",
+            "same time"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Is PUT /orders/abc123 idempotent? Why might that help?",
+          "trigger": "missed:r2",
+          "answer_md": "Yes. Repeating a PUT that sets the order's full state has the same effect each time. If the client picks the order id, a PUT can be retried safely.",
+          "signals": [
+            "idempotent",
+            "same effect",
+            "client chooses the id"
+          ]
+        }
+      ],
+      "est_minutes": 7
+    },
+    {
+      "id": "iq-tls-termination-mtls",
+      "tier": "deep",
+      "difficulty": 3,
+      "kcs": [
+        "kc-tls-handshake",
+        "kc-tls-termination",
+        "kc-mtls"
+      ],
+      "prompt": "Stubwhistle terminates TLS at the edge proxy, and app servers call the payment service over mTLS. Explain what the certificate proves, what you gain and risk by terminating at the edge, and why mTLS is used inside.",
+      "probing_md": "Checks whether the candidate knows exactly where traffic is in plaintext, what server authentication does and does not prove, and how mTLS adds client identity.",
+      "model_answer_md": "In the handshake the proxy presents a certificate for www.stubwhistle.example signed by a certificate authority the browser trusts. This proves the server controls that name. It says nothing about whether the business is honest. The handshake agrees on session keys, and after that fast symmetric encryption protects the traffic. Terminating at the edge keeps certificates in one place, saves CPU on the app servers and lets the proxy read paths and headers for layer-7 routing. The risk is that traffic behind the proxy is plaintext unless it is re-encrypted, so anyone inside the network could read it. For payments, mTLS makes both sides show certificates. The payment service can then check that the caller really is a Stubwhistle app server, not just any host inside the network.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Certificate signed by trusted CA proves server identity for the name; keys then agreed, symmetric encryption",
+          "weight": 3,
+          "signals": [
+            "certificate authority",
+            "proves identity",
+            "session keys",
+            "symmetric"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Termination benefits: central certs, backend CPU, L7 visibility",
+          "weight": 2,
+          "signals": [
+            "centralise",
+            "one place",
+            "cpu",
+            "read headers",
+            "layer 7"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Termination risk: plaintext inside unless re-encrypted",
+          "weight": 2,
+          "signals": [
+            "plaintext",
+            "re-encrypt",
+            "inside the network"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "mTLS authenticates the client too; service-to-service",
+          "weight": 2,
+          "signals": [
+            "both sides",
+            "client certificate",
+            "mutual",
+            "service-to-service"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "TLS uses public-key encryption for all the data.",
+          "why_md": "Public-key cryptography is used in the handshake to authenticate and agree keys. The bulk data uses faster symmetric encryption."
+        },
+        {
+          "answer": "Inside a private network, encryption is unnecessary because 10.x addresses are unreachable from outside.",
+          "why_md": "Private addressing blocks direct reach from the internet. It does not stop an attacker who is already inside, or a misconfigured service, from reading or sending traffic."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "The browser shows a padlock. Does that prove the payment service is secure?",
+          "trigger": "always",
+          "answer_md": "No. The padlock covers only the browser-to-proxy hop. Security of every later hop depends on Stubwhistle's internal setup.",
+          "signals": [
+            "only the first hop",
+            "browser to proxy",
+            "internal hops"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "How does TLS termination affect what a layer-4 balancer could do instead?",
+          "trigger": "missed:r2",
+          "answer_md": "A layer-4 balancer can pass encrypted TCP through to the backends. Then each backend must hold the certificate and terminate TLS itself, and the balancer cannot route by path.",
+          "signals": [
+            "pass through",
+            "backend terminates",
+            "no path routing"
+          ]
+        }
+      ],
+      "est_minutes": 6
+    },
+    {
+      "id": "iq-design-onsale-path",
+      "tier": "design",
+      "difficulty": 4,
+      "kcs": [
+        "kc-three-tier",
+        "kc-dns-routing",
+        "kc-osi-l4-l7",
+        "kc-tls-termination",
+        "kc-http-status-codes",
+        "kc-http-methods",
+        "kc-public-private-ip"
+      ],
+      "prompt": "Design the request path for Stubwhistle when a big show goes on sale: about 3,000 requests per second at peak, two regions, 4 app servers per region, one PostgreSQL database. Walk from DNS to the database and say how the path protects itself from the spike.",
+      "probing_md": "Checks whether the candidate can combine the unit's pieces into one coherent path, give a reason for each layer, and use status codes and idempotency to handle overload, without inventing infrastructure the problem does not need.",
+      "model_answer_md": "**DNS:** the authoritative server routes by geolocation to the nearer region's edge proxy (us-east 203.0.113.10 / 2001:db8::10, eu-west 198.51.100.20). The TTL is short enough that a region can be drained in minutes. **Edge proxy (layer 7):** terminates TLS for www.stubwhistle.example and routes by path (/events/* versus /orders/*). Here it rate-limits each client and returns 429 with Retry-After to fans who refresh too fast. **Static assets:** static.stubwhistle.example is a CNAME to the CDN, so the roughly 20 assets per page never reach the app tier. **Application tier:** stateless app servers on private 10.0.1.x addresses, so any of them can serve any request and more can be added. When they are saturated they shed load with 503 instead of timing out. **Purchases:** POST /orders carries an idempotency key, so client retries cannot double-charge. The app tier calls the payment service over mTLS, and the external payment API through NAT. **Data tier:** the single PostgreSQL at 10.0.2.5 is the bottleneck and the single point of failure, so cache event-page reads and keep writes small. Rough load: 3,000 rps across 8 app servers is about 375 rps each if both regions share the load evenly. A geolocation skew could push one region's 4 servers toward 750 rps each.",
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Coherent tiers: presentation → edge proxy → app tier (private IPs) → data tier",
+          "weight": 2,
+          "signals": [
+            "presentation",
+            "application tier",
+            "data tier",
+            "private",
+            "edge proxy"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "DNS geolocation routing with TTL trade-off for region drain",
+          "weight": 2,
+          "signals": [
+            "geolocation",
+            "nearest region",
+            "ttl",
+            "drain"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Layer-7 proxy terminates TLS and rate-limits with 429; servers shed with 503",
+          "weight": 3,
+          "signals": [
+            "layer 7",
+            "terminate tls",
+            "rate limit",
+            "429",
+            "503",
+            "retry-after"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Idempotent purchase via idempotency key",
+          "weight": 3,
+          "signals": [
+            "idempotency key",
+            "double charge",
+            "post is not idempotent"
+          ]
+        },
+        {
+          "id": "r5",
+          "point": "Back-of-envelope load and identifies the database as the bottleneck",
+          "weight": 2,
+          "signals": [
+            "375",
+            "per server",
+            "bottleneck",
+            "single database",
+            "single point of failure"
+          ]
+        },
+        {
+          "id": "r6",
+          "point": "Offloads static assets to the CDN via CNAME",
+          "weight": 1,
+          "signals": [
+            "cdn",
+            "cname",
+            "static assets"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "Point DNS straight at the app servers' IPs and skip the proxy.",
+          "why_md": "The app servers have private addresses that cannot be reached from the internet. Even with public addresses, you would lose central TLS termination, path routing and rate limiting."
+        },
+        {
+          "answer": "Return 500 whenever load is high.",
+          "why_md": "500 means an unexpected server bug. Use 503 (with Retry-After) for overload so that clients and monitoring can tell the two apart, and use 429 for single clients sending too much."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "eu-west goes down mid-sale. What happens to European fans, and how fast?",
+          "trigger": "always",
+          "answer_md": "The authoritative server must stop handing out eu-west's IP, for example after a health check fails. Fans with cached answers keep hitting the dead IP until the TTL expires, up to 300 s. us-east must then absorb their load, so its 4 servers may need extra capacity.",
+          "signals": [
+            "health check",
+            "ttl",
+            "cached",
+            "us-east absorbs",
+            "capacity"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Where in this path could you return a cheap 'you're in the queue' page instead of hitting the database?",
+          "trigger": "missed:r3",
+          "answer_md": "At the edge proxy or in the app tier, before any database query. The response could be a cached or static page, perhaps with Retry-After, so the database sees only admitted traffic.",
+          "signals": [
+            "edge",
+            "before the database",
+            "static",
+            "queue"
+          ]
+        },
+        {
+          "id": "f3",
+          "q": "Which component sees the path /orders, and which only sees ports?",
+          "trigger": "missed:r1",
+          "answer_md": "The layer-7 edge proxy (after TLS termination) and the app servers see the path. Routers, NAT and any layer-4 device see only IP addresses and ports.",
+          "signals": [
+            "layer 7",
+            "after termination",
+            "layer 4",
+            "ports"
+          ]
+        }
+      ],
+      "est_minutes": 15
+    }
+  ],
+  "cases": [
+    {
+      "id": "onsale-refresh-storm",
+      "title": "The on-sale refresh storm",
+      "domain": "ticketing / e-commerce",
+      "archetype": true,
+      "context_md": "A ticket site in the style of Stubwhistle opens sales for a big show at 10:00. Thousands of fans hold the refresh key down on the event page. Traffic reaches the peak of about 3,000 requests per second, and a few clients with auto-refresh scripts send far more than a human could. App-server latency climbs and some checkouts time out.",
+      "pipeline": [
+        {
+          "step": "DNS",
+          "detail": "Geolocation routing sends each fan to the nearer region's edge proxy; the TTL is 300 s."
+        },
+        {
+          "step": "Edge proxy (L7)",
+          "detail": "Terminates TLS, reads the path and forwards to 4 app servers per region on private 10.0.1.x addresses."
+        },
+        {
+          "step": "App tier",
+          "detail": "Renders GET /events/42 and handles POST /orders."
+        },
+        {
+          "step": "Data tier",
+          "detail": "Every page render and order reads or writes the single PostgreSQL database at 10.0.2.5."
+        }
+      ],
+      "numbers": [
+        {
+          "label": "Peak request rate",
+          "value": "3,000 rps",
+          "note": "Across both regions."
+        },
+        {
+          "label": "App servers",
+          "value": "8 (4 per region)"
+        },
+        {
+          "label": "Average load per server if split evenly",
+          "value": "375 rps",
+          "note": "3,000 ÷ 8."
+        },
+        {
+          "label": "Load per server if one region takes all traffic",
+          "value": "750 rps",
+          "note": "3,000 ÷ 4."
+        },
+        {
+          "label": "Assets per event page",
+          "value": "about 20",
+          "note": "Served from static.stubwhistle.example (CNAME to a CDN)."
+        }
+      ],
+      "decision": {
+        "prompt_md": "Latency is climbing and the database is close to saturation. What do you change first on the request path?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Rate-limit per client at the edge proxy: return **429** with Retry-After to clients over the limit, and have app servers return **503** when they are saturated.",
+            "verdict": "best",
+            "outcome_md": "Abusive refreshers are stopped at the edge before they cost any app or database work. Normal fans get answers instead of timeouts, and clients get a clear signal about whose problem it is (4xx client, 5xx server)."
+          },
+          {
+            "id": "b",
+            "md": "Add more app servers in each region.",
+            "verdict": "viable",
+            "outcome_md": "Helps if the app tier is the limit, but every extra server still queries the single PostgreSQL database, so the real bottleneck moves rather than disappears, and abusive clients still get through."
+          },
+          {
+            "id": "c",
+            "md": "Raise the DNS TTL to 1 day so fewer DNS queries are made.",
+            "verdict": "trap",
+            "outcome_md": "DNS lookups are not the load; HTTP requests are. A long TTL also means that if a region fails mid-sale, fans keep being sent to it for up to a day."
+          },
+          {
+            "id": "d",
+            "md": "Return 500 to a random half of requests to shed load.",
+            "verdict": "trap",
+            "outcome_md": "500 signals an unexpected bug, which confuses clients and alerting. Random shedding also hurts normal fans as much as scripts. Use 429 per client and 503 for real overload."
+          }
+        ]
+      },
+      "failure_modes": [
+        "refresh-flood",
+        "database-saturation",
+        "timeouts-instead-of-503",
+        "wrong-status-class"
+      ],
+      "lessons_md": "Protect the path at the earliest layer that can tell requests apart. A layer-7 edge proxy can rate-limit per client and answer with 429 before any app or database work happens. Use 503 for real overload, so clients can tell their own mistakes (4xx) from server trouble (5xx). Keep static assets on the CDN so they never touch the app tier."
+    },
+    {
+      "id": "region-ip-migration",
+      "title": "Moving a region to a new IP without losing fans",
+      "domain": "ticketing / infrastructure",
+      "archetype": true,
+      "context_md": "A ticket site must replace its eu-west edge proxy (currently 198.51.100.20) with a new one at a different public IP. The authoritative DNS server returns the eu-west A record to European users by geolocation, with a TTL of 300 seconds. A sale starts in two days.",
+      "pipeline": [
+        {
+          "step": "Fan's resolver",
+          "detail": "Caches the A record for www.stubwhistle.example for its TTL."
+        },
+        {
+          "step": "Authoritative DNS",
+          "detail": "Returns the eu-west or us-east address depending on the client's location."
+        },
+        {
+          "step": "Edge proxy",
+          "detail": "Terminates TLS for www.stubwhistle.example; the new proxy needs the same certificate."
+        },
+        {
+          "step": "App tier",
+          "detail": "Unchanged private servers behind the proxy."
+        }
+      ],
+      "numbers": [
+        {
+          "label": "Current TTL",
+          "value": "300 s",
+          "note": "5 minutes."
+        },
+        {
+          "label": "Worst-case stale time for a well-behaved cache after the change",
+          "value": "about 300 s",
+          "note": "A cache filled just before the change keeps the old answer for the full TTL."
+        },
+        {
+          "label": "Lowered TTL during migration",
+          "value": "60 s",
+          "note": "Scenario choice."
+        },
+        {
+          "label": "Minimum wait after lowering TTL before switching",
+          "value": "300 s",
+          "note": "So that every cache has replaced the old 300 s copy with one carrying the 60 s TTL."
+        }
+      ],
+      "decision": {
+        "prompt_md": "How do you carry out the switch?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Lower the TTL to 60 s, wait at least 300 s, start the new proxy with the certificate, update the A record, and keep the old IP serving until its traffic drains. Then raise the TTL again.",
+            "verdict": "best",
+            "outcome_md": "Caches pick up the new address within about a minute. The few clients that ignore TTLs still reach the old proxy while it drains, so nobody sees an outage."
+          },
+          {
+            "id": "b",
+            "md": "Update the A record, wait 5 minutes, then shut the old proxy down.",
+            "verdict": "viable",
+            "outcome_md": "Works for well-behaved caches, but clients that hold records past the TTL hit a dead IP. Keeping the old proxy until its traffic is near zero is safer."
+          },
+          {
+            "id": "c",
+            "md": "Update the A record and turn off the old proxy at the same moment.",
+            "verdict": "trap",
+            "outcome_md": "Every resolver with a cached copy keeps sending European fans to a dead address for up to 5 minutes or longer. They see connection failures, perhaps during the sale."
+          },
+          {
+            "id": "d",
+            "md": "Forget the certificate; the new proxy can serve plain HTTP for a while.",
+            "verdict": "trap",
+            "outcome_md": "Browsers asking for https://www.stubwhistle.example cannot complete the TLS handshake, and sending traffic in plaintext exposes sessions. The new proxy must present a valid certificate for the name."
+          }
+        ]
+      },
+      "failure_modes": [
+        "stale-dns-cache",
+        "premature-decommission",
+        "missing-certificate"
+      ],
+      "lessons_md": "How fast a DNS change spreads depends on caches, not on the authoritative server. Lower the TTL ahead of a planned move, wait out the old TTL, and keep the old address serving until its traffic drains. Also move everything the old endpoint provided, including the TLS certificate for the name."
+    },
+    {
+      "id": "checkout-double-charge",
+      "title": "The double charge after a checkout timeout",
+      "domain": "ticketing / payments",
+      "archetype": true,
+      "context_md": "During an on-sale, POST /orders sometimes takes longer than the mobile app's timeout. The app automatically retries the POST. Support tickets arrive from fans charged twice for the same seats. The app servers reach the external payment API through a NAT gateway and the internal payment service over mTLS.",
+      "pipeline": [
+        {
+          "step": "Client",
+          "detail": "Sends POST /orders with the seat selection and waits for a response."
+        },
+        {
+          "step": "Edge proxy",
+          "detail": "Terminates TLS and forwards the request to an app server."
+        },
+        {
+          "step": "App server",
+          "detail": "Writes the order to PostgreSQL and calls the payment service, which charges the card through the external API."
+        },
+        {
+          "step": "Response",
+          "detail": "201 Created, if it arrives before the client gives up."
+        }
+      ],
+      "numbers": [
+        {
+          "label": "Client timeout",
+          "value": "10 s",
+          "note": "Scenario assumption."
+        },
+        {
+          "label": "Automatic retries",
+          "value": "1",
+          "note": "So one slow request can become 2 orders."
+        },
+        {
+          "label": "Expected success status",
+          "value": "201 Created"
+        }
+      ],
+      "decision": {
+        "prompt_md": "How do you stop double charges while still letting fans retry?",
+        "options": [
+          {
+            "id": "a",
+            "md": "The client creates one idempotency key per purchase attempt and sends it on every retry. The server stores it under a unique constraint, together with the order, and a repeat returns the stored 201. The key is also passed to the payment API.",
+            "verdict": "best",
+            "outcome_md": "A retry after a lost response returns the original order and charges nothing more, and a request that really failed can still be retried. The unique constraint also covers two retries that arrive at the same moment."
+          },
+          {
+            "id": "b",
+            "md": "Turn off automatic retries for POST /orders and show 'check your orders' after a timeout.",
+            "verdict": "viable",
+            "outcome_md": "Stops automatic duplicates, but a fan who taps Buy again by hand can still be charged twice. It also makes the fan do the work of finding out what happened."
+          },
+          {
+            "id": "c",
+            "md": "Make the purchase a GET /buy?seat=… so it is idempotent.",
+            "verdict": "trap",
+            "outcome_md": "Calling it GET does not make the action idempotent: it still charges a card each time. GET must not change state, and prefetchers or caches could trigger purchases."
+          },
+          {
+            "id": "d",
+            "md": "Raise the client timeout to 60 s.",
+            "verdict": "trap",
+            "outcome_md": "Timeouts become rarer, but a lost response or a dropped connection still leads to a retry and a second charge. Fans also stare at a spinner for a minute."
+          }
+        ]
+      },
+      "failure_modes": [
+        "non-idempotent-retry",
+        "lost-response",
+        "concurrent-duplicate"
+      ],
+      "lessons_md": "A timeout does not tell you whether the server acted. GET, PUT and DELETE can be repeated safely; POST cannot. To make retries safe, give each operation an idempotency key, enforce it atomically in the data tier, and pass it to every downstream call that has side effects."
+    }
+  ],
+  "tests": {
+    "unit": "unit-test@1",
+    "forms": [
+      "A",
+      "B"
+    ]
+  },
+  "est_min": 66
+}

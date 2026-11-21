@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-elastic-beanstalk",
+  "version": 1,
+  "title": "Elastic Beanstalk: deploy code, AWS runs the stack",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-beanstalk-paas",
+      "version": 1,
+      "statement": "AWS Elastic Beanstalk is a PaaS-style service: you upload application code and it provisions and manages the EC2 instances, load balancer, Auto Scaling group and health monitoring for you."
+    },
+    {
+      "id": "kc-beanstalk-control-and-cost",
+      "version": 1,
+      "statement": "With Elastic Beanstalk you keep full access to the underlying resources it creates, and the service itself is free; you pay only for those resources."
+    },
+    {
+      "id": "kc-beanstalk-platforms",
+      "version": 1,
+      "statement": "Elastic Beanstalk supports common web platforms such as Java, .NET, Node.js, Python, PHP, Ruby, Go and Docker, so standard web apps deploy without designing infrastructure."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-auto-scaling-groups",
+    "clf-elastic-load-balancing",
+    "clf-service-models"
+  ],
+  "confusable_with": [
+    "clf-cloudformation",
+    "clf-lambda"
+  ],
+  "introduces": [
+    "elastic beanstalk"
+  ],
+  "uses": [
+    "paas",
+    "ec2 instance",
+    "elastic load balancing",
+    "auto scaling group"
+  ],
+  "problem_ideas": [
+    "A team of two developers has a Node.js web app and no ops staff: which deployment service, and what does it create for them?",
+    "A Beanstalk app's bill shows EC2 and ELB charges but no 'Beanstalk' line: explain why.",
+    "After deploying with Beanstalk, an engineer wants to change the instance type: can they? Where?",
+    "Which of these does Beanstalk not handle for you: capacity provisioning, load balancing, writing application code, health monitoring?",
+    "Sort three requirements (template every resource, upload a .war file, run a function on an S3 upload) to CloudFormation, Beanstalk or Lambda.",
+    "A Docker-packaged web app must go live today with auto scaling: is Beanstalk a valid option?"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "deploying-and-managing-infrastructure-at/aws-elastic-beanstalk-overview"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "deploying-and-managing-infrastructure-at/developer-problems-on-aws"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "deploying-and-managing-infrastructure-at/typical-architecture-web-app-3-tier"
+    }
+  ],
+  "status": "stub"
+}

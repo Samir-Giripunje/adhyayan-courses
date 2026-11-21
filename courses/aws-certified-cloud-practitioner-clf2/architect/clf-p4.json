@@ -1,0 +1,1760 @@
+{
+  "stage": {
+    "id": "clf-p4",
+    "title": "Core services: networking, content delivery and databases",
+    "outcome": [
+      "o2",
+      "o4",
+      "o6"
+    ],
+    "assumes": [
+      "region",
+      "availability zone",
+      "edge location",
+      "ec2 instance",
+      "elastic load balancing",
+      "s3",
+      "shared responsibility model",
+      "hybrid cloud"
+    ],
+    "provides": [
+      "vpc",
+      "public subnet",
+      "private subnet",
+      "internet gateway",
+      "nat gateway",
+      "security group",
+      "network acl",
+      "vpc peering",
+      "vpc endpoint",
+      "site-to-site vpn",
+      "direct connect",
+      "transit gateway",
+      "route 53",
+      "cloudfront",
+      "global accelerator",
+      "managed database",
+      "rds",
+      "aurora",
+      "dynamodb",
+      "elasticache",
+      "documentdb",
+      "neptune"
+    ]
+  },
+  "sections": [
+    {
+      "id": "vpc",
+      "title": "Inside a VPC: subnets, gateways and firewalls",
+      "rank": 1,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-3-5-identify-aws-network-"
+      }
+    },
+    {
+      "id": "hybrid-connectivity",
+      "title": "Connecting networks: VPN, Direct Connect, Transit Gateway",
+      "rank": 2,
+      "source_ref": {
+        "source": "clf-notes",
+        "section": "vpc"
+      }
+    },
+    {
+      "id": "dns-edge",
+      "title": "DNS and content delivery at the edge",
+      "rank": 3,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "networking-and-content-delivery"
+      }
+    },
+    {
+      "id": "databases",
+      "title": "Database services: relational, NoSQL and in-memory",
+      "rank": 4,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-3-4-identify-aws-database"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "clf-vpc-subnets",
+      "title": "Amazon VPC and public vs private subnets",
+      "size": "standard",
+      "est_min": 10,
+      "section": "vpc",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-vpc-isolated-network",
+          "statement": "A VPC is a logically isolated virtual network in one AWS Region, defined by an IP address range (a CIDR block), that can span all Availability Zones in that Region."
+        },
+        {
+          "id": "kc-vpc-subnet-one-az",
+          "statement": "Each subnet lives in exactly one Availability Zone, so a highly available design places subnets in at least two AZs."
+        },
+        {
+          "id": "kc-vpc-public-vs-private-subnet",
+          "statement": "A public subnet has a route to an internet gateway; a private subnet has no direct route to the internet, so back-end resources such as databases are placed there."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "VPC and subnet roles are the base vocabulary for every networking service question on the exam"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-availability-zones",
+          "reason": "A subnet is defined as living in one AZ; the KC cannot be checked without knowing what an AZ is"
+        }
+      ],
+      "suggests": [
+        "clf-regions"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "vpc",
+        "subnet",
+        "public subnet",
+        "private subnet",
+        "cidr block"
+      ],
+      "uses": [
+        "region",
+        "availability zone"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "vpc/vpc"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "vpc/subnets"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "vpc/public-subnet"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "vpc/private-subnet"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-5-identify-aws-network-/identifying-the-components-of-a-vpc-for-"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "vpc/vpc-subnets-primer"
+        }
+      ],
+      "problem_ideas": [
+        "A web tier and a MySQL database: which goes in a public subnet, which in a private subnet, and why?",
+        "A VPC in eu-west-1 needs to survive an AZ outage: how many subnets, at minimum, and in which AZs?",
+        "True or false: one subnet can stretch across two Availability Zones",
+        "A team wants a VPC that spans us-east-1 and us-west-2; spot the misconception",
+        "Classify five resources (load balancer, RDS database, batch worker, bastion host, cache) by subnet type",
+        "Given a diagram with a subnet that has no internet gateway route, predict whether an instance there is reachable from the internet"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "How CIDR notation like 10.0.0.0/16 sets the number of addresses"
+        },
+        {
+          "kind": "implementation",
+          "title": "The default VPC every new account gets in each Region"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "VPC and subnet basics show up in almost every CLF-C02 networking question."
+      }
+    },
+    {
+      "id": "clf-internet-nat-gateways",
+      "title": "Internet gateways, NAT gateways and route tables",
+      "size": "standard",
+      "est_min": 10,
+      "section": "vpc",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-igw-two-way-internet",
+          "statement": "An internet gateway attaches to a VPC and allows two-way traffic between the internet and resources with public IP addresses in public subnets."
+        },
+        {
+          "id": "kc-nat-gateway-outbound-only",
+          "statement": "A NAT gateway, placed in a public subnet, lets instances in private subnets start outbound internet connections (for example, to download patches) while blocking connections initiated from the internet."
+        },
+        {
+          "id": "kc-route-table-makes-subnet-public",
+          "statement": "A subnet's route table decides where its traffic goes: a default route to an internet gateway makes the subnet public, while a default route to a NAT gateway keeps it private with outbound-only access."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Choosing between an internet gateway and a NAT gateway is a standard exam service-selection item"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-vpc-subnets",
+          "reason": "The gateway roles are defined in terms of public and private subnets"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-vpc-peering-endpoints"
+      ],
+      "introduces": [
+        "internet gateway",
+        "nat gateway",
+        "route table"
+      ],
+      "uses": [
+        "vpc",
+        "public subnet",
+        "private subnet",
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "vpc/internet-gateway-nat-gateways"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-5-identify-aws-network-/identifying-the-components-of-a-vpc-for-"
+        }
+      ],
+      "problem_ideas": [
+        "Private-subnet app servers must download OS updates but never accept inbound connections: which gateway?",
+        "A NAT gateway was placed in a private subnet and updates still fail: explain why",
+        "A public web server cannot be reached from the internet even though it has a public IP; what is missing in the route table?",
+        "Match each route-table entry (local, 0.0.0.0/0 to igw, 0.0.0.0/0 to nat) to the subnet type it creates",
+        "A company wants the database to have zero internet access, inbound or outbound: which gateways should its subnet route to?",
+        "Order the hops for a private instance fetching a patch: instance, NAT gateway, internet gateway, internet"
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "NAT instances: the self-managed EC2 predecessor of NAT gateway"
+        },
+        {
+          "kind": "edge",
+          "title": "Why a NAT gateway is zonal and needs one per AZ for high availability"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Gateway choice is a frequent short exam question with a clear right answer."
+      }
+    },
+    {
+      "id": "clf-security-groups-nacls",
+      "title": "Security groups vs network ACLs",
+      "size": "big",
+      "est_min": 14,
+      "section": "vpc",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-security-group-stateful-allow",
+          "statement": "A security group is a stateful firewall attached to an instance's network interface: it has allow rules only, and return traffic for an allowed request is permitted automatically."
+        },
+        {
+          "id": "kc-nacl-stateless-subnet",
+          "statement": "A network ACL is a stateless firewall at the subnet boundary: it has numbered allow and deny rules evaluated lowest number first, and return traffic must be explicitly allowed."
+        },
+        {
+          "id": "kc-sg-nacl-defaults",
+          "statement": "A new security group denies all inbound and allows all outbound traffic, while a VPC's default network ACL allows all inbound and outbound traffic."
+        },
+        {
+          "id": "kc-nacl-blocks-specific-ip",
+          "statement": "To block one specific IP address or range, add a deny rule to a network ACL, because security groups cannot express deny rules."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam names VPC security (security groups, network ACLs) explicitly and asks which one fits a stated need"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-vpc-subnets",
+          "reason": "Network ACLs are defined as acting at the subnet boundary"
+        }
+      ],
+      "suggests": [
+        "clf-shared-responsibility-model"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "security group",
+        "network acl",
+        "stateful firewall",
+        "stateless firewall"
+      ],
+      "uses": [
+        "vpc",
+        "subnet",
+        "ec2 instance",
+        "shared responsibility model"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "iam/security-groups"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-5-identify-aws-network-/understanding-security-in-a-vpc-for-exam"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "vpc/network-acl-security-groups"
+        }
+      ],
+      "problem_ideas": [
+        "A known attacker IP 203.0.113.7 keeps probing the web tier: which control blocks it, and why not the other?",
+        "An inbound HTTPS rule exists on a NACL but responses never reach clients: what rule is missing?",
+        "Fill a comparison table: level (instance/subnet), stateful?, allow/deny, rule evaluation",
+        "NACL rule 100 allows port 22 from anywhere and rule 200 denies it: is SSH allowed?",
+        "Sort tasks into AWS or customer responsibility: configuring security group rules, patching the physical firewall hardware",
+        "A newly launched instance with a fresh security group gets no inbound traffic: predict the default behaviour",
+        "Design two security groups so the database accepts traffic only from the web tier's security group"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Referencing one security group from another instead of IP ranges"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Where Amazon Inspector fits in VPC security"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Security group vs network ACL is one of the most reliably tested distinctions on CLF-C02."
+      }
+    },
+    {
+      "id": "clf-vpc-flow-logs",
+      "title": "VPC Flow Logs: who talked to whom",
+      "size": "micro",
+      "est_min": 6,
+      "section": "vpc",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-vpc-flow-logs-metadata",
+          "statement": "VPC Flow Logs record metadata about IP traffic to and from network interfaces in a VPC (source, destination, port, accepted or rejected), for troubleshooting connectivity and security analysis; they do not capture packet contents."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "clf-security-groups-nacls"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "vpc flow logs"
+      ],
+      "uses": [
+        "vpc",
+        "security group",
+        "network acl"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "vpc/vpc-flow-logs"
+        }
+      ],
+      "problem_ideas": [
+        "An app cannot reach its database and you suspect a firewall rule: which log shows REJECT records?",
+        "True or false: Flow Logs let you read the HTTP request bodies of your users",
+        "A security team wants to see which IPs connected to an instance last night: pick the feature",
+        "Distinguish Flow Logs from API-call logging: who changed a security group vs which packets were rejected",
+        "Flow Logs can be captured at three levels: VPC, subnet, network interface; which gives the narrowest view?",
+        "A flow log line shows ACCEPT inbound but REJECT outbound for the same connection: which firewall type is likely misconfigured?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Where flow logs are delivered: CloudWatch Logs or S3"
+        }
+      ],
+      "lens": {
+        "score": 0.4,
+        "reason": "Occasionally a distractor or a troubleshooting answer; low weight but quick."
+      }
+    },
+    {
+      "id": "clf-vpc-peering-endpoints",
+      "title": "VPC peering, VPC endpoints and PrivateLink",
+      "size": "standard",
+      "est_min": 10,
+      "section": "vpc",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-vpc-peering-non-transitive",
+          "statement": "VPC peering privately connects two VPCs, even across accounts or Regions, so they route traffic as one network; peering is not transitive and the two CIDR ranges must not overlap."
+        },
+        {
+          "id": "kc-vpc-endpoint-no-internet",
+          "statement": "A VPC endpoint lets resources in a private subnet reach AWS services such as S3 without going over the internet, an internet gateway or a NAT gateway."
+        },
+        {
+          "id": "kc-gateway-vs-interface-endpoint",
+          "statement": "Gateway endpoints serve only S3 and DynamoDB; interface endpoints, powered by AWS PrivateLink, expose other AWS services or a third party's service privately inside your VPC."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Exam items ask how to reach S3 privately or connect two VPCs; these are the answers"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-internet-nat-gateways",
+          "reason": "An endpoint is justified by contrast with routing through internet and NAT gateways"
+        }
+      ],
+      "suggests": [
+        "clf-s3-basics"
+      ],
+      "confusable_with": [
+        "clf-transit-gateway",
+        "clf-internet-nat-gateways"
+      ],
+      "introduces": [
+        "vpc peering",
+        "vpc endpoint",
+        "privatelink"
+      ],
+      "uses": [
+        "vpc",
+        "private subnet",
+        "nat gateway",
+        "internet gateway",
+        "s3",
+        "cidr block"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "vpc/vpc-peering"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "vpc/vpc-endpoints"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "networking-and-content-delivery/aws-privatelink"
+        }
+      ],
+      "problem_ideas": [
+        "VPC A peers with B, B peers with C: can A reach C? What would fix it?",
+        "Two VPCs both use 10.0.0.0/16 and peering fails: explain",
+        "A private-subnet batch job uploads 5 TB a day to S3 through a NAT gateway; which feature removes the NAT path?",
+        "A SaaS vendor wants to expose its API privately to hundreds of customer VPCs: name the technology",
+        "Pick gateway or interface endpoint for S3, DynamoDB, and Secrets Manager",
+        "A compliance rule says traffic to S3 must never touch the public internet: choose the component"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Why peering across Regions still stays on the AWS backbone"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Appears as service-matching questions; PrivateLink is named in the exam guide."
+      }
+    },
+    {
+      "id": "clf-site-to-site-vpn",
+      "title": "AWS VPN: Site-to-Site and Client VPN",
+      "size": "standard",
+      "est_min": 8,
+      "section": "hybrid-connectivity",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-site-to-site-vpn-ipsec",
+          "statement": "AWS Site-to-Site VPN creates an encrypted IPsec connection over the public internet between an on-premises network and a VPC; it can be set up quickly, but bandwidth and latency vary with internet conditions."
+        },
+        {
+          "id": "kc-client-vpn-users",
+          "statement": "AWS Client VPN connects individual users' devices, such as remote employees' laptops, to AWS or on-premises networks, whereas Site-to-Site VPN joins whole networks."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide lists AWS VPN among network connectivity options to choose between"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-vpc-subnets",
+          "reason": "The VPN's AWS end is a VPC, which must already be defined"
+        }
+      ],
+      "suggests": [
+        "clf-deployment-models"
+      ],
+      "confusable_with": [
+        "clf-direct-connect"
+      ],
+      "introduces": [
+        "site-to-site vpn",
+        "client vpn",
+        "ipsec"
+      ],
+      "uses": [
+        "vpc",
+        "hybrid cloud",
+        "on-premises deployment"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-5-identify-aws-network-/identifying-network-connectivity-options"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "networking-and-content-delivery/aws-site-to-site-vpn"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "networking-and-content-delivery/aws-client-vpn"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "vpc/site-to-site-vpn-direct-connect"
+        }
+      ],
+      "problem_ideas": [
+        "A branch office needs encrypted access to a VPC by tomorrow on a small budget: pick the option",
+        "200 employees working from home must reach internal apps in a VPC: Site-to-Site or Client VPN?",
+        "True or false: Site-to-Site VPN traffic travels over a private dedicated line",
+        "A hybrid company's nightly sync slows when internet traffic is heavy; explain why with VPN",
+        "Classify scenarios as network-to-network or user-to-network",
+        "A head office router and a VPC must exchange traffic securely: name the protocol that encrypts the tunnel"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Customer gateway and virtual private gateway: the two ends of a VPN"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "VPN vs Direct Connect is a classic hybrid-connectivity exam question."
+      }
+    },
+    {
+      "id": "clf-direct-connect",
+      "title": "AWS Direct Connect: a private line to AWS",
+      "size": "standard",
+      "est_min": 10,
+      "section": "hybrid-connectivity",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-direct-connect-dedicated",
+          "statement": "AWS Direct Connect is a dedicated private network connection from an on-premises data center to AWS that bypasses the public internet, giving consistent bandwidth and latency."
+        },
+        {
+          "id": "kc-direct-connect-lead-time",
+          "statement": "A new Direct Connect connection takes weeks to provision, so a requirement for connectivity within days points to Site-to-Site VPN instead."
+        },
+        {
+          "id": "kc-direct-connect-not-encrypted",
+          "statement": "Direct Connect traffic is private but not encrypted by default; running a Site-to-Site VPN over it adds IPsec encryption, and a VPN can also serve as a lower-cost backup link."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Direct Connect is named in the exam guide's connectivity options and a frequent distractor against VPN"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-site-to-site-vpn",
+          "reason": "The lead-time and encryption KCs are stated as contrasts with Site-to-Site VPN"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-site-to-site-vpn"
+      ],
+      "introduces": [
+        "direct connect"
+      ],
+      "uses": [
+        "site-to-site vpn",
+        "hybrid cloud",
+        "ipsec",
+        "on-premises deployment"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "networking-and-content-delivery/aws-direct-connect"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-5-identify-aws-network-/identifying-network-connectivity-options"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "vpc/site-to-site-vpn-direct-connect"
+        }
+      ],
+      "problem_ideas": [
+        "A bank moves 50 TB a month to AWS and needs predictable latency: VPN or Direct Connect?",
+        "Compliance requires encryption on the Direct Connect link: what do you add?",
+        "The Direct Connect link fails and the business needs a cheap fallback: pick it",
+        "A startup needs hybrid access by Friday: which option is realistic and why?",
+        "Rank VPN and Direct Connect on setup time, consistency, and whether traffic crosses the public internet",
+        "A media company's VPN throughput swings between 200 Mbps and 1 Gbps; recommend a fix"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Direct Connect locations and why a partner may provide the last mile"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Data transfer pricing advantages of Direct Connect"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Direct Connect versus VPN is reliably tested with clear cue words."
+      }
+    },
+    {
+      "id": "clf-transit-gateway",
+      "title": "Transit Gateway: one hub for many networks",
+      "size": "standard",
+      "est_min": 8,
+      "section": "hybrid-connectivity",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-transit-gateway-hub",
+          "statement": "AWS Transit Gateway is a regional hub that connects many VPCs and on-premises networks (through VPN or Direct Connect) via one gateway, in a hub-and-spoke design."
+        },
+        {
+          "id": "kc-tgw-vs-peering-count",
+          "statement": "Fully meshing n VPCs with peering needs n(n−1)/2 connections because peering is not transitive, so Transit Gateway is the choice when many VPCs must all reach each other."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Transit Gateway appears in the exam's networking service list as the answer for many-VPC connectivity"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-vpc-peering-endpoints",
+          "reason": "The choice is stated as a contrast with non-transitive peering"
+        },
+        {
+          "topic": "clf-direct-connect",
+          "reason": "The hub attaches on-premises networks through VPN or Direct Connect"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-vpc-peering-endpoints"
+      ],
+      "introduces": [
+        "transit gateway",
+        "hub-and-spoke"
+      ],
+      "uses": [
+        "vpc",
+        "vpc peering",
+        "site-to-site vpn",
+        "direct connect"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "networking-and-content-delivery/aws-transit-gateway"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "vpc/transit-gateway"
+        }
+      ],
+      "problem_ideas": [
+        "How many peering connections fully mesh 10 VPCs? And 20?",
+        "A company has 3 VPCs that only need to talk in pairs: is Transit Gateway worth it?",
+        "50 VPCs plus two data centers must reach each other: pick the design",
+        "Adding an 11th VPC to a full peering mesh: how many new connections vs with Transit Gateway?",
+        "Draw the hub-and-spoke for 4 VPCs and one VPN and count attachments",
+        "Spot the error: 'peering A-B and B-C lets A talk to C'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Why full-mesh connections grow quadratically"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Tested as a service-matching item; the many-VPC cue makes it easy points."
+      }
+    },
+    {
+      "id": "clf-route53",
+      "title": "Amazon Route 53: DNS, domains and health checks",
+      "size": "standard",
+      "est_min": 10,
+      "section": "dns-edge",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-route53-managed-dns",
+          "statement": "Amazon Route 53 is AWS's managed DNS service: it translates domain names into IP addresses and can also register domain names."
+        },
+        {
+          "id": "kc-route53-hosted-zone",
+          "statement": "A hosted zone holds the DNS records for one domain; a public hosted zone answers queries from the internet and a private hosted zone answers only inside associated VPCs."
+        },
+        {
+          "id": "kc-route53-health-checks",
+          "statement": "Route 53 health checks monitor endpoints so that DNS stops returning an unhealthy endpoint and sends users to a healthy one."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide asks learners to understand the purpose of Route 53"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-elastic-load-balancing"
+      ],
+      "confusable_with": [
+        "clf-cloudfront"
+      ],
+      "introduces": [
+        "route 53",
+        "dns",
+        "hosted zone",
+        "dns record"
+      ],
+      "uses": [
+        "vpc",
+        "health check"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "route53/route53"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "route53/hosted-zones"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "route53/health-checks"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-5-identify-aws-network-/understanding-the-purpose-of-amazon-rout"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "networking-and-content-delivery/amazon-route-53"
+        }
+      ],
+      "problem_ideas": [
+        "A startup wants to buy example-shop.com and point it at a load balancer, all in AWS: which service?",
+        "Internal service names must resolve only inside the company VPC: public or private hosted zone?",
+        "Trace a browser request for www.example.com from DNS lookup to the server",
+        "A Region's endpoint goes down at 02:00; how can DNS keep users on a healthy endpoint?",
+        "Which service answers 'what IP is api.example.com?' vs 'cache images close to users'?",
+        "Why is Route 53 named after port 53? Match the port to the protocol"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Alias records: pointing a domain apex at AWS resources"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Route 53's purpose is an explicit exam-guide item."
+      }
+    },
+    {
+      "id": "clf-route53-routing-policies",
+      "title": "Route 53 routing policies",
+      "size": "big",
+      "est_min": 14,
+      "section": "dns-edge",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-r53-simple-weighted",
+          "statement": "Simple routing returns one record for a name, while weighted routing splits traffic between records by assigned weights, for example 90/10 to test a new version."
+        },
+        {
+          "id": "kc-r53-latency-routing",
+          "statement": "Latency-based routing sends each user to the AWS Region that gives that user the lowest network latency."
+        },
+        {
+          "id": "kc-r53-failover-routing",
+          "statement": "Failover routing sends traffic to a primary resource while its health check passes and to a secondary resource when it fails, supporting active-passive disaster recovery."
+        },
+        {
+          "id": "kc-r53-geolocation-routing",
+          "statement": "Geolocation routing picks the record by the user's country or continent, for localized content or legal restrictions, regardless of which Region would be fastest."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "clf-route53",
+          "reason": "Routing policies are behaviours of Route 53 records and health checks"
+        }
+      ],
+      "suggests": [
+        "clf-multi-az-multi-region"
+      ],
+      "confusable_with": [
+        "clf-global-accelerator"
+      ],
+      "introduces": [
+        "routing policy",
+        "weighted routing",
+        "latency-based routing",
+        "failover routing",
+        "geolocation routing"
+      ],
+      "uses": [
+        "route 53",
+        "dns record",
+        "health check",
+        "region",
+        "disaster recovery",
+        "data residency"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "route53/routing-policies"
+        }
+      ],
+      "problem_ideas": [
+        "Send 5% of users to a new app version for a week: which policy and what weights?",
+        "Users in Germany must be served only from the Frankfurt deployment: latency or geolocation?",
+        "A Tokyo user is sent to Singapore rather than Tokyo under latency routing; is that a bug?",
+        "Design active-passive DR between us-east-1 and us-west-2 with DNS",
+        "Weights 3 and 1 on two records: what share of DNS answers does each get?",
+        "Match five business needs to simple, weighted, latency, failover or geolocation"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Geoproximity and multivalue answer policies"
+        },
+        {
+          "kind": "edge",
+          "title": "DNS caching (TTL) delays failover"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "Lightly tested; useful for scenario questions on DR and global users."
+      }
+    },
+    {
+      "id": "clf-cloudfront",
+      "title": "Amazon CloudFront: caching content at the edge",
+      "size": "standard",
+      "est_min": 10,
+      "section": "dns-edge",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cloudfront-cdn-edge",
+          "statement": "Amazon CloudFront is a content delivery network that caches copies of content at edge locations, so users get lower latency than fetching from the origin Region."
+        },
+        {
+          "id": "kc-cloudfront-origin-ttl",
+          "statement": "A CloudFront distribution fetches content from an origin such as an S3 bucket, a load balancer or an EC2 instance, and serves cached copies until they expire or are invalidated."
+        },
+        {
+          "id": "kc-cloudfront-protects-origin",
+          "statement": "CloudFront reduces load on the origin because cached requests never reach it, and AWS Shield Standard DDoS protection applies to CloudFront at no extra cost."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "Edge locations are used through CloudFront; choosing them for a latency requirement means choosing CloudFront"
+        },
+        {
+          "outcome": "o4",
+          "reason": "CloudFront is the exam's standard answer for global low-latency content delivery"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-edge-locations",
+          "reason": "CloudFront caching is defined in terms of edge locations"
+        }
+      ],
+      "suggests": [
+        "clf-s3-basics"
+      ],
+      "confusable_with": [
+        "clf-global-accelerator",
+        "clf-route53"
+      ],
+      "introduces": [
+        "cloudfront",
+        "content delivery network",
+        "origin",
+        "cache invalidation"
+      ],
+      "uses": [
+        "edge location",
+        "s3 bucket",
+        "elastic load balancing",
+        "ec2 instance",
+        "region"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "cloudfront/cloudfront"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "cloudfront/distributions"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "cloudfront/invalidations"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "cloudfront/policies"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "networking-and-content-delivery/amazon-cloudfront"
+        }
+      ],
+      "problem_ideas": [
+        "Product images in an S3 bucket in us-east-1 load slowly for users in Australia: what fixes it with least effort?",
+        "You updated logo.png but users still see the old one: explain and fix",
+        "Name three valid CloudFront origins",
+        "A flash sale will multiply page views 20×: how does CloudFront protect the origin servers?",
+        "Choose between copying the bucket to five Regions and putting CloudFront in front",
+        "Which service hosts the data and which delivers it: S3 or CloudFront?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Origin access control: keeping the S3 bucket private behind CloudFront"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Lambda@Edge and CloudFront Functions"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "CloudFront is among the most frequently tested services on CLF-C02."
+      }
+    },
+    {
+      "id": "clf-global-accelerator",
+      "title": "Global Accelerator vs CloudFront",
+      "size": "standard",
+      "est_min": 8,
+      "section": "dns-edge",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-global-accelerator-anycast",
+          "statement": "AWS Global Accelerator gives an application two static anycast IP addresses and carries user traffic from the nearest edge location over the AWS global network, improving latency and availability."
+        },
+        {
+          "id": "kc-ga-vs-cloudfront-choice",
+          "statement": "Global Accelerator does not cache content: choose CloudFront for cacheable web content and Global Accelerator for non-HTTP traffic such as UDP gaming or when clients need fixed IP addresses with fast regional failover."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Global Accelerator is a named exam service and the main distractor for CloudFront"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-cloudfront",
+          "reason": "The choice KC is stated as a contrast with CloudFront"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-cloudfront",
+        "clf-route53-routing-policies"
+      ],
+      "introduces": [
+        "global accelerator",
+        "anycast ip"
+      ],
+      "uses": [
+        "edge location",
+        "cloudfront",
+        "region"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "networking-and-content-delivery/aws-global-accelerator"
+        }
+      ],
+      "problem_ideas": [
+        "A multiplayer game uses UDP and players worldwide complain of lag: which service?",
+        "A partner firewall can whitelist only two fixed IPs for your global app: pick the service",
+        "A video site wants to cache its catalogue thumbnails worldwide: CloudFront or Global Accelerator?",
+        "Fill a table: caches content?, static IPs?, HTTP only?, uses edge locations?",
+        "An app in two Regions needs failover in seconds without DNS caching delays: choose",
+        "Spot the wrong claim: 'Global Accelerator stores copies of your files at edge locations'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How anycast routes one IP to the nearest edge"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Usually appears as a CloudFront look-alike; knowing the difference wins the point."
+      }
+    },
+    {
+      "id": "clf-relational-vs-nosql",
+      "title": "Relational vs NoSQL databases",
+      "size": "standard",
+      "est_min": 8,
+      "section": "databases",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-relational-db-tables-sql",
+          "statement": "A relational database stores data in tables with a fixed schema, links rows by keys and is queried with SQL, supporting joins and multi-row transactions."
+        },
+        {
+          "id": "kc-nosql-db-flexible-scale",
+          "statement": "NoSQL databases (key-value, document, graph, in-memory) use flexible schemas and scale horizontally, giving up complex joins in exchange for speed at very large scale."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Every database selection question starts by placing the requirement on the relational or NoSQL side"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-vertical-horizontal-scaling"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "relational database",
+        "nosql database",
+        "sql",
+        "database schema"
+      ],
+      "uses": [
+        "horizontal scaling"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-4-identify-aws-database/identifying-relational-databases-for-exa"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-4-identify-aws-database/identifying-nosql-databases-for-example-"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/relational-databases"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/nosql-databases"
+        }
+      ],
+      "problem_ideas": [
+        "An order system needs joins across customers, orders and products in one transaction: which family?",
+        "A shopping-cart service stores one JSON blob per user and serves millions of users: which family?",
+        "Sort cue phrases ('SQL', 'flexible schema', 'joins', 'key-value', 'single-digit ms at any scale') into two columns",
+        "A product catalogue where each item has different attributes: why does a fixed schema hurt?",
+        "Name the four NoSQL data models and give one example use each",
+        "True or false: NoSQL means the database cannot be queried at all"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "OLTP vs OLAP: where data warehouses fit"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "The first cut in every exam database question."
+      }
+    },
+    {
+      "id": "clf-managed-vs-self-managed-db",
+      "title": "Managed databases vs databases on EC2",
+      "size": "standard",
+      "est_min": 8,
+      "section": "databases",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-managed-db-aws-tasks",
+          "statement": "With a managed database such as RDS, AWS handles provisioning, OS and engine patching, automated backups and hardware failure, while the customer manages schemas, data, user access and network settings."
+        },
+        {
+          "id": "kc-ec2-hosted-db-when",
+          "statement": "Run a database on EC2 only when you need OS-level access, an engine or version the managed services do not offer, or full configuration control; you then own patching, backups and high availability."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "The o3 product sorts security tasks between AWS and the customer for RDS"
+        },
+        {
+          "outcome": "o4",
+          "reason": "The exam guide asks when to use EC2-hosted versus managed databases"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-shared-responsibility-by-service",
+          "reason": "The responsibility split for a managed database extends that topic's EC2 vs managed comparison"
+        }
+      ],
+      "suggests": [
+        "clf-tco-on-premises-costs"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "managed database",
+        "self-managed database"
+      ],
+      "uses": [
+        "managed service",
+        "shared responsibility model",
+        "ec2 instance",
+        "undifferentiated heavy lifting",
+        "relational database"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-4-identify-aws-database/deciding-when-to-use-ec2-hosted-database"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-4-identify-aws-database/aws-database-services"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/databases-shared-responsibility-on-aws"
+        }
+      ],
+      "problem_ideas": [
+        "Sort tasks for RDS: OS patching, creating database users, encrypting data, replacing failed disks, choosing the security group",
+        "A vendor app needs a custom plug-in installed on the database host OS: RDS or EC2?",
+        "A team of two developers has no DBA: which option reduces operations work?",
+        "Same tasks for a self-managed MySQL on EC2: who now patches the engine?",
+        "A legacy engine version is no longer offered by RDS: what are the options?",
+        "Estimate which costs disappear when moving from EC2-hosted to managed: licences, admin hours, backup scripts"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "RDS Custom: a middle ground with OS access"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Shared responsibility for databases is a staple exam question."
+      }
+    },
+    {
+      "id": "clf-rds",
+      "title": "Amazon RDS: Multi-AZ, read replicas and backups",
+      "size": "big",
+      "est_min": 14,
+      "section": "databases",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-rds-engines",
+          "statement": "Amazon RDS is a managed relational database service supporting the MySQL, PostgreSQL, MariaDB, Oracle, Microsoft SQL Server, Db2 and Aurora engines."
+        },
+        {
+          "id": "kc-rds-multi-az-standby",
+          "statement": "In an RDS Multi-AZ DB instance deployment, a synchronous standby in a second AZ takes over automatically on failure; its purpose is availability, not extra read capacity."
+        },
+        {
+          "id": "kc-rds-read-replicas",
+          "statement": "RDS read replicas are asynchronous copies, in the same or another Region, that serve read-only queries to scale read-heavy workloads."
+        },
+        {
+          "id": "kc-rds-backups-pitr",
+          "statement": "RDS automated backups allow point-in-time restore within a retention period of up to 35 days, while manual snapshots are kept until you delete them."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "RDS is the exam's default relational database answer and its HA options are frequently tested"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-managed-vs-self-managed-db",
+          "reason": "RDS is presented as the managed database whose responsibility split was just defined"
+        },
+        {
+          "topic": "clf-relational-vs-nosql",
+          "reason": "RDS engines are relational; the category must be known"
+        },
+        {
+          "topic": "clf-multi-az-multi-region",
+          "reason": "Multi-AZ standby builds on multi-AZ deployment"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-aurora"
+      ],
+      "introduces": [
+        "rds",
+        "read replica",
+        "point-in-time restore"
+      ],
+      "uses": [
+        "relational database",
+        "managed database",
+        "availability zone",
+        "multi-az deployment",
+        "region"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "database/amazon-rds"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/aws-rds-overview"
+        }
+      ],
+      "problem_ideas": [
+        "The database must survive an AZ outage with automatic failover: Multi-AZ or read replica?",
+        "Reporting queries slow down the production database: which feature offloads them?",
+        "A developer dropped a table at 14:05 on Tuesday: how do you restore to 14:04?",
+        "Which engines can RDS run? Spot the impostor in a list including MongoDB",
+        "Read replica in another Region: name one DR benefit and one read-latency benefit",
+        "Backups must be kept for one year: are automated backups enough?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Synchronous vs asynchronous replication"
+        },
+        {
+          "kind": "edge",
+          "title": "Multi-AZ DB clusters with readable standbys"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "RDS and Multi-AZ vs read replicas are among the most tested database facts."
+      }
+    },
+    {
+      "id": "clf-aurora",
+      "title": "Amazon Aurora: AWS-built relational engine",
+      "size": "standard",
+      "est_min": 8,
+      "section": "databases",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-aurora-compatible-fast",
+          "statement": "Amazon Aurora is an AWS-built relational engine, compatible with MySQL and PostgreSQL and managed through RDS, that AWS rates at up to 5× MySQL and 3× PostgreSQL throughput."
+        },
+        {
+          "id": "kc-aurora-storage-serverless",
+          "statement": "Aurora keeps six copies of data across three AZs with storage that grows automatically, and Aurora Serverless scales capacity automatically for variable or unpredictable workloads."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Aurora is the exam answer for high-performance, highly available MySQL/PostgreSQL"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-rds",
+          "reason": "Aurora is defined as an RDS engine and compared with standard RDS"
+        }
+      ],
+      "suggests": [
+        "clf-lambda"
+      ],
+      "confusable_with": [
+        "clf-rds"
+      ],
+      "introduces": [
+        "aurora",
+        "aurora serverless"
+      ],
+      "uses": [
+        "rds",
+        "availability zone",
+        "serverless",
+        "relational database"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "database/amazon-aurora"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/amazon-aurora"
+        }
+      ],
+      "problem_ideas": [
+        "A PostgreSQL app needs more throughput and higher availability with no code changes: choose",
+        "A dev database is idle nights and weekends: which Aurora option cuts cost?",
+        "How many copies of data does Aurora keep, across how many AZs?",
+        "Aurora or DynamoDB for a MySQL-based e-commerce app?",
+        "Spot the wrong claim: 'Aurora is a NoSQL engine'",
+        "Aurora vs RDS for MySQL: list two reasons to pay Aurora's higher price"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Separating storage from compute in Aurora"
+        },
+        {
+          "kind": "edge",
+          "title": "Aurora Global Database for cross-Region reads"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Aurora appears often as the high-performance relational choice."
+      }
+    },
+    {
+      "id": "clf-dynamodb",
+      "title": "Amazon DynamoDB: serverless NoSQL at any scale",
+      "size": "big",
+      "est_min": 14,
+      "section": "databases",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-dynamodb-serverless-nosql",
+          "statement": "Amazon DynamoDB is a fully managed, serverless NoSQL key-value and document database delivering single-digit-millisecond performance at any scale."
+        },
+        {
+          "id": "kc-dynamodb-items-keys",
+          "statement": "DynamoDB stores items made of attributes in tables; each item is identified by a primary key (a partition key, optionally with a sort key), and items in one table may have different attributes."
+        },
+        {
+          "id": "kc-dynamodb-capacity-modes",
+          "statement": "DynamoDB on-demand capacity charges per request and suits unpredictable traffic, while provisioned capacity sets read and write capacity in advance and suits steady, predictable traffic."
+        },
+        {
+          "id": "kc-dynamodb-dax-global-tables",
+          "statement": "DynamoDB Accelerator (DAX) is an in-memory cache that cuts DynamoDB reads to microseconds, and global tables replicate a table across Regions with writes accepted in every Region."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "DynamoDB is the exam's default NoSQL answer and appears in many scenarios"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-relational-vs-nosql",
+          "reason": "DynamoDB is placed in the NoSQL family defined there"
+        }
+      ],
+      "suggests": [
+        "clf-lambda"
+      ],
+      "confusable_with": [
+        "clf-elasticache",
+        "clf-documentdb-neptune"
+      ],
+      "introduces": [
+        "dynamodb",
+        "partition key",
+        "dynamodb accelerator",
+        "global tables"
+      ],
+      "uses": [
+        "nosql database",
+        "serverless",
+        "region",
+        "database schema"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "dynamodb/dynamodb"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "dynamodb/tables-items-attributes"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "dynamodb/primary-keys-secondary-indexes"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "dynamodb/capacity-settings"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "database/amazon-dynamodb"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/dynamodb"
+        }
+      ],
+      "problem_ideas": [
+        "A mobile game stores player profiles for 50 million users with millisecond reads: choose the database",
+        "A new app's traffic is unknown and spiky: on-demand or provisioned capacity?",
+        "Reads from DynamoDB must drop from 5 ms to microseconds with no app redesign: name the feature",
+        "Users in Europe and Asia must both write with low latency: which DynamoDB feature?",
+        "Identify the partition key in a table of orders keyed by customer_id and order_date",
+        "True or false: you choose and patch EC2 instances for DynamoDB"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Why a hot partition key throttles a table"
+        },
+        {
+          "kind": "implementation",
+          "title": "DynamoDB Streams and event-driven Lambda triggers"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "DynamoDB is heavily tested, often with DAX and global tables as the twist."
+      }
+    },
+    {
+      "id": "clf-elasticache",
+      "title": "Amazon ElastiCache: in-memory caching",
+      "size": "standard",
+      "est_min": 10,
+      "section": "databases",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-elasticache-in-memory",
+          "statement": "Amazon ElastiCache is a managed in-memory data store compatible with Redis OSS, Valkey and Memcached, giving sub-millisecond reads and offloading repeated queries from a database."
+        },
+        {
+          "id": "kc-elasticache-use-cases",
+          "statement": "Typical ElastiCache uses are caching frequent database query results and storing user session data; adding a cache usually requires application code changes."
+        },
+        {
+          "id": "kc-elasticache-vs-dax",
+          "statement": "DAX caches only DynamoDB tables, so a cache in front of RDS, Aurora or another data source calls for ElastiCache rather than DAX."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The exam guide names ElastiCache as the memory-based database to identify"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-relational-vs-nosql",
+          "reason": "ElastiCache is placed as the in-memory member of the NoSQL family"
+        },
+        {
+          "topic": "clf-dynamodb",
+          "reason": "The ElastiCache vs DAX KC cannot be checked without knowing DAX, which is taught with DynamoDB"
+        }
+      ],
+      "suggests": [
+        "clf-rds"
+      ],
+      "confusable_with": [
+        "clf-dynamodb"
+      ],
+      "introduces": [
+        "elasticache",
+        "in-memory cache",
+        "session store"
+      ],
+      "uses": [
+        "rds",
+        "managed database",
+        "nosql database",
+        "dynamodb",
+        "dynamodb accelerator"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "elasticache/elasticache"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-4-identify-aws-database/identifying-memory-based-databases-for-e"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "database/amazon-elasticache"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/amazon-elasticache-overview"
+        }
+      ],
+      "problem_ideas": [
+        "The same leaderboard query hits RDS 10,000 times a minute: which service cuts the load?",
+        "Session data is lost when an Auto Scaling group removes an instance: where should sessions live?",
+        "DAX or ElastiCache: the database is RDS for PostgreSQL",
+        "Name the engines ElastiCache is compatible with",
+        "Spot the misconception: 'adding ElastiCache needs no application changes'",
+        "Rank RDS, DynamoDB and ElastiCache by typical read latency"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Cache-aside: read from cache, fall back to database"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "ElastiCache is the exam's in-memory answer and a common distractor."
+      }
+    },
+    {
+      "id": "clf-documentdb-neptune",
+      "title": "DocumentDB and Neptune: document and graph data",
+      "size": "standard",
+      "est_min": 8,
+      "section": "databases",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-documentdb-mongodb",
+          "statement": "Amazon DocumentDB is a managed document database with MongoDB compatibility, chosen to run MongoDB-style JSON document workloads as a managed service."
+        },
+        {
+          "id": "kc-neptune-graph",
+          "statement": "Amazon Neptune is a managed graph database for highly connected data such as social networks, recommendation engines and fraud-detection relationships."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Both are named database services in the exam guide and appear as cue-word questions"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-relational-vs-nosql",
+          "reason": "Both are defined as NoSQL data models introduced there"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-dynamodb"
+      ],
+      "introduces": [
+        "documentdb",
+        "neptune",
+        "document database",
+        "graph database"
+      ],
+      "uses": [
+        "nosql database",
+        "managed database"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "database/amazon-documentdb"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "database/amazon-neptune"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/documentdb"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/amazon-neptune"
+        }
+      ],
+      "problem_ideas": [
+        "A company runs MongoDB on-premises and wants a managed AWS equivalent: choose",
+        "A fraud team needs to query 'accounts linked by shared devices within 3 hops': which database?",
+        "A social app shows 'friends of friends who like this': choose",
+        "Match cue words (MongoDB, graph, relationships, JSON documents) to services",
+        "DynamoDB also stores documents: when is DocumentDB still the better answer?",
+        "Spot the distractor: Neptune offered for a simple key-value cache"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Amazon Keyspaces for Apache Cassandra workloads"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Quick wins on cue-word questions; rarely tested in depth."
+      }
+    },
+    {
+      "id": "clf-choosing-database",
+      "title": "Choosing a database service for a requirement",
+      "size": "standard",
+      "est_min": 8,
+      "section": "databases",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-db-service-cue-map",
+          "statement": "Map requirement cues to services: SQL with joins → RDS; MySQL/PostgreSQL needing top performance and availability → Aurora; key-value at massive scale → DynamoDB; sub-millisecond caching → ElastiCache; MongoDB → DocumentDB; relationship graphs → Neptune."
+        },
+        {
+          "id": "kc-db-ha-scale-choice",
+          "statement": "For database availability choose RDS Multi-AZ, for read-heavy scaling choose read replicas or a cache, and for low-latency writes in several Regions choose DynamoDB global tables."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The o4 product is naming the right database and ruling out the nearest distractor"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-aurora",
+          "reason": "Aurora's characteristics are needed to reject the closest relational distractor; its prerequisite clf-rds supplies Multi-AZ and read replicas"
+        },
+        {
+          "topic": "clf-elasticache",
+          "reason": "ElastiCache's role, and its contrast with DAX, is needed to pick a cache; its prerequisite clf-dynamodb supplies DynamoDB and global tables"
+        },
+        {
+          "topic": "clf-documentdb-neptune",
+          "reason": "Uses DocumentDB and Neptune cue words"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "database selection"
+      ],
+      "uses": [
+        "rds",
+        "aurora",
+        "dynamodb",
+        "elasticache",
+        "documentdb",
+        "neptune",
+        "read replica",
+        "global tables"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-4-identify-aws-database/aws-database-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "database/database"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/databases-intro"
+        }
+      ],
+      "problem_ideas": [
+        "Ten one-paragraph scenarios: name the database and the closest distractor you ruled out",
+        "A ticketing site needs ACID transactions and SQL reporting: choose and justify in one sentence",
+        "An IoT app writes 1 million small records per second keyed by device: choose",
+        "A news site's homepage query repeats constantly: cache or bigger instance?",
+        "A global chat app needs writes in three Regions: choose the feature",
+        "Mixed cue scenario: 'MongoDB API' plus 'relationships': which cue decides?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Purpose-built databases: why AWS has many engines"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Database selection questions are a big share of the technology domain."
+      }
+    }
+  ],
+  "groups": {}
+}

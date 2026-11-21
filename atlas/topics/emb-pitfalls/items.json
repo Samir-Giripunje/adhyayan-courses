@@ -1,0 +1,94 @@
+[
+  {
+    "id": "q-dpp-a9",
+    "version": 1,
+    "family": "q-dpp-a9",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-pitfalls",
+    "kcs": [
+      "kc-production-pitfalls"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "HNSW top-10 search with a post-filter matching **5%** of rows typically returns:",
+    "options": [
+      {
+        "id": "a",
+        "md": "Fewer than 10 results, often 0–2",
+        "correct": true,
+        "why_md": "Right. Most candidates get filtered out."
+      },
+      {
+        "id": "b",
+        "md": "Exactly 10 results",
+        "why_md": "Post-filtering removes results after the search.",
+        "misconception": "mc-filter-after-is-fine"
+      },
+      {
+        "id": "c",
+        "md": "An error",
+        "why_md": "It succeeds, with too few results."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Model migrations need full re-embedding, and stored vectors go stale.",
+      "If the ANN search examines about 40 candidates (ef_search = 40) and 5% pass, you expect about 2."
+    ],
+    "solution_md": "If the ANN search examines about 40 candidates (ef_search = 40) and 5% pass, you expect about 2.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-a10",
+    "version": 1,
+    "family": "q-dpp-a10",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-pitfalls",
+    "kcs": [
+      "kc-production-pitfalls"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "After a model upgrade, “similarity > 0.82” suddenly flags 60% of pairs as duplicates. The **first** thing to do:",
+    "options": [
+      {
+        "id": "a",
+        "md": "Re-calibrate the threshold on labelled pairs for the new model",
+        "correct": true,
+        "why_md": "Right. Thresholds are model-specific."
+      },
+      {
+        "id": "b",
+        "md": "Roll back. The new model is broken",
+        "why_md": "Not necessarily. Its score distribution is simply different.",
+        "misconception": "mc-threshold-universal"
+      },
+      {
+        "id": "c",
+        "md": "Switch from cosine to dot product",
+        "why_md": "With normalized vectors that changes nothing."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Model migrations need full re-embedding, and stored vectors go stale.",
+      "Plot score histograms for related vs unrelated pairs, then pick a threshold that meets your precision target."
+    ],
+    "solution_md": "Plot score histograms for related vs unrelated pairs, then pick a threshold that meets your precision target.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

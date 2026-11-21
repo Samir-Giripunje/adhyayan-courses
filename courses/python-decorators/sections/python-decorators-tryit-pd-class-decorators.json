@@ -1,0 +1,31 @@
+{
+  "schema": "adhy.section/1",
+  "id": "python-decorators-tryit-pd-class-decorators",
+  "course": "python-decorators",
+  "kind": "try-it",
+  "title": "Try it: write the code",
+  "blurb": "Uses Tagging functions with attributes, Memoization with functools.lru_cache and Class decorators: @dec above class: write a small program and run its tests.",
+  "after": "topic:pd-class-decorators",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "code",
+    "topics": [
+      "pd-attribute-tagging",
+      "pd-lru-cache",
+      "pd-class-decorators"
+    ],
+    "kcs": [
+      "kc-tagging-sets-attribute",
+      "kc-tagging-lost-without-wraps",
+      "kc-lru-cache-memoizes",
+      "kc-lru-cache-hashable",
+      "kc-lru-cache-info",
+      "kc-class-decorator-desugar",
+      "kc-class-decorator-modify"
+    ],
+    "minutes": 11,
+    "why": "Uses Tagging functions with attributes, Memoization with functools.lru_cache and Class decorators: @dec above class: write a small program and run its tests."
+  }
+}

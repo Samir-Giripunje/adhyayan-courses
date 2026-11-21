@@ -1,0 +1,54 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-decorator-history",
+  "version": 1,
+  "title": "Why @? The history of decorator syntax",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-at-chosen-history",
+      "version": 1,
+      "statement": "PEP 318 (Python 2.4) introduced @ decorators placed on the line before def, replacing the older pattern of writing f = staticmethod(f) after the function body."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "pd-decorator-syntax"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "pep 318"
+  ],
+  "uses": [
+    "decorator syntax"
+  ],
+  "problem_ideas": [
+    "Rewrite a pre-2.4 class with f = classmethod(f) using @",
+    "List the readability problem with applying transforms after a long function body",
+    "Compare the rejected 'def f() [dec]:' form with @dec",
+    "Identify which Python version first allowed class decorators",
+    "Explain why @ was acceptable even though it was later used for matrix multiply",
+    "Match three rejected syntax proposals to their objections"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "syntax-alternatives/syntax-alternatives"
+    },
+    {
+      "source": "pep-318",
+      "entry": "syntax-alternatives/decorator-location"
+    },
+    {
+      "source": "pep-318",
+      "entry": "syntax-alternatives/syntax-forms"
+    },
+    {
+      "source": "pep-318",
+      "entry": "syntax-alternatives/why"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,76 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-redshift-emr",
+  "version": 1,
+  "title": "Redshift and EMR: warehousing and big data",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-redshift-warehouse",
+      "version": 1,
+      "statement": "Amazon Redshift is a petabyte-scale, columnar data warehouse for fast SQL analytics on large volumes of structured data."
+    },
+    {
+      "id": "kc-emr-big-data",
+      "version": 1,
+      "statement": "Amazon EMR runs managed big data frameworks such as Apache Spark, Hadoop and Hive on clusters of EC2 instances (or serverless) to process very large datasets."
+    },
+    {
+      "id": "kc-oltp-vs-olap",
+      "version": 1,
+      "statement": "RDS and Aurora serve transactional (OLTP) workloads with many small reads and writes; Redshift serves analytical (OLAP) queries that aggregate large historical datasets."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-athena-glue",
+    "clf-rds"
+  ],
+  "confusable_with": [
+    "clf-athena-glue",
+    "clf-rds"
+  ],
+  "introduces": [
+    "redshift",
+    "data warehouse",
+    "emr",
+    "oltp",
+    "olap"
+  ],
+  "uses": [
+    "sql",
+    "rds",
+    "aurora",
+    "ec2 instance",
+    "data lake"
+  ],
+  "problem_ideas": [
+    "A retailer wants daily sales reports over 5 years of transactions from many systems: RDS or Redshift?",
+    "A data science team already has Spark jobs on-prem and wants a managed cluster: which service?",
+    "Classify ten queries as OLTP or OLAP.",
+    "Spot the distractor: 'Use Redshift as the database behind a shopping cart.'",
+    "A genomics lab processes 500 TB with Hadoop once a week: EMR or Athena, and why?",
+    "Explain in one sentence why a columnar store speeds 'sum of revenue by month'."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "analytics/amazon-redshift"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "analytics/amazon-emr"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/redshift-overview"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/amazon-emr"
+    }
+  ],
+  "status": "stub"
+}

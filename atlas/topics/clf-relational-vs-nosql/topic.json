@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-relational-vs-nosql",
+  "version": 1,
+  "title": "Relational vs NoSQL databases",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-relational-db-tables-sql",
+      "version": 1,
+      "statement": "A relational database stores data in tables with a fixed schema, links rows by keys and is queried with SQL, supporting joins and multi-row transactions."
+    },
+    {
+      "id": "kc-nosql-db-flexible-scale",
+      "version": 1,
+      "statement": "NoSQL databases (key-value, document, graph, in-memory) use flexible schemas and scale horizontally, giving up complex joins in exchange for speed at very large scale."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-vertical-horizontal-scaling"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "relational database",
+    "nosql database",
+    "sql",
+    "database schema"
+  ],
+  "uses": [
+    "horizontal scaling"
+  ],
+  "problem_ideas": [
+    "An order system needs joins across customers, orders and products in one transaction: which family?",
+    "A shopping-cart service stores one JSON blob per user and serves millions of users: which family?",
+    "Sort cue phrases ('SQL', 'flexible schema', 'joins', 'key-value', 'single-digit ms at any scale') into two columns",
+    "A product catalogue where each item has different attributes: why does a fixed schema hurt?",
+    "Name the four NoSQL data models and give one example use each",
+    "True or false: NoSQL means the database cannot be queried at all"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-4-identify-aws-database/identifying-relational-databases-for-exa"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-4-identify-aws-database/identifying-nosql-databases-for-example-"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/relational-databases"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/nosql-databases"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u16-messaging",
+  "title": "Queues, workers and pub/sub",
+  "topics": [
+    {
+      "id": "sd-sync-vs-async",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-message-queues",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-task-queues-background-jobs",
+      "tier": "recommended",
+      "order": 3
+    },
+    {
+      "id": "sd-back-pressure",
+      "tier": "recommended",
+      "order": 4
+    },
+    {
+      "id": "sd-pub-sub",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "sd-event-streaming",
+      "tier": "optional",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

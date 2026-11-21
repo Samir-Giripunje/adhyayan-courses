@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u28-end-user-apps",
+  "title": "Business, end-user, frontend and IoT services",
+  "topics": [
+    {
+      "id": "clf-amazon-connect",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-workspaces-appstream",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-amplify-iot",
+      "tier": "must",
+      "order": 3
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

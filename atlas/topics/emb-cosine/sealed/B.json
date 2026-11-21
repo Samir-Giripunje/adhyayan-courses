@@ -1,0 +1,276 @@
+[
+  {
+    "id": "emb-cosine/test-b1",
+    "version": 1,
+    "family": "cos-compute-3d-b",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "prompt_md": "Cosine similarity of `[2, 3, 6]` and `[3, 0, 4]`? (3 decimals)",
+    "answer": {
+      "value": 0.857,
+      "tolerance": 0.005
+    },
+    "common_wrong": [
+      {
+        "value": 30,
+        "kind": "slip",
+        "why_md": "30 is the dot product. Divide by 7 × 5 = 35."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na, b = [2, 3, 6], [3, 0, 4]\ndot = sum(x * y for x, y in zip(a, b))\nanswer = round(dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))), 3)\n"
+    },
+    "hints": [
+      "Dot product over the product of the two lengths.",
+      "Dot $= 6 + 0 + 24 = 30$. Lengths $\\sqrt{49}$ and $\\sqrt{25}$."
+    ],
+    "solution_md": "Dot $= 2\\cdot3 + 3\\cdot0 + 6\\cdot4 = 6 + 0 + 24 = 30$. Lengths: $\\sqrt{4 + 9 + 36} = 7$ and $\\sqrt{9 + 0 + 16} = 5$. Cosine $= 30/35 \\approx 0.857$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/test-b2",
+    "version": 1,
+    "family": "cos-angle-orthogonal",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-range"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "prompt_md": "What is the angle, in degrees, between `[3, 4]` and `[-8, 6]`?",
+    "answer": {
+      "value": 90,
+      "tolerance": 0.5,
+      "unit": "degrees"
+    },
+    "common_wrong": [
+      {
+        "value": 0,
+        "kind": "slip",
+        "why_md": "0 is the cosine. The question asks for the angle, and cosine 0 corresponds to 90°."
+      },
+      {
+        "value": 180,
+        "kind": "misconception",
+        "why_md": "180° would need cosine −1. A cosine of 0 is the middle of the scale: 90°.",
+        "tag": "mc-cosine-zero-opposite"
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na, b = [3, 4], [-8, 6]\ndot = sum(x * y for x, y in zip(a, b))\nc = dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))\nanswer = round(math.degrees(math.acos(c)), 1)\n"
+    },
+    "hints": [
+      "Find the cosine first; then recall which angle has that cosine.",
+      "Dot $= -24 + 24 = 0$. Which angle has cosine 0?"
+    ],
+    "solution_md": "Dot $= 3\\cdot(-8) + 4\\cdot6 = -24 + 24 = 0$, so the cosine is $0/(5\\cdot10) = 0$. A cosine of 0 means the vectors are orthogonal: the angle is $90°$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/test-b3",
+    "version": 1,
+    "family": "cos-scale-output",
+    "kind": "predict_output",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-length-invariant"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "prompt_md": "What does this code print?",
+    "code": "import math\n\ndef cos(a, b):\n    dot = sum(x * y for x, y in zip(a, b))\n    return dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))\n\nq = [1, 2, 0]\ndoc = [2, 1, 2]\nflipped = [-3 * x for x in doc]\nprint(round(cos(q, flipped), 3))\n",
+    "answer": {
+      "value": -0.596,
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import io, contextlib\nsrc = 'import math\\n\\ndef cos(a, b):\\n    dot = sum(x * y for x, y in zip(a, b))\\n    return dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))\\n\\nq = [1, 2, 0]\\ndoc = [2, 1, 2]\\nflipped = [-3 * x for x in doc]\\nprint(round(cos(q, flipped), 3))\\n'\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    exec(src, {})\nanswer = buf.getvalue().strip()\n"
+    },
+    "hints": [
+      "`flipped` is `doc` scaled by −3. What does a negative scale do to cosine?",
+      "Find $\\cos(q, doc)$ first: dot $= 2 + 2 + 0 = 4$, lengths $\\sqrt5$ and $3$. Then apply the sign flip."
+    ],
+    "solution_md": "$\\cos(q, doc) = \\dfrac{2 + 2 + 0}{\\sqrt5\\cdot3} = \\dfrac{4}{6.708} \\approx 0.596$. Scaling `doc` by $-3$: the 3 cancels and the minus sign flips the cosine, so it prints `-0.596`.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/test-b4",
+    "version": 1,
+    "family": "cos-hand-3d-neg-b",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-by-hand"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "prompt_md": "Compute the cosine similarity of `[1, 2, -2]` and `[4, 0, 3]` by hand (3 decimals).",
+    "answer": {
+      "value": -0.133,
+      "tolerance": 0.005
+    },
+    "common_wrong": [
+      {
+        "value": 0.133,
+        "kind": "slip",
+        "why_md": "Check the sign: $(-2)\\cdot3 = -6$, so the dot product is $4 - 6 = -2$."
+      },
+      {
+        "value": 0.667,
+        "kind": "slip",
+        "why_md": "That treats the third product as +6: dot 10 over 15. $(-2)\\cdot3 = -6$."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na, b = [1, 2, -2], [4, 0, 3]\ndot = sum(x * y for x, y in zip(a, b))\nanswer = round(dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))), 3)\n"
+    },
+    "hints": [
+      "Table it: products, squares, sums; then divide.",
+      "Dot $= 4 + 0 - 6 = -2$. Lengths $3$ and $5$."
+    ],
+    "solution_md": "Products: $1\\cdot4 = 4$, $2\\cdot0 = 0$, $(-2)\\cdot3 = -6$, so $a\\cdot b = -2$. Lengths: $\\sqrt{1 + 4 + 4} = 3$ and $\\sqrt{16 + 0 + 9} = 5$. Cosine $= -2/15 \\approx -0.133$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/test-b5",
+    "version": 1,
+    "family": "cos-formula-solve-dot",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "prompt_md": "`cos(a, b) = 0.75`, `‖a‖ = 2` and `‖b‖ = 6`. What is `a · b`?",
+    "answer": {
+      "value": 9,
+      "tolerance": 0.01
+    },
+    "common_wrong": [
+      {
+        "value": 0.0625,
+        "kind": "slip",
+        "why_md": "That divides 0.75 by 12. Multiply instead: a · b = cos × ‖a‖ × ‖b‖."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "c, norm_a, norm_b = 0.75, 2, 6\nanswer = c * norm_a * norm_b\n"
+    },
+    "hints": [
+      "Write the cosine formula and solve it for the dot product.",
+      "$a\\cdot b = \\cos\\cdot\\|a\\|\\,\\|b\\|$."
+    ],
+    "solution_md": "$\\cos = \\dfrac{a\\cdot b}{\\|a\\|\\,\\|b\\|}$, so $a\\cdot b = 0.75\\cdot2\\cdot6 = 9$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/lab-b",
+    "version": 1,
+    "family": "cos-lab-unit-vectors",
+    "kind": "code",
+    "class": "code",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-length-invariant",
+      "kc-dot-cosine"
+    ],
+    "use": "lab-check",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 900,
+    "prompt_md": "Write two functions in plain Python (no numpy):\n\n- `normalize(v)`: return a **new** list pointing the same way as `v` with magnitude 1 (divide every number by the magnitude). Raise `ValueError` for a zero vector.\n- `cosine_via_unit(a, b)`: return the cosine similarity of `a` and `b` by normalizing both and taking the dot product of the results. Raise `ValueError` if the lists have different lengths.",
+    "code": "import math\n\n\ndef normalize(v):\n    pass\n\n\ndef cosine_via_unit(a, b):\n    pass\n",
+    "tests": {
+      "visible": [
+        {
+          "id": "t1",
+          "name": "normalize([3, 4]) is [0.6, 0.8]",
+          "code": "out = normalize([3, 4])\nassert len(out) == 2 and abs(out[0] - 0.6) < 1e-9 and abs(out[1] - 0.8) < 1e-9, f'got {out}'",
+          "fail_md": "`[3, 4]` has length 5, so divide each number by 5."
+        },
+        {
+          "id": "t2",
+          "name": "normalize refuses a zero vector",
+          "code": "try:\n    normalize([0, 0])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('expected ValueError for a zero vector')",
+          "fail_md": "`[0, 0]` has length 0: there's no direction to keep. Raise `ValueError` before dividing."
+        },
+        {
+          "id": "t3",
+          "name": "cosine_via_unit([1, 2], [2, 1]) is 0.8",
+          "code": "assert abs(cosine_via_unit([1, 2], [2, 1]) - 0.8) < 1e-9",
+          "fail_md": "Normalize both vectors, then take the dot product of the results: 4/5 = 0.8."
+        }
+      ],
+      "held_out_ref": "held-out.json#emb-cosine/lab-b"
+    },
+    "hints": [
+      "Scaling by a positive number never changes cosine, so shrink both vectors to length 1 first; then the cosine is just their dot product.",
+      "`length = math.sqrt(sum(x * x for x in v))`; raise if it is 0; return `[x / length for x in v]`. Then `cosine_via_unit` is `sum(x * y for x, y in zip(normalize(a), normalize(b)))` after a length check."
+    ],
+    "solution_md": "Dividing by the magnitude is scaling by a positive number, so it keeps the direction and every cosine. Two unit vectors have $\\|a\\|\\,\\|b\\| = 1$, so their cosine is their dot product.\n\n```python\nimport math\n\n\ndef normalize(v):\n    length = math.sqrt(sum(x * x for x in v))\n    if length == 0:\n        raise ValueError(\"cannot normalize a zero vector\")\n    return [x / length for x in v]\n\n\ndef cosine_via_unit(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"vectors must have the same length\")\n    unit_a, unit_b = normalize(a), normalize(b)\n    return sum(x * y for x, y in zip(unit_a, unit_b))\n```",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  }
+]

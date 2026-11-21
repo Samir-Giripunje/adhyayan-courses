@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-amis-user-data",
+  "version": 1,
+  "title": "AMIs, launch templates and user data",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-ami-template",
+      "version": 1,
+      "statement": "An AMI is a template containing the operating system and preinstalled software used to launch EC2 instances. AMIs belong to one Region and must be copied to another Region to launch the same image there."
+    },
+    {
+      "id": "kc-user-data-bootstrap",
+      "version": 1,
+      "statement": "EC2 user data is a script that runs once, as root, at an instance's first boot to install or configure software. A launch template bundles the AMI, instance type and user data so identical instances can be launched repeatedly."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-ec2-basics"
+  ],
+  "suggests": [
+    "clf-regions"
+  ],
+  "confusable_with": [
+    "clf-ec2-instance-types"
+  ],
+  "introduces": [
+    "ami",
+    "user data",
+    "launch template"
+  ],
+  "uses": [
+    "ec2 instance",
+    "region",
+    "instance type"
+  ],
+  "problem_ideas": [
+    "A team's custom AMI works in us-east-1 but cannot be found in eu-west-1: what step is missing?",
+    "New web servers take 12 minutes to install packages at boot: compare baking a golden AMI with user data and pick one for faster scale-out.",
+    "A user data script was edited after launch, but nothing changed on reboot: explain why.",
+    "List the three things a launch template captures that an Auto Scaling group will need.",
+    "A security team wants every instance hardened the same way before any app is installed: AMI or user data?",
+    "Decide which of these an AMI contains: OS, installed packages, instance type, the instance's Availability Zone."
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "auto-scaling/amis"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "ec2/user-data-scripts"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "auto-scaling/launch-templates"
+    }
+  ],
+  "status": "stub"
+}

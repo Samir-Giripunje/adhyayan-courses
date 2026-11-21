@@ -1,0 +1,72 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-cloudwatch-metrics-logs",
+  "version": 1,
+  "title": "Amazon CloudWatch: metrics, logs and dashboards",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-cloudwatch-metrics",
+      "version": 1,
+      "statement": "Amazon CloudWatch collects metrics from AWS services, such as EC2 CPU utilization, and shows them on dashboards for near real-time performance monitoring."
+    },
+    {
+      "id": "kc-cloudwatch-detailed-monitoring",
+      "version": 1,
+      "statement": "EC2 sends metrics to CloudWatch every 5 minutes by default (basic monitoring); detailed monitoring sends them every 1 minute for an extra charge, and in-guest metrics such as memory use need the CloudWatch agent."
+    },
+    {
+      "id": "kc-cloudwatch-logs",
+      "version": 1,
+      "statement": "CloudWatch Logs collects, stores and lets you search log data from applications, EC2 instances (through the CloudWatch agent), Lambda functions and other AWS services."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-ec2-basics"
+  ],
+  "confusable_with": [
+    "clf-cloudtrail",
+    "clf-aws-config"
+  ],
+  "introduces": [
+    "cloudwatch",
+    "cloudwatch metrics",
+    "cloudwatch logs",
+    "cloudwatch dashboard",
+    "cloudwatch agent"
+  ],
+  "uses": [
+    "ec2 instance",
+    "lambda"
+  ],
+  "problem_ideas": [
+    "An EC2 graph shows one data point every 5 minutes but the team wants one per minute: which setting, and does it cost extra?",
+    "The ops team wants to see EC2 memory usage but CloudWatch has no such metric: why, and what fixes it?",
+    "A Lambda function prints error messages: where do they end up, and how do you search them?",
+    "Build a one-screen view of CPU for 50 instances plus request count for a load balancer: which CloudWatch feature?",
+    "Logs must be kept for 1 year for an audit: which CloudWatch capability stores and retains them?",
+    "Distractor drill: CloudWatch vs CloudTrail for 'collect application logs and performance metrics'."
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "cloudwatch/cloudwatch"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "cloudwatch/metrics"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "cloudwatch/logs"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "cloud-monitoring/amazon-cloudwatch"
+    }
+  ],
+  "status": "stub"
+}

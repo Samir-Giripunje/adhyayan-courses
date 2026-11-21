@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-relational-acid",
+  "version": 1,
+  "title": "Relational databases, ACID and transactions",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-relational-model",
+      "version": 1,
+      "statement": "A relational database stores data as rows in tables with a fixed schema and links tables through foreign keys, which SQL joins follow at query time."
+    },
+    {
+      "id": "kc-acid-properties",
+      "version": 1,
+      "statement": "ACID means atomicity (all of a transaction's writes commit or none do), consistency (constraints hold after every commit), isolation (concurrent transactions do not see each other's partial work) and durability (committed data survives a crash)."
+    },
+    {
+      "id": "kc-transaction-use",
+      "version": 1,
+      "statement": "Multi-row changes that must succeed together, such as debiting one account and crediting another, belong in one transaction so a crash midway leaves neither change applied."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-data-model"
+  ],
+  "confusable_with": [
+    "sd-cap-theorem"
+  ],
+  "introduces": [
+    "relational database",
+    "acid",
+    "transaction",
+    "foreign key",
+    "sql join"
+  ],
+  "uses": [
+    "data model",
+    "entity"
+  ],
+  "problem_ideas": [
+    "A money transfer debits A, then the server crashes before crediting B: which ACID letter prevents the lost money?",
+    "Two users book the last seat at the same moment: which property decides that only one succeeds?",
+    "Classify each of five bugs (half-written order, negative stock, phantom read, lost commit after power cut) under the ACID letter that would prevent it",
+    "Given an e-commerce schema with users, orders and order_items, write the foreign keys and the join that lists a user's orders",
+    "Decide which of six operations (like a post, place an order, update a profile photo URL, transfer credits) truly need a multi-row transaction",
+    "Explain to an interviewer why 'consistency' in ACID is about constraints, not about replicas agreeing"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "database/relational-database-management-system-rd"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "acid/acid"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "database-fundamentals/acid-transactions"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-service-catalog",
+  "version": 1,
+  "title": "AWS Service Catalog: approved self-service products",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-service-catalog-portfolio",
+      "version": 1,
+      "statement": "AWS Service Catalog lets administrators publish portfolios of approved products, each defined by a CloudFormation template, that users can launch themselves."
+    },
+    {
+      "id": "kc-service-catalog-when",
+      "version": 1,
+      "statement": "Service Catalog fits when a company wants employees to launch only pre-approved, compliant configurations without being given broad IAM permissions to the underlying services."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-cloudformation"
+  ],
+  "suggests": [
+    "clf-iam-policies",
+    "clf-control-tower"
+  ],
+  "confusable_with": [
+    "clf-control-tower",
+    "clf-cloudformation"
+  ],
+  "introduces": [
+    "service catalog",
+    "product portfolio"
+  ],
+  "uses": [
+    "cloudformation",
+    "cloudformation template",
+    "iam policy",
+    "least privilege"
+  ],
+  "problem_ideas": [
+    "Data scientists need EC2 GPU instances, but only in two approved sizes with encryption on: which service?",
+    "A new hire should launch a standard dev environment in one click without admin rights: design the answer.",
+    "What artifact defines a Service Catalog product?",
+    "Service Catalog vs AWS Marketplace: an internal catalogue of approved products vs third-party software. Sort five scenarios.",
+    "Service Catalog vs Control Tower: which one governs accounts, and which one governs what users can launch?",
+    "Distractor drill: 'restrict users to a pre-approved list of IT services' with options IAM, Service Catalog, Organizations, Trusted Advisor."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/aws-service-catalog"
+    }
+  ],
+  "status": "stub"
+}

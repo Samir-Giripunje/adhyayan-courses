@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-spot-instances",
+  "version": 1,
+  "title": "Spot Instances: deep discounts, interruptible",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-spot-discount-interruption",
+      "version": 1,
+      "statement": "Spot Instances use spare EC2 capacity for up to 90% off On-Demand, but AWS can reclaim them with a two-minute interruption notice."
+    },
+    {
+      "id": "kc-spot-fit-workloads",
+      "version": 1,
+      "statement": "Spot suits fault-tolerant, flexible, stateless work such as batch jobs, CI builds, big-data processing and rendering, and is the wrong choice for databases or anything that cannot be interrupted."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-on-demand-reserved"
+  ],
+  "suggests": [
+    "clf-batch-lightsail"
+  ],
+  "confusable_with": [
+    "clf-on-demand-reserved"
+  ],
+  "introduces": [
+    "spot instances",
+    "spot interruption"
+  ],
+  "uses": [
+    "on-demand pricing",
+    "ec2 instance",
+    "aws batch"
+  ],
+  "problem_ideas": [
+    "A nightly image-rendering job can restart from checkpoints: which purchasing option minimizes cost?",
+    "A production MySQL primary on Spot gets a two-minute notice: describe what goes wrong.",
+    "On-Demand is $0.20/hour and Spot is $0.05/hour: predict the percentage saving for a 1,000-hour batch run.",
+    "A CI system runs hundreds of short test jobs a day: why is Spot a good fit?",
+    "Which workload is the distractor for Spot: genomics analysis, web crawling, a payment API, video transcoding?",
+    "A team asks for 'cheapest, but must never be interrupted': rule Spot out and name the alternative."
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "ec2/purchasing-options"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/compute-pricing"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-s3-basics",
+  "version": 1,
+  "title": "Amazon S3: buckets and objects",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-s3-buckets-objects",
+      "version": 1,
+      "statement": "S3 stores objects, each up to 50 TB, in buckets. A bucket's name is globally unique, but the bucket itself is created in one Region you choose."
+    },
+    {
+      "id": "kc-s3-durability",
+      "version": 1,
+      "statement": "S3 is designed for 99.999999999% (11 nines) durability: standard classes store data redundantly across at least three Availability Zones. It scales to virtually unlimited storage."
+    },
+    {
+      "id": "kc-s3-use-cases",
+      "version": 1,
+      "statement": "Typical S3 uses are backup and archive, static website hosting, data lakes for analytics and media distribution. Versioning keeps earlier versions of each object so overwrites and deletes can be undone."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-storage-types"
+  ],
+  "suggests": [
+    "clf-regions"
+  ],
+  "confusable_with": [
+    "clf-ebs",
+    "clf-efs-fsx"
+  ],
+  "introduces": [
+    "s3",
+    "s3 bucket",
+    "s3 object",
+    "s3 versioning",
+    "static website hosting"
+  ],
+  "uses": [
+    "object storage",
+    "region",
+    "availability zone"
+  ],
+  "problem_ideas": [
+    "A team tries to create a bucket named 'backup' and gets an error: explain why.",
+    "A 60 TB raw video master must be stored in S3: can it be one object, and what is the limit?",
+    "Data must stay in Germany: what decides where an S3 bucket's data lives?",
+    "An intern overwrites a critical config object: which feature would have saved the old copy?",
+    "A marketing site is plain HTML, CSS and images: host it with no servers at all.",
+    "Out of 10 million objects at 11 nines durability, how many would you expect to lose in 10,000 years?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/identifying-the-uses-for-object-storage"
+    }
+  ],
+  "status": "stub"
+}

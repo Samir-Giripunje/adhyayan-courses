@@ -1,0 +1,79 @@
+[
+  {
+    "id": "q-cp3-ann",
+    "version": 1,
+    "family": "q-cp3-ann",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-exact-cost",
+    "kcs": [
+      "kc-ann-tradeoff"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "What does an ANN index trade away to gain speed?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Some recall: it may miss a few true nearest neighbours",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "Accuracy of each cosine computation",
+        "why_md": "Each comparison is still exact (unless quantized). It just skips most of them."
+      },
+      {
+        "id": "c",
+        "md": "Nothing",
+        "why_md": "There's always a recall/speed knob.",
+        "misconception": "mc-ann-exact"
+      }
+    ],
+    "hints": [
+      "Which idea applies? Exact search costs N·d per query; ANN indexes trade a little recall for large speedups, measured against an exact baseline.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-a1",
+    "version": 1,
+    "family": "q-dpp-a1",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-exact-cost",
+    "kcs": [
+      "kc-ann-tradeoff"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Exact search over **5M** vectors × **1,024** dims: how many multiply-adds per query, in billions?",
+    "answer": {
+      "value": 5.12,
+      "tolerance": 0.01
+    },
+    "hints": [
+      "Which idea applies? Exact search costs N·d per query; ANN indexes trade a little recall for large speedups, measured against an exact baseline.",
+      "$5 \\times 10^6 \\times 1024 = 5.12 \\times 10^9$."
+    ],
+    "solution_md": "$5 \\times 10^6 \\times 1024 = 5.12 \\times 10^9$.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

@@ -1,0 +1,883 @@
+[
+  {
+    "id": "clf-service-models/set-1",
+    "family": "clf-service-models-svc-iaas-os-patch-owner",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-iaas"
+    ],
+    "prompt_md": "A company runs its website on **Amazon EC2** virtual servers. A security patch comes out for the Linux operating system on those servers. Who is responsible for applying it?",
+    "options": [
+      {
+        "id": "a",
+        "md": "AWS, because it runs the hardware the virtual servers sit on",
+        "why_md": "Running the hardware does not make AWS responsible for the operating system. With IaaS, AWS manages only the hardware layer.",
+        "misconception": "mc-iaas-provider-manages-os"
+      },
+      {
+        "id": "b",
+        "md": "The company",
+        "correct": true,
+        "why_md": "Right. EC2 is IaaS: the provider runs the hardware, and the customer runs the operating system and everything above it, including OS patches."
+      },
+      {
+        "id": "c",
+        "md": "Nobody, because a virtual server has no operating system of its own to patch",
+        "why_md": "A virtual server behaves like your own computer, and that includes having its own operating system, such as Linux. Someone has to patch it, and under IaaS that is the customer."
+      }
+    ],
+    "hints": [
+      "Find EC2's service model, then look up who owns the operating system layer in that model.",
+      "EC2 is IaaS. In IaaS the provider stops at the hardware, so the operating system belongs to the customer."
+    ],
+    "solution_md": "1. Amazon EC2 rents you virtual servers, so it is **IaaS**.\n2. With IaaS, the provider manages only the hardware. The customer manages the operating system, runtime, application, and data and access.\n3. A Linux patch belongs to the operating system layer, so **the company** applies it.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/set-2",
+    "family": "clf-service-models-svc-exam-phrase-match",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-iaas",
+      "kc-paas",
+      "kc-saas"
+    ],
+    "prompt_md": "Each phrase describes what a customer wants. Match each phrase to the service model it points to.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "\"We need full control over the operating system and want to install custom software on the server.\"",
+        "why_md": "Controlling the OS means the customer manages it, which is IaaS."
+      },
+      {
+        "id": "l2",
+        "md": "\"We just want to upload our code. No servers to manage.\"",
+        "why_md": "The customer deploys its own app but hands over the servers and OS. That is PaaS."
+      },
+      {
+        "id": "l3",
+        "md": "\"We want a ready-to-use application. Our staff just sign in.\"",
+        "why_md": "A finished app the provider runs is SaaS."
+      },
+      {
+        "id": "r1",
+        "md": "SaaS, such as web email",
+        "why_md": "Fits the ready-to-use, just-sign-in phrase."
+      },
+      {
+        "id": "r2",
+        "md": "IaaS, such as Amazon EC2",
+        "why_md": "Fits the full-control-over-the-OS phrase."
+      },
+      {
+        "id": "r3",
+        "md": "PaaS, such as AWS Elastic Beanstalk",
+        "why_md": "Fits the just-upload-code phrase."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r2",
+        "l2": "r3",
+        "l3": "r1"
+      }
+    },
+    "hints": [
+      "For each phrase, ask which layers the customer still wants to manage: the OS and up, only the app and its data, or only data and access.",
+      "OS control → IaaS. Own code but no servers → PaaS. Finished app → SaaS."
+    ],
+    "solution_md": "1. *Full control over the operating system* means the customer manages the OS and above: **IaaS** (r2).\n2. *Just upload code, no servers to manage* means the customer manages only the app and its data: **PaaS** (r3).\n3. *Ready-to-use, staff just sign in* means the provider runs the whole app: **SaaS** (r1).",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/set-3",
+    "family": "clf-service-models-svc-paas-layer-count",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-paas"
+    ],
+    "prompt_md": "Use the lesson's five-layer stack: hardware, operating system, runtime, application, and data and access. A customer runs its web app on a PaaS such as **AWS Elastic Beanstalk**. How many of the five layers does the **customer** manage?",
+    "answer": {
+      "value": 2,
+      "tolerance": 0
+    },
+    "common_wrong": [
+      {
+        "value": 3,
+        "kind": "slip",
+        "why_md": "This adds the runtime. With PaaS, the provider runs the runtime (such as Python or Java) along with the operating system."
+      },
+      {
+        "value": 4,
+        "kind": "misconception",
+        "tag": "mc-paas-you-patch-os",
+        "why_md": "4 is the IaaS count: it gives the customer the operating system and the runtime as well. With PaaS, the provider runs both."
+      },
+      {
+        "value": 1,
+        "kind": "slip",
+        "why_md": "1 (data and access only) is the SaaS count. With PaaS you deploy your own app, so the application layer is yours too."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "layers = ['hardware', 'operating system', 'runtime', 'application', 'data and access']\nprovider_paas = {'hardware', 'operating system', 'runtime'}\ncustomer = [l for l in layers if l not in provider_paas]\nanswer = len(customer)\n"
+    },
+    "hints": [
+      "Go up the stack and mark where the PaaS provider's part ends.",
+      "With PaaS the provider runs the hardware, operating system and runtime. Count what is left."
+    ],
+    "solution_md": "1. With PaaS, the provider runs the **hardware**, the **operating system** and the **runtime**.\n2. The customer deploys the **application** and owns its **data and access**.\n3. That leaves the customer with **2** layers.",
+    "version": 1,
+    "class": "predict",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/set-4",
+    "family": "clf-service-models-svc-saas-vendor-flaw",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-saas"
+    ],
+    "prompt_md": "A sales team uses a hosted CRM (customer relationship management app) in the browser. It is a SaaS product. The CRM vendor announces a security flaw in the software running on its CRM servers. What does the sales team's IT admin need to do about the **server software**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Nothing on the servers: the vendor patches its own application and servers",
+        "correct": true,
+        "why_md": "Right. With SaaS the provider runs the whole application stack. The customer never sees the servers, so it cannot patch them and doesn't need to."
+      },
+      {
+        "id": "b",
+        "md": "Download the vendor's patch and apply it to the CRM servers",
+        "why_md": "SaaS customers never see the servers, so they have nothing to apply a patch to. The vendor patches its own servers.",
+        "misconception": "mc-saas-customer-patches"
+      },
+      {
+        "id": "c",
+        "md": "Patch the CRM servers' operating system and leave the CRM application to the vendor",
+        "why_md": "That split is closer to PaaS turned upside down. With SaaS the provider runs the OS and the app. The customer manages neither.",
+        "misconception": "mc-saas-customer-patches"
+      }
+    ],
+    "hints": [
+      "With SaaS, list the layers the customer still manages, then check whether server software is one of them.",
+      "SaaS customers manage only their data and user access. Everything from the hardware up to the app belongs to the provider."
+    ],
+    "solution_md": "1. The hosted CRM is **SaaS**: the provider runs the hardware, OS, runtime and application.\n2. The customer manages only its **data and user access**.\n3. The server software is the provider's, so the admin has **nothing to patch on the servers**. The vendor fixes the flaw.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/set-5",
+    "family": "clf-service-models-svc-paas-what-you-manage",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-paas"
+    ],
+    "prompt_md": "A team deploys its web app to **AWS Elastic Beanstalk** (PaaS). Which of these tasks does the **team** manage? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Writing and updating the app's code",
+        "correct": true,
+        "why_md": "True. With PaaS the customer deploys and manages the application."
+      },
+      {
+        "id": "b",
+        "md": "Applying operating system patches to the servers the app runs on",
+        "why_md": "False. With PaaS, the provider runs the operating system, so AWS patches it.",
+        "misconception": "mc-paas-you-patch-os"
+      },
+      {
+        "id": "c",
+        "md": "Looking after the data the app stores",
+        "correct": true,
+        "why_md": "True. In every model the customer owns its data. With PaaS that is the app's data."
+      },
+      {
+        "id": "d",
+        "md": "Installing the runtime software (such as Python) on the servers",
+        "why_md": "False. With PaaS, the provider runs the runtime along with the operating system."
+      },
+      {
+        "id": "e",
+        "md": "Replacing failed server hardware in the data center",
+        "why_md": "False. Hardware is the provider's in every model."
+      }
+    ],
+    "hints": [
+      "Under PaaS, find the line between the provider's layers and the customer's layers.",
+      "The provider runs the hardware, OS and runtime. The team has the application and its data."
+    ],
+    "solution_md": "1. With PaaS, the provider (AWS) runs the **hardware**, **operating system** and **runtime**. That rules out b, d and e.\n2. The customer deploys the **application** and owns its **data**. That gives a and c.\n\nAnswer: **a, c**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/set-6",
+    "family": "clf-service-models-svc-iaas-ar-os",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-iaas"
+    ],
+    "prompt_md": "**Assertion (A):** A company that runs its app on Amazon EC2 virtual servers must apply operating system patches to those servers itself.\n\n**Reason (R):** With IaaS, the provider runs only the hardware, and the customer runs the operating system and everything above it.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. EC2 is IaaS, and R states the IaaS split. The customer owns the OS layer, which is exactly why the company patches it."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "Both are true, but R is the reason. The company patches the OS because, under IaaS, the OS is the customer's layer."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true: with IaaS the provider stops at the hardware.",
+        "misconception": "mc-iaas-provider-manages-os"
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. EC2 is IaaS, so OS patches are the customer's job, not AWS's.",
+        "misconception": "mc-iaas-provider-manages-os"
+      }
+    ],
+    "hints": [
+      "Judge A and R separately, then ask whether R is why A holds.",
+      "EC2 is IaaS. Under IaaS the provider runs only the hardware, so the OS (and its patches) belongs to the customer."
+    ],
+    "solution_md": "1. **A:** EC2 is IaaS, and under IaaS the customer manages the OS, so A is **true**.\n2. **R:** This is the IaaS split as taught: the provider runs the hardware and the customer runs the OS and up. **True**.\n3. A holds *because* the OS layer is the customer's under IaaS, so R explains A.\n\nAnswer: **a**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/set-7",
+    "family": "clf-service-models-svc-pick-model-upload-code",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-paas"
+    ],
+    "prompt_md": "A two-person startup has written its own Python web app. They want to upload the code and have it run, without looking after any servers or operating systems. Which option fits best?",
+    "options": [
+      {
+        "id": "a",
+        "md": "SaaS, such as a hosted CRM",
+        "why_md": "SaaS gives you someone else's finished app. You cannot upload and run your own code on it."
+      },
+      {
+        "id": "b",
+        "md": "IaaS, such as Amazon EC2",
+        "why_md": "EC2 would run their code, but they would manage the virtual servers' operating system and runtime. That is the work they want to avoid."
+      },
+      {
+        "id": "c",
+        "md": "PaaS, such as AWS Elastic Beanstalk",
+        "correct": true,
+        "why_md": "Right. With PaaS you upload your app, and the provider runs the servers, operating system and runtime."
+      }
+    ],
+    "hints": [
+      "The startup keeps two layers: its own app and that app's data. Which model leaves exactly those to the customer?",
+      "Own code but no servers to manage → the provider runs the hardware, OS and runtime → PaaS."
+    ],
+    "solution_md": "1. The startup wants to keep **its own application** (and its data).\n2. They want the provider to run the **servers, OS and runtime**.\n3. That split is **PaaS**. IaaS would leave the OS with them, and SaaS has no place for their own code.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/set-8",
+    "family": "clf-service-models-svc-saas-ar-access",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-saas"
+    ],
+    "prompt_md": "A firm uses a SaaS payroll app.\n\n**Assertion (A):** When an employee leaves, the firm itself is responsible for removing that person's account from the payroll app.\n\n**Reason (R):** With SaaS, the provider keeps the payroll app and its servers patched.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "Both are true, but patching servers has nothing to do with who removes accounts. A holds because the customer manages user access in SaaS."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "correct": true,
+        "why_md": "Right. A is true because SaaS customers manage their data and user access. R is true too, but it explains why the provider patches, not why the firm removes accounts."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true: with SaaS the provider runs the app and keeps it and its servers patched.",
+        "misconception": "mc-saas-customer-patches"
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. User access stays with the customer in every model, so a leftover account is the firm's problem."
+      }
+    ],
+    "hints": [
+      "Check A against the customer's layer under SaaS. Check R against the provider's layers. Then ask whether R is why A holds.",
+      "Customer: data and user access. Provider: the app and its servers. Both statements are true, but they describe different sides of the split."
+    ],
+    "solution_md": "1. **A:** With SaaS the customer manages its data and **user access**, so removing a leaver's account is the firm's job. **True.**\n2. **R:** With SaaS the provider runs the app and patches it and its servers. **True.**\n3. R explains the provider's side of the split. A comes from the customer's side (access). So R does not explain A.\n\nAnswer: **b**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/set-9",
+    "family": "clf-service-models-svc-case-stop-patching",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-iaas",
+      "kc-paas"
+    ],
+    "prompt_md": "A small charity runs a volunteer-booking web app that its only developer wrote. The app runs on rented virtual servers (IaaS). Every month the developer spends hours applying operating system patches and wants that responsibility gone. The charity must keep its own app, because no ready-made product does what it needs. What's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Switch to a ready-made SaaS booking product",
+        "why_md": "Trap. It removes all server work, but the charity gives up its own app. The brief rules that out."
+      },
+      {
+        "id": "b",
+        "md": "Move the app to a PaaS such as AWS Elastic Beanstalk",
+        "correct": true,
+        "why_md": "Best. The charity keeps deploying its own app and its data, and the provider takes over the operating system and runtime, patches included."
+      },
+      {
+        "id": "c",
+        "md": "Stay on IaaS and write a script that applies operating system patches automatically",
+        "why_md": "Viable, second-best. It keeps the app and cuts the hours. But under IaaS the OS is still the charity's: someone must maintain the script and deal with failed patches. The responsibility doesn't go away."
+      }
+    ],
+    "hints": [
+      "Check each option against both goals: keep the charity's own app, and stop owning OS patching.",
+      "Only one model keeps the customer's own application while the provider takes over the operating system."
+    ],
+    "solution_md": "Goals: (1) keep the charity's own app, and (2) stop being responsible for OS patches.\n\n- **SaaS** meets (2) but fails (1): the charity loses its own app.\n- **IaaS plus a patch script** meets (1) and eases (2), but the OS layer is still the charity's under IaaS.\n- **PaaS** meets both: the customer deploys the app and owns its data, and the provider runs the OS and runtime.\n\nAnswer: **b**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/set-10",
+    "family": "clf-service-models-svc-cross-model-statements",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-iaas",
+      "kc-paas",
+      "kc-saas"
+    ],
+    "prompt_md": "Which statements about who manages what are correct? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "In IaaS, PaaS and SaaS alike, the customer manages its own data and who can access it",
+        "correct": true,
+        "why_md": "True. The data and access layer belongs to the customer in all three models."
+      },
+      {
+        "id": "b",
+        "md": "With PaaS, the customer still applies operating system patches",
+        "why_md": "False. With PaaS the provider runs the operating system and runtime.",
+        "misconception": "mc-paas-you-patch-os"
+      },
+      {
+        "id": "c",
+        "md": "Moving from IaaS towards SaaS, the customer gets less control and less work",
+        "correct": true,
+        "why_md": "True. Each step hands more layers to the provider: less to manage, and less control."
+      },
+      {
+        "id": "d",
+        "md": "With IaaS, the provider manages the operating system because it runs the hardware",
+        "why_md": "False. With IaaS the provider runs only the hardware. The OS is the customer's.",
+        "misconception": "mc-iaas-provider-manages-os"
+      },
+      {
+        "id": "e",
+        "md": "With PaaS, the provider runs the runtime the app needs, such as Python or Java",
+        "correct": true,
+        "why_md": "True. With PaaS the provider runs the hardware, OS and runtime."
+      },
+      {
+        "id": "f",
+        "md": "With SaaS, the customer patches the application servers",
+        "why_md": "False. SaaS customers never see the servers. The provider runs and patches the whole app.",
+        "misconception": "mc-saas-customer-patches"
+      }
+    ],
+    "hints": [
+      "Draw the five-layer stack for each model and mark where the provider's part ends, then test each statement.",
+      "Provider ends at hardware (IaaS), at runtime (PaaS) and at application (SaaS). The customer always keeps data and access."
+    ],
+    "solution_md": "Provider's part: IaaS = hardware; PaaS = hardware, OS, runtime; SaaS = everything except data and access.\n\n- a: data and access is the customer's in every model. **True.**\n- b: with PaaS the provider runs the OS. **False.**\n- c: going from IaaS to SaaS, the provider takes more layers, so the customer has less control and less work. **True.**\n- d: with IaaS the provider stops at the hardware. **False.**\n- e: with PaaS the provider runs the runtime. **True.**\n- f: with SaaS the provider runs the servers and app. **False.**\n\nAnswer: **a, c, e**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/set-11",
+    "family": "clf-service-models-svc-saas-leaver-incident",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-saas"
+    ],
+    "prompt_md": "A florist uses a hosted CRM (a SaaS product) for its customer list. Three months after a sales assistant left, someone signs in with her still-active account and exports the whole customer list. The CRM software had no known security flaws. Whose gap was this, and what would have prevented it?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The CRM vendor's: it runs the whole application, so it should have closed the account",
+        "why_md": "The vendor runs the app, but the customer decides who may sign in. The vendor can't know that a florist's employee has left."
+      },
+      {
+        "id": "b",
+        "md": "The florist's: it should have patched the CRM servers more often",
+        "why_md": "SaaS customers never see the servers, so they can't patch them. And there was no software flaw: someone simply signed in with a valid account.",
+        "misconception": "mc-saas-customer-patches"
+      },
+      {
+        "id": "c",
+        "md": "The CRM vendor's: it should have patched its servers",
+        "why_md": "Patching is the vendor's job, but the software had no known flaw. The attacker used a valid account, which is about access, not patching."
+      },
+      {
+        "id": "d",
+        "md": "The florist's: it manages user access, so it should have removed her account when she left",
+        "correct": true,
+        "why_md": "Right. In every model, including SaaS, the customer manages its data and who can access it. A leftover account is the customer's open door."
+      }
+    ],
+    "hints": [
+      "First name the layer that failed: was it the software, or who could sign in? Then ask who owns that layer under SaaS.",
+      "The attacker used a valid, leftover account, so the failure is in data and access. Under SaaS that layer belongs to the customer."
+    ],
+    "solution_md": "1. The software had no flaw, and the attacker signed in with a **valid account**. The failure is in **user access**.\n2. With SaaS, the provider runs the app and its servers, but the customer manages **its data and user access**.\n3. So the gap was **the florist's**. Removing the account when she left would have prevented it.\n\nAnswer: **d**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/set-12",
+    "family": "clf-service-models-svc-bakery-estate",
+    "kind": "passage",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-iaas",
+      "kc-paas",
+      "kc-saas"
+    ],
+    "context_md": "**A bakery's IT estate**\n\n1. **Ordering website**: the bakery's own code, uploaded to a cloud platform. The platform's provider runs the servers, their operating system and the runtime.\n2. **Accounting**: a hosted accounting app that staff sign in to in the browser. The bakery never sees its servers.\n3. **Stock system**: old stock-control software that the bakery installed on a rented virtual server in the cloud. The bakery chose the server's Linux operating system and set it up.",
+    "prompt_md": "Read the description of the bakery's IT, then answer both parts.",
+    "parts": [
+      {
+        "id": "clf-service-models/set-12/p1",
+        "family": "clf-service-models-svc-bakery-estate",
+        "kind": "match",
+        "scaffold": "independent",
+        "level": 2,
+        "kcs": [
+          "kc-iaas",
+          "kc-paas",
+          "kc-saas"
+        ],
+        "prompt_md": "Match each workload to its service model.",
+        "options": [
+          {
+            "id": "l1",
+            "md": "Ordering website",
+            "why_md": "The bakery uploads its own code, and the provider runs the servers, OS and runtime: PaaS."
+          },
+          {
+            "id": "l2",
+            "md": "Accounting",
+            "why_md": "A finished app that staff just sign in to: SaaS."
+          },
+          {
+            "id": "l3",
+            "md": "Stock system",
+            "why_md": "A rented virtual server whose OS the bakery set up and runs: IaaS."
+          },
+          {
+            "id": "r1",
+            "md": "PaaS",
+            "why_md": "Fits the ordering website."
+          },
+          {
+            "id": "r2",
+            "md": "IaaS",
+            "why_md": "Fits the stock system."
+          },
+          {
+            "id": "r3",
+            "md": "SaaS",
+            "why_md": "Fits accounting."
+          }
+        ],
+        "answer": {
+          "rows": {
+            "l1": "r1",
+            "l2": "r3",
+            "l3": "r2"
+          }
+        },
+        "hints": [
+          "For each workload, ask which layers the bakery still manages.",
+          "OS and up → IaaS. Only the app and its data → PaaS. Only data and access → SaaS."
+        ],
+        "solution_md": "1. **Ordering website:** the bakery manages only its app and data, and the provider runs the OS and runtime. **PaaS** (r1).\n2. **Accounting:** a finished app that staff sign in to. **SaaS** (r3).\n3. **Stock system:** a rented virtual server whose OS the bakery runs. **IaaS** (r2).",
+        "version": 1,
+        "class": "mcq",
+        "topic": "clf-service-models",
+        "use": "set",
+        "origin": "generated",
+        "seal": "public",
+        "est_seconds": 60,
+        "provenance": {
+          "origin": "generated",
+          "job": "stock-clf-service-models"
+        }
+      },
+      {
+        "id": "clf-service-models/set-12/p2",
+        "family": "clf-service-models-svc-bakery-estate",
+        "kind": "single",
+        "scaffold": "independent",
+        "level": 3,
+        "kcs": [
+          "kc-iaas",
+          "kc-paas",
+          "kc-saas"
+        ],
+        "prompt_md": "A critical security patch for Linux is released. Assume every server behind all three workloads runs Linux. For which workloads must the **bakery itself** apply the patch?",
+        "options": [
+          {
+            "id": "a",
+            "md": "The stock system and the ordering website",
+            "why_md": "The ordering website runs on PaaS, so its provider runs and patches the operating system.",
+            "misconception": "mc-paas-you-patch-os"
+          },
+          {
+            "id": "b",
+            "md": "All three workloads",
+            "why_md": "The accounting app is SaaS. The bakery never even sees those servers, and the provider patches them. The ordering website's OS is the PaaS provider's too.",
+            "misconception": "mc-saas-customer-patches"
+          },
+          {
+            "id": "c",
+            "md": "Only the stock system",
+            "correct": true,
+            "why_md": "Right. The stock system is IaaS, so its OS is the bakery's. On PaaS and SaaS the provider runs the operating system."
+          },
+          {
+            "id": "d",
+            "md": "None: cloud providers patch every server they host",
+            "why_md": "Not with IaaS. The provider runs only the hardware, and the bakery runs the virtual server's OS.",
+            "misconception": "mc-iaas-provider-manages-os"
+          }
+        ],
+        "hints": [
+          "A Linux patch belongs to the operating system layer. In which of the three models does the customer own that layer?",
+          "Only under IaaS does the customer manage the OS. Find the IaaS workload."
+        ],
+        "solution_md": "1. The patch is for the **operating system** layer.\n2. The customer owns the OS only under **IaaS**. Under PaaS and SaaS, the provider runs it.\n3. The only IaaS workload is the **stock system**, so that is the only one the bakery patches.\n\nAnswer: **c**.",
+        "version": 1,
+        "class": "mcq",
+        "topic": "clf-service-models",
+        "use": "set",
+        "origin": "generated",
+        "seal": "public",
+        "est_seconds": 60,
+        "provenance": {
+          "origin": "generated",
+          "job": "stock-clf-service-models"
+        }
+      }
+    ],
+    "hints": [
+      "Sort each workload by asking which layers the bakery still manages.",
+      "Stock system: the bakery set up the OS (IaaS). Ordering website: own code, provider runs the OS (PaaS). Accounting: a finished app (SaaS)."
+    ],
+    "solution_md": "The ordering website is **PaaS** (own code, provider runs the OS and runtime), accounting is **SaaS** (finished app) and the stock system is **IaaS** (the bakery runs the virtual server's OS) (p1). A Linux patch is an OS-layer job, and the customer owns the OS only under IaaS, so the bakery patches **only the stock system** (p2).",
+    "version": 1,
+    "class": "parts",
+    "topic": "clf-service-models",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/exit-1",
+    "family": "clf-service-models-svc-exit-iaas-runtime",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-iaas"
+    ],
+    "prompt_md": "Your Java app runs on an **Amazon EC2** virtual server that you launched. Who is responsible for installing the Java runtime on that server and keeping it up to date?",
+    "options": [
+      {
+        "id": "a",
+        "md": "AWS, because it runs the physical machine underneath",
+        "why_md": "With IaaS, running the hardware is all AWS does. The OS and runtime are the customer's.",
+        "misconception": "mc-iaas-provider-manages-os"
+      },
+      {
+        "id": "b",
+        "md": "You, the customer",
+        "correct": true,
+        "why_md": "Right. EC2 is IaaS: you manage the operating system, runtime, application and data."
+      },
+      {
+        "id": "c",
+        "md": "AWS installs it, and you keep it up to date",
+        "why_md": "Under IaaS the runtime layer belongs entirely to the customer, not split with AWS."
+      }
+    ],
+    "hints": [
+      "EC2 is IaaS. Where does the provider's part end in IaaS?",
+      "The provider runs only the hardware, so the runtime, like everything above the hardware, is yours."
+    ],
+    "solution_md": "1. Amazon EC2 is **IaaS**.\n2. With IaaS, the provider runs only the hardware. The customer runs the OS, **runtime**, app and data.\n3. So **you** install and update Java.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/exit-2",
+    "family": "clf-service-models-svc-exit-paas-os",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-paas"
+    ],
+    "prompt_md": "A team moves its web app to **AWS Elastic Beanstalk** (PaaS). Who now applies operating system patches to the servers the app runs on?",
+    "options": [
+      {
+        "id": "a",
+        "md": "AWS",
+        "correct": true,
+        "why_md": "Right. With PaaS the provider runs the servers, their operating system and the runtime."
+      },
+      {
+        "id": "b",
+        "md": "The team",
+        "why_md": "That was true on IaaS. With PaaS the operating system moves to the provider, and the team keeps the app and its data.",
+        "misconception": "mc-paas-you-patch-os"
+      },
+      {
+        "id": "c",
+        "md": "Nobody, because PaaS apps run without an operating system",
+        "why_md": "The servers still have an operating system. With PaaS the provider runs and patches it, so you don't have to."
+      }
+    ],
+    "hints": [
+      "With PaaS, which layers does the provider run?",
+      "The provider runs the hardware, operating system and runtime. The customer keeps the app and its data."
+    ],
+    "solution_md": "1. Elastic Beanstalk is **PaaS**.\n2. With PaaS the provider runs the hardware, **operating system** and runtime.\n3. So **AWS** applies OS patches. The team manages only its app and data.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/exit-3",
+    "family": "clf-service-models-svc-exit-saas-school",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-saas"
+    ],
+    "prompt_md": "A school gives its teachers web email accounts from a SaaS provider. Which task stays with the **school**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Applying security patches to the mail servers",
+        "why_md": "SaaS customers never see the servers. The provider patches them.",
+        "misconception": "mc-saas-customer-patches"
+      },
+      {
+        "id": "b",
+        "md": "Updating the email application's software",
+        "why_md": "With SaaS the provider runs and updates the application itself."
+      },
+      {
+        "id": "c",
+        "md": "Creating accounts for new teachers and removing them for teachers who leave",
+        "correct": true,
+        "why_md": "Right. With SaaS the customer manages its data and user access, including who gets an account."
+      },
+      {
+        "id": "d",
+        "md": "Replacing failed disks in the data center",
+        "why_md": "Hardware belongs to the provider in every model."
+      }
+    ],
+    "hints": [
+      "With SaaS, the customer keeps only one layer. Which one?",
+      "Data and user access. Which option is about who may sign in?"
+    ],
+    "solution_md": "1. With SaaS, the provider runs the hardware, OS, runtime and the email app.\n2. The customer keeps only **data and user access**.\n3. Creating and removing teacher accounts is user access, so it stays with **the school**.\n\nAnswer: **c**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-clf-service-models"
+    }
+  }
+]

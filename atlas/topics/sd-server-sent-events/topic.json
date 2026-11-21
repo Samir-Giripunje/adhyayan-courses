@@ -1,0 +1,66 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-server-sent-events",
+  "version": 1,
+  "title": "Server-sent events and choosing a push method",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-sse-one-way",
+      "version": 1,
+      "statement": "Server-sent events stream one-way messages from server to client over a single long-lived HTTP response (text/event-stream), and the browser reconnects automatically, resuming with the Last-Event-ID header."
+    },
+    {
+      "id": "kc-choose-push-method",
+      "version": 1,
+      "statement": "Use server-sent events when only the server pushes (notifications, live scores, streamed tokens), WebSockets when both sides send frequently with low latency (chat, games), and long polling as a fallback where neither is supported."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-websockets"
+  ],
+  "suggests": [
+    "sd-polling-long-polling"
+  ],
+  "confusable_with": [
+    "sd-websockets",
+    "sd-polling-long-polling"
+  ],
+  "introduces": [
+    "server-sent events"
+  ],
+  "uses": [
+    "http",
+    "websockets",
+    "long polling"
+  ],
+  "problem_ideas": [
+    "Pick SSE, WebSockets or long polling for: sports scores, chat, delivery tracking, AI chat token stream, auction bidding",
+    "A client on SSE drops for 10 s: how does Last-Event-ID let it catch up, and what must the server retain?",
+    "Why can't SSE carry binary audio from the client?",
+    "A notification feed sends 1 event/min per user: argue for SSE over WebSockets",
+    "How does an SSE client send a 'mark as read' action back to the server?",
+    "Interviewer pushes back: 'WebSockets everywhere?'—give one reason not to"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "server-sent-events-sse/server-sent-events-sse"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "server-sent-events-sse/working"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "server-sent-events-sse/advantages"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "server-sent-events-sse/disadvantages"
+    }
+  ],
+  "status": "stub"
+}

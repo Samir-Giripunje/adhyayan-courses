@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-kv-store",
+  "version": 1,
+  "title": "Case study: distributed key-value store",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-kv-ring-replicas",
+      "version": 1,
+      "statement": "A Dynamo-style key-value store places each key on a hash ring and replicates it to the next N distinct nodes clockwise. Virtual nodes spread load evenly when nodes join or leave."
+    },
+    {
+      "id": "kc-kv-tunable-quorum",
+      "version": 1,
+      "statement": "With N replicas, choosing R + W > N makes every read overlap the latest write. Choosing R = W = 1 maximises availability and speed but allows stale reads."
+    },
+    {
+      "id": "kc-kv-conflict-repair",
+      "version": 1,
+      "statement": "In a leaderless store, concurrent writes to one key can conflict. They are resolved by last-write-wins timestamps or by returning sibling versions, and replicas converge through read repair and background anti-entropy."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-virtual-nodes",
+    "sd-quorum"
+  ],
+  "suggests": [
+    "sd-cap-theorem",
+    "sd-multi-leader-replication"
+  ],
+  "confusable_with": [
+    "sd-distributed-cache"
+  ],
+  "introduces": [
+    "key-value store design",
+    "read repair"
+  ],
+  "uses": [
+    "consistent hashing",
+    "hash ring",
+    "virtual nodes",
+    "quorum",
+    "leaderless replication",
+    "last-write-wins",
+    "write conflict",
+    "eventual consistency"
+  ],
+  "problem_ideas": [
+    "With N = 3, list the (R, W) pairs that give strong reads and say which one favours write latency.",
+    "Draw where key 'user:42' and its two replicas land on a ring of 4 nodes with 3 virtual nodes each.",
+    "A node is down for 10 minutes during writes. Explain how the data catches up afterwards.",
+    "Two clients write the same cart key concurrently. Compare last-write-wins with keeping both versions.",
+    "Estimate the node count for 50 TB of data at replication factor 3 and 2 TB usable per node.",
+    "Say whether this store is CP or AP under a network partition with R = W = 1."
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-distributed-key-value-store"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "data-replication/data-replication"
+    }
+  ],
+  "status": "stub"
+}

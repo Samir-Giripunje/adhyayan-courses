@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-choosing-database",
+  "version": 1,
+  "title": "Choosing a database service for a requirement",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-db-service-cue-map",
+      "version": 1,
+      "statement": "Map requirement cues to services: SQL with joins → RDS; MySQL/PostgreSQL needing top performance and availability → Aurora; key-value at massive scale → DynamoDB; sub-millisecond caching → ElastiCache; MongoDB → DocumentDB; relationship graphs → Neptune."
+    },
+    {
+      "id": "kc-db-ha-scale-choice",
+      "version": 1,
+      "statement": "For database availability choose RDS Multi-AZ, for read-heavy scaling choose read replicas or a cache, and for low-latency writes in several Regions choose DynamoDB global tables."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-aurora",
+    "clf-elasticache",
+    "clf-documentdb-neptune"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "database selection"
+  ],
+  "uses": [
+    "rds",
+    "aurora",
+    "dynamodb",
+    "elasticache",
+    "documentdb",
+    "neptune",
+    "read replica",
+    "global tables"
+  ],
+  "problem_ideas": [
+    "Ten one-paragraph scenarios: name the database and the closest distractor you ruled out",
+    "A ticketing site needs ACID transactions and SQL reporting: choose and justify in one sentence",
+    "An IoT app writes 1 million small records per second keyed by device: choose",
+    "A news site's homepage query repeats constantly: cache or bigger instance?",
+    "A global chat app needs writes in three Regions: choose the feature",
+    "Mixed cue scenario: 'MongoDB API' plus 'relationships': which cue decides?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-4-identify-aws-database/aws-database-services"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "database/database"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/databases-intro"
+    }
+  ],
+  "status": "stub"
+}

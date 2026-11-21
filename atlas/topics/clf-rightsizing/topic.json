@@ -1,0 +1,56 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-rightsizing",
+  "version": 1,
+  "title": "Rightsizing: pay for what you actually use",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-rightsizing-definition",
+      "version": 1,
+      "statement": "Rightsizing is matching instance types and sizes to a workload's measured performance and capacity needs at the lowest cost, for example moving a server that averages 10% CPU to a smaller size."
+    },
+    {
+      "id": "kc-rightsizing-timing",
+      "version": 1,
+      "statement": "Rightsizing is an ongoing process based on utilisation data, and it should happen before committing to long-term discounts, because the cloud lets you change size at any time."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "clf-fixed-vs-variable-costs",
+    "clf-wa-pillars-performance-cost-sustainability"
+  ],
+  "confusable_with": [
+    "clf-elasticity-agility"
+  ],
+  "introduces": [
+    "rightsizing"
+  ],
+  "uses": [
+    "variable costs",
+    "elasticity",
+    "server"
+  ],
+  "problem_ideas": [
+    "An instance at $0.40/hour averages 8% CPU; halving its size halves the price: compute the yearly saving.",
+    "Decide which to do first: buy a 3-year commitment or downsize over-provisioned servers. Explain.",
+    "Three servers show 85%, 12% and 40% CPU: which is the rightsizing candidate?",
+    "A lift-and-shift copied on-prem server sizes exactly: why is this a rightsizing opportunity?",
+    "Distinguish rightsizing from elasticity for a workload that is steady but oversized.",
+    "Predict the effect of rightsizing on a memory-bound app if you only look at CPU."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-4-understand-concepts-o/understanding-the-concept-of-rightsizing"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "aws-architecting-ecosystem/aws-right-sizing"
+    }
+  ],
+  "status": "stub"
+}

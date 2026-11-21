@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u10-scaling-caches",
+  "title": "Eviction, distribution and hot keys",
+  "topics": [
+    {
+      "id": "sd-eviction-lru",
+      "tier": "optional",
+      "order": 1
+    },
+    {
+      "id": "sd-distributed-cache",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-hot-keys-thundering-herd",
+      "tier": "optional",
+      "order": 3
+    }
+  ],
+  "halfway_after": null,
+  "status": "stub"
+}

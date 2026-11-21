@@ -1,0 +1,69 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-choosing-analytics",
+  "version": 1,
+  "title": "Choosing an analytics service for a requirement",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-choose-analytics-query",
+      "version": 1,
+      "statement": "Ad hoc SQL on files already in S3 points to Athena; repeated complex SQL over large structured history points to Redshift; custom Spark or Hadoop processing points to EMR."
+    },
+    {
+      "id": "kc-choose-analytics-pipeline",
+      "version": 1,
+      "statement": "Real-time ingestion points to Kinesis, cataloguing and transforming data to Glue, dashboards for business users to QuickSight, and search or log exploration to OpenSearch."
+    },
+    {
+      "id": "kc-choose-analytics-db-trap",
+      "version": 1,
+      "statement": "A requirement for transactions or millisecond key lookups points to RDS or DynamoDB, not to an analytics service."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-kinesis",
+    "clf-athena-glue",
+    "clf-redshift-emr"
+  ],
+  "suggests": [
+    "clf-quicksight-opensearch",
+    "clf-choosing-database"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "analytics service selection"
+  ],
+  "uses": [
+    "kinesis",
+    "athena",
+    "glue",
+    "redshift",
+    "emr",
+    "quicksight",
+    "opensearch",
+    "rds",
+    "dynamodb"
+  ],
+  "problem_ideas": [
+    "Twelve one-line requirements across the analytics pipeline; name the service and the closest distractor.",
+    "Draw an end-to-end pipeline for IoT telemetry: ingest, store, catalogue, query, visualise.",
+    "A requirement mixes 'real-time' and 'SQL dashboards': which two services together?",
+    "Spot the trap: a question about storing user sessions offers Redshift.",
+    "Rank Athena vs Redshift for a query run once a quarter vs every five minutes.",
+    "A startup with no data engineers wants SQL over S3 tomorrow: pick the lowest-effort option."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-7-identify-aws-artifici/aws-analytics-services"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "analytics/analytics"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-service-discovery",
+  "version": 1,
+  "title": "Service discovery and registries",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-service-registry",
+      "version": 1,
+      "statement": "Service discovery keeps a registry of the live network locations of service instances, updated when instances register on start and removed when they stop or fail health probes."
+    },
+    {
+      "id": "kc-client-vs-server-discovery",
+      "version": 1,
+      "statement": "In client-side discovery the caller queries the registry and picks an instance itself; in server-side discovery the caller sends to a load balancer or gateway that queries the registry for it."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-api-gateway",
+    "sd-load-balancers"
+  ],
+  "confusable_with": [
+    "sd-dns"
+  ],
+  "introduces": [
+    "service discovery",
+    "service registry"
+  ],
+  "uses": [
+    "load balancer",
+    "api gateway",
+    "ip address",
+    "port",
+    "dns"
+  ],
+  "problem_ideas": [
+    "Autoscaling adds 20 instances in a minute: how do callers learn their addresses?",
+    "Why is a hard-coded IP list in config a problem when containers restart often?",
+    "Compare client-side and server-side discovery for a system written in five languages",
+    "An instance crashes without deregistering: how long can callers keep hitting it, and what bounds that time?",
+    "Can plain DNS act as a service registry? Give one strength and one weakness",
+    "Failure story: the registry cluster is down; what should callers do with their cached instance lists?"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "application-layer/service-discovery"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "why-do-we-need-service-discovery/why-do-we-need-service-discovery"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "implementations/client-side-discovery"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "implementations/server-side-discovery"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "service-registry/service-registry"
+    }
+  ],
+  "status": "stub"
+}

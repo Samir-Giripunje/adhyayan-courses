@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-aws-config",
+  "version": 1,
+  "title": "AWS Config: resource history and compliance rules",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-config-history",
+      "version": 1,
+      "statement": "AWS Config records the configuration of your resources over time, so you can see what a resource looked like at any point in time and what changed."
+    },
+    {
+      "id": "kc-config-rules",
+      "version": 1,
+      "statement": "AWS Config rules check resources against desired settings (for example 'S3 buckets must not be public' or 'EBS volumes must be encrypted') and flag non-compliant resources. Remediation can be automated."
+    },
+    {
+      "id": "kc-config-vs-cloudtrail",
+      "version": 1,
+      "statement": "AWS Config answers 'what does this resource look like, and is it compliant?' CloudTrail answers 'who made the API call that changed it?'"
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-cloudtrail"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-cloudtrail",
+    "clf-aws-artifact"
+  ],
+  "introduces": [
+    "aws config",
+    "config rule",
+    "configuration history"
+  ],
+  "uses": [
+    "cloudtrail",
+    "s3 bucket",
+    "ebs",
+    "encryption at rest"
+  ],
+  "problem_ideas": [
+    "A security group allowed port 22 from 0.0.0.0/0 last Tuesday but not today. Which service shows the change in the security group's configuration?",
+    "Compliance requires every EBS volume to be encrypted. Which feature flags unencrypted ones continuously?",
+    "Pick CloudTrail or Config: 'who opened the bucket to the public?' and 'which buckets are public right now?'",
+    "A non-compliant S3 bucket should be made private automatically. Describe the Config pieces involved.",
+    "An auditor asks what a database looked like 45 days ago. Name the service.",
+    "Explain the difference between AWS Config compliance and AWS Artifact compliance reports."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/aws-config"
+    }
+  ],
+  "status": "stub"
+}

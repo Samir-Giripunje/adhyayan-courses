@@ -1,0 +1,82 @@
+{
+  "goal_text": "System design (interview-focused)",
+  "pasted": [],
+  "chips": {
+    "level": "some",
+    "target": "interview",
+    "depth": "working",
+    "daily_min": 90,
+    "days": [
+      "mon",
+      "tue",
+      "wed",
+      "thu",
+      "fri"
+    ]
+  },
+  "parsed_from": [
+    {
+      "chip": "target",
+      "phrase": "interview-focused"
+    }
+  ],
+  "fork": {
+    "question": "How far do you want to go for your system design interviews?",
+    "chosen": "interview-core",
+    "cards": [
+      {
+        "id": "interview-core",
+        "label": "Interview core: building blocks, trade-offs, then 10+ case studies and timed mocks",
+        "stages": [
+          "Foundations: how a request travels the web",
+          "The interview framework and estimation",
+          "Scaling the request path",
+          "Caching",
+          "Data storage and distribution",
+          "Asynchronism, messaging and real-time delivery",
+          "Reliability, availability and coordination",
+          "Case studies and mock interviews"
+        ],
+        "effort_h": [
+          60,
+          80
+        ]
+      },
+      {
+        "id": "fast-track",
+        "label": "Fast track: framework, the must-know building blocks and the five classic case studies",
+        "stages": [
+          "The interview framework and estimation",
+          "Scaling the request path",
+          "Caching",
+          "Data storage and distribution",
+          "Case studies and mock interviews"
+        ],
+        "effort_h": [
+          30,
+          42
+        ]
+      },
+      {
+        "id": "senior-deep",
+        "label": "Senior / staff depth: interview core plus consensus, distributed transactions, cloud patterns and harder case studies",
+        "stages": [
+          "Foundations: how a request travels the web",
+          "The interview framework and estimation",
+          "Scaling the request path",
+          "Caching",
+          "Data storage and distribution",
+          "Asynchronism, messaging and real-time delivery",
+          "Reliability, availability and coordination",
+          "Distributed systems deep dive",
+          "Cloud design patterns for architects",
+          "Advanced case studies (payments, collaborative editing, maps, video conferencing)"
+        ],
+        "effort_h": [
+          95,
+          125
+        ]
+      }
+    ]
+  }
+}

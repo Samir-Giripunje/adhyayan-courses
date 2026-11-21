@@ -1,0 +1,584 @@
+{
+  "parts": [
+    {
+      "id": "p1",
+      "title": "HTTP: requests, methods and status codes",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "HTTP: requests, methods and status codes",
+          "kcs": [
+            "kc-http-request-response",
+            "kc-http-methods",
+            "kc-http-status-codes"
+          ],
+          "est_minutes": 7,
+          "blocks": [
+            {
+              "id": "blk-sd-http-01",
+              "block": {
+                "type": "prose",
+                "md": "**HTTP** (Hypertext Transfer Protocol) is the language browsers and apps use to talk to web servers. The client sends a **request** saying what it wants, and the server sends back a **response** with a status code and the content."
+              }
+            },
+            {
+              "id": "blk-sd-http-02",
+              "block": {
+                "type": "prose",
+                "md": "Open `en.wikipedia.org/wiki/HTTP`. On a fresh visit, the browser first looks up the site's IP address with DNS and opens a TCP connection (with TLS, for HTTPS). Then it sends a request like the first block below. Wikipedia's server answers with the second: status `200 OK`, a header saying the content is a web page, then the page itself. Ask for a page that doesn't exist and the status is `404 Not Found` instead.\n\n```text\nGET /wiki/HTTP HTTP/1.1\nHost: en.wikipedia.org\n\nHTTP/1.1 200 OK\nContent-Type: text/html; charset=UTF-8\n\n<!DOCTYPE html> …the article…\n```"
+              }
+            },
+            {
+              "id": "blk-sd-http-03",
+              "block": {
+                "type": "prose",
+                "md": "A request has a **method** (what to do), a **path** (which resource), **headers** (extra facts, such as which site) and sometimes a **body** (data sent along). The response has a **status code**, headers and usually a body.\n\n- **GET** reads. **POST** creates or submits. **PUT** replaces. **PATCH** changes part. **DELETE** removes.\n- GET, PUT and DELETE are **idempotent**: sending the same request twice has the same intended effect as once. POST isn't: two POSTs can create two orders.\n\nThe status code's first digit is its class: **2xx** success (200, 201 created), **3xx** look elsewhere (301 moved for good, 302 for now), **4xx** a problem with the request (400 malformed, 401 not logged in, 404 not found, 429 too many requests), **5xx** the server failed (500, 503 unavailable).\n\nHTTP is **stateless**: each request stands alone. HTTP/1.1 and HTTP/2 usually run over TCP; HTTP/3 runs over QUIC, which is built on UDP."
+              }
+            },
+            {
+              "id": "blk-sd-http-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-http-503-class",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-http-status-codes"
+                  ],
+                  "prompt_md": "A server answers a request with status `503`. What does the first digit tell you?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "The request succeeded",
+                      "why_md": "Success codes start with 2."
+                    },
+                    {
+                      "id": "b",
+                      "md": "Something is wrong with the request",
+                      "why_md": "Request problems start with 4.",
+                      "misconception": "mc-4xx-server-fault"
+                    },
+                    {
+                      "id": "c",
+                      "md": "The server could not handle it",
+                      "correct": true,
+                      "why_md": "Right. 5xx means a server-side failure; 503 means it is unavailable right now."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-sd-http-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Idempotent doesn't mean the same response, or a safe payment",
+                "md": "Idempotent means the same **intended effect**, not the same response. A repeated `DELETE /orders/981` may get `404` the second time, but either way the order is gone. Incidental effects such as log lines may repeat.\n\nWhen a POST times out, the client can't tell whether the server processed it, so a blind retry can create a second order. Choosing PUT doesn't fix a double charge by itself either: the server has to make the operation repeatable. A common way is an **idempotency key**: the client sends a unique key with the request, and the server records it and returns the first result if the same key arrives again."
+              }
+            },
+            {
+              "id": "blk-sd-http-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Headers and codes that people mix up",
+                "md": "**Content-Length** gives the body's size in bytes, not counting the headers: a body `Hi` has `Content-Length: 2`. **401** means \"log in first\": the request has no valid credentials. **403** means \"not allowed\", even with valid credentials. **301** means the resource moved for good (plain `http://wikipedia.org/` gets a 301 to `https://wikipedia.org/`); **302** means for now. **400** means the server couldn't understand the request, for example a JSON body cut off halfway. **429** means this client has sent too many requests; it says nothing about whether the server is healthy."
+              }
+            },
+            {
+              "id": "blk-sd-http-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "How a stateless protocol keeps you logged in",
+                "md": "HTTP itself remembers nothing between requests. After you log in, the server gives the browser a **cookie**, a small token. The browser sends it back with later requests to that site, and the server looks it up to know who you are. The memory lives in the cookie and on the server, not in HTTP."
+              }
+            },
+            {
+              "id": "blk-sd-http-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-http-exchange",
+                "kind": "sequence",
+                "title": "Two requests, two responses",
+                "alt": "A client sends GET /wiki/HTTP to a server and gets back 200 OK with the page. Then it sends POST /orders and gets back 201 Created. Each request stands alone.",
+                "spec": {
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "sub": "browser",
+                      "type": "client"
+                    },
+                    {
+                      "id": "server",
+                      "label": "Server",
+                      "sub": "wikipedia.org",
+                      "type": "server"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "from": "client",
+                      "to": "server",
+                      "label": "GET /wiki/HTTP",
+                      "detail": "GET reads the page at that path; headers like Host ride along."
+                    },
+                    {
+                      "from": "server",
+                      "to": "client",
+                      "kind": "reply",
+                      "label": "200 OK + the page",
+                      "detail": "2xx means success; the body is the page."
+                    },
+                    {
+                      "from": "client",
+                      "to": "server",
+                      "label": "POST /orders",
+                      "detail": "POST creates or submits. Sending it twice can create two orders."
+                    },
+                    {
+                      "from": "server",
+                      "to": "client",
+                      "kind": "reply",
+                      "label": "201 Created"
+                    },
+                    {
+                      "from": "client",
+                      "to": "server",
+                      "kind": "note",
+                      "label": "each request stands alone: HTTP is stateless"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "answer": "**HTTP** (Hypertext Transfer Protocol) is the language browsers and apps use to talk to web servers. The client sends a **request** saying what it wants, and the server sends back a **response** with a status code and the content.",
+  "example": "Open `en.wikipedia.org/wiki/HTTP`. On a fresh visit, the browser first looks up the site's IP address with DNS and opens a TCP connection (with TLS, for HTTPS). Then it sends a request like the first block below. Wikipedia's server answers with the second: status `200 OK`, a header saying the content is a web page, then the page itself. Ask for a page that doesn't exist and the status is `404 Not Found` instead.\n\n```text\nGET /wiki/HTTP HTTP/1.1\nHost: en.wikipedia.org\n\nHTTP/1.1 200 OK\nContent-Type: text/html; charset=UTF-8\n\n<!DOCTYPE html> …the article…\n```",
+  "how": {
+    "md": "A request has a **method** (what to do), a **path** (which resource), **headers** (extra facts, such as which site) and sometimes a **body** (data sent along). The response has a **status code**, headers and usually a body.\n\n- **GET** reads. **POST** creates or submits. **PUT** replaces. **PATCH** changes part. **DELETE** removes.\n- GET, PUT and DELETE are **idempotent**: sending the same request twice has the same intended effect as once. POST isn't: two POSTs can create two orders.\n\nThe status code's first digit is its class: **2xx** success (200, 201 created), **3xx** look elsewhere (301 moved for good, 302 for now), **4xx** a problem with the request (400 malformed, 401 not logged in, 404 not found, 429 too many requests), **5xx** the server failed (500, 503 unavailable).\n\nHTTP is **stateless**: each request stands alone. HTTP/1.1 and HTTP/2 usually run over TCP; HTTP/3 runs over QUIC, which is built on UDP.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-http-exchange",
+      "kind": "sequence",
+      "title": "Two requests, two responses",
+      "alt": "A client sends GET /wiki/HTTP to a server and gets back 200 OK with the page. Then it sends POST /orders and gets back 201 Created. Each request stands alone.",
+      "spec": {
+        "participants": [
+          {
+            "id": "client",
+            "label": "Client",
+            "sub": "browser",
+            "type": "client"
+          },
+          {
+            "id": "server",
+            "label": "Server",
+            "sub": "wikipedia.org",
+            "type": "server"
+          }
+        ],
+        "messages": [
+          {
+            "from": "client",
+            "to": "server",
+            "label": "GET /wiki/HTTP",
+            "detail": "GET reads the page at that path; headers like Host ride along."
+          },
+          {
+            "from": "server",
+            "to": "client",
+            "kind": "reply",
+            "label": "200 OK + the page",
+            "detail": "2xx means success; the body is the page."
+          },
+          {
+            "from": "client",
+            "to": "server",
+            "label": "POST /orders",
+            "detail": "POST creates or submits. Sending it twice can create two orders."
+          },
+          {
+            "from": "server",
+            "to": "client",
+            "kind": "reply",
+            "label": "201 Created"
+          },
+          {
+            "from": "client",
+            "to": "server",
+            "kind": "note",
+            "label": "each request stands alone: HTTP is stateless"
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-http-503-class",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-http-status-codes"
+    ],
+    "prompt_md": "A server answers a request with status `503`. What does the first digit tell you?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The request succeeded",
+        "why_md": "Success codes start with 2."
+      },
+      {
+        "id": "b",
+        "md": "Something is wrong with the request",
+        "why_md": "Request problems start with 4.",
+        "misconception": "mc-4xx-server-fault"
+      },
+      {
+        "id": "c",
+        "md": "The server could not handle it",
+        "correct": true,
+        "why_md": "Right. 5xx means a server-side failure; 503 means it is unavailable right now."
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "Idempotent doesn't mean the same response, or a safe payment",
+      "md": "Idempotent means the same **intended effect**, not the same response. A repeated `DELETE /orders/981` may get `404` the second time, but either way the order is gone. Incidental effects such as log lines may repeat.\n\nWhen a POST times out, the client can't tell whether the server processed it, so a blind retry can create a second order. Choosing PUT doesn't fix a double charge by itself either: the server has to make the operation repeatable. A common way is an **idempotency key**: the client sends a unique key with the request, and the server records it and returns the first result if the same key arrives again."
+    },
+    {
+      "title": "Headers and codes that people mix up",
+      "md": "**Content-Length** gives the body's size in bytes, not counting the headers: a body `Hi` has `Content-Length: 2`. **401** means \"log in first\": the request has no valid credentials. **403** means \"not allowed\", even with valid credentials. **301** means the resource moved for good (plain `http://wikipedia.org/` gets a 301 to `https://wikipedia.org/`); **302** means for now. **400** means the server couldn't understand the request, for example a JSON body cut off halfway. **429** means this client has sent too many requests; it says nothing about whether the server is healthy."
+    },
+    {
+      "title": "How a stateless protocol keeps you logged in",
+      "md": "HTTP itself remembers nothing between requests. After you log in, the server gives the browser a **cookie**, a small token. The browser sends it back with later requests to that site, and the server looks it up to know who you are. The memory lives in the cookie and on the server, not in HTTP."
+    }
+  ],
+  "visual_fit": {
+    "kind": "sequence",
+    "why": "HTTP is request and response between two parties; a sequence shows the pairs and that each stands alone."
+  },
+  "glossary": [
+    {
+      "term": "http",
+      "md": "Hypertext Transfer Protocol: the request–response protocol browsers and apps use to talk to web servers."
+    },
+    {
+      "term": "http method",
+      "md": "The verb at the start of a request that says what to do: GET, POST, PUT, PATCH or DELETE."
+    },
+    {
+      "term": "http status code",
+      "md": "The three-digit number at the start of a response. Its first digit is the class: 2xx success, 3xx redirection, 4xx client error, 5xx server error."
+    },
+    {
+      "term": "http header",
+      "md": "A `Name: value` line in a request or response that carries extra facts, such as `Host`, `Content-Type` or a cookie."
+    },
+    {
+      "term": "idempotent",
+      "md": "A request is idempotent when sending it twice has the same intended effect on the server as sending it once."
+    },
+    {
+      "term": "stateless",
+      "md": "Each request stands alone: the protocol keeps no memory of earlier requests."
+    },
+    {
+      "term": "tcp",
+      "md": "Transmission Control Protocol: delivers a stream of bytes reliably and in order between two programs."
+    },
+    {
+      "term": "quic",
+      "md": "A transport protocol built on UDP that gives HTTP/3 reliable, encrypted streams."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-http-keeps-state",
+      "statement": "HTTP remembers who you are between requests; staying logged in is a feature of the protocol itself.",
+      "tags": [
+        "kc-http-request-response"
+      ]
+    },
+    {
+      "id": "mc-http-always-tcp",
+      "statement": "HTTP always runs over TCP.",
+      "tags": [
+        "kc-http-request-response"
+      ]
+    },
+    {
+      "id": "mc-retry-always-safe",
+      "statement": "Any request can be retried safely after a timeout.",
+      "tags": [
+        "kc-http-methods"
+      ]
+    },
+    {
+      "id": "mc-idempotent-same-response",
+      "statement": "Idempotent means a request returns the same response every time, or that it changes nothing on the server.",
+      "tags": [
+        "kc-http-methods"
+      ]
+    },
+    {
+      "id": "mc-4xx-server-fault",
+      "statement": "Every 4xx or 5xx code means the server failed.",
+      "tags": [
+        "kc-http-status-codes"
+      ]
+    }
+  ],
+  "recap": {
+    "pitfall": "Retrying a POST after a timeout can create a second order: only idempotent requests, or ones with an idempotency key, are safe to repeat."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-put-vs-patch",
+      "beat": "b-lesson",
+      "question": "What's the difference between PUT and PATCH?",
+      "match": [
+        "put vs patch",
+        "put and patch",
+        "difference put",
+        "patch"
+      ],
+      "answer_md": "PUT sends the whole new version of a resource and replaces it. PATCH sends only the fields to change.",
+      "deeper_md": "`PUT /users/7` with `{\"name\": \"Asha\", \"city\": \"Pune\"}` replaces the whole user. `PATCH /users/7` with `{\"city\": \"Pune\"}` changes only the city.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Replace vs change part",
+        "md": "PUT: \"here is the whole thing, store exactly this\". Sending it twice leaves the same result. PATCH: \"change these fields\".",
+        "verify": {
+          "id": "q-br-put-patch",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-http-methods"
+          ],
+          "prompt_md": "You want to change only a user's email address and send just that field. Which method fits?",
+          "options": [
+            {
+              "id": "a",
+              "md": "PATCH",
+              "correct": true,
+              "why_md": "Right. PATCH changes part of a resource."
+            },
+            {
+              "id": "b",
+              "md": "PUT",
+              "why_md": "PUT replaces the whole resource with what you send."
+            },
+            {
+              "id": "c",
+              "md": "GET",
+              "why_md": "GET only reads."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-delete-twice",
+      "beat": "b-lesson",
+      "question": "If DELETE is idempotent, why did the second DELETE return 404?",
+      "match": [
+        "delete twice",
+        "second delete",
+        "404 after delete",
+        "idempotent response"
+      ],
+      "answer_md": "Idempotent is about the effect on the server, not the response. After either request the resource is gone; the second one just reports there was nothing left to delete.",
+      "deeper_md": "Compare the server's state, not the replies: after one DELETE, no order 981; after two DELETEs, still no order 981. Same state, so DELETE is idempotent.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Same state, different replies",
+        "md": "`DELETE /orders/981` → 200, the order is removed. `DELETE /orders/981` again → 404, nothing to remove. The state after both: no order 981.",
+        "verify": {
+          "id": "q-br-delete-twice",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-http-methods"
+          ],
+          "prompt_md": "Which request, sent twice, could leave the server in a different state than sending it once?",
+          "options": [
+            {
+              "id": "a",
+              "md": "`POST /orders` with the same body",
+              "correct": true,
+              "why_md": "Right. Each POST can create a new order."
+            },
+            {
+              "id": "b",
+              "md": "`DELETE /orders/5`",
+              "why_md": "After one or two deletes, order 5 is gone either way.",
+              "misconception": "mc-idempotent-same-response"
+            },
+            {
+              "id": "c",
+              "md": "`GET /orders/5`",
+              "why_md": "GET only reads; it doesn't change the server's state."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-http3-udp",
+      "beat": "b-lesson",
+      "question": "How can HTTP/3 be reliable if it runs on UDP?",
+      "match": [
+        "http/3",
+        "http3",
+        "quic",
+        "udp reliable"
+      ],
+      "answer_md": "QUIC adds reliability on top of UDP: it numbers the data, acknowledges it and resends what's lost, much like TCP does.",
+      "deeper_md": "UDP only carries the packets. QUIC, running inside the program, does the ordering and resending, and it does so per stream, so one lost packet holds up only its own stream.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "Reliability moved up a layer",
+        "md": "TCP's reliability lives in the operating system. QUIC usually lives in the application, as a library, and uses plain UDP packets underneath.",
+        "verify": {
+          "id": "q-br-http3",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-http-request-response"
+          ],
+          "prompt_md": "Which transport does HTTP/3 run over?",
+          "options": [
+            {
+              "id": "a",
+              "md": "QUIC, on top of UDP",
+              "correct": true,
+              "why_md": "Right."
+            },
+            {
+              "id": "b",
+              "md": "TCP",
+              "why_md": "HTTP/1.1 and HTTP/2 usually use TCP; HTTP/3 does not.",
+              "misconception": "mc-http-always-tcp"
+            },
+            {
+              "id": "c",
+              "md": "Plain UDP with no extra protocol",
+              "why_md": "UDP alone resends nothing; QUIC adds that."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-http-versions",
+      "kind": "mechanism",
+      "title": "HTTP/1.1 vs HTTP/2 vs HTTP/3: connections, multiplexing and head-of-line blocking",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-idempotency-keys",
+      "kind": "implementation",
+      "title": "Idempotency keys: making POST /orders safe to retry",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-state",
+      "kind": "adjacent",
+      "title": "Where the state lives: cookies, session stores and bearer tokens",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "sd-http",
+  "version": 1,
+  "title": "HTTP: requests, methods and status codes",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-http-request-response",
+      "version": 1,
+      "statement": "HTTP is a stateless request/response protocol: a request carries a method, a path, headers and an optional body, and the response carries a status code, headers and a body. HTTP/1.1 and HTTP/2 usually run over TCP, while HTTP/3 runs over QUIC on UDP."
+    },
+    {
+      "id": "kc-http-methods",
+      "version": 1,
+      "statement": "GET reads a resource, POST creates or submits, PUT replaces, PATCH partially updates and DELETE removes; GET, PUT and DELETE are idempotent (repeating them has the same effect) while POST is not."
+    },
+    {
+      "id": "kc-http-status-codes",
+      "version": 1,
+      "statement": "Status code classes are 2xx success (200, 201), 3xx redirection (301, 302), 4xx client error (400, 401, 404, 429 too many requests) and 5xx server error (500, 503)."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-tcp-udp",
+    "sd-client-server"
+  ],
+  "confusable_with": [
+    "sd-https-tls"
+  ],
+  "introduces": [
+    "http",
+    "http method",
+    "http status code",
+    "http header"
+  ],
+  "uses": [
+    "tcp",
+    "udp",
+    "client",
+    "server",
+    "application layer"
+  ],
+  "problem_ideas": [
+    "Pick the method for: fetch a profile, upload a new photo, change only the bio, remove a comment.",
+    "A client retries a timed-out POST /payments; what could go wrong that would not happen with PUT?",
+    "Which status code should a URL shortener return on redirect, and why 301 vs 302 matters for analytics?",
+    "Return codes for: missing auth token, rate limit exceeded, server overloaded, resource not found.",
+    "Write the raw request line and two headers for fetching /users/42 as JSON.",
+    "HTTP is stateless, yet you stay logged in; explain where the state lives."
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "communication/hypertext-transfer-protocol-http"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "networking-fundamentals/http-https"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "communication/communication"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [
+    "sd-http/exit-1",
+    "sd-http/exit-2",
+    "sd-http/exit-3"
+  ],
+  "status": "stocked",
+  "provenance": {
+    "origin": "generated",
+    "job": "reauthor-sd-u0"
+  }
+}

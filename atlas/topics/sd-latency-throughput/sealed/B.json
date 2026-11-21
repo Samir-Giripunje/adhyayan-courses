@@ -1,0 +1,205 @@
+[
+  {
+    "id": "sd-latency-throughput/test-b1",
+    "family": "sd-latency-throughput-lt-mean-vs-p99-code",
+    "kind": "predict_output",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-latency-vs-throughput"
+    ],
+    "prompt_md": "A food-delivery app logs the latency of 100 calls to its menu API, in milliseconds. The code computes the average and the p99 (here, the 99th of the 100 sorted values). What does it print? Type the output exactly.",
+    "code": "lat = sorted([12] * 97 + [900, 1100, 1500])\nmean = sum(lat) / len(lat)\np99 = lat[98]   # 99th of the 100 sorted values\nprint(round(mean), p99)\n",
+    "answer": {
+      "value": "47 1100",
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "lat = sorted([12] * 97 + [900, 1100, 1500])\nmean = sum(lat) / len(lat)\np99 = lat[98]\nanswer = f\"{round(mean)} {p99}\"\n"
+    },
+    "hints": [
+      "Add up all 100 latencies and divide by 100 for the mean. For p99, list the sorted values and count to index 98 (indexes start at 0).",
+      "Sum: 97 × 12 + 900 + 1,100 + 1,500 = 4,664, so the mean is 46.64. Sorted, indexes 0–96 hold 12, then 97 → 900, 98 → 1,100, 99 → 1,500."
+    ],
+    "solution_md": "1. Sum: 97 × 12 = 1,164, and 1,164 + 900 + 1,100 + 1,500 = **4,664**.\n2. Mean: 4,664 ÷ 100 = 46.64, and `round` gives **47**.\n3. Sorted list: indexes 0–96 are 12, index 97 is 900, index 98 is **1,100**, index 99 is 1,500. So `p99 = 1100`.\n4. `print` separates the values with a space.\n\nOutput:\n\n```text\n47 1100\n```\n\nThe average of 47 ms hides the slow requests: the p99 is 1,100 ms. This is why latency targets are set on p99 rather than on the average.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/test-b2",
+    "family": "sd-latency-throughput-lt-shared-link-time",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-bandwidth"
+    ],
+    "prompt_md": "An office has a link rated at **1 Gbps**. Ten laptops each start downloading the same **750 MB** update at the same moment. They share the link equally, nothing else uses it, and you can ignore header overhead.\n\nWhat is the **shortest** time one laptop's download can take, in **seconds**? Use 1 Gbps = 1,000 Mbps and 1 MB = 8 megabits.",
+    "answer": {
+      "value": 60,
+      "tolerance": 0,
+      "unit": "s"
+    },
+    "common_wrong": [
+      {
+        "value": 6,
+        "kind": "misconception",
+        "tag": "mc-throughput-equals-bandwidth",
+        "why_md": "That gives the one laptop the full 1,000 Mbps. Ten laptops share the link, so each gets at most 100 Mbps."
+      },
+      {
+        "value": 7.5,
+        "kind": "slip",
+        "why_md": "750 ÷ 100 leaves the size in megabytes. Convert to bits first: 750 × 8 = 6,000 megabits."
+      },
+      {
+        "value": 0.75,
+        "kind": "slip",
+        "why_md": "This makes both mistakes: no sharing (1,000 Mbps) and no bytes-to-bits conversion (750 instead of 6,000)."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "link_mbps = 1000\nlaptops = 10\nshare_mbps = link_mbps / laptops\nsize_megabits = 750 * 8\nanswer = size_megabits / share_mbps\n"
+    },
+    "hints": [
+      "Work out each laptop's share of the bandwidth, then use time = size ÷ rate with the size in megabits.",
+      "Share: 1,000 ÷ 10 = 100 Mbps. Size: 750 × 8 = 6,000 megabits. Divide."
+    ],
+    "solution_md": "1. Each laptop's share: 1,000 Mbps ÷ 10 = **100 Mbps**. This is the most throughput one download can get.\n2. Size in bits: 750 MB × 8 = **6,000 megabits**.\n3. Shortest time: 6,000 ÷ 100 = **60 s**.\n\nThe link's 1 Gbps bandwidth is a ceiling for the whole link. Sharing it means each transfer gets only part of it.\n\n**Answer: 60 s.**",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/test-b3",
+    "family": "sd-latency-throughput-lt-inflight-latency-spike",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-littles-law"
+    ],
+    "prompt_md": "A music-streaming app's login API completes **1,500 requests per second** at an average latency of **40 ms**. A slow database query then raises the average latency to **200 ms**. The servers have spare workers, so throughput stays at 1,500 requests per second.\n\nUsing Little's law, **by how many** does the number of requests in flight grow?",
+    "answer": {
+      "value": 240,
+      "tolerance": 0,
+      "unit": "requests"
+    },
+    "common_wrong": [
+      {
+        "value": 300,
+        "kind": "slip",
+        "why_md": "300 is the new number in flight (1,500 × 0.2). The question asks how much it grew: 300 − 60 = 240."
+      },
+      {
+        "value": 240000,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "That multiplies by latencies in milliseconds. Little's law needs seconds: 40 ms = 0.04 s and 200 ms = 0.2 s."
+      },
+      {
+        "value": 5,
+        "kind": "slip",
+        "why_md": "5 is the ratio of the latencies (200 ÷ 40), so the in-flight count grows **fivefold**. The question asks for the increase in requests: 300 − 60 = 240."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "throughput = 1500\nbefore = throughput * (40 / 1000)\nafter = throughput * (200 / 1000)\nanswer = round(after - before, 6)\n"
+    },
+    "hints": [
+      "Apply in flight = throughput × latency (in seconds) twice, once before and once after, then subtract.",
+      "Before: 1,500 × 0.04 = 60. After: 1,500 × 0.2 = 300."
+    ],
+    "solution_md": "1. Before: 1,500 × 0.04 s = **60** requests in flight.\n2. After: 1,500 × 0.2 s = **300** requests in flight.\n3. Growth: 300 − 60 = **240**.\n\nThe same throughput at 5× the latency needs 5× as many requests in progress at once. This is why a slow dependency can use up worker pools and connection pools.\n\n**Answer: 240 more requests in flight.**",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-latency-throughput"
+    }
+  },
+  {
+    "id": "sd-latency-throughput/test-b4",
+    "family": "sd-latency-throughput-lt-bikes-out-estimate",
+    "kind": "estimate",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-littles-law"
+    ],
+    "prompt_md": "A city bike-share scheme is at a steady state: **1,800 rides start every hour**, and the average ride lasts **20 minutes**. Each ride uses one bike from start to finish.\n\nUsing Little's law, estimate how many bikes are out on rides at any moment.",
+    "answer": {
+      "value": 600,
+      "tolerance": 60,
+      "unit": "bikes"
+    },
+    "common_wrong": [
+      {
+        "value": 36000,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "1,800 × 20 mixes rides per **hour** with minutes. Put both in the same time unit: 20 min = 1/3 h."
+      },
+      {
+        "value": 90,
+        "kind": "misconception",
+        "tag": "mc-littles-law-units",
+        "why_md": "1,800 ÷ 20 divides the rate by the duration. Little's law multiplies them: in flight = throughput × latency."
+      },
+      {
+        "value": 5400,
+        "kind": "slip",
+        "why_md": "1,800 ÷ (1/3) divides by the ride time in hours. Multiply instead: 1,800 × 1/3 = 600."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "rides_per_hour = 1800\nride_hours = 20 / 60\nanswer = round(rides_per_hour * ride_hours, 6)\n"
+    },
+    "hints": [
+      "Little's law works for anything that arrives, stays a while and leaves: in progress = throughput × time each one stays, with both in the same time unit.",
+      "1,800 rides per hour = 30 rides per minute. Each ride lasts 20 minutes."
+    ],
+    "solution_md": "1. Use one time unit. In minutes: 1,800 rides per hour ÷ 60 = **30 rides per minute**.\n2. Little's law: in progress = throughput × latency = 30 per min × 20 min = **600**.\n3. Check in hours: 1,800 per h × (20 ÷ 60) h = 600. ✓\n\nAbout **600 bikes** are out at any moment. Accepted range: 540–660.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-latency-throughput",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-latency-throughput"
+    }
+  }
+]

@@ -1,0 +1,93 @@
+[
+  {
+    "id": "q-cp2-trunc",
+    "version": 1,
+    "family": "q-cp2-trunc",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-pooling",
+    "kcs": [
+      "kc-pooling-limits",
+      "kc-chunking"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Why can embedding a whole 40-page PDF as one vector make it unfindable?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Truncation drops most of the text, and what remains is diluted across many topics",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "PDFs can't be embedded",
+        "why_md": "Text extracted from PDFs embeds fine."
+      },
+      {
+        "id": "c",
+        "md": "The vector would be too long",
+        "why_md": "Output length is fixed by the model."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Token vectors are pooled into one vector for the whole input.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-i5",
+    "version": 1,
+    "family": "q-dpp-i5",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-pooling",
+    "kcs": [
+      "kc-pooling-limits"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Your 1,000-token chunks are fed to a model with a **512-token** limit, through a library that truncates. What gets embedded?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Only the first ~512 tokens. The rest is ignored",
+        "correct": true,
+        "why_md": "Right. Silent truncation."
+      },
+      {
+        "id": "b",
+        "md": "An average of both halves",
+        "why_md": "Libraries don't split for you."
+      },
+      {
+        "id": "c",
+        "md": "The whole chunk, at lower precision",
+        "why_md": "There's no automatic compression. Text past the limit is dropped."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Token vectors are pooled into one vector for the whole input.",
+      "Content past the limit never reaches the vector."
+    ],
+    "solution_md": "Content past the limit never reaches the vector. Chunk below the model's limit.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-site-to-site-vpn",
+  "version": 1,
+  "title": "AWS VPN: Site-to-Site and Client VPN",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-site-to-site-vpn-ipsec",
+      "version": 1,
+      "statement": "AWS Site-to-Site VPN creates an encrypted IPsec connection over the public internet between an on-premises network and a VPC; it can be set up quickly, but bandwidth and latency vary with internet conditions."
+    },
+    {
+      "id": "kc-client-vpn-users",
+      "version": 1,
+      "statement": "AWS Client VPN connects individual users' devices, such as remote employees' laptops, to AWS or on-premises networks, whereas Site-to-Site VPN joins whole networks."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-vpc-subnets"
+  ],
+  "suggests": [
+    "clf-deployment-models"
+  ],
+  "confusable_with": [
+    "clf-direct-connect"
+  ],
+  "introduces": [
+    "site-to-site vpn",
+    "client vpn",
+    "ipsec"
+  ],
+  "uses": [
+    "vpc",
+    "hybrid cloud",
+    "on-premises deployment"
+  ],
+  "problem_ideas": [
+    "A branch office needs encrypted access to a VPC by tomorrow on a small budget: pick the option",
+    "200 employees working from home must reach internal apps in a VPC: Site-to-Site or Client VPN?",
+    "True or false: Site-to-Site VPN traffic travels over a private dedicated line",
+    "A hybrid company's nightly sync slows when internet traffic is heavy; explain why with VPN",
+    "Classify scenarios as network-to-network or user-to-network",
+    "A head office router and a VPC must exchange traffic securely: name the protocol that encrypts the tunnel"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-5-identify-aws-network-/identifying-network-connectivity-options"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "networking-and-content-delivery/aws-site-to-site-vpn"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "networking-and-content-delivery/aws-client-vpn"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "vpc/site-to-site-vpn-direct-connect"
+    }
+  ],
+  "status": "stub"
+}

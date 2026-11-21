@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-quorum",
+  "version": 1,
+  "title": "Quorum reads and writes: R + W > N",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-leaderless-replication",
+      "version": 1,
+      "statement": "In leaderless (Dynamo-style) replication a client sends each write and read to several replicas directly, with no single leader ordering writes."
+    },
+    {
+      "id": "kc-quorum-overlap",
+      "version": 1,
+      "statement": "With N replicas, writing to W and reading from R where R + W > N guarantees the read set overlaps the latest write set, so at least one replica read holds the latest value."
+    },
+    {
+      "id": "kc-quorum-tuning",
+      "version": 1,
+      "statement": "Lowering W or R speeds that operation and tolerates more unavailable replicas for it; with N=3, W=1, R=3, writes succeed with one replica up but reads fail if any replica is down."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-consistency-models"
+  ],
+  "suggests": [
+    "sd-cap-theorem"
+  ],
+  "confusable_with": [
+    "sd-replication-leader-follower"
+  ],
+  "introduces": [
+    "quorum",
+    "leaderless replication"
+  ],
+  "uses": [
+    "replication",
+    "strong consistency",
+    "eventual consistency",
+    "replication factor"
+  ],
+  "problem_ideas": [
+    "N=3: list every (R, W) pair that satisfies R + W > N",
+    "N=5, W=3, R=3: how many replicas can be down while both reads and writes still succeed?",
+    "N=3, W=2, R=1: show a sequence where a read returns stale data",
+    "Pick N, R, W for a write-heavy metrics store that tolerates staleness",
+    "Pick N, R, W for a user-settings store that must read its own writes",
+    "Compute read latency when R=2 and the three replicas answer in 5 ms, 12 ms and 80 ms"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "data-replication/data-replication"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "consistency-patterns/consistency-patterns"
+    }
+  ],
+  "status": "stub"
+}

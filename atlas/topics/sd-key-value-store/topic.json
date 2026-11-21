@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-key-value-store",
+  "version": 1,
+  "title": "Key-value stores",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-kv-model",
+      "version": 1,
+      "statement": "A key-value store gives efficient lookup and write of a value by its key (exact cost and latency depend on the implementation: hash table, B-tree or LSM-tree) and cannot query by fields inside the value without a separately maintained index."
+    },
+    {
+      "id": "kc-kv-uses",
+      "version": 1,
+      "statement": "Key-value stores fit lookups by ID with no relations, such as sessions, shopping carts, short-code-to-URL mappings and feature flags."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-nosql-base"
+  ],
+  "suggests": [
+    "sd-distributed-cache"
+  ],
+  "confusable_with": [
+    "sd-document-store"
+  ],
+  "introduces": [
+    "key-value store"
+  ],
+  "uses": [
+    "nosql",
+    "access pattern"
+  ],
+  "problem_ideas": [
+    "Design the key and value for a URL shortener's redirect lookup",
+    "A product manager asks for 'all carts containing item X' from a key-value cart store: explain the problem and a fix",
+    "Choose a key scheme for user sessions that expire after 30 minutes",
+    "Decide whether a leaderboard sorted by score fits a plain key-value store",
+    "Estimate memory for 500M short-code mappings at 100 bytes each",
+    "Compare a key-value store with a cache for storing feature flags"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "application-layer/key-value-store"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "database/key-value-store"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "examples-7/key-value"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,886 @@
+{
+  "answer": "A **closure** is a function defined inside another function that keeps using the outer function's variables after the outer function has returned. Calling it later still finds those variables.",
+  "example": "```python\ndef make_multiplier(n):\n    def multiply(x):\n        return x * n\n    return multiply\n\ntriple = make_multiplier(3)\nprint(triple(7))   # 21\n```\n\n`make_multiplier(3)` has already returned, so you might expect its local `n` to be gone. Yet `triple(7)` still finds `n = 3` and prints 21. `triple` is a closure over `n`.",
+  "how": {
+    "md": "1. Calling `make_multiplier(3)` creates a local variable `n = 3`.\n2. The `def` builds `multiply`. It reads `n`, so Python attaches `n`'s **cell** to it. A cell is a small box holding one variable.\n3. `make_multiplier` returns. The cell stays alive because `multiply` still holds it.\n4. `triple(7)` reads `n` from the cell, gets 3, and returns 21.\n\nThe closure keeps the variable, not a copy of its value. This is **late binding**: the value is read when the inner function runs. So `[lambda: i for i in range(3)]` gives three functions that all return 2. To fix it, bind the current value as a default argument: `lambda i=i: i`.\n\nReading an outer variable needs nothing extra, but assigning to it does. A bare `count += 1` makes `count` local, so Python raises `UnboundLocalError`. Write **`nonlocal count`** first to assign to the outer variable.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-closure-cell",
+      "kind": "memory",
+      "title": "The cell outlives the call",
+      "alt": "Calling make_multiplier(3) creates a frame whose n lives in a cell holding 3. def builds multiply, which keeps a reference to that cell. When make_multiplier returns, its frame is gone, but triple points to multiply, which still holds the cell. triple(7) reads n from the cell and returns 21.",
+      "spec": {
+        "code": "def make_multiplier(n):\n    def multiply(x):\n        return x * n\n    return multiply\n\ntriple = make_multiplier(3)\nprint(triple(7))   # 21",
+        "steps": [
+          {
+            "step": 1,
+            "line": 6,
+            "run": "make_multiplier(3)",
+            "label": "The call creates a local n = 3, kept in a cell",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "make_multiplier",
+                    "ref": "mm"
+                  }
+                ]
+              },
+              {
+                "name": "make_multiplier(3)",
+                "vars": [
+                  {
+                    "name": "n",
+                    "ref": "cell"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "mm",
+                "type": "function",
+                "label": "make_multiplier"
+              },
+              {
+                "id": "cell",
+                "type": "cell",
+                "label": "n",
+                "fields": [
+                  {
+                    "name": "value",
+                    "value": "3"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "step": 2,
+            "line": 2,
+            "run": "def multiply(x): …",
+            "label": "multiply reads n, so it holds on to the cell",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "make_multiplier",
+                    "ref": "mm"
+                  }
+                ]
+              },
+              {
+                "name": "make_multiplier(3)",
+                "vars": [
+                  {
+                    "name": "n",
+                    "ref": "cell"
+                  },
+                  {
+                    "name": "multiply",
+                    "ref": "mul"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "mm",
+                "type": "function",
+                "label": "make_multiplier"
+              },
+              {
+                "id": "cell",
+                "type": "cell",
+                "label": "n",
+                "fields": [
+                  {
+                    "name": "value",
+                    "value": "3"
+                  }
+                ]
+              },
+              {
+                "id": "mul",
+                "type": "function",
+                "label": "multiply",
+                "fields": [
+                  {
+                    "name": "__closure__",
+                    "ref": "cell"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "step": 3,
+            "line": 6,
+            "run": "triple = make_multiplier(3)",
+            "label": "The call returns: its frame is gone, the cell stays alive",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "make_multiplier",
+                    "ref": "mm"
+                  },
+                  {
+                    "name": "triple",
+                    "ref": "mul"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "mm",
+                "type": "function",
+                "label": "make_multiplier"
+              },
+              {
+                "id": "cell",
+                "type": "cell",
+                "label": "n",
+                "fields": [
+                  {
+                    "name": "value",
+                    "value": "3"
+                  }
+                ]
+              },
+              {
+                "id": "mul",
+                "type": "function",
+                "label": "multiply",
+                "fields": [
+                  {
+                    "name": "__closure__",
+                    "ref": "cell"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "step": 4,
+            "line": 7,
+            "run": "triple(7)",
+            "label": "triple(7) reads n from the cell: 7 * 3 = 21",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "make_multiplier",
+                    "ref": "mm"
+                  },
+                  {
+                    "name": "triple",
+                    "ref": "mul"
+                  }
+                ]
+              },
+              {
+                "name": "multiply(7)",
+                "vars": [
+                  {
+                    "name": "x",
+                    "value": "7"
+                  },
+                  {
+                    "name": "n",
+                    "ref": "cell"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "mm",
+                "type": "function",
+                "label": "make_multiplier"
+              },
+              {
+                "id": "cell",
+                "type": "cell",
+                "label": "n",
+                "fields": [
+                  {
+                    "name": "value",
+                    "value": "3"
+                  }
+                ]
+              },
+              {
+                "id": "mul",
+                "type": "function",
+                "label": "multiply",
+                "fields": [
+                  {
+                    "name": "__closure__",
+                    "ref": "cell"
+                  }
+                ]
+              }
+            ],
+            "output": [
+              "21"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-closure-reads-latest",
+    "kind": "mcq",
+    "difficulty": 2,
+    "kcs": [
+      "kc-closure-captures-variable",
+      "kc-late-binding"
+    ],
+    "prompt_md": "What does this print?\n\n```python\ndef outer():\n    x = 1\n    def inner():\n        return x\n    x = 2\n    return inner\n\nprint(outer()())\n```",
+    "options": [
+      {
+        "id": "a",
+        "md": "2",
+        "correct": true,
+        "why_md": "Right. `inner` keeps the variable `x` and reads it when called. By then `x` is 2."
+      },
+      {
+        "id": "b",
+        "md": "1",
+        "correct": false,
+        "why_md": "A closure does not copy `x` when `inner` is defined. It reads the variable later, after `x = 2` has run.",
+        "misconception": "mc-closure-copies-value"
+      },
+      {
+        "id": "c",
+        "md": "NameError",
+        "correct": false,
+        "why_md": "`outer` has returned, but its `x` survives in a cell that `inner` holds.",
+        "misconception": "mc-outer-vars-vanish"
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "Look inside: __closure__ and separate counters",
+      "md": "```python\ndef counter():\n    count = 0\n    def step():\n        nonlocal count\n        count += 1\n        return count\n    return step\n\na, b = counter(), counter()\na(); a()\nprint(a(), b())                         # 3 1\nprint(a.__closure__[0].cell_contents)  # 3\n```\n\nEach call to `counter()` creates a new `count` and a new cell, so `a` and `b` do not share state. `__closure__` is a tuple of cells, one per captured variable. It is `None` for a function that captures nothing."
+    },
+    {
+      "title": "Why UnboundLocalError, and when nonlocal is not needed",
+      "md": "Python decides which names are local before the function runs. Any assignment to a name anywhere in the body makes it local for the whole body. So `count += 1` tries to read a local `count` that has no value yet.\n\nChanging an object is not assigning to its name. `items.append(x)` on a captured list works without `nonlocal`. Names at module level use `global` instead of `nonlocal`."
+    },
+    {
+      "title": "The default-argument fix and its trade-off",
+      "md": "`lambda i=i: i` works because a default value is evaluated once, when the function is defined. Each lambda stores the `i` of that moment.\n\nThe cost: the default becomes a real parameter, so a caller can override it with `f(99)`. A cleaner fix is a small factory, `def make(i): return lambda: i`. Each call creates a fresh `i`, so each lambda gets its own cell."
+    }
+  ],
+  "visual_fit": {
+    "kind": "memory",
+    "why": "A closure is about a variable outliving its frame; only a picture of frames, cells and arrows shows that."
+  },
+  "glossary": [
+    {
+      "term": "closure",
+      "md": "A function defined inside another function that keeps access to the outer function's variables after the outer function has returned."
+    },
+    {
+      "term": "nonlocal",
+      "md": "A declaration, `nonlocal name`, that lets a nested function assign to a variable of its enclosing function instead of creating a new local one."
+    },
+    {
+      "term": "late binding",
+      "md": "A closure reads a captured variable's value when it runs, not when it was created, so it sees the latest value."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-closure-copies-value",
+      "statement": "A closure copies the outer variable's value at the moment the inner function is defined.",
+      "tags": [
+        "kc-closure-captures-variable",
+        "kc-late-binding"
+      ]
+    },
+    {
+      "id": "mc-outer-vars-vanish",
+      "statement": "Once the outer function returns, its local variables are gone, so the inner function can no longer use them.",
+      "tags": [
+        "kc-closure-captures-variable"
+      ]
+    },
+    {
+      "id": "mc-assign-changes-outer",
+      "statement": "Assigning to an outer variable inside a nested function changes the outer variable without any declaration.",
+      "tags": [
+        "kc-nonlocal"
+      ]
+    },
+    {
+      "id": "mc-factory-shares-state",
+      "statement": "Two closures made by separate calls to the same factory share one variable.",
+      "tags": [
+        "kc-closure-captures-variable"
+      ]
+    }
+  ],
+  "recap": {
+    "pitfall": "A closure reads its variable when it runs, not when it was made, so functions made in a loop all see the loop's last value."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-closure-copy",
+      "beat": "b-lesson",
+      "question": "Doesn't the inner function just copy the value when it's created?",
+      "match": [
+        "copy the value",
+        "copies the value",
+        "snapshot",
+        "value at creation"
+      ],
+      "answer_md": "No. It keeps a reference to the variable itself, held in a cell. If the variable changes before the call, the closure sees the new value.",
+      "deeper_md": "The cell is shared: the outer function and the inner function both use the same box. Any later assignment in the outer function updates that box.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Variable, not value",
+        "md": "```python\ndef outer():\n    x = 1\n    f = lambda: x\n    x = 5\n    return f\nouter()()   # 5, not 1\n```\nThe lambda was made while `x` was 1, but it reads `x` when called.",
+        "verify": {
+          "id": "q-br-closure-copy",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-late-binding"
+          ],
+          "prompt_md": "`def g():` sets `y = 'a'`, defines `h = lambda: y`, sets `y = 'b'`, then returns `h`. What does `g()()` return?",
+          "options": [
+            {
+              "id": "a",
+              "md": "'b'",
+              "correct": true,
+              "why_md": "Right. `h` reads `y` when called, and `y` is 'b' by then."
+            },
+            {
+              "id": "b",
+              "md": "'a'",
+              "correct": false,
+              "why_md": "That assumes `h` copied `y` when it was made. Closures keep the variable, not the value.",
+              "misconception": "mc-closure-copies-value"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-loop-lambdas",
+      "beat": "b-lesson",
+      "question": "Why do all my lambdas from a loop return the same number?",
+      "match": [
+        "same number",
+        "lambda in a loop",
+        "all return 2",
+        "loop lambdas"
+      ],
+      "answer_md": "All of them close over the same loop variable `i`. They read it when called, after the loop has finished with `i = 2`. Bind the value per function with `lambda i=i: i`.",
+      "deeper_md": "The default `i=i` is evaluated at definition time, so each lambda stores the `i` of its own iteration.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Before and after the fix",
+        "md": "```python\nfs = [lambda: i for i in range(3)]\n[f() for f in fs]        # [2, 2, 2]\n\nfs = [lambda i=i: i for i in range(3)]\n[f() for f in fs]        # [0, 1, 2]\n```",
+        "verify": {
+          "id": "q-br-loop-lambdas",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-late-binding"
+          ],
+          "prompt_md": "What does `[f() for f in [lambda: n * 10 for n in range(4)]]` give?",
+          "options": [
+            {
+              "id": "a",
+              "md": "[30, 30, 30, 30]",
+              "correct": true,
+              "why_md": "Right. Every lambda reads the final `n`, which is 3."
+            },
+            {
+              "id": "b",
+              "md": "[0, 10, 20, 30]",
+              "correct": false,
+              "why_md": "That needs each lambda to store its own `n`, for example with `n=n`.",
+              "misconception": "mc-closure-copies-value"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-unboundlocal",
+      "beat": "b-lesson",
+      "question": "Why does count += 1 raise UnboundLocalError inside the inner function?",
+      "match": [
+        "unboundlocalerror",
+        "count += 1",
+        "referenced before assignment",
+        "cannot access local variable"
+      ],
+      "answer_md": "Assigning to `count` anywhere in the inner function makes `count` local there. `count += 1` first reads that local, which has no value yet. Add `nonlocal count` at the top of the inner function.",
+      "deeper_md": "Python decides local names before the function runs, by scanning for assignments. Reading alone never makes a name local.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "What count += 1 really does",
+        "md": "`count += 1` means `count = count + 1`. The assignment makes `count` local, so the right side reads a local `count` that is still empty. `nonlocal count` tells Python to use the outer variable instead.",
+        "verify": {
+          "id": "q-br-unboundlocal",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-nonlocal"
+          ],
+          "prompt_md": "Inside a nested function, which line needs `nonlocal total` to work on the outer `total`?",
+          "options": [
+            {
+              "id": "a",
+              "md": "`total = total + 5`",
+              "correct": true,
+              "why_md": "Right. It assigns to `total`, so without `nonlocal` the name is local and the read fails."
+            },
+            {
+              "id": "b",
+              "md": "`print(total)`",
+              "correct": false,
+              "why_md": "Reading an outer variable needs no declaration."
+            },
+            {
+              "id": "c",
+              "md": "`total.append(5)` where `total` is a list",
+              "correct": false,
+              "why_md": "This changes the list object but does not assign to the name, so no declaration is needed."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-closure-cells",
+      "kind": "mechanism",
+      "title": "Cells, free variables and how CPython stores a closure",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-scope-rules",
+      "kind": "edge",
+      "title": "LEGB scope lookup, global and comprehension scopes",
+      "level": 3,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "pd-closures",
+  "version": 1,
+  "title": "Closures: inner functions that remember",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-closure-captures-variable",
+      "version": 1,
+      "statement": "A nested function that references a variable of its enclosing function keeps access to that variable after the outer function returns; this is a closure."
+    },
+    {
+      "id": "kc-late-binding",
+      "version": 1,
+      "statement": "Closures capture variables, not values: functions created in a loop over i all see i's final value unless the current value is bound, for example as a default argument."
+    },
+    {
+      "id": "kc-nonlocal",
+      "version": 1,
+      "statement": "Assigning to an enclosing function's variable inside a nested function requires a nonlocal declaration; without it the name is local, and reading it before assignment raises UnboundLocalError."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "pd-first-class-functions"
+  ],
+  "suggests": [
+    "pd-wrapper-functions"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "closure",
+    "nonlocal",
+    "late binding"
+  ],
+  "uses": [
+    "first-class function",
+    "function"
+  ],
+  "problem_ideas": [
+    "Build make_multiplier(3) and predict make_multiplier(3)(7)",
+    "Predict the output of [f() for f in [lambda: i for i in range(3)]] and fix it",
+    "Write a counter() factory whose returned function increments a nonlocal count",
+    "Explain the UnboundLocalError from count += 1 without nonlocal",
+    "Inspect f.__closure__[0].cell_contents for a closure over a list",
+    "Two counters from the same factory: predict whether they share state"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "on-the-name-decorator/on-the-name-decorator"
+    }
+  ],
+  "mode": "prediction",
+  "exit_ticket": [],
+  "status": "drafted",
+  "provenance": {
+    "origin": "generated",
+    "job": "lesson-pd-closures"
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "title": "Closures: inner functions that remember",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "Closures: inner functions that remember",
+          "kcs": [
+            "kc-closure-captures-variable",
+            "kc-late-binding",
+            "kc-nonlocal"
+          ],
+          "est_minutes": 7,
+          "blocks": [
+            {
+              "id": "blk-pd-closures-01",
+              "block": {
+                "type": "prose",
+                "md": "A **closure** is a function defined inside another function that keeps using the outer function's variables after the outer function has returned. Calling it later still finds those variables."
+              }
+            },
+            {
+              "id": "blk-pd-closures-02",
+              "block": {
+                "type": "prose",
+                "md": "```python\ndef make_multiplier(n):\n    def multiply(x):\n        return x * n\n    return multiply\n\ntriple = make_multiplier(3)\nprint(triple(7))   # 21\n```\n\n`make_multiplier(3)` has already returned, so you might expect its local `n` to be gone. Yet `triple(7)` still finds `n = 3` and prints 21. `triple` is a closure over `n`."
+              }
+            },
+            {
+              "id": "blk-pd-closures-03",
+              "block": {
+                "type": "prose",
+                "md": "1. Calling `make_multiplier(3)` creates a local variable `n = 3`.\n2. The `def` builds `multiply`. It reads `n`, so Python attaches `n`'s **cell** to it. A cell is a small box holding one variable.\n3. `make_multiplier` returns. The cell stays alive because `multiply` still holds it.\n4. `triple(7)` reads `n` from the cell, gets 3, and returns 21.\n\nThe closure keeps the variable, not a copy of its value. This is **late binding**: the value is read when the inner function runs. So `[lambda: i for i in range(3)]` gives three functions that all return 2. To fix it, bind the current value as a default argument: `lambda i=i: i`.\n\nReading an outer variable needs nothing extra, but assigning to it does. A bare `count += 1` makes `count` local, so Python raises `UnboundLocalError`. Write **`nonlocal count`** first to assign to the outer variable."
+              }
+            },
+            {
+              "id": "blk-pd-closures-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-closure-reads-latest",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-closure-captures-variable",
+                    "kc-late-binding"
+                  ],
+                  "prompt_md": "What does this print?\n\n```python\ndef outer():\n    x = 1\n    def inner():\n        return x\n    x = 2\n    return inner\n\nprint(outer()())\n```",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "2",
+                      "correct": true,
+                      "why_md": "Right. `inner` keeps the variable `x` and reads it when called. By then `x` is 2."
+                    },
+                    {
+                      "id": "b",
+                      "md": "1",
+                      "correct": false,
+                      "why_md": "A closure does not copy `x` when `inner` is defined. It reads the variable later, after `x = 2` has run.",
+                      "misconception": "mc-closure-copies-value"
+                    },
+                    {
+                      "id": "c",
+                      "md": "NameError",
+                      "correct": false,
+                      "why_md": "`outer` has returned, but its `x` survives in a cell that `inner` holds.",
+                      "misconception": "mc-outer-vars-vanish"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-pd-closures-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Look inside: __closure__ and separate counters",
+                "md": "```python\ndef counter():\n    count = 0\n    def step():\n        nonlocal count\n        count += 1\n        return count\n    return step\n\na, b = counter(), counter()\na(); a()\nprint(a(), b())                         # 3 1\nprint(a.__closure__[0].cell_contents)  # 3\n```\n\nEach call to `counter()` creates a new `count` and a new cell, so `a` and `b` do not share state. `__closure__` is a tuple of cells, one per captured variable. It is `None` for a function that captures nothing."
+              }
+            },
+            {
+              "id": "blk-pd-closures-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Why UnboundLocalError, and when nonlocal is not needed",
+                "md": "Python decides which names are local before the function runs. Any assignment to a name anywhere in the body makes it local for the whole body. So `count += 1` tries to read a local `count` that has no value yet.\n\nChanging an object is not assigning to its name. `items.append(x)` on a captured list works without `nonlocal`. Names at module level use `global` instead of `nonlocal`."
+              }
+            },
+            {
+              "id": "blk-pd-closures-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "The default-argument fix and its trade-off",
+                "md": "`lambda i=i: i` works because a default value is evaluated once, when the function is defined. Each lambda stores the `i` of that moment.\n\nThe cost: the default becomes a real parameter, so a caller can override it with `f(99)`. A cleaner fix is a small factory, `def make(i): return lambda: i`. Each call creates a fresh `i`, so each lambda gets its own cell."
+              }
+            },
+            {
+              "id": "blk-pd-closures-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-closure-cell",
+                "kind": "memory",
+                "title": "The cell outlives the call",
+                "alt": "Calling make_multiplier(3) creates a frame whose n lives in a cell holding 3. def builds multiply, which keeps a reference to that cell. When make_multiplier returns, its frame is gone, but triple points to multiply, which still holds the cell. triple(7) reads n from the cell and returns 21.",
+                "spec": {
+                  "code": "def make_multiplier(n):\n    def multiply(x):\n        return x * n\n    return multiply\n\ntriple = make_multiplier(3)\nprint(triple(7))   # 21",
+                  "steps": [
+                    {
+                      "step": 1,
+                      "line": 6,
+                      "run": "make_multiplier(3)",
+                      "label": "The call creates a local n = 3, kept in a cell",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "make_multiplier",
+                              "ref": "mm"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "make_multiplier(3)",
+                          "vars": [
+                            {
+                              "name": "n",
+                              "ref": "cell"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "mm",
+                          "type": "function",
+                          "label": "make_multiplier"
+                        },
+                        {
+                          "id": "cell",
+                          "type": "cell",
+                          "label": "n",
+                          "fields": [
+                            {
+                              "name": "value",
+                              "value": "3"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "step": 2,
+                      "line": 2,
+                      "run": "def multiply(x): …",
+                      "label": "multiply reads n, so it holds on to the cell",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "make_multiplier",
+                              "ref": "mm"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "make_multiplier(3)",
+                          "vars": [
+                            {
+                              "name": "n",
+                              "ref": "cell"
+                            },
+                            {
+                              "name": "multiply",
+                              "ref": "mul"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "mm",
+                          "type": "function",
+                          "label": "make_multiplier"
+                        },
+                        {
+                          "id": "cell",
+                          "type": "cell",
+                          "label": "n",
+                          "fields": [
+                            {
+                              "name": "value",
+                              "value": "3"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "mul",
+                          "type": "function",
+                          "label": "multiply",
+                          "fields": [
+                            {
+                              "name": "__closure__",
+                              "ref": "cell"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "step": 3,
+                      "line": 6,
+                      "run": "triple = make_multiplier(3)",
+                      "label": "The call returns: its frame is gone, the cell stays alive",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "make_multiplier",
+                              "ref": "mm"
+                            },
+                            {
+                              "name": "triple",
+                              "ref": "mul"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "mm",
+                          "type": "function",
+                          "label": "make_multiplier"
+                        },
+                        {
+                          "id": "cell",
+                          "type": "cell",
+                          "label": "n",
+                          "fields": [
+                            {
+                              "name": "value",
+                              "value": "3"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "mul",
+                          "type": "function",
+                          "label": "multiply",
+                          "fields": [
+                            {
+                              "name": "__closure__",
+                              "ref": "cell"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "step": 4,
+                      "line": 7,
+                      "run": "triple(7)",
+                      "label": "triple(7) reads n from the cell: 7 * 3 = 21",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "make_multiplier",
+                              "ref": "mm"
+                            },
+                            {
+                              "name": "triple",
+                              "ref": "mul"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "multiply(7)",
+                          "vars": [
+                            {
+                              "name": "x",
+                              "value": "7"
+                            },
+                            {
+                              "name": "n",
+                              "ref": "cell"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "mm",
+                          "type": "function",
+                          "label": "make_multiplier"
+                        },
+                        {
+                          "id": "cell",
+                          "type": "cell",
+                          "label": "n",
+                          "fields": [
+                            {
+                              "name": "value",
+                              "value": "3"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "mul",
+                          "type": "function",
+                          "label": "multiply",
+                          "fields": [
+                            {
+                              "name": "__closure__",
+                              "ref": "cell"
+                            }
+                          ]
+                        }
+                      ],
+                      "output": [
+                        "21"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

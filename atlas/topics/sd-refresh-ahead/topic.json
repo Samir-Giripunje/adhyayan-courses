@@ -1,0 +1,50 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-refresh-ahead",
+  "version": 1,
+  "title": "Refresh-ahead caching",
+  "size": "micro",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-refresh-ahead",
+      "version": 1,
+      "statement": "Refresh-ahead reloads a frequently read entry before its TTL expires, so readers do not pay miss latency, but it wastes database work when it refreshes entries nobody reads again."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-cache-invalidation-ttl"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-read-write-through"
+  ],
+  "introduces": [
+    "refresh-ahead"
+  ],
+  "uses": [
+    "ttl",
+    "cache miss",
+    "latency"
+  ],
+  "problem_ideas": [
+    "TTL 60 s, refresh at 80% of TTL: when is the reload triggered?",
+    "A homepage widget is read 1,000 times per second: compare miss latency with and without refresh-ahead",
+    "Refresh-ahead on 10,000 keys of which 2% are read again: estimate wasted DB reads",
+    "Decide whether refresh-ahead suits exchange rates or rarely viewed user settings",
+    "Explain what happens if the refresh itself fails before expiry",
+    "Contrast refresh-ahead with simply raising the TTL"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "cache/refresh-ahead"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "idempotent-operations/refresh-ahead"
+    }
+  ],
+  "status": "stub"
+}

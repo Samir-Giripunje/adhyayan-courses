@@ -1,0 +1,117 @@
+[
+  {
+    "id": "emb-search/transfer-1",
+    "version": 1,
+    "family": "emb-search-daily-load",
+    "kind": "estimate",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 4,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 75,
+    "prompt_md": "A company wiki has about **8,000** pages, each split into about **5** chunks. The chunks are embedded with a **768**-dimension model and searched by brute force: every query is scored against every stored chunk vector with a dot product. About **2,000** searches arrive per working day. Estimate the multiply-adds spent on scoring in one working day. (Type a large number in full, or as e.g. `3.5e9` or `3.5b`.)",
+    "answer": {
+      "value": 61440000000,
+      "tolerance": 9216000000,
+      "unit": "multiply-adds"
+    },
+    "common_wrong": [
+      {
+        "value": 12288000000,
+        "kind": "slip",
+        "why_md": "That scores one vector per page. Each page is split into about 5 chunks, and every chunk vector is scored."
+      },
+      {
+        "value": 30720000,
+        "kind": "slip",
+        "why_md": "That is one query's scoring. The question asks for a whole day of about 2,000 searches."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "pages = 8000\nchunks_per_page = 5\nd = 768\nsearches_per_day = 2000\nanswer = pages * chunks_per_page * d * searches_per_day\n"
+    },
+    "hints": [
+      "Per-query scoring work is (number of stored vectors) × d. Multiply by the searches per day.",
+      "Stored vectors ≈ 8,000 × 5 = 40,000. Per query ≈ 40,000 × 768 ≈ 30.7 million. Times 2,000 searches."
+    ],
+    "solution_md": "Stored vectors: $8{,}000 \\times 5 = 40{,}000$. Per query: $40{,}000 \\times 768 = 30{,}720{,}000$ multiply-adds. Per day: $30{,}720{,}000 \\times 2{,}000 = 61{,}440{,}000{,}000 \\approx$ **61 billion** ($6.1 \\times 10^{10}$). Accepted range: about 52 to 71 billion (±15%, since the inputs are rough). Embedding the wiki was a one-off offline cost and isn't part of the daily scoring.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/transfer-2",
+    "version": 1,
+    "family": "emb-search-query-growth-bigo",
+    "kind": "complexity",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 75,
+    "prompt_md": "A photo-sharing app runs semantic search over **N** stored caption vectors of **d** numbers each, by brute force. Hold N and d fixed and let the number of queries **Q** grow. In big-O as functions of **Q**, give:\n\n- **time:** the total scoring multiply-adds for all Q queries;\n- **space:** the memory the index needs (the stored caption vectors only).",
+    "answer": {
+      "time": "O(Q)",
+      "space": "O(1)"
+    },
+    "hints": [
+      "With N and d fixed, each query's scoring costs the same fixed amount. Ask whether the index changes as queries arrive.",
+      "Q queries × (N·d, a constant here) grows linearly in Q. The stored vectors were built once and don't grow with Q."
+    ],
+    "solution_md": "**Time O(Q):** each query costs N·d multiply-adds, a constant when N and d are fixed, so Q queries cost Q·N·d, linear in Q. **Space O(1)** in Q: the index of N·d numbers is built once, offline, and no query adds to it.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/transfer-3",
+    "version": 1,
+    "family": "emb-search-cosine-topk-recipes",
+    "kind": "predict_output",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-pipeline"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 75,
+    "prompt_md": "A recipe app ranks recipes by cosine similarity to the query vector and shows the top 2. What does this print?",
+    "code": "import math\n\ndef cos(a, b):\n    dot = sum(x * y for x, y in zip(a, b))\n    return dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))\n\nrecipes = {\"dal\": [1, 3], \"soup\": [4, 4], \"salad\": [3, 1], \"curry\": [6, 2]}\nquery = [1, 2]\nranked = sorted(recipes, key=lambda r: cos(query, recipes[r]), reverse=True)\nprint(*ranked[:2])\n",
+    "answer": {
+      "value": "dal soup",
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import io, contextlib\nsrc = 'import math\\n\\ndef cos(a, b):\\n    dot = sum(x * y for x, y in zip(a, b))\\n    return dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))\\n\\nrecipes = {\"dal\": [1, 3], \"soup\": [4, 4], \"salad\": [3, 1], \"curry\": [6, 2]}\\nquery = [1, 2]\\nranked = sorted(recipes, key=lambda r: cos(query, recipes[r]), reverse=True)\\nprint(*ranked[:2])\\n'\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    exec(src, {})\nanswer = buf.getvalue().strip()\n"
+    },
+    "hints": [
+      "Cosine divides the dot product by both lengths, so a long vector gets no bonus for being long. Compute all four cosines.",
+      "|query| = √5. dal: 7 / (√5·√10) ≈ 0.990. soup: 12 / (√5·√32) ≈ 0.949. salad: 5 / (√5·√10) ≈ 0.707. curry: 10 / (√5·√40) ≈ 0.707."
+    ],
+    "solution_md": "Cosines with query `[1, 2]`: dal $7/\\sqrt{50} \\approx 0.990$, soup $12/\\sqrt{160} \\approx 0.949$, salad $5/\\sqrt{50} \\approx 0.707$, curry $10/\\sqrt{200} \\approx 0.707$. The top 2 are dal and soup, so it prints `dal soup`. Ranking by raw dot product would have given soup (12) and curry (10), because their vectors are longer.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  }
+]

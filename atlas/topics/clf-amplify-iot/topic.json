@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-amplify-iot",
+  "version": 1,
+  "title": "Amplify for web and mobile apps, IoT Core for devices",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-amplify",
+      "version": 1,
+      "statement": "AWS Amplify provides tools and hosting to build, deploy and host full-stack web and mobile applications quickly, wiring in back-end features such as authentication, storage and APIs."
+    },
+    {
+      "id": "kc-iot-core",
+      "version": 1,
+      "statement": "AWS IoT Core securely connects IoT devices to the cloud and routes their messages (over MQTT or HTTPS) to AWS services such as Lambda, Kinesis or DynamoDB."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-kinesis",
+    "clf-elastic-beanstalk"
+  ],
+  "confusable_with": [
+    "clf-elastic-beanstalk"
+  ],
+  "introduces": [
+    "amplify",
+    "iot core"
+  ],
+  "uses": [
+    "lambda",
+    "dynamodb",
+    "kinesis"
+  ],
+  "problem_ideas": [
+    "A two-person startup wants to ship a React web app with sign-in and hosting this week: which service?",
+    "10,000 smart thermostats must send readings every minute to AWS: which service receives them?",
+    "Spot the distractor: 'Amplify connects factory sensors to AWS.'",
+    "Amplify vs Elastic Beanstalk: a frontend-and-mobile requirement vs deploying a Java web app. Choose each.",
+    "Route device telemetry from IoT Core into a real-time stream for analysis: name the downstream service.",
+    "A mobile app needs offline data sync and user sign-up: which service family covers it?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-8-identify-services-fro/frontend-web-and-mobile-services-of-aws-"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "internet-of-things-iot/aws-iot-core"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-aws-services/aws-amplify"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-aws-services/aws-iot-core"
+    }
+  ],
+  "status": "stub"
+}

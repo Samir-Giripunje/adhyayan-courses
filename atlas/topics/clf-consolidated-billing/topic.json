@@ -1,0 +1,72 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-consolidated-billing",
+  "version": 1,
+  "title": "Consolidated billing in AWS Organizations",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-consolidated-single-bill",
+      "version": 1,
+      "statement": "Consolidated billing in AWS Organizations gives the management account one bill for all member accounts at no extra charge, while still itemizing each account's charges."
+    },
+    {
+      "id": "kc-volume-aggregation",
+      "version": 1,
+      "statement": "Consolidated billing combines usage across accounts for tiered pricing, so ten accounts storing 10 TB each in S3 are priced as 100 TB and reach cheaper tiers sooner."
+    },
+    {
+      "id": "kc-ri-sp-sharing",
+      "version": 1,
+      "statement": "Reserved Instance and Savings Plans discounts are shared across all accounts in the organization by default, so an unused RI in one account can discount matching usage in another; the management account can turn sharing off."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-on-demand-reserved",
+    "clf-organizations"
+  ],
+  "suggests": [
+    "clf-savings-plans"
+  ],
+  "confusable_with": [
+    "clf-cost-allocation-tags"
+  ],
+  "introduces": [
+    "consolidated billing",
+    "volume discount",
+    "ri sharing"
+  ],
+  "uses": [
+    "aws organizations",
+    "management account",
+    "member account",
+    "reserved instances",
+    "savings plans",
+    "tiered pricing"
+  ],
+  "problem_ideas": [
+    "Three accounts each send 4 TB out a month and the first price tier ends at 10 TB: predict how many TB are billed at the lower tier with consolidated billing.",
+    "Account A bought an RI it no longer uses and account B runs a matching instance: who gets the discount?",
+    "A finance team wants one invoice for 40 accounts: which feature, and what does it cost?",
+    "A subsidiary must keep its RI discounts to itself: what does the management account change?",
+    "Spot the false statement: 'Consolidated billing merges all accounts into one account.'",
+    "Which account is responsible for paying the consolidated bill?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-2-understand-resources-/understanding-aws-organizations-consolid"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-1-compare-aws-pricing-m/describing-reserved-instance-behavior-in"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/aws-organization-consolidated-billing"
+    }
+  ],
+  "status": "stub"
+}

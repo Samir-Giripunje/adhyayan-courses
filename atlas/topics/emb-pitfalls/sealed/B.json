@@ -1,0 +1,48 @@
+[
+  {
+    "id": "q-proof2-filter",
+    "version": 1,
+    "family": "q-proof2-filter",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-pitfalls",
+    "kcs": [
+      "kc-production-pitfalls"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "**Transfer:** a marketplace filters search by city (each city is under 1% of listings) after an ANN top-20. Small cities show no results. Fix?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Filter-aware or iterative scans, per-city partitions, or exact search within the small city's listings",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "Ask for a top-20 with a lower threshold",
+        "why_md": "Thresholds aren't the issue. The candidate pool is."
+      },
+      {
+        "id": "c",
+        "md": "Switch embedding models",
+        "why_md": "The model isn't the cause."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Model migrations need full re-embedding, and stored vectors go stale.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

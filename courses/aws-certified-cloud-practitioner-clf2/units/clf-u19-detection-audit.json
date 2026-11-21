@@ -1,0 +1,34 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u19-detection-audit",
+  "title": "Logging, auditing and threat detection",
+  "topics": [
+    {
+      "id": "clf-cloudtrail",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-aws-config",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-guardduty",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-inspector-macie",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-security-hub-detective",
+      "tier": "must",
+      "order": 5
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

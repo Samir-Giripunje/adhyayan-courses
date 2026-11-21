@@ -1,0 +1,1323 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "emb-u3-scale",
+  "title": "Retrieval at scale",
+  "topics": [
+    {
+      "id": "emb-exact-cost",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "emb-ivf",
+      "tier": "recommended",
+      "order": 2
+    },
+    {
+      "id": "emb-hnsw",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "emb-compression",
+      "tier": "optional",
+      "order": 4
+    },
+    {
+      "id": "emb-hybrid",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "emb-pitfalls",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "drafted",
+  "outcome": "Serve semantic search at scale: ANN indexes, compression, hybrid fusion and the failures that only show up in production.",
+  "bench": {
+    "id": "synthetic-100k",
+    "title": "Same corpus scaled to 100k synthetic vectors",
+    "description": "The help-centre vectors plus 100k synthetic neighbours, with an exact baseline for recall."
+  },
+  "concept_map": "flowchart TD\n  emb-exact-cost[\"3.1 Why exact search stops scaling\"]\n  emb-ivf[\"3.2 IVF: partition, then probe\"]\n  emb-hnsw[\"3.3 HNSW\"]\n  emb-compression[\"3.4 Quantisation and shorter embeddings\"]\n  emb-hybrid[\"3.5 Hybrid search, RRF and reranking\"]\n  emb-pitfalls[\"3.6 Production pitfalls\"]\n  emb-exact-cost --> emb-ivf\n  emb-exact-cost --> emb-hnsw\n  emb-exact-cost --> emb-compression\n  emb-hnsw --> emb-pitfalls",
+  "confusables": [
+    [
+      "emb-hnsw",
+      "emb-ivf"
+    ]
+  ],
+  "capstone": {
+    "prompt_md": "Build hybrid RRF over an HNSW index tuned to recall@10 ≥ 0.95 of exact search, with a metadata filter that does not starve results.",
+    "uses": [
+      "emb-exact-cost",
+      "emb-hnsw",
+      "emb-hybrid",
+      "emb-pitfalls"
+    ]
+  },
+  "lab": {
+    "exercises": [
+      "ex-rrf"
+    ],
+    "checks": []
+  },
+  "interview": [
+    {
+      "id": "iq-what-is-embedding",
+      "tier": "screening",
+      "difficulty": 1,
+      "kcs": [
+        "kc-embedding-def",
+        "kc-vectors-as-features"
+      ],
+      "est_minutes": 3,
+      "prompt": "Explain what an embedding is to a product manager, then to an engineer.",
+      "probing_md": "Can you adjust the level of abstraction for your audience, and do you know the defining property (similar meaning → nearby vectors) rather than just “a list of numbers”?",
+      "model_answer_md": [
+        "**PM version:** An embedding turns a piece of content (a sentence, an image, a product) into a list of numbers that acts like coordinates on a map of meaning. Things that mean similar things land near each other, so “find similar” becomes “find nearby”. That's what powers semantic search, “more like this” and grouping similar tickets.",
+        "**Engineer version:** It's a dense, fixed-length vector (say 384–3,072 floats) produced by a model trained, usually contrastively, so that the geometry encodes semantic similarity. You compare vectors with cosine similarity or a dot product. Vectors are only comparable within the same model. Individual dimensions aren't interpretable."
+      ],
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Text (or other data) becomes a fixed-length list of numbers / vector",
+          "weight": 2,
+          "signals": [
+            "vector",
+            "list of numbers",
+            "array of numbers",
+            "numbers",
+            "fixed-length",
+            "fixed length",
+            "coordinates"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Similar meaning ⇒ close together in the space",
+          "weight": 3,
+          "signals": [
+            "similar",
+            "close",
+            "near",
+            "nearby",
+            "distance",
+            "closeness"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Compared with cosine similarity / dot product",
+          "weight": 2,
+          "signals": [
+            "cosine",
+            "dot product",
+            "angle",
+            "similarity score"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "A model learns it (trained), so it's model-specific",
+          "weight": 2,
+          "signals": [
+            "trained",
+            "learned",
+            "learn",
+            "model",
+            "neural"
+          ]
+        },
+        {
+          "id": "r5",
+          "point": "Concrete use: semantic search / recommendations / clustering",
+          "weight": 1,
+          "signals": [
+            "search",
+            "recommend",
+            "cluster",
+            "dedup",
+            "classification",
+            "rag"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "“It's a compressed version of the text you can decode back.”",
+          "why_md": "Embeddings aren't an encoding you can invert to recover the text. They keep the information useful for similarity and drop the rest."
+        },
+        {
+          "answer": "“Each number is a feature, like sentiment or topic.”",
+          "why_md": "Learned dimensions aren't human-labelled features. Saying they are is a red flag."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Why can't you compare an embedding from one model with an embedding from another?",
+          "trigger": "missed:r4",
+          "answer_md": "Each model learns its own coordinate system. Dimension 12 in model A has no relation to dimension 12 in model B, even when the sizes match. Mixed comparisons are meaningless, so switching models means re-embedding the corpus.",
+          "signals": [
+            "coordinate",
+            "space",
+            "different",
+            "re-embed",
+            "reembed",
+            "own"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "What does it mean if two embeddings have cosine similarity 0?",
+          "trigger": "always",
+          "answer_md": "The vectors are perpendicular: the model sees no shared direction of meaning. With many text models, unrelated texts often score well above 0 anyway, so read scores relative to the model's typical range, not as absolutes.",
+          "signals": [
+            "perpendicular",
+            "orthogonal",
+            "unrelated",
+            "no similarity",
+            "90"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iq-cos-dot-l2",
+      "tier": "screening",
+      "difficulty": 2,
+      "kcs": [
+        "kc-metrics-normalization",
+        "kc-dot-cosine"
+      ],
+      "est_minutes": 3,
+      "prompt": "Cosine similarity, dot product, Euclidean distance: what's the difference, and when do they give the same ranking?",
+      "probing_md": "Do you know the normalization identity, and can you spot the classic bug (unnormalized dot product favouring long vectors)?",
+      "model_answer_md": [
+        "Cosine measures only the angle between vectors (range −1 to 1). The dot product is cosine times both lengths, so magnitude affects it. Euclidean distance is the straight-line gap, where lower is better.",
+        "When all vectors are normalized to unit length, $\\|a-b\\|^2 = 2 - 2\\cos\\theta$ and the dot product equals cosine, so **all three rank identically**. That's why you normalize at index time and use the fastest operation (usually the dot product). Without normalization, the dot product favours long vectors. That's sometimes intended (models trained for dot product), but often it's a bug where one long document wins every query."
+      ],
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Cosine = angle only; ignores magnitude",
+          "weight": 2,
+          "signals": [
+            "angle",
+            "direction",
+            "ignores length",
+            "ignores magnitude",
+            "magnitude"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Dot product includes magnitude",
+          "weight": 2,
+          "signals": [
+            "magnitude",
+            "length",
+            "longer",
+            "norm"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Euclidean is a distance (lower = more similar)",
+          "weight": 1,
+          "signals": [
+            "distance",
+            "straight line",
+            "straight-line",
+            "lower",
+            "l2"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "With normalized (unit) vectors all three give the same ranking",
+          "weight": 3,
+          "signals": [
+            "normaliz",
+            "unit length",
+            "unit vector",
+            "length 1",
+            "same ranking",
+            "equivalent"
+          ]
+        },
+        {
+          "id": "r5",
+          "point": "Mentions the identity ‖a−b‖² = 2 − 2cos or a concrete bug",
+          "weight": 1,
+          "signals": [
+            "2 - 2",
+            "2−2",
+            "2-2cos",
+            "long document",
+            "bigger vector",
+            "favour",
+            "favor",
+            "bias"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "“They're all the same thing.”",
+          "why_md": "That's only true for normalized vectors. Raw dot product and cosine can rank very differently."
+        },
+        {
+          "answer": "“Cosine is between 0 and 1.”",
+          "why_md": "Cosine ranges from −1 to 1. Many text models rarely produce negatives, but the range is −1 to 1."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Your search ranks by dot product and one huge FAQ page tops every query. Diagnose it.",
+          "trigger": "missed:r4",
+          "answer_md": "Its vector has a large magnitude (for example, it was built by summing chunk vectors, or the model doesn't normalize), so it wins the dot product against everything. Normalize all vectors, or switch to cosine.",
+          "signals": [
+            "normaliz",
+            "magnitude",
+            "length",
+            "cosine"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Why might a model intentionally be trained for dot product rather than cosine?",
+          "trigger": "always",
+          "answer_md": "Magnitude can carry useful signal, such as confidence, popularity or how much content there is, so dot-product-trained models encode it on purpose. Use the metric the model was trained with.",
+          "signals": [
+            "magnitude",
+            "popularity",
+            "confidence",
+            "trained",
+            "signal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iq-semantic-vs-keyword",
+      "tier": "core",
+      "difficulty": 2,
+      "kcs": [
+        "kc-keyword-limits",
+        "kc-hybrid-rerank"
+      ],
+      "est_minutes": 4,
+      "prompt": "When does semantic search beat keyword search, and when does it lose?",
+      "probing_md": "A balanced view. Weak candidates say semantic search is strictly better. Strong ones name concrete failure cases and propose hybrid search.",
+      "model_answer_md": [
+        "**It wins** on vocabulary mismatch: paraphrases, synonyms, natural-language questions, and cross-lingual queries with multilingual models (*“can't log in”* → *“reset your password”*).",
+        "**It loses** on exact identifiers (error codes, SKUs, names), rare domain jargon the model never saw, and sometimes negation or precise constraints (*“not on sale”*). It also has no recall guarantee for exact phrase matches, and its results are harder to explain.",
+        "**In practice:** run hybrid search (BM25 + vectors fused with reciprocal rank fusion), then rerank the top candidates with a cross-encoder."
+      ],
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Wins on synonyms/paraphrases/vocabulary mismatch",
+          "weight": 3,
+          "signals": [
+            "synonym",
+            "paraphras",
+            "vocabulary",
+            "different words",
+            "meaning"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Loses on exact identifiers / codes / names",
+          "weight": 3,
+          "signals": [
+            "exact",
+            "identifier",
+            "error code",
+            "sku",
+            "part number",
+            "names",
+            "product code"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Mentions jargon/out-of-domain or negation weaknesses",
+          "weight": 1,
+          "signals": [
+            "jargon",
+            "domain",
+            "negation",
+            "rare"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Proposes hybrid (BM25 + vector, RRF)",
+          "weight": 3,
+          "signals": [
+            "hybrid",
+            "bm25",
+            "both",
+            "fusion",
+            "rrf",
+            "combine"
+          ]
+        },
+        {
+          "id": "r5",
+          "point": "Mentions reranking",
+          "weight": 1,
+          "signals": [
+            "rerank",
+            "cross-encoder",
+            "cross encoder"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "“Semantic search is strictly better. Keyword search is legacy.”",
+          "why_md": "Exact-match queries are common in production (codes, names). Teams that delete BM25 usually add it back."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "How would you combine BM25 and vector results when their scores aren't comparable?",
+          "trigger": "missed:r4",
+          "answer_md": "Fuse by rank, not score: reciprocal rank fusion with $\\sum 1/(k+\\text{rank})$ and k ≈ 60. Alternatively, normalize the scores per query and do a weighted sum, but that needs tuning.",
+          "signals": [
+            "rank",
+            "rrf",
+            "reciprocal",
+            "normaliz"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "A user searches “E1234”. Walk me through what each system returns.",
+          "trigger": "always",
+          "answer_md": "BM25 matches documents containing exactly `E1234` and ranks them by term rarity. Vector search embeds the code into some region near other error-ish text and may return `E1243` or generic error pages. Fused, the exact match rises to the top.",
+          "signals": [
+            "exact",
+            "bm25",
+            "similar",
+            "token"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iq-choose-model",
+      "tier": "core",
+      "difficulty": 2,
+      "kcs": [
+        "kc-model-choice",
+        "kc-retrieval-eval"
+      ],
+      "est_minutes": 4,
+      "prompt": "How would you choose an embedding model for a new search product?",
+      "probing_md": "Evidence-driven choices. They want “build an eval set on my data”, not “pick the top of the leaderboard”.",
+      "model_answer_md": [
+        "Start from constraints: languages and domain, typical input length against the model's maximum, latency and cost budget, and whether data may leave our infrastructure (API vs self-hosted).",
+        "Shortlist 3–5 models using MTEB's retrieval tasks, then **evaluate on our own labelled queries** (50–200 real queries with relevance labels), measuring recall@k and nDCG. Factor in dimensions (memory and latency), shortenable or Matryoshka vectors, and prefix requirements (E5, BGE).",
+        "Pick the cheapest model that meets the quality bar, and keep the eval set so the decision can be re-run when a better model ships."
+      ],
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Evaluate on own labelled data / golden set",
+          "weight": 3,
+          "signals": [
+            "own data",
+            "our data",
+            "labelled",
+            "labeled",
+            "eval set",
+            "golden",
+            "evaluation set",
+            "test set",
+            "my data"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Use benchmarks (MTEB) only to shortlist",
+          "weight": 2,
+          "signals": [
+            "mteb",
+            "benchmark",
+            "leaderboard"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Constraints: language/domain, max input length",
+          "weight": 2,
+          "signals": [
+            "language",
+            "domain",
+            "max",
+            "context length",
+            "input length",
+            "tokens"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Cost/latency/dimensions/hosting trade-offs",
+          "weight": 2,
+          "signals": [
+            "cost",
+            "latency",
+            "dimension",
+            "self-host",
+            "api",
+            "memory",
+            "price"
+          ]
+        },
+        {
+          "id": "r5",
+          "point": "Metrics such as recall@k / nDCG / MRR",
+          "weight": 1,
+          "signals": [
+            "recall",
+            "ndcg",
+            "mrr",
+            "precision"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "“Whatever is #1 on MTEB.”",
+          "why_md": "Benchmark rank often doesn't transfer to your domain. Leaderboard models can also be expensive or slow."
+        },
+        {
+          "answer": "“The one with the most dimensions.”",
+          "why_md": "More dimensions mean more memory and latency, with no guarantee of better retrieval."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "You have no labelled data. How do you build an eval set in a week?",
+          "trigger": "missed:r1",
+          "answer_md": "Sample real queries from logs (or have experts write them), generate candidates with several retrievers, and have people label relevance on the pooled top-k. LLM-generated queries per document are fine to bootstrap, as long as a human spot-checks them.",
+          "signals": [
+            "logs",
+            "label",
+            "pool",
+            "llm",
+            "generate",
+            "annotat",
+            "human"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "The best model is 3,072-d and your memory budget is tight. Options?",
+          "trigger": "always",
+          "answer_md": "Use a Matryoshka model's `dimensions` parameter to shorten vectors, quantize to int8 or binary with rescoring, or choose a smaller model. Measure recall at each setting.",
+          "signals": [
+            "dimension",
+            "matryoshka",
+            "quantiz",
+            "shorten",
+            "binary",
+            "int8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iq-chunking",
+      "tier": "core",
+      "difficulty": 2,
+      "kcs": [
+        "kc-chunking",
+        "kc-pooling-limits"
+      ],
+      "est_minutes": 4,
+      "prompt": "What is chunking, and how do you choose a chunk size?",
+      "probing_md": "Do you understand the trade-off (dilution and truncation vs lost context), and do you tune empirically?",
+      "model_answer_md": [
+        "Chunking splits documents into the units you embed and retrieve. Chunks that are too large get diluted (one vector averages many topics) and may exceed the model's input limit. Chunks that are too small lose context, and facts get split at boundaries.",
+        "Split on structure (headings, paragraphs), add 10–20% overlap, and prepend the title and section heading to each chunk. Start around a few hundred tokens, then **tune with recall@k on a labelled set**. The right size also depends on what consumes the results: an LLM in RAG can take larger chunks than a UI snippet."
+      ],
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Defines chunking as splitting docs into retrievable units",
+          "weight": 2,
+          "signals": [
+            "split",
+            "pieces",
+            "passages",
+            "segments",
+            "units"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Too big: dilution / truncation",
+          "weight": 2,
+          "signals": [
+            "dilut",
+            "truncat",
+            "too big",
+            "too large",
+            "average",
+            "token limit"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Too small: loses context",
+          "weight": 2,
+          "signals": [
+            "context",
+            "too small",
+            "lose",
+            "fragment"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Overlap / structure-aware / add headings",
+          "weight": 2,
+          "signals": [
+            "overlap",
+            "heading",
+            "structure",
+            "title",
+            "paragraph"
+          ]
+        },
+        {
+          "id": "r5",
+          "point": "Tune empirically with an eval",
+          "weight": 2,
+          "signals": [
+            "evaluat",
+            "recall",
+            "measure",
+            "experiment",
+            "tune",
+            "test"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "“Always use 512 tokens.”",
+          "why_md": "There's no universal size. It depends on the documents, the model's limit and the consumer. Measure it."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "A fact straddles two chunks and neither retrieves it. What do you change?",
+          "trigger": "missed:r4",
+          "answer_md": "Add overlap so boundary text appears whole in at least one chunk, or split on semantic boundaries (sentences or paragraphs) instead of fixed windows.",
+          "signals": [
+            "overlap",
+            "boundar",
+            "sentence",
+            "paragraph"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "How does the downstream consumer (LLM vs UI) change your chunk size?",
+          "trigger": "always",
+          "answer_md": "An LLM can read several large chunks and benefits from context. A UI snippet needs a small, precise passage. Some systems retrieve small chunks and expand to the parent section before sending it to the LLM (“small-to-big”).",
+          "signals": [
+            "llm",
+            "context",
+            "snippet",
+            "parent",
+            "small-to-big",
+            "expand"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iq-hnsw",
+      "tier": "deep",
+      "difficulty": 3,
+      "kcs": [
+        "kc-hnsw",
+        "kc-ann-tradeoff"
+      ],
+      "est_minutes": 5,
+      "prompt": "How does HNSW work, and what do M, efConstruction and efSearch trade off?",
+      "probing_md": "Real understanding of graph-based ANN: greedy search, layers, beam width, and which knob is build-time vs query-time.",
+      "model_answer_md": [
+        "HNSW builds a proximity graph where each vector links to up to M close neighbours, plus a hierarchy of sparser layers: a node reaches layer ℓ with exponentially decreasing probability. A search enters at the top layer, hops greedily toward the query, and drops a layer whenever no neighbour is closer. On layer 0 it keeps a beam of `efSearch` candidates to avoid local minima.",
+        "**M**: more links means better recall and robustness, at the cost of more memory and slower builds. **efConstruction**: a wider beam while building gives a better graph and a slower build. **efSearch**: a query-time beam, trading recall against latency. Raise it first when recall is low. HNSW needs a lot of memory (vectors plus links in RAM), handles deletes poorly, and handles inserts incrementally."
+      ],
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Graph of neighbours with greedy search",
+          "weight": 3,
+          "signals": [
+            "graph",
+            "greedy",
+            "neighbor",
+            "neighbour",
+            "hop"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Hierarchical layers (sparse top, dense bottom)",
+          "weight": 2,
+          "signals": [
+            "layer",
+            "hierarch",
+            "skip list",
+            "levels"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "M = links per node; memory/recall",
+          "weight": 2,
+          "signals": [
+            "m is",
+            "links",
+            "connections",
+            "edges",
+            "degree"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "efSearch = query-time beam; recall vs latency",
+          "weight": 3,
+          "signals": [
+            "efsearch",
+            "ef_search",
+            "ef search",
+            "beam",
+            "candidate list",
+            "query time",
+            "query-time"
+          ]
+        },
+        {
+          "id": "r5",
+          "point": "efConstruction = build-time quality vs build speed",
+          "weight": 1,
+          "signals": [
+            "efconstruction",
+            "ef_construction",
+            "build time",
+            "build-time",
+            "construction"
+          ]
+        },
+        {
+          "id": "r6",
+          "point": "Costs: memory, deletes, build time",
+          "weight": 1,
+          "signals": [
+            "memory",
+            "ram",
+            "delete",
+            "rebuild"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "“It hashes vectors into buckets.”",
+          "why_md": "That's locality-sensitive hashing (LSH), a different ANN family."
+        },
+        {
+          "answer": "“It returns exact nearest neighbours.”",
+          "why_md": "It's approximate: greedy and beam search can miss neighbours."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Recall is low but latency has headroom. What do you change first, and why not M?",
+          "trigger": "missed:r4",
+          "answer_md": "Raise efSearch: it's a query-time setting, needs no rebuild, and directly widens the search. Changing M requires rebuilding the graph and costs memory.",
+          "signals": [
+            "efsearch",
+            "ef_search",
+            "query",
+            "rebuild",
+            "beam"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Why do the upper layers make search faster?",
+          "trigger": "always",
+          "answer_md": "They act like express lanes: sparse long-range links let the search cover a lot of distance in a few hops before refining on the dense bottom layer, which keeps the number of hops roughly logarithmic in N.",
+          "signals": [
+            "long",
+            "express",
+            "skip",
+            "log",
+            "fewer hops",
+            "coarse"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iq-rerank",
+      "tier": "deep",
+      "difficulty": 3,
+      "kcs": [
+        "kc-hybrid-rerank"
+      ],
+      "est_minutes": 4,
+      "prompt": "Bi-encoder vs cross-encoder: what's the difference, and why retrieve-then-rerank?",
+      "probing_md": "Do you know why bi-encoders make indexing possible, and why cross-encoders are more accurate but can't be pre-computed?",
+      "model_answer_md": [
+        "A bi-encoder embeds the query and the document **independently**, so document vectors can be pre-computed and indexed with ANN. That makes it fast, but the query and document never “see” each other. A cross-encoder feeds the (query, document) pair through one model and outputs a relevance score. It captures word-level interactions and is more accurate, but it must run per pair at query time.",
+        "So: retrieve 50–200 candidates cheaply (bi-encoder, often hybrid with BM25) for **recall**, then rerank them with the cross-encoder for **precision**. Return the top few. Latency grows with the number of candidates reranked, so that number is a tuning knob."
+      ],
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Bi-encoder: separate embeddings, pre-computable index",
+          "weight": 3,
+          "signals": [
+            "separate",
+            "independent",
+            "pre-comput",
+            "precomput",
+            "index",
+            "offline"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Cross-encoder: query+doc together, joint scoring",
+          "weight": 3,
+          "signals": [
+            "together",
+            "jointly",
+            "pair",
+            "concatenat",
+            "both at once"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Cross-encoder more accurate but too slow for the whole corpus",
+          "weight": 2,
+          "signals": [
+            "accurate",
+            "slow",
+            "expensive",
+            "can't precompute",
+            "cannot precompute",
+            "per query"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Two-stage: retrieve (recall) then rerank (precision)",
+          "weight": 2,
+          "signals": [
+            "two-stage",
+            "two stage",
+            "retrieve",
+            "candidates",
+            "top 100",
+            "top-100",
+            "recall",
+            "precision"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "“Cross-encoders are just bigger embedding models.”",
+          "why_md": "The difference is architectural. Cross-encoders don't produce reusable vectors: they score a pair."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Reranking 200 candidates blows your latency budget. Options?",
+          "trigger": "always",
+          "answer_md": "Rerank fewer candidates (say 50), use a smaller or distilled reranker, batch on a GPU, cache frequent queries, or use a late-interaction model (ColBERT-style) as a middle ground.",
+          "signals": [
+            "fewer",
+            "smaller",
+            "distill",
+            "gpu",
+            "batch",
+            "cache",
+            "colbert"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Why can't you just run the cross-encoder over all 10M documents?",
+          "trigger": "missed:r3",
+          "answer_md": "It needs one full forward pass per (query, doc) pair at query time: 10M transformer passes per query. Nothing can be pre-computed, because the score depends on the query.",
+          "signals": [
+            "forward pass",
+            "per pair",
+            "10m",
+            "precompute",
+            "pre-compute",
+            "every document"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iq-migration",
+      "tier": "deep",
+      "difficulty": 3,
+      "kcs": [
+        "kc-production-pitfalls",
+        "kc-model-choice"
+      ],
+      "est_minutes": 5,
+      "prompt": "You need to switch your 50M-vector index to a new embedding model with no downtime. Walk me through it.",
+      "probing_md": "Operational maturity: they want versioning, a parallel index, shadow evaluation, an atomic cutover and rollback.",
+      "model_answer_md": [
+        "New model, new vector space: every vector must be re-embedded, and old and new vectors must never be compared. Steps:",
+        "1. Store `model_id` and `version` with every vector.\n2. Backfill a **new** index with the new model (a batch job, rate-limited, resumable). Dual-write new and updated docs to both indexes during the backfill.\n3. **Evaluate offline** on the labelled set, then **shadow-test** online: send real queries to both and compare.\n4. Cut over atomically (alias swap), with queries embedded by the new model.\n5. Keep the old index for rollback, then delete it.",
+        "Also estimate cost and time up front: 50M chunks × average tokens × price, and the throughput limits."
+      ],
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Must re-embed everything; can't mix spaces",
+          "weight": 3,
+          "signals": [
+            "re-embed",
+            "reembed",
+            "re embed",
+            "different space",
+            "incompatible",
+            "can't mix",
+            "cannot mix"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "Build a parallel/new index (blue-green), dual-write",
+          "weight": 3,
+          "signals": [
+            "parallel",
+            "new index",
+            "blue-green",
+            "blue/green",
+            "side by side",
+            "dual-write",
+            "dual write",
+            "both"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Evaluate / shadow test before cutover",
+          "weight": 2,
+          "signals": [
+            "evaluat",
+            "shadow",
+            "a/b",
+            "compare",
+            "offline"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Atomic cutover (alias) + rollback",
+          "weight": 2,
+          "signals": [
+            "alias",
+            "cutover",
+            "cut over",
+            "switch",
+            "rollback",
+            "roll back"
+          ]
+        },
+        {
+          "id": "r5",
+          "point": "Version metadata on vectors; cost/throughput estimate",
+          "weight": 1,
+          "signals": [
+            "version",
+            "model_id",
+            "cost",
+            "throughput",
+            "rate limit"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "“Re-embed in place, gradually.”",
+          "why_md": "During the migration, queries would compare across two vector spaces, and results would degrade unpredictably."
+        },
+        {
+          "answer": "“Only switch the query model.”",
+          "why_md": "Queries and docs would be in different spaces, so scores would be meaningless."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "Why not re-embed the existing index in place, document by document?",
+          "trigger": "missed:r2",
+          "answer_md": "During the migration the index would hold a mix of old-space and new-space vectors, so every query compares across spaces and quality silently degrades. Build separately, then cut over.",
+          "signals": [
+            "mix",
+            "two spaces",
+            "both spaces",
+            "degrad",
+            "inconsistent"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "Ballpark the cost of re-embedding 50M chunks of ~300 tokens with a \\$0.02 / 1M-token model.",
+          "trigger": "always",
+          "answer_md": "50M × 300 = 15B tokens. 15,000 × \\$0.02 = **\\$300** in API cost. Rate limits and wall-clock time usually matter more than the money.",
+          "signals": [
+            "300",
+            "15b",
+            "15 billion",
+            "15,000",
+            "rate limit"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iq-design-ticket-search",
+      "tier": "design",
+      "difficulty": 4,
+      "kcs": [
+        "kc-ann-tradeoff",
+        "kc-hybrid-rerank",
+        "kc-production-pitfalls",
+        "kc-retrieval-eval",
+        "kc-compression"
+      ],
+      "est_minutes": 10,
+      "prompt": "Design semantic search over 100M support tickets for a multi-tenant SaaS (10k tenants, wildly different sizes). p95 latency under 200 ms.",
+      "probing_md": "Can you combine everything: chunking, embedding cost, index choice, memory math, tenant filtering, hybrid search and reranking, evaluation, and operations? Watch for whether the candidate notices that tenant filtering is the hard part.",
+      "model_answer_md": [
+        "**Ingest:** chunk the tickets (subject + body + resolution, with the subject prepended), embed with a model chosen by eval, and store the vector, tenant_id, timestamps and model version.",
+        "**Memory math:** ~100M chunks × 768 dims × 4 B ≈ 307 GB as float32. Use int8 (≈ 77 GB) or binary with rescoring, sharded.",
+        "**Tenancy (the crux):** post-filtering a global index starves small tenants. Route large tenants to dedicated partitions or indexes, and pack small tenants into shared indexes that support filter-aware or iterative scans, or simply use exact search over a small tenant's vectors (cheap at their size).",
+        "**Query:** hybrid search (BM25 for ticket IDs, error codes and names, plus vectors), RRF, then cross-encoder reranking of the top 50 within the latency budget.",
+        "**Quality and operations:** a per-tenant-sampled eval set (recall@10, nDCG), online click and resolution metrics, re-embedding on edits, versioned model migrations, and monitoring of recall against an exact baseline."
+      ],
+      "rubric": [
+        {
+          "id": "r1",
+          "point": "Memory/scale math and compression or sharding",
+          "weight": 2,
+          "signals": [
+            "gb",
+            "memory",
+            "quantiz",
+            "shard",
+            "int8",
+            "binary",
+            "pq"
+          ]
+        },
+        {
+          "id": "r2",
+          "point": "ANN index choice (HNSW/IVF) with recall tuning",
+          "weight": 2,
+          "signals": [
+            "hnsw",
+            "ivf",
+            "ann",
+            "approximate"
+          ]
+        },
+        {
+          "id": "r3",
+          "point": "Tenant filtering problem + solution (partition / filter-aware / exact for small)",
+          "weight": 3,
+          "signals": [
+            "tenant",
+            "partition",
+            "filter",
+            "per-tenant",
+            "namespace"
+          ]
+        },
+        {
+          "id": "r4",
+          "point": "Hybrid search + reranking",
+          "weight": 2,
+          "signals": [
+            "hybrid",
+            "bm25",
+            "rerank",
+            "cross-encoder",
+            "rrf"
+          ]
+        },
+        {
+          "id": "r5",
+          "point": "Evaluation offline + online",
+          "weight": 2,
+          "signals": [
+            "evaluat",
+            "recall",
+            "ndcg",
+            "online",
+            "metrics",
+            "click"
+          ]
+        },
+        {
+          "id": "r6",
+          "point": "Freshness / re-embedding / model versioning",
+          "weight": 1,
+          "signals": [
+            "fresh",
+            "update",
+            "re-embed",
+            "version",
+            "migration"
+          ]
+        }
+      ],
+      "wrong_answers": [
+        {
+          "answer": "“One global HNSW index, filter by tenant after search.”",
+          "why_md": "Small tenants will often get zero results: post-filter starvation."
+        },
+        {
+          "answer": "“One index per tenant, all in memory.”",
+          "why_md": "10k separate indexes waste memory and operational effort on tiny tenants. Use a hybrid layout."
+        }
+      ],
+      "follow_ups": [
+        {
+          "id": "f1",
+          "q": "A tenant with 2,000 tickets gets no results for an obvious query. Why, and what's the fix?",
+          "trigger": "missed:r3",
+          "answer_md": "The ANN search returned the global top candidates, and none of them belonged to this tenant, so post-filtering removed everything. Fixes: filter-aware or iterative scans, partitioning by tenant, or exact search over that tenant's 2,000 vectors, which is trivially fast.",
+          "signals": [
+            "post-filter",
+            "filter",
+            "partition",
+            "exact",
+            "brute",
+            "iterative"
+          ]
+        },
+        {
+          "id": "f2",
+          "q": "How do you know search quality didn't regress after a release?",
+          "trigger": "always",
+          "answer_md": "Run the offline eval (recall@k / nDCG) in CI on a fixed labelled set, plus online metrics (CTR, ticket deflection, time to resolution), plus canary or A/B testing.",
+          "signals": [
+            "eval",
+            "recall",
+            "ndcg",
+            "a/b",
+            "canary",
+            "online",
+            "ci"
+          ]
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "docs-search-error-codes",
+      "title": "Developer docs search can't find error codes",
+      "domain": "Developer platform",
+      "archetype": true,
+      "context_md": "A developer platform replaced keyword search over its ~50k doc pages with pure vector search. Natural-language queries improved a lot. Then support tickets spiked: developers paste error codes like `ERR_CERT_DATE_INVALID` or `E1234` and get generic “SSL troubleshooting” pages instead of the page for that exact error.",
+      "pipeline": [
+        {
+          "step": "Chunk",
+          "detail": "Pages split by heading into ~400k chunks, with the page title prepended"
+        },
+        {
+          "step": "Embed",
+          "detail": "1,536-d API embeddings, about 120M tokens in total"
+        },
+        {
+          "step": "Index",
+          "detail": "HNSW in a managed vector DB"
+        },
+        {
+          "step": "Query",
+          "detail": "Embed the query → top-10 by cosine → show results"
+        }
+      ],
+      "numbers": [
+        {
+          "label": "Index size",
+          "value": "≈ 2.5 GB",
+          "note": "400k × 1,536 × 4 bytes, before graph overhead"
+        },
+        {
+          "label": "Embedding cost",
+          "value": "≈ \\$2.40",
+          "note": "120M tokens × \\$0.02 / 1M. Cheap to re-run."
+        },
+        {
+          "label": "Error-code queries",
+          "value": "a large share of failed searches",
+          "note": "a typical pattern in developer docs: identifiers are hard for dense vectors"
+        }
+      ],
+      "decision": {
+        "prompt_md": "You have two weeks. What do you ship?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Switch to a bigger embedding model (3,072-d)",
+            "verdict": "trap",
+            "outcome_md": "Error codes stay hard for dense vectors at any size. You doubled memory and cost, and the tickets keep coming."
+          },
+          {
+            "id": "b",
+            "md": "Add BM25 alongside vectors and fuse with reciprocal rank fusion",
+            "verdict": "best",
+            "outcome_md": "Exact-token queries match the right page through BM25. Natural-language queries keep their vector wins. RRF needs no score calibration. Add a cross-encoder reranker later if precision needs it."
+          },
+          {
+            "id": "c",
+            "md": "Lower the similarity threshold so more results show",
+            "verdict": "trap",
+            "outcome_md": "More results, but they're the same wrong pages plus noise. The ranking problem is unchanged."
+          },
+          {
+            "id": "d",
+            "md": "Fine-tune the embedding model on error-code pairs",
+            "verdict": "viable",
+            "outcome_md": "This can help, but it needs training data and an evaluation pipeline, and every new error code is still unseen. It's a longer-term complement, not a two-week fix."
+          }
+        ]
+      },
+      "failure_modes": [
+        "exact-match-miss",
+        "chunk-dilution"
+      ],
+      "lessons_md": "Semantic search doesn't replace lexical search, it complements it. **Measure by query type**: the failures concentrated in one class (identifiers) that an overall average would hide.",
+      "sources": [
+        "rrf-paper"
+      ]
+    },
+    {
+      "id": "recs-at-scale",
+      "title": "“More like this” for 50M products",
+      "domain": "E-commerce recommendations",
+      "archetype": true,
+      "context_md": "An e-commerce site wants item-to-item recommendations: 768-d product embeddings for 50M items, refreshed nightly, with p99 latency under 30 ms. The prototype loaded every vector into a float32 HNSW index on one machine. It ran out of memory at 20M items.",
+      "pipeline": [
+        {
+          "step": "Embed",
+          "detail": "Title + attributes + image embedding, combined into 768-d"
+        },
+        {
+          "step": "Compress",
+          "detail": "Your call: see the decision below"
+        },
+        {
+          "step": "Index",
+          "detail": "ANN, sharded"
+        },
+        {
+          "step": "Serve",
+          "detail": "Top-50 → business rules (stock, category) → top-10"
+        }
+      ],
+      "numbers": [
+        {
+          "label": "Raw float32",
+          "value": "153.6 GB",
+          "note": "50M × 768 × 4 bytes, before HNSW links"
+        },
+        {
+          "label": "int8",
+          "value": "38.4 GB",
+          "note": "4× smaller"
+        },
+        {
+          "label": "PQ at 64 bytes per vector",
+          "value": "3.2 GB",
+          "note": "48× smaller, with a recall cost"
+        }
+      ],
+      "decision": {
+        "prompt_md": "Which architecture do you take to production?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Buy a 512 GB machine and keep float32 HNSW",
+            "verdict": "viable",
+            "outcome_md": "It works and keeps recall high, but you pay for one big box with no headroom, a slow nightly rebuild, and a single point of failure. Fine as a stopgap."
+          },
+          {
+            "id": "b",
+            "md": "Quantize (int8 or PQ), shard across machines, oversample and rescore the top candidates with full vectors",
+            "verdict": "best",
+            "outcome_md": "The memory fits on commodity nodes, and rescoring recovers most of the recall. Measure recall@50 against exact search on a sample to set the oversampling factor."
+          },
+          {
+            "id": "c",
+            "md": "Exact search with batched matrix multiplication on CPUs",
+            "verdict": "trap",
+            "outcome_md": "At 50M × 768 that's ~38B multiply-adds per query, which is hopeless at 30 ms without a GPU farm."
+          },
+          {
+            "id": "d",
+            "md": "Drop to 64 dimensions with PCA",
+            "verdict": "viable",
+            "outcome_md": "Cheaper, but it can cost a lot of quality unless the model was trained Matryoshka-style. Measure it before committing."
+          }
+        ]
+      },
+      "failure_modes": [
+        "filter-starvation",
+        "stale-vectors"
+      ],
+      "lessons_md": "Do the **memory math first**: $N \\times d \\times$ bytes decides your architecture. Compression plus rescoring is the standard way out. Spotify's public libraries show the same evolution, from Annoy (random-projection trees, 2013) to Voyager (HNSW-based, 2023).",
+      "sources": [
+        "voyager",
+        "pq-paper",
+        "hnsw-paper"
+      ]
+    }
+  ],
+  "tests": {
+    "unit": "unit-test@1",
+    "forms": [
+      "A",
+      "B"
+    ]
+  },
+  "est_min": 133
+}

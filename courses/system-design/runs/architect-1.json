@@ -1,0 +1,552 @@
+{
+  "goal": "System design (interview-focused)",
+  "course": "system-design",
+  "started": "2026-11-17T14:48:35.619Z",
+  "minutes": 63.29,
+  "agent": "claude",
+  "critic": "codex",
+  "scout": {
+    "roadmap": "roadmap-system-design",
+    "proposed": [
+      {
+        "id": "sd-primer",
+        "ref": "https://raw.githubusercontent.com/donnemartin/system-design-primer/master/README.md",
+        "status": 200,
+        "sections": 20,
+        "kept": true,
+        "why": "Canonical interview-prep curriculum. Adds what the roadmap lacks: how to approach a system design interview step by step, back-of-the-envelope estimation (latency numbers, powers of two), and worked interview questions such as a URL shortener, Twitter timeline and web crawler."
+      },
+      {
+        "id": "karan-sd",
+        "ref": "https://raw.githubusercontent.com/karanpratapsingh/system-design/main/README.md",
+        "status": 200,
+        "sections": 248,
+        "kept": true,
+        "why": "Widely used free system design course. Adds topics the roadmap covers lightly or not at all: networking basics (IP, OSI, TCP/UDP), proxies, database indexes, normalization, consistent hashing, database federation, N-tier and microservices architecture, event sourcing, CQRS, API gateways, geohashing, circuit breakers, rate limiting, service discovery and SLAs. It also includes interview case studies (WhatsApp, Netflix, Uber)."
+      },
+      {
+        "id": "awesome-sd",
+        "ref": "https://raw.githubusercontent.com/ashishps1/awesome-system-design-resources/main/README.md",
+        "status": 200,
+        "sections": 11,
+        "kept": true,
+        "why": "Popular interview-prep list. Adds an organized list of practice interview problems (easy, medium, hard) plus topics the roadmap lacks: distributed-systems algorithms (consensus, gossip, bloom filters, Merkle trees) and real-world engineering blog case studies."
+      }
+    ],
+    "dropped_refs": []
+  },
+  "rounds": [
+    {
+      "kind": "compile",
+      "blocking": 0,
+      "lints": []
+    },
+    {
+      "kind": "critic",
+      "blocking": 17,
+      "warn": 3
+    },
+    {
+      "kind": "compile",
+      "blocking": 0,
+      "lints": []
+    },
+    {
+      "kind": "critic",
+      "blocking": 9,
+      "warn": 2
+    }
+  ],
+  "gap": {
+    "kind": "critic",
+    "findings": [
+      {
+        "id": "f1",
+        "severity": "blocking",
+        "target": "sd-dns-o4",
+        "claim": "DNS resolution, record types and DNS routing are not necessary to produce o4's diagram or justify its cache and load-balancing choices. This link makes the entire DNS lesson mandatory beyond the observable's requirements.",
+        "fix": "Remove sd-dns's serves link to o4."
+      },
+      {
+        "id": "f2",
+        "severity": "blocking",
+        "target": "sd-push-pull-cdn-o4",
+        "claim": "O4 requires placing a CDN, but does not require choosing how content is provisioned into it. Push-versus-pull provisioning is enrichment rather than a prerequisite for producing this observable.",
+        "fix": "Remove sd-push-pull-cdn's serves link to o4."
+      },
+      {
+        "id": "f3",
+        "severity": "blocking",
+        "target": "sd-api-gateway-o6-sd-consistent-hashing-o6",
+        "claim": "A complete classic interview answer can satisfy every o6 rubric area without an API gateway or consistent hashing. These links turn particular architectural options into universal interview requirements.",
+        "fix": "Remove the serves link to o6 from sd-api-gateway and sd-consistent-hashing; retain these topics as enrichment."
+      },
+      {
+        "id": "f4",
+        "severity": "blocking",
+        "target": "sd-single-points-of-failure-sd-websockets-sd-case-payment-system",
+        "claim": "Three hard prerequisites gate skills their dependent KCs do not need: identifying a SPOF does not require availability arithmetic, defining WebSockets does not require polling, and the payment case's KCs do not use sagas.",
+        "fix": "Move sd-single-points-of-failure → sd-availability-series-parallel and sd-case-payment-system → sd-sagas from requires to suggests. Move sd-websockets → sd-polling-long-polling to suggests and add a direct requires edge from sd-websockets to sd-http."
+      },
+      {
+        "id": "f5",
+        "severity": "blocking",
+        "target": "kc-strategy-by-ratio",
+        "claim": "The proposed read-your-writes mechanism, 'invalidating the key before acknowledging the write', is insufficient. A concurrent reader can fetch the old database value before the write commits and refill the cache after invalidation, allowing the writer's next read to return stale data.",
+        "fix": "Replace the invalidation example with: 'Read-your-writes requires an authoritative read path that has applied the user's write, or version-aware cache reads and fills that reject older versions; cache deletion alone does not guarantee it.'"
+      },
+      {
+        "id": "f6",
+        "severity": "blocking",
+        "target": "kc-competing-consumers",
+        "claim": "'Each message in a queue is delivered to exactly one of the consumers' incorrectly implies that a message cannot reach another consumer on redelivery. This conflicts with the later at-least-once delivery lesson.",
+        "fix": "Replace the statement with: 'Competing consumers share the work rather than each receiving a broadcast copy. An unacknowledged message may be redelivered, possibly to another consumer, so processing must tolerate duplicates.'"
+      },
+      {
+        "id": "f7",
+        "severity": "blocking",
+        "target": "kc-sync-replication",
+        "claim": "'No acknowledged write is lost if the leader dies' requires more than acknowledgment from an arbitrary follower. The acknowledged copy must survive durably, and failover must preserve it rather than promoting a lagging replica.",
+        "fix": "State: 'Synchronous replication waits for the configured replica acknowledgments before acknowledging the client. Acknowledged writes survive leader failure when a durable acknowledged copy survives and failover preserves that copy; latency and write availability depend on the required acknowledgment set.'"
+      },
+      {
+        "id": "f8",
+        "severity": "blocking",
+        "target": "sd-mock-url-shortener-sd-mock-news-feed-sd-mock-chat-sd-mock-ride-hailing-sd-mock-unseen-prompt",
+        "claim": "Every timed mock is allotted 40 minutes, while kc-mock-full-attempt requires an uninterrupted 45-minute submission followed by separate review. None of these allocations can accommodate the course's own assessment protocol.",
+        "fix": "Set est_min to 55 for each of the five mocks, allocating 45 minutes to the attempt and 10 minutes to scoring and self-review."
+      },
+      {
+        "id": "f10",
+        "severity": "blocking",
+        "target": "kc-mock-url-requirements-kc-url-key-generation-service",
+        "claim": "The mock requires 'non-guessable codes', but the taught generator only guarantees uniqueness and explicitly permits counter ranges. Unique sequential codes remain predictable, so the learner has no taught mechanism for satisfying this requirement.",
+        "fix": "Add a URL-shortener KC distinguishing uniqueness from unpredictability and teaching sufficiently long cryptographically random codes with atomic collision handling. Require the mock's generator choice to explain how it meets the non-guessability requirement."
+      }
+    ]
+  },
+  "schema_errors": [],
+  "shape": {
+    "stages": 8,
+    "units": 29,
+    "topics": 134,
+    "route": 82,
+    "tiers": {
+      "must": 81,
+      "recommended": 1,
+      "optional": 52,
+      "dropped": 0
+    },
+    "scope": "field"
+  },
+  "lints": [
+    {
+      "id": "L1",
+      "result": "pass",
+      "detail": "acyclic"
+    },
+    {
+      "id": "L2",
+      "result": "pass",
+      "detail": "all must topics reachable"
+    },
+    {
+      "id": "L3",
+      "result": "pass",
+      "detail": "0 group(s)"
+    },
+    {
+      "id": "L5",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L6",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L9",
+      "result": "pass",
+      "detail": "max 24 (sd-p5), 82 ≤ 150"
+    },
+    {
+      "id": "L10",
+      "result": "pass",
+      "detail": "max 40 min"
+    },
+    {
+      "id": "L11",
+      "result": "pass",
+      "detail": "6/5/4/5/3/7/4/5/4/4/3/4/7/4/3/6/6/4/4/3/6/4/5/6/6/3/4/3/6 topics, 17/13/10/12/7/17/10/12/11/9/9/11/14/10/9/18/14/10/9/9/14/9/14/16/20/11/13/10/23 KCs"
+    },
+    {
+      "id": "L12",
+      "result": "pass",
+      "detail": "2/3/3/3/5/4/4/5 units"
+    },
+    {
+      "id": "L13",
+      "result": "pass",
+      "detail": "o1 ← 3.1, 3.2, 3.3, 3.4, 28.2; o2 ← 0.5, 1.3, 1.4, 2.1, 2.2, 2.3, 2.4; o3 ← 11.1, 12.1, 12.2, 12.3, 12.4, 12.7, 13.1, 13.2, 13.3 (via 14.1), 14.1, 14.2, 14.3, 15.1, 15.2, 15.3, 15.6; o4 ← 0.2 (via 0.4), 0.4, 5.2, 5.3, 5.4, 5.5, 5.6, 6.1, 6.2, 7.5, 8.1, 8.2, 8.3, 8.4, 9.1, 9.4, 10.2, 16.1, 16.2; o5 ← 17.1, 17.2, 17.3, 20.1, 20.2, 20.4, 20.5 (via 20.6), 20.6, 21.1 (via 21.2), 21.2, 21.3, 23.6, 28.6; o6 ← 2.1, 4.1, 4.2, 4.3, 5.7 (via 6.3), 6.3, 8.3, 9.4, 12.6, 13.3 (via 15.6), 15.4, 15.6, 16.5, 17.3, 18.1 (via 18.2), 18.2, 18.4, 19.1, 20.5 (via 23.6), 21.1 (via 23.6), 23.6, 24.2, 25.1, 25.3, 26.2, 26.4, 28.1, 28.2, 28.3, 28.4, 28.5, 28.6"
+    },
+    {
+      "id": "L14",
+      "result": "pass",
+      "detail": "none generated-only"
+    },
+    {
+      "id": "L15",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L17",
+      "result": "pass",
+      "detail": "none"
+    },
+    {
+      "id": "L19",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L20",
+      "result": "pass",
+      "detail": "4 sources"
+    },
+    {
+      "id": "L21",
+      "result": "pass",
+      "detail": "no claims"
+    }
+  ],
+  "tokens": {
+    "input": 117323,
+    "cache_read": 461382,
+    "cache_write": 1511749,
+    "output": 425447
+  },
+  "calls": [
+    {
+      "job": "scout-propose",
+      "skill": "adhy-scout",
+      "mode": "propose",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 10699,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 2320,
+        "cache_write": 630,
+        "output": 789
+      }
+    },
+    {
+      "job": "scout-map",
+      "skill": "adhy-scout",
+      "mode": "map",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 381998,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 1657,
+        "cache_write": 36794,
+        "output": 54771
+      }
+    },
+    {
+      "job": "course-pass",
+      "skill": "adhy-architect",
+      "mode": "course",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 39811,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 0,
+        "cache_write": 17654,
+        "output": 4228
+      }
+    },
+    {
+      "job": "stage-sd-p1",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 133754,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 2378,
+        "cache_write": 76939,
+        "output": 14759
+      }
+    },
+    {
+      "job": "stage-sd-p2",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 120579,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 5553,
+        "cache_write": 74741,
+        "output": 13394
+      }
+    },
+    {
+      "job": "stage-sd-p3",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 281636,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 6,
+        "cache_read": 86795,
+        "cache_write": 97087,
+        "output": 35352
+      }
+    },
+    {
+      "job": "stage-sd-p4",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 132035,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 5553,
+        "cache_write": 76867,
+        "output": 14821
+      }
+    },
+    {
+      "job": "stage-sd-p5",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 271781,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 5553,
+        "cache_write": 77782,
+        "output": 30631
+      }
+    },
+    {
+      "job": "stage-sd-p6",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 193012,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 5553,
+        "cache_write": 79540,
+        "output": 21785
+      }
+    },
+    {
+      "job": "stage-sd-p7",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 418327,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 4,
+        "cache_read": 11106,
+        "cache_write": 161929,
+        "output": 24912
+      }
+    },
+    {
+      "job": "stage-sd-p8",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 360175,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 6,
+        "cache_read": 93618,
+        "cache_write": 108658,
+        "output": 46528
+      }
+    },
+    {
+      "job": "repair-sd-p8-2",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 159322,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 5553,
+        "cache_write": 108547,
+        "output": 22925
+      }
+    },
+    {
+      "job": "repair-sd-p4-2",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 131353,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 6,
+        "cache_read": 99787,
+        "cache_write": 98682,
+        "output": 19192
+      }
+    },
+    {
+      "job": "repair-sd-p7-2",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 127528,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 5553,
+        "cache_write": 101354,
+        "output": 18374
+      }
+    },
+    {
+      "job": "repair-sd-p5-2",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 260103,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 6,
+        "cache_read": 113744,
+        "cache_write": 122847,
+        "output": 39814
+      }
+    },
+    {
+      "job": "repair-sd-p2-2",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 70541,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 5553,
+        "cache_write": 87043,
+        "output": 10222
+      }
+    },
+    {
+      "job": "repair-sd-p1-2",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 67254,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 5553,
+        "cache_write": 85723,
+        "output": 9902
+      }
+    },
+    {
+      "job": "repair-sd-p6-2",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 105508,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 5553,
+        "cache_write": 98932,
+        "output": 15939
+      }
+    },
+    {
+      "job": "critic-1",
+      "skill": "adhy-critic",
+      "mode": "review",
+      "vendor": "codex",
+      "attempt": 1,
+      "ok": true,
+      "ms": 216365,
+      "model": "codex:gpt-6.1-sol",
+      "usage": {
+        "input": 58040,
+        "cache_read": 0,
+        "cache_write": 0,
+        "output": 13100
+      }
+    },
+    {
+      "job": "critic-2",
+      "skill": "adhy-critic",
+      "mode": "review",
+      "vendor": "codex",
+      "attempt": 1,
+      "ok": true,
+      "ms": 312420,
+      "model": "codex:gpt-6.1-sol",
+      "usage": {
+        "input": 59229,
+        "cache_read": 0,
+        "cache_write": 0,
+        "output": 14009
+      }
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-document-store",
+  "version": 1,
+  "title": "Document stores",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-document-model",
+      "version": 1,
+      "statement": "A document store keeps self-contained JSON-like documents whose fields may differ between documents and can be queried and indexed by fields inside the document."
+    },
+    {
+      "id": "kc-document-fit",
+      "version": 1,
+      "statement": "Document stores fit data read as one aggregate, such as a product with its variants or a user profile, and fit poorly when many-to-many relationships need joins."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-nosql-base"
+  ],
+  "suggests": [
+    "sd-database-indexes"
+  ],
+  "confusable_with": [
+    "sd-key-value-store"
+  ],
+  "introduces": [
+    "document store",
+    "aggregate"
+  ],
+  "uses": [
+    "nosql",
+    "database index",
+    "sql join"
+  ],
+  "problem_ideas": [
+    "Model a product catalog where shoes have sizes and laptops have RAM options as documents",
+    "Decide whether a social graph of followers belongs in a document store",
+    "Show the update problem when an author's name is embedded in 10,000 article documents",
+    "Choose between embedding comments in a post document and storing them separately, given posts with up to 50,000 comments",
+    "Write the index you'd add to find orders by customer_id in a document store",
+    "Pick SQL or a document store for a CMS with highly varied page layouts"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "application-layer/document-store"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "database/document-store"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "examples-7/document"
+    }
+  ],
+  "status": "stub"
+}

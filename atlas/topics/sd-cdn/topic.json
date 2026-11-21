@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-cdn",
+  "version": 1,
+  "title": "Content delivery networks",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-cdn-role",
+      "version": 1,
+      "statement": "A CDN serves static content (images, video, scripts, stylesheets) from edge servers close to users, cutting round trip time and offloading bandwidth from origin servers."
+    },
+    {
+      "id": "kc-cdn-routing",
+      "version": 1,
+      "statement": "Users reach a nearby CDN edge through DNS-based routing or anycast, so asset URLs point at a CDN hostname rather than at the origin server."
+    },
+    {
+      "id": "kc-cdn-offload-estimate",
+      "version": 1,
+      "statement": "Origin egress ≈ total egress × (1 − CDN hit ratio): at a 95% hit ratio, a 10 Gbps egress workload sends only 0.5 Gbps from the origin."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "sd-load-balancers"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "cdn",
+    "edge server",
+    "origin server",
+    "cdn hit ratio"
+  ],
+  "uses": [
+    "round trip time",
+    "dns-based routing",
+    "egress",
+    "bandwidth",
+    "latency"
+  ],
+  "problem_ideas": [
+    "Users in Mumbai see 300 ms per image from a US origin: estimate the saving with an edge 20 ms away",
+    "40 Gbps of video egress at a 98% hit ratio: how much leaves the origin?",
+    "Which of these responses should go through a CDN: profile photo, account balance, JS bundle, search results?",
+    "The hit ratio drops from 95% to 80% after a deploy: by what factor does origin load grow?",
+    "Name two downsides of a CDN for content that changes every minute",
+    "Failure story: a CDN outage takes down the site even though the origin servers are healthy; how would you design for it?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "content-delivery-networks/content-delivery-networks"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "content-delivery-network/content-delivery-network"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "how-does-a-cdn-work/how-does-a-cdn-work"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "why-use-a-cdn/why-use-a-cdn"
+    }
+  ],
+  "status": "stub"
+}

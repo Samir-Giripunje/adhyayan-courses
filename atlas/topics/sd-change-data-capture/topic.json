@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-change-data-capture",
+  "version": 1,
+  "title": "Change data capture and the outbox pattern",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-dual-write-problem",
+      "version": 1,
+      "statement": "A dual write (commit to the database, then publish an event) can leave the two out of sync, because a crash or failure between the two steps leaves one done without the other."
+    },
+    {
+      "id": "kc-cdc-reads-log",
+      "version": 1,
+      "statement": "Change data capture reads the database's transaction or replication log and emits each committed change as an event, so downstream systems (search index, caches, analytics) follow the database without the application writing twice."
+    },
+    {
+      "id": "kc-transactional-outbox",
+      "version": 1,
+      "statement": "With a transactional outbox the service writes the business row and an event row in the same database transaction, and a relay (often CDC) publishes outbox rows, so an event exists if and only if the change committed."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-relational-acid",
+    "sd-event-streaming"
+  ],
+  "suggests": [
+    "sd-replication-leader-follower",
+    "sd-cache-invalidation-ttl"
+  ],
+  "confusable_with": [
+    "sd-cqrs-event-sourcing"
+  ],
+  "introduces": [
+    "change data capture",
+    "dual write",
+    "transactional outbox"
+  ],
+  "uses": [
+    "transaction",
+    "replication",
+    "event streaming",
+    "cache invalidation"
+  ],
+  "problem_ideas": [
+    "Trace a crash between 'UPDATE price' and 'publish PriceChanged': what does the search index show?",
+    "Design keeping an Elasticsearch-style search index in sync with an orders table using CDC",
+    "Use CDC to invalidate cache entries: what does it fix that application-side invalidation misses?",
+    "The outbox relay publishes a row then crashes before marking it sent: what does the consumer see?",
+    "CDC emits 30,000 row changes/s from a 6-table schema: which partition key keeps per-row order?",
+    "Interviewer: 'why not just publish from the app after commit?'"
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "asynchronous-communication/change-data-capture-cdc"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,922 @@
+[
+  {
+    "id": "q-cp1-fixed",
+    "version": 1,
+    "family": "q-cp1-fixed",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-def"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "What does “a 384-dimensional embedding model” guarantee?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Every input becomes exactly 384 numbers",
+        "correct": true,
+        "why_md": "Right. The output length is fixed by the model."
+      },
+      {
+        "id": "b",
+        "md": "It understands 384 topics",
+        "why_md": "Dimensions aren't topics.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "c",
+        "md": "It accepts at most 384 words",
+        "why_md": "That's the input limit, a separate number (often 256–8,192 tokens)."
+      }
+    ],
+    "hints": [
+      "Which idea applies? An embedding model maps input to a fixed-length vector so that similar meanings land close together.",
+      "Right."
+    ],
+    "solution_md": "Right. The output length is fixed by the model.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-b7",
+    "version": 2,
+    "family": "q-dpp-b7",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-def"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Which statement about embedding dimensions is correct?",
+    "options": [
+      {
+        "id": "a",
+        "md": "For a fixed model and settings, every input gets the same number of dimensions",
+        "correct": true,
+        "why_md": "Correct. A model with fixed settings maps every input, short or long, to a vector of one fixed length. (Some APIs let you choose a shorter length up front; then that chosen length is the fixed one.)"
+      },
+      {
+        "id": "b",
+        "md": "Dimension 1 always encodes sentiment",
+        "why_md": "Learned dimensions have no fixed human meaning.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "c",
+        "md": "Longer texts get more dimensions",
+        "why_md": "Output size is fixed by the model."
+      }
+    ],
+    "hints": [
+      "Which idea applies? An embedding model maps input to a fixed-length vector so that similar meanings land close together.",
+      "Fixed output size is what lets you compare any query with any document by dot product."
+    ],
+    "solution_md": "Fixed output size is what lets you compare any query with any document by dot product.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "emb-model/set-1",
+    "version": 1,
+    "family": "emb-model-terms-match",
+    "kind": "match",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-def"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Match each term on the left to what it means. One description on the right is left over.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "embedding",
+        "why_md": "Matches r1: the vector itself, the model's output for one input."
+      },
+      {
+        "id": "l2",
+        "md": "embedding model",
+        "why_md": "Matches r2: the trained function that produces embeddings."
+      },
+      {
+        "id": "l3",
+        "md": "dimension",
+        "why_md": "Matches r3: one position in the vector. `all-MiniLM-L6-v2` vectors have 384 of them."
+      },
+      {
+        "id": "l4",
+        "md": "embedding space",
+        "why_md": "Matches r4: one model's coordinate system. Vectors are comparable only inside one space."
+      },
+      {
+        "id": "r1",
+        "md": "The fixed-length vector produced for one input",
+        "why_md": "This describes an embedding."
+      },
+      {
+        "id": "r2",
+        "md": "A trained function that turns text into a fixed-length vector",
+        "why_md": "This describes an embedding model."
+      },
+      {
+        "id": "r3",
+        "md": "One position in a vector",
+        "why_md": "This describes a dimension."
+      },
+      {
+        "id": "r4",
+        "md": "The coordinate system that one model's vectors live in",
+        "why_md": "This describes an embedding space."
+      },
+      {
+        "id": "r5",
+        "md": "The maximum number of words a model will read",
+        "why_md": "Left over. That's the model's input limit, a separate number from how many dimensions it outputs."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3",
+        "l4": "r4"
+      }
+    },
+    "hints": [
+      "Start with the pair you're surest of: which term names the *output* and which names the *function* that produces it?",
+      "embedding → the vector; embedding model → the function; dimension → one position; embedding space → one model's coordinate system. The word limit is a separate number."
+    ],
+    "solution_md": "- **embedding** → the fixed-length vector produced for one input.\n- **embedding model** → the trained function that turns text into that vector.\n- **dimension** → one position in the vector.\n- **embedding space** → the coordinate system one model's vectors live in.\n\nThe leftover description, the maximum number of words a model will read, is its input limit: a different number from its output length.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/set-2",
+    "version": 1,
+    "family": "emb-model-comparable-pair",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Which pair of vectors can you meaningfully compare with cosine similarity?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A question and an article, both embedded with `all-MiniLM-L6-v2`",
+        "correct": true,
+        "why_md": "Right. One model, one coordinate system: the cosine means something."
+      },
+      {
+        "id": "b",
+        "md": "A question embedded with `text-embedding-3-small` and an article embedded with a different model that also outputs 1,536 numbers",
+        "why_md": "The arithmetic runs, but the two models have unrelated coordinate systems, so the score is meaningless.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "c",
+        "md": "A question embedded with `all-MiniLM-L6-v2` (384 numbers) and an article embedded with `text-embedding-3-small` (1,536 numbers)",
+        "why_md": "Different lengths, so cosine can't even be computed. And they come from different models anyway."
+      }
+    ],
+    "hints": [
+      "Ask two questions of each pair: can the arithmetic run, and did one model produce both vectors?",
+      "Only a pair where the *same* model embedded both texts passes both questions. Equal length alone doesn't."
+    ],
+    "solution_md": "Only **a**: one model embedded both texts, so both vectors share one coordinate system. In b the lengths match but the models differ, so the score has no meaning. In c the lengths differ (384 vs 1,536), so cosine can't even be computed.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/set-3",
+    "version": 1,
+    "family": "emb-model-one-coordinate",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-dims-opaque"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Two help-centre articles, embedded with the same 384-dimension model, have almost the same value at dimension 200 (0.31 and 0.30). Their cosine similarity is 0.05, one of the lowest scores in the whole help centre. Are they close in meaning?",
+    "options": [
+      {
+        "id": "a",
+        "md": "No: closeness comes from the whole vectors, and their cosine is very low. One matching coordinate means nothing",
+        "correct": true,
+        "why_md": "Right. The cosine compares all 384 numbers at once; one coordinate on its own carries no meaning."
+      },
+      {
+        "id": "b",
+        "md": "Yes: they share whatever feature dimension 200 measures",
+        "why_md": "Dimension 200 doesn't measure a nameable feature. Spin the space and its values change without any result changing.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "c",
+        "md": "Partly: they agree on 1 of 384 features",
+        "why_md": "Dimensions aren't features you can count as agreements. The whole-vector cosine already gives the answer.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "d",
+        "md": "You can't tell until you know what dimension 200 means",
+        "why_md": "No dimension has a readable meaning to look up, and you don't need one: the cosine answers the question.",
+        "misconception": "mc-dims-are-meaningful"
+      }
+    ],
+    "hints": [
+      "Which number compares the *whole* vectors? That's the one that tells you about meaning.",
+      "The cosine is 0.05, near the bottom of the help centre. One matching coordinate out of 384 adds nothing, because single coordinates have no readable meaning."
+    ],
+    "solution_md": "**No.** Closeness in meaning is read from the whole vectors, and their cosine (0.05) is among the lowest in the help centre. A single coordinate has no human-readable meaning, so two vectors agreeing on dimension 200 tells you nothing.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/set-4",
+    "version": 1,
+    "family": "emb-model-reembed-triggers",
+    "kind": "multi",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "The help centre's 25 article vectors were made with model A. Which changes mean you must **re-embed all 25 articles** before search results can be trusted? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Embedding questions with model B, which also outputs 384 numbers",
+        "correct": true,
+        "why_md": "Correct to select: a different model has its own coordinate system, whatever its length."
+      },
+      {
+        "id": "b",
+        "md": "Upgrading to a new release of model A (same name, retrained)",
+        "correct": true,
+        "why_md": "Correct to select: a retrained release is a new coordinate system, even under the same name."
+      },
+      {
+        "id": "c",
+        "md": "Embedding questions with a copy of model A fine-tuned on your support tickets",
+        "correct": true,
+        "why_md": "Correct to select: further training moves the coordinate system, so the stored articles no longer match."
+      },
+      {
+        "id": "d",
+        "md": "Adding a 26th article, embedded with model A",
+        "why_md": "Don't select: the model is unchanged, so only the new article needs a vector."
+      },
+      {
+        "id": "e",
+        "md": "Fixing a typo in one user's question before embedding it with model A",
+        "why_md": "Don't select: the input changed, not the model. Same model, same space."
+      }
+    ],
+    "hints": [
+      "For each change, ask: after it, would questions and articles still come from exactly the same model, version and settings?",
+      "A different model, a new release and a fine-tuned copy are all new coordinate systems. Adding an article or editing a question doesn't change the model."
+    ],
+    "solution_md": "**a, b and c.** Each puts the questions in a new coordinate system: a different model (a), a retrained release (b) and a fine-tuned copy (c) are all different models, even when their dimensions match. Adding an article (d) needs only that one article embedded with A. Fixing a typo in a question (e) changes the input, not the model.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/set-5",
+    "version": 1,
+    "family": "emb-model-ar-spin",
+    "kind": "assert_reason",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-dims-opaque"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "**Assertion (A):** Spinning every vector in an embedding space by the same angle leaves every search ranking unchanged.\n\n**Reason (R):** Cosine similarity depends only on the angle between two vectors, and spinning both by the same amount keeps that angle.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. Rankings depend on cosines, cosines on angles, and a shared spin keeps every angle."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "Both are true, but R is precisely the mechanism behind A, so R does explain A."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true: cosine depends only on the angle, not on the individual coordinates."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true: no cosine changes, so no ranking changes, even though every coordinate does.",
+        "misconception": "mc-dims-are-meaningful"
+      }
+    ],
+    "hints": [
+      "Check A and R separately first, then ask whether R is the reason A holds.",
+      "Search ranks by cosine; cosine is the angle between two vectors; a shared spin keeps every angle. So both are true and R explains A."
+    ],
+    "solution_md": "**a.** A is true: search ranks by cosine, and no cosine changes. R is true: cosine is set by the angle between two arrows, and spinning both arrows by the same amount keeps that angle. R is exactly why A holds. That's also why single coordinates can't carry meaning: they all changed, and nothing else did.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/set-6",
+    "version": 1,
+    "family": "emb-model-toy-nearest",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-def"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "A toy model outputs 3-number embeddings, each of length 1.\n\n- question *my parcel never arrived*: `[0.6, 0.0, 0.8]`\n- article *Tracking a late delivery*: `[0.8, 0.0, 0.6]`\n- article *Changing your password*: `[0.0, 1.0, 0.0]`\n\nWhich article does the model place closer in meaning to the question, and with what cosine?",
+    "options": [
+      {
+        "id": "a",
+        "md": "*Tracking a late delivery*, cosine 0.96",
+        "correct": true,
+        "why_md": "Right: 0.48 + 0 + 0.48 = 0.96, against 0 for the password article."
+      },
+      {
+        "id": "b",
+        "md": "*Tracking a late delivery*, cosine 0.48",
+        "why_md": "That's only the first position's product. Add all three: 0.48 + 0 + 0.48 = 0.96."
+      },
+      {
+        "id": "c",
+        "md": "Neither: the question shares no words with either title, so both cosines are 0",
+        "why_md": "Embeddings compare meaning, not shared words. That's the whole point of them over keyword search.",
+        "misconception": "mc-keyword-is-enough"
+      },
+      {
+        "id": "d",
+        "md": "They tie, because all three vectors have length 1",
+        "why_md": "Equal length isn't equal direction. Cosine compares directions: 0.96 against 0."
+      }
+    ],
+    "hints": [
+      "All lengths are 1, so cosine = dot product: multiply matching positions and add.",
+      "Tracking: 0.6 × 0.8 + 0 × 0 + 0.8 × 0.6 = 0.48 + 0.48. Password: every product is 0."
+    ],
+    "solution_md": "Lengths are all 1, so cosine = dot product.\n\n- Tracking: $0.6(0.8) + 0(0) + 0.8(0.6) = 0.48 + 0.48 = 0.96$\n- Password: $0.6(0) + 0(1) + 0.8(0) = 0$\n\n**Tracking a late delivery, 0.96**, although it shares no word with the question.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/set-7",
+    "version": 1,
+    "family": "emb-model-ar-same-dims",
+    "kind": "assert_reason",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "**Assertion (A):** Vectors from two different embedding models can be compared directly whenever both models output 1,536 numbers.\n\n**Reason (R):** Cosine similarity can be computed for any two vectors that have the same number of dimensions.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "A is false. Equal length lets the arithmetic run, but the two models' coordinate systems don't line up.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "A is false, so 'both true' can't be right.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "Reversed: R is true (the arithmetic runs) and A is false (the result means nothing)."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "correct": true,
+        "why_md": "Right. R is true but irrelevant to meaning; A is false because each model has its own coordinate system."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. Being able to *compute* a number is not the same as the number meaning something.",
+      "R is true: the arithmetic only needs equal lengths. A is false: two models have unrelated coordinate systems, so the result is meaningless."
+    ],
+    "solution_md": "**d.** R is true: cosine only needs two equal-length lists. A is false: equal length doesn't give the two models a shared coordinate system, so a cross-model cosine carries no meaning. This is exactly the trap: the arithmetic runs and nothing warns you.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/set-8",
+    "version": 1,
+    "family": "emb-model-storage-estimate",
+    "kind": "estimate",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-def"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Scale the help centre up to **1,000,000** articles, ranging from 50 to 5,000 words, all embedded with a model that outputs **768** numbers per text. Each number is stored as a 4-byte float32. Estimate the storage for the vectors alone, in **GB** (1 GB = 10⁹ bytes).",
+    "answer": {
+      "value": 3.07,
+      "tolerance": 0.5,
+      "unit": "GB"
+    },
+    "common_wrong": [
+      {
+        "value": 0.768,
+        "kind": "slip",
+        "why_md": "That counts each number as 1 byte. A float32 takes 4 bytes."
+      },
+      {
+        "value": 24.58,
+        "kind": "slip",
+        "why_md": "32 is the number of *bits* in a float32; it takes 4 bytes, not 32."
+      },
+      {
+        "value": 3072,
+        "kind": "slip",
+        "why_md": "That's the answer in MB. Divide by 1,000 for GB."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "n_articles = 1_000_000\ndims = 768\nbytes_per_number = 4\nanswer = round(n_articles * dims * bytes_per_number / 1e9, 2)\n"
+    },
+    "hints": [
+      "Does a 5,000-word article get a bigger vector than a 50-word one? Then multiply: vectors × numbers per vector × bytes per number.",
+      "1,000,000 × 768 × 4 bytes = 3,072,000,000 bytes. Divide by 10⁹ for GB."
+    ],
+    "solution_md": "Every article becomes exactly 768 numbers whatever its length, so the word counts don't matter.\n\n1,000,000 × 768 = 768,000,000 numbers; × 4 bytes = 3,072,000,000 bytes ≈ **3.07 GB**.\n\nAccepted range: 2.57–3.57 GB (so 2.86, the same amount in GiB, also counts).",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/set-9",
+    "version": 1,
+    "family": "emb-model-incident-passage",
+    "kind": "passage",
+    "class": "parts",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model",
+      "kc-embedding-dims-opaque"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "context_md": "**Incident note: help-centre search**\n\nIn March the team embedded all 25 help-centre articles with `support-embed v1` (384 numbers per text) and stored the vectors. On Tuesday a deploy switched question embedding to `support-embed v2`: same name, same 384 numbers per text, but retrained on new data. The stored article vectors were not touched.\n\nSince Tuesday, the question *I can't log in* returns *Update your billing address* as its top result with cosine 0.71, while *Resetting your password* comes 19th. The error logs are empty.\n\nIn the incident channel, an engineer writes: “In v1, dimension 12 was always high for login articles. Let's just boost any article whose dimension 12 is above 0.2.”",
+    "prompt_md": "Read the incident note, then answer all three parts.",
+    "parts": [
+      {
+        "id": "emb-model/set-9/p1",
+        "version": 1,
+        "family": "emb-model-incident-cause",
+        "kind": "single",
+        "class": "mcq",
+        "scaffold": "independent",
+        "level": 3,
+        "topic": "emb-model",
+        "kcs": [
+          "kc-embedding-same-model"
+        ],
+        "use": "set",
+        "origin": "static",
+        "seal": "public",
+        "est_seconds": 60,
+        "prompt_md": "What is the most likely cause of the bad ranking?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Questions are embedded with v2 but the articles with v1, so two coordinate systems are being mixed",
+            "correct": true,
+            "why_md": "Right. Same name and same 384 numbers, but a retrained release is a different model."
+          },
+          {
+            "id": "b",
+            "md": "v2 is simply a worse model than v1",
+            "why_md": "You can't judge v2 from mixed scores. Even a better model gives meaningless scores against another model's vectors."
+          },
+          {
+            "id": "c",
+            "md": "The billing article was edited and now talks about logging in",
+            "why_md": "The note says the stored article vectors weren't touched."
+          },
+          {
+            "id": "d",
+            "md": "Nothing is wrong: 0.71 is a high score, so the billing article must be relevant",
+            "why_md": "A cross-model score has no meaning, however high it looks.",
+            "misconception": "mc-mix-models"
+          }
+        ],
+        "hints": [
+          "What changed on Tuesday, and on which side: questions or articles?",
+          "Questions are now embedded with v2, articles still with v1. A retrained release is a new coordinate system."
+        ],
+        "solution_md": "Questions are embedded with v2 while the stored articles are still v1 vectors. A retrained release has its own coordinate system, so every cosine compares unrelated coordinates. That's why a billing article can score 0.71 for a login question, with nothing in the error logs.",
+        "provenance": {
+          "origin": "static",
+          "job": "u1-emb-model"
+        }
+      },
+      {
+        "id": "emb-model/set-9/p2",
+        "version": 1,
+        "family": "emb-model-incident-fix",
+        "kind": "single",
+        "class": "mcq",
+        "scaffold": "independent",
+        "level": 3,
+        "topic": "emb-model",
+        "kcs": [
+          "kc-embedding-same-model"
+        ],
+        "use": "set",
+        "origin": "static",
+        "seal": "public",
+        "est_seconds": 60,
+        "prompt_md": "Which fix is correct?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Re-embed all 25 articles with v2 (or roll questions back to v1), and record the model version next to the stored vectors",
+            "correct": true,
+            "why_md": "Right. One model on both sides restores meaningful scores; recording the version prevents a repeat."
+          },
+          {
+            "id": "b",
+            "md": "Rescale every vector to length 1, then keep comparing v2 questions with v1 articles",
+            "why_md": "Length was never the problem. Rescaling doesn't line up two coordinate systems.",
+            "misconception": "mc-mix-models"
+          },
+          {
+            "id": "c",
+            "md": "Re-embed only the billing article with v2",
+            "why_md": "The other 24 articles would still be v1 vectors, so the stored set itself would mix two models."
+          },
+          {
+            "id": "d",
+            "md": "Show 20 results instead of 10, so the password article appears",
+            "why_md": "That hides one symptom. Every score is still meaningless."
+          }
+        ],
+        "hints": [
+          "The fix must put questions and articles back into one coordinate system.",
+          "Either re-embed every article with v2, or embed questions with v1 again, and write the version down next to the vectors."
+        ],
+        "solution_md": "Re-embed all 25 articles with v2 (or roll question embedding back to v1), so both sides come from one model, and record the model version next to the stored vectors so the mix can't happen silently again. Rescaling, partial re-embedding and showing more results all leave two coordinate systems mixed.",
+        "provenance": {
+          "origin": "static",
+          "job": "u1-emb-model"
+        }
+      },
+      {
+        "id": "emb-model/set-9/p3",
+        "version": 1,
+        "family": "emb-model-incident-dim-boost",
+        "kind": "single",
+        "class": "mcq",
+        "scaffold": "independent",
+        "level": 3,
+        "topic": "emb-model",
+        "kcs": [
+          "kc-embedding-dims-opaque"
+        ],
+        "use": "set",
+        "origin": "static",
+        "seal": "public",
+        "est_seconds": 60,
+        "prompt_md": "What should the team say about the dimension-12 boost?",
+        "options": [
+          {
+            "id": "a",
+            "md": "Reject it: a single dimension has no reliable meaning, and v2's dimension 12 has nothing to do with v1's",
+            "correct": true,
+            "why_md": "Right. Meaning lives in whole-vector relationships, and each model sets its own coordinates."
+          },
+          {
+            "id": "b",
+            "md": "Accept it: dimension 12 is the login feature, so boosting it targets login articles",
+            "why_md": "No dimension is a named feature. A spun model would give the same results with a completely different dimension 12.",
+            "misconception": "mc-dims-are-meaningful"
+          },
+          {
+            "id": "c",
+            "md": "Accept it, after rescaling every vector to length 1",
+            "why_md": "Rescaling doesn't give a coordinate a meaning it never had.",
+            "misconception": "mc-dims-are-meaningful"
+          }
+        ],
+        "hints": [
+          "Can one coordinate of an embedding carry a stable, nameable meaning?",
+          "No single dimension has a readable meaning, and after the switch, v2's dimension 12 isn't even related to v1's."
+        ],
+        "solution_md": "Reject it. A single dimension has no human-readable meaning: any pattern seen in v1's dimension 12 isn't something training put there on purpose, and v2, a new coordinate system, has an unrelated dimension 12. Fix the model mix and compare whole vectors instead.",
+        "provenance": {
+          "origin": "static",
+          "job": "u1-emb-model"
+        }
+      }
+    ],
+    "hints": [
+      "Before answering, list what changed on Tuesday and what didn't.",
+      "Questions moved to v2; articles stayed in v1. Two coordinate systems are being mixed, and v2's dimension 12 has nothing to do with v1's."
+    ],
+    "solution_md": "Tuesday's deploy moved question embedding to v2 while the articles stayed in v1, so every cosine compares two unrelated coordinate systems (p1). The fix is to put both sides in one model: re-embed the 25 articles with v2, or roll questions back to v1, and record the version next to the vectors (p2). The dimension-12 boost reads meaning from a single coordinate, which has none, and v2's dimension 12 isn't even related to v1's (p3).",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/set-10",
+    "version": 1,
+    "family": "emb-model-spin-table",
+    "kind": "multi",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-dims-opaque"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Models C and C′ embed the same three help-centre texts. Every vector has length 1.\n\n| text | C | C′ |\n|---|---|---|\n| question *where is my order* | `[1.0, 0.0]` | `[0.6, 0.8]` |\n| article *Tracking your parcel* | `[0.8, 0.6]` | `[0.0, 1.0]` |\n| article *Deleting your account* | `[0.0, 1.0]` | `[−0.8, 0.6]` |\n\nSelect **all** true statements.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both models rank *Tracking your parcel* first for the question, with the same cosine (0.8)",
+        "correct": true,
+        "why_md": "True: 0.8 in C and $0(0.6) + 1(0.8) = 0.8$ in C′."
+      },
+      {
+        "id": "b",
+        "md": "Dimension 1 measures the same thing in C and C′",
+        "why_md": "False. The question's dimension 1 went from 1.0 to 0.6 and nothing else changed, so it measures nothing nameable.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "c",
+        "md": "Which text is near which is identical in C and C′",
+        "correct": true,
+        "why_md": "True. All three pairwise cosines (0.8, 0, 0.6) are the same in both."
+      },
+      {
+        "id": "d",
+        "md": "C′ is the less accurate model, because the question's dimension 1 dropped from 1.0 to 0.6",
+        "why_md": "False. Accuracy shows in the rankings, and they're identical.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "e",
+        "md": "A question embedded with C′ can be scored against articles stored from C",
+        "why_md": "False. That mix gives 0.96 and 0.80, so the account-deletion article looks highly relevant. C and C′ have different coordinate systems.",
+        "misconception": "mc-mix-models"
+      }
+    ],
+    "hints": [
+      "Compute the question's cosine with each article inside C, then inside C′. Then check what a statement assumes about single coordinates.",
+      "Inside C: 0.8 and 0.0. Inside C′: 0.0 + 0.8 = 0.8 and −0.48 + 0.48 = 0.0. The relationships match; the coordinates don't."
+    ],
+    "solution_md": "Inside C: question·tracking $= 0.8$, question·deleting $= 0$, tracking·deleting $= 0.6$. Inside C′: $0 + 0.8 = 0.8$, $-0.48 + 0.48 = 0$, $0 + 0.6 = 0.6$. Every relationship is identical, so **a** and **c** are true.\n\nb and d read meaning into dimension 1, which changed without changing anything else. e mixes models: C′'s question against C's articles gives $0.6(0.8) + 0.8(0.6) = 0.96$ and $0.6(0) + 0.8(1) = 0.80$, so *Deleting your account* suddenly looks highly relevant.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/set-11",
+    "version": 1,
+    "family": "emb-model-merge-collections",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Two teams each stored help-centre article vectors. Team X used `all-MiniLM-L6-v2` (384 numbers); team Y used `text-embedding-3-small` (1,536 numbers). You're asked to serve one search box over both sets of articles, returning a single list ranked by cosine. Which plan gives meaningful rankings?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Pick one model, re-embed both sets of articles with it, embed every question with the same model, and rank everything together",
+        "correct": true,
+        "why_md": "Right. One model on every vector is the only way the cosines share a meaning."
+      },
+      {
+        "id": "b",
+        "md": "Pad each of team X's vectors with 1,152 zeros so every vector has 1,536 numbers, then embed questions with `text-embedding-3-small`",
+        "why_md": "Padding fixes the length, not the coordinate system: X's 384 numbers were never in text-embedding-3-small's space.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "c",
+        "md": "Keep only the first 384 numbers of team Y's vectors, then embed questions with `all-MiniLM-L6-v2`",
+        "why_md": "Cutting fixes the length, not the coordinate system: Y's numbers were never in MiniLM's space.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "d",
+        "md": "Embed questions with `all-MiniLM-L6-v2` and score them against both sets of vectors",
+        "why_md": "Against Y's 1,536-number vectors the cosine can't even be computed, and the two spaces differ anyway."
+      }
+    ],
+    "hints": [
+      "For each plan, check two things: do all compared vectors have the same length, and do they all come from one model?",
+      "Padding or cutting fixes the length, not the coordinate system. Only putting every article and every question through one model passes both checks."
+    ],
+    "solution_md": "**Re-embed both sets of articles with one chosen model and embed every question with that same model.** Padding X's vectors with 1,152 zeros (384 + 1,152 = 1,536) or keeping the first 384 numbers of Y's vectors makes the lengths match, but the numbers still come from two unrelated coordinate systems. Scoring MiniLM questions against Y's vectors can't even be computed.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/exit-1",
+    "version": 1,
+    "family": "emb-model-exit-question-model",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "The help centre's articles were embedded with `all-MiniLM-L6-v2`. Which model must embed a user's question before you compare it with those articles?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`all-MiniLM-L6-v2`: the same model, version and settings",
+        "correct": true,
+        "why_md": "Right. Only then do question and articles share one coordinate system."
+      },
+      {
+        "id": "b",
+        "md": "Any model that outputs 384 numbers",
+        "why_md": "Same length isn't a shared coordinate system.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "c",
+        "md": "Whichever model scores best on public benchmarks",
+        "why_md": "A better model in a different space still gives meaningless scores against these articles. Switching models means re-embedding the articles too."
+      }
+    ],
+    "hints": [
+      "Vectors are comparable only inside one model's coordinate system.",
+      "The question needs the same model, version and settings as the articles."
+    ],
+    "solution_md": "`all-MiniLM-L6-v2`, the same model, version and settings that embedded the articles. Any other model, even one with 384 outputs or better benchmark scores, puts the question in a different coordinate system.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/exit-2",
+    "version": 1,
+    "family": "emb-model-exit-one-dimension",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-dims-opaque"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "What does one dimension of a text embedding (say, number 17 of 384) tell you on its own?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Nothing a person can read: meaning shows up in how whole vectors relate, such as their cosine",
+        "correct": true,
+        "why_md": "Right. Single coordinates carry no readable meaning."
+      },
+      {
+        "id": "b",
+        "md": "How strongly the text is about topic number 17",
+        "why_md": "Dimensions aren't topics. A spun model would give the same results with a completely different dimension 17.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "c",
+        "md": "Something about the 17th word of the text",
+        "why_md": "Dimensions aren't words: every text gets 384 numbers whatever its length."
+      }
+    ],
+    "hints": [
+      "Recall the spun model: every coordinate changed, and no search result did.",
+      "A single coordinate has no stable meaning; only relationships between whole vectors do."
+    ],
+    "solution_md": "Nothing a person can read. A spun copy of the model changes every coordinate without changing any result, so the meaning lives in how whole vectors relate, for example their cosine.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  }
+]

@@ -1,0 +1,49 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u15-databases",
+  "title": "Database services: relational, NoSQL and in-memory",
+  "topics": [
+    {
+      "id": "clf-relational-vs-nosql",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-managed-vs-self-managed-db",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-rds",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-aurora",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-dynamodb",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-elasticache",
+      "tier": "must",
+      "order": 6
+    },
+    {
+      "id": "clf-documentdb-neptune",
+      "tier": "must",
+      "order": 7
+    },
+    {
+      "id": "clf-choosing-database",
+      "tier": "must",
+      "order": 8
+    }
+  ],
+  "halfway_after": 4,
+  "status": "stub"
+}

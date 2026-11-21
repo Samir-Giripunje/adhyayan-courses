@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-ecs-eks",
+  "version": 1,
+  "title": "ECS and EKS: running containers at scale",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-container-orchestration",
+      "version": 1,
+      "statement": "A container orchestrator places containers on hosts, restarts failed ones and scales how many run. On AWS the orchestration services are Amazon ECS and Amazon EKS."
+    },
+    {
+      "id": "kc-ecs-vs-eks",
+      "version": 1,
+      "statement": "Amazon ECS is AWS's own container orchestration service. Amazon EKS runs managed open-source Kubernetes and is the choice when a team already uses Kubernetes or needs portability across clouds and on-premises."
+    },
+    {
+      "id": "kc-ecs-eks-ec2-hosts",
+      "version": 1,
+      "statement": "When containers run on EC2 hosts, the customer provisions, patches and scales those instances. ECS itself has no extra charge, while EKS adds an hourly fee per cluster."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-containers",
+    "clf-ec2-basics"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-fargate-ecr"
+  ],
+  "introduces": [
+    "container orchestration",
+    "ecs",
+    "eks",
+    "kubernetes"
+  ],
+  "uses": [
+    "container",
+    "ec2 instance",
+    "managed service"
+  ],
+  "problem_ideas": [
+    "A company runs Kubernetes on premises and wants the same manifests on AWS: ECS or EKS?",
+    "A small team new to containers wants the simplest AWS-native orchestration with no control-plane fee: which service?",
+    "An ECS cluster on EC2 has an unpatched kernel: whose responsibility is it?",
+    "Three containers keep crashing at night and nobody restarts them: which capability is missing?",
+    "A distractor offers 'Amazon ECR' for running containers: what does ECR do instead?",
+    "Estimate the monthly EKS control-plane fee for 3 clusters at $0.10 per hour."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "other-compute-section/ecs"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "ecr/services"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "eks/eks"
+    }
+  ],
+  "status": "stub"
+}

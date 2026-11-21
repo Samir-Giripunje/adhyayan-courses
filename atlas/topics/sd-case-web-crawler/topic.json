@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-web-crawler",
+  "version": 1,
+  "title": "Case study: web crawler",
+  "size": "big",
+  "est_min": 38,
+  "kcs": [
+    {
+      "id": "kc-crawler-frontier-politeness",
+      "version": 1,
+      "statement": "A crawler's URL frontier keeps a separate queue per host so that it fetches from each host one connection at a time with a delay. This politeness policy stops the crawler from overloading any one site."
+    },
+    {
+      "id": "kc-crawler-url-dedup",
+      "version": 1,
+      "statement": "Before a URL enters the frontier, the crawler normalises it and checks a seen-URL set, often a Bloom filter, so the same page is not crawled twice. A false positive only skips a page."
+    },
+    {
+      "id": "kc-crawler-content-dedup",
+      "version": 1,
+      "statement": "Different URLs often serve the same page. The crawler stores a content fingerprint (a hash of the page body) and drops pages whose fingerprint it has already seen."
+    },
+    {
+      "id": "kc-crawler-robots-and-traps",
+      "version": 1,
+      "statement": "A crawler fetches and caches robots.txt for each host and obeys it. It caps URL length and per-host depth to escape crawler traps such as infinite calendar pages."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-bloom-filter",
+    "sd-task-queues-background-jobs"
+  ],
+  "suggests": [
+    "sd-object-storage"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "web crawler design",
+    "url frontier",
+    "politeness policy",
+    "content fingerprint"
+  ],
+  "uses": [
+    "bloom filter",
+    "worker",
+    "message queue",
+    "object storage",
+    "dns caching",
+    "back-of-the-envelope estimation"
+  ],
+  "problem_ideas": [
+    "Crawl 1 billion pages a month at 100 KB each. Estimate pages per second and storage per month.",
+    "Design the frontier so that 1,000 workers never hit the same host concurrently.",
+    "A site generates /calendar?day=N for every N. Show how the crawler avoids crawling forever.",
+    "http://Example.com/a/../b and http://example.com/b: normalise both and dedupe them.",
+    "Explain why DNS resolution becomes a bottleneck at 10K fetches/s and how caching fixes it.",
+    "Prioritise news sites to be recrawled hourly and static sites monthly in one frontier."
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "system-design-interview-questions-with-s/design-a-web-crawler"
+    }
+  ],
+  "status": "stub"
+}

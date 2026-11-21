@@ -1,0 +1,651 @@
+{
+  "parts": [
+    {
+      "id": "p1",
+      "title": "TCP vs UDP and the transport layer",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "TCP vs UDP and the transport layer",
+          "kcs": [
+            "kc-tcp-reliable",
+            "kc-udp-connectionless",
+            "kc-osi-l4-l7"
+          ],
+          "est_minutes": 7,
+          "blocks": [
+            {
+              "id": "blk-sd-tcp-udp-01",
+              "block": {
+                "type": "prose",
+                "md": "**TCP** and **UDP** are the two main ways programs send data across the internet. TCP opens a connection and delivers the bytes in order, resending any that are lost; UDP sends separate messages with no setup and no resending."
+              }
+            },
+            {
+              "id": "blk-sd-tcp-udp-02",
+              "block": {
+                "type": "prose",
+                "md": "Loading a web page over HTTP/1.1 or HTTP/2 uses TCP: the page must arrive complete and in order, or it breaks. A video call uses UDP: a slice of sound that arrives late is useless, so it's better to skip it than to wait for a resend. A DNS lookup also uses UDP: one small question, one small answer, and if either is lost the computer asks again."
+              }
+            },
+            {
+              "id": "blk-sd-tcp-udp-03",
+              "block": {
+                "type": "prose",
+                "md": "**Ports.** An IP address finds the computer; a **port** number finds the program on it, such as 443 for HTTPS or 53 for DNS.\n\n**TCP** opens a connection with a **three-way handshake**: the client sends SYN, the server answers SYN-ACK, and the client replies ACK. That costs one round trip before the request can go out. TCP then numbers the bytes, the receiver acknowledges them, and anything not acknowledged is sent again. The program receives the bytes in order.\n\n**UDP** sends each **datagram**, a self-contained message, on its own: no handshake, no ordering, no resending.\n\n**Layers.** In the **OSI model**, a seven-layer map of networking, TCP and UDP are **layer 4** (transport) and HTTP is **layer 7** (application). A device working at layer 4 routes by IP addresses, ports and other transport details, but can't read the HTTP request. One at layer 7 can read URLs, headers and cookies."
+              }
+            },
+            {
+              "id": "blk-sd-tcp-udp-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-tcp-udp-fit",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-udp-connectionless"
+                  ],
+                  "prompt_md": "Which of these fits UDP better than TCP?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "A live voice call",
+                      "correct": true,
+                      "why_md": "Right. Late audio is useless, so skipping a lost packet beats waiting for a resend."
+                    },
+                    {
+                      "id": "b",
+                      "md": "Downloading a PDF",
+                      "why_md": "A file must arrive complete and in order: that is TCP's job.",
+                      "misconception": "mc-udp-always-faster-better"
+                    },
+                    {
+                      "id": "c",
+                      "md": "Loading a web page",
+                      "why_md": "A page must arrive complete. Classic HTTP uses TCP."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-sd-tcp-udp-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "What TCP can't promise",
+                "md": "TCP resends lost bytes, but it can't beat a broken network. If acknowledgements stop coming for long enough, TCP gives up and the program gets an error. And because bytes are handed over in order, one lost segment (a chunk of TCP data) holds up everything behind it until it is resent. This is called **head-of-line blocking**. HTTP/3 avoids this by using QUIC, which runs over UDP and adds its own reliability and ordering per stream; the comparisons here are TCP versus plain UDP."
+              }
+            },
+            {
+              "id": "blk-sd-tcp-udp-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Round trips add up",
+                "md": "A **round-trip time** (RTT) is how long a message takes to reach the other side and come back. A new TCP connection spends one RTT on the handshake before the request. With a 50 ms RTT, a request on a new connection gets its response after about 100 ms, and on an already-open connection after about 50 ms. Browsers keep connections open and reuse them to save that round trip."
+              }
+            },
+            {
+              "id": "blk-sd-tcp-udp-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Layers are not tiers, and not every device reads every layer",
+                "md": "The OSI layers you'll use are 2, 3, 4 and 7. Layer 2 (data link) carries **frames** across one local link, such as Wi-Fi between a laptop and its router. Layer 3 is IP, layer 4 is TCP and UDP, and layer 7 is HTTP. OSI's \"presentation\" and \"application\" layers are not the presentation and application tiers of a three-tier design. A router in the middle forwards packets at layer 3 and never reads the HTTP inside."
+              }
+            },
+            {
+              "id": "blk-sd-tcp-udp-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-tcp-udp",
+                "kind": "sequence",
+                "title": "TCP shakes hands first; UDP just sends",
+                "alt": "Over TCP, the client sends SYN to a web server, the server answers SYN-ACK, and the client replies ACK and then sends GET /, one round trip before the request; the page comes back. Over UDP, the client sends one DNS query datagram to a DNS server and gets one answer back, with no handshake.",
+                "spec": {
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "client"
+                    },
+                    {
+                      "id": "web",
+                      "label": "Web server",
+                      "sub": "port 443",
+                      "type": "server"
+                    },
+                    {
+                      "id": "dns",
+                      "label": "DNS server",
+                      "sub": "port 53",
+                      "type": "dns"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "from": "client",
+                      "to": "web",
+                      "label": "SYN",
+                      "detail": "The client asks to open a connection."
+                    },
+                    {
+                      "from": "web",
+                      "to": "client",
+                      "kind": "reply",
+                      "label": "SYN-ACK"
+                    },
+                    {
+                      "from": "client",
+                      "to": "web",
+                      "label": "ACK, then GET /",
+                      "detail": "One round trip has passed before the request can go out."
+                    },
+                    {
+                      "from": "web",
+                      "to": "client",
+                      "kind": "reply",
+                      "label": "the page, in order",
+                      "detail": "TCP numbers the bytes and resends anything not acknowledged."
+                    },
+                    {
+                      "from": "client",
+                      "to": "dns",
+                      "kind": "async",
+                      "label": "query (one datagram)",
+                      "detail": "No handshake, no ordering, no resending."
+                    },
+                    {
+                      "from": "dns",
+                      "to": "client",
+                      "kind": "async",
+                      "label": "answer (one datagram)",
+                      "detail": "If either is lost, the computer simply asks again."
+                    }
+                  ],
+                  "frames": [
+                    {
+                      "kind": "group",
+                      "label": "TCP",
+                      "from": 1,
+                      "to": 4
+                    },
+                    {
+                      "kind": "group",
+                      "label": "UDP",
+                      "from": 5,
+                      "to": 6
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "answer": "**TCP** and **UDP** are the two main ways programs send data across the internet. TCP opens a connection and delivers the bytes in order, resending any that are lost; UDP sends separate messages with no setup and no resending.",
+  "example": "Loading a web page over HTTP/1.1 or HTTP/2 uses TCP: the page must arrive complete and in order, or it breaks. A video call uses UDP: a slice of sound that arrives late is useless, so it's better to skip it than to wait for a resend. A DNS lookup also uses UDP: one small question, one small answer, and if either is lost the computer asks again.",
+  "how": {
+    "md": "**Ports.** An IP address finds the computer; a **port** number finds the program on it, such as 443 for HTTPS or 53 for DNS.\n\n**TCP** opens a connection with a **three-way handshake**: the client sends SYN, the server answers SYN-ACK, and the client replies ACK. That costs one round trip before the request can go out. TCP then numbers the bytes, the receiver acknowledges them, and anything not acknowledged is sent again. The program receives the bytes in order.\n\n**UDP** sends each **datagram**, a self-contained message, on its own: no handshake, no ordering, no resending.\n\n**Layers.** In the **OSI model**, a seven-layer map of networking, TCP and UDP are **layer 4** (transport) and HTTP is **layer 7** (application). A device working at layer 4 routes by IP addresses, ports and other transport details, but can't read the HTTP request. One at layer 7 can read URLs, headers and cookies.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-tcp-udp",
+      "kind": "sequence",
+      "title": "TCP shakes hands first; UDP just sends",
+      "alt": "Over TCP, the client sends SYN to a web server, the server answers SYN-ACK, and the client replies ACK and then sends GET /, one round trip before the request; the page comes back. Over UDP, the client sends one DNS query datagram to a DNS server and gets one answer back, with no handshake.",
+      "spec": {
+        "participants": [
+          {
+            "id": "client",
+            "label": "Client",
+            "type": "client"
+          },
+          {
+            "id": "web",
+            "label": "Web server",
+            "sub": "port 443",
+            "type": "server"
+          },
+          {
+            "id": "dns",
+            "label": "DNS server",
+            "sub": "port 53",
+            "type": "dns"
+          }
+        ],
+        "messages": [
+          {
+            "from": "client",
+            "to": "web",
+            "label": "SYN",
+            "detail": "The client asks to open a connection."
+          },
+          {
+            "from": "web",
+            "to": "client",
+            "kind": "reply",
+            "label": "SYN-ACK"
+          },
+          {
+            "from": "client",
+            "to": "web",
+            "label": "ACK, then GET /",
+            "detail": "One round trip has passed before the request can go out."
+          },
+          {
+            "from": "web",
+            "to": "client",
+            "kind": "reply",
+            "label": "the page, in order",
+            "detail": "TCP numbers the bytes and resends anything not acknowledged."
+          },
+          {
+            "from": "client",
+            "to": "dns",
+            "kind": "async",
+            "label": "query (one datagram)",
+            "detail": "No handshake, no ordering, no resending."
+          },
+          {
+            "from": "dns",
+            "to": "client",
+            "kind": "async",
+            "label": "answer (one datagram)",
+            "detail": "If either is lost, the computer simply asks again."
+          }
+        ],
+        "frames": [
+          {
+            "kind": "group",
+            "label": "TCP",
+            "from": 1,
+            "to": 4
+          },
+          {
+            "kind": "group",
+            "label": "UDP",
+            "from": 5,
+            "to": 6
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-tcp-udp-fit",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-udp-connectionless"
+    ],
+    "prompt_md": "Which of these fits UDP better than TCP?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A live voice call",
+        "correct": true,
+        "why_md": "Right. Late audio is useless, so skipping a lost packet beats waiting for a resend."
+      },
+      {
+        "id": "b",
+        "md": "Downloading a PDF",
+        "why_md": "A file must arrive complete and in order: that is TCP's job.",
+        "misconception": "mc-udp-always-faster-better"
+      },
+      {
+        "id": "c",
+        "md": "Loading a web page",
+        "why_md": "A page must arrive complete. Classic HTTP uses TCP."
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "What TCP can't promise",
+      "md": "TCP resends lost bytes, but it can't beat a broken network. If acknowledgements stop coming for long enough, TCP gives up and the program gets an error. And because bytes are handed over in order, one lost segment (a chunk of TCP data) holds up everything behind it until it is resent. This is called **head-of-line blocking**. HTTP/3 avoids this by using QUIC, which runs over UDP and adds its own reliability and ordering per stream; the comparisons here are TCP versus plain UDP."
+    },
+    {
+      "title": "Round trips add up",
+      "md": "A **round-trip time** (RTT) is how long a message takes to reach the other side and come back. A new TCP connection spends one RTT on the handshake before the request. With a 50 ms RTT, a request on a new connection gets its response after about 100 ms, and on an already-open connection after about 50 ms. Browsers keep connections open and reuse them to save that round trip."
+    },
+    {
+      "title": "Layers are not tiers, and not every device reads every layer",
+      "md": "The OSI layers you'll use are 2, 3, 4 and 7. Layer 2 (data link) carries **frames** across one local link, such as Wi-Fi between a laptop and its router. Layer 3 is IP, layer 4 is TCP and UDP, and layer 7 is HTTP. OSI's \"presentation\" and \"application\" layers are not the presentation and application tiers of a three-tier design. A router in the middle forwards packets at layer 3 and never reads the HTTP inside."
+    }
+  ],
+  "visual_fit": {
+    "kind": "sequence",
+    "why": "The handshake costs a round trip before the request; UDP sends at once. Both are exchanges over time."
+  },
+  "glossary": [
+    {
+      "term": "tcp",
+      "md": "Transmission Control Protocol: opens a connection with a three-way handshake, then delivers bytes in order and resends any that aren't acknowledged."
+    },
+    {
+      "term": "udp",
+      "md": "User Datagram Protocol: sends independent messages (datagrams) with no handshake, ordering or resending."
+    },
+    {
+      "term": "three-way handshake",
+      "md": "How TCP opens a connection: SYN from the client, SYN-ACK from the server, ACK from the client. It costs one round trip."
+    },
+    {
+      "term": "osi model",
+      "md": "A seven-layer map of networking. IP is layer 3, TCP and UDP are layer 4, HTTP is layer 7."
+    },
+    {
+      "term": "transport layer",
+      "md": "OSI layer 4, where TCP and UDP work. A device at this layer routes by IP addresses and ports, not URLs."
+    },
+    {
+      "term": "application layer",
+      "md": "OSI layer 7, where HTTP works. A device at this layer can read URLs, headers and cookies."
+    },
+    {
+      "term": "port",
+      "md": "A number that picks out one program on a computer, such as 443 for HTTPS or 53 for DNS."
+    },
+    {
+      "term": "datagram",
+      "md": "One self-contained UDP message."
+    },
+    {
+      "term": "round-trip time (rtt)",
+      "md": "How long a message takes to reach the other side and for the reply to come back."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-tcp-guarantees-arrival",
+      "statement": "TCP guarantees the data always gets there, whatever happens to the network.",
+      "tags": [
+        "kc-tcp-reliable"
+      ]
+    },
+    {
+      "id": "mc-tcp-out-of-order",
+      "statement": "TCP hands segments to the program as they arrive and fills gaps later.",
+      "tags": [
+        "kc-tcp-reliable"
+      ]
+    },
+    {
+      "id": "mc-udp-unimportant-data",
+      "statement": "UDP is only for data that doesn't matter.",
+      "tags": [
+        "kc-udp-connectionless"
+      ]
+    },
+    {
+      "id": "mc-udp-always-faster-better",
+      "statement": "UDP is faster, so it is the better choice whenever speed matters, even for transfers that must be complete.",
+      "tags": [
+        "kc-udp-connectionless"
+      ]
+    },
+    {
+      "id": "mc-l4-reads-urls",
+      "statement": "A layer-4 load balancer can route by URL path because the path is part of where the request goes.",
+      "tags": [
+        "kc-osi-l4-l7"
+      ]
+    },
+    {
+      "id": "mc-osi-layer-is-tier",
+      "statement": "The OSI presentation and application layers are the same thing as the presentation and application tiers.",
+      "tags": [
+        "kc-osi-l4-l7"
+      ]
+    }
+  ],
+  "recap": {
+    "formula": "A new TCP connection adds one round trip before the first request.",
+    "pitfall": "A layer-4 device can't read URLs, headers or cookies; routing on those needs layer 7."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-what-is-port",
+      "beat": "b-lesson",
+      "question": "What exactly is a port?",
+      "match": [
+        "what is a port",
+        "port number",
+        "443",
+        "port mean"
+      ],
+      "answer_md": "A number that tells the computer which program a message is for. The IP address gets the data to the right computer; the port gets it to the right program, such as the web server on 443.",
+      "deeper_md": "A server listens on a well-known port (443 for HTTPS). Your side picks a temporary port for each connection, so replies come back to the right browser tab.",
+      "bridge": {
+        "kind": "analogy",
+        "title": "Building and flat number",
+        "md": "The IP address is the building; the port is the flat number. The analogy breaks a little: your computer picks a fresh flat number for each outgoing connection.",
+        "verify": {
+          "id": "q-br-port",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-tcp-reliable"
+          ],
+          "prompt_md": "A computer runs a web server and a DNS server. How does an incoming message reach the right one?",
+          "options": [
+            {
+              "id": "a",
+              "md": "By its destination port",
+              "correct": true,
+              "why_md": "Right. 443 goes to the web server, 53 to DNS."
+            },
+            {
+              "id": "b",
+              "md": "By its destination IP address",
+              "why_md": "Both programs share the computer's IP address."
+            },
+            {
+              "id": "c",
+              "md": "By the URL in the message",
+              "why_md": "The operating system picks the program by port, before any URL is read."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-udp-app-reliability",
+      "beat": "b-lesson",
+      "question": "If UDP doesn't resend, how do games and calls cope with loss?",
+      "match": [
+        "udp lost",
+        "packet loss",
+        "how do games",
+        "udp reliable"
+      ],
+      "answer_md": "They live with it, or fix it themselves. A call plays the next slice of sound; a game sends a fresh position a moment later. Programs that need some reliability add their own on top of UDP.",
+      "deeper_md": "That choice is the point of UDP: the program decides what's worth resending. QUIC, under HTTP/3, builds full reliability on top of UDP.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "A lost position update",
+        "md": "A game sends your position 30 times a second. Update 12 is lost. Update 13 arrives 33 ms later with a newer position, so resending 12 would only deliver stale data.",
+        "verify": {
+          "id": "q-br-udp-loss",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-udp-connectionless"
+          ],
+          "prompt_md": "A UDP datagram is lost on the way. What does UDP do about it?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Nothing: it is gone unless the program sends it again",
+              "correct": true,
+              "why_md": "Right. UDP has no resending."
+            },
+            {
+              "id": "b",
+              "md": "Resends it after a timeout",
+              "why_md": "That is TCP's behaviour, not UDP's."
+            },
+            {
+              "id": "c",
+              "md": "Holds back later datagrams until it arrives",
+              "why_md": "UDP has no ordering, so nothing is held back."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-https-l7",
+      "beat": "b-lesson",
+      "question": "Can a layer-4 load balancer send /api requests to different servers?",
+      "match": [
+        "layer 4",
+        "route by url",
+        "route by path",
+        "l4 load balancer"
+      ],
+      "answer_md": "No. At layer 4 it routes by IP addresses, ports and other transport details; the path `/api` is inside the HTTP request, at layer 7, so you need a layer-7 load balancer.",
+      "deeper_md": "With HTTPS, the layer-7 device must also decrypt the traffic to read the path.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "What each layer can see",
+        "md": "Layer 4: `client 192.0.2.7:51000 → server 198.51.100.4:443`. Layer 7: `GET /api/orders`, its headers and cookies.",
+        "verify": {
+          "id": "q-br-l4-l7",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-osi-l4-l7"
+          ],
+          "prompt_md": "Which load balancer can send requests with the cookie `beta=1` to a test server?",
+          "options": [
+            {
+              "id": "a",
+              "md": "A layer-7 load balancer",
+              "correct": true,
+              "why_md": "Right. Cookies are HTTP headers, read at layer 7."
+            },
+            {
+              "id": "b",
+              "md": "A layer-4 load balancer",
+              "why_md": "It sees addresses and ports, not headers.",
+              "misconception": "mc-l4-reads-urls"
+            },
+            {
+              "id": "c",
+              "md": "Either, because cookies travel in every packet",
+              "why_md": "A cookie is part of the HTTP request, not of the packet headers a layer-4 device reads."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-quic",
+      "kind": "adjacent",
+      "title": "QUIC and HTTP/3: reliable streams built on UDP to avoid TCP head-of-line blocking",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-congestion",
+      "kind": "mechanism",
+      "title": "TCP congestion control and slow start: why new connections start slow",
+      "level": 3,
+      "status": "stub"
+    },
+    {
+      "id": "dt-tcpip-model",
+      "kind": "adjacent",
+      "title": "The four-layer TCP/IP model versus OSI",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "sd-tcp-udp",
+  "version": 1,
+  "title": "TCP vs UDP and the transport layer",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-tcp-reliable",
+      "version": 1,
+      "statement": "TCP is connection-oriented: a three-way handshake (SYN, SYN-ACK, ACK) opens a connection, and TCP then delivers bytes in order, retransmitting segments that are not acknowledged."
+    },
+    {
+      "id": "kc-udp-connectionless",
+      "version": 1,
+      "statement": "UDP sends independent datagrams with no handshake, ordering or retransmission, trading reliability for lower latency; it suits live video and voice calls, online games and DNS lookups."
+    },
+    {
+      "id": "kc-osi-l4-l7",
+      "version": 2,
+      "statement": "In the OSI model TCP and UDP are layer 4 (transport) and HTTP is layer 7 (application); a component working at layer 4 routes using IP addresses, ports and other transport-level fields but cannot read the HTTP request, while one at layer 7 can read URLs, headers and cookies."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-ip-addresses"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "tcp",
+    "udp",
+    "three-way handshake",
+    "osi model",
+    "transport layer",
+    "application layer",
+    "port"
+  ],
+  "uses": [
+    "ip address",
+    "client",
+    "server"
+  ],
+  "problem_ideas": [
+    "Pick TCP or UDP for: bank transfer API, live sports stream, multiplayer game position updates, file upload.",
+    "A client 75 ms away opens a new TCP connection per request: how much latency does the handshake add each time?",
+    "A video call drops 2% of packets over UDP; describe what the user sees vs what TCP would do.",
+    "Which layer must a router work at to send /images/* to one server pool and /api/* to another?",
+    "Why does DNS mostly use UDP but fall back to TCP for large responses?",
+    "Explain head-of-line blocking when one TCP segment is lost in a chat stream."
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "communication/transmission-control-protocol-tcp"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "communication/user-datagram-protocol-udp"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "tcp-vs-udp/tcp-vs-udp"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "layers/transport"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [
+    "sd-tcp-udp/exit-1",
+    "sd-tcp-udp/exit-2",
+    "sd-tcp-udp/exit-3"
+  ],
+  "status": "stocked",
+  "provenance": {
+    "origin": "generated",
+    "job": "reauthor-sd-u0"
+  }
+}

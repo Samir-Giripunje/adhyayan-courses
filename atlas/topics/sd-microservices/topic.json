@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-microservices",
+  "version": 1,
+  "title": "Microservices vs monoliths",
+  "size": "standard",
+  "est_min": 25,
+  "kcs": [
+    {
+      "id": "kc-microservices-def",
+      "version": 1,
+      "statement": "Microservices split an application into independently deployable services, each owning its own data and communicating over the network through APIs or messages."
+    },
+    {
+      "id": "kc-microservices-tradeoffs",
+      "version": 1,
+      "statement": "Microservices buy independent scaling and deployment at the cost of network latency, partial failures, distributed transactions and harder debugging, so a monolith is often the right starting point."
+    },
+    {
+      "id": "kc-distributed-monolith",
+      "version": 1,
+      "statement": "Services that share one database or must be deployed together form a distributed monolith: they carry the costs of distribution without the independence."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-api-gateway",
+    "sd-service-discovery"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "microservices",
+    "monolith",
+    "distributed monolith"
+  ],
+  "uses": [
+    "api gateway",
+    "service discovery",
+    "synchronous communication",
+    "asynchronous communication"
+  ],
+  "problem_ideas": [
+    "Split a ride-hailing app into services and name each one's data",
+    "A 5-engineer startup asks for microservices: argue for a modular monolith",
+    "Two services read and write the same orders table: diagnose the problem",
+    "One page load calls 8 services in series at 20 ms each: what latency does it add?",
+    "Which service boundary for an e-commerce checkout keeps transactions local?",
+    "When does independent scaling justify a separate service? Give a QPS-based example"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "microservices/microservices"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "application-layer/microservices"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "monoliths/monoliths"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "beware-of-the-distributed-monolith/beware-of-the-distributed-monolith"
+    }
+  ],
+  "status": "stub"
+}

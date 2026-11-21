@@ -1,0 +1,81 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-chat",
+  "version": 1,
+  "title": "Case study: chat system (WhatsApp)",
+  "size": "big",
+  "est_min": 40,
+  "kcs": [
+    {
+      "id": "kc-chat-connection-routing",
+      "version": 1,
+      "statement": "Each online user keeps a WebSocket connection to a connection server. A session registry maps user id to server, so a message is routed to the recipient's server and pushed down the open socket."
+    },
+    {
+      "id": "kc-chat-ordering-sequence",
+      "version": 1,
+      "statement": "Message order within a conversation comes from a per-conversation sequence number assigned on write, not from client clocks. Clients sort and detect gaps with it."
+    },
+    {
+      "id": "kc-chat-offline-delivery",
+      "version": 1,
+      "statement": "Messages are persisted before they are acknowledged to the sender. If the recipient is offline, a push notification is sent and stored messages are synced from the last received sequence number when the recipient reconnects."
+    },
+    {
+      "id": "kc-chat-message-store",
+      "version": 1,
+      "statement": "Chat history suits a wide-column store partitioned by conversation id and clustered by sequence number. Reading recent messages is then one partition range scan."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-realtime-at-scale",
+    "sd-wide-column-store"
+  ],
+  "suggests": [
+    "sd-delivery-guarantees"
+  ],
+  "confusable_with": [
+    "sd-case-notification-service"
+  ],
+  "introduces": [
+    "chat system design",
+    "message sequence number",
+    "push notification"
+  ],
+  "uses": [
+    "websockets",
+    "persistent connection",
+    "connection server",
+    "session registry",
+    "presence",
+    "wide-column store",
+    "partition key",
+    "clustering key",
+    "at-least-once delivery",
+    "acknowledgement"
+  ],
+  "problem_ideas": [
+    "50M concurrent users at 50K connections per server: how many connection servers are needed?",
+    "Alice sends 3 messages and they arrive at Bob's server out of order. Show how sequence numbers fix it.",
+    "Bob is offline for 2 days. Walk through the push notification and the sync on reconnect.",
+    "A connection server crashes. Explain what happens to its users' registry entries and their reconnects.",
+    "Design read receipts as small messages flowing in the reverse direction.",
+    "Group chat with 500 members: compare fan-out per member with one shared conversation log."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-2/real-time-messaging"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-2/read-receipts"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-whatsapp"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-bound-methods",
+  "version": 1,
+  "title": "Functions as descriptors: bound methods",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-functions-are-nondata",
+      "version": 1,
+      "statement": "Functions are non-data descriptors: looking up a function through an instance calls its __get__, which returns a bound method whose __self__ is the instance."
+    },
+    {
+      "id": "kc-bound-method-call",
+      "version": 1,
+      "statement": "Calling obj.m(a) is equivalent to type(obj).m(obj, a); the bound method inserts the instance as the first argument."
+    },
+    {
+      "id": "kc-class-decorator-binding",
+      "version": 1,
+      "statement": "A decorator implemented as a class with __call__ but no __get__ breaks when applied to a method, because its instances do not bind and self is not passed; a closure-based wrapper is a function and binds normally."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "pd-descriptor-protocol",
+    "pd-wrapper-functions"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "pd-classmethod-staticmethod"
+  ],
+  "introduces": [
+    "bound method"
+  ],
+  "uses": [
+    "non-data descriptor",
+    "wrapper function",
+    "method",
+    "__get__"
+  ],
+  "problem_ideas": [
+    "Predict obj.m is obj.m and explain the result",
+    "Inspect obj.m.__self__ and obj.m.__func__",
+    "Predict the TypeError when a @CountCalls class decorator is applied to a method",
+    "Add __get__ to CountCalls using types.MethodType and confirm it works",
+    "Call Class.m(obj, 3) and obj.m(3) and compare",
+    "Apply @log_calls to a method and predict what args[0] is inside the wrapper"
+  ],
+  "sources": [
+    {
+      "source": "descriptor-howto",
+      "entry": "pure-python-equivalents/functions-and-methods"
+    }
+  ],
+  "status": "stub"
+}

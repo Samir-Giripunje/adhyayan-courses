@@ -1,0 +1,72 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-distributed-cache",
+  "version": 1,
+  "title": "Distributed and global caches",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-distributed-cache",
+      "version": 1,
+      "statement": "A distributed cache spreads keys across several cache nodes, usually by hashing the key, so total cache memory and throughput grow with the number of nodes."
+    },
+    {
+      "id": "kc-modulo-remap",
+      "version": 1,
+      "statement": "With hash(key) mod N placement, going from N to N+1 nodes moves about N/(N+1) of the keys to a different node, causing a burst of cache misses."
+    },
+    {
+      "id": "kc-local-vs-global-cache",
+      "version": 1,
+      "statement": "A per-server local cache is fastest but duplicates data and diverges across servers, while a shared global cache gives every stateless server the same view at the cost of a network hop."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-cache-layers"
+  ],
+  "suggests": [
+    "sd-lb-algorithms",
+    "sd-server-memory-estimate"
+  ],
+  "confusable_with": [
+    "sd-cdn"
+  ],
+  "introduces": [
+    "distributed cache",
+    "global cache",
+    "cache node"
+  ],
+  "uses": [
+    "application cache",
+    "hash-based routing",
+    "horizontal scaling",
+    "stateless service",
+    "cache miss",
+    "memory estimate"
+  ],
+  "problem_ideas": [
+    "300 GB of hot data, 64 GB per node at 75% usable: how many cache nodes?",
+    "Going from 4 to 5 nodes with mod-N hashing: what fraction of keys move?",
+    "Compute the key-to-node mapping for 6 keys with hash mod 3, then mod 4",
+    "20 app servers each with a local 2 GB cache vs one 40 GB global cache: compare hit ratio and staleness",
+    "A cache node fails: estimate the extra database QPS at 200,000 reads/s spread over 10 nodes",
+    "Explain why sessions in a global cache let servers stay stateless"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "distributed-cache/distributed-cache"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "global-cache/global-cache"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "caching-fundamentals/distributed-caching"
+    }
+  ],
+  "status": "stub"
+}

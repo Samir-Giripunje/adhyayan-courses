@@ -1,0 +1,56 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-normalization",
+  "version": 1,
+  "title": "Normalization: store each fact once",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-normalization-purpose",
+      "version": 1,
+      "statement": "Normalization stores each fact in exactly one row, so an update touches one place and copies cannot disagree (no update anomaly)."
+    },
+    {
+      "id": "kc-normalization-cost",
+      "version": 1,
+      "statement": "A normalized schema answers reads that combine entities with joins, which grow expensive as tables grow and are hard to run when tables live on different machines."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-relational-acid"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-denormalization"
+  ],
+  "introduces": [
+    "normalization",
+    "update anomaly"
+  ],
+  "uses": [
+    "relational database",
+    "sql join",
+    "entity"
+  ],
+  "problem_ideas": [
+    "An orders table repeats the customer's address on every row; show the update anomaly when the customer moves",
+    "Split a flat spreadsheet of (student, course, instructor, instructor_email) into normalized tables",
+    "Count the joins needed to render a news-feed item (post, author, like count, top comment) in a fully normalized schema",
+    "Spot the anomaly in a schema where product price is stored on both products and cart_items",
+    "Explain why a normalized schema is the safe default for a payments ledger",
+    "Given three queries, say which become slow first as tables grow to a billion rows"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "normalization/normalization"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "terms/anomalies"
+    }
+  ],
+  "status": "stub"
+}

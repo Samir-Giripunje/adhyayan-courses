@@ -1,0 +1,78 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-mock-unseen-prompt",
+  "version": 1,
+  "title": "Timed mock: an unseen prompt",
+  "size": "big",
+  "est_min": 40,
+  "kcs": [
+    {
+      "id": "kc-mock-unseen-map-pattern",
+      "version": 1,
+      "statement": "Faced with an unseen prompt, the learner maps it within 5 minutes to known patterns (feed, chat, booking, media pipeline, location) and names which building blocks carry over."
+    },
+    {
+      "id": "kc-mock-unseen-novel-part",
+      "version": 1,
+      "statement": "In an unseen-prompt mock, the deep dive is spent on the part that no known pattern covers, for example inventory consistency in e-commerce, not on re-explaining standard components."
+    },
+    {
+      "id": "kc-mock-unseen-tradeoffs",
+      "version": 1,
+      "statement": "In an unseen-prompt mock, every major choice (store type, consistency level, sync vs async) is stated with one trade-off and the requirement that drove it."
+    },
+    {
+      "id": "kc-mock-unseen-availability",
+      "version": 1,
+      "statement": "In an unseen-prompt mock, the bottleneck review includes an availability figure in nines for the critical path, computed from component availabilities in series and parallel."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-mock-method",
+    "sd-availability-series-parallel"
+  ],
+  "suggests": [
+    "sd-case-ticket-booking",
+    "sd-case-payment-system"
+  ],
+  "confusable_with": [],
+  "introduces": [],
+  "uses": [
+    "mock interview",
+    "mock rubric",
+    "trade-off",
+    "availability in series",
+    "availability in parallel",
+    "availability nines",
+    "storage design",
+    "failure mode analysis"
+  ],
+  "problem_ideas": [
+    "Core activity: run 'design an e-commerce checkout' cold as one uninterrupted 45-minute attempt, submit the complete seven-area answer, then score it in a separate review.",
+    "Run 'design DoorDash' and name which parts reuse the ride hailing design.",
+    "Run 'design Spotify' and identify the media pipeline and the novel part.",
+    "Compute critical-path availability for LB → API → DB (99.99%, 99.9%, 99.95%) with 2 API replicas.",
+    "Variant: the interviewer changes the read/write ratio mid-interview. Adapt in 3 minutes.",
+    "Map five unfamiliar prompts to patterns in 60 seconds each."
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-e-commerce-store-like-amazon"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-airbnb"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-food-delivery-app-like-doordash"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-spotify"
+    }
+  ],
+  "status": "stub"
+}

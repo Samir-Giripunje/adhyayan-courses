@@ -1,0 +1,265 @@
+[
+  {
+    "id": "sd-ip-addresses/test-b1",
+    "family": "sd-ip-addresses-ip-ipv6-valid-notation",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "A cloud provider shows four addresses for a new virtual machine, but only one is written correctly as an IPv6 address. Which one?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`2001:db8::a::7`",
+        "why_md": "`::` may appear only once per address; with two, you could not tell how many zero groups each one stands for."
+      },
+      {
+        "id": "b",
+        "md": "`2001:db8:g1::7`",
+        "why_md": "IPv6 groups are hexadecimal, using only 0–9 and a–f. `g` is not a hex digit."
+      },
+      {
+        "id": "c",
+        "md": "`2001:db8:a::7`",
+        "correct": true,
+        "why_md": "Right. Hex digits only and a single `::`, which stands for 8 − 4 = 4 zero groups: `2001:0db8:000a:0000:0000:0000:0000:0007`."
+      },
+      {
+        "id": "d",
+        "md": "`192.168.300.1`",
+        "why_md": "This is dotted decimal, the IPv4 style, not IPv6's colon-separated hex groups. It is not even valid IPv4: 300 is above 255."
+      }
+    ],
+    "hints": [
+      "IPv6 is written as up to eight groups of hex digits (0–9, a–f) separated by colons; `::` replaces a run of zero groups and may be used only once.",
+      "Rule out the dotted-decimal one, the one with a non-hex letter, and the one with two `::`."
+    ],
+    "solution_md": "Check each option against the IPv6 writing rules:\n- `2001:db8::a::7`: two `::` → invalid.\n- `2001:db8:g1::7`: `g` is not a hex digit → invalid.\n- `2001:db8:a::7`: 4 written groups, so `::` = 8 − 4 = 4 zero groups; expanded `2001:0db8:000a:0000:0000:0000:0000:0007` = 8 groups × 16 bits = 128 bits → **valid**.\n- `192.168.300.1`: dotted decimal (IPv4 style), and 300 > 255 → not IPv6.\n\nAnswer: c.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/test-b2",
+    "family": "sd-ip-addresses-ip-ipv4-ipv6-facts-match",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "A network team is writing a one-page cheat sheet. Match each row on the left to the one correct entry on the right. Not every right-hand entry is used.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "Length of an IPv4 address",
+        "why_md": "4 octets × 8 bits = 32 bits (r1)."
+      },
+      {
+        "id": "l2",
+        "md": "Length of an IPv6 address",
+        "why_md": "8 groups × 4 hex digits × 4 bits = 128 bits (r2)."
+      },
+      {
+        "id": "l3",
+        "md": "How many IPv6 addresses there are compared with IPv4",
+        "why_md": "2^128 ÷ 2^32 = 2^96 (r3)."
+      },
+      {
+        "id": "l4",
+        "md": "Why IPv6 was created",
+        "why_md": "IPv4's 32-bit address space was running out, so IPv6 provides a far larger space (r4)."
+      },
+      {
+        "id": "r1",
+        "md": "32 bits",
+        "why_md": "Fits the IPv4 address length."
+      },
+      {
+        "id": "r2",
+        "md": "128 bits",
+        "why_md": "Fits the IPv6 address length."
+      },
+      {
+        "id": "r3",
+        "md": "2^96 times as many",
+        "why_md": "Fits the comparison: each extra bit doubles the count, and IPv6 has 96 more bits."
+      },
+      {
+        "id": "r4",
+        "md": "To provide a much larger address space because IPv4 addresses were running out",
+        "why_md": "Fits the reason IPv6 exists. It was designed to fix the IPv4 address shortage. The shortage was expected long before the central pool of IPv4 addresses ran out in 2011."
+      },
+      {
+        "id": "r5",
+        "md": "4 times as many",
+        "why_md": "Never right: 4 times the bits is not 4 times the addresses.",
+        "misconception": "mc-ipv6-4x"
+      },
+      {
+        "id": "r6",
+        "md": "To make the internet faster",
+        "why_md": "Never right: IPv6 was created to fix the IPv4 address shortage, not to add speed.",
+        "misconception": "mc-ipv6-4x"
+      },
+      {
+        "id": "r7",
+        "md": "64 bits",
+        "why_md": "Neither length: IPv4 is 32 bits and IPv6 is 128 bits."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3",
+        "l4": "r4"
+      }
+    },
+    "hints": [
+      "Count the bits in each version (octets × 8; hex groups × 4 digits × 4 bits), then remember that n bits give 2^n addresses.",
+      "IPv4 is 32 bits and IPv6 is 128 bits, so the ratio is 2^(128−32) = 2^96. IPv6 exists to fix the IPv4 address shortage."
+    ],
+    "solution_md": "1. IPv4: 4 octets × 8 bits = **32 bits** (l1 → r1).\n2. IPv6: 8 groups × 4 hex digits × 4 bits = **128 bits** (l2 → r2).\n3. Ratio: 2^128 ÷ 2^32 = **2^96** (l3 → r3). It is not 4 times as many, because each extra bit doubles the count.\n4. IPv6 was created to provide **a much larger address space because IPv4 addresses were running out** (l4 → r4). It was not created for speed. Engineers expected the shortage years before the central IPv4 pool actually ran out in 2011.\n\nr5, r6 and r7 are unused.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/test-b3",
+    "family": "sd-ip-addresses-ip-reach-private-172",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "A clinic's patient-records database has the address `172.24.9.3` on the clinic's internal network. The clinic has set up no VPN and no port forwarding. Someone on the public internet, outside the clinic, learns this address and tries to send packets addressed straight to `172.24.9.3`. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The packets are delivered, because anyone who knows an IP address can reach it",
+        "why_md": "That holds only for public addresses. 172.24.9.3 is private, and the public internet's routers do not carry packets addressed to private addresses. Knowing the address does not create a path to it.",
+        "misconception": "mc-private-unique"
+      },
+      {
+        "id": "b",
+        "md": "The packets are not delivered: 172.24.9.3 is in the private range 172.16.0.0/12, which public internet routers do not forward",
+        "correct": true,
+        "why_md": "Right. The second octet 24 is between 16 and 31, so the address is private. Packets addressed directly to it are not routed across the public internet to the clinic."
+      },
+      {
+        "id": "c",
+        "md": "The packets are delivered, because only 172.16.x.x addresses are private and 172.24 is outside that",
+        "why_md": "The /12 block covers 172.16.x.x through 172.31.x.x, not just 172.16.x.x. A second octet of 24 is inside it, so the address is private.",
+        "misconception": "mc-172-all-private"
+      },
+      {
+        "id": "d",
+        "md": "The packets are delivered through the clinic's NAT device, which passes any incoming packet on to the private address it names",
+        "why_md": "Outbound NAT rewrites outgoing packets and translates their replies back, using its table of swaps. It does not forward unsolicited packets, and a packet from outside addressed to a private address never reaches the clinic, because public internet routers do not carry it."
+      }
+    ],
+    "hints": [
+      "First classify 172.24.9.3: is its second octet inside the 172.16.0.0/12 range?",
+      "172.16.0.0/12 runs from 172.16.x.x to 172.31.x.x. 24 is in that range, so the address is private, and public internet routers do not carry packets addressed to private addresses."
+    ],
+    "solution_md": "1. The first octet is 172, so check the second octet: 16 ≤ 24 ≤ 31, so `172.24.9.3` is inside 172.16.0.0/12 → **private**.\n2. Packets addressed directly to 172.24.9.3 are not routed across the public internet to the clinic. Connected private networks or VPN clients could reach it if routing and access rules allowed, but the clinic has set up no VPN.\n3. Configured inbound NAT (port forwarding) could expose it through a public address, but the clinic has none. Knowing the private address alone gives no path, and outbound NAT only translates outgoing packets and their replies.\n\nAnswer: the packets are not delivered (b). This is why databases are kept on private addresses.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-ip-addresses-r2"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/test-b4",
+    "family": "sd-ip-addresses-ip-nat-steps-order",
+    "kind": "order",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "A phone on a public library's Wi-Fi has the private address `10.8.0.57`, and the library's router does NAT with one public address. Put the steps of one request to a weather website and its reply in the right order.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The website sends its reply to the library router's public address",
+        "why_md": "Third: the website only ever saw the public address."
+      },
+      {
+        "id": "b",
+        "md": "The phone sends a packet with source address 10.8.0.57",
+        "why_md": "First: the packet starts on the private network with the phone's private address."
+      },
+      {
+        "id": "c",
+        "md": "The router looks up its table and puts 10.8.0.57 back as the reply's destination",
+        "why_md": "Fourth: the reply arrives at the router, which reverses the swap it recorded."
+      },
+      {
+        "id": "d",
+        "md": "The router replaces the source address with its own public address and records the swap in its table",
+        "why_md": "Second: this has to happen before the packet leaves for the internet, because routers there would not carry a private address."
+      },
+      {
+        "id": "e",
+        "md": "The phone receives the reply",
+        "why_md": "Last: the reply is delivered on the library's private network."
+      }
+    ],
+    "answer": {
+      "sequence": [
+        "b",
+        "d",
+        "a",
+        "c",
+        "e"
+      ]
+    },
+    "hints": [
+      "Follow the packet out of the private network and back again: NAT swaps the address on the way out and swaps it back on the way in.",
+      "Phone sends → router swaps to public and records → website replies to public address → router looks up and restores private → phone receives."
+    ],
+    "solution_md": "1. (b) The phone sends a packet from its private address 10.8.0.57.\n2. (d) The NAT router replaces the private source with its public address and records the swap.\n3. (a) The website replies to that public address.\n4. (c) The router looks up its table and restores 10.8.0.57 as the destination.\n5. (e) The phone receives the reply.\n\nSequence: b, d, a, c, e.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-ip-addresses"
+    }
+  }
+]

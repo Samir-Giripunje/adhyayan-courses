@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u1-speed-and-apis",
+  "title": "Speed and API styles",
+  "topics": [
+    {
+      "id": "sd-latency-throughput",
+      "tier": "recommended",
+      "order": 1
+    },
+    {
+      "id": "sd-latency-numbers",
+      "tier": "optional",
+      "order": 2
+    },
+    {
+      "id": "sd-rest",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "sd-rpc",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "sd-graphql",
+      "tier": "optional",
+      "order": 5
+    }
+  ],
+  "halfway_after": 2,
+  "status": "drafted",
+  "outcome": "Work out how many requests are in flight and how much bandwidth a service uses, then sketch a paginated REST API for clients and an RPC interface for internal calls, giving one trade-off for each API choice.",
+  "bench": {
+    "id": "pantry-grocery-app",
+    "title": "Pantry: a grocery delivery app and its APIs",
+    "description": "Pantry delivers groceries to about 1.2 million daily users through a mobile app, a web site and a public partner API that 300 third-party recipe sites use to add items to a cart. It runs in two regions, us-west and eu-central. The round trip between them is about 150 ms; inside one datacenter it is about 0.5 ms. The busiest client call is the store product list. At peak it serves 1,500 requests per second with 40 ms median and 400 ms p99 latency. Each store carries up to 50,000 products, and each product is about 2 KB of JSON. Each app server has a 1 Gbps network link. Product data sits in a PostgreSQL database on SSD, with a hot copy cached in memory. When the app's home screen opens, it makes 4 separate REST calls: user, cart, promotions and recommended products. Each call returns about 30 fields, and the screen shows only 8 of them. Inside the backend, the order service calls the inventory service about 12,000 times per second to reserve stock. Today those calls send JSON over HTTP/1.1. Each call is reserveStock(storeId, sku, qty), takes about 3 ms and sometimes times out."
+  },
+  "case_study": false,
+  "concept_map": "flowchart TD\n  sd-latency-throughput[\"Latency, throughput and bandwidth\"]\n  sd-latency-numbers[\"Latency numbers every engineer should know\"]\n  sd-rest[\"REST: resources, statelessness, pagination\"]\n  sd-rpc[\"RPC, gRPC and choosing REST vs RPC\"]\n  sd-graphql[\"GraphQL in one idea\"]\n  sd-latency-throughput --> sd-latency-numbers\n  sd-rest --> sd-rpc\n  sd-rest --> sd-graphql\n  sd-latency-throughput -.->|page size bounds bandwidth| sd-rest\n  sd-latency-throughput -.->|overhead per call| sd-rpc\n  sd-latency-numbers -.->|cost of extra round trips| sd-graphql",
+  "capstone": {
+    "prompt_md": "**Pantry's API review.** Use the Pantry bench numbers. Show your arithmetic.\n\n1. **Load on the product list.** At 1,500 requests per second and 40 ms median latency, how many requests are in flight at once (Little's law)? Why does the 400 ms p99 matter more to a shopper than the median?\n2. **Bandwidth check.** An unpaginated list for a full store would return 50,000 × 2 KB per response. Work out the bandwidth that needs at 1,500 requests per second and compare it with the 1 Gbps link. Repeat the calculation for pages of 50 products.\n3. **REST design.** Write the resource URLs and HTTP methods for listing a store's products, reading one product and adding an item to a cart. Use nouns, not verbs. Specify cursor-based pagination: request parameters and response fields. Explain why the API must be stateless for partner sites spread across both regions.\n4. **Internal calls.** Decide whether order → inventory `reserveStock` should stay JSON over HTTP or move to gRPC. Give one benefit and one cost. Say what the caller must do when the call times out.\n5. **Home screen.** The home screen makes 4 REST calls and uses 8 of about 120 returned fields. Compare keeping REST, adding one combined REST endpoint and adopting GraphQL. Estimate the latency saved for a user in eu-central whose calls go one after another to us-west (≈150 ms each). Name the caching trade-off of the GraphQL option.\n\nDeliver a one-page API sketch and a three-row decision table: API style, choice and trade-off.",
+    "uses": [
+      "sd-latency-throughput",
+      "sd-latency-numbers",
+      "sd-rest",
+      "sd-rpc",
+      "sd-graphql"
+    ]
+  },
+  "confusables": [
+    [
+      "sd-rest",
+      "sd-rpc"
+    ],
+    [
+      "sd-rest",
+      "sd-graphql"
+    ]
+  ]
+}

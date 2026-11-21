@@ -1,0 +1,152 @@
+{
+  "emb-cosine/set-1": [
+    {
+      "id": "h1",
+      "name": "positive scaling leaves cosine unchanged",
+      "code": "assert abs(cosine_sim([3, 4], [30, 40]) - 1) < 1e-9\nassert abs(cosine_sim([1, 2, 2], [6, 3, 6]) - 8 / 9) < 1e-9"
+    },
+    {
+      "id": "h2",
+      "name": "negative entries",
+      "code": "assert abs(cosine_sim([1, -2, 2], [2, 1, -2]) + 4 / 9) < 1e-9"
+    },
+    {
+      "id": "h3",
+      "name": "zero vector in the first argument raises ValueError",
+      "code": "try:\n    cosine_sim([0, 0, 0], [1, 2, 3])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('expected ValueError')"
+    },
+    {
+      "id": "h4",
+      "name": "different lengths raise ValueError",
+      "code": "try:\n    cosine_sim([1, 2, 3], [1, 2])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('expected ValueError')"
+    },
+    {
+      "id": "h5",
+      "name": "floats",
+      "code": "assert abs(cosine_sim([0.6, 0.8], [0.8, 0.6]) - 0.96) < 1e-9"
+    }
+  ],
+  "emb-cosine/set-4": [
+    {
+      "id": "h1",
+      "name": "orthogonal in 3-D",
+      "code": "assert abs(cosine_sim([2, -1, 3], [1, 5, 1])) < 1e-9"
+    },
+    {
+      "id": "h2",
+      "name": "negative cosine",
+      "code": "assert abs(cosine_sim([1, 2, 2], [-2, -1, -2]) + 8 / 9) < 1e-9"
+    },
+    {
+      "id": "h3",
+      "name": "zero vector b raises ValueError",
+      "code": "try:\n    cosine_sim([1, 2], [0, 0])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('expected ValueError for a zero b')"
+    },
+    {
+      "id": "h4",
+      "name": "scaling leaves cosine unchanged",
+      "code": "assert abs(cosine_sim([1, 1], [5, 5]) - 1) < 1e-9"
+    }
+  ],
+  "emb-cosine/lab-a": [
+    {
+      "id": "h1",
+      "name": "zero vector raises ValueError",
+      "code": "try:\n    classify_pair([0, 0, 0], [1, 2, 3])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('expected ValueError')"
+    },
+    {
+      "id": "h2",
+      "name": "same direction in 3-D with fractions",
+      "code": "assert classify_pair([1, 2, 2], [0.5, 1, 1]) == 'same'"
+    },
+    {
+      "id": "h3",
+      "name": "orthogonal with negatives",
+      "code": "assert classify_pair([2, -1, 3], [1, 5, 1]) == 'orthogonal'"
+    },
+    {
+      "id": "h4",
+      "name": "negative but not opposite",
+      "code": "assert classify_pair([1, 0], [-1, 1]) == 'other'"
+    },
+    {
+      "id": "h5",
+      "name": "opposite with different lengths",
+      "code": "assert classify_pair([0.1, 0.2, 0.3], [-3, -6, -9]) == 'opposite'"
+    },
+    {
+      "id": "h6",
+      "name": "different lengths raise ValueError",
+      "code": "try:\n    classify_pair([1, 2, 3], [1, 2])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('expected ValueError')"
+    }
+  ],
+  "emb-cosine/lab-b": [
+    {
+      "id": "h1",
+      "name": "unit length and same direction",
+      "code": "u = normalize([1, 2, 2])\nassert abs(sum(x * x for x in u) - 1) < 1e-9\nassert all(abs(x - y) < 1e-9 for x, y in zip(u, [1 / 3, 2 / 3, 2 / 3]))"
+    },
+    {
+      "id": "h2",
+      "name": "positive scaling gives cosine 1",
+      "code": "assert abs(cosine_via_unit([1, 2, 2], [7.5, 15, 15]) - 1) < 1e-9"
+    },
+    {
+      "id": "h3",
+      "name": "negative scaling gives cosine -1",
+      "code": "assert abs(cosine_via_unit([1, 2], [-3, -6]) + 1) < 1e-9"
+    },
+    {
+      "id": "h4",
+      "name": "normalize leaves its input unchanged",
+      "code": "v = [3, 4]\nnormalize(v)\nassert v == [3, 4]"
+    },
+    {
+      "id": "h5",
+      "name": "matches the formula with negatives",
+      "code": "assert abs(cosine_via_unit([1, -2, 2], [2, 1, -2]) + 4 / 9) < 1e-9"
+    },
+    {
+      "id": "h6",
+      "name": "zero vector raises ValueError",
+      "code": "try:\n    cosine_via_unit([0, 0, 0], [1, 2, 3])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('expected ValueError')"
+    },
+    {
+      "id": "h7",
+      "name": "different lengths raise ValueError",
+      "code": "try:\n    cosine_via_unit([1, 2, 3], [1, 2])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('expected ValueError')"
+    }
+  ],
+  "emb-cosine/transfer-6": [
+    {
+      "id": "h1",
+      "name": "empty dict raises ValueError",
+      "code": "try:\n    sparse_cosine({}, {'a': 1})\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('expected ValueError')"
+    },
+    {
+      "id": "h2",
+      "name": "all-zero counts raise ValueError",
+      "code": "try:\n    sparse_cosine({'a': 1}, {'a': 0, 'b': 0})\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('expected ValueError')"
+    },
+    {
+      "id": "h3",
+      "name": "scaling leaves cosine unchanged",
+      "code": "assert abs(sparse_cosine({'x': 1, 'y': 3}, {'x': 10, 'y': 30}) - 1) < 1e-9"
+    },
+    {
+      "id": "h4",
+      "name": "negative values give -1",
+      "code": "assert abs(sparse_cosine({'up': 1, 'down': -1}, {'up': -1, 'down': 1}) + 1) < 1e-9"
+    },
+    {
+      "id": "h5",
+      "name": "matches the dense computation",
+      "code": "import math\na = {f'w{i}': i % 3 + 1 for i in range(10)}\nb = {f'w{i}': (i * 7) % 5 for i in range(5, 15)}\nwords = sorted(set(a) | set(b))\nda = [a.get(w, 0) for w in words]\ndb = [b.get(w, 0) for w in words]\nwant = sum(x * y for x, y in zip(da, db)) / (math.sqrt(sum(x * x for x in da)) * math.sqrt(sum(y * y for y in db)))\nassert abs(sparse_cosine(a, b) - want) < 1e-9"
+    },
+    {
+      "id": "h6",
+      "name": "inputs are not modified",
+      "code": "a = {'x': 1, 'y': 2}\nb = {'y': 3, 'z': 4}\nsparse_cosine(a, b)\nassert a == {'x': 1, 'y': 2} and b == {'y': 3, 'z': 4}"
+    }
+  ]
+}

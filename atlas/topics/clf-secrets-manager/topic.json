@@ -1,0 +1,55 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-secrets-manager",
+  "version": 1,
+  "title": "Secrets Manager: storing and rotating credentials",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-secrets-store",
+      "version": 1,
+      "statement": "AWS Secrets Manager stores credentials such as database passwords and API keys, encrypted with KMS. Applications retrieve them at runtime instead of having them hard-coded in source code or config files."
+    },
+    {
+      "id": "kc-secrets-rotation",
+      "version": 1,
+      "statement": "Secrets Manager can rotate secrets automatically on a schedule (with built-in support for RDS databases). Automatic rotation is the feature that sets it apart from Systems Manager Parameter Store in exam questions."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-kms"
+  ],
+  "confusable_with": [
+    "clf-kms"
+  ],
+  "introduces": [
+    "secrets manager",
+    "secret rotation"
+  ],
+  "uses": [
+    "kms",
+    "rds"
+  ],
+  "problem_ideas": [
+    "A developer committed an RDS password to a public Git repository. Which service prevents this, and how?",
+    "A policy says database passwords must change every 30 days without downtime. Name the feature.",
+    "Pick Secrets Manager, KMS or ACM for: rotating a MySQL password, encrypting an EBS volume, serving HTTPS.",
+    "Who encrypts the secrets that Secrets Manager stores?",
+    "A Lambda function needs a third-party API key. Describe how it gets the key safely.",
+    "Spot the distractor: 'Use IAM access keys to store the database password.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-secrets-manager"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/aws-secrets-manager"
+    }
+  ],
+  "status": "stub"
+}

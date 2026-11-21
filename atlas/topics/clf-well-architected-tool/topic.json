@@ -1,0 +1,54 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-well-architected-tool",
+  "version": 1,
+  "title": "Well-Architected Tool: reviewing a workload",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-wa-tool-review",
+      "version": 1,
+      "statement": "The AWS Well-Architected Tool is a free console service where you answer questions about a workload and get a review against the six Well-Architected pillars."
+    },
+    {
+      "id": "kc-wa-tool-output",
+      "version": 1,
+      "statement": "The Well-Architected Tool's output is a list of high- and medium-risk issues with an improvement plan and milestones; it is driven by your answers, unlike Trusted Advisor's automated account checks."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-well-architected-framework"
+  ],
+  "suggests": [
+    "clf-wa-pillars-ops-security-reliability",
+    "clf-wa-pillars-performance-cost-sustainability"
+  ],
+  "confusable_with": [
+    "clf-trusted-advisor"
+  ],
+  "introduces": [
+    "well-architected tool",
+    "workload review"
+  ],
+  "uses": [
+    "well-architected framework",
+    "well-architected pillars"
+  ],
+  "problem_ideas": [
+    "A CTO wants to measure a new app's design against AWS best practices before launch: which tool, and what does it produce?",
+    "Does the Well-Architected Tool cost money? Does it scan your resources?",
+    "Six months after a review, how does the team show progress on high-risk issues?",
+    "Match: 'questionnaire-based architecture review' vs 'automated checks of account resources'.",
+    "A review flags 'no tested recovery procedure': which pillar does this fall under?",
+    "Distractor drill: Well-Architected Tool vs AWS Config for 'review a workload's design across the six pillars'."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "aws-architecting-ecosystem/aws-well-architected-tool"
+    }
+  ],
+  "status": "stub"
+}

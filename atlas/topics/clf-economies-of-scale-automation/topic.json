@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-economies-of-scale-automation",
+  "version": 1,
+  "title": "Economies of scale and the value of automation",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-economies-of-scale",
+      "version": 1,
+      "statement": "Because AWS pools usage from hundreds of thousands of customers, it buys and runs hardware more cheaply than one company could, and passes the savings on as lower pay-as-you-go prices."
+    },
+    {
+      "id": "kc-automation-benefits",
+      "version": 1,
+      "statement": "Automating provisioning and operations makes deployments repeatable and consistent, reduces human error, and cuts the staff time and cost of running workloads compared with one-time manual steps."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-fixed-vs-variable-costs",
+    "clf-six-advantages"
+  ],
+  "confusable_with": [
+    "clf-six-advantages"
+  ],
+  "introduces": [
+    "economies of scale",
+    "automation"
+  ],
+  "uses": [
+    "pay-as-you-go pricing",
+    "variable costs"
+  ],
+  "problem_ideas": [
+    "AWS has cut prices many times since launch: which benefit explains this?",
+    "A team builds 12 identical test environments a month by hand with frequent mistakes: name two automation benefits.",
+    "Choose between a one-time manual setup and a repeatable automated process for a weekly environment rebuild.",
+    "Match the phrase 'aggregated usage from many customers' to the right benefit among four options.",
+    "A small company cannot negotiate hardware discounts: explain how the cloud gives it the same purchasing power.",
+    "Spot the distractor: 'Economies of scale means your application scales automatically.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-4-understand-concepts-o/understanding-the-economies-of-scale-for"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-4-understand-concepts-o/identifying-benefits-of-automation"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-1-define-methods-of-dep/evaluating-requirements-to-determine-whe"
+    }
+  ],
+  "status": "stub"
+}

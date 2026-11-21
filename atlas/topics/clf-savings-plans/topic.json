@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-savings-plans",
+  "version": 1,
+  "title": "Savings Plans: Compute vs EC2 Instance",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-savings-plan-commitment",
+      "version": 1,
+      "statement": "A Savings Plan commits to a fixed spend in dollars per hour for 1 or 3 years; usage up to the commitment gets the discounted rate and usage above it is billed at On-Demand rates."
+    },
+    {
+      "id": "kc-compute-savings-plan-scope",
+      "version": 1,
+      "statement": "Compute Savings Plans (up to 66% off) apply automatically across EC2 instance families, sizes, Regions and operating systems, and also to Fargate and Lambda usage."
+    },
+    {
+      "id": "kc-ec2-instance-savings-plan",
+      "version": 1,
+      "statement": "EC2 Instance Savings Plans (up to 72% off) lock the discount to one instance family in one Region, trading flexibility for a deeper saving similar to a Standard RI."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-on-demand-reserved"
+  ],
+  "suggests": [
+    "clf-lambda",
+    "clf-fargate-ecr"
+  ],
+  "confusable_with": [
+    "clf-on-demand-reserved"
+  ],
+  "introduces": [
+    "compute savings plan",
+    "ec2 instance savings plan",
+    "savings plans"
+  ],
+  "uses": [
+    "on-demand pricing",
+    "reserved instances",
+    "instance family",
+    "lambda",
+    "fargate",
+    "region"
+  ],
+  "problem_ideas": [
+    "A team commits $10/hour on a Compute Savings Plan and runs $13/hour of compute: predict how the extra $3 is billed.",
+    "A company runs EC2 in two Regions plus Lambda and Fargate: which Savings Plan covers all of it?",
+    "A workload will stay on c6i in eu-west-1 for 3 years: EC2 Instance Savings Plan or Compute Savings Plan, and why?",
+    "A company migrates from EC2 to Fargate mid-term: which commitment keeps its discount, a Standard RI or a Compute Savings Plan?",
+    "Spot the false claim: 'Savings Plans commit to a number of instances.'",
+    "Order Compute Savings Plan, EC2 Instance Savings Plan and On-Demand by maximum discount."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-1-compare-aws-pricing-m/identifying-when-to-use-various-compute-"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/compute-pricing"
+    }
+  ],
+  "status": "stub"
+}

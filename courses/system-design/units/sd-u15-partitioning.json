@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u15-partitioning",
+  "title": "Partitioning, sharding and consistent hashing",
+  "topics": [
+    {
+      "id": "sd-partitioning-basics",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-sharding-strategies",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-shard-key",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "sd-consistent-hashing",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "sd-virtual-nodes",
+      "tier": "optional",
+      "order": 5
+    },
+    {
+      "id": "sd-storage-design-choice",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

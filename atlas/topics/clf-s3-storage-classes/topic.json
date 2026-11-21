@@ -1,0 +1,83 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-s3-storage-classes",
+  "version": 1,
+  "title": "S3 storage classes: hot to frozen",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-s3-standard-ia",
+      "version": 1,
+      "statement": "S3 Standard suits frequently accessed data. S3 Standard-IA costs less to store but adds a per-GB retrieval fee and a 30-day minimum, for data read about once a month or less. S3 One Zone-IA is cheaper still but keeps data in a single AZ, so it suits re-creatable data."
+    },
+    {
+      "id": "kc-s3-glacier-classes",
+      "version": 1,
+      "statement": "S3 Glacier Instant Retrieval returns archived data in milliseconds, Glacier Flexible Retrieval in minutes to 12 hours, and Glacier Deep Archive, the cheapest class, within 12–48 hours. Their minimum storage durations are 90, 90 and 180 days."
+    },
+    {
+      "id": "kc-s3-intelligent-tiering",
+      "version": 1,
+      "statement": "S3 Intelligent-Tiering moves each object between access tiers automatically based on its access pattern, for a small monthly monitoring fee and no retrieval fees. It is the choice when access patterns are unknown or change over time."
+    },
+    {
+      "id": "kc-s3-class-tradeoff",
+      "version": 1,
+      "statement": "Every S3 storage class trades storage price against retrieval fee, retrieval time and minimum storage duration: the less often data is read and the longer a read can wait, the colder and cheaper the right class."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-s3-basics"
+  ],
+  "suggests": [
+    "clf-availability-zones"
+  ],
+  "confusable_with": [
+    "clf-s3-lifecycle"
+  ],
+  "introduces": [
+    "s3 storage class",
+    "s3 standard-ia",
+    "s3 one zone-ia",
+    "s3 intelligent-tiering",
+    "s3 glacier"
+  ],
+  "uses": [
+    "s3",
+    "s3 object",
+    "availability zone"
+  ],
+  "problem_ideas": [
+    "Medical images are read rarely but must open in milliseconds when a doctor asks: which class?",
+    "Regulatory archives are kept 7 years and read perhaps once, with 48 hours' notice: which class?",
+    "Thumbnails can be regenerated from originals: which IA class saves the most, and what risk do you accept?",
+    "A new app's access pattern is unknown: which class avoids guessing?",
+    "A team moves objects to Deep Archive and deletes them after 30 days: what extra charge appears?",
+    "Rank Standard, Standard-IA, Glacier Flexible Retrieval and Deep Archive by storage price and by retrieval time."
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "storage-types/storage-types"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "storage-types/standard"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "storage-types/s3-ia"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "storage-types/glacier"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/recognizing-the-differences-in-amazon-s3"
+    }
+  ],
+  "status": "stub"
+}

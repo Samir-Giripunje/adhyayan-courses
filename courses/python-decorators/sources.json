@@ -1,0 +1,405 @@
+{
+  "entries": [
+    {
+      "id": "pep-318",
+      "kind": "docs",
+      "ref": "https://raw.githubusercontent.com/python/peps/main/peps/pep-0318.rst",
+      "fetched": "2026-11-18",
+      "sha256": "54fc00fe487090714d7bb9f8103fa84889503585457be400183bbb9d25072433",
+      "sections": [
+        {
+          "id": "warningwarningwarning",
+          "title": "WarningWarningWarning",
+          "order": 1,
+          "entries": [
+            {
+              "id": "warningwarningwarning",
+              "title": "WarningWarningWarning"
+            }
+          ]
+        },
+        {
+          "id": "abstract",
+          "title": "Abstract",
+          "order": 2,
+          "entries": [
+            {
+              "id": "abstract",
+              "title": "Abstract"
+            }
+          ]
+        },
+        {
+          "id": "background",
+          "title": "Background",
+          "order": 3,
+          "entries": [
+            {
+              "id": "background",
+              "title": "Background"
+            }
+          ]
+        },
+        {
+          "id": "on-the-name-decorator",
+          "title": "On the name 'Decorator'",
+          "order": 4,
+          "entries": [
+            {
+              "id": "on-the-name-decorator",
+              "title": "On the name 'Decorator'"
+            }
+          ]
+        },
+        {
+          "id": "design-goals",
+          "title": "Design Goals",
+          "order": 5,
+          "entries": [
+            {
+              "id": "design-goals",
+              "title": "Design Goals"
+            }
+          ]
+        },
+        {
+          "id": "current-syntax",
+          "title": "Current Syntax",
+          "order": 6,
+          "entries": [
+            {
+              "id": "current-syntax",
+              "title": "Current Syntax"
+            }
+          ]
+        },
+        {
+          "id": "syntax-alternatives",
+          "title": "Syntax Alternatives",
+          "order": 7,
+          "entries": [
+            {
+              "id": "syntax-alternatives",
+              "title": "Syntax Alternatives"
+            },
+            {
+              "id": "decorator-location",
+              "title": "Decorator Location"
+            },
+            {
+              "id": "syntax-forms",
+              "title": "Syntax forms"
+            },
+            {
+              "id": "why",
+              "title": "Why @?"
+            }
+          ]
+        },
+        {
+          "id": "current-implementation-history",
+          "title": "Current Implementation, History",
+          "order": 8,
+          "entries": [
+            {
+              "id": "current-implementation-history",
+              "title": "Current Implementation, History"
+            },
+            {
+              "id": "community-consensus",
+              "title": "Community Consensus"
+            }
+          ]
+        },
+        {
+          "id": "examples",
+          "title": "Examples",
+          "order": 9,
+          "entries": [
+            {
+              "id": "examples",
+              "title": "Examples"
+            }
+          ]
+        },
+        {
+          "id": "no-longer-open-issues",
+          "title": "(No longer) Open Issues",
+          "order": 10,
+          "entries": [
+            {
+              "id": "no-longer-open-issues",
+              "title": "(No longer) Open Issues"
+            }
+          ]
+        },
+        {
+          "id": "copyright",
+          "title": "Copyright",
+          "order": 11,
+          "entries": [
+            {
+              "id": "copyright",
+              "title": "Copyright"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pep-3129",
+      "kind": "docs",
+      "ref": "https://raw.githubusercontent.com/python/peps/main/peps/pep-3129.rst",
+      "fetched": "2026-11-18",
+      "sha256": "3ff23fa591640fa733da8090903f7f26e28d72890699a3cbe94407147c40cc8b",
+      "sections": [
+        {
+          "id": "abstract",
+          "title": "Abstract",
+          "order": 1,
+          "entries": [
+            {
+              "id": "abstract",
+              "title": "Abstract"
+            }
+          ]
+        },
+        {
+          "id": "rationale",
+          "title": "Rationale",
+          "order": 2,
+          "entries": [
+            {
+              "id": "rationale",
+              "title": "Rationale"
+            }
+          ]
+        },
+        {
+          "id": "semantics",
+          "title": "Semantics",
+          "order": 3,
+          "entries": [
+            {
+              "id": "semantics",
+              "title": "Semantics"
+            }
+          ]
+        },
+        {
+          "id": "implementation",
+          "title": "Implementation",
+          "order": 4,
+          "entries": [
+            {
+              "id": "implementation",
+              "title": "Implementation"
+            }
+          ]
+        },
+        {
+          "id": "acceptance",
+          "title": "Acceptance",
+          "order": 5,
+          "entries": [
+            {
+              "id": "acceptance",
+              "title": "Acceptance"
+            }
+          ]
+        },
+        {
+          "id": "references",
+          "title": "References",
+          "order": 6,
+          "entries": [
+            {
+              "id": "references",
+              "title": "References"
+            }
+          ]
+        },
+        {
+          "id": "copyright",
+          "title": "Copyright",
+          "order": 7,
+          "entries": [
+            {
+              "id": "copyright",
+              "title": "Copyright"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "functools-docs",
+      "kind": "docs",
+      "ref": "https://raw.githubusercontent.com/python/cpython/main/Doc/library/functools.rst",
+      "fetched": "2026-11-18",
+      "sha256": "e57ec899b9282cc7e1ec2a3dde06250e2847ff6af10cf6d701cc6178e74d45aa",
+      "sections": [
+        {
+          "id": "class-partial-objects",
+          "title": ":class:partial Objects",
+          "order": 1,
+          "entries": [
+            {
+              "id": "class-partial-objects",
+              "title": ":class:partial Objects"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "descriptor-howto",
+      "kind": "docs",
+      "ref": "https://raw.githubusercontent.com/python/cpython/main/Doc/howto/descriptor.rst",
+      "fetched": "2026-11-18",
+      "sha256": "6a3c11c56dc43c2fa17255e8c82a78f267599cfc5d963b7c4e13a734adff1e39",
+      "sections": [
+        {
+          "id": "primer",
+          "title": "Primer",
+          "order": 1,
+          "entries": [
+            {
+              "id": "primer",
+              "title": "Primer"
+            },
+            {
+              "id": "simple-example-a-descriptor-that-returns",
+              "title": "Simple example: A descriptor that returns a constant"
+            },
+            {
+              "id": "dynamic-lookups",
+              "title": "Dynamic lookups"
+            },
+            {
+              "id": "managed-attributes",
+              "title": "Managed attributes"
+            },
+            {
+              "id": "customized-names",
+              "title": "Customized names"
+            },
+            {
+              "id": "closing-thoughts",
+              "title": "Closing thoughts"
+            }
+          ]
+        },
+        {
+          "id": "complete-practical-example",
+          "title": "Complete Practical Example",
+          "order": 2,
+          "entries": [
+            {
+              "id": "complete-practical-example",
+              "title": "Complete Practical Example"
+            },
+            {
+              "id": "validator-class",
+              "title": "Validator class"
+            },
+            {
+              "id": "custom-validators",
+              "title": "Custom validators"
+            },
+            {
+              "id": "practical-application",
+              "title": "Practical application"
+            }
+          ]
+        },
+        {
+          "id": "technical-tutorial",
+          "title": "Technical Tutorial",
+          "order": 3,
+          "entries": [
+            {
+              "id": "technical-tutorial",
+              "title": "Technical Tutorial"
+            },
+            {
+              "id": "abstract",
+              "title": "Abstract"
+            },
+            {
+              "id": "definition-and-introduction",
+              "title": "Definition and introduction"
+            },
+            {
+              "id": "descriptor-protocol",
+              "title": "Descriptor protocol"
+            },
+            {
+              "id": "overview-of-descriptor-invocation",
+              "title": "Overview of descriptor invocation"
+            },
+            {
+              "id": "invocation-from-an-instance",
+              "title": "Invocation from an instance"
+            },
+            {
+              "id": "invocation-from-a-class",
+              "title": "Invocation from a class"
+            },
+            {
+              "id": "invocation-from-super",
+              "title": "Invocation from super"
+            },
+            {
+              "id": "summary-of-invocation-logic",
+              "title": "Summary of invocation logic"
+            },
+            {
+              "id": "automatic-name-notification",
+              "title": "Automatic name notification"
+            },
+            {
+              "id": "orm-example",
+              "title": "ORM example"
+            }
+          ]
+        },
+        {
+          "id": "pure-python-equivalents",
+          "title": "Pure Python Equivalents",
+          "order": 4,
+          "entries": [
+            {
+              "id": "pure-python-equivalents",
+              "title": "Pure Python Equivalents"
+            },
+            {
+              "id": "properties",
+              "title": "Properties"
+            },
+            {
+              "id": "functions-and-methods",
+              "title": "Functions and methods"
+            },
+            {
+              "id": "kinds-of-methods",
+              "title": "Kinds of methods"
+            },
+            {
+              "id": "static-methods",
+              "title": "Static methods"
+            },
+            {
+              "id": "class-methods",
+              "title": "Class methods"
+            },
+            {
+              "id": "member-objects-and-slots",
+              "title": "Member objects and slots"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

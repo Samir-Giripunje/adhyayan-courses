@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-exam-format-scoring",
+  "version": 1,
+  "title": "The CLF-C02 exam: format, domains and scoring",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-clf-exam-65-questions-90-minutes",
+      "version": 1,
+      "statement": "CLF-C02 has 65 questions in 90 minutes; 50 are scored and 15 are unscored pilot items that are not marked, so every question must be treated as if it counts."
+    },
+    {
+      "id": "kc-clf-scaled-score-700",
+      "version": 1,
+      "statement": "Results are reported as a scaled score from 100 to 1,000 with 700 as the passing mark, and the scaled score is not the same as the raw percentage of questions answered correctly."
+    },
+    {
+      "id": "kc-clf-domain-weighting",
+      "version": 1,
+      "statement": "Scored content is weighted Cloud Concepts 24%, Security and Compliance 30%, Cloud Technology and Services 34% and Billing, Pricing and Support 12%, so of 50 scored items about 17 come from Domain 3 and about 6 from Domain 4."
+    },
+    {
+      "id": "kc-clf-compensatory-no-guess-penalty",
+      "version": 1,
+      "statement": "Scoring is compensatory (you pass on the overall score, not on each domain), and an unanswered question counts as wrong with no extra penalty for a wrong guess, so every question should get an answer."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "clf-timed-mock-pacing"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "exam domain weighting",
+    "scaled score",
+    "unscored questions",
+    "compensatory scoring"
+  ],
+  "uses": [],
+  "problem_ideas": [
+    "Given the four domain weights, compute how many of the 50 scored questions to expect from each domain.",
+    "A learner says 'I need 70% right to pass because the pass mark is 700'; identify what is wrong with that claim.",
+    "A candidate scores 'Needs improvement' on Billing but passes overall; explain how that is possible under compensatory scoring.",
+    "With 3 minutes left and 6 unanswered questions, decide whether to leave them blank or guess, and say why.",
+    "A learner wants to skip Domain 4 entirely; estimate the maximum share of the scored exam they are giving up.",
+    "A friend recognises an odd question and assumes it is unscored, so skips it; explain why that is a bad bet.",
+    "Rank the four domains by how many scored questions each contributes and pick which to revise first with two days left."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "exam-content/exam-content"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "exam-content/unscored-content"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "exam-content/exam-results"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "content-outline/content-outline"
+    }
+  ],
+  "status": "stub"
+}

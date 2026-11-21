@@ -1,0 +1,281 @@
+[
+  {
+    "id": "q-proof1-cos",
+    "version": 1,
+    "family": "q-proof1-cos",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "Cosine similarity of `[1, 2, 2]` and `[2, 1, 2]`? (3 decimals)",
+    "answer": {
+      "value": 0.889,
+      "tolerance": 0.005
+    },
+    "hints": [
+      "Which idea applies? Cosine similarity = dot product ÷ (‖a‖ ‖b‖).",
+      "Dot $= 2 + 2 + 4 = 8$."
+    ],
+    "solution_md": "Dot $= 2 + 2 + 4 = 8$. Both lengths are $3$. Cosine $= 8/9 \\approx 0.889$.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na, b = [1, 2, 2], [2, 1, 2]\ndot = sum(x * y for x, y in zip(a, b))\nanswer = round(dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))), 3)\n"
+    }
+  },
+  {
+    "id": "emb-cosine/test-a1",
+    "version": 1,
+    "family": "cos-dot-bound",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-range"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "`‖a‖ = 3` and `‖b‖ = 4`, but you don't know which way the vectors point. What is the **smallest** value `a · b` can possibly take?",
+    "answer": {
+      "value": -12,
+      "tolerance": 0
+    },
+    "common_wrong": [
+      {
+        "value": 0,
+        "kind": "misconception",
+        "why_md": "0 is reached by orthogonal vectors, but cosine can go below 0, down to −1.",
+        "tag": "mc-cosine-range-01"
+      },
+      {
+        "value": 12,
+        "kind": "slip",
+        "why_md": "12 is the largest value (same direction). The smallest uses cosine −1."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\nnorm_a, norm_b = 3, 4\nanswer = round(min(norm_a * norm_b * math.cos(math.radians(t)) for t in range(0, 181)), 6)\n"
+    },
+    "hints": [
+      "Rearrange the cosine formula: $a\\cdot b = \\|a\\|\\,\\|b\\|\\cos\\theta$. Which cosine makes this smallest?",
+      "The smallest cosine is −1 (opposite directions)."
+    ],
+    "solution_md": "$a\\cdot b = \\|a\\|\\,\\|b\\|\\cos\\theta = 12\\cos\\theta$, and $\\cos\\theta$ ranges from −1 to 1. The smallest value is $12\\cdot(-1) = -12$, reached when the vectors point in opposite directions.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/test-a2",
+    "version": 1,
+    "family": "cos-scale-table",
+    "kind": "trace",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-length-invariant"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "`a = [6, 2, 3]` has length 7, and `b = [2, 1, 2]`. The first row is done for you. Fill every `?` cell for the scaled copies `c·b` (cosines to 3 decimals; write a minus sign as `-`).",
+    "context_md": "| c | c·b | a · (c·b) | ‖c·b‖ | cos(a, c·b) |\n|---|---|---|---|---|\n| 1 | [2, 1, 2] | 20 | 3 | 0.952 |\n| 2 | [4, 2, 4] | ? | ? | ? |\n| -1 | [-2, -1, -2] | ? | 3 | ? |\n| 0.5 | [1, 0.5, 1] | 10 | ? | ? |",
+    "answer": {
+      "cells": {
+        "1,2": "40",
+        "1,3": "6",
+        "1,4": "0.952",
+        "2,2": "-20",
+        "2,4": "-0.952",
+        "3,3": "1.5",
+        "3,4": "0.952"
+      }
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na = [6, 2, 3]\nb = [2, 1, 2]\nfmt = lambda x: f'{x:.3f}'.rstrip('0').rstrip('.')\ndef row(c):\n    cb = [c * x for x in b]\n    dot = sum(x * y for x, y in zip(a, cb))\n    norm_cb = math.sqrt(sum(x * x for x in cb))\n    return dot, norm_cb, dot / (math.sqrt(sum(x * x for x in a)) * norm_cb)\nd2, n2, c2 = row(2)\ndm, nm, cm = row(-1)\ndh, nh, ch = row(0.5)\nanswer = {'1,2': fmt(d2), '1,3': fmt(n2), '1,4': fmt(c2), '2,2': fmt(dm), '2,4': fmt(cm), '3,3': fmt(nh), '3,4': fmt(ch)}\n"
+    },
+    "hints": [
+      "Scaling b by c multiplies the dot product by c and the length of b by |c|.",
+      "Row c = 2: 40, 6, and the cosine doesn't change. Row c = −1: the dot product and the cosine flip sign. Row c = 0.5: the length halves."
+    ],
+    "solution_md": "$a\\cdot b = 12 + 2 + 6 = 20$, $\\|b\\| = 3$, $\\cos = 20/21 \\approx 0.952$. For $c = 2$: $a\\cdot(2b) = 40$, $\\|2b\\| = 6$, $\\cos = 40/42 \\approx 0.952$. For $c = -1$: $a\\cdot(-b) = -20$, $\\cos = -20/21 \\approx -0.952$. For $c = 0.5$: $\\|0.5b\\| = 1.5$, $\\cos = 10/(7\\cdot1.5) \\approx 0.952$. Positive scaling leaves cosine unchanged; negative scaling flips its sign.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/test-a3",
+    "version": 1,
+    "family": "cos-hand-3d-neg-a",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-by-hand"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "Compute the cosine similarity of `[4, -1, 1]` and `[2, 2, 1]` by hand (3 decimals).",
+    "answer": {
+      "value": 0.55,
+      "tolerance": 0.005
+    },
+    "common_wrong": [
+      {
+        "value": 0.864,
+        "kind": "slip",
+        "why_md": "That uses +2 for the second product. $(-1)\\cdot2 = -2$, so the dot product is 7, not 11."
+      },
+      {
+        "value": 7,
+        "kind": "slip",
+        "why_md": "7 is the dot product. Divide by the two lengths."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na, b = [4, -1, 1], [2, 2, 1]\ndot = sum(x * y for x, y in zip(a, b))\nanswer = round(dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))), 3)\n"
+    },
+    "hints": [
+      "Table it: products, squares, sums; then divide.",
+      "Dot $= 8 - 2 + 1 = 7$. Lengths $\\sqrt{18}$ and $3$."
+    ],
+    "solution_md": "Products: $4\\cdot2 = 8$, $(-1)\\cdot2 = -2$, $1\\cdot1 = 1$, so $a\\cdot b = 7$. Lengths: $\\sqrt{16 + 1 + 1} = \\sqrt{18} \\approx 4.243$ and $\\sqrt{4 + 4 + 1} = 3$. Cosine $= 7/(4.243\\cdot3) = 7/12.728 \\approx 0.550$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/test-a4",
+    "version": 1,
+    "family": "cos-formula-solve",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "`a · b = 12`, `‖a‖ = 4` and `cos(a, b) = 0.6`. What is `‖b‖`?",
+    "answer": {
+      "value": 5,
+      "tolerance": 0.01
+    },
+    "common_wrong": [
+      {
+        "value": 1.8,
+        "kind": "slip",
+        "why_md": "That's 12 × 0.6 ÷ 4. Solve the formula for ‖b‖: 12 ÷ (4 × 0.6) = 5."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "dot, norm_a, c = 12, 4, 0.6\nanswer = dot / (norm_a * c)\n"
+    },
+    "hints": [
+      "Write the cosine formula and solve it for the unknown length.",
+      "$0.6 = \\dfrac{12}{4\\,\\|b\\|}$, so $\\|b\\| = \\dfrac{12}{4\\cdot0.6}$."
+    ],
+    "solution_md": "$\\cos = \\dfrac{a\\cdot b}{\\|a\\|\\,\\|b\\|}$, so $\\|b\\| = \\dfrac{a\\cdot b}{\\|a\\|\\cos} = \\dfrac{12}{4\\cdot0.6} = \\dfrac{12}{2.4} = 5$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/lab-a",
+    "version": 1,
+    "family": "cos-lab-classify-pair",
+    "kind": "code",
+    "class": "code",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-range",
+      "kc-dot-cosine"
+    ],
+    "use": "lab-check",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 900,
+    "prompt_md": "Write `classify_pair(a, b)` in plain Python (no numpy). It computes the cosine similarity of two equal-length lists and returns:\n\n- `\"same\"` if the cosine is 1 (same direction),\n- `\"opposite\"` if it is −1,\n- `\"orthogonal\"` if it is 0,\n- `\"other\"` for anything in between.\n\nCompare with a tolerance of `1e-9` (floating-point results are rarely exact). Raise `ValueError` if either vector is all zeros or if the lists have different lengths. Write your own cosine; a `cosine_sim` stub is provided for it.",
+    "code": "import math\n\n\ndef cosine_sim(a, b):\n    pass\n\n\ndef classify_pair(a, b):\n    pass\n",
+    "tests": {
+      "visible": [
+        {
+          "id": "t1",
+          "name": "same direction",
+          "code": "assert classify_pair([1, 2], [3, 6]) == 'same', classify_pair([1, 2], [3, 6])",
+          "fail_md": "`[3, 6]` is `[1, 2]` times 3: same direction, cosine 1."
+        },
+        {
+          "id": "t2",
+          "name": "opposite directions",
+          "code": "assert classify_pair([1, 2], [-1, -2]) == 'opposite'",
+          "fail_md": "`[-1, -2]` is `[1, 2]` times −1: cosine −1."
+        },
+        {
+          "id": "t3",
+          "name": "orthogonal",
+          "code": "assert classify_pair([1, 2], [-2, 1]) == 'orthogonal'",
+          "fail_md": "Dot product −2 + 2 = 0, so the cosine is 0."
+        },
+        {
+          "id": "t4",
+          "name": "in between",
+          "code": "assert classify_pair([1, 0], [1, 1]) == 'other'",
+          "fail_md": "The cosine is about 0.71: none of the three landmarks."
+        }
+      ],
+      "held_out_ref": "held-out.json#emb-cosine/lab-a"
+    },
+    "hints": [
+      "Compute the cosine once, then compare it with 1, −1 and 0, each within `1e-9`.",
+      "`c = cosine_sim(a, b)`; return \"same\" if `c >= 1 - 1e-9`, \"opposite\" if `c <= -1 + 1e-9`, \"orthogonal\" if `abs(c) <= 1e-9`, else \"other\". `cosine_sim` raises `ValueError` for zero vectors and mismatched lengths."
+    ],
+    "solution_md": "Compute the cosine with the full formula, then place it on the scale: 1 same, −1 opposite, 0 orthogonal. The tolerance absorbs rounding such as `0.9999999999999998`. A zero vector has no direction, so refuse it.\n\n```python\nimport math\n\nTOL = 1e-9\n\n\ndef cosine_sim(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"vectors must have the same length\")\n    dot = sum(x * y for x, y in zip(a, b))\n    norm_a = math.sqrt(sum(x * x for x in a))\n    norm_b = math.sqrt(sum(y * y for y in b))\n    if norm_a == 0 or norm_b == 0:\n        raise ValueError(\"cosine is undefined for a zero vector\")\n    return dot / (norm_a * norm_b)\n\n\ndef classify_pair(a, b):\n    c = cosine_sim(a, b)\n    if c >= 1 - TOL:\n        return \"same\"\n    if c <= -1 + TOL:\n        return \"opposite\"\n    if abs(c) <= TOL:\n        return \"orthogonal\"\n    return \"other\"\n```",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  }
+]

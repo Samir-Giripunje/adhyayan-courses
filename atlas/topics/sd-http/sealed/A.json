@@ -1,0 +1,349 @@
+[
+  {
+    "id": "sd-http/test-a1",
+    "family": "sd-http-http-form-stateless-login",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-request-response"
+    ],
+    "prompt_md": "A bike-rental website, *Pedalo*, lets a rider log in. A minute later the rider's browser sends `GET /rentals/mine`. Under the rules of HTTP, what lets the server know that this second request comes from the rider who logged in?",
+    "options": [
+      {
+        "id": "a",
+        "md": "HTTP keeps a record of earlier requests, so the server remembers the rider automatically",
+        "why_md": "HTTP is stateless: the protocol keeps no memory between requests. Something in the new request has to identify the rider.",
+        "misconception": "mc-http-keeps-state"
+      },
+      {
+        "id": "b",
+        "md": "The browser sends the session identifier it got at login in a `Cookie` header, and the server looks it up in its own session store",
+        "correct": true,
+        "why_md": "Right. At login the server sent `Set-Cookie`; the browser sends the identifier back on every request, and the server maps it to the rider's account."
+      },
+      {
+        "id": "c",
+        "md": "The request comes from the same IP address as the login, so the server matches the two",
+        "why_md": "HTTP does not identify users by IP address, and many users can share one address. The identification has to travel inside the request, in a header."
+      },
+      {
+        "id": "d",
+        "md": "The `GET` method tells the server to reuse the identity from the previous request",
+        "why_md": "A method only says what to do with the resource (GET = read). It carries no identity."
+      }
+    ],
+    "hints": [
+      "HTTP is stateless. Ask what part of the second request itself could identify the rider.",
+      "After login the server sends `Set-Cookie`; the browser returns that value in a `Cookie` header on every later request, and the server looks it up."
+    ],
+    "solution_md": "1. HTTP is stateless: the protocol does not remember earlier requests.\n2. So the second request must carry something that identifies the rider.\n3. At login the server sent a session identifier in a `Set-Cookie` header; the browser stored it.\n4. The browser sends it back in a `Cookie` header on `GET /rentals/mine`, and the server looks it up in its session store.\n\nAnswer: **b**. The state lives in the browser's cookie and the server's session store, not in HTTP.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/test-a2",
+    "family": "sd-http-http-form-request-parts-match",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-request-response"
+    ],
+    "prompt_md": "A library app sends this HTTP/1.1 request to renew a loan:\n\n```\nPATCH /loans/17 HTTP/1.1\nHost: api.citylib.org\nContent-Type: application/json\nContent-Length: 20\n\n{\"due\":\"2026-12-01\"}\n```\n\nMatch each piece of the request (left) to the request part it is (right). One right-hand choice is not used.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "`PATCH`",
+        "why_md": "The verb at the start of the request line, so it is the method."
+      },
+      {
+        "id": "l2",
+        "md": "`/loans/17`",
+        "why_md": "It names the resource the request is about, so it is the path."
+      },
+      {
+        "id": "l3",
+        "md": "`Content-Type: application/json`",
+        "why_md": "A `Name: value` line about the request, so it is a header."
+      },
+      {
+        "id": "l4",
+        "md": "`{\"due\":\"2026-12-01\"}`",
+        "why_md": "The data after the blank line (20 bytes, as `Content-Length` says), so it is the body."
+      },
+      {
+        "id": "r1",
+        "md": "Method",
+        "why_md": "Matches `PATCH`."
+      },
+      {
+        "id": "r2",
+        "md": "Path",
+        "why_md": "Matches `/loans/17`."
+      },
+      {
+        "id": "r3",
+        "md": "Header",
+        "why_md": "Matches `Content-Type: application/json`."
+      },
+      {
+        "id": "r4",
+        "md": "Body",
+        "why_md": "Matches `{\"due\":\"2026-12-01\"}`."
+      },
+      {
+        "id": "r5",
+        "md": "Status code",
+        "why_md": "Not used. A status code belongs to the response and never appears in a request."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3",
+        "l4": "r4"
+      }
+    },
+    "hints": [
+      "A request has four parts: a method, a path, headers and an optional body. Which part on the right appears only in responses?",
+      "The request line is method + path + version. Then come the `Name: value` header lines, then a blank line, then the body."
+    ],
+    "solution_md": "1. The request line `PATCH /loans/17 HTTP/1.1` holds the method (`PATCH` → r1) and the path (`/loans/17` → r2).\n2. `Content-Type: application/json` is a `Name: value` line, so it is a header (→ r3). `Host` and `Content-Length` are headers too.\n3. After the blank line comes the body `{\"due\":\"2026-12-01\"}` (→ r4). Its length is 1 + 5 + 1 + 12 + 1 = 20 bytes, which matches `Content-Length: 20`.\n4. A status code (r5) appears only in responses, so it is the unused choice.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r2"
+    }
+  },
+  {
+    "id": "sd-http/test-a3",
+    "family": "sd-http-http-form-retry-safe-multi",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-methods"
+    ],
+    "prompt_md": "A library app's requests time out with no response, so the app cannot tell whether the server processed them. For which requests does sending the identical request once more leave the server in the **same state** as sending it once, so a blind retry is safe? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "`GET /books/9`",
+        "correct": true,
+        "why_md": "GET only reads, so repeating it changes nothing."
+      },
+      {
+        "id": "b",
+        "md": "`POST /loans` with body `{\"book\":9}`",
+        "why_md": "POST is not idempotent: if the first one reached the server, a retry may create a second loan.",
+        "misconception": "mc-retry-always-safe"
+      },
+      {
+        "id": "c",
+        "md": "`PUT /loans/17` with the full loan record in the body",
+        "correct": true,
+        "why_md": "PUT replaces the resource with the same full content each time, so two calls leave the same state as one."
+      },
+      {
+        "id": "d",
+        "md": "`DELETE /holds/4`",
+        "correct": true,
+        "why_md": "After the first delete the hold is gone; deleting again changes nothing, even if the reply is a 404."
+      },
+      {
+        "id": "e",
+        "md": "`PATCH /loans/17` with a body meaning \"add 1 to the renewal count\"",
+        "why_md": "This patch increments a counter, so each repeat changes the state again. PATCH is idempotent only when the patch sets values.",
+        "misconception": "mc-retry-always-safe"
+      }
+    ],
+    "hints": [
+      "Ask of each request: does a second identical copy change the server state again? That is idempotence.",
+      "GET, PUT and DELETE are idempotent; POST is not; a PATCH that adds 1 is not."
+    ],
+    "solution_md": "1. `GET /books/9`: reading changes nothing → safe.\n2. `POST /loans`: each POST may create another loan → **not** safe.\n3. `PUT /loans/17` with the full record: same content replaced twice → safe.\n4. `DELETE /holds/4`: gone after the first call; the second changes nothing → safe.\n5. PATCH \"add 1\": each call adds another 1 → **not** safe.\n\nAnswer: **a, c, d**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/test-a4",
+    "family": "sd-http-http-form-idempotent-delete-ar",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-methods"
+    ],
+    "prompt_md": "A note-taking app sends `DELETE /notes/55` and the request times out; it sends the same request again.\n\n**Assertion (A):** After both requests are processed, the server is in the same state as if only one had been processed: note 55 does not exist.\n\n**Reason (R):** Repeating a DELETE always returns the same status code as the first call.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "R is false: the first call may return 200 and the second 404. Idempotence is about state, not identical replies.",
+        "misconception": "mc-idempotent-same-response"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is not just irrelevant, it is false: the second DELETE can return 404 because the note is already gone.",
+        "misconception": "mc-idempotent-same-response"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "correct": true,
+        "why_md": "Right. DELETE is idempotent, so the state is the same after one or two calls (A). But the replies can differ, e.g. 200 then 404, so R is false."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true: after the first delete the note is gone, and the second changes nothing. R is the false one."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. Idempotence is about the server's state after repeats, not about the replies.",
+      "A: the note is gone after one call or two, so A is true. R: the second call may get 404 instead of 200, so R is false."
+    ],
+    "solution_md": "1. A: the first DELETE removes note 55; the second finds nothing to remove. The state is the same either way → **A true**.\n2. R: the first call may return 200 and the second 404 because the note is already gone → \"always the same status code\" is **false**.\n3. Idempotent means same *state*, not same *response*.\n\nAnswer: **c** (A true, R false).",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/test-a5",
+    "family": "sd-http-http-form-429-meaning",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-http-status-codes"
+    ],
+    "prompt_md": "A home weather dashboard polls a public weather API ten times a second. The API starts answering `429 Too Many Requests`. What does this status code report to the dashboard's developer?",
+    "options": [
+      {
+        "id": "a",
+        "md": "It reports that the weather API's servers have failed, so its operators need to fix them",
+        "why_md": "429 is a 4xx code. It reports rate limiting, which is classified as a client error. It does not report a server failure: server errors are 5xx codes such as 500 or 503. (The code alone also does not prove the API is healthy. It only says that this request was refused for being too frequent.)",
+        "misconception": "mc-4xx-server-fault"
+      },
+      {
+        "id": "b",
+        "md": "It reports that the weather data has moved to a new URL",
+        "why_md": "Moved resources get 3xx redirection codes such as 301 or 302, with the new URL in a `Location` header. A code starting with 4 is not a redirect."
+      },
+      {
+        "id": "c",
+        "md": "It reports that the dashboard (the client) is sending requests too fast and should slow down",
+        "correct": true,
+        "why_md": "Correct. A 4xx code classifies the response as a client error, and 429 Too Many Requests specifically means the client is over the rate limit. The same request may succeed after the client waits, respecting `Retry-After` if the response includes it."
+      },
+      {
+        "id": "d",
+        "md": "It reports that the request succeeded but the server had no data to send",
+        "why_md": "Success codes start with 2 (for example `204 No Content` for \"done, nothing to send\"). A code starting with 4 is a client error, not a success."
+      }
+    ],
+    "hints": [
+      "Read the first digit first: 2 success, 3 redirection, 4 client error, 5 server error.",
+      "A 4xx code classifies the response as a client error. Then recall what 429 Too Many Requests means and what the client should do about it."
+    ],
+    "solution_md": "1. The first digit is 4, so the response is classified as a **client error**: the response points to the request side.\n2. 429 Too Many Requests means the client is sending requests too fast, so it is over the rate limit.\n3. The dashboard should slow down and respect `Retry-After` if present. This status code alone does not establish whether the API is healthy. It reports rate limiting, not a server failure (that would be a 5xx), a redirect (3xx) or a success (2xx).\n\nAnswer: **c**.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r6"
+    }
+  },
+  {
+    "id": "sd-http/test-a6",
+    "family": "sd-http-http-form-alerting-case",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-http-status-codes"
+    ],
+    "prompt_md": "A photo-sharing API wants a rule that **pages the on-call engineer** only when the servers are failing. Last week the pager fired 40 times. An investigation found that every time, the cause was a burst of `404` and `401` responses from an old mobile app with broken image paths and expired logins, and the servers were healthy. Which paging rule should the team adopt?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Page on a rising rate of 5xx responses (such as 500 and 503); chart 4xx responses on a separate dashboard so unexpected rises can still be investigated",
+        "correct": true,
+        "why_md": "Best. 5xx is the class that reports a server error, covering both crashes (500) and overload (503). In this incident the 404s and 401s came from the old app while the servers were healthy, so they should not page anyone. Watching 4xx on a dashboard still lets the team spot unexpected rises, which can sometimes point to a server bug or misconfiguration."
+      },
+      {
+        "id": "b",
+        "md": "Page only on `500 Internal Server Error`",
+        "why_md": "Viable, second-best. It stops the false pages from 404/401, but it misses `503 Service Unavailable`, which also reports a server failure (overloaded or down)."
+      },
+      {
+        "id": "c",
+        "md": "Keep paging on any 4xx or 5xx response, because both mean the request failed",
+        "why_md": "Trap. 4xx and 5xx both mean the request failed, but they classify the failure differently: 4xx as a client error, 5xx as a server error. Paging on the 404s and 401s is exactly what caused last week's 40 false pages.",
+        "misconception": "mc-4xx-server-fault"
+      }
+    ],
+    "hints": [
+      "Ask which side each status class points to: 4xx classifies a client error, 5xx reports a server error. Which class matches 'the servers are failing'?",
+      "Page on all of 5xx (500 and 503), not just one code, and keep 4xx off the pager while still watching it on a dashboard."
+    ],
+    "solution_md": "1. Goal: page only when the servers fail.\n2. In this incident, the stem establishes that the servers were healthy and the old app caused the 404 and 401 responses. Paging on each of those responses therefore produced false alarms (option c, the trap). In general, 4xx codes do not establish server health, and unexpected increases can warrant investigation, which is why option a keeps them on a dashboard.\n3. 5xx reports a server error: 500 (something broke) and 503 (overloaded or down).\n4. Paging only on 500 (option b) misses 503 overloads, so it is second-best.\n5. Paging on the whole 5xx class (option a) catches both and keeps client-classified errors off the pager.\n\nAnswer: **a**.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r4"
+    }
+  }
+]

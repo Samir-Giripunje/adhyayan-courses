@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-stacked-decorators",
+  "version": 1,
+  "title": "Stacking decorators and the order they apply",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-stack-bottom-up",
+      "version": 1,
+      "statement": "Stacked decorators apply bottom-up: @a above @b above def f is equivalent to f = a(b(f))."
+    },
+    {
+      "id": "kc-stack-evaluate-top-down",
+      "version": 1,
+      "statement": "The decorator expressions of a stack are evaluated top-down before the function object is created, then applied bottom-up: @make('a') above @make('b') above def f is d_a = make('a'); d_b = make('b'); define f; f = d_a(d_b(f))."
+    },
+    {
+      "id": "kc-stack-call-order",
+      "version": 1,
+      "statement": "When a stacked function is called, the top decorator's pre-call code runs first and its post-call code runs last, like nested layers."
+    },
+    {
+      "id": "kc-stack-order-matters",
+      "version": 1,
+      "statement": "Reordering stacked decorators can change behaviour: with @cache above @timer, cache hits never reach the timer, so they print no timing."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "pd-decorator-syntax",
+    "pd-wrapper-functions",
+    "pd-decorator-factories"
+  ],
+  "suggests": [
+    "pd-decoration-time"
+  ],
+  "confusable_with": [
+    "pd-decorator-factories"
+  ],
+  "introduces": [
+    "stacked decorators"
+  ],
+  "uses": [
+    "decorator syntax",
+    "wrapper function",
+    "decorator factory"
+  ],
+  "problem_ideas": [
+    "Desugar a three-decorator stack into one nested call",
+    "Predict the printed enter/exit order for @bold @italic def greet()",
+    "Predict the print order for @make('a') @make('b') where both the factory and the decorator print",
+    "Swap @timer and @lru_cache and predict which calls print timings",
+    "Find the order that makes @require_login run before @log_calls logs anything",
+    "Draw the nesting of wrappers for a 3-layer stack"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "current-syntax/current-syntax"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,134 @@
+[
+  {
+    "id": "emb-search/test-b1",
+    "version": 1,
+    "family": "emb-search-score-rank-table",
+    "kind": "trace",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-pipeline"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "prompt_md": "The query *my card was declined* embeds to **q = [0, 2, 1]**. Four help articles are stored as below. Every stored vector has length 3, so ranking by dot product gives the same order as cosine. Fill in each article's dot product with q and its rank (1 = best match).",
+    "context_md": "| Article | Stored vector | Dot with q | Rank |\n|---|---|---|---|\n| Change your delivery address | [2, 1, 2] | ? | ? |\n| Reset your password | [3, 0, 0] | ? | ? |\n| Update your billing card | [1, 2, 2] | ? | ? |\n| Gift cards | [2, 2, 1] | ? | ? |",
+    "answer": {
+      "cells": {
+        "0,2": "4",
+        "0,3": "3",
+        "1,2": "0",
+        "1,3": "4",
+        "2,2": "6",
+        "2,3": "1",
+        "3,2": "5",
+        "3,3": "2"
+      }
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "q = [0, 2, 1]\nrows = [('Change your delivery address', [2, 1, 2]), ('Reset your password', [3, 0, 0]), ('Update your billing card', [1, 2, 2]), ('Gift cards', [2, 2, 1])]\ndots = [sum(a * b for a, b in zip(q, v)) for _, v in rows]\norder = sorted(range(len(rows)), key=lambda i: -dots[i])\nrank = {i: r + 1 for r, i in enumerate(order)}\nanswer = {}\nfor i in range(len(rows)):\n    answer[f'{i},2'] = str(dots[i])\n    answer[f'{i},3'] = str(rank[i])\n"
+    },
+    "hints": [
+      "Dot product: multiply matching positions and add. Then rank by score, highest first.",
+      "Change your delivery address: 0·2 + 2·1 + 1·2 = 4; Reset your password: 0·3 + 2·0 + 1·0 = 0; Update your billing card: 0·1 + 2·2 + 1·2 = 6; Gift cards: 0·2 + 2·2 + 1·1 = 5."
+    ],
+    "solution_md": "Change your delivery address: 0·2 + 2·1 + 1·2 = 4; Reset your password: 0·3 + 2·0 + 1·0 = 0; Update your billing card: 0·1 + 2·2 + 1·2 = 6; Gift cards: 0·2 + 2·2 + 1·1 = 5. Ranked highest first, the best match is **Update your billing card**: Change your delivery address 3, Reset your password 4, Update your billing card 1, Gift cards 2.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/test-b2",
+    "version": 1,
+    "family": "emb-search-call-ledger",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "prompt_md": "An FAQ with **40** articles is indexed on Monday morning: every article is embedded once and its vector stored. On Monday afternoon, **25** searches arrive. On Tuesday morning the team switches to a new embedding model; the system embeds only what has to be embedded. Then **35** more searches arrive. No article is edited or added. How many embedding-model calls does the system make, from Monday's indexing through the last search on Tuesday?",
+    "answer": {
+      "value": 140,
+      "tolerance": 0,
+      "unit": "model calls"
+    },
+    "common_wrong": [
+      {
+        "value": 100,
+        "kind": "misconception",
+        "tag": "mc-mix-models",
+        "why_md": "That keeps Monday's article vectors after the model switch. Vectors from different models aren't comparable, so all 40 articles must be re-embedded."
+      },
+      {
+        "value": 80,
+        "kind": "slip",
+        "why_md": "That counts only the indexing runs (40 + 40). Every search also embeds its query."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "articles = 40\nmonday = articles + 25\ntuesday = articles + 35\nanswer = monday + tuesday\n"
+    },
+    "hints": [
+      "List the events in order and ask, for each, which texts need a new vector.",
+      "Monday: 40, then 25 queries. Tuesday: a new model means a new space, so all 40 articles again, then 35 queries. Add them."
+    ],
+    "solution_md": "Monday indexing: 40. Monday searches: 25. Tuesday: the new model's vectors live in a different space, so all 40 articles are re-embedded before any query, then 35 searches. Total **40 + 25 + 40 + 35 = 140**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/test-b3",
+    "version": 1,
+    "family": "emb-search-madd-counter",
+    "kind": "predict_output",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "prompt_md": "This brute-force search counts its multiply-adds while it answers three queries. What does it print?",
+    "code": "index = {\"a1\": [1, 0], \"a2\": [0, 1], \"a3\": [1, 1], \"a4\": [2, 1], \"a5\": [1, 2]}\nqueries = [[1, 0], [0, 1], [1, 1]]\nmadds = 0\nfor q in queries:\n    scores = {}\n    for doc_id, v in index.items():\n        total = 0\n        for a, b in zip(q, v):\n            total += a * b\n            madds += 1\n        scores[doc_id] = total\n    top2 = sorted(scores, key=scores.get, reverse=True)[:2]\nprint(madds)\n",
+    "answer": {
+      "value": 30,
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import io, contextlib\nsrc = 'index = {\"a1\": [1, 0], \"a2\": [0, 1], \"a3\": [1, 1], \"a4\": [2, 1], \"a5\": [1, 2]}\\nqueries = [[1, 0], [0, 1], [1, 1]]\\nmadds = 0\\nfor q in queries:\\n    scores = {}\\n    for doc_id, v in index.items():\\n        total = 0\\n        for a, b in zip(q, v):\\n            total += a * b\\n            madds += 1\\n        scores[doc_id] = total\\n    top2 = sorted(scores, key=scores.get, reverse=True)[:2]\\nprint(madds)\\n'\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    exec(src, {})\nanswer = buf.getvalue().strip()\nanswer = int(answer)\n"
+    },
+    "hints": [
+      "The counter goes up once per position of every dot product. Count stored vectors, numbers per vector and queries.",
+      "5 stored vectors × 2 numbers × 3 queries. Keeping the top 2 happens after all the scoring."
+    ],
+    "solution_md": "Each query scores all 5 stored vectors, and each dot product has 2 positions: $5 \\times 2 = 10$ multiply-adds per query. Three queries: $3 \\times 10 = $ **30**. Keeping only the top 2 (`[:2]`) happens after scoring, so it doesn't reduce the count.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  }
+]

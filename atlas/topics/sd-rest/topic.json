@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-rest",
+  "version": 1,
+  "title": "REST APIs: resources, statelessness, pagination",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-rest-resources",
+      "version": 1,
+      "statement": "REST models data as resources identified by URLs that are nouns (e.g. /users/42/orders) and acts on them with standard HTTP methods instead of verbs in the path."
+    },
+    {
+      "id": "kc-rest-stateless",
+      "version": 1,
+      "statement": "Each REST request carries everything the server needs (such as an auth token), so the server keeps no per-client session and any server instance can handle any request."
+    },
+    {
+      "id": "kc-rest-pagination",
+      "version": 1,
+      "statement": "REST list endpoints return results in pages using a limit plus a cursor or offset, so a response stays bounded in size however many items exist."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-http"
+  ],
+  "suggests": [
+    "sd-client-server"
+  ],
+  "confusable_with": [
+    "sd-rpc"
+  ],
+  "introduces": [
+    "rest",
+    "resource",
+    "pagination",
+    "cursor"
+  ],
+  "uses": [
+    "http",
+    "http method",
+    "http status code",
+    "client",
+    "server"
+  ],
+  "problem_ideas": [
+    "Rewrite POST /createTweet, GET /getUserFollowers?id=7 and POST /deleteComment as RESTful endpoints.",
+    "Design REST endpoints for a URL shortener: create, redirect, delete, stats.",
+    "A feed endpoint returns all 30,000 posts; redesign it with cursor pagination and say why cursor beats offset when posts are inserted.",
+    "A server stores the user's cart in its own memory and requests go to random servers; what breaks?",
+    "Choose status codes for a successful create, a duplicate username and a missing resource.",
+    "Model nested resources for chat: conversations, messages and participants."
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "communication/representational-state-transfer-rest"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "rest/concepts"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "rest/example"
+    }
+  ],
+  "status": "stub"
+}

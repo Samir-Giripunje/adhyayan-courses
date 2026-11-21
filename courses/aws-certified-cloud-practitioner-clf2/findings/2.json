@@ -1,0 +1,120 @@
+{
+  "artifact": {
+    "path": "courses/aws-certified-cloud-practitioner-clf2/architect",
+    "sha256": "c55b4f19779ab9c54552636cf3e2aa1aecb35ae9de7401d708aacbf4943a56fd"
+  },
+  "reviewer": {
+    "role": "adhy-critic",
+    "vendor": "codex"
+  },
+  "items": [
+    {
+      "id": "f1",
+      "severity": "blocking",
+      "target": "clf-service-verb-lens",
+      "claim": "The o6 serves link makes a particular mnemonic mandatory, although the observable requires mock-exam performance. Its service distinctions are already taught in the security and cost-selection topics.",
+      "fix": "Remove the o6 serves link and let this revision technique become recommended or optional."
+    },
+    {
+      "id": "f2",
+      "severity": "blocking",
+      "target": "clf-tco-on-premises-costs",
+      "claim": "The requires edge to clf-fixed-vs-variable-costs is stronger than the KCs justify. Counting lifetime costs and identifying data-center overhead does not require classifying expenditure as fixed, variable, CapEx or OpEx.",
+      "fix": "Change clf-fixed-vs-variable-costs from requires to suggests."
+    },
+    {
+      "id": "f3",
+      "severity": "blocking",
+      "target": "clf-local-zones-wavelength-outposts",
+      "claim": "The prerequisite rationale says these services are explained as extensions of a Region and its AZs, but the KCs only need the Region concept. Knowing AZ isolation and interconnection is unnecessary for the stated distinctions.",
+      "fix": "Replace the requires edge to clf-availability-zones with a requires edge to clf-regions; make clf-availability-zones a suggests link."
+    },
+    {
+      "id": "f4",
+      "severity": "blocking",
+      "target": "clf-cloud-adoption-framework",
+      "claim": "o1 requires choosing a CAF perspective and justifying the choice, but kc-caf-perspectives only lists names and groups them. No KC teaches what distinguishes Business, People, Governance, Platform, Security and Operations.",
+      "evidence": {
+        "source": "-aws-caf-perspectives-https-docs-aws-amazon-com-prescriptive-guidance-latest-strategy-cloud-transformation-resolving-cloud-transformation-challenges-html-",
+        "quote": "The business perspective helps you ensure that your cloud investments accelerate your digital transformation ambitions and business outcomes."
+      },
+      "fix": "Add assessable KCs mapping Business to business outcomes, People to culture and workforce, Governance to oversight and risk, Platform to cloud foundations, Security to protection, and Operations to service delivery and support. Split the topic if necessary to retain its sizing."
+    },
+    {
+      "id": "f5",
+      "severity": "blocking",
+      "target": "clf-p2-clf-p3-clf-p6-clf-p7",
+      "claim": "The course explicitly excludes services listed as out of scope, yet teaches Wavelength, CodeDeploy, Personalize and FSx for Lustre as exam-selection answers. AWS explicitly lists all four as out of scope.",
+      "evidence": {
+        "source": "-clf-c02-out-of-scope-services-https-docs-aws-amazon-com-aws-certification-latest-cloud-practitioner-02-clf-02-out-of-scope-services-html-",
+        "quote": "AWS Wavelength; AWS CodeDeploy; Amazon Personalize; Amazon FSx for Lustre"
+      },
+      "fix": "Remove these four services from instructional KCs, selection rules, terms and serves rationales. Remove Wavelength from o2 and placement comparisons; remove CodeDeploy from pipeline comparisons; retain in-scope FSx coverage without Lustre."
+    },
+    {
+      "id": "f6",
+      "severity": "blocking",
+      "target": "kc-trusted-advisor-plan-tiers-kc-clf-d4-free-vs-paid-help",
+      "claim": "The support update was not propagated: Trusted Advisor still requires the legacy paid-plan ladder, and Domain 4 says TAMs come 'only with Enterprise On-Ramp Support or Enterprise Support.' Both omit current plans with those benefits.",
+      "evidence": {
+        "source": "-aws-support-faq-https-aws-amazon-com-premiumsupport-faqs-unified-operations-team-https-docs-aws-amazon-com-awssupport-latest-user-unified-operations-team-html-",
+        "quote": "AWS Business Support+, Enterprise Support and Unified Operations customers have access to the full set of Trusted Advisor checks. Your designated cloud strategist"
+      },
+      "fix": "State that Business Support+, Enterprise Support and Unified Operations include full Trusted Advisor checks, with legacy entitlements labeled separately. Rewrite the Domain 4 KC to include Unified Operations among plans providing a designated TAM and distinguish legacy On-Ramp's pooled TAM access."
+    },
+    {
+      "id": "f7",
+      "severity": "blocking",
+      "target": "kc-cheapest-plan-by-response",
+      "claim": "The rule promises Unified Operations for 'under 5 minutes,' but AWS states a five-minute response target. This would produce a wrong answer for a requirement strictly below five minutes.",
+      "evidence": {
+        "source": "-aws-support-response-times-https-docs-aws-amazon-com-awssupport-latest-user-case-management-html-",
+        "quote": "AWS Unified Operations: 5 minutes from an Incident Management Engineer"
+      },
+      "fix": "Replace 'Unified Operations for under 5 minutes' with 'Unified Operations for a five-minute target for eligible critical incidents.' State that none of these published targets establishes a response strictly below five minutes."
+    },
+    {
+      "id": "f8",
+      "severity": "blocking",
+      "target": "kc-nosql-db-flexible-scale",
+      "claim": "The statement that NoSQL databases give up complex joins for speed presents a service-dependent tradeoff as a defining property. DocumentDB, which this course teaches, supports joins.",
+      "evidence": {
+        "source": "-documentdb-lookup-https-docs-aws-amazon-com-documentdb-latest-devguide-lookup-html-",
+        "quote": "The `$lookup` aggregation stage in Amazon DocumentDB allows you to perform a left outer join between two collections."
+      },
+      "fix": "Replace the KC with: 'NoSQL databases include key-value, document and graph models. Schema flexibility, scaling, joins and transaction support vary by service; choose the service by the required data model and access patterns.'"
+    },
+    {
+      "id": "f9",
+      "severity": "blocking",
+      "target": "kc-transfer-az-region",
+      "claim": "'Traffic between Availability Zones and between Regions is charged per GB' is an unconditional pricing rule with important counterexamples. In particular, RDS Multi-AZ replication has no data-transfer charge.",
+      "evidence": {
+        "source": "-amazon-rds-pricing-https-aws-amazon-com-rds-pricing-",
+        "quote": "Data transferred between Availability Zones for replication of Multi-AZ deployments Free."
+      },
+      "fix": "Replace the KC with: 'Cross-AZ and cross-Region transfers can incur per-GB charges depending on the service and traffic path. Same-AZ EC2 traffic over private IP addresses is generally free, and RDS Multi-AZ replication transfer is free.'"
+    },
+    {
+      "id": "f10",
+      "severity": "warn",
+      "target": "clf-rightsizing",
+      "claim": "The prediction mode has no stated numeric relationship or sufficiently specified decision rule to compute an answer. Average CPU utilization alone does not establish that a smaller instance meets peak, memory or I/O requirements.",
+      "fix": "Use quiz mode for recognizing rightsizing, or add a prediction KC using supplied peak-resource requirements, candidate capacities and prices to select the cheapest adequate instance."
+    },
+    {
+      "id": "f11",
+      "severity": "warn",
+      "target": "clf-domain1-practice-clf-domain2-practice-clf-domain3-practice-clf-domain4-practice-clf-mock-exam-1-clf-mock-exam-2",
+      "claim": "These topics count only their briefings and delegate the promised practice and mocks to separately scheduled assessments that are not specified in the supplied plan. The course's assessment time and delivery contract therefore cannot be checked.",
+      "fix": "Add explicit assessment records linked to these topics: domain-set question counts and durations, two distinct 65-question mocks of 90 minutes each, overall and domain scoring, and time for review. Include these durations in the course estimate."
+    },
+    {
+      "id": "f12",
+      "severity": "warn",
+      "target": "clf-cloud-adoption-framework",
+      "claim": "kc-caf-domains-phases combines four transformation domains and four adoption phases into one KC. These are separate classifications and cannot be meaningfully checked as one short item.",
+      "fix": "Split kc-caf-domains-phases into one KC for transformation domains and one for adoption phases; prioritize perspective-selection KCs over these lists if the topic exceeds its size."
+    }
+  ]
+}

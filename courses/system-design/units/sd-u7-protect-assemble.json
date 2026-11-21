@@ -1,0 +1,34 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u7-protect-assemble",
+  "title": "Rate limiting and assembling the request path",
+  "topics": [
+    {
+      "id": "sd-rate-limiting",
+      "tier": "recommended",
+      "order": 1
+    },
+    {
+      "id": "sd-token-bucket",
+      "tier": "optional",
+      "order": 2
+    },
+    {
+      "id": "sd-rate-limit-algorithms",
+      "tier": "optional",
+      "order": 3
+    },
+    {
+      "id": "sd-distributed-rate-limiting",
+      "tier": "optional",
+      "order": 4
+    },
+    {
+      "id": "sd-scale-to-millions",
+      "tier": "must",
+      "order": 5
+    }
+  ],
+  "halfway_after": null,
+  "status": "stub"
+}

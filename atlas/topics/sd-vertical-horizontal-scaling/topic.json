@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-vertical-horizontal-scaling",
+  "version": 1,
+  "title": "Vertical vs horizontal scaling",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-vertical-scaling",
+      "version": 1,
+      "statement": "Vertical scaling adds CPU, memory or disk to one machine; it needs no code changes but hits a hardware ceiling and leaves that one machine as a point of failure."
+    },
+    {
+      "id": "kc-horizontal-scaling",
+      "version": 1,
+      "statement": "Horizontal scaling adds more machines that share the load; capacity grows by adding nodes, but the application must tolerate any request landing on any node."
+    },
+    {
+      "id": "kc-scale-up-first",
+      "version": 1,
+      "statement": "Scaling up is often the sensible first step because state stays on one machine; scaling out becomes necessary when one machine's capacity at peak QPS, or its availability, is no longer enough."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-performance-vs-scalability"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "vertical scaling",
+    "horizontal scaling"
+  ],
+  "uses": [
+    "throughput",
+    "qps",
+    "peak qps"
+  ],
+  "problem_ideas": [
+    "A database server is at 85% CPU on 16 cores and the largest instance has 128 cores: how much headroom does scaling up buy, and what does it not fix?",
+    "A startup at 300 QPS asks whether to shard on day one: argue for scaling up first",
+    "Peak QPS will be 60,000 and one app server handles 2,500: how many servers, and what happens if one dies at peak?",
+    "List three code changes needed before a single-server app can be scaled horizontally",
+    "Compare cost: one 64-core machine vs eight 8-core machines when traffic is 10x higher at noon than at midnight",
+    "Failure story: the one big server reboots for a kernel patch and the whole site is down for 20 minutes; which scaling choice caused this?"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "vertical-scaling/vertical-scaling"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "horizontal-scaling/horizontal-scaling"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "load-balancer/horizontal-scaling"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-tradeoffs/vertical-vs-horizontal-scaling"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,106 @@
+[
+  {
+    "id": "sd-cdn/placement-1",
+    "family": "sd-cdn-probe-cdn-origin-egress",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-cdn-offload-estimate"
+    ],
+    "prompt_md": "A video site serves **40 Gbps** of total egress to users through a CDN with a **90%** hit ratio. Estimate the egress the **origin** servers must still serve, in **Gbps**.",
+    "answer": {
+      "value": 4,
+      "tolerance": 0.1,
+      "unit": "Gbps"
+    },
+    "common_wrong": [
+      {
+        "value": 36,
+        "kind": "misconception",
+        "why_md": "36 Gbps is what the CDN edges serve from cache. The origin serves only the misses: 40 × (1 − 0.9)."
+      },
+      {
+        "value": 0.4,
+        "kind": "slip",
+        "why_md": "That uses a 99% hit ratio, or slips a decimal place. 40 × 0.1 = 4."
+      },
+      {
+        "value": 40,
+        "kind": "misconception",
+        "why_md": "That ignores the CDN. Hits are served from edge caches, not from the origin."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "total_gbps = 40\nhit_ratio = 0.90\nanswer = round(total_gbps * (1 - hit_ratio), 6)\n"
+    },
+    "hints": [
+      "Origin egress ≈ total egress × (1 − hit ratio).",
+      "1 − 0.9 = 0.1, and 40 × 0.1 = 4."
+    ],
+    "solution_md": "1. Only misses go to the origin: the miss ratio is 1 − 0.90 = 0.10.\n2. Origin egress ≈ 40 Gbps × 0.10 = **4 Gbps**.\n3. The other 36 Gbps is served from CDN edge caches.\n\nAnswer: **4 Gbps**.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-cdn",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  },
+  {
+    "id": "sd-cdn/placement-2",
+    "family": "sd-cdn-probe-cdn-asset-url-routing",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-cdn-routing",
+      "kc-cdn-role"
+    ],
+    "prompt_md": "Your origin server is in Virginia at `203.0.113.7`. You have signed up with a CDN that has edge servers worldwide. You want a user in Sydney to download `logo.png` from a **nearby edge**. Which setup achieves that?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The page uses `https://static.example.com/logo.png`, and `static.example.com` is a CNAME to the CDN hostname `example.cdnprovider.net`, whose DNS returns a nearby edge's IP",
+        "correct": true,
+        "why_md": "Right. The asset URL leads to a CDN hostname, and the CDN's DNS-based routing sends the Sydney user to a nearby edge."
+      },
+      {
+        "id": "b",
+        "md": "The page uses `https://203.0.113.7/logo.png`",
+        "why_md": "That URL names the origin's IP directly, so the browser connects to Virginia and the CDN is never involved."
+      },
+      {
+        "id": "c",
+        "md": "The page uses `https://static.example.com/logo.png`, and `static.example.com` has an A record pointing at `203.0.113.7`",
+        "why_md": "DNS sends the user to the origin's IP in Virginia. Having a CDN account does nothing unless the asset's hostname resolves to the CDN."
+      },
+      {
+        "id": "d",
+        "md": "The origin server in Virginia redirects every image request to a random edge server",
+        "why_md": "The user still makes a full round trip to Virginia first, and a random edge is not necessarily near Sydney. Edge selection happens through DNS-based routing or anycast."
+      }
+    ],
+    "hints": [
+      "The browser connects to whatever IP the asset URL's hostname resolves to. Which option makes that IP a nearby edge?",
+      "Asset URLs should point at a CDN hostname so that DNS-based routing (or anycast) can choose a nearby edge."
+    ],
+    "solution_md": "1. The browser fetches `logo.png` from whatever IP the URL's hostname resolves to.\n2. If that hostname, or a raw IP, leads to `203.0.113.7`, every request crosses to Virginia (options b and c).\n3. A redirect from the origin still costs a trip to Virginia, and a random edge may be far away (option d).\n4. Pointing `static.example.com` at a CDN hostname with a CNAME lets the CDN's DNS return a nearby edge's IP.\n\nAnswer: **the CNAME to the CDN hostname.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-cdn",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  }
+]

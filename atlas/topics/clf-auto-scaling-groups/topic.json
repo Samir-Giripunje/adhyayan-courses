@@ -1,0 +1,76 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-auto-scaling-groups",
+  "version": 1,
+  "title": "Auto Scaling groups: elasticity for EC2",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-asg-capacity",
+      "version": 1,
+      "statement": "An Auto Scaling group keeps its number of EC2 instances between a set minimum and maximum, starting at a desired capacity, and replaces instances that fail health checks."
+    },
+    {
+      "id": "kc-asg-elasticity",
+      "version": 1,
+      "statement": "Auto Scaling provides elasticity: it adds instances when demand rises and removes them when demand falls, so you pay only for the capacity the load needs."
+    },
+    {
+      "id": "kc-asg-scaling-policies",
+      "version": 1,
+      "statement": "Target tracking scaling holds a metric such as 50% average CPU. Step scaling reacts to alarm thresholds. Scheduled scaling changes capacity at set times. Predictive scaling forecasts load from history."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-ec2-basics"
+  ],
+  "suggests": [
+    "clf-amis-user-data",
+    "clf-elastic-load-balancing",
+    "clf-elasticity-agility"
+  ],
+  "confusable_with": [
+    "clf-elastic-load-balancing"
+  ],
+  "introduces": [
+    "auto scaling group",
+    "scaling policy",
+    "desired capacity"
+  ],
+  "uses": [
+    "ec2 instance",
+    "elasticity",
+    "horizontal scaling",
+    "health check",
+    "elastic load balancing"
+  ],
+  "problem_ideas": [
+    "An Auto Scaling group has min 2, desired 4, max 10; traffic doubles and each instance can serve 25% more: predict the new instance count.",
+    "With target tracking at 50% CPU, 4 instances average 80%: roughly how many instances will the group grow to?",
+    "A retailer knows traffic triples every Black Friday at 09:00: which scaling policy fits best?",
+    "One instance fails its health check overnight: predict the group's instance count before and after replacement.",
+    "At 03:00 the load drops to almost nothing but the group stays at 2 instances: explain why.",
+    "Compare monthly instance-hours for a fixed fleet of 10 versus an Auto Scaling group running 3 instances for 16 hours a day and 10 for 8 hours a day."
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "auto-scaling/auto-scaling-groups"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "auto-scaling/scaling-policies"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-3-identify-aws-compute-/recognizing-that-auto-scaling-provides-e"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "elastic-load-balancing-auto-scaling-grou/what-s-an-auto-scaling-group"
+    }
+  ],
+  "status": "stub"
+}

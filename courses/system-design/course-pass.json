@@ -1,0 +1,396 @@
+{
+  "course": {
+    "id": "system-design",
+    "title": "System Design for Interviews",
+    "archetype": "field",
+    "unit_prefix": "sd",
+    "first_unit": 0
+  },
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Estimate the capacity a stated workload needs",
+      "observable": "Given DAU, actions per user and payload sizes, produce peak QPS, storage per year and bandwidth figures within 2× of a reference answer, showing the arithmetic"
+    },
+    {
+      "id": "o2",
+      "text": "Turn a vague prompt into a scoped design",
+      "observable": "A written list of functional and non-functional requirements, a REST/RPC API sketch and a data model for a prompt, produced in under 10 minutes"
+    },
+    {
+      "id": "o3",
+      "text": "Choose and justify a data storage design",
+      "observable": "For a workload, a named store type (SQL, key-value, document, wide-column), replication mode, shard key and consistency level, each with one stated trade-off"
+    },
+    {
+      "id": "o4",
+      "text": "Scale the request path with standard building blocks",
+      "observable": "A high-level diagram placing load balancers, caches, CDN and queues, with a cache strategy and load-balancing choice justified against the stated reads/writes ratio"
+    },
+    {
+      "id": "o5",
+      "text": "Find failure modes and specify reliability mechanisms",
+      "observable": "For a given design, a list of single points of failure with a fix for each (failover, retries with backoff, circuit breaker, idempotency key) and a computed availability figure in nines"
+    },
+    {
+      "id": "o6",
+      "text": "Run a full system design interview under time",
+      "observable": "A complete 45-minute mock answer to a classic prompt (URL shortener, news feed, chat, ride hailing) covering requirements, estimates, API, data model, high-level design, deep dive and bottlenecks"
+    }
+  ],
+  "exclusions": [
+    {
+      "text": "Object-oriented / low-level design (class diagrams, design patterns in code)",
+      "why": "A separate interview round with different skills; it would double the course"
+    },
+    {
+      "text": "Authentication and identity protocols in depth (OAuth 2.0 flows, OIDC, SAML, SSO)",
+      "why": "Interviews rarely go beyond 'use a token at the gateway'; covered in one security overview topic only"
+    },
+    {
+      "text": "The full cloud design patterns catalogue (valet key, strangler fig, deployment stamps, gatekeeper, etc.)",
+      "why": "Mostly migration and operations patterns that rarely come up in design interviews"
+    },
+    {
+      "text": "Storage hardware and file systems (RAID, block volumes, HDFS internals)",
+      "why": "Below the abstraction level interviewers expect; object storage is covered as a building block"
+    },
+    {
+      "text": "VMs, containers and orchestration (Kubernetes)",
+      "why": "Deployment tooling, not a design decision in typical interview prompts"
+    },
+    {
+      "text": "Machine-learning system design (recommendation and ranking pipelines)",
+      "why": "A specialised interview track with its own body of knowledge"
+    },
+    {
+      "text": "Vendor-specific configuration (Redis, Kafka, Nginx, AWS service settings)",
+      "why": "Interviews test the concept and trade-off, not the configuration syntax"
+    }
+  ],
+  "stages": [
+    {
+      "id": "sd-p1",
+      "title": "Foundations: how a request travels the web",
+      "outcome": [
+        "o2",
+        "o4"
+      ],
+      "assumes": [
+        "client",
+        "server",
+        "programming basics",
+        "database query"
+      ],
+      "provides": [
+        "ip address",
+        "tcp",
+        "udp",
+        "http",
+        "https",
+        "tls",
+        "dns",
+        "client-server architecture",
+        "latency",
+        "throughput",
+        "latency numbers",
+        "rest",
+        "rpc"
+      ],
+      "topic_estimate": 10,
+      "foundation": true
+    },
+    {
+      "id": "sd-p2",
+      "title": "The interview framework and estimation",
+      "outcome": [
+        "o1",
+        "o2",
+        "o6"
+      ],
+      "assumes": [
+        "http",
+        "rest",
+        "rpc",
+        "latency",
+        "throughput",
+        "latency numbers"
+      ],
+      "provides": [
+        "system design interview framework",
+        "functional requirements",
+        "non-functional requirements",
+        "back-of-the-envelope estimation",
+        "qps",
+        "peak qps",
+        "storage estimate",
+        "bandwidth estimate",
+        "api design",
+        "data model",
+        "high-level design",
+        "bottleneck"
+      ],
+      "topic_estimate": 10
+    },
+    {
+      "id": "sd-p3",
+      "title": "Scaling the request path",
+      "outcome": [
+        "o4",
+        "o6"
+      ],
+      "assumes": [
+        "http",
+        "https",
+        "dns",
+        "tls",
+        "latency",
+        "throughput",
+        "qps",
+        "high-level design",
+        "bottleneck"
+      ],
+      "provides": [
+        "vertical scaling",
+        "horizontal scaling",
+        "stateless service",
+        "load balancer",
+        "load balancing algorithm",
+        "layer 4 load balancing",
+        "layer 7 load balancing",
+        "reverse proxy",
+        "cdn",
+        "push cdn",
+        "pull cdn",
+        "api gateway",
+        "rate limiting",
+        "token bucket",
+        "performance vs scalability"
+      ],
+      "topic_estimate": 14
+    },
+    {
+      "id": "sd-p4",
+      "title": "Caching",
+      "outcome": [
+        "o4",
+        "o6"
+      ],
+      "assumes": [
+        "cdn",
+        "load balancer",
+        "stateless service",
+        "latency numbers",
+        "qps",
+        "horizontal scaling"
+      ],
+      "provides": [
+        "cache hit",
+        "cache miss",
+        "cache-aside",
+        "read-through",
+        "write-through",
+        "write-behind",
+        "write-around",
+        "refresh-ahead",
+        "cache invalidation",
+        "ttl",
+        "eviction policy",
+        "lru",
+        "distributed cache",
+        "hot key",
+        "thundering herd"
+      ],
+      "topic_estimate": 11
+    },
+    {
+      "id": "sd-p5",
+      "title": "Data storage and distribution",
+      "outcome": [
+        "o3",
+        "o6"
+      ],
+      "assumes": [
+        "data model",
+        "qps",
+        "storage estimate",
+        "horizontal scaling",
+        "cache-aside",
+        "cache invalidation"
+      ],
+      "provides": [
+        "relational database",
+        "acid",
+        "transaction",
+        "database index",
+        "normalization",
+        "denormalization",
+        "nosql",
+        "key-value store",
+        "document store",
+        "wide-column store",
+        "graph database",
+        "base",
+        "object storage",
+        "replication",
+        "leader-follower replication",
+        "multi-leader replication",
+        "synchronous replication",
+        "asynchronous replication",
+        "replication lag",
+        "partitioning",
+        "sharding",
+        "shard key",
+        "consistent hashing",
+        "virtual nodes",
+        "cap theorem",
+        "strong consistency",
+        "eventual consistency",
+        "quorum"
+      ],
+      "topic_estimate": 24
+    },
+    {
+      "id": "sd-p6",
+      "title": "Asynchronism, messaging and real-time delivery",
+      "outcome": [
+        "o4",
+        "o5",
+        "o6"
+      ],
+      "assumes": [
+        "stateless service",
+        "api gateway",
+        "database index",
+        "transaction",
+        "replication",
+        "eventual consistency",
+        "partitioning"
+      ],
+      "provides": [
+        "synchronous communication",
+        "asynchronous communication",
+        "message queue",
+        "task queue",
+        "background job",
+        "publish/subscribe",
+        "event streaming",
+        "consumer group",
+        "at-least-once delivery",
+        "exactly-once processing",
+        "dead-letter queue",
+        "back pressure",
+        "idempotency",
+        "idempotency key",
+        "fan-out on write",
+        "fan-out on read",
+        "long polling",
+        "websockets",
+        "server-sent events",
+        "change data capture",
+        "cqrs"
+      ],
+      "topic_estimate": 17
+    },
+    {
+      "id": "sd-p7",
+      "title": "Reliability, availability and coordination",
+      "outcome": [
+        "o5",
+        "o6"
+      ],
+      "assumes": [
+        "load balancer",
+        "replication",
+        "leader-follower replication",
+        "quorum",
+        "message queue",
+        "idempotency",
+        "retries",
+        "transaction",
+        "consistent hashing"
+      ],
+      "provides": [
+        "availability nines",
+        "availability in series",
+        "availability in parallel",
+        "single point of failure",
+        "failover",
+        "active-passive",
+        "active-active",
+        "fault tolerance",
+        "retry with backoff",
+        "jitter",
+        "circuit breaker",
+        "bulkhead",
+        "timeout",
+        "health check",
+        "heartbeat",
+        "leader election",
+        "consensus",
+        "two-phase commit",
+        "saga",
+        "sla",
+        "slo",
+        "sli",
+        "monitoring",
+        "distributed tracing",
+        "disaster recovery",
+        "rpo",
+        "rto",
+        "microservices"
+      ],
+      "topic_estimate": 18
+    },
+    {
+      "id": "sd-p8",
+      "title": "Case studies and mock interviews",
+      "outcome": [
+        "o1",
+        "o2",
+        "o3",
+        "o4",
+        "o5",
+        "o6"
+      ],
+      "assumes": [
+        "system design interview framework",
+        "back-of-the-envelope estimation",
+        "api design",
+        "data model",
+        "load balancer",
+        "cdn",
+        "cache-aside",
+        "sharding",
+        "consistent hashing",
+        "replication",
+        "message queue",
+        "publish/subscribe",
+        "fan-out on write",
+        "websockets",
+        "idempotency key",
+        "rate limiting",
+        "token bucket",
+        "circuit breaker",
+        "failover",
+        "object storage"
+      ],
+      "provides": [
+        "url shortener design",
+        "news feed design",
+        "chat system design",
+        "video streaming design",
+        "ride hailing design",
+        "geohash",
+        "quadtree",
+        "web crawler design",
+        "notification service design",
+        "payment system design",
+        "search autocomplete design",
+        "bloom filter",
+        "mock interview"
+      ],
+      "topic_estimate": 20
+    }
+  ]
+}

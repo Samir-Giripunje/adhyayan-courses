@@ -1,0 +1,44 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u22-monitor",
+  "title": "Monitoring, operating and recovering workloads",
+  "topics": [
+    {
+      "id": "clf-cloudwatch-metrics-logs",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-cloudwatch-alarms",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-x-ray",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-health-dashboard",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-systems-manager",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-monitoring-vs-auditing",
+      "tier": "must",
+      "order": 6
+    },
+    {
+      "id": "clf-elastic-disaster-recovery",
+      "tier": "must",
+      "order": 7
+    }
+  ],
+  "halfway_after": 4,
+  "status": "stub"
+}

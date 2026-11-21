@@ -1,0 +1,479 @@
+{
+  "answer": "**Cloud computing** is renting computing power, storage and databases from a provider such as AWS over the internet. You get them within minutes of asking (**on-demand delivery**) and pay only for what you use (**pay-as-you-go pricing**).",
+  "example": "Renting a server from AWS. A **server** is a computer that runs programs for others over a network. In a browser, you open the AWS Management Console (AWS's website), pick a server size and click **Launch**. Within minutes the server runs in an AWS **data center**, a building full of servers. AWS bills it by the second. Click **Terminate**: the server is released and the charges stop. You never buy any hardware.",
+  "how": {
+    "md": "Three parts make the example work.\n\n1. AWS buys servers and runs them in its data centers, with power, cooling, security and repairs.\n2. You ask for capacity over the **internet**, the global network linking computers. AWS hands you some within minutes: on-demand delivery.\n3. A meter counts what you use, and you pay that bill each month: pay-as-you-go pricing.\n\nThe same works for storage, databases and other IT resources.\n\nThe alternative is **on premises**: your organisation buys, houses and maintains its own servers in its own data center. You pay up front, wait for delivery, and own them whether they are busy or idle. In the cloud, AWS owns and runs the hardware, and you rent capacity only when you need it.\n\nA common wrong idea: cloud is your hardware parked in AWS's building. It isn't; you never own the servers.",
+    "visual": {
+      "type": "compare",
+      "title": "On premises vs the cloud",
+      "columns": [
+        "",
+        "On premises",
+        "Cloud (AWS)"
+      ],
+      "rows": [
+        [
+          "Getting a server",
+          "Buy it, wait for delivery",
+          "Click Launch, running in minutes"
+        ],
+        [
+          "Housing and repairs",
+          "You house, power, cool and repair it",
+          "AWS houses, powers, cools and repairs it"
+        ],
+        [
+          "Paying",
+          "Up front, busy or idle",
+          "Per second of use"
+        ],
+        [
+          "When you stop",
+          "You still own the servers",
+          "Terminate: the charges stop"
+        ]
+      ]
+    }
+  },
+  "check": {
+    "id": "q-cloud-definition-pick",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-cloud-computing-definition",
+      "kc-cloud-vs-on-premises"
+    ],
+    "prompt_md": "Which statement describes cloud computing?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Renting IT resources from a provider over the internet when you need them, paying only for what you use",
+        "correct": true,
+        "why_md": "Right. It has all three parts: on demand, over the internet, pay-as-you-go."
+      },
+      {
+        "id": "b",
+        "md": "Buying your own servers and paying AWS to keep them in its data center",
+        "correct": false,
+        "why_md": "In the cloud you never buy the hardware. AWS owns it and you rent capacity.",
+        "misconception": "mc-cloud-still-buy-hardware"
+      },
+      {
+        "id": "c",
+        "md": "Running your own servers in your own building and reaching them over the internet",
+        "correct": false,
+        "why_md": "That is on premises. Reaching servers over the internet does not make them cloud; who owns them and how you pay does.",
+        "misconception": "mc-cloud-means-internet-access"
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "The exam's wording and its near misses",
+      "md": "AWS defines cloud computing as the on-demand delivery of IT resources over the Internet with pay-as-you-go pricing. Exam distractors often drop one of the three parts: on demand, over the internet, or pay-as-you-go. A definition that mentions buying hardware or a fixed long contract describes on premises, not the cloud."
+    },
+    {
+      "title": "Billing is not always per second",
+      "md": "Per-second billing applies to many server types on Amazon EC2 (AWS's server-renting service), with a 60-second minimum. Other services charge by the hour, by the gigabyte stored or by the request. Pay-as-you-go is the default; AWS also gives discounts if you commit to a set amount of use for one or three years."
+    },
+    {
+      "title": "Short bursts: the arithmetic",
+      "md": "Twenty servers for a 3-day launch is 20 × 72 hours = 1,440 server-hours. Rented, you pay for those 1,440 hours and then nothing. Bought, you pay for 20 servers up front, wait for delivery, and still own them after day 3. Short or unpredictable needs show the difference most clearly."
+    }
+  ],
+  "visual_fit": {
+    "kind": "compare",
+    "why": "The core idea is a contrast on four points (getting, running, paying, stopping), which a side-by-side table shows best."
+  },
+  "glossary": [
+    {
+      "term": "cloud computing",
+      "md": "Renting computing power, storage, databases and other IT resources from a provider over the internet, on demand, with pay-as-you-go pricing."
+    },
+    {
+      "term": "on-demand delivery",
+      "md": "Getting IT resources within minutes of asking for them, instead of ordering hardware and waiting for it to arrive."
+    },
+    {
+      "term": "pay-as-you-go pricing",
+      "md": "Paying only for the resources you actually use, for as long as you use them, with no up-front purchase."
+    },
+    {
+      "term": "on premises",
+      "md": "An organisation buys, houses and maintains its own servers in its own data center."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-cloud-still-buy-hardware",
+      "statement": "In the cloud you still buy the servers; AWS just keeps them in its building.",
+      "tags": [
+        "kc-cloud-vs-on-premises"
+      ]
+    },
+    {
+      "id": "mc-cloud-means-internet-access",
+      "statement": "Any server you reach over the internet counts as cloud computing.",
+      "tags": [
+        "kc-cloud-computing-definition"
+      ]
+    },
+    {
+      "id": "mc-cloud-fixed-fee",
+      "statement": "Cloud resources cost a fixed fee whether you use them or not.",
+      "tags": [
+        "kc-cloud-computing-definition"
+      ]
+    }
+  ],
+  "recap": {
+    "pitfall": "In the cloud you rent capacity from AWS and pay for use; you never buy the hardware."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-cloud-own-hardware",
+      "beat": "b-lesson",
+      "question": "Do I still buy the servers, and AWS just hosts them?",
+      "match": [
+        "buy the servers",
+        "own the hardware",
+        "aws just hosts",
+        "who owns"
+      ],
+      "answer_md": "No. AWS buys, houses and maintains the servers. You rent a share of their capacity while you need it and pay for that use only.",
+      "deeper_md": "Paying a company to keep servers you own in its building is a different arrangement, often called colocation. It is still your hardware, so it is not cloud computing.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Owning versus renting",
+        "md": "On premises: you buy 20 servers, and after the job ends you still own 20 servers. Cloud: you rent 20 servers, and after the job ends you terminate them and own nothing.",
+        "verify": {
+          "id": "q-br-cloud-own-hardware",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-cloud-vs-on-premises"
+          ],
+          "prompt_md": "In the cloud, who owns the physical servers your program runs on?",
+          "options": [
+            {
+              "id": "a",
+              "md": "The cloud provider, such as AWS",
+              "correct": true,
+              "why_md": "Right. The provider owns and runs the hardware; you rent capacity."
+            },
+            {
+              "id": "b",
+              "md": "You, the customer",
+              "correct": false,
+              "why_md": "Owning the servers is on premises. In the cloud you only rent.",
+              "misconception": "mc-cloud-still-buy-hardware"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-cloud-on-demand-meaning",
+      "beat": "b-lesson",
+      "question": "What does on-demand actually change?",
+      "match": [
+        "on-demand mean",
+        "what is on demand",
+        "why on demand",
+        "waiting for servers"
+      ],
+      "answer_md": "The wait. On premises, a new server means ordering, delivery and installation, which can take weeks. In the cloud you ask and get it within minutes.",
+      "deeper_md": "On-demand also works in reverse: when you no longer need a resource, you release it and stop paying straight away.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Weeks versus minutes",
+        "md": "A team needs one more server. On premises: purchase order, delivery, rack it, wire it: weeks. Cloud: open the console, click Launch, server running within minutes.",
+        "verify": {
+          "id": "q-br-cloud-on-demand",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-cloud-computing-definition"
+          ],
+          "prompt_md": "A team waited 6 weeks for a server delivery. What would on-demand delivery change?",
+          "options": [
+            {
+              "id": "a",
+              "md": "They would get a server within minutes of asking",
+              "correct": true,
+              "why_md": "Right. On-demand means capacity arrives when you ask for it."
+            },
+            {
+              "id": "b",
+              "md": "The server would be cheaper to buy",
+              "correct": false,
+              "why_md": "On-demand is about speed of getting resources, and in the cloud you don't buy hardware at all."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-cloud-any-website",
+      "beat": "b-lesson",
+      "question": "Is every website I use running in the cloud?",
+      "match": [
+        "every website",
+        "is the internet the cloud",
+        "any website",
+        "online means cloud"
+      ],
+      "answer_md": "Not necessarily. Cloud computing is about how the servers are supplied: rented from a provider on demand and paid by use. A website can run on its owner's own servers instead.",
+      "deeper_md": "From your browser you cannot tell the difference. Both kinds of server answer over the internet; what differs is who owns the hardware and how it is paid for.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "The internet is the road, not the cloud",
+        "md": "The internet only carries requests. Behind it, a website's servers are either rented from a provider like AWS (cloud) or owned by the organisation (on premises).",
+        "verify": {
+          "id": "q-br-cloud-any-website",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-cloud-computing-definition",
+            "kc-cloud-vs-on-premises"
+          ],
+          "prompt_md": "A bank's website runs on servers the bank owns in its own building. Is that cloud computing?",
+          "options": [
+            {
+              "id": "a",
+              "md": "No, it is on premises",
+              "correct": true,
+              "why_md": "Right. The bank owns and runs the hardware, so it is on premises."
+            },
+            {
+              "id": "b",
+              "md": "Yes, because customers reach it over the internet",
+              "correct": false,
+              "why_md": "Internet access alone does not make it cloud. Nobody rents capacity from a provider here.",
+              "misconception": "mc-cloud-means-internet-access"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-cloud-virtualization",
+      "kind": "mechanism",
+      "title": "How one physical server is shared by many customers",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-cloud-history",
+      "kind": "history",
+      "title": "From owned server rooms to rented capacity: how cloud computing began",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "clf-what-is-cloud-computing",
+  "version": 1,
+  "title": "What cloud computing is",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-cloud-computing-definition",
+      "version": 1,
+      "statement": "Cloud computing is the on-demand delivery of compute, storage, databases and other IT resources over the internet with pay-as-you-go pricing."
+    },
+    {
+      "id": "kc-cloud-vs-on-premises",
+      "version": 1,
+      "statement": "On premises, an organisation buys, houses and maintains its own servers in its own data center; in the cloud, the provider owns and runs the hardware and the customer rents capacity only when it needs it."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-service-models",
+    "clf-six-advantages"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "cloud computing",
+    "on-demand delivery",
+    "pay-as-you-go pricing"
+  ],
+  "uses": [
+    "server",
+    "data center",
+    "internet"
+  ],
+  "problem_ideas": [
+    "A startup needs 20 servers for a 3-day product launch: compare buying them with renting them in the cloud.",
+    "Pick the option that matches the AWS definition of cloud computing from four near-miss definitions (one omits pay-as-you-go, one omits the internet).",
+    "A hospital runs its own server room: list three tasks it stops doing if it moves the workload to AWS.",
+    "Classify six statements as describing on-premises IT or cloud computing.",
+    "A team waited 6 weeks for a server purchase order; explain what on-demand delivery changes.",
+    "Spot the wrong claim: 'In the cloud you still buy the hardware, AWS just hosts it.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "cloud-computing/what-is-cloud-computing"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "cloud-computing/cloud-computing"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "dynamodb/what-is-cloud-computing"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [],
+  "status": "drafted",
+  "provenance": {
+    "origin": "generated",
+    "job": "lesson-clf-what-is-cloud-computing"
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "title": "What cloud computing is",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "What cloud computing is",
+          "kcs": [
+            "kc-cloud-computing-definition",
+            "kc-cloud-vs-on-premises"
+          ],
+          "est_minutes": 5,
+          "blocks": [
+            {
+              "id": "blk-clf-what-is-cloud-computing-01",
+              "block": {
+                "type": "prose",
+                "md": "**Cloud computing** is renting computing power, storage and databases from a provider such as AWS over the internet. You get them within minutes of asking (**on-demand delivery**) and pay only for what you use (**pay-as-you-go pricing**)."
+              }
+            },
+            {
+              "id": "blk-clf-what-is-cloud-computing-02",
+              "block": {
+                "type": "prose",
+                "md": "Renting a server from AWS. A **server** is a computer that runs programs for others over a network. In a browser, you open the AWS Management Console (AWS's website), pick a server size and click **Launch**. Within minutes the server runs in an AWS **data center**, a building full of servers. AWS bills it by the second. Click **Terminate**: the server is released and the charges stop. You never buy any hardware."
+              }
+            },
+            {
+              "id": "blk-clf-what-is-cloud-computing-03",
+              "block": {
+                "type": "prose",
+                "md": "Three parts make the example work.\n\n1. AWS buys servers and runs them in its data centers, with power, cooling, security and repairs.\n2. You ask for capacity over the **internet**, the global network linking computers. AWS hands you some within minutes: on-demand delivery.\n3. A meter counts what you use, and you pay that bill each month: pay-as-you-go pricing.\n\nThe same works for storage, databases and other IT resources.\n\nThe alternative is **on premises**: your organisation buys, houses and maintains its own servers in its own data center. You pay up front, wait for delivery, and own them whether they are busy or idle. In the cloud, AWS owns and runs the hardware, and you rent capacity only when you need it.\n\nA common wrong idea: cloud is your hardware parked in AWS's building. It isn't; you never own the servers."
+              }
+            },
+            {
+              "id": "blk-clf-what-is-cloud-computing-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-cloud-definition-pick",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-cloud-computing-definition",
+                    "kc-cloud-vs-on-premises"
+                  ],
+                  "prompt_md": "Which statement describes cloud computing?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Renting IT resources from a provider over the internet when you need them, paying only for what you use",
+                      "correct": true,
+                      "why_md": "Right. It has all three parts: on demand, over the internet, pay-as-you-go."
+                    },
+                    {
+                      "id": "b",
+                      "md": "Buying your own servers and paying AWS to keep them in its data center",
+                      "correct": false,
+                      "why_md": "In the cloud you never buy the hardware. AWS owns it and you rent capacity.",
+                      "misconception": "mc-cloud-still-buy-hardware"
+                    },
+                    {
+                      "id": "c",
+                      "md": "Running your own servers in your own building and reaching them over the internet",
+                      "correct": false,
+                      "why_md": "That is on premises. Reaching servers over the internet does not make them cloud; who owns them and how you pay does.",
+                      "misconception": "mc-cloud-means-internet-access"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-clf-what-is-cloud-computing-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "The exam's wording and its near misses",
+                "md": "AWS defines cloud computing as the on-demand delivery of IT resources over the Internet with pay-as-you-go pricing. Exam distractors often drop one of the three parts: on demand, over the internet, or pay-as-you-go. A definition that mentions buying hardware or a fixed long contract describes on premises, not the cloud."
+              }
+            },
+            {
+              "id": "blk-clf-what-is-cloud-computing-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Billing is not always per second",
+                "md": "Per-second billing applies to many server types on Amazon EC2 (AWS's server-renting service), with a 60-second minimum. Other services charge by the hour, by the gigabyte stored or by the request. Pay-as-you-go is the default; AWS also gives discounts if you commit to a set amount of use for one or three years."
+              }
+            },
+            {
+              "id": "blk-clf-what-is-cloud-computing-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Short bursts: the arithmetic",
+                "md": "Twenty servers for a 3-day launch is 20 × 72 hours = 1,440 server-hours. Rented, you pay for those 1,440 hours and then nothing. Bought, you pay for 20 servers up front, wait for delivery, and still own them after day 3. Short or unpredictable needs show the difference most clearly."
+              }
+            },
+            {
+              "id": "blk-clf-what-is-cloud-computing-08",
+              "block": {
+                "type": "compare",
+                "title": "On premises vs the cloud",
+                "columns": [
+                  "",
+                  "On premises",
+                  "Cloud (AWS)"
+                ],
+                "rows": [
+                  [
+                    "Getting a server",
+                    "Buy it, wait for delivery",
+                    "Click Launch, running in minutes"
+                  ],
+                  [
+                    "Housing and repairs",
+                    "You house, power, cool and repair it",
+                    "AWS houses, powers, cools and repairs it"
+                  ],
+                  [
+                    "Paying",
+                    "Up front, busy or idle",
+                    "Per second of use"
+                  ],
+                  [
+                    "When you stop",
+                    "You still own the servers",
+                    "Terminate: the charges stop"
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

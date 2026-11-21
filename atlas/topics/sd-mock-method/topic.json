@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-mock-method",
+  "version": 1,
+  "title": "How to run and score a mock interview",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-mock-rubric",
+      "version": 1,
+      "statement": "A mock interview is scored against a fixed rubric: requirements, estimates, API, data model, high-level design, deep dive and bottlenecks. Each area is marked present, partial or missing."
+    },
+    {
+      "id": "kc-mock-full-attempt",
+      "version": 1,
+      "statement": "A mock counts only when one uninterrupted 45-minute attempt produces a submitted answer covering all seven rubric areas; scoring happens afterwards in separate review time, not during the 45 minutes."
+    },
+    {
+      "id": "kc-mock-self-review",
+      "version": 1,
+      "statement": "After each mock, the learner compares their timeline against the 45-minute budget and writes down the one area that overran or was skipped as the target for the next mock."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-timed-walkthrough"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "mock interview",
+    "mock rubric"
+  ],
+  "uses": [
+    "system design interview framework",
+    "interview time budget",
+    "functional requirements",
+    "non-functional requirements",
+    "deep dive",
+    "bottleneck"
+  ],
+  "problem_ideas": [
+    "Score a sample transcript that spent 20 minutes on requirements and never reached bottlenecks.",
+    "Allocate 45 minutes across the seven rubric areas and defend the split.",
+    "Rewrite a vague answer ('we'll add caching') into a rubric-complete statement.",
+    "List three clarifying questions that would change the design of a feed.",
+    "Spot the missing area in a short written answer to 'design Pastebin'.",
+    "A learner paused at minute 20 to look up a formula. Decide whether the attempt counts and what to change next time.",
+    "Pick the next practice target from three past rubric sheets."
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "how-to-approach-a-system-design-intervie/how-to-approach-a-system-design-intervie"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "how-to-answer-a-system-design-interview-/how-to-answer-a-system-design-interview-"
+    }
+  ],
+  "status": "stub"
+}

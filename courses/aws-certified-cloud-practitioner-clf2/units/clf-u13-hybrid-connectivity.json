@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u13-hybrid-connectivity",
+  "title": "Connecting networks: VPN, Direct Connect, Transit Gateway",
+  "topics": [
+    {
+      "id": "clf-site-to-site-vpn",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-direct-connect",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-transit-gateway",
+      "tier": "must",
+      "order": 3
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-replication-lag",
+  "version": 1,
+  "title": "Replication lag and read-your-writes",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-replication-lag",
+      "version": 1,
+      "statement": "Replication lag is the delay between a write committing on the leader and appearing on a follower, so a read served by a follower can return stale data."
+    },
+    {
+      "id": "kc-read-your-writes",
+      "version": 1,
+      "statement": "To give a user read-your-writes, route that user's reads to the leader for a short window after they write, or until the follower has applied that write."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-sync-async-replication"
+  ],
+  "suggests": [
+    "sd-cache-invalidation-ttl"
+  ],
+  "confusable_with": [
+    "sd-sync-async-replication"
+  ],
+  "introduces": [
+    "replication lag",
+    "read-your-writes"
+  ],
+  "uses": [
+    "asynchronous replication",
+    "read replica",
+    "stale data"
+  ],
+  "problem_ideas": [
+    "A user edits their bio and refreshes 300 ms later; lag is 1 s: predict what they see and fix it",
+    "Lag spikes to 30 s during a batch import: list which features break",
+    "Design a rule that routes reads to the leader for 5 seconds after a write; estimate the extra leader load",
+    "A user sees a comment, refreshes, and it disappears: explain with two replicas at different lag",
+    "Pick which reads in a banking app must never go to a follower",
+    "Lag is 200 ms on average and 4 s at p99: decide whether a cache in front changes the staleness story"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "master-slave-replication/disadvantages"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "database/master-slave-replication"
+    }
+  ],
+  "status": "stub"
+}

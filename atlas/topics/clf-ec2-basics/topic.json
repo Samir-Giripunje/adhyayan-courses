@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-ec2-basics",
+  "version": 1,
+  "title": "Amazon EC2: virtual servers you rent",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-ec2-virtual-server",
+      "version": 1,
+      "statement": "Amazon EC2 provides resizable virtual servers (instances) in an Availability Zone, where you choose the operating system, instance type, storage and network settings. It is AWS's core IaaS compute service."
+    },
+    {
+      "id": "kc-ec2-billing-per-second",
+      "version": 1,
+      "statement": "On-Demand EC2 instances running Linux or Windows are billed per second, with a 60-second minimum. A stopped instance stops incurring compute charges, but its attached storage volumes are still billed."
+    },
+    {
+      "id": "kc-ec2-customer-responsibility",
+      "version": 1,
+      "statement": "On EC2 the customer patches the guest operating system and installed software, configures instance firewall rules, protects data and grants the instance permissions through an IAM role. AWS secures the physical hosts, network and hypervisor."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-shared-responsibility-by-service"
+  ],
+  "confusable_with": [
+    "clf-lambda"
+  ],
+  "introduces": [
+    "ec2",
+    "ec2 instance"
+  ],
+  "uses": [
+    "iaas",
+    "availability zone",
+    "region",
+    "shared responsibility model",
+    "iam role"
+  ],
+  "problem_ideas": [
+    "A startup runs a web app for 3 hours and 20 minutes on one On-Demand Linux instance: how many seconds are billed, and what if it ran only 40 seconds?",
+    "Sort six tasks (patch the kernel, replace a failed disk in the data center, rotate the app's database password, update the hypervisor, open port 443, encrypt data on the volume) into AWS versus customer for EC2.",
+    "A team stops its dev instances every night yet the bill is not zero: name the line item that keeps charging.",
+    "An app on EC2 must read from S3 without storing access keys on the server: what should the instance use?",
+    "A legacy app needs a specific Windows Server build and registry tweaks: which service model and service fit, and why not a managed platform?",
+    "A distractor says 'AWS patches the OS on your EC2 instances': explain in one sentence why that is false."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "ec2-virtual-machines/what-is-amazon-ec2"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "ec2/ec2"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-3-identify-aws-compute-/aws-compute-services"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "ec2-virtual-machines/shared-responsibility-model-for-ec2"
+    }
+  ],
+  "status": "stub"
+}

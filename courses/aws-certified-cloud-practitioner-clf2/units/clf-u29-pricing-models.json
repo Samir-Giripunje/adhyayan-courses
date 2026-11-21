@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u29-pricing-models",
+  "title": "Compute pricing models",
+  "topics": [
+    {
+      "id": "clf-pricing-fundamentals",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-on-demand-reserved",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-savings-plans",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-spot-instances",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-dedicated-hosts",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-choosing-purchase-option",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

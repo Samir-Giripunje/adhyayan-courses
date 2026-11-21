@@ -1,0 +1,82 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-security-resources",
+  "version": 1,
+  "title": "Security help: docs, Marketplace, abuse, Access Analyzer",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-security-documentation",
+      "version": 1,
+      "statement": "AWS publishes security guidance in the AWS Security Center, the AWS Security Blog, the AWS Knowledge Center, security best-practice whitepapers and the security chapter of each service's documentation. The Well-Architected security pillar sets out the design principles."
+    },
+    {
+      "id": "kc-third-party-security-products",
+      "version": 1,
+      "statement": "Third-party security products such as firewalls, endpoint protection and SIEM tools can be bought and deployed from AWS Marketplace and billed through the AWS account."
+    },
+    {
+      "id": "kc-aws-abuse-reporting",
+      "version": 1,
+      "statement": "Suspected abuse coming from AWS resources (spam, port scanning, DDoS, malware hosting) is reported to the AWS Trust & Safety team through the abuse report form or abuse@amazonaws.com."
+    },
+    {
+      "id": "kc-iam-access-analyzer",
+      "version": 1,
+      "statement": "IAM Access Analyzer finds resources, such as S3 buckets, IAM roles and KMS keys, that are shared with principals outside your account or organization, and helps tighten permissions toward least privilege."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-least-privilege"
+  ],
+  "suggests": [
+    "clf-wa-pillars-ops-security-reliability"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "security documentation",
+    "third-party security products",
+    "aws abuse reporting",
+    "iam access analyzer"
+  ],
+  "uses": [
+    "security pillar",
+    "least privilege",
+    "s3 bucket",
+    "kms",
+    "aws organizations"
+  ],
+  "problem_ideas": [
+    "A company wants to run the same Palo Alto firewall it uses on premises. Where does it find and buy it?",
+    "Your web server is receiving spam from an IP address owned by AWS. Who do you report it to, and how?",
+    "An S3 bucket policy grants access to an unknown external account ID. Which tool surfaces this?",
+    "A new cloud engineer asks where to read AWS security best practices. List three AWS-provided sources.",
+    "Pick the right resource: 'buy a third-party SIEM', 'read about encrypting RDS', 'report a phishing site hosted on EC2'.",
+    "An IAM role trusts an account outside the organization. Which tool flags it as external access?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-4-identify-components-a/security-capabilities-that-aws-provides"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-4-identify-components-a/security-related-documentation-that-aws-"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-4-identify-components-a/understanding-that-third-party-security-"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/aws-abuse"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/iam-access-analyzer"
+    }
+  ],
+  "status": "stub"
+}

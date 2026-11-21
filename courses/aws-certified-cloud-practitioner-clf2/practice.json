@@ -1,0 +1,811 @@
+{
+  "schema": "adhy.practice/1",
+  "course": "aws-certified-cloud-practitioner-clf2",
+  "profile": "none",
+  "why": "An exam syllabus: exam-style questions and timed papers are the practice that pays, so no hands-on tasks unless you ask for them.",
+  "by": "auto",
+  "fits": {
+    "clf-what-is-cloud-computing": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-service-models": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-deployment-models": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-vertical-horizontal-scaling": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-elasticity-agility": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-high-availability": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-fixed-vs-variable-costs": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-tco-on-premises-costs": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-economies-of-scale-automation": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-rightsizing": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-six-advantages": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-well-architected-framework": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-wa-pillars-ops-security-reliability": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-wa-pillars-performance-cost-sustainability": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-cloud-adoption-framework": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-migration-strategies": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-regions": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-availability-zones": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-multi-az-multi-region": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-edge-locations": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-local-zones-wavelength-outposts": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-global-infra-placement": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-shared-responsibility-model": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-shared-responsibility-by-service": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-shared-controls": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-aws-account-root-user": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-protect-root-mfa": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-iam-users-groups": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-iam-policies": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-iam-roles": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-least-privilege": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-access-methods": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-ec2-basics": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-ec2-instance-types": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-elastic-load-balancing": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-auto-scaling-groups": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-containers": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-ecs-eks": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-lambda": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-fargate-ecr": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-batch-lightsail": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-choosing-compute": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-storage-types": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-ebs": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-instance-store": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-efs-fsx": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-s3-basics": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-s3-storage-classes": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-s3-lifecycle": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-storage-gateway": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-aws-backup": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-choosing-storage": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-vpc-subnets": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-internet-nat-gateways": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-security-groups-nacls": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-vpc-peering-endpoints": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-site-to-site-vpn": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-direct-connect": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-transit-gateway": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-route53": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-cloudfront": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-global-accelerator": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-relational-vs-nosql": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-managed-vs-self-managed-db": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-rds": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-aurora": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-dynamodb": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-elasticache": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-documentdb-neptune": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-choosing-database": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-organizations": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-service-control-policies": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-identity-federation": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-iam-identity-center": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-encryption-rest-transit": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-kms": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-shield-ddos": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-waf": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-cloudtrail": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-aws-config": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-guardduty": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-inspector-macie": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-security-hub-detective": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-compliance-programs": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-aws-artifact": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-security-resources": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-choosing-security-service": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-one-time-vs-repeatable": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-cloudformation": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-elastic-beanstalk": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-ci-cd-pipeline": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-choosing-deployment-method": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-cloudwatch-metrics-logs": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-cloudwatch-alarms": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-x-ray": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-health-dashboard": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-systems-manager": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-monitoring-vs-auditing": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-elastic-disaster-recovery": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-trusted-advisor": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-service-quotas": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-license-manager": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-well-architected-tool": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-control-tower": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-service-catalog": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-loose-coupling": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-sqs": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-sns": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-eventbridge": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-step-functions-mq": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-ses": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-choosing-messaging": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-kinesis": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-athena-glue": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-redshift-emr": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-quicksight-opensearch": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-choosing-analytics": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-ai-language-speech": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-ai-vision-documents": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-sagemaker": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-generative-ai-q-bedrock": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-dms-sct": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-migration-discovery-mgn": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-snow-family": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-datasync-transfer-choice": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-amazon-connect": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-workspaces-appstream": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-amplify-iot": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-pricing-fundamentals": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-on-demand-reserved": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-savings-plans": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-spot-instances": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-dedicated-hosts": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-choosing-purchase-option": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-storage-pricing": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-data-transfer-costs": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-consolidated-billing": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-cost-allocation-tags": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-pricing-calculator": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-aws-budgets": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-cost-explorer-cur": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-choosing-cost-tool": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-support-plans": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-legacy-support-plans": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-tam-support-center": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-marketplace-partner-network": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-technical-resources": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-choosing-support-option": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-exam-format-scoring": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-question-keywords-distractors": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-service-verb-lens": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-timed-mock-pacing": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-domain1-practice": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-domain2-practice": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-domain3-practice": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-domain4-practice": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-mock-exam-1": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-mock-exam-review": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    },
+    "clf-mock-exam-2": {
+      "fit": "none",
+      "why": "an exam syllabus lesson: exam-style questions fit better",
+      "by": "guess"
+    }
+  },
+  "tasks": [],
+  "minutes": {
+    "course": 2965,
+    "cap": 444,
+    "used": 0
+  },
+  "updated": "2026-11-20"
+}

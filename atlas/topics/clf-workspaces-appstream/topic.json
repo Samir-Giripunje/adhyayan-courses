@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-workspaces-appstream",
+  "version": 1,
+  "title": "WorkSpaces, AppStream 2.0 and Secure Browser",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-workspaces-vdi",
+      "version": 1,
+      "statement": "Amazon WorkSpaces provides managed, persistent virtual desktops (Windows or Linux) that users reach from almost any device, replacing on-premises virtual desktop infrastructure."
+    },
+    {
+      "id": "kc-appstream",
+      "version": 1,
+      "statement": "Amazon AppStream 2.0 streams individual desktop applications to a web browser without giving each user a full desktop."
+    },
+    {
+      "id": "kc-secure-browser",
+      "version": 1,
+      "statement": "Amazon WorkSpaces Secure Browser gives workers access to internal websites and SaaS apps through a secure browser session, without data being stored on their devices."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [],
+  "confusable_with": [
+    "clf-amplify-iot"
+  ],
+  "introduces": [
+    "workspaces",
+    "appstream",
+    "virtual desktop",
+    "workspaces secure browser"
+  ],
+  "uses": [],
+  "problem_ideas": [
+    "200 contractors need a full Windows desktop for 3 months from their own laptops: which service?",
+    "Students need one CAD application in a browser, not a desktop: which service?",
+    "Call-centre staff should reach an internal web portal with no files left on their devices: which service?",
+    "Spot the distractor: 'AppStream 2.0 provides persistent desktops with a user's own files.'",
+    "A company is closing an office and wants desktops without shipping hardware: justify WorkSpaces.",
+    "Classify five end-user needs as WorkSpaces, AppStream 2.0 or Secure Browser."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-8-identify-services-fro/end-user-computing-services-of-amazon-ap"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "end-user-computing/amazon-workspaces-secure-browser"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-aws-services/amazon-workspaces"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-aws-services/amazon-appstream-2-0"
+    }
+  ],
+  "status": "stub"
+}

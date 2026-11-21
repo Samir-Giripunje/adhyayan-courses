@@ -1,0 +1,221 @@
+{
+  "schema": "adhy.lab/1",
+  "exercises": [
+    {
+      "id": "ex-private-or-public",
+      "title": "Worked: is this address private?",
+      "stage": "worked",
+      "difficulty": 1,
+      "kcs": [
+        "kc-public-private-ip"
+      ],
+      "est_minutes": 5,
+      "brief_md": "Stubwhistle's app servers use private addresses such as `10.0.1.11`. The us-east edge proxy uses the public address `203.0.113.10`. The fan's laptop is at `192.168.1.23`.\n\n`is_private(ip)` takes a dotted IPv4 string. It returns `True` when the address is in one of the three private ranges and `False` otherwise:\n\n| range | covers |\n|---|---|\n| `10.0.0.0/8` | `10.x.x.x` |\n| `172.16.0.0/12` | `172.16.x.x` to `172.31.x.x` |\n| `192.168.0.0/16` | `192.168.x.x` |\n\nThe function works for two of the ranges. **Make one change:** add the `172.16.0.0/12` check so that `172.20.5.4` counts as private and `172.32.0.1` does not.",
+      "starter": "def is_private(ip):\n    a, b, c, d = (int(part) for part in ip.split(\".\"))\n    if a == 10:                 # 10.0.0.0/8\n        return True\n    if a == 192 and b == 168:   # 192.168.0.0/16\n        return True\n    # TODO: add the 172.16.0.0/12 range (172.16.x.x to 172.31.x.x)\n    return False\n",
+      "solution": "def is_private(ip):\n    a, b, c, d = (int(part) for part in ip.split(\".\"))\n    if a == 10:                 # 10.0.0.0/8\n        return True\n    if a == 192 and b == 168:   # 192.168.0.0/16\n        return True\n    if a == 172 and 16 <= b <= 31:  # 172.16.0.0/12\n        return True\n    return False\n",
+      "solution_walkthrough_md": "1. The function splits the address into four octets `a.b.c.d`.\n2. `10.0.0.0/8` fixes only the first 8 bits, so checking `a == 10` is enough.\n3. `192.168.0.0/16` fixes the first 16 bits, so it checks `a == 192 and b == 168`.\n4. `172.16.0.0/12` fixes the first 12 bits: the first octet is 172, and the top 4 bits of the second octet are `0001`. That makes the second octet anything from 16 (`00010000`) to 31 (`00011111`). The new check is `a == 172 and 16 <= b <= 31`.\n5. Any other address is public. Public addresses, such as the proxy's `203.0.113.10`, are routable on the internet. Private ones need NAT to reach it. That is why the fan cannot send packets straight to `10.0.1.11`.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "Stubwhistle addresses classified",
+          "code": "assert is_private(\"10.0.1.11\") is True\nassert is_private(\"192.168.1.23\") is True\nassert is_private(\"203.0.113.10\") is False\nassert is_private(\"198.51.100.20\") is False",
+          "fail_md": "The 10.x and 192.168.x addresses are private. The edge proxy addresses are public."
+        },
+        {
+          "id": "t2",
+          "name": "172.16.0.0/12 is private",
+          "code": "assert is_private(\"172.20.5.4\") is True\nassert is_private(\"172.16.0.1\") is True\nassert is_private(\"172.31.255.255\") is True",
+          "fail_md": "Every address from 172.16.x.x to 172.31.x.x is private. Add the 172.16.0.0/12 check."
+        },
+        {
+          "id": "t3",
+          "name": "Just outside 172.16.0.0/12",
+          "code": "assert is_private(\"172.32.0.1\") is False\nassert is_private(\"172.15.255.255\") is False",
+          "fail_md": "The range covers only second octets 16 to 31. 172.15.x.x and 172.32.x.x are public.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "The /12 range fixes the first octet (172) and part of the second one. Work out which values of the second octet fall inside it.",
+        "Add `if a == 172 and 16 <= b <= 31: return True` before the final `return False`."
+      ]
+    },
+    {
+      "id": "ex-dns-ttl-cache",
+      "title": "Faded: a DNS cache with a TTL clock",
+      "stage": "faded",
+      "difficulty": 2,
+      "kcs": [
+        "kc-dns-caching",
+        "kc-dns-resolution"
+      ],
+      "est_minutes": 10,
+      "brief_md": "A resolver caches DNS answers for the record's TTL. Stubwhistle's A records have a 300-second TTL. Here the cache is a dict `name -> (ip, expires_at)`, and time is a number of seconds that you pass in as `now`. There is no real clock.\n\n- `cache_put(cache, name, ip, ttl, now)` is done. It stores the IP with `expires_at = now + ttl`.\n- `cache_get(cache, name, now)` returns the cached IP while `now < expires_at`. When `now >= expires_at` the entry has expired: **delete it** and return `None`. A missing name also returns `None`.\n- `resolve(cache, name, now, authoritative, ttl=300)` tries the cache first. On a miss it reads the IP from the dict `authoritative`, caches it with `ttl`, and returns it.\n\nFill in the two `TODO`s. The tests show why a fan can keep reaching an old IP for up to the TTL after Stubwhistle moves eu-west.",
+      "starter": "def cache_put(cache, name, ip, ttl, now):\n    cache[name] = (ip, now + ttl)\n\n\ndef cache_get(cache, name, now):\n    if name not in cache:\n        return None\n    ip, expires_at = cache[name]\n    # TODO: if the entry has expired (now >= expires_at), delete it and return None\n    return ip\n\n\ndef resolve(cache, name, now, authoritative, ttl=300):\n    ip = cache_get(cache, name, now)\n    if ip is not None:\n        return ip\n    # TODO: on a miss, read the IP from `authoritative`, cache it with `ttl`, return it\n    return None\n",
+      "solution": "def cache_put(cache, name, ip, ttl, now):\n    cache[name] = (ip, now + ttl)\n\n\ndef cache_get(cache, name, now):\n    if name not in cache:\n        return None\n    ip, expires_at = cache[name]\n    if now >= expires_at:\n        del cache[name]\n        return None\n    return ip\n\n\ndef resolve(cache, name, now, authoritative, ttl=300):\n    ip = cache_get(cache, name, now)\n    if ip is not None:\n        return ip\n    ip = authoritative[name]\n    cache_put(cache, name, ip, ttl, now)\n    return ip\n",
+      "solution_walkthrough_md": "1. **Expiry.** Each entry stores `expires_at = now + ttl`. In `cache_get`, if `now >= expires_at`, delete the entry and return `None`. Otherwise return the cached IP.\n2. **Miss path.** If `cache_get` returns `None`, `resolve` asks the authoritative data (`authoritative[name]`), stores the answer with `cache_put` and returns it.\n3. **The consequence.** At t=0 the cache stores `198.51.100.20` until t=300. If Stubwhistle changes the record at t=100, a lookup at t=100 still hits the cache and returns the old IP. Only at t=300 does the entry expire, so the next lookup fetches the new IP. A changed record can therefore take up to one TTL to reach a user, and longer when browser, operating-system and resolver caches are stacked.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "Entry fresh before TTL, expired at TTL",
+          "code": "c = {}\ncache_put(c, \"www.stubwhistle.example\", \"198.51.100.20\", 300, 0)\nassert cache_get(c, \"www.stubwhistle.example\", 299) == \"198.51.100.20\"\nassert cache_get(c, \"www.stubwhistle.example\", 300) is None",
+          "fail_md": "An entry stored at t=0 with TTL 300 is fresh at t=299 and expired at t=300."
+        },
+        {
+          "id": "t2",
+          "name": "Old IP served until the TTL runs out",
+          "code": "auth = {\"www.stubwhistle.example\": \"198.51.100.20\"}\nc = {}\nassert resolve(c, \"www.stubwhistle.example\", 0, auth) == \"198.51.100.20\"\nauth[\"www.stubwhistle.example\"] = \"198.51.100.99\"\nassert resolve(c, \"www.stubwhistle.example\", 100, auth) == \"198.51.100.20\"\nassert resolve(c, \"www.stubwhistle.example\", 300, auth) == \"198.51.100.99\"",
+          "fail_md": "On a miss, `resolve` must fetch from `authoritative` and cache the answer. Before the TTL runs out it must keep serving the cached IP, even after the record changes."
+        },
+        {
+          "id": "t3",
+          "name": "Expired entries are removed",
+          "code": "c = {}\ncache_put(c, \"static.stubwhistle.example\", \"192.0.2.50\", 60, 10)\nassert cache_get(c, \"static.stubwhistle.example\", 70) is None\nassert \"static.stubwhistle.example\" not in c\nassert cache_get(c, \"nope.stubwhistle.example\", 0) is None",
+          "fail_md": "When an entry has expired, delete it from the dict. A name that was never cached returns None.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "Compare `now` with the stored `expires_at`. Expired means `now >= expires_at`.",
+        "In `cache_get`: `if now >= expires_at: del cache[name]; return None`. In `resolve`: `ip = authoritative[name]`, then `cache_put(cache, name, ip, ttl, now)`, then `return ip`."
+      ]
+    },
+    {
+      "id": "ex-follow-cname",
+      "title": "Scratch: answer a DNS query, following CNAMEs",
+      "stage": "scratch",
+      "difficulty": 3,
+      "kcs": [
+        "kc-dns-records"
+      ],
+      "est_minutes": 15,
+      "brief_md": "Model Stubwhistle's DNS data as a zone dict: `name -> {record_type: value}`. For example:\n\n```python\nZONE = {\n    \"www.stubwhistle.example\": {\"A\": \"203.0.113.10\", \"AAAA\": \"2001:db8::10\"},\n    \"static.stubwhistle.example\": {\"CNAME\": \"stubwhistle.cdn.example\"},\n    \"stubwhistle.cdn.example\": {\"A\": \"192.0.2.50\"},\n}\n```\n\nWrite `resolve_records(zone, name, rtype)`. It returns the list of records in the answer, as `(name, type, value)` tuples:\n\n1. If `name` has a record of type `rtype`, append it and return the list.\n2. Otherwise, if `name` has a `CNAME`, append the CNAME record and continue with its target name.\n3. Otherwise return the list you have so far. It may be empty.\n4. Follow at most 8 names. If the chain is longer than that (for example a CNAME loop), raise `ValueError`.\n\nExample: `resolve_records(ZONE, \"static.stubwhistle.example\", \"A\")` returns `[(\"static.stubwhistle.example\", \"CNAME\", \"stubwhistle.cdn.example\"), (\"stubwhistle.cdn.example\", \"A\", \"192.0.2.50\")]`.",
+      "starter": "def resolve_records(zone, name, rtype):\n    # your code here\n    return []\n",
+      "solution": "def resolve_records(zone, name, rtype, max_hops=8):\n    answer = []\n    for _ in range(max_hops):\n        records = zone.get(name, {})\n        if rtype in records:\n            answer.append((name, rtype, records[rtype]))\n            return answer\n        if \"CNAME\" in records:\n            target = records[\"CNAME\"]\n            answer.append((name, \"CNAME\", target))\n            name = target\n            continue\n        return answer\n    raise ValueError(\"CNAME chain too long\")\n",
+      "solution_walkthrough_md": "1. Start with an empty `answer` list and loop at most 8 times.\n2. Look up the current name's records. Use `zone.get(name, {})` so that an unknown name gives no records instead of raising an error.\n3. If the record type you were asked for is there, append it and stop. An A record gives an IPv4 address and an AAAA record gives an IPv6 address.\n4. If there is a CNAME instead, the name is an alias. Append the CNAME and query again with the target name. This is how `static.stubwhistle.example` reaches the CDN's A record.\n5. If neither is there, return what you have. For `www.stubwhistle.example` with type `MX` that is an empty list.\n6. If the loop runs out, the chain is too long or loops back on itself, so raise `ValueError`.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "A and AAAA for www",
+          "code": "Z = {\"www.stubwhistle.example\": {\"A\": \"203.0.113.10\", \"AAAA\": \"2001:db8::10\"}, \"static.stubwhistle.example\": {\"CNAME\": \"stubwhistle.cdn.example\"}, \"stubwhistle.cdn.example\": {\"A\": \"192.0.2.50\"}}\nassert resolve_records(Z, \"www.stubwhistle.example\", \"A\") == [(\"www.stubwhistle.example\", \"A\", \"203.0.113.10\")]\nassert resolve_records(Z, \"www.stubwhistle.example\", \"AAAA\") == [(\"www.stubwhistle.example\", \"AAAA\", \"2001:db8::10\")]",
+          "fail_md": "When the name has the requested type, return a one-element list holding that record."
+        },
+        {
+          "id": "t2",
+          "name": "CNAME is followed to the CDN",
+          "code": "Z = {\"www.stubwhistle.example\": {\"A\": \"203.0.113.10\"}, \"static.stubwhistle.example\": {\"CNAME\": \"stubwhistle.cdn.example\"}, \"stubwhistle.cdn.example\": {\"A\": \"192.0.2.50\"}}\nassert resolve_records(Z, \"static.stubwhistle.example\", \"A\") == [(\"static.stubwhistle.example\", \"CNAME\", \"stubwhistle.cdn.example\"), (\"stubwhistle.cdn.example\", \"A\", \"192.0.2.50\")]\nassert resolve_records(Z, \"static.stubwhistle.example\", \"CNAME\") == [(\"static.stubwhistle.example\", \"CNAME\", \"stubwhistle.cdn.example\")]",
+          "fail_md": "A CNAME names another name. Record it, then repeat the query with the target name."
+        },
+        {
+          "id": "t3",
+          "name": "No matching record gives an empty answer",
+          "code": "Z = {\"www.stubwhistle.example\": {\"A\": \"203.0.113.10\"}}\nassert resolve_records(Z, \"www.stubwhistle.example\", \"MX\") == []\nassert resolve_records(Z, \"missing.stubwhistle.example\", \"A\") == []",
+          "fail_md": "An unknown name, or a name without the requested type and without a CNAME, returns []. It must not raise an error.",
+          "hidden": true
+        },
+        {
+          "id": "t4",
+          "name": "CNAME loop raises ValueError",
+          "code": "Z = {\"a.example\": {\"CNAME\": \"b.example\"}, \"b.example\": {\"CNAME\": \"a.example\"}}\ntry:\n    resolve_records(Z, \"a.example\", \"A\")\n    raised = False\nexcept ValueError:\n    raised = True\nassert raised",
+          "fail_md": "Limit the chain to 8 names and raise ValueError when it is longer.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "Loop with a hop counter. On each pass check the requested type first, then CNAME.",
+        "`records = zone.get(name, {})`. If `rtype in records`, append and return. Elif `\"CNAME\" in records`, append `(name, \"CNAME\", target)` and set `name = target`. Else return. After the loop, `raise ValueError`."
+      ]
+    },
+    {
+      "id": "ex-safe-retry",
+      "title": "Debug: when is it safe to retry?",
+      "stage": "debug",
+      "difficulty": 2,
+      "kcs": [
+        "kc-http-methods",
+        "kc-http-status-codes"
+      ],
+      "est_minutes": 10,
+      "brief_md": "Stubwhistle's client library retries a failed request automatically, but only when **both** conditions hold:\n\n- the status is temporary: `429` (too many requests) or `503` (service unavailable), and\n- the method is idempotent: `GET`, `PUT` or `DELETE`. Repeating these has the same effect as sending them once.\n\n`POST /orders` is not idempotent. Retrying it can create a second order and charge the fan twice. A `401` means the session has expired, so retrying will not help. Methods arrive in upper case.\n\n`should_retry(method, status)` has **two bugs**. Find and fix them.",
+      "starter": "IDEMPOTENT = {\"GET\", \"PUT\", \"DELETE\", \"POST\"}\n\n\ndef should_retry(method, status):\n    \"\"\"Retry only temporary failures (429, 503) for idempotent methods.\"\"\"\n    if method in IDEMPOTENT and status >= 400:\n        return True\n    return False\n",
+      "solution": "IDEMPOTENT = {\"GET\", \"PUT\", \"DELETE\"}\nRETRYABLE = {429, 503}\n\n\ndef should_retry(method, status):\n    \"\"\"Retry only temporary failures (429, 503) for idempotent methods.\"\"\"\n    if method in IDEMPOTENT and status in RETRYABLE:\n        return True\n    return False\n",
+      "solution_walkthrough_md": "1. **Bug 1: POST is not idempotent.** Each POST to `/orders` creates a new order, so a retry after a lost response can double-charge the fan. Remove `\"POST\"` from `IDEMPOTENT`.\n2. **Bug 2: `status >= 400` is too broad.** It retries every 4xx and 5xx code, including `401` (expired session, so log in again) and `404` (no such resource). Neither will change if you resend. Retry only the temporary codes `429` and `503`.\n3. Codes such as `200`, `201` and `301` are not failures, so they never trigger a retry.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "Idempotent methods retry 503 and 429",
+          "code": "assert should_retry(\"GET\", 503) is True\nassert should_retry(\"DELETE\", 429) is True\nassert should_retry(\"PUT\", 503) is True",
+          "fail_md": "GET, PUT and DELETE should be retried on 429 and 503."
+        },
+        {
+          "id": "t2",
+          "name": "POST is never retried",
+          "code": "assert should_retry(\"POST\", 503) is False\nassert should_retry(\"POST\", 429) is False",
+          "fail_md": "POST is not idempotent. Retrying a purchase risks a double charge."
+        },
+        {
+          "id": "t3",
+          "name": "Non-temporary codes are not retried",
+          "code": "assert should_retry(\"GET\", 401) is False\nassert should_retry(\"GET\", 404) is False\nassert should_retry(\"GET\", 500) is False\nassert should_retry(\"GET\", 200) is False\nassert should_retry(\"GET\", 301) is False",
+          "fail_md": "Only 429 and 503 count as temporary here. An expired session (401) will not fix itself if you resend the request."
+        }
+      ],
+      "hints": [
+        "Check each condition separately against the brief: which methods are idempotent, and which status codes are temporary?",
+        "Use `IDEMPOTENT = {\"GET\", \"PUT\", \"DELETE\"}` and replace `status >= 400` with `status in (429, 503)`."
+      ]
+    },
+    {
+      "id": "ex-trace-request",
+      "title": "Build: trace one Stubwhistle request",
+      "stage": "build",
+      "difficulty": 4,
+      "kcs": [
+        "kc-public-private-ip",
+        "kc-dns-routing",
+        "kc-tcp-reliable",
+        "kc-tls-termination",
+        "kc-http-request-response",
+        "kc-http-methods",
+        "kc-http-status-codes"
+      ],
+      "est_minutes": 25,
+      "brief_md": "This is the capstone reduced to one function. Write `trace_request(method, url, client_ip, continent)`. It returns a dict that describes one request to Stubwhistle:\n\n| key | value |\n|---|---|\n| `\"host\"` | the host name in the URL, e.g. `\"www.stubwhistle.example\"` |\n| `\"path\"` | the URL path, or `\"/\"` if it is empty |\n| `\"port\"` | `443` for `https`, `80` for `http` (URLs never include an explicit port) |\n| `\"transport\"` | `\"TCP\"` (the page is HTTP/1.1 or HTTP/2) |\n| `\"tls\"` | `True` for `https`, else `False` |\n| `\"region\"` | geolocation DNS: `\"eu-west\"` if `continent == \"EU\"`, else `\"us-east\"` |\n| `\"server_ip\"` | the edge proxy's IPv4 for that region, from `REGION_IPS` |\n| `\"client_is_private\"` | `True` if `client_ip` is in 10.0.0.0/8, 172.16.0.0/12 or 192.168.0.0/16. Such a client reaches the proxy through NAT |\n| `\"request_line\"` | `\"<METHOD> <path> HTTP/1.1\"` |\n| `\"idempotent\"` | `True` for GET, PUT, DELETE; `False` otherwise |\n| `\"expected_status\"` | `201` for `POST` (creates an order), `200` otherwise |\n\nYou may use `urllib.parse` from the standard library.",
+      "starter": "REGION_IPS = {\"us-east\": \"203.0.113.10\", \"eu-west\": \"198.51.100.20\"}\n\n\ndef trace_request(method, url, client_ip, continent):\n    # Build and return the trace dict described in the brief.\n    return {}\n",
+      "solution": "from urllib.parse import urlsplit\n\nREGION_IPS = {\"us-east\": \"203.0.113.10\", \"eu-west\": \"198.51.100.20\"}\nIDEMPOTENT = {\"GET\", \"PUT\", \"DELETE\"}\n\n\ndef is_private(ip):\n    a, b = (int(x) for x in ip.split(\".\")[:2])\n    return a == 10 or (a == 172 and 16 <= b <= 31) or (a == 192 and b == 168)\n\n\ndef trace_request(method, url, client_ip, continent):\n    parts = urlsplit(url)\n    path = parts.path or \"/\"\n    https = parts.scheme == \"https\"\n    region = \"eu-west\" if continent == \"EU\" else \"us-east\"\n    return {\n        \"host\": parts.hostname,\n        \"path\": path,\n        \"port\": 443 if https else 80,\n        \"transport\": \"TCP\",\n        \"tls\": https,\n        \"region\": region,\n        \"server_ip\": REGION_IPS[region],\n        \"client_is_private\": is_private(client_ip),\n        \"request_line\": f\"{method} {path} HTTP/1.1\",\n        \"idempotent\": method in IDEMPOTENT,\n        \"expected_status\": 201 if method == \"POST\" else 200,\n    }\n",
+      "solution_walkthrough_md": "1. **Parse the URL** with `urlsplit`. It gives the scheme (`https`), the host (`www.stubwhistle.example`) and the path (`/events/42`). An empty path becomes `/`.\n2. **Transport and TLS.** HTTPS uses port 443 and HTTP uses port 80. Both run over TCP, which opens with the SYN, SYN-ACK, ACK handshake. With HTTPS, TLS runs on top of TCP, and the edge proxy terminates it.\n3. **DNS routing.** Stubwhistle's authoritative DNS routes by geolocation. A fan in Berlin (`EU`) gets eu-west at `198.51.100.20`; everyone else gets us-east at `203.0.113.10`.\n4. **Addresses.** `192.168.1.23` is private, so the fan's home router applies NAT before the packet reaches the internet. The proxy addresses are public.\n5. **HTTP.** The request line is the method, the path and the version: `GET /events/42 HTTP/1.1`. GET is idempotent and returns 200. `POST /orders` is not idempotent and returns 201 Created, so blindly retrying it risks a second order.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "Berlin fan loads the event page",
+          "code": "t = trace_request(\"GET\", \"https://www.stubwhistle.example/events/42\", \"192.168.1.23\", \"EU\")\nassert t[\"host\"] == \"www.stubwhistle.example\"\nassert t[\"path\"] == \"/events/42\"\nassert t[\"port\"] == 443\nassert t[\"transport\"] == \"TCP\"\nassert t[\"tls\"] is True\nassert t[\"region\"] == \"eu-west\"\nassert t[\"server_ip\"] == \"198.51.100.20\"\nassert t[\"client_is_private\"] is True\nassert t[\"request_line\"] == \"GET /events/42 HTTP/1.1\"\nassert t[\"idempotent\"] is True\nassert t[\"expected_status\"] == 200",
+          "fail_md": "Check each key against the table in the brief. A Berlin fan on 192.168.1.23 uses HTTPS on port 443 over TCP and reaches eu-west."
+        },
+        {
+          "id": "t2",
+          "name": "US fan buys a ticket",
+          "code": "t = trace_request(\"POST\", \"https://www.stubwhistle.example/orders\", \"73.12.40.8\", \"NA\")\nassert t[\"region\"] == \"us-east\"\nassert t[\"server_ip\"] == \"203.0.113.10\"\nassert t[\"client_is_private\"] is False\nassert t[\"request_line\"] == \"POST /orders HTTP/1.1\"\nassert t[\"idempotent\"] is False\nassert t[\"expected_status\"] == 201",
+          "fail_md": "A client outside the EU goes to us-east. POST is not idempotent and a created order returns 201."
+        },
+        {
+          "id": "t3",
+          "name": "Plain HTTP with an empty path",
+          "code": "t = trace_request(\"GET\", \"http://www.stubwhistle.example\", \"172.16.0.9\", \"EU\")\nassert t[\"path\"] == \"/\"\nassert t[\"port\"] == 80\nassert t[\"tls\"] is False\nassert t[\"request_line\"] == \"GET / HTTP/1.1\"\nassert t[\"client_is_private\"] is True",
+          "fail_md": "An empty path becomes \"/\". Plain http uses port 80 without TLS. 172.16.x.x is private.",
+          "hidden": true
+        },
+        {
+          "id": "t4",
+          "name": "Edge of the 172.16.0.0/12 range and DELETE",
+          "code": "t = trace_request(\"DELETE\", \"https://www.stubwhistle.example/orders/7\", \"172.32.0.1\", \"AS\")\nassert t[\"client_is_private\"] is False\nassert t[\"region\"] == \"us-east\"\nassert t[\"idempotent\"] is True\nassert t[\"expected_status\"] == 200",
+          "fail_md": "172.32.x.x is outside 172.16.0.0/12, so it is public. DELETE is idempotent. Continents other than EU go to us-east.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "Break the job into pieces: parse the URL (`urllib.parse.urlsplit`), pick the region, check whether the client IP is private, then assemble the dict.",
+        "`parts = urlsplit(url)`. Then `path = parts.path or \"/\"`, `https = parts.scheme == \"https\"` and `region = \"eu-west\" if continent == \"EU\" else \"us-east\"`. Reuse the private-range check from the first exercise."
+      ]
+    }
+  ]
+}

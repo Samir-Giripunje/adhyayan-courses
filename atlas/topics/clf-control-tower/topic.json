@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-control-tower",
+  "version": 1,
+  "title": "AWS Control Tower: a governed multi-account setup",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-control-tower-landing-zone",
+      "version": 1,
+      "statement": "AWS Control Tower sets up and governs a secure multi-account environment, called a landing zone, built on AWS Organizations and following AWS best practices."
+    },
+    {
+      "id": "kc-control-tower-controls",
+      "version": 1,
+      "statement": "Control Tower applies controls (guardrails): preventive controls enforced with service control policies and detective controls implemented with AWS Config rules, with compliance shown on a dashboard."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-organizations",
+    "clf-service-control-policies"
+  ],
+  "suggests": [
+    "clf-aws-config"
+  ],
+  "confusable_with": [
+    "clf-organizations",
+    "clf-service-catalog"
+  ],
+  "introduces": [
+    "control tower",
+    "landing zone",
+    "guardrail"
+  ],
+  "uses": [
+    "aws organizations",
+    "service control policy",
+    "aws config",
+    "config rule",
+    "multi-account strategy"
+  ],
+  "problem_ideas": [
+    "A company wants 30 new accounts with logging, guardrails and a compliance view set up within hours: which service?",
+    "Classify two guardrails, 'block disabling CloudTrail' and 'detect unencrypted EBS volumes', as preventive or detective, and name the mechanism behind each.",
+    "Organizations vs Control Tower: which one gives a ready-made landing zone and dashboard?",
+    "An auditor asks which accounts break the 'no public S3' guardrail: where do you look?",
+    "Order the layers: Control Tower, Organizations, SCPs, Config rules.",
+    "Distractor drill: Control Tower vs Service Catalog vs Firewall Manager for 'enforce best-practice guardrails across new accounts'."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/aws-control-tower"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/multi-account-strategies"
+    }
+  ],
+  "status": "stub"
+}

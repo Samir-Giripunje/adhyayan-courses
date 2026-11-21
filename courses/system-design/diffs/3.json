@@ -1,0 +1,34 @@
+{
+  "id": "system-design-critic-f3",
+  "origin": "critic",
+  "created": "2026-11-18",
+  "status": "proposed",
+  "changes": [
+    {
+      "op": "retier",
+      "topic": "sd-reverse-proxy",
+      "from": "must",
+      "to": "optional",
+      "minutes_delta": -20,
+      "why": "A complete classic interview answer can satisfy every o6 rubric area without an API gateway or consistent hashing. These links turn particular architectural options into universal interview requirements. (critic f3: Remove the serves link to o6 from sd-api-gateway and sd-consistent-hashing; retain these topics as enrichment.)"
+    },
+    {
+      "op": "retier",
+      "topic": "sd-api-gateway",
+      "from": "must",
+      "to": "recommended",
+      "minutes_delta": 0,
+      "why": "A complete classic interview answer can satisfy every o6 rubric area without an API gateway or consistent hashing. These links turn particular architectural options into universal interview requirements. (critic f3: Remove the serves link to o6 from sd-api-gateway and sd-consistent-hashing; retain these topics as enrichment.)"
+    },
+    {
+      "op": "retier",
+      "topic": "sd-consistent-hashing",
+      "from": "must",
+      "to": "optional",
+      "minutes_delta": -38,
+      "why": "A complete classic interview answer can satisfy every o6 rubric area without an API gateway or consistent hashing. These links turn particular architectural options into universal interview requirements. (critic f3: Remove the serves link to o6 from sd-api-gateway and sd-consistent-hashing; retain these topics as enrichment.)"
+    }
+  ],
+  "route_version_after": 2,
+  "forecast_delta_weeks": -0.47
+}

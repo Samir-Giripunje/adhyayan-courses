@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-tco-on-premises-costs",
+  "version": 1,
+  "title": "Total cost of ownership and hidden on-prem costs",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-tco-definition",
+      "version": 1,
+      "statement": "Total cost of ownership (TCO) counts every cost of running a workload over its life, not just hardware: facilities, power, cooling, networking, software licences and staff time."
+    },
+    {
+      "id": "kc-on-prem-hidden-costs",
+      "version": 1,
+      "statement": "On-premises costs that are often left out of comparisons include data center space, power and cooling, physical security, hardware refresh cycles and the people who rack, patch and repair servers."
+    },
+    {
+      "id": "kc-tco-cloud-savings",
+      "version": 1,
+      "statement": "Moving to the cloud lowers TCO mainly by removing data center overhead and idle capacity, and by freeing staff from undifferentiated heavy lifting to work that serves customers."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-fixed-vs-variable-costs"
+  ],
+  "suggests": [
+    "clf-six-advantages"
+  ],
+  "confusable_with": [
+    "clf-fixed-vs-variable-costs"
+  ],
+  "introduces": [
+    "total cost of ownership",
+    "undifferentiated heavy lifting"
+  ],
+  "uses": [
+    "fixed costs",
+    "variable costs",
+    "data center",
+    "on-premises deployment"
+  ],
+  "problem_ideas": [
+    "A comparison lists only $200k of server hardware: name four missing on-premises cost lines.",
+    "Compute a 3-year TCO: $120k hardware, $30k/yr power and cooling, 1 admin at $90k/yr.",
+    "Two admins spend 60% of their time patching hardware: what share of their cost does moving to AWS free up?",
+    "Pick which items stay in the TCO after migrating to AWS (licences, staff for the app, building lease).",
+    "A manager compares a server's sticker price with an EC2 hourly price: explain why this is not a TCO comparison.",
+    "Rank four savings levers by typical impact: idle capacity, power, staff time, hardware refresh."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-4-understand-concepts-o/understanding-costs-that-are-associated-"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-4-understand-concepts-o/cost-savings-of-moving-to-the-cloud"
+    }
+  ],
+  "status": "stub"
+}

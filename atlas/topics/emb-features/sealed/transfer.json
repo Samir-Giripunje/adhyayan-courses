@@ -1,0 +1,208 @@
+[
+  {
+    "id": "emb-features/transfer-1",
+    "version": 1,
+    "family": "emb-features-transfer-song-vector",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "A music app describes each song as `[tempo ÷ 200, has vocals, acoustic]`, where tempo is in beats per minute (bpm) and the last two are yes/no (1 = yes). A song's vector is `[0.6, 0, 1]`. Which description fits?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A 120 bpm acoustic instrumental (no vocals)",
+        "correct": true,
+        "why_md": "Right. 0.6 × 200 = 120 bpm, has vocals = 0, acoustic = 1."
+      },
+      {
+        "id": "b",
+        "md": "A 120 bpm acoustic song with vocals",
+        "why_md": "Position 2 is *has vocals*, and it is 0."
+      },
+      {
+        "id": "c",
+        "md": "A 0.6 bpm acoustic instrumental",
+        "why_md": "Tempo was divided by 200 to put it on a small scale: 0.6 × 200 = 120 bpm."
+      },
+      {
+        "id": "d",
+        "md": "A 120 bpm song with vocals that is not acoustic",
+        "why_md": "That reads positions 2 and 3 swapped; it would be `[0.6, 1, 0]`.",
+        "misconception": "mc-vector-order-free"
+      }
+    ],
+    "hints": [
+      "Read each position with its feature, in order, and undo any scaling.",
+      "Position 1: 0.6 × 200 bpm. Position 2: vocals? 0. Position 3: acoustic? 1."
+    ],
+    "solution_md": "Position 1 is tempo ÷ 200, so tempo = 0.6 × 200 = 120 bpm. Position 2 (has vocals) = 0: no vocals. Position 3 (acoustic) = 1: acoustic. A 120 bpm acoustic instrumental. **a**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/transfer-2",
+    "version": 1,
+    "family": "emb-features-transfer-colour-onehot",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "A clothing shop encodes T-shirt colours one-hot: red `[1, 0, 0]`, orange `[0, 1, 0]`, blue `[0, 0, 1]`. The team wants *orange* to come out closer to *red* than to *blue*. Which statement is right?",
+    "options": [
+      {
+        "id": "a",
+        "md": "One-hot cannot do it: orange shares 0 features with red and with blue, and is √2 away from each. Describe colours by properties instead, such as `[warm, cool]`, so red and orange share *warm*.",
+        "correct": true,
+        "why_md": "Right. One-hot vectors only say *which* colour it is. Properties such as warmth can overlap, so related colours can share features."
+      },
+      {
+        "id": "b",
+        "md": "It already works: orange's slot is next to red's, so they are closer",
+        "why_md": "Slot order is bookkeeping. Orange `[0, 1, 0]` is $\\sqrt{1^2+1^2+0^2} = \\sqrt2$ from red and also $\\sqrt2$ from blue.",
+        "misconception": "mc-onehot-relatedness"
+      },
+      {
+        "id": "c",
+        "md": "Add more slots, one per shade, so the encoding gets finer",
+        "why_md": "More one-hot slots are still identity slots: every pair of different shades would still share 0 features."
+      },
+      {
+        "id": "d",
+        "md": "Give orange a bigger number in its own slot, such as `[0, 2, 0]`",
+        "why_md": "The 2 is still in a position where red and blue have 0, so no position is non-zero in both. Orange stays equally far from both: √5 each."
+      }
+    ],
+    "hints": [
+      "Compute what one-hot says about orange–red and orange–blue, then ask which change would let colours share something.",
+      "Orange `[0, 1, 0]` shares 0 features with red `[1, 0, 0]` and with blue `[0, 0, 1]`, and is √2 from each. Only features describing properties (like warmth) can overlap."
+    ],
+    "solution_md": "Under one-hot, orange shares 0 features with red and with blue, and its straight-line distance to each is √2: one-hot cannot rank them. Extra one-hot slots or bigger numbers in orange's own slot change nothing (with `[0, 2, 0]` both distances are √5). Describing colours by properties, e.g. `[warm, cool]` with red and orange both warm, lets related colours share a feature. **a**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/transfer-3",
+    "version": 1,
+    "family": "emb-features-transfer-recipes",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "A recipe site can describe recipes in two ways:\n\n| | taste `[spicy, sweet]` | effort `[under 20 minutes, needs an oven]` |\n|---|---|---|\n| *Chilli paneer* | `[1, 0]` | `[1, 0]` |\n| *Lamb vindaloo* | `[1, 0]` | `[0, 0]` |\n| *Banana pancakes* | `[0, 1]` | `[1, 0]` |\n| *Baked cheesecake* | `[0, 1]` | `[0, 1]` |\n\nA user loved *Chilli paneer*. Ranking by shared features, which statement is right?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Under taste, *Lamb vindaloo* is nearest; under effort, *Banana pancakes* is. Which list to use depends on whether the user wants the same flavour or another quick dish.",
+        "correct": true,
+        "why_md": "Right. Taste: vindaloo shares *spicy* (1), the others 0. Effort: pancakes share *under 20 minutes* (1), the others 0."
+      },
+      {
+        "id": "b",
+        "md": "*Lamb vindaloo* is nearest under both lists, because both dishes are spicy",
+        "why_md": "Spiciness is not an effort feature. Under effort, vindaloo `[0, 0]` shares nothing with chilli paneer `[1, 0]`.",
+        "misconception": "mc-similarity-built-in"
+      },
+      {
+        "id": "c",
+        "md": "*Banana pancakes* is nearest under both lists",
+        "why_md": "Under taste, pancakes `[0, 1]` share nothing with chilli paneer `[1, 0]`."
+      },
+      {
+        "id": "d",
+        "md": "Using both lists together guarantees the right recommendation",
+        "why_md": "Combined `[spicy, sweet, under 20 minutes, needs an oven]`: chilli paneer `[1, 0, 1, 0]` shares 1 with vindaloo `[1, 0, 0, 0]` and 1 with pancakes `[0, 1, 1, 0]`, a tie. More features do not settle what the user meant.",
+        "misconception": "mc-more-features-better"
+      }
+    ],
+    "hints": [
+      "Count shared features with *Chilli paneer* separately under each list.",
+      "Taste: chilli paneer `[1, 0]` shares 1 with vindaloo only. Effort: `[1, 0]` shares 1 with pancakes only."
+    ],
+    "solution_md": "Taste list: chilli paneer `[1, 0]` shares 1 with vindaloo `[1, 0]` and 0 with the sweet dishes. Effort list: `[1, 0]` shares 1 with pancakes `[1, 0]` and 0 with vindaloo `[0, 0]` and cheesecake `[0, 1]`. Combining both lists gives a 1–1 tie between vindaloo and pancakes. The nearest recipe depends on the features, so the choice depends on what “similar” should mean for the user. **a**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/transfer-4",
+    "version": 1,
+    "family": "emb-features-transfer-job-ads",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "A job board describes ads as `[remote, full-time, salary band ÷ 5]`. Someone viewing *Senior nurse* `[0, 1, 0.8]` is shown *Senior data engineer* `[0, 1, 0.8]` as the most similar ad, ahead of *Junior nurse* `[0, 0, 0.4]`. What is the best explanation and fix?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The features only describe working conditions, so “similar” means “same conditions”. Add features for the kind of work, such as healthcare or software, if users want similar jobs.",
+        "correct": true,
+        "why_md": "Right. Under these three features the two senior ads are identical. Nothing in the vector says what the job *is*."
+      },
+      {
+        "id": "b",
+        "md": "The similarity arithmetic must be wrong, because a nurse and a data engineer aren't similar",
+        "why_md": "The arithmetic is fine: under these features the two ads really are identical. “Not similar” refers to features the vectors do not have.",
+        "misconception": "mc-similarity-built-in"
+      },
+      {
+        "id": "c",
+        "md": "Add more condition features such as `has parking` and `has pension`, since more features always sharpen similarity",
+        "why_md": "More condition features still say nothing about the kind of work, and they may make the two senior ads match even more closely.",
+        "misconception": "mc-more-features-better"
+      },
+      {
+        "id": "d",
+        "md": "Score with straight-line distance instead of shared features",
+        "why_md": "Any score sees the same three features. The data-engineer ad is 0 away (identical vector); the junior nurse is $\\sqrt{0^2 + 1^2 + 0.4^2} \\approx 1.08$ away. The problem is what the features describe."
+      }
+    ],
+    "hints": [
+      "Ask what the three features describe, and what they leave out.",
+      "Both senior ads are `[0, 1, 0.8]`: identical. No feature says “nurse” or “engineer”."
+    ],
+    "solution_md": "The two senior ads have identical vectors, so any score ranks them as most similar; distance gives 0 for the engineer ad and about 1.08 for the junior nurse. The features describe conditions (remote, full-time, pay), so that is what “similar” means here. To find similar *jobs*, add features for the kind of work. **a**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  }
+]

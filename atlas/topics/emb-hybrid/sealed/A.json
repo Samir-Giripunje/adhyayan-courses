@@ -1,0 +1,48 @@
+[
+  {
+    "id": "q-proof1-rrf",
+    "version": 1,
+    "family": "q-proof1-rrf",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-hybrid",
+    "kcs": [
+      "kc-hybrid-rerank"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "In RRF, why does a larger k favour documents ranked moderately well in **both** lists?",
+    "options": [
+      {
+        "id": "a",
+        "md": "It flattens the gap between rank 1 and lower ranks, so agreement adds up to more than one first place",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "It boosts BM25 scores",
+        "why_md": "RRF ignores raw scores."
+      },
+      {
+        "id": "c",
+        "md": "It removes documents missing from a list",
+        "why_md": "Missing documents simply contribute 0."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Hybrid search fuses BM25 and vector results by rank.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

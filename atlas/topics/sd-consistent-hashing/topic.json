@@ -1,0 +1,73 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-consistent-hashing",
+  "version": 1,
+  "title": "Consistent hashing",
+  "size": "big",
+  "est_min": 38,
+  "kcs": [
+    {
+      "id": "kc-modulo-rehash",
+      "version": 1,
+      "statement": "With hash(key) mod N placement, changing N from 4 to 5 moves about 80% of keys, because a key stays only when both remainders agree."
+    },
+    {
+      "id": "kc-hash-ring",
+      "version": 1,
+      "statement": "Consistent hashing places nodes and keys on the same hash ring and assigns each key to the first node clockwise from the key's position."
+    },
+    {
+      "id": "kc-ring-remap",
+      "version": 1,
+      "statement": "Adding or removing one node on a hash ring moves only the keys in that node's arc, about 1/N of all keys."
+    },
+    {
+      "id": "kc-ring-lookup",
+      "version": 1,
+      "statement": "A ring lookup binary-searches the sorted node positions for the first position at or after the key's hash, wrapping to the first position when the hash is past the last one."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "sd-sharding-strategies"
+  ],
+  "suggests": [
+    "sd-distributed-cache"
+  ],
+  "confusable_with": [
+    "sd-sharding-strategies"
+  ],
+  "introduces": [
+    "consistent hashing",
+    "hash ring"
+  ],
+  "uses": [
+    "sharding",
+    "hash-based sharding",
+    "distributed cache",
+    "hash-based routing"
+  ],
+  "problem_ideas": [
+    "Write get_node(key) for a ring of sorted node positions using bisect",
+    "Write a function that returns the fraction of 10,000 keys that move when a cache cluster goes from 4 to 5 nodes under mod-N",
+    "Measure the same fraction on a consistent-hash ring and compare",
+    "Write add_node and remove_node and report which keys changed owner",
+    "A 10-node cache loses one node: predict the share of requests that miss",
+    "Edge case: a key hashes past the largest node position; make the lookup wrap correctly"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "why-do-we-need-this/why-do-we-need-this"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "how-does-it-work/how-does-it-work"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "core-concepts/consistent-hashing"
+    }
+  ],
+  "status": "stub"
+}

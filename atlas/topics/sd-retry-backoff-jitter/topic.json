@@ -1,0 +1,66 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-retry-backoff-jitter",
+  "version": 1,
+  "title": "Retries with exponential backoff and jitter",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-retry-backoff",
+      "version": 1,
+      "statement": "Exponential backoff doubles the wait between retries (for example 100 ms, 200 ms, 400 ms) up to a cap, giving a struggling dependency time to recover."
+    },
+    {
+      "id": "kc-retry-jitter",
+      "version": 1,
+      "statement": "Jitter randomises each backoff delay (for example uniformly between 0 and the computed delay) so clients that failed together do not retry in synchronised waves."
+    },
+    {
+      "id": "kc-retry-safety",
+      "version": 1,
+      "statement": "Retry only transient errors (timeouts, 503, 429) and only idempotent operations or calls carrying an idempotency key, with a cap on attempts so retries do not become a retry storm."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "sd-timeouts",
+    "sd-idempotency"
+  ],
+  "suggests": [
+    "sd-idempotency-keys",
+    "sd-hot-keys-thundering-herd"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "retry with backoff",
+    "jitter",
+    "retry storm"
+  ],
+  "uses": [
+    "timeout",
+    "retries",
+    "idempotency",
+    "idempotency key",
+    "thundering herd"
+  ],
+  "problem_ideas": [
+    "Write backoff_delays(base_ms, factor, cap_ms, attempts) returning the delay schedule",
+    "Add full jitter: return random delays in [0, computed] given a seeded RNG",
+    "Each of 3 layers retries 3 times: how many calls hit the database for one user request?",
+    "10,000 clients fail at t=0 and retry at exactly 1 s: sketch the load spike with and without jitter",
+    "Classify 400, 404, 409, 429, 500, 503 and a timeout as retryable or not",
+    "Retry a POST /payments safely: what must the client send?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "security/retry"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "performance-antipatterns/retry-storm"
+    }
+  ],
+  "status": "stub"
+}

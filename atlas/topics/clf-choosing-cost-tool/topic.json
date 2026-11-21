@@ -1,0 +1,66 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-choosing-cost-tool",
+  "version": 1,
+  "title": "Choosing a cost management tool",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-cost-tool-by-question",
+      "version": 1,
+      "statement": "Pick the cost tool by the question asked: the future cost of an unbuilt design → Pricing Calculator; an alert before overspending → AWS Budgets; what was spent and why → Cost Explorer."
+    },
+    {
+      "id": "kc-cost-tool-line-item",
+      "version": 1,
+      "statement": "When finance needs hourly, resource-level billing data in its own BI or SQL tools, the answer is the Cost and Usage Report rather than Cost Explorer."
+    },
+    {
+      "id": "kc-cost-tool-waste",
+      "version": 1,
+      "statement": "To find waste, use Compute Optimizer for rightsizing over-provisioned compute and Trusted Advisor's cost optimization checks for idle resources such as unattached EBS volumes or idle load balancers."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-pricing-calculator",
+    "clf-aws-budgets",
+    "clf-cost-explorer-cur"
+  ],
+  "suggests": [
+    "clf-compute-optimizer"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "cost tool selection"
+  ],
+  "uses": [
+    "pricing calculator",
+    "aws budgets",
+    "cost explorer",
+    "cost and usage report",
+    "compute optimizer",
+    "trusted advisor",
+    "ebs"
+  ],
+  "problem_ideas": [
+    "Match five requests (quote a design, alert at $1k, chart last quarter, hourly line items, oversized instances) to five tools.",
+    "A CFO asks 'what will we spend next month if trends continue?': which tool forecasts from actual usage?",
+    "A team keeps paying for EBS volumes from deleted instances: which tool surfaces them?",
+    "For each wrong answer in a sample question, say why Budgets, Cost Explorer or the calculator does not fit.",
+    "A company wants spend tracked per project and an alert per project: which two features combine?",
+    "A new architecture proposal needs a 3-year cost comparison with on-premises: tool and its limit."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-2-understand-resources-/task-statement-4-2-understand-resources-"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-2-understand-resources-/billing-support-and-information"
+    }
+  ],
+  "status": "stub"
+}

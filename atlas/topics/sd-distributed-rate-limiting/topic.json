@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-distributed-rate-limiting",
+  "version": 1,
+  "title": "Rate limiting across many servers",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-shared-counter",
+      "version": 1,
+      "statement": "When N gateway instances enforce one limit with local counters, a client can exceed the limit by up to N times; a shared counter store (e.g. an in-memory key-value store) keeps one global count."
+    },
+    {
+      "id": "kc-atomic-counter-update",
+      "version": 1,
+      "statement": "Read-then-write counter updates race under concurrency, so two requests can both take the last slot; an atomic increment, or one script that checks and updates together, prevents this."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-rate-limiting"
+  ],
+  "suggests": [
+    "sd-token-bucket"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "distributed rate limiting",
+    "race condition"
+  ],
+  "uses": [
+    "rate limiting",
+    "api gateway",
+    "horizontal scaling",
+    "round trip time"
+  ],
+  "problem_ideas": [
+    "10 gateway nodes each allow 100/min locally: what is the worst-case global rate for one user?",
+    "Trace two concurrent requests through GET-then-SET on a counter at 99/100 and show both passing",
+    "A shared counter store adds 1 ms per request: what does that cost at 50,000 QPS of gateway traffic?",
+    "The shared counter store goes down: fail open or fail closed, for a public API and for a login endpoint?",
+    "Propose local pre-limiting with periodic sync and state its accuracy trade-off",
+    "Multi-region: should limits be global or per region? Argue with a latency number"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "rate-limiting-in-distributed-systems/rate-limiting-in-distributed-systems"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "rate-limiting-in-distributed-systems/inconsistencies"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "rate-limiting-in-distributed-systems/race-conditions"
+    }
+  ],
+  "status": "stub"
+}

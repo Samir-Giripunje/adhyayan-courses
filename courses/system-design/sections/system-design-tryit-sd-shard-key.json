@@ -1,0 +1,33 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-shard-key",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: explain it in your own words",
+  "blurb": "Uses Partitioning: vertical, horizontal and federation, Sharding strategies: range, hash and directory and Choosing a shard key and avoiding hot shards: predict, then explain in your own words.",
+  "after": "topic:sd-shard-key",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "written",
+    "topics": [
+      "sd-partitioning-basics",
+      "sd-sharding-strategies",
+      "sd-shard-key"
+    ],
+    "kcs": [
+      "kc-partitioning-why",
+      "kc-vertical-vs-horizontal-partitioning",
+      "kc-federation",
+      "kc-sharding-def",
+      "kc-range-vs-hash",
+      "kc-directory-sharding",
+      "kc-shard-key-criteria",
+      "kc-hot-shard",
+      "kc-cross-shard-cost"
+    ],
+    "minutes": 20,
+    "why": "Uses Partitioning: vertical, horizontal and federation, Sharding strategies: range, hash and directory and Choosing a shard key and avoiding hot shards: predict, then explain in your own words."
+  }
+}

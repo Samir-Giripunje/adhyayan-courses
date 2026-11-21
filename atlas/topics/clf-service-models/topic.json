@@ -1,0 +1,528 @@
+{
+  "answer": "**IaaS**, **PaaS** and **SaaS** are cloud service models, sorted by how much the provider manages for you. IaaS rents you servers you run yourself, PaaS runs your code for you, and SaaS gives you a finished app.",
+  "example": "- **Amazon EC2** (IaaS): you rent a virtual server, a share of an AWS machine that behaves like your own computer. You patch its operating system (such as Linux) and install and run your app.\n- **AWS Elastic Beanstalk** (PaaS): you upload your web app's code. AWS runs the servers and their operating system.\n- **Gmail** (SaaS): you sign in and send email. Google runs the whole app; you manage your messages and, for a company, which staff get accounts.",
+  "how": {
+    "md": "Every app sits on a stack of five layers. The model decides where the provider's part ends and yours begins.\n\n1. **Hardware**: servers, storage and networking in the data center.\n2. **Operating system**: the base software, such as Linux or Windows.\n3. **Runtime**: the software your code needs to run, such as Java or Python.\n4. **Application**: your program.\n5. **Data and access**: what the app stores, and who may sign in.\n\nWith IaaS, the provider runs only the hardware; you run the operating system and everything above it. With PaaS, the provider also runs the operating system and runtime, so you deploy the app and own its data. With SaaS, the provider runs the app too; you use it and manage your data and user access.\n\nA common slip: thinking SaaS customers patch servers. They never see the servers at all.",
+    "visual": {
+      "type": "compare",
+      "title": "Who runs each layer",
+      "columns": [
+        "Layer",
+        "IaaS (EC2)",
+        "PaaS (Beanstalk)",
+        "SaaS (Gmail)"
+      ],
+      "rows": [
+        [
+          "Data and access",
+          "You",
+          "You",
+          "You"
+        ],
+        [
+          "Application",
+          "You",
+          "You",
+          "Provider"
+        ],
+        [
+          "Runtime",
+          "You",
+          "Provider",
+          "Provider"
+        ],
+        [
+          "Operating system",
+          "You",
+          "Provider",
+          "Provider"
+        ],
+        [
+          "Hardware",
+          "Provider",
+          "Provider",
+          "Provider"
+        ]
+      ]
+    }
+  },
+  "check": {
+    "id": "q-service-model-os-control",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-iaas",
+      "kc-paas",
+      "kc-saas"
+    ],
+    "prompt_md": "A team must control its servers' operating system settings and decide when operating system patches are applied. Which model fits?",
+    "options": [
+      {
+        "id": "a",
+        "md": "IaaS, such as Amazon EC2",
+        "correct": true,
+        "why_md": "Right. With IaaS you manage the operating system, so you set it up and patch it on your own schedule."
+      },
+      {
+        "id": "b",
+        "md": "PaaS, such as AWS Elastic Beanstalk",
+        "correct": false,
+        "why_md": "PaaS runs the operating system for you, so the team would hand that control to AWS.",
+        "misconception": "mc-paas-you-patch-os"
+      },
+      {
+        "id": "c",
+        "md": "SaaS, such as web email",
+        "correct": false,
+        "why_md": "SaaS hides everything below the app. The team would only use the software and never touch its servers.",
+        "misconception": "mc-saas-customer-patches"
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "Exam cues: matching phrases to models",
+      "md": "CLF-C02 questions often hide the model in a phrase:\n\n- \"Full control over the operating system\", \"install custom software on the server\" → IaaS, such as Amazon EC2.\n- \"Just upload code\", \"no servers to manage\", \"focus on the application\" → PaaS, such as AWS Elastic Beanstalk.\n- \"Ready-to-use\", \"complete application\", \"just sign in\" → SaaS, such as web email or a hosted CRM (customer relationship management app).\n\nThe trade-off runs one way: moving from IaaS to SaaS, you get less control and less work."
+    },
+    {
+      "title": "You always own your data and access",
+      "md": "In every model, the customer stays responsible for its data and for who can reach it. A SaaS payroll provider keeps the app and its servers patched. If a firm gives a leaver's account to nobody but forgets to remove it, that open door is the firm's problem, not the provider's."
+    },
+    {
+      "title": "Services that sit between the boxes",
+      "md": "Some AWS services do not fit one label neatly. Amazon RDS, a managed database service, has AWS patch the operating system and database software, while you manage your tables and data. When a service does not fit a box, sort it by asking one question: which layers do I still manage?"
+    }
+  ],
+  "visual_fit": {
+    "kind": "compare",
+    "why": "Who runs each layer under each model is a grid: the pattern of You and Provider is the lesson."
+  },
+  "glossary": [
+    {
+      "term": "iaas",
+      "md": "Infrastructure as a service: the provider rents you virtual servers, storage and networking; you manage the operating system, runtime, app and data. Example: Amazon EC2."
+    },
+    {
+      "term": "paas",
+      "md": "Platform as a service: the provider runs the infrastructure, operating system and runtime; you deploy and manage the app and its data. Example: AWS Elastic Beanstalk."
+    },
+    {
+      "term": "saas",
+      "md": "Software as a service: the provider runs a complete app; you only use it and manage your data and user access. Examples: web email, a hosted CRM."
+    },
+    {
+      "term": "virtual server",
+      "md": "A share of a physical machine that behaves like a computer of its own, with its own operating system."
+    },
+    {
+      "term": "runtime",
+      "md": "The software your code needs to run, such as Java or Python."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-saas-customer-patches",
+      "statement": "With SaaS, the customer patches the application servers.",
+      "tags": [
+        "kc-saas"
+      ]
+    },
+    {
+      "id": "mc-paas-you-patch-os",
+      "statement": "With PaaS, the customer still patches the operating system.",
+      "tags": [
+        "kc-paas"
+      ]
+    },
+    {
+      "id": "mc-iaas-provider-manages-os",
+      "statement": "With IaaS, the provider manages the operating system because it runs the hardware.",
+      "tags": [
+        "kc-iaas"
+      ]
+    }
+  ],
+  "recap": {
+    "formula": "IaaS: you manage the OS and up · PaaS: you manage the app and data · SaaS: you manage data and access",
+    "pitfall": "With SaaS you never patch servers or the app; you manage only your data and who can access it."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-ec2-is-paas",
+      "beat": "b-lesson",
+      "question": "AWS runs EC2's hardware, so isn't EC2 PaaS?",
+      "match": [
+        "ec2 paas",
+        "is ec2 paas",
+        "aws runs the hardware"
+      ],
+      "answer_md": "No. In every cloud model the provider runs the hardware. EC2 is IaaS because you still manage the operating system, runtime, app and data. PaaS takes the operating system and runtime off your hands too.",
+      "deeper_md": "Ask which layer is the lowest one you manage. On EC2 it is the operating system. On Elastic Beanstalk it is the application.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Same app, two models",
+        "md": "A Linux security patch comes out. On EC2, you log in and apply it to your server yourself. On Elastic Beanstalk, AWS provides the patched platform, and you never log in to update the operating system.",
+        "verify": {
+          "id": "q-br-ec2-os-patch",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-iaas"
+          ],
+          "prompt_md": "Who installs operating system security patches on an Amazon EC2 virtual server?",
+          "options": [
+            {
+              "id": "a",
+              "md": "The customer",
+              "correct": true,
+              "why_md": "Right. EC2 is IaaS: the operating system is the customer's to manage."
+            },
+            {
+              "id": "b",
+              "md": "AWS",
+              "correct": false,
+              "why_md": "AWS runs the hardware under EC2, not the operating system you run on it.",
+              "misconception": "mc-iaas-provider-manages-os"
+            },
+            {
+              "id": "c",
+              "md": "Nobody: an EC2 server has no operating system",
+              "correct": false,
+              "why_md": "An EC2 virtual server runs an operating system such as Linux or Windows, and it needs patches."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-saas-what-left",
+      "beat": "b-lesson",
+      "question": "If SaaS runs everything, what do I still manage?",
+      "match": [
+        "what do i still manage",
+        "saas still manage",
+        "saas responsibility"
+      ],
+      "answer_md": "Your data and user access: what you put into the app, and who gets an account with which rights. The provider runs the servers, operating system and app, including their patches.",
+      "deeper_md": "Think of the line in the layer table: with SaaS, only the top row, data and access, is yours.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "A payroll web app",
+        "md": "An accounting firm buys a ready-made payroll web app. The provider runs and patches the app and its servers. The firm enters salaries, checks them, and adds or removes staff accounts.",
+        "verify": {
+          "id": "q-br-saas-payroll",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-saas"
+          ],
+          "prompt_md": "An accounting firm buys a ready-made payroll web app. Which task stays with the firm?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Adding and removing staff accounts",
+              "correct": true,
+              "why_md": "Right. User access is the customer's job in SaaS."
+            },
+            {
+              "id": "b",
+              "md": "Patching the app's servers",
+              "correct": false,
+              "why_md": "The SaaS provider runs and patches the servers; the firm never sees them.",
+              "misconception": "mc-saas-customer-patches"
+            },
+            {
+              "id": "c",
+              "md": "Updating the app's code",
+              "correct": false,
+              "why_md": "The provider builds and updates the app; the firm only uses it."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-what-is-runtime",
+      "beat": "b-lesson",
+      "question": "What is a runtime, and who handles it?",
+      "match": [
+        "what is a runtime",
+        "runtime mean",
+        "who handles the runtime"
+      ],
+      "answer_md": "A runtime is the software your code needs to run, such as Java or Python. With IaaS you install it yourself; with PaaS the provider supplies it.",
+      "deeper_md": "A Python program is just text until Python is installed to run it. That installed Python is the runtime layer.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "Python on EC2 vs Elastic Beanstalk",
+        "md": "On EC2, you install Python on your server yourself. On Elastic Beanstalk, you pick a Python platform, and AWS sets up servers with Python already on them.",
+        "verify": {
+          "id": "q-br-runtime-beanstalk",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-paas"
+          ],
+          "prompt_md": "You deploy a Java app to AWS Elastic Beanstalk. Who installs the Java runtime on the servers?",
+          "options": [
+            {
+              "id": "a",
+              "md": "AWS, as part of the platform you chose",
+              "correct": true,
+              "why_md": "Right. PaaS supplies the operating system and runtime; you bring the app."
+            },
+            {
+              "id": "b",
+              "md": "You, on each server",
+              "correct": false,
+              "why_md": "That is the IaaS job, as on EC2. Elastic Beanstalk is PaaS.",
+              "misconception": "mc-paas-you-patch-os"
+            },
+            {
+              "id": "c",
+              "md": "Nobody: Java apps need no runtime",
+              "correct": false,
+              "why_md": "Java code needs a Java runtime installed to run."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-service-models-responsibility",
+      "kind": "adjacent",
+      "title": "How service models map onto who secures what in AWS",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-between-the-boxes",
+      "kind": "edge",
+      "title": "Managed services that sit between IaaS, PaaS and SaaS",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "clf-service-models",
+  "version": 1,
+  "title": "IaaS, PaaS and SaaS: who manages what",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-iaas",
+      "version": 1,
+      "statement": "IaaS provides virtual servers, storage and networking; the customer manages the operating system, runtime, application and data, as with Amazon EC2."
+    },
+    {
+      "id": "kc-paas",
+      "version": 1,
+      "statement": "PaaS runs the underlying infrastructure and operating system for you, so the customer only deploys and manages the application and its data, as with AWS Elastic Beanstalk."
+    },
+    {
+      "id": "kc-saas",
+      "version": 1,
+      "statement": "SaaS delivers a complete application operated by the provider; the customer only uses it and manages their own data and user access, as with web email or a hosted CRM."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-what-is-cloud-computing"
+  ],
+  "suggests": [
+    "clf-deployment-models"
+  ],
+  "confusable_with": [
+    "clf-deployment-models"
+  ],
+  "introduces": [
+    "iaas",
+    "paas",
+    "saas"
+  ],
+  "uses": [
+    "cloud computing",
+    "operating system",
+    "application"
+  ],
+  "problem_ideas": [
+    "A team wants full control over OS patches and custom kernel settings: pick IaaS, PaaS or SaaS.",
+    "A developer only wants to upload code and not manage servers: name the model and an AWS example.",
+    "Sort EC2, Elastic Beanstalk and a hosted email product into IaaS, PaaS and SaaS.",
+    "Fill in a responsibility table (hardware, OS, runtime, app, data) for each of the three models.",
+    "An accounting firm buys a ready-made payroll web app: which model is it, and what does the firm still manage?",
+    "Spot the distractor: 'With SaaS the customer patches the application servers.'"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "dynamodb/iaas-vs-paas-vs-saas"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [
+    "clf-service-models/exit-1",
+    "clf-service-models/exit-2",
+    "clf-service-models/exit-3"
+  ],
+  "status": "drafted",
+  "provenance": {
+    "origin": "generated",
+    "job": "lesson-clf-service-models"
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "title": "IaaS, PaaS and SaaS: who manages what",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "IaaS, PaaS and SaaS: who manages what",
+          "kcs": [
+            "kc-iaas",
+            "kc-paas",
+            "kc-saas"
+          ],
+          "est_minutes": 7,
+          "blocks": [
+            {
+              "id": "blk-clf-service-models-01",
+              "block": {
+                "type": "prose",
+                "md": "**IaaS**, **PaaS** and **SaaS** are cloud service models, sorted by how much the provider manages for you. IaaS rents you servers you run yourself, PaaS runs your code for you, and SaaS gives you a finished app."
+              }
+            },
+            {
+              "id": "blk-clf-service-models-02",
+              "block": {
+                "type": "prose",
+                "md": "- **Amazon EC2** (IaaS): you rent a virtual server, a share of an AWS machine that behaves like your own computer. You patch its operating system (such as Linux) and install and run your app.\n- **AWS Elastic Beanstalk** (PaaS): you upload your web app's code. AWS runs the servers and their operating system.\n- **Gmail** (SaaS): you sign in and send email. Google runs the whole app; you manage your messages and, for a company, which staff get accounts."
+              }
+            },
+            {
+              "id": "blk-clf-service-models-03",
+              "block": {
+                "type": "prose",
+                "md": "Every app sits on a stack of five layers. The model decides where the provider's part ends and yours begins.\n\n1. **Hardware**: servers, storage and networking in the data center.\n2. **Operating system**: the base software, such as Linux or Windows.\n3. **Runtime**: the software your code needs to run, such as Java or Python.\n4. **Application**: your program.\n5. **Data and access**: what the app stores, and who may sign in.\n\nWith IaaS, the provider runs only the hardware; you run the operating system and everything above it. With PaaS, the provider also runs the operating system and runtime, so you deploy the app and own its data. With SaaS, the provider runs the app too; you use it and manage your data and user access.\n\nA common slip: thinking SaaS customers patch servers. They never see the servers at all."
+              }
+            },
+            {
+              "id": "blk-clf-service-models-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-service-model-os-control",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-iaas",
+                    "kc-paas",
+                    "kc-saas"
+                  ],
+                  "prompt_md": "A team must control its servers' operating system settings and decide when operating system patches are applied. Which model fits?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "IaaS, such as Amazon EC2",
+                      "correct": true,
+                      "why_md": "Right. With IaaS you manage the operating system, so you set it up and patch it on your own schedule."
+                    },
+                    {
+                      "id": "b",
+                      "md": "PaaS, such as AWS Elastic Beanstalk",
+                      "correct": false,
+                      "why_md": "PaaS runs the operating system for you, so the team would hand that control to AWS.",
+                      "misconception": "mc-paas-you-patch-os"
+                    },
+                    {
+                      "id": "c",
+                      "md": "SaaS, such as web email",
+                      "correct": false,
+                      "why_md": "SaaS hides everything below the app. The team would only use the software and never touch its servers.",
+                      "misconception": "mc-saas-customer-patches"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-clf-service-models-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Exam cues: matching phrases to models",
+                "md": "CLF-C02 questions often hide the model in a phrase:\n\n- \"Full control over the operating system\", \"install custom software on the server\" → IaaS, such as Amazon EC2.\n- \"Just upload code\", \"no servers to manage\", \"focus on the application\" → PaaS, such as AWS Elastic Beanstalk.\n- \"Ready-to-use\", \"complete application\", \"just sign in\" → SaaS, such as web email or a hosted CRM (customer relationship management app).\n\nThe trade-off runs one way: moving from IaaS to SaaS, you get less control and less work."
+              }
+            },
+            {
+              "id": "blk-clf-service-models-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "You always own your data and access",
+                "md": "In every model, the customer stays responsible for its data and for who can reach it. A SaaS payroll provider keeps the app and its servers patched. If a firm gives a leaver's account to nobody but forgets to remove it, that open door is the firm's problem, not the provider's."
+              }
+            },
+            {
+              "id": "blk-clf-service-models-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Services that sit between the boxes",
+                "md": "Some AWS services do not fit one label neatly. Amazon RDS, a managed database service, has AWS patch the operating system and database software, while you manage your tables and data. When a service does not fit a box, sort it by asking one question: which layers do I still manage?"
+              }
+            },
+            {
+              "id": "blk-clf-service-models-08",
+              "block": {
+                "type": "compare",
+                "title": "Who runs each layer",
+                "columns": [
+                  "Layer",
+                  "IaaS (EC2)",
+                  "PaaS (Beanstalk)",
+                  "SaaS (Gmail)"
+                ],
+                "rows": [
+                  [
+                    "Data and access",
+                    "You",
+                    "You",
+                    "You"
+                  ],
+                  [
+                    "Application",
+                    "You",
+                    "You",
+                    "Provider"
+                  ],
+                  [
+                    "Runtime",
+                    "You",
+                    "Provider",
+                    "Provider"
+                  ],
+                  [
+                    "Operating system",
+                    "You",
+                    "Provider",
+                    "Provider"
+                  ],
+                  [
+                    "Hardware",
+                    "Provider",
+                    "Provider",
+                    "Provider"
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

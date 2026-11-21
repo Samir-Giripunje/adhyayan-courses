@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-batch-lightsail",
+  "version": 1,
+  "title": "AWS Batch and Amazon Lightsail",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-aws-batch",
+      "version": 1,
+      "statement": "AWS Batch runs large numbers of batch jobs, packaged as container images, on managed EC2 (including Spot) or Fargate capacity. Unlike Lambda, it has no 15-minute limit."
+    },
+    {
+      "id": "kc-lightsail",
+      "version": 1,
+      "statement": "Amazon Lightsail bundles virtual servers, storage, databases and networking at a low, predictable monthly price for simple websites and for users with little cloud experience."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-lambda"
+  ],
+  "suggests": [
+    "clf-containers",
+    "clf-ec2-basics"
+  ],
+  "confusable_with": [
+    "clf-lambda",
+    "clf-ec2-basics"
+  ],
+  "introduces": [
+    "aws batch",
+    "lightsail"
+  ],
+  "uses": [
+    "lambda",
+    "container image",
+    "ec2 instance",
+    "fargate"
+  ],
+  "problem_ideas": [
+    "A genomics lab queues 10,000 analysis jobs of 3 hours each: which service schedules them?",
+    "A freelancer wants a WordPress site for a fixed monthly price without learning EC2 and VPC: which service?",
+    "Compare Batch and Lambda on maximum run time, packaging and how they are triggered.",
+    "A distractor offers Lightsail for a global, auto-scaling microservices platform: why is it a poor fit?",
+    "A nightly 6-hour risk calculation could tolerate interruption: what capacity could AWS Batch use to cut cost?",
+    "Sort four requirements into Lambda, Batch or Lightsail."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "other-compute-section/aws-batch"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-compute-section/batch-vs-lambda"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-compute-section/amazon-lightsail"
+    }
+  ],
+  "status": "stub"
+}

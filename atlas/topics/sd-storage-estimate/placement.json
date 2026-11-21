@@ -1,0 +1,109 @@
+[
+  {
+    "id": "sd-storage-estimate/placement-1",
+    "family": "sd-storage-estimate-probe-storage-yearly-posts",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-storage-formula"
+    ],
+    "prompt_md": "A forum receives **2 million** new text posts per day. Each post takes **500 bytes**. There is no media, and you are **not** counting replicas.\n\nHow much storage do the new posts need per year, in **GB** (1 GB = 10⁹ bytes)?",
+    "answer": {
+      "value": 365,
+      "tolerance": 5,
+      "unit": "GB"
+    },
+    "common_wrong": [
+      {
+        "value": 1,
+        "kind": "slip",
+        "why_md": "That is one day's storage. Multiply by 365 days."
+      },
+      {
+        "value": 1095,
+        "kind": "slip",
+        "why_md": "That multiplies by a replication factor of 3, but the question says not to count replicas."
+      },
+      {
+        "value": 30,
+        "kind": "slip",
+        "why_md": "That is about one month. A year is 365 days."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "posts_per_day = 2_000_000\nbytes_per_post = 500\nanswer = posts_per_day * bytes_per_post * 365 / 1e9\n"
+    },
+    "hints": [
+      "Storage per year = records per day × bytes per record × 365.",
+      "2,000,000 × 500 = 10⁹ bytes = 1 GB per day. Multiply by 365."
+    ],
+    "solution_md": "1. Per day: 2,000,000 × 500 B = 1,000,000,000 B = **1 GB**.\n2. Per year: 1 GB × 365 = **365 GB**.\n3. There is no media and no replication factor to apply.\n\nAnswer: **365 GB** (accepted 360–370).",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-storage-estimate",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  },
+  {
+    "id": "sd-storage-estimate/placement-2",
+    "family": "sd-storage-estimate-probe-storage-retention-replicas",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-storage-retention",
+      "kc-storage-formula"
+    ],
+    "prompt_md": "A chat service stores **10 million** messages per day at **100 bytes** each. Every message is kept on **3 replicas**, and messages are retained for **5 years**. There is no media.\n\nHow much total storage is needed at the end of the retention period, counting all replicas? Give your answer in **TB** (1 TB = 10¹² bytes).",
+    "answer": {
+      "value": 5.475,
+      "tolerance": 0.1,
+      "unit": "TB"
+    },
+    "common_wrong": [
+      {
+        "value": 1.825,
+        "kind": "slip",
+        "why_md": "That covers 5 years but forgets to multiply by the 3 replicas."
+      },
+      {
+        "value": 1.095,
+        "kind": "slip",
+        "why_md": "That is one year with replicas. Retention is 5 years, so multiply by 5."
+      },
+      {
+        "value": 0.365,
+        "kind": "slip",
+        "why_md": "That is one year on a single copy. It leaves out both the replicas and the retention period."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "per_day = 10_000_000 * 100\nper_year = per_day * 365\nanswer = round(per_year * 3 * 5 / 1e12, 3)\n"
+    },
+    "hints": [
+      "Find the yearly figure, multiply by the replication factor, then by the retention in years.",
+      "10⁷ × 100 B = 1 GB/day, which is 365 GB/year. Then × 3 replicas × 5 years."
+    ],
+    "solution_md": "1. Per day: 10,000,000 × 100 B = 10⁹ B = 1 GB.\n2. Per year: 365 GB.\n3. With 3 replicas: 1,095 GB per year.\n4. With 5-year retention: 1,095 × 5 = 5,475 GB = **5.475 TB** (about 5.5 TB).\n\nAccepted range: 5.375–5.575 TB.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-storage-estimate",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  }
+]

@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-push-pull-cdn",
+  "version": 1,
+  "title": "Push vs pull CDNs",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-pull-cdn",
+      "version": 1,
+      "statement": "A pull CDN fetches an object from the origin on its first request and keeps it until it expires; it suits high-traffic sites with large content sets, at the cost of slow first requests."
+    },
+    {
+      "id": "kc-push-cdn",
+      "version": 1,
+      "statement": "A push CDN stores content only when the origin uploads it; it suits small or rarely changing content sets and gives control over what is stored, but the origin must push every update."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-cdn"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "push cdn",
+    "pull cdn"
+  ],
+  "uses": [
+    "cdn",
+    "origin server",
+    "edge server"
+  ],
+  "problem_ideas": [
+    "A streaming service releases a new season at midnight to 5 million viewers: push or pull, and why?",
+    "A user-generated photo site holds 2 billion images, most rarely viewed: push or pull?",
+    "Estimate origin load right after a pull CDN purge, with 1,000 edges each requesting a popular 2 MB file",
+    "A docs site with 300 pages updated weekly: pick a CDN type",
+    "Failure story: a pushed asset was never uploaded to one region; what do users there see?",
+    "List what the origin must do on every deploy for each CDN type"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "content-delivery-network/push-cdns"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "content-delivery-network/pull-cdns"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "content-delivery-networks/pull-cdns"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "types-4/push-cdns"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,100 @@
+[
+  {
+    "id": "sd-dns/placement-1",
+    "family": "sd-dns-probe-dns-ttl-change",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "prompt_md": "At **09:00** a DNS resolver caches the A record for `shop.example`. The record's TTL is **3600 seconds**. At **09:20** you change the record to a new IP address.\n\nAssume the resolver follows the TTL and no other cache is involved. What is the **latest** time at which a user behind this resolver can still get the **old** IP?",
+    "options": [
+      {
+        "id": "a",
+        "md": "09:20. The change takes effect for every user straight away",
+        "why_md": "Changing the record on the authoritative server does not reach caches that already hold a copy. The resolver keeps serving its cached copy until that copy expires."
+      },
+      {
+        "id": "b",
+        "md": "10:20. One TTL after the record was changed",
+        "why_md": "The TTL clock starts when the resolver cached the answer (09:00), not when you edited the record."
+      },
+      {
+        "id": "c",
+        "md": "10:00. One TTL after the resolver cached the answer",
+        "correct": true,
+        "why_md": "Right. The cached copy expires at 09:00 + 3600 s = 10:00. After that, the next query goes back to the authoritative server and gets the new IP."
+      },
+      {
+        "id": "d",
+        "md": "Indefinitely, until someone restarts the resolver",
+        "why_md": "A resolver that follows the TTL drops the cached copy when the TTL runs out. It does not need a restart."
+      }
+    ],
+    "hints": [
+      "Caches keep an answer for the record's TTL, and the clock starts when the answer was cached.",
+      "The answer was cached at 09:00 with a TTL of 3600 s (1 hour), so it expires at 10:00. The edit at 09:20 does not reset that clock."
+    ],
+    "solution_md": "1. The resolver cached the answer at 09:00 with TTL 3600 s = 1 hour.\n2. The cached copy expires at 09:00 + 1 h = **10:00**.\n3. Until then the resolver keeps answering with the old IP. The 09:20 edit only changes the authoritative server's copy.\n4. After 10:00 the next lookup goes back to the authoritative server and gets the new IP.\n\nAnswer: **10:00**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  },
+  {
+    "id": "sd-dns/placement-3",
+    "family": "sd-dns-count-cold-queries",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-resolution"
+    ],
+    "use": "placement",
+    "prompt_md": "A resolver's cache is completely empty. Counting only the queries **the resolver itself sends**, how many does it send to find the IP address of `www.example.net`? (Assume each server answers on the first try and no reply includes extra answers.)",
+    "answer": {
+      "value": 3,
+      "tolerance": 0,
+      "unit": "queries"
+    },
+    "common_wrong": [
+      {
+        "value": 4,
+        "kind": "slip",
+        "why_md": "That adds the laptop's query to the resolver. The question counts only the resolver's own queries."
+      },
+      {
+        "value": 1,
+        "kind": "misconception",
+        "why_md": "No single server knows every name; the resolver must walk root → `.net` → `example.net`."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "servers = ['root', '.net TLD', 'example.net authoritative']\nanswer = len(servers)\n"
+    },
+    "hints": [
+      "With an empty cache, where does the resolver have to start?",
+      "Root → `.net` TLD → `example.net`'s authoritative server."
+    ],
+    "solution_md": "1. A root server: referral to the `.net` servers.\n2. A `.net` TLD server: referral to `example.net`'s authoritative servers.\n3. `example.net`'s authoritative server: the address.\n\nThe resolver sends **3** queries.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-dns",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  }
+]

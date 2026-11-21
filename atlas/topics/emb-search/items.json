@@ -1,0 +1,662 @@
+[
+  {
+    "id": "q-cp1-same",
+    "version": 1,
+    "family": "q-cp1-same",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-pipeline"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Why must queries and documents be embedded by the same model?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Each model has its own coordinate system, so vectors from different models aren't comparable",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "For licensing reasons",
+        "why_md": "There's a real technical reason: the vector spaces don't line up."
+      },
+      {
+        "id": "c",
+        "md": "It's only needed if the dimensions differ",
+        "why_md": "Even with equal dimensions, the spaces don't line up.",
+        "misconception": "mc-mix-models"
+      }
+    ],
+    "hints": [
+      "Which idea applies? Embed documents offline, embed the query with the same model, rank by similarity, return the top-k.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-b8",
+    "version": 1,
+    "family": "q-dpp-b8",
+    "kind": "order",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-pipeline"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Order the **online** (per-query) steps of semantic search.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Sort by score and keep the top-k",
+        "why_md": "Last."
+      },
+      {
+        "id": "b",
+        "md": "Embed the query with the index's model",
+        "why_md": "First."
+      },
+      {
+        "id": "c",
+        "md": "Score the query vector against stored vectors",
+        "why_md": "Second."
+      }
+    ],
+    "answer": {
+      "sequence": [
+        "b",
+        "c",
+        "a"
+      ]
+    },
+    "hints": [
+      "Which idea applies? Embed documents offline, embed the query with the same model, rank by similarity, return the top-k.",
+      "Embed → score → sort and cut."
+    ],
+    "solution_md": "Embed → score → sort and cut. Chunking and document embedding happen offline, ahead of time.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-b9",
+    "version": 1,
+    "family": "q-dpp-b9",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-pipeline"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Predict the output:",
+    "code": "scores = {\"a\": 0.91, \"b\": 0.42, \"c\": 0.91}\nprint(sorted(scores, key=lambda d: (-scores[d], d))[:2])",
+    "options": [
+      {
+        "id": "a",
+        "md": "`['a', 'c']`",
+        "correct": true,
+        "why_md": "Right. a and c tie at 0.91; the tie is broken by id, so a comes first."
+      },
+      {
+        "id": "b",
+        "md": "`['a', 'b']`",
+        "why_md": "b scores 0.42, lower than c."
+      },
+      {
+        "id": "c",
+        "md": "`['c', 'a']`",
+        "why_md": "Ties go to the alphabetically smaller id because of the `d` in the sort key."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Embed documents offline, embed the query with the same model, rank by similarity, return the top-k.",
+      "The key sorts by descending score, then ascending id: a (0.91), c (0.91), b (0.42)."
+    ],
+    "solution_md": "The key sorts by descending score, then ascending id: a (0.91), c (0.91), b (0.42). Taking the first two gives `['a', 'c']`.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "emb-search/set-1",
+    "version": 1,
+    "family": "emb-search-dot-madds",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "A query vector and one stored article vector each have **384** numbers. A *multiply-add* is one multiplication whose result is added to a running total. How many multiply-adds does the dot product of these two vectors take?",
+    "answer": {
+      "value": 384,
+      "tolerance": 0,
+      "unit": "multiply-adds"
+    },
+    "common_wrong": [
+      {
+        "value": 767,
+        "kind": "slip",
+        "why_md": "That counts the 384 multiplications and 383 additions separately. A multiply-add bundles each multiplication with its addition to the total, so there are 384."
+      },
+      {
+        "value": 147456,
+        "kind": "misconception",
+        "why_md": "$384 \\times 384$ multiplies every number by every other number. A dot product pairs only matching positions: first with first, second with second."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "q = [1.0] * 384\nv = [1.0] * 384\ntotal = 0.0\nmadds = 0\nfor a, b in zip(q, v):\n    total += a * b\n    madds += 1\nanswer = madds\n"
+    },
+    "hints": [
+      "A dot product pairs position 1 with position 1, position 2 with position 2, and so on.",
+      "Each matching pair is one multiplication added to the running total: one multiply-add per position, and there are 384 positions."
+    ],
+    "solution_md": "A dot product walks along the positions once, doing `total += q[i] * v[i]` for each of the 384 positions. One multiply-add per position gives **384**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/set-2",
+    "version": 1,
+    "family": "emb-search-top1-dot",
+    "kind": "predict_output",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-pipeline"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Three help articles and a query have 3-number toy embeddings, and each article is scored with a dot product. What does this print?",
+    "code": "docs = {\"refund\": [1, 0, 2], \"login\": [3, 1, 0], \"parcel\": [0, 2, 1]}\nq = [2, 1, 0]\nscores = {name: sum(a * b for a, b in zip(v, q)) for name, v in docs.items()}\nprint(max(scores, key=scores.get))\n",
+    "answer": {
+      "value": "login",
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import io, contextlib\nsrc = 'docs = {\"refund\": [1, 0, 2], \"login\": [3, 1, 0], \"parcel\": [0, 2, 1]}\\nq = [2, 1, 0]\\nscores = {name: sum(a * b for a, b in zip(v, q)) for name, v in docs.items()}\\nprint(max(scores, key=scores.get))\\n'\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    exec(src, {})\nanswer = buf.getvalue().strip()\n"
+    },
+    "hints": [
+      "Compute each article's dot product with `q`: multiply matching positions and add.",
+      "refund: 1·2 + 0·1 + 2·0 = 2. login: 3·2 + 1·1 + 0·0 = 7. parcel: 0·2 + 2·1 + 1·0 = 2. `max` with `key=scores.get` returns the name with the largest score."
+    ],
+    "solution_md": "Scores: refund 2, login 7, parcel 2. `max(scores, key=scores.get)` returns the key with the highest score, so it prints `login`.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/set-3",
+    "version": 1,
+    "family": "emb-search-model-calls",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "A recipe site embeds its **400** recipes on Monday (one vector per recipe) and stores the vectors. During the week, **1,250** searches arrive. No recipe is added or edited, and the embedding model never changes. How many times does the embedding model run in total, from Monday's indexing through the last search?",
+    "answer": {
+      "value": 1650,
+      "tolerance": 0,
+      "unit": "model calls"
+    },
+    "common_wrong": [
+      {
+        "value": 501250,
+        "kind": "misconception",
+        "tag": "mc-reembed-per-query",
+        "why_md": "$1{,}250 \\times 401$ assumes every search re-embeds all 400 recipes plus the query. The recipe vectors were stored on Monday and are reused."
+      },
+      {
+        "value": 1250,
+        "kind": "slip",
+        "why_md": "That counts only the searches. Monday's indexing ran the model once per recipe."
+      },
+      {
+        "value": 400,
+        "kind": "slip",
+        "why_md": "That counts only the indexing. Every search also embeds its query: one more call each."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "recipes = 400\nsearches = 1250\noffline_calls = recipes\nonline_calls = searches * 1\nanswer = offline_calls + online_calls\n"
+    },
+    "hints": [
+      "Split the work into the offline step (once) and the online step (per search).",
+      "Offline: one call per recipe, 400. Online: one call per search for its query, 1,250. Add the two."
+    ],
+    "solution_md": "Offline, once: 400 model calls. Online: each search embeds only its query, so 1,250 calls. Total **400 + 1,250 = 1,650**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/set-4",
+    "version": 1,
+    "family": "emb-search-madds-per-query",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "The help centre's articles are split into **120** chunks, each stored as a **384**-number vector. Each query is scored against every stored vector with a dot product, and the page shows the **top 5**. How many multiply-adds does the scoring step take for **one** query?",
+    "answer": {
+      "value": 46080,
+      "tolerance": 0,
+      "unit": "multiply-adds"
+    },
+    "common_wrong": [
+      {
+        "value": 1920,
+        "kind": "misconception",
+        "tag": "mc-topk-cuts-work",
+        "why_md": "$5 \\times 384$ scores only the five results. You can't know which five are best until every chunk has a score."
+      },
+      {
+        "value": 120,
+        "kind": "slip",
+        "why_md": "That counts dot products. Each dot product is 384 multiply-adds."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "n_vectors = 120\nd = 384\nk = 5\nanswer = n_vectors * d\n"
+    },
+    "hints": [
+      "Brute-force search scores every stored vector: one dot product each, and d multiply-adds per dot product.",
+      "120 dot products × 384 multiply-adds. The top-5 cut happens after scoring."
+    ],
+    "solution_md": "Every one of the 120 chunk vectors is scored: $120 \\times 384 = 46{,}080$ multiply-adds. Keeping the top 5 is a cut of the sorted list after scoring; it doesn't reduce the scoring work. Answer: **46,080**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/set-5",
+    "version": 1,
+    "family": "emb-search-bruteforce-bigo",
+    "kind": "complexity",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Brute-force search: the index stores **N** vectors with **d** numbers each. For one query, the scoring step computes a dot product with every stored vector. In big-O, using N and d, give:\n\n- **time:** the multiply-adds the scoring step does for one query (leave out the sort);\n- **space:** the memory the index needs to hold the stored vectors.",
+    "answer": {
+      "time": "O(N·d)",
+      "space": "O(N·d)"
+    },
+    "hints": [
+      "Count the dot products, then the multiply-adds inside each one. For space, count the numbers stored.",
+      "N dot products × d multiply-adds each; N vectors × d numbers each."
+    ],
+    "solution_md": "**Time O(N·d):** N dot products of d multiply-adds each. **Space O(N·d):** N stored vectors of d numbers each. Every stored number is read exactly once per query, which is why the two match. Sorting the N scores is extra work on top, which this question left out.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/set-6",
+    "version": 1,
+    "family": "emb-search-fix-reembed",
+    "kind": "case",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Your first help-centre prototype has this search function:\n\n```python\ndef search(query, articles, k=3):\n    vectors = [embed(a) for a in articles]   # 25 articles\n    q = embed(query)\n    scores = [dot(q, v) for v in vectors]\n    ...\n```\n\nThe results are right, but every search makes 26 model calls and feels slow. What is your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Embed the 25 articles once, ahead of time, store the vectors with their IDs, and have `search` embed only the query and score it against the stored vectors",
+        "correct": true,
+        "why_md": "Best. The article vectors don't depend on the query, so computing them inside `search` repeats the same 25 model calls every time. After the fix: 25 calls once, then 1 per search."
+      },
+      {
+        "id": "b",
+        "md": "Keep a cache of query vectors so a repeated query skips its `embed(query)` call",
+        "why_md": "Viable, but second-best: it saves one call only when a query repeats exactly, and every search still re-embeds all 25 articles. Move the article embedding offline first; a query cache can come later."
+      },
+      {
+        "id": "c",
+        "md": "Embed queries with a smaller, faster model and keep the larger model for the articles",
+        "misconception": "mc-mix-models",
+        "why_md": "Trap. Vectors from two different models live in different spaces, so the scores become meaningless. Query and articles must share one model."
+      },
+      {
+        "id": "d",
+        "md": "Return only the top 1 instead of the top 3 to cut the work",
+        "misconception": "mc-topk-cuts-work",
+        "why_md": "Trap. Every article is still scored; k only decides where the sorted list is cut. The 26 model calls don't change at all."
+      }
+    ],
+    "hints": [
+      "For each line, ask: does its result depend on the query? If not, it can run once, offline.",
+      "The article vectors are the same for every query, so compute them once and store them. Only `embed(query)` and the scoring need to run per search."
+    ],
+    "solution_md": "**Best: (a).** The article vectors don't depend on the query, so the prototype repeats the same 25 model calls on every search. Embed the articles once, store the vectors with their IDs, and let `search` embed only the query: 25 calls once, then 1 per search. (b) helps only when a query repeats exactly, and leaves the 25 article calls in place. (c) breaks ranking: two different models give vectors in different spaces. (d) changes nothing about the work: every article is still scored, and the 26 model calls stay.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/set-7",
+    "version": 1,
+    "family": "emb-search-topk-cut-bug",
+    "kind": "predict_output",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-pipeline"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "A teammate wrote this top-k step; the scores are already computed. It has a bug. What does it **actually** print?",
+    "code": "scores = {\"refund\": 0.31, \"login\": 0.82, \"parcel\": 0.12, \"billing\": 0.67, \"password\": 0.91}\nk = 2\ntop = sorted(list(scores.items())[:k], key=lambda kv: kv[1], reverse=True)\nprint(*[name for name, s in top])\n",
+    "answer": {
+      "value": "login refund",
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import io, contextlib\nsrc = 'scores = {\"refund\": 0.31, \"login\": 0.82, \"parcel\": 0.12, \"billing\": 0.67, \"password\": 0.91}\\nk = 2\\ntop = sorted(list(scores.items())[:k], key=lambda kv: kv[1], reverse=True)\\nprint(*[name for name, s in top])\\n'\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    exec(src, {})\nanswer = buf.getvalue().strip()\n"
+    },
+    "hints": [
+      "`list(scores.items())[:k]` keeps the first k entries in the order they were inserted, before anything is sorted.",
+      "The first two entries are refund (0.31) and login (0.82). Sorting just those, highest first, gives login then refund."
+    ],
+    "solution_md": "`list(scores.items())[:2]` keeps the first two entries as inserted: refund (0.31) and login (0.82). Sorting those two, highest first, gives login, refund, so it prints `login refund`. The real top-2, password (0.91) and login (0.82), never got a chance: the list was cut **before** ranking. Fix: sort all items by score first, then take `[:k]`.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/set-8",
+    "version": 1,
+    "family": "emb-search-cost-scaling",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Today the help centre has **25** articles embedded with a **384**-dimension model and scored by brute force. Next quarter it grows to **100** articles, and you switch to a **768**-dimension model. By what factor does the scoring work per query (multiply-adds) grow?",
+    "answer": {
+      "value": 8,
+      "tolerance": 0,
+      "unit": "×"
+    },
+    "common_wrong": [
+      {
+        "value": 4,
+        "kind": "slip",
+        "why_md": "That counts only the extra articles (×4). Each dot product also gets twice as long (×2)."
+      },
+      {
+        "value": 6,
+        "kind": "slip",
+        "why_md": "The growth factors multiply, they don't add: ×4 and ×2 give ×8."
+      },
+      {
+        "value": 2,
+        "kind": "slip",
+        "why_md": "That counts only the longer vectors (×2). There are also four times as many to score."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "before = 25 * 384\nafter = 100 * 768\nanswer = after / before\n"
+    },
+    "hints": [
+      "Per-query scoring work is N × d. Work it out before and after, or multiply the two growth factors.",
+      "Before: 25 × 384 = 9,600. After: 100 × 768 = 76,800. Divide."
+    ],
+    "solution_md": "Before: $25 \\times 384 = 9{,}600$ multiply-adds per query. After: $100 \\times 768 = 76{,}800$. Factor $76{,}800 \\div 9{,}600 = $ **8** (×4 articles, ×2 numbers per vector). The model switch also means re-embedding all 100 articles offline before the first query, but that is a one-off cost, not part of the per-query factor.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/set-9",
+    "version": 1,
+    "family": "emb-search-design-helpcentre",
+    "kind": "design",
+    "class": "judged",
+    "scaffold": "independent",
+    "level": 4,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-pipeline",
+      "kc-search-offline-online"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 480,
+    "prompt_md": "Design semantic search for the 25-article help centre (10 labelled queries, a keyword-search baseline already exists). In a short plan, say: what you compute ahead of time and store; exactly what runs for each query; what each part costs in model calls and multiply-adds for a model with d numbers per vector; what you redo when an article changes or the model changes; and how you will check that it beats keyword search.",
+    "rubric": {
+      "criteria": [
+        {
+          "id": "offline-index",
+          "text": "Embeds every article once, offline, with one model, and stores each vector next to its article ID",
+          "weight": 2
+        },
+        {
+          "id": "online-query",
+          "text": "Per query: embeds the query with the same model, scores every stored vector, sorts and returns the top-k",
+          "weight": 2
+        },
+        {
+          "id": "costs",
+          "text": "States the costs: 25 model calls once; per query one model call plus 25 × d multiply-adds and a sort",
+          "weight": 2
+        },
+        {
+          "id": "upkeep",
+          "text": "Re-embeds only an edited or new article, and every article when the model changes",
+          "weight": 1
+        },
+        {
+          "id": "evaluation",
+          "text": "Compares against the keyword baseline on the 10 labelled queries by counting how often the labelled article appears in the top-k",
+          "weight": 2
+        }
+      ],
+      "quotes_required": true
+    },
+    "hints": [
+      "Sort every step into offline (once) or online (per query) first, then count each side.",
+      "Offline: embed 25 articles, store vectors with IDs. Online: embed the query with the same model, 25 dot products of d multiply-adds, sort, top-k. Then compare both methods on the 10 labelled queries by how often the right article lands in the top k."
+    ],
+    "solution_md": "A strong plan:\n\n1. **Offline, once:** embed all 25 articles with one model (25 model calls) and store each vector next to its article ID.\n2. **Online, per query:** embed the query with the **same** model (1 call), score it against all 25 stored vectors with cosine or a dot product ($25 \\times d$ multiply-adds), sort the 25 scores and return the top k (say 3).\n3. **Upkeep:** an edited or new article is re-embedded on its own; a model change means re-embedding all 25 before the next query.\n4. **Check:** run the 10 labelled queries through both keyword search and semantic search, and count for each method how many queries have the labelled article in the top k. Semantic search should win on paraphrased queries such as *can't log in* → *Reset your password*.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/exit-1",
+    "version": 1,
+    "family": "emb-search-per-query-work",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "The 25-article help centre is already indexed. Which work happens again for **every** new query?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Embed the query, score it against all 25 stored vectors, and sort",
+        "correct": true,
+        "why_md": "Right. These are the online steps; the stored article vectors are reused."
+      },
+      {
+        "id": "b",
+        "md": "Re-embed all 25 articles, then embed the query",
+        "misconception": "mc-reembed-per-query",
+        "why_md": "The articles were embedded once, offline. Their vectors don't depend on the query."
+      },
+      {
+        "id": "c",
+        "md": "Embed the query, then score only the top-k articles",
+        "misconception": "mc-topk-cuts-work",
+        "why_md": "You don't know which articles are the top-k until all 25 have been scored."
+      },
+      {
+        "id": "d",
+        "md": "Nothing: the results were worked out offline",
+        "why_md": "Results depend on the query, which isn't known until it arrives. Only the article side can be prepared ahead."
+      }
+    ],
+    "hints": [
+      "Ask which work depends on the query and which doesn't.",
+      "The article vectors don't depend on the query. The query's own vector and its scores do."
+    ],
+    "solution_md": "Per query: embed the query (1 model call), score it against all 25 stored vectors, sort, and keep the top-k. The article vectors were made once, offline, and are reused.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/exit-2",
+    "version": 1,
+    "family": "emb-search-madds-per-query",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "An FAQ page has **60** articles, each stored as a **384**-number vector. Brute-force scoring computes one dot product per stored vector. How many multiply-adds does scoring take for **one** query?",
+    "answer": {
+      "value": 23040,
+      "tolerance": 0,
+      "unit": "multiply-adds"
+    },
+    "common_wrong": [
+      {
+        "value": 60,
+        "kind": "slip",
+        "why_md": "That counts dot products. Each dot product is 384 multiply-adds."
+      },
+      {
+        "value": 384,
+        "kind": "slip",
+        "why_md": "That is one article's dot product. Every one of the 60 stored vectors is scored."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "n_vectors = 60\nd = 384\nanswer = n_vectors * d\n"
+    },
+    "hints": [
+      "One dot product per stored vector, and d multiply-adds per dot product.",
+      "60 × 384."
+    ],
+    "solution_md": "$60 \\times 384 = $ **23,040** multiply-adds.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  }
+]

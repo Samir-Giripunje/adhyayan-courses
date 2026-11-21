@@ -1,0 +1,31 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-realtime-at-scale",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: design it",
+  "blurb": "Uses Short polling vs long polling, WebSockets and stateful connection servers and Routing messages to millions of open connections: estimate the numbers and weigh the trade-offs.",
+  "after": "topic:sd-realtime-at-scale",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "design",
+    "topics": [
+      "sd-polling-long-polling",
+      "sd-websockets",
+      "sd-realtime-at-scale"
+    ],
+    "kcs": [
+      "kc-short-polling-cost",
+      "kc-long-polling-hold",
+      "kc-websocket-upgrade",
+      "kc-websocket-stateful",
+      "kc-session-registry",
+      "kc-offline-delivery",
+      "kc-presence-tracking"
+    ],
+    "minutes": 21,
+    "why": "Uses Short polling vs long polling, WebSockets and stateful connection servers and Routing messages to millions of open connections: estimate the numbers and weigh the trade-offs."
+  }
+}

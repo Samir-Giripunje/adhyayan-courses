@@ -1,0 +1,69 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-ticket-booking",
+  "version": 1,
+  "title": "Case study: ticket and flight booking",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-booking-seat-hold",
+      "version": 1,
+      "statement": "Booking places a temporary seat hold with a TTL (for example 10 minutes) while the user pays. If payment does not complete before the hold expires, the seat is released automatically."
+    },
+    {
+      "id": "kc-booking-optimistic-locking",
+      "version": 1,
+      "statement": "Double booking is prevented by a conditional update, for example UPDATE seat SET holder=? WHERE id=? AND holder IS NULL, or by a version check (optimistic locking). Only one concurrent claim succeeds."
+    },
+    {
+      "id": "kc-booking-hot-event-queue",
+      "version": 1,
+      "statement": "For hot on-sales, a virtual waiting room queues users and admits them at a controlled rate. This protects the inventory database from a spike of contended writes."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-relational-acid"
+  ],
+  "suggests": [
+    "sd-back-pressure",
+    "sd-case-payment-system"
+  ],
+  "confusable_with": [
+    "sd-case-payment-system"
+  ],
+  "introduces": [
+    "ticket booking design",
+    "seat hold",
+    "optimistic locking",
+    "virtual waiting room"
+  ],
+  "uses": [
+    "transaction",
+    "ttl",
+    "relational database",
+    "strong consistency",
+    "queue-based load leveling",
+    "rate limiting"
+  ],
+  "problem_ideas": [
+    "Two users click the same seat within 5 ms. Show which update succeeds and what the other sees.",
+    "Choose a hold TTL for concert tickets and for flights, and justify both.",
+    "1M users arrive for 50K seats at 10:00. Size the admission rate of the waiting room.",
+    "Payment succeeds just after the hold expired. Design the resolution.",
+    "Compare pessimistic row locks with optimistic version checks under heavy contention.",
+    "Explain why seat inventory must be strongly consistent while event search can be eventually consistent."
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-flight-booking-system"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-airbnb"
+    }
+  ],
+  "status": "stub"
+}

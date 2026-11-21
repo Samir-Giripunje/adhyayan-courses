@@ -1,0 +1,35 @@
+[
+  {
+    "id": "q-proof2-mem",
+    "version": 1,
+    "family": "q-proof2-mem",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-compression",
+    "kcs": [
+      "kc-compression",
+      "kc-ann-tradeoff"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 75,
+    "prompt_md": "**Transfer:** image search over **300M** images with **512**-d embeddings in **float16**. Raw size in GB? (1 decimal)",
+    "answer": {
+      "value": 307.2,
+      "tolerance": 0.5
+    },
+    "hints": [
+      "Which idea applies? float16, int8, binary and product quantisation shrink memory at some recall cost.",
+      "$3\\times10^8 \\times 512 \\times 2 = 3.072\\times10^{11}$ bytes ≈ 307.2 GB."
+    ],
+    "solution_md": "$3\\times10^8 \\times 512 \\times 2 = 3.072\\times10^{11}$ bytes ≈ 307.2 GB.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

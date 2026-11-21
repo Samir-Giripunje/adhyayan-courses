@@ -1,0 +1,1504 @@
+{
+  "stage": {
+    "id": "clf-p6",
+    "title": "Deploying, operating and monitoring on AWS",
+    "outcome": [
+      "o1",
+      "o4",
+      "o6"
+    ],
+    "assumes": [
+      "management console",
+      "aws cli",
+      "aws sdk",
+      "ec2 instance",
+      "auto scaling group",
+      "lambda",
+      "cloudtrail",
+      "aws config",
+      "aws organizations",
+      "well-architected framework"
+    ],
+    "provides": [
+      "infrastructure as code",
+      "cloudformation",
+      "cdk",
+      "elastic beanstalk",
+      "systems manager",
+      "cloudwatch",
+      "cloudwatch alarm",
+      "health dashboard",
+      "trusted advisor",
+      "well-architected tool",
+      "control tower",
+      "service catalog",
+      "codepipeline",
+      "codebuild",
+      "codedeploy",
+      "x-ray",
+      "service quotas",
+      "license manager",
+      "elastic disaster recovery"
+    ]
+  },
+  "sections": [
+    {
+      "id": "deploy",
+      "title": "Provisioning and deploying: from console clicks to pipelines",
+      "rank": 1,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-3-1-define-methods-of-dep"
+      }
+    },
+    {
+      "id": "monitor",
+      "title": "Monitoring, operating and recovering workloads",
+      "rank": 2,
+      "source_ref": {
+        "source": "clf-notes",
+        "section": "cloud-monitoring"
+      }
+    },
+    {
+      "id": "govern",
+      "title": "Reviewing, advising and governing accounts",
+      "rank": 3,
+      "source_ref": {
+        "source": "clf-notes",
+        "section": "account-management-billing-support"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "clf-one-time-vs-repeatable",
+      "title": "One-time operations vs repeatable processes",
+      "size": "standard",
+      "est_min": 8,
+      "section": "deploy",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-one-time-vs-repeatable-ops",
+          "statement": "A one-off task, such as trying out a new service or changing a single setting, fits the Management Console; a task repeated across environments, accounts or Regions should be scripted with the CLI or SDK or defined in templates."
+        },
+        {
+          "id": "kc-repeatable-process-benefits",
+          "statement": "Repeatable, automated processes reduce human error, keep dev, test and production environments identical, and let an environment be rebuilt quickly after a failure."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Task 3.1 questions ask whether a requirement calls for a one-time console action or a repeatable automated method before naming the service"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-access-methods",
+        "clf-economies-of-scale-automation"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "one-time operation",
+        "repeatable process"
+      ],
+      "uses": [
+        "management console",
+        "aws cli",
+        "aws sdk",
+        "automation"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-1-define-methods-of-dep/evaluating-requirements-to-determine-whe"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-1-define-methods-of-dep/various-ways-of-provisioning-and-operati"
+        }
+      ],
+      "problem_ideas": [
+        "An admin must turn on S3 versioning for one bucket, once: console, CLI script or template? Justify the choice.",
+        "A team must create the same VPC, subnets and EC2 setup in 12 accounts: which approach, and why is the console a bad choice?",
+        "A production outage happened because someone clicked a different setting in prod than in test: name the process change that prevents it.",
+        "Sort 8 tasks (rotate one key, nightly report export, new-region rollout, demo for a manager...) into one-time vs repeatable.",
+        "A startup rebuilt its environment by hand after a Region issue and took 3 days: what would a repeatable process have changed?",
+        "Distractor drill: 'the fastest way to deploy identical environments repeatedly' with options console, CLI one-liner, template, support ticket."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Immutable infrastructure: replace, don't patch"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Domain 3 opens with this judgement, and it frames every deployment-method question that follows."
+      }
+    },
+    {
+      "id": "clf-cloudformation",
+      "title": "Infrastructure as code with AWS CloudFormation",
+      "size": "standard",
+      "est_min": 10,
+      "section": "deploy",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-iac-definition",
+          "statement": "Infrastructure as code describes cloud resources in machine-readable template files that can be version-controlled and reviewed, so the same environment can be created again and again."
+        },
+        {
+          "id": "kc-cloudformation-stack",
+          "statement": "AWS CloudFormation reads a JSON or YAML template and creates, updates or deletes all of its resources together as one stack, handling the order in which they depend on each other."
+        },
+        {
+          "id": "kc-cloudformation-pricing-delete",
+          "statement": "There is no extra charge for using CloudFormation with AWS resources; you pay for the resources the stack creates, and deleting the stack deletes those resources."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "CloudFormation is the expected answer whenever a requirement says to provision infrastructure repeatably from templates"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-one-time-vs-repeatable"
+      ],
+      "confusable_with": [
+        "clf-elastic-beanstalk",
+        "clf-cdk"
+      ],
+      "introduces": [
+        "infrastructure as code",
+        "cloudformation",
+        "cloudformation template",
+        "cloudformation stack"
+      ],
+      "uses": [
+        "repeatable process",
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "deploying-and-managing-infrastructure-at/what-is-cloudformation"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "deploying-and-managing-infrastructure-at/deploying-and-managing-infrastructure-at"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-1-define-methods-of-dep/various-ways-of-provisioning-and-operati"
+        }
+      ],
+      "problem_ideas": [
+        "A company needs identical stacks in us-east-1 and eu-west-1 for disaster recovery: which service, and which artifact do they reuse?",
+        "A test environment costs $40/day and is used one week a month: how does deleting and recreating a stack save money?",
+        "A template creates an EC2 instance that needs a security group created first: who works out the order?",
+        "A manager asks what CloudFormation itself costs for a stack of 20 EC2 and RDS resources: answer and explain.",
+        "A reviewer wants to see infrastructure changes in a pull request before they ship: which practice makes that possible?",
+        "Distractor drill: CloudFormation vs Elastic Beanstalk vs Systems Manager for 'model and provision all resources of an application as code'."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Change sets and drift detection"
+        },
+        {
+          "kind": "implementation",
+          "title": "Anatomy of a template: Parameters, Resources, Outputs"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "CloudFormation is one of the most frequently tested deployment services on CLF-C02."
+      }
+    },
+    {
+      "id": "clf-cdk",
+      "title": "AWS CDK: infrastructure in a programming language",
+      "size": "micro",
+      "est_min": 6,
+      "section": "deploy",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cdk-synthesizes-cloudformation",
+          "statement": "The AWS Cloud Development Kit (CDK) lets developers define infrastructure in languages such as TypeScript, Python, Java, C# and Go, and synthesizes that code into a CloudFormation template that CloudFormation then deploys."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "clf-cloudformation",
+          "reason": "The CDK's defining fact is that it compiles to a CloudFormation template, so the learner must already know what a template and a stack are"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-cloudformation"
+      ],
+      "introduces": [
+        "cdk"
+      ],
+      "uses": [
+        "cloudformation",
+        "cloudformation template",
+        "infrastructure as code"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "deploying-and-managing-infrastructure-at/aws-cloud-development-kit-cdk"
+        }
+      ],
+      "problem_ideas": [
+        "Python developers dislike writing YAML but want infrastructure as code on AWS: which tool fits?",
+        "A CDK app is 'deployed': which service actually creates the resources?",
+        "True or false: using the CDK means you no longer use CloudFormation. Explain.",
+        "A team wants loops and functions to generate 30 similar queues: CDK or a plain template, and why?",
+        "Name two languages the CDK supports, and one wrong assumption about it (for example, that it needs its own special language).",
+        "Distractor drill: CDK vs AWS SDK for 'define cloud infrastructure in a familiar programming language'."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Constructs and the synth step"
+        }
+      ],
+      "lens": {
+        "score": 0.35,
+        "reason": "Shows up as a distractor or an occasional answer next to CloudFormation; one fact is enough."
+      }
+    },
+    {
+      "id": "clf-elastic-beanstalk",
+      "title": "Elastic Beanstalk: deploy code, AWS runs the stack",
+      "size": "standard",
+      "est_min": 10,
+      "section": "deploy",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-beanstalk-paas",
+          "statement": "AWS Elastic Beanstalk is a PaaS-style service: you upload application code and it provisions and manages the EC2 instances, load balancer, Auto Scaling group and health monitoring for you."
+        },
+        {
+          "id": "kc-beanstalk-control-and-cost",
+          "statement": "With Elastic Beanstalk you keep full access to the underlying resources it creates, and the service itself is free; you pay only for those resources."
+        },
+        {
+          "id": "kc-beanstalk-platforms",
+          "statement": "Elastic Beanstalk supports common web platforms such as Java, .NET, Node.js, Python, PHP, Ruby, Go and Docker, so standard web apps deploy without designing infrastructure."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Beanstalk is the expected answer for 'deploy a web app quickly without managing infrastructure' and the main distractor to CloudFormation"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-auto-scaling-groups",
+        "clf-elastic-load-balancing",
+        "clf-service-models"
+      ],
+      "confusable_with": [
+        "clf-cloudformation",
+        "clf-lambda"
+      ],
+      "introduces": [
+        "elastic beanstalk"
+      ],
+      "uses": [
+        "paas",
+        "ec2 instance",
+        "elastic load balancing",
+        "auto scaling group"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "deploying-and-managing-infrastructure-at/aws-elastic-beanstalk-overview"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "deploying-and-managing-infrastructure-at/developer-problems-on-aws"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "deploying-and-managing-infrastructure-at/typical-architecture-web-app-3-tier"
+        }
+      ],
+      "problem_ideas": [
+        "A team of two developers has a Node.js web app and no ops staff: which deployment service, and what does it create for them?",
+        "A Beanstalk app's bill shows EC2 and ELB charges but no 'Beanstalk' line: explain why.",
+        "After deploying with Beanstalk, an engineer wants to change the instance type: can they? Where?",
+        "Which of these does Beanstalk not handle for you: capacity provisioning, load balancing, writing application code, health monitoring?",
+        "Sort three requirements (template every resource, upload a .war file, run a function on an S3 upload) to CloudFormation, Beanstalk or Lambda.",
+        "A Docker-packaged web app must go live today with auto scaling: is Beanstalk a valid option?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Environments, versions and deployment policies"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Often tested as the 'developers just upload code' answer and as a distractor."
+      }
+    },
+    {
+      "id": "clf-ci-cd-pipeline",
+      "title": "CI/CD on AWS: CodePipeline, CodeBuild, CodeDeploy",
+      "size": "big",
+      "est_min": 14,
+      "section": "deploy",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-ci-cd-definition",
+          "statement": "A CI/CD pipeline automatically builds, tests and releases every code change, so small changes reach production quickly with fewer manual errors."
+        },
+        {
+          "id": "kc-codebuild-role",
+          "statement": "AWS CodeBuild is a fully managed build service that compiles source code, runs tests and produces deployable artifacts, billed by build minute with no build servers to manage."
+        },
+        {
+          "id": "kc-codedeploy-role",
+          "statement": "AWS CodeDeploy automates deploying new application versions to EC2 instances, on-premises servers, Lambda functions and ECS services."
+        },
+        {
+          "id": "kc-codepipeline-role",
+          "statement": "AWS CodePipeline orchestrates the release workflow, moving each change through source, build, test and deploy stages and calling services such as CodeBuild and CodeDeploy."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Task 3.8 names CodeBuild and CodePipeline; learners must map build, deploy and orchestrate requirements to the right Code* service"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-one-time-vs-repeatable"
+      ],
+      "confusable_with": [
+        "clf-cloudformation",
+        "clf-elastic-beanstalk"
+      ],
+      "introduces": [
+        "ci/cd pipeline",
+        "codebuild",
+        "codedeploy",
+        "codepipeline"
+      ],
+      "uses": [
+        "ec2 instance",
+        "lambda",
+        "ecs",
+        "automation"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-8-identify-services-fro/developer-tool-services-and-capabilities"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "deploying-and-managing-infrastructure-at/aws-codepipeline"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "deploying-and-managing-infrastructure-at/aws-codebuild"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "deploying-and-managing-infrastructure-at/aws-codedeploy"
+        }
+      ],
+      "problem_ideas": [
+        "A team runs unit tests on a laptop before each release and forgets half the time: which service runs tests automatically on every commit?",
+        "Rolling out a new version to 200 EC2 instances and 30 on-premises servers: which Code* service?",
+        "Put the stages a change passes through in CodePipeline in order, and name the service called at the build stage.",
+        "A company pays for a Jenkins server that sits idle 22 hours a day: which managed build service bills only while building?",
+        "Match four verbs (orchestrate, compile, deploy, trace) to CodePipeline, CodeBuild, CodeDeploy, or 'not a Code* service'.",
+        "Distractor drill: 'automate the end-to-end release process' with options CodeBuild, CodeDeploy, CodePipeline, CloudFormation."
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "CodeCommit, CodeStar and Cloud9: retired or closed to new customers"
+        },
+        {
+          "kind": "mechanism",
+          "title": "Blue/green vs in-place deployments in CodeDeploy"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "The exam expects you to tell the Code* services apart by the one job each does."
+      }
+    },
+    {
+      "id": "clf-choosing-deployment-method",
+      "title": "Choosing a deployment method for a requirement",
+      "size": "standard",
+      "est_min": 8,
+      "section": "deploy",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-choose-iac-vs-beanstalk",
+          "statement": "To provision identical infrastructure repeatedly across accounts or Regions, choose CloudFormation (or the CDK); to deploy a web application without managing its infrastructure, choose Elastic Beanstalk."
+        },
+        {
+          "id": "kc-choose-pipeline-vs-iac",
+          "statement": "To automate releasing code changes through build, test and deploy stages, choose CodePipeline with CodeBuild and CodeDeploy; CloudFormation provisions infrastructure but does not by itself run a code release workflow."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "This is the 'rule out the closest distractor' step for deployment requirements"
+        },
+        {
+          "outcome": "o6",
+          "reason": "Deployment-method scenarios are a recurring Domain 3 question type in the mocks"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-cloudformation",
+          "reason": "Choosing CloudFormation requires knowing what a template and a stack do"
+        },
+        {
+          "topic": "clf-elastic-beanstalk",
+          "reason": "The main alternative in each scenario"
+        },
+        {
+          "topic": "clf-ci-cd-pipeline",
+          "reason": "Pipeline services are the third option to rule in or out"
+        }
+      ],
+      "suggests": [
+        "clf-cdk",
+        "clf-one-time-vs-repeatable"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "deployment method selection"
+      ],
+      "uses": [
+        "cloudformation",
+        "cdk",
+        "elastic beanstalk",
+        "codepipeline",
+        "codebuild",
+        "codedeploy",
+        "management console",
+        "one-time operation"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-1-define-methods-of-dep/various-ways-of-provisioning-and-operati"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-8-identify-services-fro/identifying-the-tools-to-develop-deploy-"
+        }
+      ],
+      "problem_ideas": [
+        "Ten one-paragraph scenarios: for each, name the deployment service and the distractor you rejected.",
+        "A bank wants every environment reviewed as code before it is created, and rebuilt identically in a second Region: pick and justify.",
+        "A hackathon team needs a Python web app online within an hour, with load balancing: pick and justify.",
+        "A team already has templates but releases code by copying files over SSH: what is missing, and which services fill the gap?",
+        "An engineer must change one tag on one instance: is CloudFormation overkill? What fits?",
+        "Spot the wrong answer: 'Use Elastic Beanstalk to provision a VPC, Transit Gateway and Direct Connect from templates.'"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.7,
+        "reason": "Turns separate service facts into the pick-one judgement the exam actually asks for."
+      }
+    },
+    {
+      "id": "clf-cloudwatch-metrics-logs",
+      "title": "Amazon CloudWatch: metrics, logs and dashboards",
+      "size": "standard",
+      "est_min": 10,
+      "section": "monitor",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cloudwatch-metrics",
+          "statement": "Amazon CloudWatch collects metrics from AWS services, such as EC2 CPU utilization, and shows them on dashboards for near real-time performance monitoring."
+        },
+        {
+          "id": "kc-cloudwatch-detailed-monitoring",
+          "statement": "EC2 sends metrics to CloudWatch every 5 minutes by default (basic monitoring); detailed monitoring sends them every 1 minute for an extra charge, and in-guest metrics such as memory use need the CloudWatch agent."
+        },
+        {
+          "id": "kc-cloudwatch-logs",
+          "statement": "CloudWatch Logs collects, stores and lets you search log data from applications, EC2 instances (through the CloudWatch agent), Lambda functions and other AWS services."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "CloudWatch is the answer to any 'monitor performance, collect metrics or logs' requirement"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-ec2-basics"
+      ],
+      "confusable_with": [
+        "clf-cloudtrail",
+        "clf-aws-config"
+      ],
+      "introduces": [
+        "cloudwatch",
+        "cloudwatch metrics",
+        "cloudwatch logs",
+        "cloudwatch dashboard",
+        "cloudwatch agent"
+      ],
+      "uses": [
+        "ec2 instance",
+        "lambda"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "cloudwatch/cloudwatch"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "cloudwatch/metrics"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "cloudwatch/logs"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "cloud-monitoring/amazon-cloudwatch"
+        }
+      ],
+      "problem_ideas": [
+        "An EC2 graph shows one data point every 5 minutes but the team wants one per minute: which setting, and does it cost extra?",
+        "The ops team wants to see EC2 memory usage but CloudWatch has no such metric: why, and what fixes it?",
+        "A Lambda function prints error messages: where do they end up, and how do you search them?",
+        "Build a one-screen view of CPU for 50 instances plus request count for a load balancer: which CloudWatch feature?",
+        "Logs must be kept for 1 year for an audit: which CloudWatch capability stores and retains them?",
+        "Distractor drill: CloudWatch vs CloudTrail for 'collect application logs and performance metrics'."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Custom metrics and Logs Insights queries"
+        },
+        {
+          "kind": "adjacent",
+          "title": "CloudWatch Events became Amazon EventBridge"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "CloudWatch appears on nearly every CLF-C02 exam form, often set against CloudTrail."
+      }
+    },
+    {
+      "id": "clf-cloudwatch-alarms",
+      "title": "CloudWatch alarms and billing alarms",
+      "size": "standard",
+      "est_min": 8,
+      "section": "monitor",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-alarm-states",
+          "statement": "A CloudWatch alarm watches one metric against a threshold over a set number of evaluation periods and moves between the OK, ALARM and INSUFFICIENT_DATA states."
+        },
+        {
+          "id": "kc-alarm-actions-billing",
+          "statement": "An alarm action can send a notification, scale an Auto Scaling group, or stop, terminate, reboot or recover an EC2 instance; a billing alarm on estimated charges warns when spending passes a set amount."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "'Alert when a metric or the bill crosses a threshold' maps to a CloudWatch alarm, a common requirement in service-identification items"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-cloudwatch-metrics-logs",
+          "reason": "An alarm is defined on a CloudWatch metric, so the learner must know what a metric is"
+        }
+      ],
+      "suggests": [
+        "clf-auto-scaling-groups"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "cloudwatch alarm",
+        "alarm state",
+        "billing alarm"
+      ],
+      "uses": [
+        "cloudwatch",
+        "cloudwatch metrics",
+        "auto scaling group",
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "cloud-monitoring/amazon-cloudwatch"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "cloudwatch/metrics"
+        }
+      ],
+      "problem_ideas": [
+        "Alarm: CPU > 80% for 3 consecutive 5-minute periods. Given readings 85, 90, 70, 88, 92, 95, predict the state after each period.",
+        "An alarm was just created and the instance is stopped: which state will it show?",
+        "A student wants an email if their AWS bill passes $10: which alarm type and which metric?",
+        "Scale out when average CPU stays above 70% for 10 minutes: which two services work together?",
+        "An instance fails a system status check at 3 a.m.: which alarm action brings it back without a human?",
+        "How soon can an alarm fire with 2 evaluation periods under basic monitoring, compared with detailed monitoring?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Missing data treatment and INSUFFICIENT_DATA"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Billing alarms and scale-on-CPU alarms are classic exam scenarios."
+      }
+    },
+    {
+      "id": "clf-x-ray",
+      "title": "AWS X-Ray: tracing requests across services",
+      "size": "standard",
+      "est_min": 8,
+      "section": "monitor",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-x-ray-tracing",
+          "statement": "AWS X-Ray traces requests as they travel through a distributed application and builds a service map showing each component's latency and errors."
+        },
+        {
+          "id": "kc-x-ray-when",
+          "statement": "X-Ray is the answer when a question asks you to debug or find the performance bottleneck across microservices or serverless applications, rather than to watch a single resource's metrics."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Task 3.8 names X-Ray among the tools for troubleshooting applications"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-cloudwatch-metrics-logs",
+        "clf-lambda"
+      ],
+      "confusable_with": [
+        "clf-cloudwatch-metrics-logs",
+        "clf-cloudtrail"
+      ],
+      "introduces": [
+        "x-ray",
+        "distributed tracing",
+        "service map"
+      ],
+      "uses": [
+        "lambda",
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "cloud-monitoring/aws-x-ray"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-8-identify-services-fro/developer-tool-services-and-capabilities"
+        }
+      ],
+      "problem_ideas": [
+        "A checkout request passes through an API, Lambda, two microservices and DynamoDB, and takes 4 s: which service shows where the 3.5 s goes?",
+        "A service map shows one node in red with 12% errors: what does red tell you, and which tool drew the map?",
+        "CloudWatch shows overall latency went up, but the team doesn't know which service is slow: which tool comes next?",
+        "True or false: X-Ray records which IAM user deleted a bucket.",
+        "Pick the service: 'visualize the components of a serverless app and the calls between them'.",
+        "Match three tools (CloudWatch, X-Ray, CloudTrail) to three symptoms: high CPU, a slow request that crosses many services, an unexpected API call."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Traces, segments and sampling"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Named in the exam guide; mostly tested as 'trace and debug distributed apps'."
+      }
+    },
+    {
+      "id": "clf-health-dashboard",
+      "title": "AWS Health Dashboard: AWS-side issues",
+      "size": "standard",
+      "est_min": 8,
+      "section": "monitor",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-health-service-view",
+          "statement": "The service health view of the AWS Health Dashboard shows the public status of every AWS service in every Region, without signing in."
+        },
+        {
+          "id": "kc-health-account-view",
+          "statement": "The account health view (formerly the Personal Health Dashboard) shows AWS events that affect your own resources, such as scheduled EC2 maintenance or a service issue in a Region you use, with remediation guidance."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "'Be notified about AWS events affecting my resources' must be mapped to the Health Dashboard, not CloudWatch"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-regions"
+      ],
+      "confusable_with": [
+        "clf-cloudwatch-metrics-logs",
+        "clf-trusted-advisor"
+      ],
+      "introduces": [
+        "health dashboard",
+        "aws health"
+      ],
+      "uses": [
+        "region",
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "cloud-monitoring/aws-status-service-health-dashboard"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "cloud-monitoring/aws-personal-health-dashboard"
+        }
+      ],
+      "problem_ideas": [
+        "An EC2 host is scheduled for retirement next week: where would you be told about it?",
+        "Users report errors and you want to know whether S3 in eu-west-1 has a general outage: which view?",
+        "Tell apart 'is AWS broken everywhere?' and 'is AWS broken for my resources?'",
+        "An exam option says 'use CloudWatch to see AWS-scheduled maintenance': right or wrong?",
+        "Old name, new name: match Service Health Dashboard and Personal Health Dashboard to today's views.",
+        "A company wants an automatic alert whenever AWS raises an event affecting its account: which service is the source?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "From two dashboards to one AWS Health Dashboard"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "A short, reliable point: events on AWS's side versus your own metrics."
+      }
+    },
+    {
+      "id": "clf-systems-manager",
+      "title": "AWS Systems Manager: operating fleets of servers",
+      "size": "standard",
+      "est_min": 10,
+      "section": "monitor",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-ssm-fleet-ops",
+          "statement": "AWS Systems Manager gives one place to view and operate fleets of EC2 instances and on-premises servers, such as running commands and patching at scale, through the SSM Agent installed on each machine."
+        },
+        {
+          "id": "kc-ssm-session-manager",
+          "statement": "Session Manager opens a secure shell to an instance without opening inbound port 22, running bastion hosts or managing SSH keys, and can log every session."
+        },
+        {
+          "id": "kc-ssm-patch-parameter",
+          "statement": "Patch Manager automates operating-system patching across instances, and Parameter Store keeps configuration values and secrets, optionally encrypted with KMS."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Systems Manager answers requirements to patch, run commands on or securely reach many servers, and it is distinct from the monitoring tools"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-ec2-basics",
+        "clf-security-groups-nacls",
+        "clf-secrets-manager"
+      ],
+      "confusable_with": [
+        "clf-secrets-manager",
+        "clf-cloudformation"
+      ],
+      "introduces": [
+        "systems manager",
+        "ssm agent",
+        "session manager",
+        "patch manager",
+        "parameter store"
+      ],
+      "uses": [
+        "ec2 instance",
+        "hybrid cloud",
+        "kms",
+        "security group"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "deploying-and-managing-infrastructure-at/aws-systems-manager-ssm"
+        }
+      ],
+      "problem_ideas": [
+        "Patch 500 Windows and Linux servers, 100 of them on-premises, every month: which service and which feature?",
+        "Security forbids opening SSH to the internet, but admins need shell access: which feature?",
+        "A config value (a database endpoint) must be shared by 40 instances without hard-coding it: where should it live?",
+        "An instance doesn't appear in Systems Manager: what is the most likely missing piece?",
+        "Parameter Store vs Secrets Manager for a database password that must rotate automatically: pick and justify.",
+        "Run the same shell command on 200 instances and collect the output: which service?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Run Command, Automation and State Manager"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "In scope and tested on Session Manager and patching; easy points once you know what it does."
+      }
+    },
+    {
+      "id": "clf-monitoring-vs-auditing",
+      "title": "CloudWatch vs CloudTrail vs Config vs X-Ray",
+      "size": "standard",
+      "est_min": 10,
+      "section": "monitor",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-three-questions",
+          "statement": "CloudWatch answers 'how is it performing?', CloudTrail answers 'who made which API call, and when?', and AWS Config answers 'what did this resource's configuration look like over time, and is it compliant?'"
+        },
+        {
+          "id": "kc-incident-attribution",
+          "statement": "For a sudden unwanted change, such as a deleted bucket or an opened security group port, CloudTrail identifies the caller and AWS Config shows the configuration before and after."
+        },
+        {
+          "id": "kc-aws-side-vs-tracing",
+          "statement": "For AWS-side events that affect your resources the answer is the Health Dashboard, not CloudWatch; for following one request across many services it is X-Ray."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Ruling out the closest distractor among monitoring and audit services is the core of o4 for this category"
+        },
+        {
+          "outcome": "o6",
+          "reason": "CloudWatch-vs-CloudTrail-vs-Config items are among the most common distractor sets on the exam"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-cloudwatch-metrics-logs",
+          "reason": "You need to know what CloudWatch does before you can compare it"
+        },
+        {
+          "topic": "clf-x-ray",
+          "reason": "X-Ray is one of the compared services"
+        },
+        {
+          "topic": "clf-health-dashboard",
+          "reason": "The Health Dashboard is one of the compared services"
+        }
+      ],
+      "suggests": [
+        "clf-cloudtrail",
+        "clf-aws-config"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "monitoring service selection"
+      ],
+      "uses": [
+        "cloudwatch",
+        "cloudtrail",
+        "aws config",
+        "x-ray",
+        "health dashboard",
+        "security group",
+        "s3"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "cloud-monitoring/cloud-monitoring"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "cloud-monitoring/aws-cloudtrail"
+        }
+      ],
+      "problem_ideas": [
+        "Twelve one-line symptoms: name the service for each and the distractor you rejected.",
+        "A production bucket vanished overnight: which service tells you who deleted it, and which tells you what it looked like before?",
+        "An auditor wants proof that all EBS volumes stayed encrypted for the last 90 days: which service?",
+        "CPU spiked to 100% at 14:02: which service shows the spike, and which would show whether someone resized the instance?",
+        "A regional AWS networking issue slows your app: which service would have told you first?",
+        "Explain in one sentence each why CloudTrail is wrong for 'monitor memory usage' and CloudWatch is wrong for 'who terminated my instance'."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Wiring them together: Config rules, CloudTrail Lake and CloudWatch alarms"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "One of the highest-yield distinctions on the exam; confusing these services costs points again and again."
+      }
+    },
+    {
+      "id": "clf-elastic-disaster-recovery",
+      "title": "Elastic Disaster Recovery vs AWS Backup and MGN",
+      "size": "standard",
+      "est_min": 10,
+      "section": "monitor",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-drs-continuous-replication",
+          "statement": "AWS Elastic Disaster Recovery continuously replicates on-premises or cloud servers into a low-cost staging area in AWS, so they can be launched as recovered instances within minutes (recovery time objective) with seconds of data loss (recovery point objective), and failed back after the event."
+        },
+        {
+          "id": "kc-drs-vs-backup",
+          "statement": "AWS Backup centrally schedules, retains and restores point-in-time backups of AWS resources, whereas Elastic Disaster Recovery keeps whole servers continuously replicated for fast failover; a requirement for minutes of downtime and seconds of data loss points to Elastic Disaster Recovery."
+        },
+        {
+          "id": "kc-drs-vs-mgn",
+          "statement": "AWS Application Migration Service (MGN) replicates servers to move them to AWS once, as a lift-and-shift rehost, while Elastic Disaster Recovery keeps replicating indefinitely so servers can be recovered whenever a disaster happens."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Elastic Disaster Recovery is on the exam's service list; 'recover servers quickly after an outage' must be mapped to it and the AWS Backup and MGN distractors ruled out"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-aws-backup",
+          "reason": "One KC contrasts Elastic Disaster Recovery with AWS Backup, so the learner must know what a backup plan does"
+        }
+      ],
+      "suggests": [
+        "clf-multi-az-multi-region",
+        "clf-migration-strategies"
+      ],
+      "confusable_with": [
+        "clf-aws-backup"
+      ],
+      "introduces": [
+        "elastic disaster recovery",
+        "recovery time objective",
+        "recovery point objective"
+      ],
+      "uses": [
+        "disaster recovery",
+        "aws backup",
+        "ec2 instance",
+        "hybrid cloud",
+        "lift and shift",
+        "region"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "other-aws-services/aws-elastic-disaster-recovery-drs"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-aws-services/aws-backup"
+        }
+      ],
+      "problem_ideas": [
+        "A factory's on-premises ERP servers must be running in AWS within 15 minutes of a site fire, losing at most a few seconds of data: which service?",
+        "A team keeps nightly backups of RDS and EBS for 35 days to satisfy an auditor: AWS Backup or Elastic Disaster Recovery?",
+        "A company is moving 80 VMware servers to EC2 and will shut the data center next quarter: MGN or Elastic Disaster Recovery?",
+        "Given RTO 4 hours and RPO 24 hours vs RTO 10 minutes and RPO 5 seconds, which requirement needs continuous replication?",
+        "After the disaster is over, the company wants its workloads back on-premises: which Elastic Disaster Recovery capability covers that?",
+        "Distractor drill: 'replicate servers continuously to another Region for failover' with options AWS Backup, MGN, Elastic Disaster Recovery, DataSync."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "DR strategies: backup and restore, pilot light, warm standby, multi-site"
+        },
+        {
+          "kind": "mechanism",
+          "title": "Staging area, recovery drills and failback"
+        }
+      ],
+      "lens": {
+        "score": 0.45,
+        "reason": "A listed service tested mainly as the fast-recovery answer against AWS Backup and MGN."
+      }
+    },
+    {
+      "id": "clf-trusted-advisor",
+      "title": "AWS Trusted Advisor: automated best-practice checks",
+      "size": "standard",
+      "est_min": 10,
+      "section": "govern",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-trusted-advisor-categories",
+          "statement": "AWS Trusted Advisor inspects your account and recommends improvements in categories including cost optimization, performance, security, fault tolerance and service limits."
+        },
+        {
+          "id": "kc-trusted-advisor-plan-tiers",
+          "statement": "All customers get Trusted Advisor's core security checks and service quota checks; the full set of checks requires the Business, Enterprise On-Ramp or Enterprise Support plan."
+        },
+        {
+          "id": "kc-trusted-advisor-recommends",
+          "statement": "Trusted Advisor flags issues, such as idle EC2 instances, security groups with unrestricted ports, publicly accessible S3 buckets and a root user without MFA, but it does not change your resources itself."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Trusted Advisor is the answer to 'get recommendations to cut cost and improve security and fault tolerance across the account'"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-rightsizing",
+        "clf-security-groups-nacls",
+        "clf-protect-root-mfa"
+      ],
+      "confusable_with": [
+        "clf-well-architected-tool",
+        "clf-health-dashboard"
+      ],
+      "introduces": [
+        "trusted advisor",
+        "trusted advisor check"
+      ],
+      "uses": [
+        "ec2 instance",
+        "security group",
+        "s3",
+        "root user",
+        "mfa",
+        "rightsizing"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "management-and-governance/aws-trusted-advisor"
+        }
+      ],
+      "problem_ideas": [
+        "A company on Basic Support wants the low-utilization EC2 check: what must change?",
+        "Sort six findings (idle load balancer, port 22 open to 0.0.0.0/0, single-AZ RDS, VPC limit at 80%, no MFA on the root user, underused EBS volume) into categories.",
+        "A manager expects Trusted Advisor to delete idle instances automatically: correct the expectation.",
+        "Which service answers 'which of my accounts is close to its Elastic IP service quota'?",
+        "Developer Support vs Business Support: what changes in Trusted Advisor?",
+        "Distractor drill: Trusted Advisor vs Well-Architected Tool vs Inspector for 'automated checks of my account against best practices'."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Operational excellence checks and Trusted Advisor's API access"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Heavily tested, including which support plan unlocks the full set of checks."
+      }
+    },
+    {
+      "id": "clf-service-quotas",
+      "title": "Service Quotas: viewing and raising account limits",
+      "size": "micro",
+      "est_min": 6,
+      "section": "govern",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-service-quotas-purpose",
+          "statement": "Service Quotas shows the default and applied quotas (formerly called service limits) for AWS services in each Region of an account, lets you request a quota increase, and can trigger a CloudWatch alarm when usage nears a quota."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Service Quotas is on the exam's service list; 'view or request an increase to a service limit' must be mapped to it rather than to Trusted Advisor or a support plan"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-trusted-advisor",
+        "clf-cloudwatch-alarms"
+      ],
+      "confusable_with": [
+        "clf-trusted-advisor"
+      ],
+      "introduces": [
+        "service quotas",
+        "service quota"
+      ],
+      "uses": [
+        "region",
+        "cloudwatch alarm",
+        "trusted advisor",
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "management-and-governance/aws-trusted-advisor"
+        }
+      ],
+      "problem_ideas": [
+        "A launch fails because the account has hit its limit of running On-Demand vCPUs in us-east-1: where do you request more?",
+        "A team wants a warning when Elastic IP usage reaches 80% of its quota: which two services work together?",
+        "Trusted Advisor flags a quota at 85%: which service do you use to actually raise it?",
+        "True or false: a quota raised in eu-west-1 also applies in ap-south-1.",
+        "Old name, new name: what were service quotas called in older AWS documentation?",
+        "Distractor drill: 'request an increase to the number of VPCs per Region' with options Service Quotas, Trusted Advisor, Organizations, Cost Explorer."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Adjustable vs fixed quotas and quota request templates"
+        }
+      ],
+      "lens": {
+        "score": 0.4,
+        "reason": "A short recognition point the exam sets against Trusted Advisor's service-limit checks."
+      }
+    },
+    {
+      "id": "clf-license-manager",
+      "title": "AWS License Manager: tracking software licences",
+      "size": "micro",
+      "est_min": 6,
+      "section": "govern",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-license-manager-purpose",
+          "statement": "AWS License Manager tracks and enforces software licences from vendors such as Microsoft, Oracle and SAP, including licences you bring yourself, across AWS and on-premises servers, so usage cannot exceed what was bought."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "License Manager is on the exam's service list; 'track licence usage and avoid non-compliance' must be mapped to it rather than to Config or Marketplace"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-systems-manager"
+      ],
+      "confusable_with": [
+        "clf-aws-config"
+      ],
+      "introduces": [
+        "license manager",
+        "bring your own license"
+      ],
+      "uses": [
+        "ec2 instance",
+        "hybrid cloud"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "management-and-governance/aws-license-manager"
+        }
+      ],
+      "problem_ideas": [
+        "A company owns 200 Windows Server licences and runs Windows on EC2 and on-premises: which service stops it exceeding 200?",
+        "An auditor from a database vendor asks for proof of licence usage: which AWS service produces it?",
+        "A launch is blocked because it would break a licence rule: which service enforced that?",
+        "License Manager vs AWS Config for 'track how many Oracle cores are in use across accounts': pick and justify.",
+        "What does BYOL mean, and why does it make licence tracking necessary?",
+        "Distractor drill: 'manage software licences across AWS and on-premises' with options License Manager, Marketplace, Systems Manager, Artifact."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "BYOL, Dedicated Hosts and licence-included instances"
+        }
+      ],
+      "lens": {
+        "score": 0.35,
+        "reason": "Rarely tested, but one clear fact turns any licence question into an easy point."
+      }
+    },
+    {
+      "id": "clf-well-architected-tool",
+      "title": "Well-Architected Tool: reviewing a workload",
+      "size": "standard",
+      "est_min": 8,
+      "section": "govern",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-wa-tool-review",
+          "statement": "The AWS Well-Architected Tool is a free console service where you answer questions about a workload and get a review against the six Well-Architected pillars."
+        },
+        {
+          "id": "kc-wa-tool-output",
+          "statement": "The Well-Architected Tool's output is a list of high- and medium-risk issues with an improvement plan and milestones; it is driven by your answers, unlike Trusted Advisor's automated account checks."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Learners must tell it apart from Trusted Advisor when a requirement mentions reviewing architecture"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-well-architected-framework",
+          "reason": "The tool is a structured review against the framework, so its purpose cannot be stated without it"
+        }
+      ],
+      "suggests": [
+        "clf-wa-pillars-ops-security-reliability",
+        "clf-wa-pillars-performance-cost-sustainability"
+      ],
+      "confusable_with": [
+        "clf-trusted-advisor"
+      ],
+      "introduces": [
+        "well-architected tool",
+        "workload review"
+      ],
+      "uses": [
+        "well-architected framework",
+        "well-architected pillars"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "aws-architecting-ecosystem/aws-well-architected-tool"
+        }
+      ],
+      "problem_ideas": [
+        "A CTO wants to measure a new app's design against AWS best practices before launch: which tool, and what does it produce?",
+        "Does the Well-Architected Tool cost money? Does it scan your resources?",
+        "Six months after a review, how does the team show progress on high-risk issues?",
+        "Match: 'questionnaire-based architecture review' vs 'automated checks of account resources'.",
+        "A review flags 'no tested recovery procedure': which pillar does this fall under?",
+        "Distractor drill: Well-Architected Tool vs AWS Config for 'review a workload's design across the six pillars'."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Lenses: Serverless, SaaS and other custom lenses"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Usually tested as the tool that applies the pillars, set against Trusted Advisor."
+      }
+    },
+    {
+      "id": "clf-control-tower",
+      "title": "AWS Control Tower: a governed multi-account setup",
+      "size": "standard",
+      "est_min": 8,
+      "section": "govern",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-control-tower-landing-zone",
+          "statement": "AWS Control Tower sets up and governs a secure multi-account environment, called a landing zone, built on AWS Organizations and following AWS best practices."
+        },
+        {
+          "id": "kc-control-tower-controls",
+          "statement": "Control Tower applies controls (guardrails): preventive controls enforced with service control policies and detective controls implemented with AWS Config rules, with compliance shown on a dashboard."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "'Quickly set up a governed multi-account environment' maps to Control Tower, not to Organizations alone"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-organizations",
+          "reason": "A landing zone is an Organizations structure, so the learner must know accounts and OUs"
+        },
+        {
+          "topic": "clf-service-control-policies",
+          "reason": "Preventive controls are SCPs"
+        }
+      ],
+      "suggests": [
+        "clf-aws-config"
+      ],
+      "confusable_with": [
+        "clf-organizations",
+        "clf-service-catalog"
+      ],
+      "introduces": [
+        "control tower",
+        "landing zone",
+        "guardrail"
+      ],
+      "uses": [
+        "aws organizations",
+        "service control policy",
+        "aws config",
+        "config rule",
+        "multi-account strategy"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/aws-control-tower"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/multi-account-strategies"
+        }
+      ],
+      "problem_ideas": [
+        "A company wants 30 new accounts with logging, guardrails and a compliance view set up within hours: which service?",
+        "Classify two guardrails, 'block disabling CloudTrail' and 'detect unencrypted EBS volumes', as preventive or detective, and name the mechanism behind each.",
+        "Organizations vs Control Tower: which one gives a ready-made landing zone and dashboard?",
+        "An auditor asks which accounts break the 'no public S3' guardrail: where do you look?",
+        "Order the layers: Control Tower, Organizations, SCPs, Config rules.",
+        "Distractor drill: Control Tower vs Service Catalog vs Firewall Manager for 'enforce best-practice guardrails across new accounts'."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Account Factory: vending new accounts"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "In scope and asked more and more, mainly as 'set up and govern many accounts'."
+      }
+    },
+    {
+      "id": "clf-service-catalog",
+      "title": "AWS Service Catalog: approved self-service products",
+      "size": "standard",
+      "est_min": 8,
+      "section": "govern",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-service-catalog-portfolio",
+          "statement": "AWS Service Catalog lets administrators publish portfolios of approved products, each defined by a CloudFormation template, that users can launch themselves."
+        },
+        {
+          "id": "kc-service-catalog-when",
+          "statement": "Service Catalog fits when a company wants employees to launch only pre-approved, compliant configurations without being given broad IAM permissions to the underlying services."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "'Let users launch only approved resources' maps to Service Catalog and must be kept apart from Control Tower and IAM"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-cloudformation",
+          "reason": "Service Catalog products are CloudFormation templates"
+        }
+      ],
+      "suggests": [
+        "clf-iam-policies",
+        "clf-control-tower"
+      ],
+      "confusable_with": [
+        "clf-control-tower",
+        "clf-cloudformation"
+      ],
+      "introduces": [
+        "service catalog",
+        "product portfolio"
+      ],
+      "uses": [
+        "cloudformation",
+        "cloudformation template",
+        "iam policy",
+        "least privilege"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/aws-service-catalog"
+        }
+      ],
+      "problem_ideas": [
+        "Data scientists need EC2 GPU instances, but only in two approved sizes with encryption on: which service?",
+        "A new hire should launch a standard dev environment in one click without admin rights: design the answer.",
+        "What artifact defines a Service Catalog product?",
+        "Service Catalog vs AWS Marketplace: an internal catalogue of approved products vs third-party software. Sort five scenarios.",
+        "Service Catalog vs Control Tower: which one governs accounts, and which one governs what users can launch?",
+        "Distractor drill: 'restrict users to a pre-approved list of IT services' with options IAM, Service Catalog, Organizations, Trusted Advisor."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Launch constraints and how users launch without direct permissions"
+        }
+      ],
+      "lens": {
+        "score": 0.45,
+        "reason": "Comes up now and then; one clear fact about approved products is enough to score."
+      }
+    }
+  ],
+  "groups": {}
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-case-chat",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: design it",
+  "blurb": "Uses Case study: news feed / Twitter timeline and Case study: chat system (WhatsApp): estimate the numbers and weigh the trade-offs.",
+  "after": "topic:sd-case-chat",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "design",
+    "topics": [
+      "sd-case-news-feed",
+      "sd-case-chat"
+    ],
+    "kcs": [
+      "kc-feed-hybrid-fanout",
+      "kc-feed-timeline-cache",
+      "kc-feed-storage-split",
+      "kc-feed-media-path",
+      "kc-chat-connection-routing",
+      "kc-chat-ordering-sequence",
+      "kc-chat-offline-delivery",
+      "kc-chat-message-store"
+    ],
+    "minutes": 21,
+    "why": "Uses Case study: news feed / Twitter timeline and Case study: chat system (WhatsApp): estimate the numbers and weigh the trade-offs."
+  }
+}

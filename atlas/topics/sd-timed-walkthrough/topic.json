@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-timed-walkthrough",
+  "version": 1,
+  "title": "Budgeting 45 minutes: a first timed walkthrough",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-time-budget",
+      "version": 1,
+      "statement": "A workable 45-minute budget is roughly 5 min requirements, 5 min estimates, 5 min API and data model, 10–15 min high-level design, 10–15 min deep dive and bottlenecks, with a few minutes for questions."
+    },
+    {
+      "id": "kc-signpost-transitions",
+      "version": 1,
+      "statement": "Announcing each transition ('requirements are set, now estimates') keeps the interviewer aligned and lets them redirect time before it is lost."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-interview-framework",
+    "sd-bottlenecks"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-interview-framework"
+  ],
+  "introduces": [
+    "interview time budget"
+  ],
+  "uses": [
+    "system design interview framework",
+    "back-of-the-envelope estimation",
+    "deep dive",
+    "high-level design"
+  ],
+  "problem_ideas": [
+    "A candidate reaches the diagram at minute 28: identify where time leaked and re-budget",
+    "Allocate a 35-minute variant of the budget and say which step shrinks",
+    "Write the one-sentence signposts for each transition in a URL shortener answer",
+    "Interviewer says 'skip estimates': redistribute the freed minutes",
+    "Run a 10-minute speed version of a Pastebin answer covering requirements to diagram",
+    "Judge two transcripts: which kept the interviewer in control of depth?"
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "how-to-answer-a-system-design-interview-/how-to-answer-a-system-design-interview-"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "introduction/how-to-approach-system-design"
+    }
+  ],
+  "status": "stub"
+}

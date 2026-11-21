@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-compliance-programs",
+  "version": 1,
+  "title": "Compliance programs and regional requirements",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-compliance-programs-scope",
+      "version": 1,
+      "statement": "AWS takes part in compliance programs and certifications such as ISO 27001, SOC 1/2/3, PCI DSS, FedRAMP and HIPAA eligibility. These cover AWS's infrastructure, not the customer's workload, which the customer must still make compliant."
+    },
+    {
+      "id": "kc-compliance-geo-industry",
+      "version": 1,
+      "statement": "Compliance needs depend on geography and industry (GDPR for EU personal data, HIPAA for US health data, PCI DSS for card payments), and data-residency rules decide which Regions a workload may use."
+    },
+    {
+      "id": "kc-compliance-by-service",
+      "version": 1,
+      "statement": "Not every AWS service is in scope for every compliance program. Before using a service for a regulated workload, check AWS's 'Services in Scope by Compliance Program' list."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-shared-controls"
+  ],
+  "suggests": [
+    "clf-regions"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "compliance program",
+    "hipaa",
+    "pci dss",
+    "gdpr"
+  ],
+  "uses": [
+    "shared responsibility model",
+    "inherited controls",
+    "data residency",
+    "region"
+  ],
+  "problem_ideas": [
+    "A US clinic stores patient records on EC2. AWS is HIPAA eligible. Is the clinic automatically compliant? Explain.",
+    "An EU retailer must keep customer data inside the EU. Which infrastructure choice satisfies this?",
+    "Match each regulation to its industry or region: PCI DSS, HIPAA, GDPR, FedRAMP.",
+    "A team wants to use a brand-new AWS service for card payments. What should they check first?",
+    "Sort these duties for a PCI workload into AWS or customer: physical data-centre security, application code, network segmentation inside the VPC.",
+    "A German bank asks whether AWS is ISO 27001 certified. Where does that certification apply?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-2-understand-aws-cloud-/aws-compliance-and-governance-concepts"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-2-understand-aws-cloud-/understanding-compliance-needs-among-geo"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-2-understand-aws-cloud-/recognizing-compliance-requirements-that"
+    }
+  ],
+  "status": "stub"
+}

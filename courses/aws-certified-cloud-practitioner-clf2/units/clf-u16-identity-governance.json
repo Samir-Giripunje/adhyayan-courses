@@ -1,0 +1,34 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u16-identity-governance",
+  "title": "Multi-account governance and identity",
+  "topics": [
+    {
+      "id": "clf-organizations",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-service-control-policies",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-identity-federation",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-iam-identity-center",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-cognito-directory-service",
+      "tier": "optional",
+      "order": 5
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

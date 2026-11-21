@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.lab/1",
+  "exercises": [
+    {
+      "id": "ex-rrf",
+      "title": "Hybrid search: implement reciprocal rank fusion",
+      "stage": "scratch",
+      "difficulty": 3,
+      "kcs": [
+        "kc-hybrid-rerank"
+      ],
+      "est_minutes": 8,
+      "brief_md": [
+        "Implement `rrf(rankings, k=60)`:",
+        "- `rankings`: a list of ranked lists of doc ids (for example `[bm25_ids, vector_ids]`)\n- score each doc as $\\sum_i 1/(k + \\text{rank}_i)$, with ranks starting at **1**; a doc missing from a list gets nothing for that list\n- return all doc ids sorted by score, best first, with **ties broken by id**"
+      ],
+      "starter": "def rrf(rankings, k=60):\n    pass\n\n\nbm25   = [\"D1\", \"D3\", \"D5\", \"D2\", \"D7\"]\nvector = [\"D4\", \"D3\", \"D6\", \"D1\", \"D8\"]\nprint(rrf([bm25, vector]))\nprint(rrf([bm25, vector], k=1))\n",
+      "solution": "def rrf(rankings, k=60):\n    scores = {}\n    for ranking in rankings:\n        for rank, doc in enumerate(ranking, start=1):\n            scores[doc] = scores.get(doc, 0.0) + 1.0 / (k + rank)\n    return sorted(scores, key=lambda d: (-scores[d], d))\n\n\nbm25   = [\"D1\", \"D3\", \"D5\", \"D2\", \"D7\"]\nvector = [\"D4\", \"D3\", \"D6\", \"D1\", \"D8\"]\nprint(rrf([bm25, vector]))\nprint(rrf([bm25, vector], k=1))\n",
+      "solution_walkthrough_md": "With k = 60, D3 (#2 and #2) scores 2/62 ≈ 0.03226, just ahead of D1 (#1 and #4: 1/61 + 1/64 ≈ 0.03202). Agreement wins. With k = 1, D1 scores 0.5 + 0.2 = 0.7 and beats D3's 0.667: a single first place dominates. The crossover is at k = 2.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "k=60 favours agreement (D3 first)",
+          "code": "out = rrf([['D1','D3','D5','D2','D7'], ['D4','D3','D6','D1','D8']])\nassert out[0] == 'D3', f'got {out[:3]}'",
+          "fail_md": "D3 is ranked #2 by both lists, so with k = 60 it should edge out D1. Check that ranks start at 1 and that scores add up across lists."
+        },
+        {
+          "id": "t2",
+          "name": "k=1 favours the single winner (D1 first)",
+          "code": "out = rrf([['D1','D3','D5','D2','D7'], ['D4','D3','D6','D1','D8']], k=1)\nassert out[0] == 'D1', f'got {out[:3]}'",
+          "fail_md": "With k = 1, D1 scores 1/2 + 1/5 = 0.7, which beats D3's 2/3. Are you passing `k` through?"
+        },
+        {
+          "id": "t3",
+          "name": "includes docs from every list",
+          "code": "out = rrf([['A','B'], ['C']])\nassert set(out) == {'A','B','C'}",
+          "fail_md": "Every doc that appears in any list must be in the output."
+        },
+        {
+          "id": "t4",
+          "name": "ties broken by id (hidden)",
+          "hidden": true,
+          "code": "out = rrf([['B'], ['A']])\nassert out == ['A', 'B'], f'got {out}'",
+          "fail_md": "A and B both score 1/61. Break ties by id: sort by `(-score, id)`."
+        },
+        {
+          "id": "t5",
+          "name": "exact score check (hidden)",
+          "hidden": true,
+          "code": "out = rrf([['X','Y'], ['Y']], k=10)\nassert out == ['Y', 'X'], f'got {out}'",
+          "fail_md": "Y: 1/12 + 1/11 ≈ 0.174. X: 1/11 ≈ 0.091. Y must come first."
+        }
+      ],
+      "hints": [
+        "Use a dict `scores` and add `1/(k + rank)` for each appearance.",
+        "`enumerate(ranking, start=1)` gives 1-based ranks."
+      ]
+    }
+  ]
+}

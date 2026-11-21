@@ -1,0 +1,78 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-disaster-recovery",
+  "version": 1,
+  "title": "Disaster recovery: RPO, RTO and DR strategies",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-rpo-rto",
+      "version": 1,
+      "statement": "RPO is the maximum acceptable data loss measured in time (how old the last good copy may be); RTO is the maximum acceptable time to restore service after a disaster."
+    },
+    {
+      "id": "kc-dr-strategies",
+      "version": 1,
+      "statement": "Disaster recovery strategies trade cost for recovery speed: backup and restore (cheapest, RTO of hours), cold site, warm standby, and hot site or multi-region active-active (most expensive, RTO of seconds to minutes)."
+    },
+    {
+      "id": "kc-rpo-from-replication",
+      "version": 1,
+      "statement": "Nightly backups give an RPO of up to 24 hours, continuous asynchronous replication to another region shrinks RPO to the replication lag, and synchronous replication brings it near zero."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-failover",
+    "sd-sync-async-replication"
+  ],
+  "suggests": [
+    "sd-replication-lag"
+  ],
+  "confusable_with": [
+    "sd-failover"
+  ],
+  "introduces": [
+    "disaster recovery",
+    "rpo",
+    "rto",
+    "hot site",
+    "cold site"
+  ],
+  "uses": [
+    "failover",
+    "hot standby",
+    "asynchronous replication",
+    "synchronous replication",
+    "replication lag",
+    "active-active"
+  ],
+  "problem_ideas": [
+    "Backups every 6 hours, restore takes 2 hours: state the RPO and RTO",
+    "A bank needs RPO 0 and RTO under 5 minutes: which strategy and what does it cost?",
+    "Async cross-region replication with 3 s lag at 2,000 writes/s: writes at risk in a region loss",
+    "Choose a DR strategy for an internal analytics dashboard and justify the low tier",
+    "Why must DR plans be tested regularly? Give a failure story",
+    "Order backup, cold, warm and hot site by RTO and by monthly cost"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "terms-2/rpo"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "terms-2/rto"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "strategies/strategies"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "distributed-system-and-microservices/disaster-recovery"
+    }
+  ],
+  "status": "stub"
+}

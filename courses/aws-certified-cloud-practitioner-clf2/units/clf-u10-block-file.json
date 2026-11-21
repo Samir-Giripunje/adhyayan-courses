@@ -1,0 +1,29 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u10-block-file",
+  "title": "Block and file storage",
+  "topics": [
+    {
+      "id": "clf-storage-types",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-ebs",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-instance-store",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-efs-fsx",
+      "tier": "must",
+      "order": 4
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

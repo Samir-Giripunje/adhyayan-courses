@@ -1,0 +1,96 @@
+[
+  {
+    "id": "emb-keyword-gap/transfer-1",
+    "version": 1,
+    "family": "kg-transfer-two-failures",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "A hospital's records system uses keyword search. Doctors who search **heart attack** miss notes that only say *myocardial infarction*. Doctors who search **MI** (short for myocardial infarction) also get notes mentioning patients from Michigan, whose state code is *MI*. Which statement best explains both problems?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both come from comparing strings: different words for the same condition share no string, and one string (*MI*) can stand for different things",
+        "correct": true,
+        "why_md": "Right. The first is a missed paraphrase; the second is a shared string with a different meaning. Same cause, opposite directions."
+      },
+      {
+        "id": "b",
+        "md": "The first is a string problem, but the second means keyword search guessed the wrong meaning of *MI*",
+        "why_md": "Keyword search guesses no meanings at all. It matched the string *MI* wherever it appears.",
+        "misconception": "mc-keyword-is-enough"
+      },
+      {
+        "id": "c",
+        "md": "Adding *heart attack = myocardial infarction* to a synonym list would fix both",
+        "why_md": "That covers one listed pair for the first problem. It does nothing for *MI* matching Michigan: adding synonyms adds matches, it never removes wrong ones.",
+        "misconception": "mc-synonym-list-closes-gap"
+      }
+    ],
+    "hints": [
+      "Ask, for each problem, whether too few or too many documents matched, and why.",
+      "One problem is different words for the same meaning; the other is the same string with different meanings. What does keyword search compare?"
+    ],
+    "solution_md": "Keyword search compares strings. *heart attack* and *myocardial infarction* share no string, so notes with the second wording are missed. *MI* is one string with two meanings, so both kinds of note match. Both failures come from matching words instead of meaning; a synonym list could patch the first for one listed pair but cannot remove the wrong matches in the second.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  },
+  {
+    "id": "emb-keyword-gap/transfer-2",
+    "version": 1,
+    "family": "kg-transfer-two-queries",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "A software company lets engineers search its code and internal docs. One engineer types the exact function name `parse_invoice_v2`. Another types *where do we turn PDF bills into data*. The company is choosing between keyword search and meaning-based search. Which outcome is most likely?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Keyword search does better on the function name; meaning-based search does better on the question",
+        "correct": true,
+        "why_md": "Right. The function name is an exact string with no synonyms. The question describes a need in everyday words, which may not be the words used in the code or docs that answer it."
+      },
+      {
+        "id": "b",
+        "md": "Meaning-based search does better on both, because it understands what the code does",
+        "why_md": "An exact name like `parse_invoice_v2` is where meaning-based search is weakest: it can rank look-alike names such as `parse_invoice_v1` as close.",
+        "misconception": "mc-meaning-search-handles-codes"
+      },
+      {
+        "id": "c",
+        "md": "Keyword search does better on both, because the question contains *data*, which appears in the code",
+        "why_md": "Sharing a common word such as *data* is not relevance: *data* appears in many files, so matching it does not single out the right one.",
+        "misconception": "mc-keyword-is-enough"
+      }
+    ],
+    "hints": [
+      "Treat the two queries separately: is each an exact string, or a need described in everyday words?",
+      "Exact identifiers suit keyword search; reworded needs suit meaning-based search."
+    ],
+    "solution_md": "`parse_invoice_v2` is an exact identifier: keyword search finds the files that contain that string, while meaning-based search may blur it with look-alike names. *where do we turn PDF bills into data* describes a need in everyday words, which may not match the words in the code or docs that answer it, so meaning-based search fits it better. This split is the reason hybrid search exists.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  }
+]

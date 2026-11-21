@@ -1,0 +1,66 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-idempotency",
+  "version": 1,
+  "title": "Idempotency and safe retries",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-idempotent-definition",
+      "version": 1,
+      "statement": "An operation is idempotent when applying it N times has the same effect as applying it once: 'set balance to 100' is idempotent, 'add 10 to balance' is not."
+    },
+    {
+      "id": "kc-retry-needs-idempotency",
+      "version": 1,
+      "statement": "Retries after a timeout are safe only for idempotent operations, because a timeout does not tell the client whether the server applied the request; by HTTP semantics GET, PUT and DELETE are idempotent and POST is not."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-http"
+  ],
+  "suggests": [
+    "sd-delivery-guarantees"
+  ],
+  "confusable_with": [
+    "sd-delivery-guarantees",
+    "sd-idempotency-keys"
+  ],
+  "introduces": [
+    "idempotency",
+    "retries"
+  ],
+  "uses": [
+    "http method",
+    "at-least-once delivery"
+  ],
+  "problem_ideas": [
+    "Label ten operations idempotent or not: increment like count, set profile photo, append message, delete file, transfer money…",
+    "Rewrite 'add 10 credits' so it becomes idempotent",
+    "A client times out on POST /orders after 2 s: list the three possible server states",
+    "Is DELETE /items/42 returning 404 on the second call still idempotent? Explain",
+    "Failure story: a mobile app's automatic retry created duplicate bookings—what was missing?",
+    "Turn 'increment view counter' into an idempotent consumer of view events"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "idempotent-operations/idempotent-operations"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "why-do-we-need-idempotency/why-do-we-need-idempotency"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "idempotency-in-http/idempotency-in-http"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "api-fundamentals/idempotency"
+    }
+  ],
+  "status": "stub"
+}

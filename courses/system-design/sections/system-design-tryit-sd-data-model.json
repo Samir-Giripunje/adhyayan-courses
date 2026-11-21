@@ -1,0 +1,32 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-data-model",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: design it",
+  "blurb": "Uses Functional and non-functional requirements, Sketching the API for an interview prompt and Data models from entities and access patterns: estimate the numbers and weigh the trade-offs.",
+  "after": "topic:sd-data-model",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "design",
+    "topics": [
+      "sd-requirements",
+      "sd-api-design",
+      "sd-data-model"
+    ],
+    "kcs": [
+      "kc-functional-requirements",
+      "kc-non-functional-requirements",
+      "kc-read-write-ratio",
+      "kc-api-from-requirements",
+      "kc-api-list-pagination",
+      "kc-api-auth-and-limits",
+      "kc-data-model-entities",
+      "kc-data-model-access-patterns"
+    ],
+    "minutes": 21,
+    "why": "Uses Functional and non-functional requirements, Sketching the API for an interview prompt and Data models from entities and access patterns: estimate the numbers and weigh the trade-offs."
+  }
+}

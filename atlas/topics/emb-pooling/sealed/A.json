@@ -1,0 +1,49 @@
+[
+  {
+    "id": "q-proof1-chunk",
+    "version": 1,
+    "family": "q-proof1-chunk",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-pooling",
+    "kcs": [
+      "kc-pooling-limits",
+      "kc-chunking"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "A 30-page policy is embedded as one vector with a 512-token model. Queries about page 20 fail. The root cause:",
+    "options": [
+      {
+        "id": "a",
+        "md": "Truncation: page 20 was never embedded",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "Cosine can't handle long texts",
+        "why_md": "Cosine works on any vectors. The text never reached the vector."
+      },
+      {
+        "id": "c",
+        "md": "The query is too short",
+        "why_md": "Short queries are normal."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Token vectors are pooled into one vector for the whole input.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-least-privilege",
+  "version": 1,
+  "title": "Least privilege and IAM best practices",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-least-privilege",
+      "version": 1,
+      "statement": "The principle of least privilege means granting an identity only the permissions it needs for its task, starting from none and adding more only when required."
+    },
+    {
+      "id": "kc-iam-best-practices",
+      "version": 1,
+      "statement": "IAM best practice is to assign permissions through groups, use roles for applications and cross-account access, require MFA, rotate long-term credentials, and never share credentials."
+    },
+    {
+      "id": "kc-iam-audit-tools",
+      "version": 1,
+      "statement": "The IAM credential report lists every user and the status of their passwords, access keys and MFA, and IAM access advisor shows which services an identity last used, so unused permissions can be removed."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-iam-roles",
+    "clf-protect-root-mfa"
+  ],
+  "suggests": [
+    "clf-iam-policies"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "least privilege",
+    "credential report",
+    "access advisor"
+  ],
+  "uses": [
+    "iam",
+    "iam policy",
+    "iam group",
+    "iam role",
+    "mfa"
+  ],
+  "problem_ideas": [
+    "A contractor needs to upload files to one bucket: draft the least-privilege grant in words",
+    "An intern was given AdministratorAccess 'to save time': name the principle violated and the risk",
+    "Security wants a list of users without MFA: which IAM tool?",
+    "A role has 40 services allowed but used 3 in 90 days: which tool shows this?",
+    "Rank four practices by how much risk they remove for a 10-person startup",
+    "Spot the three violations in a short story about a team's AWS account setup"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-3-identify-aws-access-m/principle-of-least-privilege"
+    }
+  ],
+  "status": "stub"
+}

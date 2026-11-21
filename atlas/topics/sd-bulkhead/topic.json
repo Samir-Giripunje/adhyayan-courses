@@ -1,0 +1,49 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-bulkhead",
+  "version": 1,
+  "title": "Bulkheads: isolating failure",
+  "size": "micro",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-bulkhead",
+      "version": 1,
+      "statement": "A bulkhead gives each dependency or workload its own isolated pool of threads, connections or instances, so exhaustion in one cannot starve the others."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-circuit-breaker"
+  ],
+  "confusable_with": [
+    "sd-circuit-breaker"
+  ],
+  "introduces": [
+    "bulkhead"
+  ],
+  "uses": [
+    "cascading failure",
+    "circuit breaker"
+  ],
+  "problem_ideas": [
+    "A 100-thread pool shared by payments and recommendations: split it with bulkheads",
+    "Separate worker pools for free and paid tenants: what failure does it contain?",
+    "Bulkhead or circuit breaker: which stops a slow dependency from taking all threads?",
+    "Size two connection pools given each dependency's QPS and latency using Little's law",
+    "A noisy-neighbour tenant floods a shared queue: apply the bulkhead idea",
+    "What does a bulkhead cost you in utilisation?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "high-availability/bulkhead"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "security/bulkhead"
+    }
+  ],
+  "status": "stub"
+}

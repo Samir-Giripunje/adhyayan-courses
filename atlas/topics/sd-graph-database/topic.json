@@ -1,0 +1,47 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-graph-database",
+  "version": 1,
+  "title": "Graph databases in one idea",
+  "size": "micro",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-graph-db",
+      "version": 1,
+      "statement": "A graph database stores nodes and edges and follows relationships by traversal, so multi-hop queries like friends-of-friends stay fast where SQL would need repeated self-joins."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-nosql-base"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "graph database"
+  ],
+  "uses": [
+    "nosql",
+    "sql join"
+  ],
+  "problem_ideas": [
+    "Count the self-joins SQL needs for 'friends of friends of friends'",
+    "Pick the store for a fraud-ring detector linking cards, devices and addresses",
+    "Decide whether a follower count belongs in a graph database",
+    "Model 'people you may know' as nodes and edges",
+    "Argue against a graph database for a simple follow list read only one hop deep",
+    "List two interview prompts where a graph store is a reasonable mention"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "application-layer/graph-databases"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "database/graph-database"
+    }
+  ],
+  "status": "stub"
+}

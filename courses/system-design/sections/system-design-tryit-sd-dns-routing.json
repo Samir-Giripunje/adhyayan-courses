@@ -1,0 +1,73 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-dns-routing",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Send a ticket sale to two regions with DNS",
+  "blurb": "Estimate the DNS load and the failover time, then choose records, routing and a TTL.",
+  "after": "topic:sd-dns-routing",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "ready",
+  "brief": {
+    "format": "design",
+    "topics": [
+      "sd-dns",
+      "sd-dns-records",
+      "sd-dns-routing"
+    ],
+    "kcs": [
+      "kc-dns-resolution",
+      "kc-dns-caching",
+      "kc-dns-records",
+      "kc-dns-routing"
+    ],
+    "minutes": 20,
+    "why": "Uses How DNS finds an address, DNS records and DNS routing: estimate the numbers and weigh the trade-offs."
+  },
+  "tryit": {
+    "format": "design",
+    "scenario_md": "A ticket-selling site at `example.com` runs in one region today. It is adding a second region on another continent, so that users get answers from nearby and the site survives if one region goes down.\n\nSales open at a fixed time. In the first minute about **2,000,000 people** load the home page. They arrive through about **30,000 different DNS resolvers** (internet providers, offices, public resolvers). You run the authoritative DNS for the domain and choose its records, their TTLs and the routing policy.",
+    "constraints": [
+      "Each user should reach the region closest to them.",
+      "If a region fails, new visitors must reach the other one within about 5 minutes.",
+      "The authoritative DNS servers must not become the bottleneck during the sale.",
+      "Both example.com and www.example.com must work."
+    ],
+    "estimates": [
+      {
+        "id": "e1",
+        "ask": "With a 60-second TTL, about how many queries per second reach your authoritative DNS servers during the first minute of the sale?",
+        "unit": "queries per second"
+      },
+      {
+        "id": "e2",
+        "ask": "Health checks run every 30 seconds and need 3 failures in a row. With a 60-second TTL, what is the worst-case time before a user is no longer sent to a failed region?",
+        "unit": "seconds"
+      }
+    ],
+    "model_md": "- **e1, the query load:** resolvers cache the answer for the TTL, so each of the ~30,000 resolvers asks about once a minute: 30,000 / 60 s ≈ **500 queries per second**. Counting users instead (2,000,000 / 60 ≈ 33,000 per second) ignores caching; caching keeps the authoritative servers far from being the bottleneck.\n- **e2, the failover time:** detection takes 3 × 30 s = 90 s, then cached answers live for up to one TTL, 60 s: about **150 seconds**, well inside the 5-minute limit.\n- **Records:** an A record (and an AAAA record for IPv6) per region, pointing at that region's load balancer address; `www` as a CNAME to `example.com`; NS records naming the authoritative servers, run in more than one place.\n- **Routing:** latency-based routing (or geolocation) returns the nearest region's address; health checks on each region make the DNS stop returning a failed region, so all new lookups get the healthy one.\n- **The TTL trade-off:** a shorter TTL (60 s) means faster failover and quicker changes but more DNS queries; a longer TTL (a day) means fewer queries but users stay stuck on a dead region for hours. 60–300 s fits a sale.\n- **What can still go wrong:** some resolvers and browsers keep answers longer than the TTL, so the failed region's address should keep answering or redirecting for a while; lower the TTL a day before a planned move.",
+    "rubric": [
+      {
+        "id": "c1",
+        "text": "Estimates the query load on the authoritative servers from the resolvers and the TTL (about 500 queries per second), not from the number of users."
+      },
+      {
+        "id": "c2",
+        "text": "Estimates the failover time as health-check detection plus the TTL (about 150 seconds) and compares it with the 5-minute limit."
+      },
+      {
+        "id": "c3",
+        "text": "Names the records: an A or AAAA record per region, a CNAME for www, and NS records for the authoritative servers."
+      },
+      {
+        "id": "c4",
+        "text": "Chooses latency-based or geolocation routing with health checks, so a failed region stops being returned."
+      },
+      {
+        "id": "c5",
+        "text": "Weighs the TTL trade-off: shorter gives faster failover but more DNS queries; longer gives fewer queries but slower failover."
+      }
+    ]
+  }
+}

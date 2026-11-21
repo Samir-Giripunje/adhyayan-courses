@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-rate-limiter",
+  "version": 1,
+  "title": "Case study: designing a rate limiter service",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-rl-design-placement",
+      "version": 1,
+      "statement": "A rate limiter service usually runs at the API gateway or as middleware. It keys limits by user, API key or IP and rejects excess requests with HTTP 429 plus a Retry-After header."
+    },
+    {
+      "id": "kc-rl-design-shared-counters",
+      "version": 1,
+      "statement": "Across many gateway nodes, counters live in a shared in-memory store and are updated with atomic increment or script operations. Separate read-then-write steps race and let bursts through."
+    },
+    {
+      "id": "kc-rl-design-fail-open",
+      "version": 1,
+      "statement": "If the counter store is unavailable, the limiter must choose between failing open (allowing traffic and risking overload) and failing closed (rejecting traffic and hurting availability). Most public APIs fail open with a local fallback limit."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-token-bucket",
+    "sd-distributed-rate-limiting"
+  ],
+  "suggests": [
+    "sd-api-gateway"
+  ],
+  "confusable_with": [
+    "sd-back-pressure"
+  ],
+  "introduces": [
+    "rate limiter design",
+    "fail open"
+  ],
+  "uses": [
+    "rate limiting",
+    "token bucket",
+    "http 429",
+    "distributed rate limiting",
+    "race condition",
+    "api gateway"
+  ],
+  "problem_ideas": [
+    "10 gateway nodes each keep a local 100 req/min limit. Compute the worst-case burst one client can get.",
+    "Rewrite a GET-then-SET counter update as a single atomic operation and explain the race it removes.",
+    "The Redis cluster holding counters goes down at peak. Argue for fail open or fail closed for a payments API and for a search API.",
+    "Design limit rules for free and paid tiers with different buckets per endpoint.",
+    "Estimate counter-store memory for 10M users × 3 rules × 50 bytes.",
+    "Choose the response headers that let well-behaved clients back off."
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-rate-limiter"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "rate-limiting-in-distributed-systems/race-conditions"
+    }
+  ],
+  "status": "stub"
+}

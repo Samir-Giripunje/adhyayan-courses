@@ -1,0 +1,308 @@
+[
+  {
+    "id": "emb-model/test-a1",
+    "version": 1,
+    "family": "emb-model-test-fixed-count",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-def"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "You embed the 3-word question *refund not received* and the 900-word article *Our refund policy* with `all-MiniLM-L6-v2`. How many numbers does each vector have?",
+    "options": [
+      {
+        "id": "a",
+        "md": "384 and 384",
+        "correct": true,
+        "why_md": "Right. The model fixes the output length."
+      },
+      {
+        "id": "b",
+        "md": "3 and 900: one number per word",
+        "why_md": "Embeddings aren't one number per word. Every text gets the same fixed length."
+      },
+      {
+        "id": "c",
+        "md": "384 for the question and 1,536 for the article, because longer texts need more room",
+        "why_md": "Output length never depends on the input. The same model always gives 384."
+      }
+    ],
+    "hints": [
+      "Is the output length set by the input or by the model?",
+      "`all-MiniLM-L6-v2` outputs 384 numbers for every text."
+    ],
+    "solution_md": "**384 and 384.** An embedding model's output length is fixed by the model, not by the input: `all-MiniLM-L6-v2` gives 384 numbers for 3 words or 900.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/test-a2",
+    "version": 1,
+    "family": "emb-model-test-score-meaning",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-def"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "An embedding model gives *How do I return an item?* and *Sending a product back to us* a cosine of 0.9. Each of them scores about 0.1 against *Change your password*. What does this show?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The model places the first two close together because they mean nearly the same thing",
+        "correct": true,
+        "why_md": "Right. Similar meaning, high cosine, without any shared words."
+      },
+      {
+        "id": "b",
+        "md": "The first two share most of their words",
+        "why_md": "They share no words at all. Matching meaning without shared words is exactly what keyword search can't do.",
+        "misconception": "mc-keyword-is-enough"
+      },
+      {
+        "id": "c",
+        "md": "The first two texts are 90% identical, character by character",
+        "why_md": "Cosine isn't a percentage of matching text; it compares the directions of two vectors.",
+        "misconception": "mc-cosine-range-01"
+      },
+      {
+        "id": "d",
+        "md": "Both texts scored 0.9 on the model's *returns* dimension",
+        "why_md": "Cosine compares whole vectors, and no dimension is a named *returns* feature.",
+        "misconception": "mc-dims-are-meaningful"
+      }
+    ],
+    "hints": [
+      "What is an embedding model trained to do with texts that mean similar things?",
+      "The two texts share no words but mean nearly the same, so the model put their vectors close together."
+    ],
+    "solution_md": "The model places the first two texts close together because they mean nearly the same thing, even though they share no words. That is the defining property of an embedding model: similar meaning, nearby vectors.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/test-a3",
+    "version": 1,
+    "family": "emb-model-test-version-upgrade",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "10,000 product reviews were embedded with `review-embed v3` (768 numbers each). The team now embeds search queries with `review-embed v3.1`, a retrained release that also outputs 768 numbers. Which statement is correct?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The vectors aren't comparable: re-embed the reviews with v3.1, or keep v3 for queries",
+        "correct": true,
+        "why_md": "Right. A new version means a new coordinate system."
+      },
+      {
+        "id": "b",
+        "md": "They're comparable, because the model name and the 768 dimensions are the same",
+        "why_md": "Neither the name nor the length guarantees a shared coordinate system.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "c",
+        "md": "They're comparable, though scores will be slightly lower",
+        "why_md": "Not slightly lower: across versions the scores carry no reliable meaning.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "d",
+        "md": "They aren't comparable, but rescaling every vector to length 1 fixes it",
+        "why_md": "Rescaling changes lengths, not coordinate systems. The mismatch remains."
+      }
+    ],
+    "hints": [
+      "Does a retrained release share its predecessor's coordinate system?",
+      "A retrained release is a new model. Questions and stored vectors must come from the same one."
+    ],
+    "solution_md": "v3.1 is a retrained release, so it has its own coordinate system. Queries from v3.1 can't be meaningfully compared with reviews from v3: re-embed the reviews with v3.1, or keep v3 for queries. Same name and same 768 numbers don't help, and rescaling doesn't align coordinate systems.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/test-a4",
+    "version": 1,
+    "family": "emb-model-test-ar-reembed",
+    "kind": "assert_reason",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "**Assertion (A):** After switching to a new embedding model, you must re-embed every stored article, not only the new ones.\n\n**Reason (R):** Vectors from two different models live in unrelated coordinate systems, even when they have the same number of dimensions.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. Unrelated coordinate systems (R) are exactly why every stored vector must be redone (A)."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "Both are true, but R is the reason A is required, so R does explain A."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true: equal dimensions don't give two models a shared coordinate system.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true: old vectors stay in the old model's space, so re-embedding only new articles leaves a mix."
+      }
+    ],
+    "hints": [
+      "Check A and R on their own, then ask whether R is why A is required.",
+      "Old article vectors stay in the old model's space; new questions arrive in the new one. That mismatch is why every article must be redone."
+    ],
+    "solution_md": "**a.** A is true: any article left with an old vector sits in the old model's space and can't be compared with new-model questions. R is true, and it is exactly the reason A is required.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/test-a5",
+    "version": 1,
+    "family": "emb-model-test-sorted-dimension",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-dims-opaque"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "A colleague sorts all 25 help-centre articles by their value at dimension 42 and finds that the top 3 are all about shipping. They propose calling dimension 42 *the shipping dimension* and filtering on it. What is the soundest response?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Don't: one dimension isn't a defined feature, so the pattern can fail on new articles or another model version. Compare whole vectors against shipping examples instead",
+        "correct": true,
+        "why_md": "Right. Meaning lives in whole-vector relationships, not in one coordinate."
+      },
+      {
+        "id": "b",
+        "md": "Good idea: the top 3 results show that dimension 42 means shipping",
+        "why_md": "Three articles out of 25 are a coincidence of coordinates, not proof of a named feature.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "c",
+        "md": "Good idea, as long as the vectors are rescaled to length 1 first",
+        "why_md": "Rescaling doesn't give a coordinate a meaning it never had.",
+        "misconception": "mc-dims-are-meaningful"
+      }
+    ],
+    "hints": [
+      "Does training give any single coordinate a stable, nameable meaning?",
+      "Three articles on top is a coincidence of this model's coordinates, not a defined feature. Compare whole vectors instead."
+    ],
+    "solution_md": "Don't build on it. A single dimension isn't a defined feature: nothing in training gives it a meaning, so the pattern can fail on new articles and won't survive a model change. To find shipping articles, compare whole vectors against a few example shipping questions by cosine.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/test-a6",
+    "version": 1,
+    "family": "emb-model-test-two-runs",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-dims-opaque"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "You train the same model design twice on the same data, starting from different random numbers. Both runs rank the help centre's 10 labelled queries equally well. Yet for the same article, run 1's dimension 5 is 0.42 and run 2's is −0.17. What does this show?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Nothing is wrong: meaning lives in how vectors relate within each run, not in particular dimensions",
+        "correct": true,
+        "why_md": "Right. Equal rankings, different coordinates: exactly what you'd expect."
+      },
+      {
+        "id": "b",
+        "md": "One run is broken, because the same text should get the same value at dimension 5",
+        "why_md": "Training never fixes what a dimension holds, so two good runs can disagree on every coordinate.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "c",
+        "md": "Dimension 5 is noise, but the other dimensions should still match between the runs",
+        "why_md": "No dimension is expected to match: each run has its own coordinate system.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "d",
+        "md": "The two runs must output different numbers of dimensions",
+        "why_md": "Same design, same output length. The values differ, not the count."
+      }
+    ],
+    "hints": [
+      "Where does an embedding's meaning live: in particular coordinates, or in how vectors relate?",
+      "Training only rewards good relationships between whole vectors, and both runs have them. Nothing fixes what dimension 5 holds."
+    ],
+    "solution_md": "Nothing is wrong. Each run settled on its own coordinate system; both put similar texts close together, which is all training asks for. Meaning lives in how vectors relate within each run, not in what a particular dimension holds.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  }
+]

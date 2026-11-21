@@ -1,0 +1,75 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-ebs",
+  "version": 1,
+  "title": "Amazon EBS: network drives for EC2",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-ebs-az-bound",
+      "version": 1,
+      "statement": "An EBS volume is network-attached block storage that persists independently of the instance. It lives in one Availability Zone and normally attaches to one instance in that same AZ at a time."
+    },
+    {
+      "id": "kc-ebs-snapshots",
+      "version": 1,
+      "statement": "An EBS snapshot is a point-in-time, incremental backup of a volume, stored durably by AWS. Snapshots can be copied to other Regions and used to create volumes in any AZ, which is how a volume is moved or restored."
+    },
+    {
+      "id": "kc-ebs-volume-types",
+      "version": 1,
+      "statement": "EBS SSD volumes (gp3/gp2 general purpose; io2/io1 Provisioned IOPS for demanding databases) cost more than HDD volumes (st1 throughput optimized; sc1 cold) but perform better. Only SSD types can be boot volumes."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-storage-types",
+    "clf-ec2-basics"
+  ],
+  "suggests": [
+    "clf-availability-zones"
+  ],
+  "confusable_with": [
+    "clf-instance-store",
+    "clf-efs-fsx"
+  ],
+  "introduces": [
+    "ebs",
+    "ebs snapshot",
+    "ebs volume type"
+  ],
+  "uses": [
+    "block storage",
+    "ec2 instance",
+    "availability zone",
+    "region"
+  ],
+  "problem_ideas": [
+    "A volume in us-east-1a must be attached to an instance in us-east-1b: list the steps.",
+    "An instance is stopped and started again: what happens to data on its EBS volume?",
+    "A high-transaction Oracle database needs consistent 50,000 IOPS: which volume family?",
+    "A log-processing job streams large sequential files cheaply: which HDD type, and can it be the boot volume?",
+    "For EBS, who handles disk replication within the AZ and who handles snapshots and encryption settings?",
+    "Recover a volume after an accidental deletion of files yesterday: what must have existed beforehand?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "ec2/storage-volumes"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/identifying-block-storage-solutions-for-"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "ec2-instance-storage/ebs-volumes"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "ec2-instance-storage/shared-responsibility-model-for-ec2-stor"
+    }
+  ],
+  "status": "stub"
+}

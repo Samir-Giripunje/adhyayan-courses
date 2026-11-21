@@ -1,0 +1,52 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-class-decorators",
+  "version": 1,
+  "title": "Class decorators: @dec above class",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-class-decorator-desugar",
+      "version": 1,
+      "statement": "@dec above class C: ... is equivalent to C = dec(C) applied after the class body has executed; the decorator expression itself is evaluated before the class body runs, and stacked class decorators apply bottom-up."
+    },
+    {
+      "id": "kc-class-decorator-modify",
+      "version": 1,
+      "statement": "A class decorator usually modifies the class in place, for example adding a method with setattr, and returns the same class so isinstance and subclassing keep working."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "pd-decorator-syntax"
+  ],
+  "suggests": [
+    "pd-decoration-time",
+    "pd-stacked-decorators"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "class decorator"
+  ],
+  "uses": [
+    "decorator syntax",
+    "class",
+    "stacked decorators"
+  ],
+  "problem_ideas": [
+    "Write @add_repr that adds a __repr__ listing instance attributes",
+    "Write @register_model that records the class in a registry dict",
+    "Desugar a class with two stacked class decorators",
+    "Predict what happens when a class decorator forgets to return the class",
+    "Write @freeze that adds a __setattr__ raising after __init__",
+    "Predict whether a print in a class decorator factory or in the class body appears first"
+  ],
+  "sources": [
+    {
+      "source": "pep-3129",
+      "entry": "abstract/abstract"
+    }
+  ],
+  "status": "stub"
+}

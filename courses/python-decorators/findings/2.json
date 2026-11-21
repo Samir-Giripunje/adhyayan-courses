@@ -1,0 +1,40 @@
+{
+  "artifact": {
+    "path": "courses/python-decorators/architect",
+    "sha256": "65eb5711796e40677dcf1343185241fb2154918f17d67471b5fb9ce3e94629cd"
+  },
+  "reviewer": {
+    "role": "adhy-critic",
+    "vendor": "codex"
+  },
+  "items": [
+    {
+      "id": "f1",
+      "severity": "blocking",
+      "target": "pd-attribute-tagging",
+      "claim": "The serves link to o4 is unjustified by its observable. Building a plugin registry and a class decorator that adds a method does not require attribute tagging.",
+      "fix": "Remove pd-attribute-tagging's serves link to o4 and recompute its tier."
+    },
+    {
+      "id": "f2",
+      "severity": "blocking",
+      "target": "pd-lru-cache",
+      "claim": "The serves link to o4 is unjustified by its observable. Neither building the registry nor adding a method with a class decorator requires caching.",
+      "fix": "Remove pd-lru-cache's serves link to o4 and recompute its tier."
+    },
+    {
+      "id": "f3",
+      "severity": "blocking",
+      "target": "pd-decorator-factories",
+      "claim": "kc-factory-missing-parens says the name necessarily becomes bound to the inner decorator. With the factory-time validation required by kc-retry-validate-times, passing the function as times instead raises TypeError at times < 1.",
+      "fix": "Replace kc-factory-missing-parens with: \"For a factory expecting configuration, @retry passes the decorated function as its first argument instead. This can raise during factory execution; if the factory accepts that argument and returns its inner decorator, that inner decorator becomes the decorated name's value.\""
+    },
+    {
+      "id": "f4",
+      "severity": "warn",
+      "target": "pd-property",
+      "claim": "kc-property-setter says the setter method \"must reuse the name x.\" A different name is valid, but binds the new property to that name and leaves x unchanged.",
+      "fix": "Replace kc-property-setter with: \"@x.setter creates a new property retaining the existing getter and deleter and using the decorated function as its setter. Name the decorated function x to replace x; a different name binds the new property there instead.\""
+    }
+  ]
+}

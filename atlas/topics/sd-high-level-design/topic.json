@@ -1,0 +1,66 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-high-level-design",
+  "version": 1,
+  "title": "Drawing the high-level design",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-hld-request-path",
+      "version": 1,
+      "statement": "A high-level design traces each core request from client through the application tier to the data tier, with one box per responsibility and arrows labelled by API call."
+    },
+    {
+      "id": "kc-hld-simple-first",
+      "version": 1,
+      "statement": "Start the high-level design with the simplest version that meets the functional requirements, then add components only when an estimate or non-functional requirement demands them."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-requirements"
+  ],
+  "suggests": [
+    "sd-client-server",
+    "sd-data-model"
+  ],
+  "confusable_with": [
+    "sd-data-model"
+  ],
+  "introduces": [
+    "high-level design",
+    "component diagram"
+  ],
+  "uses": [
+    "client-server architecture",
+    "three-tier architecture",
+    "application tier",
+    "data tier",
+    "api design",
+    "non-functional requirements"
+  ],
+  "problem_ideas": [
+    "Draw the minimal boxes for a Pastebin: client, app server, metadata store, blob store",
+    "Trace a 'create short URL' request and a 'redirect' request through the same diagram",
+    "Remove the unjustified component from a 12-box design for a 1,000-user app",
+    "Split the read path and write path of a news feed into separate arrows",
+    "Name the box that owns each functional requirement in a chat app diagram",
+    "Explain to an interviewer why you started with a single database"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "how-to-approach-a-system-design-intervie/step-2-create-a-high-level-design"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "high-level-component-design/high-level-component-design"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "how-to-approach-a-system-design-intervie/step-3-design-core-components"
+    }
+  ],
+  "status": "stub"
+}

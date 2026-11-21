@@ -1,0 +1,3094 @@
+{
+  "entries": [
+    {
+      "id": "roadmap-aws",
+      "kind": "roadmap.sh",
+      "ref": "https://roadmap.sh/aws",
+      "fetched": "2026-11-18",
+      "sha256": "13ebfc3b3c663068014092864f5135a7ac6247343416e3abfb535df42fab1641",
+      "sections": [
+        {
+          "id": "introduction",
+          "title": "Introduction",
+          "order": 1,
+          "entries": [
+            {
+              "id": "introduction",
+              "title": "Introduction",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "introduction-to-aws",
+              "title": "Introduction to AWS",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "aws-global-infrastructure",
+              "title": "AWS Global Infrastructure",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "shared-responsibility-model",
+              "title": "Shared Responsibility Model",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "well-architected-framework",
+              "title": "Well Architected Framework",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "ec2",
+          "title": "EC2",
+          "order": 2,
+          "entries": [
+            {
+              "id": "ec2",
+              "title": "EC2",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "instance-types",
+              "title": "Instance Types",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "cpu-credits",
+              "title": "CPU Credits",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "storage-volumes",
+              "title": "Storage / Volumes",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "keypairs",
+              "title": "Keypairs",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "elastic-ip",
+              "title": "Elastic IP",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "user-data-scripts",
+              "title": "User Data Scripts",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "purchasing-options",
+              "title": "Purchasing Options",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "vpc",
+          "title": "VPC",
+          "order": 3,
+          "entries": [
+            {
+              "id": "vpc",
+              "title": "VPC",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "cidr-blocks",
+              "title": "CIDR Blocks",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "subnets",
+              "title": "Subnets",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "private-subnet",
+              "title": "Private Subnet",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "public-subnet",
+              "title": "Public Subnet",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "iam",
+          "title": "IAM",
+          "order": 4,
+          "entries": [
+            {
+              "id": "iam",
+              "title": "IAM",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "route-tables",
+              "title": "Route Tables",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "security-groups",
+              "title": "Security Groups",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "internet-gateway",
+              "title": "Internet Gateway",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "nat-gateway",
+              "title": "NAT Gateway",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "policies",
+              "title": "Policies",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "users-user-groups",
+              "title": "Users / User Groups",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "roles",
+              "title": "Roles",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "ses",
+          "title": "SES",
+          "order": 5,
+          "entries": [
+            {
+              "id": "ses",
+              "title": "SES",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "sandbox-sending-limits",
+              "title": "Sandbox / Sending Limits",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "identity-verification",
+              "title": "Identity Verification",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "dkim-setup",
+              "title": "DKIM Setup",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "feedback-handling",
+              "title": "Feedback Handling",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "configuration-sets",
+              "title": "Configuration Sets",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "sender-reputation",
+              "title": "Sender Reputation",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "dedicated-ip",
+              "title": "Dedicated IP",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "title": "S3",
+          "order": 6,
+          "entries": [
+            {
+              "id": "s3",
+              "title": "S3",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "identity-based",
+              "title": "Identity-based",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "resource-based",
+              "title": "Resource-based",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "instance-profiles",
+              "title": "Instance Profiles",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "assuming-roles",
+              "title": "Assuming Roles",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "buckets-objects",
+              "title": "Buckets / Objects",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "bucket-object-lifecycle",
+              "title": "Bucket / Object Lifecycle",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "auto-scaling",
+          "title": "Auto-Scaling",
+          "order": 7,
+          "entries": [
+            {
+              "id": "auto-scaling",
+              "title": "Auto-Scaling",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "amis",
+              "title": "AMIs",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "launch-templates",
+              "title": "Launch Templates",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "auto-scaling-groups",
+              "title": "Auto-Scaling Groups",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "scaling-policies",
+              "title": "Scaling Policies",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "elastic-load-balancers",
+              "title": "Elastic Load Balancers",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "route53",
+          "title": "Route53",
+          "order": 8,
+          "entries": [
+            {
+              "id": "route53",
+              "title": "Route53",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "hosted-zones",
+              "title": "Hosted Zones",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "routing-policies",
+              "title": "Routing Policies",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "health-checks",
+              "title": "Health Checks",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "storage-types",
+          "title": "Storage Types",
+          "order": 9,
+          "entries": [
+            {
+              "id": "storage-types",
+              "title": "Storage Types",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "standard",
+              "title": "Standard",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "s3-ia",
+              "title": "S3-IA",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "glacier",
+              "title": "Glacier",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "cloudwatch",
+          "title": "Cloudwatch",
+          "order": 10,
+          "entries": [
+            {
+              "id": "cloudwatch",
+              "title": "Cloudwatch",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "metrics",
+              "title": "Metrics",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "events",
+              "title": "Events",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "logs",
+              "title": "Logs",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "rds",
+          "title": "RDS",
+          "order": 11,
+          "entries": [
+            {
+              "id": "rds",
+              "title": "RDS",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "db-instances",
+              "title": "DB Instances",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "storage-types",
+              "title": "Storage Types",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "backup-restore",
+              "title": "Backup / Restore",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "dynamodb",
+          "title": "DynamoDB",
+          "order": 12,
+          "entries": [
+            {
+              "id": "dynamodb",
+              "title": "DynamoDB",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "what-is-cloud-computing",
+              "title": "What is Cloud Computing?",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "iaas-vs-paas-vs-saas",
+              "title": "IaaS vs PaaS vs SaaS",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "public-vs-private-vs-hybrid-cloud",
+              "title": "Public vs Private vs Hybrid Cloud",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "tables-items-attributes",
+              "title": "Tables / Items / Attributes",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "primary-keys-secondary-indexes",
+              "title": "Primary Keys / Secondary Indexes",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "data-modeling",
+              "title": "Data Modeling",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "capacity-settings",
+              "title": "Capacity Settings",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "general-purpose",
+              "title": "General Purpose",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "limits",
+              "title": "Limits",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "provisioned-iops",
+              "title": "Provisioned IOPS",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "dynamodb-local",
+              "title": "DynamoDB Local",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "magnetic",
+              "title": "Magnetic",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "elasticache",
+          "title": "ElastiCache",
+          "order": 13,
+          "entries": [
+            {
+              "id": "elasticache",
+              "title": "ElastiCache",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "quotas",
+              "title": "Quotas",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "ecr",
+          "title": "ECR",
+          "order": 14,
+          "entries": [
+            {
+              "id": "ecr",
+              "title": "ECR",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "streams",
+              "title": "Streams",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "backup-restore",
+              "title": "Backup / Restore",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "services",
+              "title": "Services",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "cloudfront",
+          "title": "Cloudfront",
+          "order": 15,
+          "entries": [
+            {
+              "id": "cloudfront",
+              "title": "Cloudfront",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "distributions",
+              "title": "Distributions",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "policies",
+              "title": "Policies",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "invalidations",
+              "title": "Invalidations",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "eks",
+          "title": "EKS",
+          "order": 16,
+          "entries": [
+            {
+              "id": "eks",
+              "title": "EKS",
+              "edge_kind": "solid"
+            }
+          ]
+        },
+        {
+          "id": "ecs",
+          "title": "ECS",
+          "order": 17,
+          "entries": [
+            {
+              "id": "ecs",
+              "title": "ECS",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "clusters-ecs-container-agents",
+              "title": "Clusters / ECS Container Agents",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "tasks",
+              "title": "Tasks",
+              "edge_kind": "dashed"
+            }
+          ]
+        },
+        {
+          "id": "lambda",
+          "title": "Lambda",
+          "order": 18,
+          "entries": [
+            {
+              "id": "lambda",
+              "title": "Lambda",
+              "edge_kind": "solid"
+            },
+            {
+              "id": "creating-invoking-functions",
+              "title": "Creating / Invoking Functions",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "layers",
+              "title": "Layers",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "custom-runtimes",
+              "title": "Custom Runtimes",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "versioning-aliases",
+              "title": "Versioning / Aliases",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "event-bridge-scheduled-execution",
+              "title": "Event Bridge / Scheduled Execution",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "launch-config-autoscaling-groups",
+              "title": "Launch Config / Autoscaling Groups",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "cold-start-and-limitations",
+              "title": "Cold Start and Limitations",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "fargate",
+              "title": "Fargate",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "api-gateway",
+              "title": "API Gateway",
+              "edge_kind": "dashed"
+            },
+            {
+              "id": "lambda-edge",
+              "title": "Lambda@Edge",
+              "edge_kind": "dashed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clf-c02-guide",
+      "kind": "syllabus",
+      "ref": "https://docs.aws.amazon.com/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02.md",
+      "fetched": "2026-11-18",
+      "sha256": "2c7dc8928869c83b5dad3797bb9e3c73ba3dac2e6b1b98f71bf3d953b7aa3d4c",
+      "sections": [
+        {
+          "id": "introduction",
+          "title": "Introduction",
+          "order": 1,
+          "entries": [
+            {
+              "id": "introduction",
+              "title": "Introduction"
+            }
+          ]
+        },
+        {
+          "id": "target-candidate-description",
+          "title": "Target Candidate Description",
+          "order": 2,
+          "entries": [
+            {
+              "id": "target-candidate-description",
+              "title": "Target Candidate Description"
+            },
+            {
+              "id": "recommended-aws-knowledge",
+              "title": "Recommended AWS knowledge"
+            }
+          ]
+        },
+        {
+          "id": "exam-content",
+          "title": "Exam Content",
+          "order": 3,
+          "entries": [
+            {
+              "id": "exam-content",
+              "title": "Exam Content"
+            },
+            {
+              "id": "unscored-content",
+              "title": "Unscored Content"
+            },
+            {
+              "id": "exam-results",
+              "title": "Exam Results"
+            }
+          ]
+        },
+        {
+          "id": "content-outline",
+          "title": "Content Outline",
+          "order": 4,
+          "entries": [
+            {
+              "id": "content-outline",
+              "title": "Content Outline"
+            },
+            {
+              "id": "content-domain-1-cloud-concepts-24-of-sc",
+              "title": "Content Domain 1: Cloud Concepts (24% of scored content)"
+            },
+            {
+              "id": "content-domain-2-security-and-compliance",
+              "title": "Content Domain 2: Security and Compliance (30% of scored content)"
+            },
+            {
+              "id": "content-domain-3-cloud-technology-and-se",
+              "title": "Content Domain 3: Cloud Technology and Services (34% of scored content)"
+            },
+            {
+              "id": "content-domain-4-billing-pricing-and-sup",
+              "title": "Content Domain 4: Billing, Pricing, and Support (12% of scored content)"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-1-1-define-the-benefits-o",
+          "title": "Task Statement 1.1: Define the benefits of the AWS Cloud.",
+          "order": 5,
+          "entries": [
+            {
+              "id": "task-statement-1-1-define-the-benefits-o",
+              "title": "Task Statement 1.1: Define the benefits of the AWS Cloud."
+            },
+            {
+              "id": "value-proposition-of-the-aws-cloud",
+              "title": "Value proposition of the AWS Cloud"
+            },
+            {
+              "id": "understanding-the-benefits-of-global-inf",
+              "title": "Understanding the benefits of global infrastructure (for example, speed of deployment, global reach)"
+            },
+            {
+              "id": "understanding-the-advantages-of-high-ava",
+              "title": "Understanding the advantages of high availability, elasticity, and agility"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-1-2-identify-design-princ",
+          "title": "Task Statement 1.2: Identify design principles of the AWS Cloud.",
+          "order": 6,
+          "entries": [
+            {
+              "id": "task-statement-1-2-identify-design-princ",
+              "title": "Task Statement 1.2: Identify design principles of the AWS Cloud."
+            },
+            {
+              "id": "aws-well-architected-framework",
+              "title": "AWS Well-Architected Framework"
+            },
+            {
+              "id": "identifying-differences-between-the-pill",
+              "title": "Identifying differences between the pillars of the Well-Architected Framework"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-1-3-understand-the-benefi",
+          "title": "Task Statement 1.3: Understand the benefits of and strategies for migration to the AWS Cloud.",
+          "order": 7,
+          "entries": [
+            {
+              "id": "task-statement-1-3-understand-the-benefi",
+              "title": "Task Statement 1.3: Understand the benefits of and strategies for migration to the AWS Cloud."
+            },
+            {
+              "id": "cloud-adoption-strategies",
+              "title": "Cloud adoption strategies"
+            },
+            {
+              "id": "resources-to-support-the-cloud-migration",
+              "title": "Resources to support the cloud migration journey"
+            },
+            {
+              "id": "identifying-appropriate-migration-strate",
+              "title": "Identifying appropriate migration strategies (for example, database replication)"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-1-4-understand-concepts-o",
+          "title": "Task Statement 1.4: Understand concepts of cloud economics.",
+          "order": 8,
+          "entries": [
+            {
+              "id": "task-statement-1-4-understand-concepts-o",
+              "title": "Task Statement 1.4: Understand concepts of cloud economics."
+            },
+            {
+              "id": "aspects-of-cloud-economics",
+              "title": "Aspects of cloud economics"
+            },
+            {
+              "id": "cost-savings-of-moving-to-the-cloud",
+              "title": "Cost savings of moving to the cloud"
+            },
+            {
+              "id": "understanding-the-role-of-fixed-costs-co",
+              "title": "Understanding the role of fixed costs compared with variable costs"
+            },
+            {
+              "id": "understanding-costs-that-are-associated-",
+              "title": "Understanding costs that are associated with on-premises environments"
+            },
+            {
+              "id": "understanding-the-concept-of-rightsizing",
+              "title": "Understanding the concept of rightsizing"
+            },
+            {
+              "id": "identifying-benefits-of-automation",
+              "title": "Identifying benefits of automation"
+            },
+            {
+              "id": "understanding-the-economies-of-scale-for",
+              "title": "Understanding the economies of scale (for example, cost savings)"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-2-1-understand-the-aws-sh",
+          "title": "Task Statement 2.1: Understand the AWS shared responsibility model.",
+          "order": 9,
+          "entries": [
+            {
+              "id": "task-statement-2-1-understand-the-aws-sh",
+              "title": "Task Statement 2.1: Understand the AWS shared responsibility model."
+            },
+            {
+              "id": "aws-shared-responsibility-model",
+              "title": "AWS shared responsibility model"
+            },
+            {
+              "id": "recognizing-the-components-of-the-aws-sh",
+              "title": "Recognizing the components of the AWS shared responsibility model"
+            },
+            {
+              "id": "describing-the-customer-s-responsibiliti",
+              "title": "Describing the customer's responsibilities on AWS"
+            },
+            {
+              "id": "describing-aws-responsibilities",
+              "title": "Describing AWS responsibilities"
+            },
+            {
+              "id": "describing-responsibilities-that-the-cus",
+              "title": "Describing responsibilities that the customer and AWS share"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-2-2-understand-aws-cloud-",
+          "title": "Task Statement 2.2: Understand AWS Cloud security, governance, and compliance concepts.",
+          "order": 10,
+          "entries": [
+            {
+              "id": "task-statement-2-2-understand-aws-cloud-",
+              "title": "Task Statement 2.2: Understand AWS Cloud security, governance, and compliance concepts."
+            },
+            {
+              "id": "aws-compliance-and-governance-concepts",
+              "title": "AWS compliance and governance concepts"
+            },
+            {
+              "id": "benefits-of-cloud-security-for-example-e",
+              "title": "Benefits of cloud security (for example, encryption)"
+            },
+            {
+              "id": "where-to-capture-and-locate-logs-that-ar",
+              "title": "Where to capture and locate logs that are associated with cloud security"
+            },
+            {
+              "id": "identifying-where-to-find-aws-compliance",
+              "title": "Identifying where to find AWS compliance information (for example, AWS Artifact)"
+            },
+            {
+              "id": "understanding-compliance-needs-among-geo",
+              "title": "Understanding compliance needs among geographic locations or industries (for example, AWS compliance)"
+            },
+            {
+              "id": "identifying-encryption-options-for-examp",
+              "title": "Identifying encryption options (for example, encryption in transit, encryption at rest)"
+            },
+            {
+              "id": "recognizing-compliance-requirements-that",
+              "title": "Recognizing compliance requirements that vary among AWS services"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-2-3-identify-aws-access-m",
+          "title": "Task Statement 2.3: Identify AWS access management capabilities.",
+          "order": 11,
+          "entries": [
+            {
+              "id": "task-statement-2-3-identify-aws-access-m",
+              "title": "Task Statement 2.3: Identify AWS access management capabilities."
+            },
+            {
+              "id": "identity-and-access-management-for-examp",
+              "title": "Identity and access management (for example, AWS Identity and Access Management [IAM])"
+            },
+            {
+              "id": "importance-of-protecting-the-aws-root-us",
+              "title": "Importance of protecting the AWS root user account"
+            },
+            {
+              "id": "principle-of-least-privilege",
+              "title": "Principle of least privilege"
+            },
+            {
+              "id": "aws-iam-identity-center",
+              "title": "AWS IAM Identity Center"
+            },
+            {
+              "id": "identifying-tasks-that-only-the-account-",
+              "title": "Identifying tasks that only the account root user can perform"
+            },
+            {
+              "id": "understanding-which-methods-can-achieve-",
+              "title": "Understanding which methods can achieve root user protection"
+            },
+            {
+              "id": "understanding-the-types-of-identity-mana",
+              "title": "Understanding the types of identity management (for example, federated)"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-2-4-identify-components-a",
+          "title": "Task Statement 2.4: Identify components and resources for security.",
+          "order": 12,
+          "entries": [
+            {
+              "id": "task-statement-2-4-identify-components-a",
+              "title": "Task Statement 2.4: Identify components and resources for security."
+            },
+            {
+              "id": "security-capabilities-that-aws-provides",
+              "title": "Security capabilities that AWS provides"
+            },
+            {
+              "id": "security-related-documentation-that-aws-",
+              "title": "Security-related documentation that AWS provides"
+            },
+            {
+              "id": "understanding-that-third-party-security-",
+              "title": "Understanding that third-party security products are available from AWS Marketplace"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-3-1-define-methods-of-dep",
+          "title": "Task Statement 3.1: Define methods of deploying and operating in the AWS Cloud.",
+          "order": 13,
+          "entries": [
+            {
+              "id": "task-statement-3-1-define-methods-of-dep",
+              "title": "Task Statement 3.1: Define methods of deploying and operating in the AWS Cloud."
+            },
+            {
+              "id": "various-ways-of-provisioning-and-operati",
+              "title": "Various ways of provisioning and operating in the AWS Cloud"
+            },
+            {
+              "id": "various-ways-to-access-aws-services",
+              "title": "Various ways to access AWS services"
+            },
+            {
+              "id": "types-of-cloud-deployment-models",
+              "title": "Types of cloud deployment models"
+            },
+            {
+              "id": "evaluating-requirements-to-determine-whe",
+              "title": "Evaluating requirements to determine whether to use one-time operations or repeatable processes"
+            },
+            {
+              "id": "identifying-deployment-models-for-exampl",
+              "title": "Identifying deployment models (for example, cloud, hybrid, on-premises)"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-3-2-define-the-aws-global",
+          "title": "Task Statement 3.2: Define the AWS global infrastructure.",
+          "order": 14,
+          "entries": [
+            {
+              "id": "task-statement-3-2-define-the-aws-global",
+              "title": "Task Statement 3.2: Define the AWS global infrastructure."
+            },
+            {
+              "id": "aws-regions-availability-zones-and-edge-",
+              "title": "AWS Regions, Availability Zones, and edge locations"
+            },
+            {
+              "id": "high-availability",
+              "title": "High availability"
+            },
+            {
+              "id": "use-of-multiple-regions",
+              "title": "Use of multiple Regions"
+            },
+            {
+              "id": "benefits-of-edge-locations",
+              "title": "Benefits of edge locations"
+            },
+            {
+              "id": "describing-relationships-among-regions-a",
+              "title": "Describing relationships among Regions, Availability Zones, and edge locations"
+            },
+            {
+              "id": "describing-how-to-achieve-high-availabil",
+              "title": "Describing how to achieve high availability by using multiple Availability Zones"
+            },
+            {
+              "id": "recognizing-that-availability-zones-do-n",
+              "title": "Recognizing that Availability Zones do not share single points of failure"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-3-3-identify-aws-compute-",
+          "title": "Task Statement 3.3: Identify AWS compute services.",
+          "order": 15,
+          "entries": [
+            {
+              "id": "task-statement-3-3-identify-aws-compute-",
+              "title": "Task Statement 3.3: Identify AWS compute services."
+            },
+            {
+              "id": "aws-compute-services",
+              "title": "AWS compute services"
+            },
+            {
+              "id": "recognizing-the-appropriate-use-of-vario",
+              "title": "Recognizing the appropriate use of various serverless compute options (for example, AWS Fargate, Lambda)"
+            },
+            {
+              "id": "recognizing-that-auto-scaling-provides-e",
+              "title": "Recognizing that auto scaling provides elasticity"
+            },
+            {
+              "id": "identifying-the-purposes-of-load-balance",
+              "title": "Identifying the purposes of load balancers"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-3-4-identify-aws-database",
+          "title": "Task Statement 3.4: Identify AWS database services.",
+          "order": 16,
+          "entries": [
+            {
+              "id": "task-statement-3-4-identify-aws-database",
+              "title": "Task Statement 3.4: Identify AWS database services."
+            },
+            {
+              "id": "aws-database-services",
+              "title": "AWS database services"
+            },
+            {
+              "id": "database-migration",
+              "title": "Database migration"
+            },
+            {
+              "id": "deciding-when-to-use-ec2-hosted-database",
+              "title": "Deciding when to use EC2 hosted databases or AWS managed databases"
+            },
+            {
+              "id": "identifying-relational-databases-for-exa",
+              "title": "Identifying relational databases (for example, Amazon RDS, Amazon Aurora)"
+            },
+            {
+              "id": "identifying-nosql-databases-for-example-",
+              "title": "Identifying NoSQL databases (for example, DynamoDB)"
+            },
+            {
+              "id": "identifying-memory-based-databases-for-e",
+              "title": "Identifying memory-based databases (for example, Amazon ElastiCache)"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-3-5-identify-aws-network-",
+          "title": "Task Statement 3.5: Identify AWS network services.",
+          "order": 17,
+          "entries": [
+            {
+              "id": "task-statement-3-5-identify-aws-network-",
+              "title": "Task Statement 3.5: Identify AWS network services."
+            },
+            {
+              "id": "aws-network-services",
+              "title": "AWS network services"
+            },
+            {
+              "id": "identifying-the-components-of-a-vpc-for-",
+              "title": "Identifying the components of a VPC (for example, subnets, gateways)"
+            },
+            {
+              "id": "understanding-security-in-a-vpc-for-exam",
+              "title": "Understanding security in a VPC (for example, network ACLs, security groups, Amazon Inspector)"
+            },
+            {
+              "id": "understanding-the-purpose-of-amazon-rout",
+              "title": "Understanding the purpose of Amazon Route 53"
+            },
+            {
+              "id": "identifying-network-connectivity-options",
+              "title": "Identifying network connectivity options to AWS (for example, AWS VPN, AWS Direct Connect)"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-3-6-identify-aws-storage-",
+          "title": "Task Statement 3.6: Identify AWS storage services.",
+          "order": 18,
+          "entries": [
+            {
+              "id": "task-statement-3-6-identify-aws-storage-",
+              "title": "Task Statement 3.6: Identify AWS storage services."
+            },
+            {
+              "id": "aws-storage-services",
+              "title": "AWS storage services"
+            },
+            {
+              "id": "identifying-the-uses-for-object-storage",
+              "title": "Identifying the uses for object storage"
+            },
+            {
+              "id": "recognizing-the-differences-in-amazon-s3",
+              "title": "Recognizing the differences in Amazon S3 storage classes"
+            },
+            {
+              "id": "identifying-block-storage-solutions-for-",
+              "title": "Identifying block storage solutions (for example, Amazon Elastic Block Store [Amazon EBS], instance store)"
+            },
+            {
+              "id": "identifying-file-services-for-example-am",
+              "title": "Identifying file services (for example, Amazon Elastic File System [Amazon EFS], Amazon FSx)"
+            },
+            {
+              "id": "identifying-cached-file-systems-for-exam",
+              "title": "Identifying cached file systems (for example, AWS Storage Gateway)"
+            },
+            {
+              "id": "understanding-use-cases-for-lifecycle-po",
+              "title": "Understanding use cases for lifecycle policies"
+            },
+            {
+              "id": "understanding-use-cases-for-aws-backup",
+              "title": "Understanding use cases for AWS Backup"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-3-7-identify-aws-artifici",
+          "title": "Task Statement 3.7: Identify AWS artificial intelligence and machine learning (AI/ML) services and analytics services.",
+          "order": 19,
+          "entries": [
+            {
+              "id": "task-statement-3-7-identify-aws-artifici",
+              "title": "Task Statement 3.7: Identify AWS artificial intelligence and machine learning (AI/ML) services and analytics services."
+            },
+            {
+              "id": "aws-ai-ml-services",
+              "title": "AWS AI/ML services"
+            },
+            {
+              "id": "aws-analytics-services",
+              "title": "AWS analytics services"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-3-8-identify-services-fro",
+          "title": "Task Statement 3.8: Identify services from other in-scope AWS service categories.",
+          "order": 20,
+          "entries": [
+            {
+              "id": "task-statement-3-8-identify-services-fro",
+              "title": "Task Statement 3.8: Identify services from other in-scope AWS service categories."
+            },
+            {
+              "id": "business-application-services-of-amazon-",
+              "title": "Business application services of Amazon Connect and Amazon Simple Email Service (Amazon SES)"
+            },
+            {
+              "id": "customer-enablement-services-for-example",
+              "title": "Customer enablement services (for example, AWS Support)"
+            },
+            {
+              "id": "developer-tool-services-and-capabilities",
+              "title": "Developer tool services and capabilities (for example, AWS CodeBuild, AWS CodePipeline, and AWS X-Ray)"
+            },
+            {
+              "id": "end-user-computing-services-of-amazon-ap",
+              "title": "End-user computing services of Amazon AppStream 2.0, Amazon WorkSpaces, and Amazon WorkSpaces Secure Browser"
+            },
+            {
+              "id": "frontend-web-and-mobile-services-of-aws-",
+              "title": "Frontend web and mobile services of AWS Amplify"
+            },
+            {
+              "id": "iot-services-for-example-aws-iot-core",
+              "title": "IoT services (for example, AWS IoT Core)"
+            },
+            {
+              "id": "choosing-the-appropriate-service-to-deli",
+              "title": "Choosing the appropriate service to deliver messages and to send alerts and notifications"
+            },
+            {
+              "id": "choosing-the-appropriate-service-to-meet",
+              "title": "Choosing the appropriate service to meet business application needs"
+            },
+            {
+              "id": "choosing-the-appropriate-option-for-busi",
+              "title": "Choosing the appropriate option for business support assistance"
+            },
+            {
+              "id": "identifying-the-tools-to-develop-deploy-",
+              "title": "Identifying the tools to develop, deploy, and troubleshoot applications"
+            },
+            {
+              "id": "identifying-the-services-that-can-create",
+              "title": "Identifying the services that can create and deploy frontend and mobile services"
+            },
+            {
+              "id": "identifying-the-services-that-manage-iot",
+              "title": "Identifying the services that manage IoT devices"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-4-1-compare-aws-pricing-m",
+          "title": "Task Statement 4.1: Compare AWS pricing models.",
+          "order": 21,
+          "entries": [
+            {
+              "id": "task-statement-4-1-compare-aws-pricing-m",
+              "title": "Task Statement 4.1: Compare AWS pricing models."
+            },
+            {
+              "id": "storage-options-and-tiers",
+              "title": "Storage options and tiers"
+            },
+            {
+              "id": "identifying-when-to-use-various-compute-",
+              "title": "Identifying when to use various compute purchasing options"
+            },
+            {
+              "id": "describing-reserved-instance-flexibility",
+              "title": "Describing Reserved Instance flexibility"
+            },
+            {
+              "id": "describing-reserved-instance-behavior-in",
+              "title": "Describing Reserved Instance behavior in AWS Organizations"
+            },
+            {
+              "id": "understanding-pricing-options-for-variou",
+              "title": "Understanding pricing options for various storage options and tiers"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-4-2-understand-resources-",
+          "title": "Task Statement 4.2: Understand resources for billing, budget, and cost management.",
+          "order": 22,
+          "entries": [
+            {
+              "id": "task-statement-4-2-understand-resources-",
+              "title": "Task Statement 4.2: Understand resources for billing, budget, and cost management."
+            },
+            {
+              "id": "billing-support-and-information",
+              "title": "Billing support and information"
+            },
+            {
+              "id": "pricing-information-for-aws-services",
+              "title": "Pricing information for AWS services"
+            },
+            {
+              "id": "aws-organizations",
+              "title": "AWS Organizations"
+            },
+            {
+              "id": "aws-cost-allocation-tags",
+              "title": "AWS cost allocation tags"
+            },
+            {
+              "id": "understanding-the-appropriate-uses-and-c",
+              "title": "Understanding the appropriate uses and capabilities of AWS Budgets and AWS Cost Explorer"
+            },
+            {
+              "id": "understanding-the-appropriate-uses-and-c-2",
+              "title": "Understanding the appropriate uses and capabilities of AWS Pricing Calculator"
+            },
+            {
+              "id": "understanding-aws-organizations-consolid",
+              "title": "Understanding AWS Organizations consolidated billing and allocation of costs"
+            }
+          ]
+        },
+        {
+          "id": "task-statement-4-3-identify-aws-technica",
+          "title": "Task Statement 4.3: Identify AWS technical resources and AWS Support options.",
+          "order": 23,
+          "entries": [
+            {
+              "id": "task-statement-4-3-identify-aws-technica",
+              "title": "Task Statement 4.3: Identify AWS technical resources and AWS Support options."
+            },
+            {
+              "id": "resources-and-documentation-available-on",
+              "title": "Resources and documentation available on official AWS websites"
+            },
+            {
+              "id": "aws-support-plans",
+              "title": "AWS Support plans"
+            },
+            {
+              "id": "role-of-the-aws-partner-network-includin",
+              "title": "Role of the AWS Partner Network, including independent software vendors and system integrators"
+            },
+            {
+              "id": "aws-support-center",
+              "title": "AWS Support Center"
+            },
+            {
+              "id": "locating-aws-whitepapers-blogs-and-docum",
+              "title": "Locating AWS whitepapers, blogs, and documentation on official AWS websites"
+            }
+          ]
+        },
+        {
+          "id": "service-references",
+          "title": "Service References",
+          "order": 24,
+          "entries": [
+            {
+              "id": "service-references",
+              "title": "Service References"
+            },
+            {
+              "id": "in-scope-aws-services",
+              "title": "In-Scope AWS Services"
+            },
+            {
+              "id": "technologies-and-concepts",
+              "title": "Technologies and Concepts"
+            }
+          ]
+        },
+        {
+          "id": "analytics",
+          "title": "Analytics",
+          "order": 25,
+          "entries": [
+            {
+              "id": "analytics",
+              "title": "Analytics"
+            },
+            {
+              "id": "amazon-athena",
+              "title": "Amazon Athena"
+            },
+            {
+              "id": "amazon-emr",
+              "title": "Amazon EMR"
+            },
+            {
+              "id": "aws-glue",
+              "title": "AWS Glue"
+            },
+            {
+              "id": "amazon-kinesis",
+              "title": "Amazon Kinesis"
+            },
+            {
+              "id": "amazon-opensearch-service",
+              "title": "Amazon OpenSearch Service"
+            },
+            {
+              "id": "amazon-quick",
+              "title": "Amazon Quick"
+            },
+            {
+              "id": "amazon-redshift",
+              "title": "Amazon Redshift"
+            }
+          ]
+        },
+        {
+          "id": "application-integration",
+          "title": "Application Integration",
+          "order": 26,
+          "entries": [
+            {
+              "id": "application-integration",
+              "title": "Application Integration"
+            },
+            {
+              "id": "amazon-eventbridge",
+              "title": "Amazon EventBridge"
+            },
+            {
+              "id": "amazon-simple-notification-service-amazo",
+              "title": "Amazon Simple Notification Service (Amazon SNS)"
+            },
+            {
+              "id": "amazon-simple-queue-service-amazon-sqs",
+              "title": "Amazon Simple Queue Service (Amazon SQS)"
+            },
+            {
+              "id": "aws-step-functions",
+              "title": "AWS Step Functions"
+            }
+          ]
+        },
+        {
+          "id": "business-applications",
+          "title": "Business Applications",
+          "order": 27,
+          "entries": [
+            {
+              "id": "business-applications",
+              "title": "Business Applications"
+            },
+            {
+              "id": "amazon-connect",
+              "title": "Amazon Connect"
+            },
+            {
+              "id": "amazon-simple-email-service-amazon-ses",
+              "title": "Amazon Simple Email Service (Amazon SES)"
+            }
+          ]
+        },
+        {
+          "id": "cloud-financial-management",
+          "title": "Cloud Financial Management",
+          "order": 28,
+          "entries": [
+            {
+              "id": "cloud-financial-management",
+              "title": "Cloud Financial Management"
+            },
+            {
+              "id": "aws-budgets",
+              "title": "AWS Budgets"
+            },
+            {
+              "id": "aws-cost-and-usage-reports",
+              "title": "AWS Cost and Usage Reports"
+            },
+            {
+              "id": "aws-cost-explorer",
+              "title": "AWS Cost Explorer"
+            },
+            {
+              "id": "aws-marketplace",
+              "title": "AWS Marketplace"
+            }
+          ]
+        },
+        {
+          "id": "compute",
+          "title": "Compute",
+          "order": 29,
+          "entries": [
+            {
+              "id": "compute",
+              "title": "Compute"
+            },
+            {
+              "id": "aws-batch",
+              "title": "AWS Batch"
+            },
+            {
+              "id": "amazon-ec2",
+              "title": "Amazon EC2"
+            },
+            {
+              "id": "aws-elastic-beanstalk",
+              "title": "AWS Elastic Beanstalk"
+            },
+            {
+              "id": "amazon-lightsail",
+              "title": "Amazon Lightsail"
+            },
+            {
+              "id": "aws-outposts",
+              "title": "AWS Outposts"
+            }
+          ]
+        },
+        {
+          "id": "containers",
+          "title": "Containers",
+          "order": 30,
+          "entries": [
+            {
+              "id": "containers",
+              "title": "Containers"
+            },
+            {
+              "id": "amazon-elastic-container-registry-amazon",
+              "title": "Amazon Elastic Container Registry (Amazon ECR)"
+            },
+            {
+              "id": "amazon-elastic-container-service-amazon-",
+              "title": "Amazon Elastic Container Service (Amazon ECS)"
+            },
+            {
+              "id": "amazon-elastic-kubernetes-service-amazon",
+              "title": "Amazon Elastic Kubernetes Service (Amazon EKS)"
+            }
+          ]
+        },
+        {
+          "id": "customer-enablement",
+          "title": "Customer Enablement",
+          "order": 31,
+          "entries": [
+            {
+              "id": "customer-enablement",
+              "title": "Customer Enablement"
+            },
+            {
+              "id": "aws-support",
+              "title": "AWS Support"
+            }
+          ]
+        },
+        {
+          "id": "database",
+          "title": "Database",
+          "order": 32,
+          "entries": [
+            {
+              "id": "database",
+              "title": "Database"
+            },
+            {
+              "id": "amazon-aurora",
+              "title": "Amazon Aurora"
+            },
+            {
+              "id": "amazon-documentdb",
+              "title": "Amazon DocumentDB"
+            },
+            {
+              "id": "amazon-dynamodb",
+              "title": "Amazon DynamoDB"
+            },
+            {
+              "id": "amazon-elasticache",
+              "title": "Amazon ElastiCache"
+            },
+            {
+              "id": "amazon-neptune",
+              "title": "Amazon Neptune"
+            },
+            {
+              "id": "amazon-rds",
+              "title": "Amazon RDS"
+            }
+          ]
+        },
+        {
+          "id": "developer-tools",
+          "title": "Developer Tools",
+          "order": 33,
+          "entries": [
+            {
+              "id": "developer-tools",
+              "title": "Developer Tools"
+            },
+            {
+              "id": "aws-cli",
+              "title": "AWS CLI"
+            },
+            {
+              "id": "aws-codebuild",
+              "title": "AWS CodeBuild"
+            },
+            {
+              "id": "aws-codepipeline",
+              "title": "AWS CodePipeline"
+            },
+            {
+              "id": "aws-x-ray",
+              "title": "AWS X-Ray"
+            }
+          ]
+        },
+        {
+          "id": "end-user-computing",
+          "title": "End User Computing",
+          "order": 34,
+          "entries": [
+            {
+              "id": "end-user-computing",
+              "title": "End User Computing"
+            },
+            {
+              "id": "amazon-appstream-2-0",
+              "title": "Amazon AppStream 2.0"
+            },
+            {
+              "id": "amazon-workspaces",
+              "title": "Amazon WorkSpaces"
+            },
+            {
+              "id": "amazon-workspaces-secure-browser",
+              "title": "Amazon WorkSpaces Secure Browser"
+            }
+          ]
+        },
+        {
+          "id": "frontend-web-and-mobile",
+          "title": "Frontend Web and Mobile",
+          "order": 35,
+          "entries": [
+            {
+              "id": "frontend-web-and-mobile",
+              "title": "Frontend Web and Mobile"
+            },
+            {
+              "id": "aws-amplify",
+              "title": "AWS Amplify"
+            }
+          ]
+        },
+        {
+          "id": "internet-of-things-iot",
+          "title": "Internet of Things (IoT)",
+          "order": 36,
+          "entries": [
+            {
+              "id": "internet-of-things-iot",
+              "title": "Internet of Things (IoT)"
+            },
+            {
+              "id": "aws-iot-core",
+              "title": "AWS IoT Core"
+            }
+          ]
+        },
+        {
+          "id": "machine-learning",
+          "title": "Machine Learning",
+          "order": 37,
+          "entries": [
+            {
+              "id": "machine-learning",
+              "title": "Machine Learning"
+            },
+            {
+              "id": "amazon-comprehend",
+              "title": "Amazon Comprehend"
+            },
+            {
+              "id": "amazon-lex",
+              "title": "Amazon Lex"
+            },
+            {
+              "id": "amazon-polly",
+              "title": "Amazon Polly"
+            },
+            {
+              "id": "amazon-q",
+              "title": "Amazon Q"
+            },
+            {
+              "id": "amazon-rekognition",
+              "title": "Amazon Rekognition"
+            },
+            {
+              "id": "amazon-sagemaker-ai",
+              "title": "Amazon SageMaker AI"
+            },
+            {
+              "id": "amazon-textract",
+              "title": "Amazon Textract"
+            },
+            {
+              "id": "amazon-transcribe",
+              "title": "Amazon Transcribe"
+            },
+            {
+              "id": "amazon-translate",
+              "title": "Amazon Translate"
+            }
+          ]
+        },
+        {
+          "id": "management-and-governance",
+          "title": "Management and Governance",
+          "order": 38,
+          "entries": [
+            {
+              "id": "management-and-governance",
+              "title": "Management and Governance"
+            },
+            {
+              "id": "aws-auto-scaling",
+              "title": "AWS Auto Scaling"
+            },
+            {
+              "id": "aws-cloudformation",
+              "title": "AWS CloudFormation"
+            },
+            {
+              "id": "aws-cloudtrail",
+              "title": "AWS CloudTrail"
+            },
+            {
+              "id": "amazon-cloudwatch",
+              "title": "Amazon CloudWatch"
+            },
+            {
+              "id": "aws-compute-optimizer",
+              "title": "AWS Compute Optimizer"
+            },
+            {
+              "id": "aws-config",
+              "title": "AWS Config"
+            },
+            {
+              "id": "aws-control-tower",
+              "title": "AWS Control Tower"
+            },
+            {
+              "id": "aws-health-dashboard",
+              "title": "AWS Health Dashboard"
+            },
+            {
+              "id": "aws-license-manager",
+              "title": "AWS License Manager"
+            },
+            {
+              "id": "aws-management-console",
+              "title": "AWS Management Console"
+            },
+            {
+              "id": "aws-organizations",
+              "title": "AWS Organizations"
+            },
+            {
+              "id": "aws-service-catalog",
+              "title": "AWS Service Catalog"
+            },
+            {
+              "id": "service-quotas",
+              "title": "Service Quotas"
+            },
+            {
+              "id": "aws-systems-manager",
+              "title": "AWS Systems Manager"
+            },
+            {
+              "id": "aws-trusted-advisor",
+              "title": "AWS Trusted Advisor"
+            },
+            {
+              "id": "aws-well-architected-tool",
+              "title": "AWS Well-Architected Tool"
+            }
+          ]
+        },
+        {
+          "id": "migration-and-transfer",
+          "title": "Migration and Transfer",
+          "order": 39,
+          "entries": [
+            {
+              "id": "migration-and-transfer",
+              "title": "Migration and Transfer"
+            },
+            {
+              "id": "aws-application-discovery-service",
+              "title": "AWS Application Discovery Service"
+            },
+            {
+              "id": "aws-application-migration-service",
+              "title": "AWS Application Migration Service"
+            },
+            {
+              "id": "aws-database-migration-service-aws-dms",
+              "title": "AWS Database Migration Service (AWS DMS)"
+            },
+            {
+              "id": "migration-evaluator",
+              "title": "Migration Evaluator"
+            },
+            {
+              "id": "aws-migration-hub",
+              "title": "AWS Migration Hub"
+            },
+            {
+              "id": "aws-schema-conversion-tool-aws-sct",
+              "title": "AWS Schema Conversion Tool (AWS SCT)"
+            }
+          ]
+        },
+        {
+          "id": "networking-and-content-delivery",
+          "title": "Networking and Content Delivery",
+          "order": 40,
+          "entries": [
+            {
+              "id": "networking-and-content-delivery",
+              "title": "Networking and Content Delivery"
+            },
+            {
+              "id": "amazon-api-gateway",
+              "title": "Amazon API Gateway"
+            },
+            {
+              "id": "amazon-cloudfront",
+              "title": "Amazon CloudFront"
+            },
+            {
+              "id": "aws-direct-connect",
+              "title": "AWS Direct Connect"
+            },
+            {
+              "id": "aws-global-accelerator",
+              "title": "AWS Global Accelerator"
+            },
+            {
+              "id": "aws-privatelink",
+              "title": "AWS PrivateLink"
+            },
+            {
+              "id": "amazon-route-53",
+              "title": "Amazon Route 53"
+            },
+            {
+              "id": "aws-transit-gateway",
+              "title": "AWS Transit Gateway"
+            },
+            {
+              "id": "amazon-vpc",
+              "title": "Amazon VPC"
+            },
+            {
+              "id": "aws-vpn",
+              "title": "AWS VPN"
+            },
+            {
+              "id": "aws-site-to-site-vpn",
+              "title": "AWS Site-to-Site VPN"
+            },
+            {
+              "id": "aws-client-vpn",
+              "title": "AWS Client VPN"
+            }
+          ]
+        },
+        {
+          "id": "security-identity-and-compliance",
+          "title": "Security, Identity, and Compliance",
+          "order": 41,
+          "entries": [
+            {
+              "id": "security-identity-and-compliance",
+              "title": "Security, Identity, and Compliance"
+            },
+            {
+              "id": "aws-artifact",
+              "title": "AWS Artifact"
+            },
+            {
+              "id": "aws-certificate-manager-acm",
+              "title": "AWS Certificate Manager (ACM)"
+            },
+            {
+              "id": "aws-cloudhsm",
+              "title": "AWS CloudHSM"
+            },
+            {
+              "id": "amazon-cognito",
+              "title": "Amazon Cognito"
+            },
+            {
+              "id": "amazon-detective",
+              "title": "Amazon Detective"
+            },
+            {
+              "id": "aws-directory-service",
+              "title": "AWS Directory Service"
+            },
+            {
+              "id": "aws-firewall-manager",
+              "title": "AWS Firewall Manager"
+            },
+            {
+              "id": "amazon-guardduty",
+              "title": "Amazon GuardDuty"
+            },
+            {
+              "id": "aws-identity-and-access-management-iam",
+              "title": "AWS Identity and Access Management (IAM)"
+            },
+            {
+              "id": "aws-iam-identity-center",
+              "title": "AWS IAM Identity Center"
+            },
+            {
+              "id": "amazon-inspector",
+              "title": "Amazon Inspector"
+            },
+            {
+              "id": "aws-key-management-service-aws-kms",
+              "title": "AWS Key Management Service (AWS KMS)"
+            },
+            {
+              "id": "amazon-macie",
+              "title": "Amazon Macie"
+            },
+            {
+              "id": "aws-resource-access-manager-aws-ram",
+              "title": "AWS Resource Access Manager (AWS RAM)"
+            },
+            {
+              "id": "aws-secrets-manager",
+              "title": "AWS Secrets Manager"
+            },
+            {
+              "id": "aws-security-hub",
+              "title": "AWS Security Hub"
+            },
+            {
+              "id": "aws-shield",
+              "title": "AWS Shield"
+            },
+            {
+              "id": "aws-waf",
+              "title": "AWS WAF"
+            }
+          ]
+        },
+        {
+          "id": "serverless",
+          "title": "Serverless",
+          "order": 42,
+          "entries": [
+            {
+              "id": "serverless",
+              "title": "Serverless"
+            },
+            {
+              "id": "aws-fargate",
+              "title": "AWS Fargate"
+            },
+            {
+              "id": "aws-lambda",
+              "title": "AWS Lambda"
+            }
+          ]
+        },
+        {
+          "id": "storage",
+          "title": "Storage",
+          "order": 43,
+          "entries": [
+            {
+              "id": "storage",
+              "title": "Storage"
+            },
+            {
+              "id": "aws-backup",
+              "title": "AWS Backup"
+            },
+            {
+              "id": "amazon-elastic-block-store-amazon-ebs",
+              "title": "Amazon Elastic Block Store (Amazon EBS)"
+            },
+            {
+              "id": "amazon-elastic-file-system-amazon-efs",
+              "title": "Amazon Elastic File System (Amazon EFS)"
+            },
+            {
+              "id": "aws-elastic-disaster-recovery",
+              "title": "AWS Elastic Disaster Recovery"
+            },
+            {
+              "id": "amazon-fsx",
+              "title": "Amazon FSx"
+            },
+            {
+              "id": "amazon-s3",
+              "title": "Amazon S3"
+            },
+            {
+              "id": "amazon-s3-glacier",
+              "title": "Amazon S3 Glacier"
+            },
+            {
+              "id": "aws-storage-gateway",
+              "title": "AWS Storage Gateway"
+            }
+          ]
+        },
+        {
+          "id": "technologies-and-concepts",
+          "title": "Technologies and Concepts",
+          "order": 44,
+          "entries": [
+            {
+              "id": "technologies-and-concepts",
+              "title": "Technologies and Concepts"
+            },
+            {
+              "id": "apis",
+              "title": "APIs"
+            },
+            {
+              "id": "benefits-of-migrating-to-the-aws-cloud",
+              "title": "Benefits of migrating to the AWS Cloud"
+            },
+            {
+              "id": "aws-cloud-adoption-framework-aws-caf",
+              "title": "AWS Cloud Adoption Framework (AWS CAF)"
+            },
+            {
+              "id": "aws-compliance",
+              "title": "AWS Compliance"
+            },
+            {
+              "id": "compute",
+              "title": "Compute"
+            },
+            {
+              "id": "cost-management",
+              "title": "Cost management"
+            },
+            {
+              "id": "databases",
+              "title": "Databases"
+            },
+            {
+              "id": "amazon-ec2-instance-types-for-example-re",
+              "title": "Amazon EC2 instance types (for example, Reserved Instances, On-Demand Instances, Spot Instances)"
+            },
+            {
+              "id": "aws-global-infrastructure-for-example-aw",
+              "title": "AWS global infrastructure (for example, AWS Regions, Availability Zones)"
+            },
+            {
+              "id": "infrastructure-as-code-iac",
+              "title": "Infrastructure as code (IaC)"
+            },
+            {
+              "id": "aws-knowledge-center",
+              "title": "AWS Knowledge Center"
+            },
+            {
+              "id": "machine-learning",
+              "title": "Machine learning"
+            },
+            {
+              "id": "management-and-governance",
+              "title": "Management and governance"
+            },
+            {
+              "id": "migration-and-data-transfer",
+              "title": "Migration and data transfer"
+            },
+            {
+              "id": "network-services",
+              "title": "Network services"
+            },
+            {
+              "id": "aws-partner-network-apn",
+              "title": "AWS Partner Network (APN)"
+            },
+            {
+              "id": "aws-prescriptive-guidance",
+              "title": "AWS Prescriptive Guidance"
+            },
+            {
+              "id": "aws-pricing-calculator",
+              "title": "AWS Pricing Calculator"
+            },
+            {
+              "id": "aws-professional-services",
+              "title": "AWS Professional Services"
+            },
+            {
+              "id": "aws-re-post",
+              "title": "AWS re:Post"
+            },
+            {
+              "id": "aws-sdks",
+              "title": "AWS SDKs"
+            },
+            {
+              "id": "security",
+              "title": "Security"
+            },
+            {
+              "id": "aws-security-blog",
+              "title": "AWS Security Blog"
+            },
+            {
+              "id": "aws-shared-responsibility-model",
+              "title": "AWS shared responsibility model"
+            },
+            {
+              "id": "aws-solutions-architects",
+              "title": "AWS solutions architects"
+            },
+            {
+              "id": "storage",
+              "title": "Storage"
+            },
+            {
+              "id": "aws-support-center",
+              "title": "AWS Support Center"
+            },
+            {
+              "id": "aws-support-plans",
+              "title": "AWS Support plans"
+            },
+            {
+              "id": "aws-well-architected-framework",
+              "title": "AWS Well-Architected Framework"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clf-notes",
+      "kind": "toc",
+      "ref": "https://raw.githubusercontent.com/kananinirav/AWS-Certified-Cloud-Practitioner-Notes/master/README.md",
+      "fetched": "2026-11-18",
+      "sha256": "865f509434c17185665400f638117ffbb445b5646c26e025631acf584e9e82cd",
+      "sections": [
+        {
+          "id": "mind-map-for-outlining-essential-topics",
+          "title": "Mind Map for outlining essential topics",
+          "order": 1,
+          "entries": [
+            {
+              "id": "mind-map-for-outlining-essential-topics",
+              "title": "Mind Map for outlining essential topics"
+            }
+          ]
+        },
+        {
+          "id": "cloud-computing",
+          "title": "Cloud Computing",
+          "order": 2,
+          "entries": [
+            {
+              "id": "cloud-computing",
+              "title": "Cloud Computing"
+            },
+            {
+              "id": "what-is-cloud-computing",
+              "title": "What is Cloud Computing?"
+            },
+            {
+              "id": "aws-global-infrastructure",
+              "title": "AWS Global Infrastructure"
+            },
+            {
+              "id": "shared-responsibility-model",
+              "title": "Shared Responsibility Model"
+            }
+          ]
+        },
+        {
+          "id": "iam-identity-access-management",
+          "title": "IAM: Identity Access & Management",
+          "order": 3,
+          "entries": [
+            {
+              "id": "iam-identity-access-management",
+              "title": "IAM: Identity Access & Management"
+            },
+            {
+              "id": "what-is-iam",
+              "title": "What Is IAM?"
+            },
+            {
+              "id": "multi-factor-authentication-mfa",
+              "title": "Multi Factor Authentication - MFA"
+            },
+            {
+              "id": "mfa-devices-options-in-aws",
+              "title": "MFA devices options in AWS"
+            },
+            {
+              "id": "how-can-users-access-aws",
+              "title": "How can users access AWS ?"
+            },
+            {
+              "id": "what-s-the-aws-cli",
+              "title": "What’s the AWS CLI?"
+            },
+            {
+              "id": "what-s-the-aws-sdk",
+              "title": "What’s the AWS SDK?"
+            }
+          ]
+        },
+        {
+          "id": "ec2-virtual-machines",
+          "title": "EC2: Virtual Machines",
+          "order": 4,
+          "entries": [
+            {
+              "id": "ec2-virtual-machines",
+              "title": "EC2: Virtual Machines"
+            },
+            {
+              "id": "what-is-amazon-ec2",
+              "title": "What is Amazon EC2?"
+            },
+            {
+              "id": "introduction-to-security-groups",
+              "title": "Introduction to Security Groups"
+            },
+            {
+              "id": "classic-ports-to-know",
+              "title": "Classic Ports to know"
+            },
+            {
+              "id": "ec2-instance-launch-types",
+              "title": "EC2 Instance Launch Types"
+            },
+            {
+              "id": "which-purchasing-option-is-right-for-me",
+              "title": "Which purchasing option is right for me?"
+            },
+            {
+              "id": "shared-responsibility-model-for-ec2",
+              "title": "Shared Responsibility Model for EC2"
+            }
+          ]
+        },
+        {
+          "id": "ec2-instance-storage",
+          "title": "EC2 Instance Storage",
+          "order": 5,
+          "entries": [
+            {
+              "id": "ec2-instance-storage",
+              "title": "EC2 Instance Storage"
+            },
+            {
+              "id": "ebs-volumes",
+              "title": "EBS Volumes"
+            },
+            {
+              "id": "efs-elastic-file-system",
+              "title": "EFS: Elastic File System"
+            },
+            {
+              "id": "efs-infrequent-access-efs-ia",
+              "title": "EFS Infrequent Access (EFS-IA)"
+            },
+            {
+              "id": "amazon-fsx-overview",
+              "title": "Amazon FSx – Overview"
+            },
+            {
+              "id": "ec2-instance-store",
+              "title": "EC2 Instance Store"
+            },
+            {
+              "id": "shared-responsibility-model-for-ec2-stor",
+              "title": "Shared Responsibility Model for EC2 Storage"
+            }
+          ]
+        },
+        {
+          "id": "elastic-load-balancing-auto-scaling-grou",
+          "title": "Elastic Load Balancing & Auto Scaling Groups",
+          "order": 6,
+          "entries": [
+            {
+              "id": "elastic-load-balancing-auto-scaling-grou",
+              "title": "Elastic Load Balancing & Auto Scaling Groups"
+            },
+            {
+              "id": "scalability-high-availability",
+              "title": "Scalability & High Availability"
+            },
+            {
+              "id": "vertical-scalability",
+              "title": "Vertical Scalability"
+            },
+            {
+              "id": "horizontal-scalability",
+              "title": "Horizontal Scalability"
+            },
+            {
+              "id": "high-availability",
+              "title": "High Availability"
+            },
+            {
+              "id": "high-availability-scalability-for-ec2",
+              "title": "High Availability & Scalability For EC2"
+            },
+            {
+              "id": "scalability-vs-elasticity-vs-agility",
+              "title": "Scalability vs Elasticity (vs Agility)"
+            },
+            {
+              "id": "what-is-load-balancing",
+              "title": "What is load balancing?"
+            },
+            {
+              "id": "what-s-an-auto-scaling-group",
+              "title": "What’s an Auto Scaling Group?"
+            }
+          ]
+        },
+        {
+          "id": "amazon-s3",
+          "title": "Amazon S3",
+          "order": 7,
+          "entries": [
+            {
+              "id": "amazon-s3",
+              "title": "Amazon S3"
+            },
+            {
+              "id": "s3-use-cases",
+              "title": "S3 Use cases"
+            },
+            {
+              "id": "amazon-s3-overview-buckets",
+              "title": "Amazon S3 Overview - Buckets"
+            },
+            {
+              "id": "amazon-s3-overview-objects",
+              "title": "Amazon S3 Overview - Objects"
+            },
+            {
+              "id": "s3-websites",
+              "title": "S3 Websites"
+            },
+            {
+              "id": "s3-storage-classes",
+              "title": "S3 Storage Classes"
+            },
+            {
+              "id": "s3-object-lock-glacier-vault-lock",
+              "title": "S3 Object Lock & Glacier Vault Lock"
+            },
+            {
+              "id": "shared-responsibility-model-for-s3",
+              "title": "Shared Responsibility Model for S3"
+            },
+            {
+              "id": "aws-snow-family",
+              "title": "AWS Snow Family"
+            },
+            {
+              "id": "what-is-edge-computing",
+              "title": "What is Edge Computing?"
+            },
+            {
+              "id": "snow-family-edge-computing",
+              "title": "Snow Family - Edge Computing"
+            },
+            {
+              "id": "aws-opshub",
+              "title": "AWS OpsHub"
+            },
+            {
+              "id": "hybrid-cloud-for-storage",
+              "title": "Hybrid Cloud for Storage"
+            },
+            {
+              "id": "aws-storage-gateway",
+              "title": "AWS Storage Gateway"
+            }
+          ]
+        },
+        {
+          "id": "databases-analytics",
+          "title": "Databases & Analytics",
+          "order": 8,
+          "entries": [
+            {
+              "id": "databases-analytics",
+              "title": "Databases & Analytics"
+            },
+            {
+              "id": "databases-intro",
+              "title": "Databases Intro"
+            },
+            {
+              "id": "relational-databases",
+              "title": "Relational Databases"
+            },
+            {
+              "id": "nosql-databases",
+              "title": "NoSQL Databases"
+            },
+            {
+              "id": "databases-shared-responsibility-on-aws",
+              "title": "Databases & Shared Responsibility on AWS"
+            },
+            {
+              "id": "aws-rds-overview",
+              "title": "AWS RDS Overview"
+            },
+            {
+              "id": "amazon-aurora",
+              "title": "Amazon Aurora"
+            },
+            {
+              "id": "amazon-elasticache-overview",
+              "title": "Amazon ElastiCache Overview"
+            },
+            {
+              "id": "dynamodb",
+              "title": "DynamoDB"
+            },
+            {
+              "id": "redshift-overview",
+              "title": "Redshift Overview"
+            },
+            {
+              "id": "amazon-emr",
+              "title": "Amazon EMR"
+            },
+            {
+              "id": "amazon-athena",
+              "title": "Amazon Athena"
+            },
+            {
+              "id": "amazon-quicksight",
+              "title": "Amazon QuickSight"
+            },
+            {
+              "id": "documentdb",
+              "title": "DocumentDB"
+            },
+            {
+              "id": "amazon-neptune",
+              "title": "Amazon Neptune"
+            },
+            {
+              "id": "amazon-qldb",
+              "title": "Amazon QLDB"
+            }
+          ]
+        },
+        {
+          "id": "other-compute-section",
+          "title": "Other Compute Section",
+          "order": 9,
+          "entries": [
+            {
+              "id": "other-compute-section",
+              "title": "Other Compute Section"
+            },
+            {
+              "id": "what-is-docker",
+              "title": "What is Docker?"
+            },
+            {
+              "id": "ecs",
+              "title": "ECS"
+            },
+            {
+              "id": "fargate",
+              "title": "Fargate"
+            },
+            {
+              "id": "ecr",
+              "title": "ECR"
+            },
+            {
+              "id": "what-s-serverless",
+              "title": "What’s serverless?"
+            },
+            {
+              "id": "why-aws-lambda",
+              "title": "Why AWS Lambda ?"
+            },
+            {
+              "id": "amazon-api-gateway",
+              "title": "Amazon API Gateway"
+            },
+            {
+              "id": "aws-batch",
+              "title": "AWS Batch"
+            },
+            {
+              "id": "batch-vs-lambda",
+              "title": "Batch vs Lambda"
+            },
+            {
+              "id": "amazon-lightsail",
+              "title": "Amazon Lightsail"
+            },
+            {
+              "id": "lambda-summary",
+              "title": "Lambda Summary"
+            }
+          ]
+        },
+        {
+          "id": "deploying-and-managing-infrastructure-at",
+          "title": "Deploying and Managing Infrastructure at Scale",
+          "order": 10,
+          "entries": [
+            {
+              "id": "deploying-and-managing-infrastructure-at",
+              "title": "Deploying and Managing Infrastructure at Scale"
+            },
+            {
+              "id": "what-is-cloudformation",
+              "title": "What is CloudFormation?"
+            },
+            {
+              "id": "aws-cloud-development-kit-cdk",
+              "title": "AWS Cloud Development Kit (CDK)"
+            },
+            {
+              "id": "developer-problems-on-aws",
+              "title": "Developer problems on AWS"
+            },
+            {
+              "id": "typical-architecture-web-app-3-tier",
+              "title": "Typical architecture: Web App 3-tier"
+            },
+            {
+              "id": "aws-elastic-beanstalk-overview",
+              "title": "AWS Elastic Beanstalk Overview"
+            },
+            {
+              "id": "aws-codedeploy",
+              "title": "AWS CodeDeploy"
+            },
+            {
+              "id": "aws-codecommit",
+              "title": "AWS CodeCommit"
+            },
+            {
+              "id": "aws-codebuild",
+              "title": "AWS CodeBuild"
+            },
+            {
+              "id": "aws-codepipeline",
+              "title": "AWS CodePipeline"
+            },
+            {
+              "id": "aws-codeartifact",
+              "title": "AWS CodeArtifact"
+            },
+            {
+              "id": "aws-codestar",
+              "title": "AWS CodeStar"
+            },
+            {
+              "id": "aws-cloud9",
+              "title": "AWS Cloud9"
+            },
+            {
+              "id": "aws-systems-manager-ssm",
+              "title": "AWS Systems Manager (SSM)"
+            },
+            {
+              "id": "aws-opsworks",
+              "title": "AWS OpsWorks"
+            }
+          ]
+        },
+        {
+          "id": "global-infrastructure",
+          "title": "Global Infrastructure",
+          "order": 11,
+          "entries": [
+            {
+              "id": "global-infrastructure",
+              "title": "Global Infrastructure"
+            },
+            {
+              "id": "why-make-a-global-application",
+              "title": "Why make a global application?"
+            },
+            {
+              "id": "amazon-route-53-overview",
+              "title": "Amazon Route 53 Overview"
+            },
+            {
+              "id": "route-53-routing-policies",
+              "title": "Route 53 Routing Policies"
+            },
+            {
+              "id": "aws-cloudfront",
+              "title": "AWS CloudFront"
+            },
+            {
+              "id": "aws-global-accelerator",
+              "title": "AWS Global Accelerator"
+            },
+            {
+              "id": "aws-outposts",
+              "title": "AWS Outposts"
+            },
+            {
+              "id": "aws-wavelength",
+              "title": "AWS WaveLength"
+            },
+            {
+              "id": "aws-local-zones",
+              "title": "AWS Local Zones"
+            }
+          ]
+        },
+        {
+          "id": "cloud-integration",
+          "title": "Cloud Integration",
+          "order": 12,
+          "entries": [
+            {
+              "id": "cloud-integration",
+              "title": "Cloud Integration"
+            },
+            {
+              "id": "amazon-sqs-simple-queue-service",
+              "title": "Amazon SQS - Simple Queue Service"
+            },
+            {
+              "id": "amazon-kinesis",
+              "title": "Amazon Kinesis"
+            },
+            {
+              "id": "amazon-sns",
+              "title": "Amazon SNS"
+            },
+            {
+              "id": "amazon-mq",
+              "title": "Amazon MQ"
+            }
+          ]
+        },
+        {
+          "id": "cloud-monitoring",
+          "title": "Cloud Monitoring",
+          "order": 13,
+          "entries": [
+            {
+              "id": "cloud-monitoring",
+              "title": "Cloud Monitoring"
+            },
+            {
+              "id": "amazon-cloudwatch",
+              "title": "Amazon CloudWatch"
+            },
+            {
+              "id": "aws-cloudtrail",
+              "title": "AWS CloudTrail"
+            },
+            {
+              "id": "aws-x-ray",
+              "title": "AWS X-Ray"
+            },
+            {
+              "id": "amazon-codeguru",
+              "title": "Amazon CodeGuru"
+            },
+            {
+              "id": "aws-status-service-health-dashboard",
+              "title": "AWS Status - Service Health Dashboard"
+            },
+            {
+              "id": "aws-personal-health-dashboard",
+              "title": "AWS Personal Health Dashboard"
+            }
+          ]
+        },
+        {
+          "id": "vpc",
+          "title": "VPC",
+          "order": 14,
+          "entries": [
+            {
+              "id": "vpc",
+              "title": "VPC"
+            },
+            {
+              "id": "vpc-subnets-primer",
+              "title": "VPC & Subnets Primer"
+            },
+            {
+              "id": "internet-gateway-nat-gateways",
+              "title": "Internet Gateway & NAT Gateways"
+            },
+            {
+              "id": "network-acl-security-groups",
+              "title": "Network ACL & Security Groups"
+            },
+            {
+              "id": "vpc-flow-logs",
+              "title": "VPC Flow Logs"
+            },
+            {
+              "id": "vpc-peering",
+              "title": "VPC Peering"
+            },
+            {
+              "id": "vpc-endpoints",
+              "title": "VPC Endpoints"
+            },
+            {
+              "id": "site-to-site-vpn-direct-connect",
+              "title": "Site to Site VPN & Direct Connect"
+            },
+            {
+              "id": "transit-gateway",
+              "title": "Transit Gateway"
+            }
+          ]
+        },
+        {
+          "id": "security-compliance",
+          "title": "Security & Compliance",
+          "order": 15,
+          "entries": [
+            {
+              "id": "security-compliance",
+              "title": "Security & Compliance"
+            },
+            {
+              "id": "aws-shared-responsibility-model",
+              "title": "AWS Shared Responsibility Model"
+            },
+            {
+              "id": "ddos-protection-on-aws",
+              "title": "DDOS Protection on AWS"
+            },
+            {
+              "id": "aws-shield",
+              "title": "AWS Shield"
+            },
+            {
+              "id": "aws-waf-web-application-firewall",
+              "title": "AWS WAF - Web Application Firewall"
+            },
+            {
+              "id": "aws-kms-key-management-service",
+              "title": "AWS KMS (Key Management Service)"
+            },
+            {
+              "id": "cloudhsm",
+              "title": "CloudHSM"
+            },
+            {
+              "id": "aws-certificate-manager-acm",
+              "title": "AWS Certificate Manager (ACM)"
+            },
+            {
+              "id": "aws-secrets-manager",
+              "title": "AWS Secrets Manager"
+            },
+            {
+              "id": "aws-artifact-not-really-a-service",
+              "title": "AWS Artifact (not really a service)"
+            },
+            {
+              "id": "amazon-guardduty",
+              "title": "Amazon GuardDuty"
+            },
+            {
+              "id": "amazon-inspector",
+              "title": "Amazon Inspector"
+            },
+            {
+              "id": "aws-config",
+              "title": "AWS Config"
+            },
+            {
+              "id": "amazon-macie",
+              "title": "Amazon Macie"
+            },
+            {
+              "id": "aws-security-hub",
+              "title": "AWS Security Hub"
+            },
+            {
+              "id": "amazon-detective",
+              "title": "Amazon Detective"
+            },
+            {
+              "id": "aws-abuse",
+              "title": "AWS Abuse"
+            },
+            {
+              "id": "root-user-privileges",
+              "title": "Root user privileges"
+            },
+            {
+              "id": "iam-access-analyzer",
+              "title": "IAM Access Analyzer"
+            }
+          ]
+        },
+        {
+          "id": "machine-learning",
+          "title": "Machine Learning",
+          "order": 16,
+          "entries": [
+            {
+              "id": "machine-learning",
+              "title": "Machine Learning"
+            },
+            {
+              "id": "amazon-rekognition",
+              "title": "Amazon Rekognition"
+            },
+            {
+              "id": "amazon-transcribe",
+              "title": "Amazon Transcribe"
+            },
+            {
+              "id": "amazon-polly",
+              "title": "Amazon Polly"
+            },
+            {
+              "id": "amazon-translate",
+              "title": "Amazon Translate"
+            },
+            {
+              "id": "amazon-lex-connect",
+              "title": "Amazon Lex & Connect"
+            },
+            {
+              "id": "amazon-comprehend",
+              "title": "Amazon Comprehend"
+            },
+            {
+              "id": "amazon-sagemaker",
+              "title": "Amazon SageMaker"
+            },
+            {
+              "id": "amazon-forecast",
+              "title": "Amazon Forecast"
+            },
+            {
+              "id": "amazon-kendra",
+              "title": "Amazon Kendra"
+            },
+            {
+              "id": "amazon-personalize",
+              "title": "Amazon Personalize"
+            },
+            {
+              "id": "amazon-textract",
+              "title": "Amazon Textract"
+            }
+          ]
+        },
+        {
+          "id": "account-management-billing-support",
+          "title": "Account Management, Billing & Support",
+          "order": 17,
+          "entries": [
+            {
+              "id": "account-management-billing-support",
+              "title": "Account Management, Billing & Support"
+            },
+            {
+              "id": "aws-organizations",
+              "title": "AWS Organizations"
+            },
+            {
+              "id": "multi-account-strategies",
+              "title": "Multi Account Strategies"
+            },
+            {
+              "id": "service-control-policies-scp",
+              "title": "Service Control Policies (SCP)"
+            },
+            {
+              "id": "aws-organization-consolidated-billing",
+              "title": "AWS Organization - Consolidated Billing"
+            },
+            {
+              "id": "aws-control-tower",
+              "title": "AWS Control Tower"
+            },
+            {
+              "id": "aws-resource-access-manager-aws-ram",
+              "title": "AWS Resource Access Manager (AWS RAM)"
+            },
+            {
+              "id": "aws-service-catalog",
+              "title": "AWS Service Catalog"
+            },
+            {
+              "id": "pricing-models-in-aws",
+              "title": "Pricing Models in AWS"
+            },
+            {
+              "id": "compute-pricing",
+              "title": "Compute Pricing"
+            },
+            {
+              "id": "storage-pricing",
+              "title": "Storage Pricing"
+            },
+            {
+              "id": "database-pricing-rds",
+              "title": "Database Pricing - RDS"
+            },
+            {
+              "id": "content-delivery-cloudfront",
+              "title": "Content Delivery - CloudFront"
+            },
+            {
+              "id": "networking-costs-in-aws-per-gb-simplifie",
+              "title": "Networking Costs in AWS per GB - Simplified"
+            }
+          ]
+        },
+        {
+          "id": "advanced-identity",
+          "title": "Advanced Identity",
+          "order": 18,
+          "entries": [
+            {
+              "id": "advanced-identity",
+              "title": "Advanced Identity"
+            },
+            {
+              "id": "aws-sts-securitytoken-service",
+              "title": "AWS STS (SecurityToken Service)"
+            },
+            {
+              "id": "amazon-cognito-simplified",
+              "title": "Amazon Cognito (simplified)"
+            },
+            {
+              "id": "what-is-microsoft-active-directory-ad",
+              "title": "What is Microsoft Active Directory (AD)?"
+            },
+            {
+              "id": "aws-iam-identity-center",
+              "title": "AWS IAM Identity Center"
+            }
+          ]
+        },
+        {
+          "id": "other-aws-services",
+          "title": "Other AWS Services",
+          "order": 19,
+          "entries": [
+            {
+              "id": "other-aws-services",
+              "title": "Other AWS Services"
+            },
+            {
+              "id": "amazon-workspaces",
+              "title": "Amazon WorkSpaces"
+            },
+            {
+              "id": "amazon-appstream-2-0",
+              "title": "Amazon AppStream 2.0"
+            },
+            {
+              "id": "amazon-sumerian",
+              "title": "Amazon Sumerian"
+            },
+            {
+              "id": "aws-iot-core",
+              "title": "AWS IoT Core"
+            },
+            {
+              "id": "amazon-elastic-transcoder",
+              "title": "Amazon Elastic Transcoder"
+            },
+            {
+              "id": "aws-appsync",
+              "title": "AWS AppSync"
+            },
+            {
+              "id": "aws-amplify",
+              "title": "AWS Amplify"
+            },
+            {
+              "id": "aws-device-farm",
+              "title": "AWS Device Farm"
+            },
+            {
+              "id": "aws-backup",
+              "title": "AWS Backup"
+            },
+            {
+              "id": "aws-elastic-disaster-recovery-drs",
+              "title": "AWS Elastic Disaster Recovery (DRS)"
+            },
+            {
+              "id": "aws-datasync",
+              "title": "AWS DataSync"
+            },
+            {
+              "id": "aws-application-discovery-service",
+              "title": "AWS Application Discovery Service"
+            },
+            {
+              "id": "aws-application-migration-service-mgn",
+              "title": "AWS Application Migration Service (MGN)"
+            },
+            {
+              "id": "aws-migration-evaluator",
+              "title": "AWS Migration Evaluator"
+            },
+            {
+              "id": "aws-migration-hub",
+              "title": "AWS Migration Hub"
+            },
+            {
+              "id": "aws-fault-injection-simulator-fis",
+              "title": "AWS Fault Injection Simulator (FIS)"
+            },
+            {
+              "id": "aws-step-functions",
+              "title": "AWS Step Functions"
+            },
+            {
+              "id": "aws-ground-station",
+              "title": "AWS Ground Station"
+            },
+            {
+              "id": "aws-pinpoint",
+              "title": "AWS Pinpoint"
+            }
+          ]
+        },
+        {
+          "id": "aws-architecting-ecosystem",
+          "title": "AWS Architecting & Ecosystem",
+          "order": 20,
+          "entries": [
+            {
+              "id": "aws-architecting-ecosystem",
+              "title": "AWS Architecting & Ecosystem"
+            },
+            {
+              "id": "well-architected-framework-general-guidi",
+              "title": "Well Architected Framework General Guiding Principles"
+            },
+            {
+              "id": "aws-cloud-best-practices-design-principl",
+              "title": "AWS Cloud Best Practices - Design Principles"
+            },
+            {
+              "id": "well-architected-framework-6-pillars",
+              "title": "Well Architected Framework 6 Pillars"
+            },
+            {
+              "id": "aws-well-architected-tool",
+              "title": "AWS Well-Architected Tool"
+            },
+            {
+              "id": "aws-right-sizing",
+              "title": "AWS Right Sizing"
+            },
+            {
+              "id": "aws-ecosystem-free-resources",
+              "title": "AWS Ecosystem - Free resources"
+            },
+            {
+              "id": "aws-marketplace",
+              "title": "AWS Marketplace"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

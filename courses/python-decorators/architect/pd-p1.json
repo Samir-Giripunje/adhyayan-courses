@@ -1,0 +1,1874 @@
+{
+  "stage": {
+    "id": "pd-p1",
+    "title": "Python decorators: functions, factories, classes and descriptors",
+    "outcome": [
+      "o1",
+      "o2",
+      "o3",
+      "o4",
+      "o5"
+    ],
+    "assumes": [
+      "function",
+      "def statement",
+      "class",
+      "method",
+      "*args and **kwargs",
+      "attribute access",
+      "try/except and raise"
+    ],
+    "provides": [
+      "first-class function",
+      "closure",
+      "decorator",
+      "decorator syntax",
+      "wrapper function",
+      "functools.wraps",
+      "stacked decorators",
+      "decorator factory",
+      "functools.partial",
+      "registration decorator",
+      "functools.lru_cache",
+      "class decorator",
+      "descriptor",
+      "descriptor protocol",
+      "property",
+      "bound method",
+      "classmethod",
+      "staticmethod",
+      "validator descriptor"
+    ]
+  },
+  "sections": [
+    {
+      "id": "foundations",
+      "title": "Functions, closures and your first decorator",
+      "rank": 1,
+      "source_ref": {
+        "source": "pep-318",
+        "section": "current-syntax"
+      }
+    },
+    {
+      "id": "factories",
+      "title": "Decorators with arguments and stacking",
+      "rank": 2,
+      "source_ref": {
+        "source": "pep-318",
+        "section": "current-syntax"
+      }
+    },
+    {
+      "id": "patterns",
+      "title": "Decorator patterns and class decorators",
+      "rank": 3
+    },
+    {
+      "id": "descriptors",
+      "title": "Descriptors: how property and methods really work",
+      "rank": 4,
+      "source_ref": {
+        "source": "descriptor-howto",
+        "section": "technical-tutorial"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "pd-first-class-functions",
+      "title": "Functions are objects you can pass around",
+      "size": "standard",
+      "est_min": 8,
+      "section": "foundations",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-functions-are-objects",
+          "statement": "In Python a function is an object: it can be assigned to a name, stored in a container, passed as an argument and returned from another function."
+        },
+        {
+          "id": "kc-function-name-vs-call",
+          "statement": "Writing f refers to the function object itself; writing f() calls it and evaluates to its return value."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "pd-closures"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "first-class function"
+      ],
+      "uses": [
+        "function"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "on-the-name-decorator/on-the-name-decorator"
+        }
+      ],
+      "problem_ideas": [
+        "Store three formatting functions in a dict and dispatch on a key string",
+        "Predict what print(len) versus print(len('abc')) shows",
+        "Pass a key function to sorted() to sort words by their last letter",
+        "Write apply_twice(f, x) and trace apply_twice(lambda n: n * 3, 2)",
+        "Spot the bug where a callback is registered as handler() instead of handler",
+        "Return one of two functions from a chooser and call the result immediately"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "What a function object carries: __code__, __defaults__, __closure__"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Every decorator takes and returns a function object, so this is the ground floor."
+      }
+    },
+    {
+      "id": "pd-closures",
+      "title": "Closures: inner functions that remember",
+      "size": "standard",
+      "est_min": 10,
+      "section": "foundations",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-closure-captures-variable",
+          "statement": "A nested function that references a variable of its enclosing function keeps access to that variable after the outer function returns; this is a closure."
+        },
+        {
+          "id": "kc-late-binding",
+          "statement": "Closures capture variables, not values: functions created in a loop over i all see i's final value unless the current value is bound, for example as a default argument."
+        },
+        {
+          "id": "kc-nonlocal",
+          "statement": "Assigning to an enclosing function's variable inside a nested function requires a nonlocal declaration; without it the name is local, and reading it before assignment raises UnboundLocalError."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "pd-first-class-functions",
+          "reason": "A closure is returned as a function object, so returning functions must already be familiar."
+        }
+      ],
+      "suggests": [
+        "pd-wrapper-functions"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "closure",
+        "nonlocal",
+        "late binding"
+      ],
+      "uses": [
+        "first-class function",
+        "function"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "on-the-name-decorator/on-the-name-decorator"
+        }
+      ],
+      "problem_ideas": [
+        "Build make_multiplier(3) and predict make_multiplier(3)(7)",
+        "Predict the output of [f() for f in [lambda: i for i in range(3)]] and fix it",
+        "Write a counter() factory whose returned function increments a nonlocal count",
+        "Explain the UnboundLocalError from count += 1 without nonlocal",
+        "Inspect f.__closure__[0].cell_contents for a closure over a list",
+        "Two counters from the same factory: predict whether they share state"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Cell objects and how CPython stores free variables"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Wrappers and decorator factories are closures; misunderstanding capture causes real bugs."
+      }
+    },
+    {
+      "id": "pd-what-is-a-decorator",
+      "title": "What a decorator is",
+      "size": "standard",
+      "est_min": 8,
+      "section": "foundations",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-decorator-definition",
+          "statement": "A decorator is a callable that takes a function (or class) and returns an object that is then bound to the original name."
+        },
+        {
+          "id": "kc-decorator-may-return-same",
+          "statement": "A decorator may return the original function unchanged, after registering or annotating it, or a different callable that wraps it."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Desugaring needs the definition of what a decorator receives and returns."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-first-class-functions",
+          "reason": "A decorator is defined as a function that takes and returns function objects."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "decorator"
+      ],
+      "uses": [
+        "first-class function"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "on-the-name-decorator/on-the-name-decorator"
+        }
+      ],
+      "problem_ideas": [
+        "Write identity(func) that returns func and confirm the decorated function behaves the same",
+        "Write a decorator that returns 42 instead of a function and predict what calling the name does",
+        "Classify five decorators as 'returns original' or 'returns replacement'",
+        "Explain why the name 'decorator' in Python differs from the GoF Decorator pattern",
+        "Write shout(func) that returns a new function upper-casing func's result",
+        "Decide whether print is a valid decorator and what the name ends up bound to"
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "Why PEP 318 kept the name 'decorator' despite objections"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "The one-sentence definition everything else in the course unpacks."
+      }
+    },
+    {
+      "id": "pd-decorator-syntax",
+      "title": "@ syntax desugars to func = dec(func)",
+      "size": "standard",
+      "est_min": 8,
+      "section": "foundations",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-at-desugar",
+          "statement": "Writing @dec above def f(): ... is equivalent to defining f and then executing f = dec(f), except the undecorated function is never bound to the name f."
+        },
+        {
+          "id": "kc-decorator-expression",
+          "statement": "The expression after @ is evaluated once, when the def statement executes and before the function object is created; since Python 3.9 (PEP 614) it may be any expression."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Desugaring @ into an explicit assignment is the core of o1."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-what-is-a-decorator",
+          "reason": "The desugaring applies a decorator, which must already be defined."
+        }
+      ],
+      "suggests": [
+        "pd-decorator-history"
+      ],
+      "confusable_with": [
+        "pd-decorator-factories"
+      ],
+      "introduces": [
+        "decorator syntax"
+      ],
+      "uses": [
+        "decorator",
+        "def statement"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "current-syntax/current-syntax"
+        }
+      ],
+      "problem_ideas": [
+        "Rewrite three @-decorated functions as plain assignments",
+        "Predict the output when the decorator prints the function's __name__",
+        "Use @handlers['save'] (3.9+) and rewrite it without @",
+        "Explain why f = dec(f) briefly exposes the undecorated f but @dec does not",
+        "Predict which runs first: a print in the decorator expression or in the function body",
+        "Spot why @dec() and @dec give different results for a plain decorator"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "PEP 614: relaxed grammar for decorator expressions"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Once @ reads as an assignment, every decorator becomes predictable."
+      }
+    },
+    {
+      "id": "pd-wrapper-functions",
+      "title": "Writing a wrapper that works for any signature",
+      "size": "standard",
+      "est_min": 10,
+      "section": "foundations",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-wrapper-pattern",
+          "statement": "A typical decorator defines an inner wrapper that runs extra code, calls the original function captured in its closure, and is returned in its place."
+        },
+        {
+          "id": "kc-pass-through-args",
+          "statement": "A wrapper defined as wrapper(*args, **kwargs) that calls func(*args, **kwargs) works for any signature of the decorated function."
+        },
+        {
+          "id": "kc-wrapper-return-value",
+          "statement": "A wrapper must return the result of calling the original function; omitting the return makes every decorated call return None."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "Writing a signature-agnostic wrapper is the observable product of o2."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-closures",
+          "reason": "The wrapper reaches the original function through a closure."
+        },
+        {
+          "topic": "pd-what-is-a-decorator",
+          "reason": "The wrapper is the replacement a decorator returns."
+        }
+      ],
+      "suggests": [
+        "pd-functools-wraps"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "wrapper function"
+      ],
+      "uses": [
+        "closure",
+        "decorator",
+        "*args and **kwargs"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "current-syntax/current-syntax"
+        }
+      ],
+      "problem_ideas": [
+        "Write a @log_calls decorator that prints arguments and return value",
+        "Write a @timer decorator using time.perf_counter",
+        "Fix a decorator whose wrapper takes only (x) and breaks on keyword arguments",
+        "Find why a decorated add(2, 3) returns None",
+        "Write @double_result that multiplies the wrapped return value by 2",
+        "Write @suppress_errors that returns None if the call raises ValueError"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Keyword-only and positional-only parameters through *args/**kwargs"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "The pattern you will write most often; this is the hands-on heart of decorators."
+      }
+    },
+    {
+      "id": "pd-decoration-time",
+      "title": "When decorator code runs: definition vs call",
+      "size": "standard",
+      "est_min": 8,
+      "section": "foundations",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-decorators-run-at-definition",
+          "statement": "A decorator's own body runs once, when the def statement executes (usually at import time), not each time the decorated function is called."
+        },
+        {
+          "id": "kc-wrapper-runs-per-call",
+          "statement": "Code inside the returned wrapper runs on every call of the decorated name; code outside the wrapper runs only at decoration time."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Predicting printed output and call order depends on separating decoration time from call time."
+        },
+        {
+          "outcome": "o4",
+          "reason": "Explaining when a registry or class decorator runs needs this distinction."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-decorator-syntax",
+          "reason": "Decoration time is when the desugared assignment executes."
+        },
+        {
+          "topic": "pd-wrapper-functions",
+          "reason": "Call-time code lives in the wrapper."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "decoration time"
+      ],
+      "uses": [
+        "decorator syntax",
+        "wrapper function",
+        "decorator"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "current-syntax/current-syntax"
+        }
+      ],
+      "problem_ideas": [
+        "Predict the full printed output of a module that decorates two functions and calls one twice",
+        "Count how many times 'decorating' and 'calling' print in a given script",
+        "Explain why importing a module with decorated functions prints messages",
+        "Move a slow setup step from the wrapper to the decorator body and estimate the saving over 1,000 calls",
+        "Predict output when a decorated function is never called",
+        "Find the bug where a timestamp is captured at decoration time instead of call time"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.8,
+        "reason": "Most decorator surprises come from code running earlier than you expected."
+      }
+    },
+    {
+      "id": "pd-functools-wraps",
+      "title": "Preserving metadata with functools.wraps",
+      "size": "standard",
+      "est_min": 10,
+      "section": "foundations",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-wrapper-hides-metadata",
+          "statement": "Without functools.wraps, the decorated name's __name__ and __doc__ are those of the wrapper, not of the original function."
+        },
+        {
+          "id": "kc-wraps-copies",
+          "statement": "Applying @functools.wraps(func) to the wrapper copies __module__, __name__, __qualname__, __doc__ and __annotations__ from func and merges func's __dict__ into the wrapper's."
+        },
+        {
+          "id": "kc-wrapped-attribute",
+          "statement": "functools.wraps sets wrapper.__wrapped__ to func, so inspect.signature reports the original signature and the undecorated function stays reachable."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "o2 requires keeping __name__ and __doc__, which is exactly what wraps does."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-wrapper-functions",
+          "reason": "wraps is applied to a wrapper function."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "functools.wraps",
+        "__wrapped__"
+      ],
+      "uses": [
+        "wrapper function",
+        "decorator"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "examples/examples"
+        },
+        {
+          "source": "functools-docs",
+          "entry": "class-partial-objects/class-partial-objects"
+        }
+      ],
+      "problem_ideas": [
+        "Predict help(f) output for a decorated function with and without wraps",
+        "Add wraps to a @log_calls decorator and check __name__ and __doc__",
+        "Call f.__wrapped__ to bypass a slow decorator in a test",
+        "Compare inspect.signature(f) before and after adding wraps",
+        "Explain why two decorated functions both show up as 'wrapper' in a stack trace",
+        "Write a decorator that copies metadata by hand, then replace it with wraps"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "functools.update_wrapper and WRAPPER_ASSIGNMENTS"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "The difference between a toy decorator and one you can ship."
+      }
+    },
+    {
+      "id": "pd-decorator-factories",
+      "title": "Decorators with arguments: decorator factories",
+      "size": "big",
+      "est_min": 14,
+      "section": "factories",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-factory-three-levels",
+          "statement": "A decorator with arguments is a factory: @dec(args) first calls dec(args), which must return the actual decorator that then receives the function."
+        },
+        {
+          "id": "kc-factory-desugar",
+          "statement": "@retry(times=3) above def f is equivalent to f = retry(times=3)(f)."
+        },
+        {
+          "id": "kc-factory-closure-args",
+          "statement": "The factory's arguments are captured in a closure, so the wrapper can read them on every call."
+        },
+        {
+          "id": "kc-factory-missing-parens",
+          "statement": "Writing @retry without parentheses when retry is a factory passes the function as the factory's first argument, so the name becomes bound to the inner decorator instead of a wrapper."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "The three-level factory structure is the skeleton of @retry(times=3)."
+        },
+        {
+          "outcome": "o1",
+          "reason": "o1 requires desugaring decorators with arguments."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-decorator-syntax",
+          "reason": "The factory desugaring extends func = dec(func)."
+        },
+        {
+          "topic": "pd-wrapper-functions",
+          "reason": "The innermost level of a factory is a wrapper."
+        }
+      ],
+      "suggests": [
+        "pd-closures"
+      ],
+      "confusable_with": [
+        "pd-stacked-decorators",
+        "pd-decorator-syntax"
+      ],
+      "introduces": [
+        "decorator factory"
+      ],
+      "uses": [
+        "closure",
+        "decorator syntax",
+        "wrapper function"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "current-syntax/current-syntax"
+        }
+      ],
+      "problem_ideas": [
+        "Implement @prefix('>> ') that prepends text to a function's string result",
+        "Implement @repeat(n) and predict the output of a decorated greet()",
+        "Desugar @tag('a', 'b') into explicit calls",
+        "Predict what f is bound to after @retry with missing parentheses",
+        "Write @rate_limit(calls=5, per=1.0) storing timestamps in a closure list",
+        "Implement @expect_type(int) that raises TypeError on a wrong return type"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Class-based decorator factories with __init__ and __call__"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Most decorators you meet in libraries take arguments; this unlocks reading them."
+      }
+    },
+    {
+      "id": "pd-retry-decorator",
+      "title": "Building @retry(times=3): loops, except and re-raise",
+      "size": "standard",
+      "est_min": 10,
+      "section": "factories",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-retry-loop",
+          "statement": "A retry wrapper loops over its attempts, returns func(*args, **kwargs) immediately on the first success, and catches only the designated exception types in its except clause."
+        },
+        {
+          "id": "kc-retry-final-raise",
+          "statement": "On the final failed attempt the wrapper re-raises with a bare raise inside the except block, which propagates the original exception and traceback instead of falling through and returning None."
+        },
+        {
+          "id": "kc-retry-validate-times",
+          "statement": "times counts total attempts, not extra retries; the factory should raise ValueError for times < 1 when it is called, because a zero-attempt loop never calls func and silently returns None."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Implementing a correct @retry(times=3) is o3's observable product and needs this control flow."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-decorator-factories",
+          "reason": "retry is a factory whose times argument lives in the closure."
+        }
+      ],
+      "suggests": [
+        "pd-optional-argument-decorators"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "retry decorator",
+        "bare raise"
+      ],
+      "uses": [
+        "decorator factory",
+        "wrapper function",
+        "try/except and raise"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "current-syntax/current-syntax"
+        }
+      ],
+      "problem_ideas": [
+        "Implement @retry(times=3) and trace attempts against a function that fails twice then succeeds",
+        "Predict the call count and the exception seen when the function fails all 3 attempts",
+        "Fix a retry wrapper that swallows the final exception and returns None",
+        "Add exceptions=(ConnectionError,) and predict which errors propagate on the first attempt",
+        "Decide what @retry(times=0) should do and make it raise ValueError at decoration time",
+        "Add delay=0.5 between attempts and compute the worst-case added latency for times=4"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Exponential backoff with jitter between attempts"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "The classic real-world factory; getting the final re-raise right is what makes it safe."
+      }
+    },
+    {
+      "id": "pd-stacked-decorators",
+      "title": "Stacking decorators and the order they apply",
+      "size": "big",
+      "est_min": 14,
+      "section": "factories",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-stack-bottom-up",
+          "statement": "Stacked decorators apply bottom-up: @a above @b above def f is equivalent to f = a(b(f))."
+        },
+        {
+          "id": "kc-stack-evaluate-top-down",
+          "statement": "The decorator expressions of a stack are evaluated top-down before the function object is created, then applied bottom-up: @make('a') above @make('b') above def f is d_a = make('a'); d_b = make('b'); define f; f = d_a(d_b(f))."
+        },
+        {
+          "id": "kc-stack-call-order",
+          "statement": "When a stacked function is called, the top decorator's pre-call code runs first and its post-call code runs last, like nested layers."
+        },
+        {
+          "id": "kc-stack-order-matters",
+          "statement": "Reordering stacked decorators can change behaviour: with @cache above @timer, cache hits never reach the timer, so they print no timing."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "o1 explicitly includes stacked decorators, stacked factories and their printed order."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-decorator-syntax",
+          "reason": "Stacking is repeated application of the desugaring."
+        },
+        {
+          "topic": "pd-wrapper-functions",
+          "reason": "Call order is about nested wrappers' pre- and post-call code."
+        },
+        {
+          "topic": "pd-decorator-factories",
+          "reason": "The evaluate-top-down KC is checked on stacked factory calls that print when evaluated."
+        }
+      ],
+      "suggests": [
+        "pd-decoration-time"
+      ],
+      "confusable_with": [
+        "pd-decorator-factories"
+      ],
+      "introduces": [
+        "stacked decorators"
+      ],
+      "uses": [
+        "decorator syntax",
+        "wrapper function",
+        "decorator factory"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "current-syntax/current-syntax"
+        }
+      ],
+      "problem_ideas": [
+        "Desugar a three-decorator stack into one nested call",
+        "Predict the printed enter/exit order for @bold @italic def greet()",
+        "Predict the print order for @make('a') @make('b') where both the factory and the decorator print",
+        "Swap @timer and @lru_cache and predict which calls print timings",
+        "Find the order that makes @require_login run before @log_calls logs anything",
+        "Draw the nesting of wrappers for a 3-layer stack"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.8,
+        "reason": "Real code stacks decorators; order bugs are subtle and common."
+      }
+    },
+    {
+      "id": "pd-functools-partial",
+      "title": "functools.partial: freezing arguments",
+      "size": "standard",
+      "est_min": 8,
+      "section": "factories",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-partial-freezes",
+          "statement": "functools.partial(func, *args, **kw) returns a callable that calls func with the frozen positional arguments first, followed by those given at call time, and with the frozen keywords merged in."
+        },
+        {
+          "id": "kc-partial-attrs",
+          "statement": "A partial object exposes .func, .args and .keywords, and keyword arguments given at call time override frozen keywords."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "pd-first-class-functions",
+          "reason": "partial takes and returns callables."
+        }
+      ],
+      "suggests": [
+        "pd-optional-argument-decorators"
+      ],
+      "confusable_with": [
+        "pd-decorator-factories"
+      ],
+      "introduces": [
+        "functools.partial"
+      ],
+      "uses": [
+        "first-class function"
+      ],
+      "sources": [
+        {
+          "source": "functools-docs",
+          "entry": "class-partial-objects/class-partial-objects"
+        }
+      ],
+      "problem_ideas": [
+        "Predict int2 = partial(int, base=2); int2('1010') and int2('10', base=10)",
+        "Build a print_err = partial(print, file=sys.stderr)",
+        "Inspect .func, .args and .keywords of a nested partial",
+        "Predict partial(pow, 2)(5) versus partial(pow, exp=2)(5)",
+        "Replace a three-line lambda with partial and compare repr output",
+        "Explain why partial objects lack __name__ by default"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "functools.partialmethod for methods"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "A small tool that makes the dual-use decorator pattern short and clear."
+      }
+    },
+    {
+      "id": "pd-optional-argument-decorators",
+      "title": "Decorators usable as @dec and @dec(...)",
+      "size": "standard",
+      "est_min": 10,
+      "section": "factories",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-optional-arg-detect",
+          "statement": "A decorator usable as both @dec and @dec(...) checks its first positional argument: if it is the function it decorates directly; if it is None it returns a decorator."
+        },
+        {
+          "id": "kc-optional-arg-keyword-only",
+          "statement": "Making the options keyword-only, as in def dec(func=None, *, times=3), prevents a positional option from being mistaken for the function."
+        },
+        {
+          "id": "kc-optional-arg-partial",
+          "statement": "In the @dec(...) branch, returning functools.partial(dec, times=times) gives a callable that later receives the function as func."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "o3 explicitly asks for a decorator usable both as @dec and @dec(...)."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-decorator-factories",
+          "reason": "The dual form combines a plain decorator with a factory."
+        },
+        {
+          "topic": "pd-functools-partial",
+          "reason": "The idiomatic implementation returns a partial of itself."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "pd-decorator-factories"
+      ],
+      "introduces": [
+        "optional-argument decorator"
+      ],
+      "uses": [
+        "decorator factory",
+        "functools.partial"
+      ],
+      "sources": [
+        {
+          "source": "functools-docs",
+          "entry": "class-partial-objects/class-partial-objects"
+        },
+        {
+          "source": "pep-318",
+          "entry": "current-syntax/current-syntax"
+        }
+      ],
+      "problem_ideas": [
+        "Implement @retry and @retry(times=5) with one function",
+        "Predict what happens to @dec(3) when options are not keyword-only",
+        "Rewrite the dual-use decorator without partial, using an inner function",
+        "Note that @functools.lru_cache works with and without parentheses since 3.8 and explain how",
+        "Write @log and @log(level='DEBUG') sharing one implementation",
+        "Find the bug where callable(arg) is used and a callable option breaks it"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.6,
+        "reason": "A polished-API idiom; nice to know once factories click."
+      }
+    },
+    {
+      "id": "pd-decorator-history",
+      "title": "Why @? The history of decorator syntax",
+      "size": "micro",
+      "est_min": 6,
+      "section": "factories",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-at-chosen-history",
+          "statement": "PEP 318 (Python 2.4) introduced @ decorators placed on the line before def, replacing the older pattern of writing f = staticmethod(f) after the function body."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "pd-decorator-syntax",
+          "reason": "The history compares alternatives to the current syntax."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "pep 318"
+      ],
+      "uses": [
+        "decorator syntax"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "syntax-alternatives/syntax-alternatives"
+        },
+        {
+          "source": "pep-318",
+          "entry": "syntax-alternatives/decorator-location"
+        },
+        {
+          "source": "pep-318",
+          "entry": "syntax-alternatives/syntax-forms"
+        },
+        {
+          "source": "pep-318",
+          "entry": "syntax-alternatives/why"
+        }
+      ],
+      "problem_ideas": [
+        "Rewrite a pre-2.4 class with f = classmethod(f) using @",
+        "List the readability problem with applying transforms after a long function body",
+        "Compare the rejected 'def f() [dec]:' form with @dec",
+        "Identify which Python version first allowed class decorators",
+        "Explain why @ was acceptable even though it was later used for matrix multiply",
+        "Match three rejected syntax proposals to their objections"
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "The 2004 python-dev debate over decorator syntax"
+        }
+      ],
+      "lens": {
+        "score": 0.3,
+        "reason": "Fun context for a curious learner; not needed to write decorators."
+      }
+    },
+    {
+      "id": "pd-registration-decorators",
+      "title": "Registration decorators and plugin registries",
+      "size": "standard",
+      "est_min": 10,
+      "section": "patterns",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-registration-returns-original",
+          "statement": "A registration decorator adds the function to a registry, such as a dict keyed by name, and returns the original function unchanged, so calls carry no wrapper overhead."
+        },
+        {
+          "id": "kc-registration-at-import",
+          "statement": "Registration happens when the defining module is imported; a plugin in a module that is never imported is never registered."
+        },
+        {
+          "id": "kc-registration-factory",
+          "statement": "A keyed registry decorator such as @register('json') is a decorator factory whose key is captured in a closure."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Building a plugin registry decorator is part of o4's observable product."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-decoration-time",
+          "reason": "Registration is a decoration-time side effect."
+        },
+        {
+          "topic": "pd-decorator-factories",
+          "reason": "Keyed registration uses the factory form."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "pd-attribute-tagging"
+      ],
+      "introduces": [
+        "registration decorator",
+        "registry"
+      ],
+      "uses": [
+        "decoration time",
+        "decorator factory"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "examples/examples"
+        }
+      ],
+      "problem_ideas": [
+        "Build @register('csv') / @register('json') exporters and dispatch by format string",
+        "Predict the registry contents after importing two of three plugin modules",
+        "Raise an error when two plugins register the same key",
+        "Write an atexit-style @on_exit registry like PEP 318's onexit example",
+        "Build a command-line dispatcher where @command adds subcommands",
+        "Explain why the registered function has no extra call overhead"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "functools.singledispatch as a built-in registry"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "The pattern behind routes, CLI commands and plugins in real frameworks."
+      }
+    },
+    {
+      "id": "pd-attribute-tagging",
+      "title": "Tagging functions with attributes",
+      "size": "standard",
+      "est_min": 8,
+      "section": "patterns",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-tagging-sets-attribute",
+          "statement": "An attribute-tagging decorator sets an attribute on the function object, such as func.deprecated = True, and returns the function so other code can inspect the tag."
+        },
+        {
+          "id": "kc-tagging-lost-without-wraps",
+          "statement": "If a wrapping decorator without functools.wraps is applied above a tagging decorator, the tag is lost, because wraps is what copies the wrapped function's __dict__."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Attribute tagging is one of the patterns named in o4."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-functools-wraps",
+          "reason": "The tag-survival KC depends on wraps copying __dict__."
+        },
+        {
+          "topic": "pd-stacked-decorators",
+          "reason": "Determining whether the wrapper receives the tagged function requires bottom-up decorator application."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "pd-registration-decorators"
+      ],
+      "introduces": [
+        "attribute tagging"
+      ],
+      "uses": [
+        "functools.wraps",
+        "stacked decorators"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "examples/examples"
+        }
+      ],
+      "problem_ideas": [
+        "Write @deprecated that sets func.deprecated = True and list deprecated functions in a module",
+        "Predict whether f.slow survives under @log_calls with and without wraps",
+        "Implement PEP 318's @attrs(version='2.1', author='x') tagger",
+        "Write a test runner that only runs functions tagged @smoke",
+        "Decide whether tagging or registration fits a 'find all API endpoints' task",
+        "Predict tags after stacking two taggers that set the same attribute"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.55,
+        "reason": "A lightweight pattern that shows decorators need not wrap anything."
+      }
+    },
+    {
+      "id": "pd-lru-cache",
+      "title": "Memoization with functools.lru_cache",
+      "size": "standard",
+      "est_min": 10,
+      "section": "patterns",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-lru-cache-memoizes",
+          "statement": "@functools.lru_cache(maxsize=N) stores results keyed by the call's arguments and returns the stored result on repeat calls; maxsize=None, or functools.cache, makes it unbounded."
+        },
+        {
+          "id": "kc-lru-cache-hashable",
+          "statement": "lru_cache requires every argument to be hashable; calling a cached function with a list argument raises TypeError."
+        },
+        {
+          "id": "kc-lru-cache-info",
+          "statement": "A cached function's cache_info() reports hits, misses, maxsize and currsize, and cache_clear() empties the cache."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Caching is one of the patterns named in o4."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-decorator-syntax",
+          "reason": "Applying lru_cache uses the @ desugaring."
+        }
+      ],
+      "suggests": [
+        "pd-optional-argument-decorators",
+        "pd-stacked-decorators"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "functools.lru_cache",
+        "memoization"
+      ],
+      "uses": [
+        "decorator syntax",
+        "decorator factory"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "examples/examples"
+        },
+        {
+          "source": "functools-docs",
+          "entry": "class-partial-objects/class-partial-objects"
+        }
+      ],
+      "problem_ideas": [
+        "Predict the number of calls for naive fib(20) versus cached fib(20)",
+        "Predict cache_info() after fib(10) with lru_cache(maxsize=None)",
+        "Explain the TypeError from a cached function called with a list and fix it with a tuple",
+        "Predict evictions for maxsize=2 after calls f(1), f(2), f(1), f(3), f(2)",
+        "Spot why f(1) and f(1.0) share a cache entry but f(1, typed=True) settings differ",
+        "Write a minimal dict-based @memoize and compare it to lru_cache"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "lru_cache on methods keeps instances alive"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "The decorator you will most likely use in your own code tomorrow."
+      }
+    },
+    {
+      "id": "pd-class-decorators",
+      "title": "Class decorators: @dec above class",
+      "size": "standard",
+      "est_min": 8,
+      "section": "patterns",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-class-decorator-desugar",
+          "statement": "@dec above class C: ... is equivalent to C = dec(C) applied after the class body has executed; the decorator expression itself is evaluated before the class body runs, and stacked class decorators apply bottom-up."
+        },
+        {
+          "id": "kc-class-decorator-modify",
+          "statement": "A class decorator usually modifies the class in place, for example adding a method with setattr, and returns the same class so isinstance and subclassing keep working."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "o4 asks for a class decorator that adds a method."
+        },
+        {
+          "outcome": "o1",
+          "reason": "o1 includes desugaring decorated classes."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-decorator-syntax",
+          "reason": "Class decoration uses the same desugaring as functions."
+        }
+      ],
+      "suggests": [
+        "pd-decoration-time",
+        "pd-stacked-decorators"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "class decorator"
+      ],
+      "uses": [
+        "decorator syntax",
+        "class",
+        "stacked decorators"
+      ],
+      "sources": [
+        {
+          "source": "pep-3129",
+          "entry": "abstract/abstract"
+        }
+      ],
+      "problem_ideas": [
+        "Write @add_repr that adds a __repr__ listing instance attributes",
+        "Write @register_model that records the class in a registry dict",
+        "Desugar a class with two stacked class decorators",
+        "Predict what happens when a class decorator forgets to return the class",
+        "Write @freeze that adds a __setattr__ raising after __init__",
+        "Predict whether a print in a class decorator factory or in the class body appears first"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "How @dataclass generates __init__ as a class decorator"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Same mechanism applied to classes; powers dataclasses and many ORMs."
+      }
+    },
+    {
+      "id": "pd-singleton-decorator",
+      "title": "Replacing a class: the singleton decorator",
+      "size": "standard",
+      "est_min": 8,
+      "section": "patterns",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-singleton-decorator",
+          "statement": "PEP 318's singleton decorator replaces a class with a function that creates one instance on the first call and returns that same instance on every later call."
+        },
+        {
+          "id": "kc-singleton-tradeoff",
+          "statement": "Because the singleton decorator rebinds the class name to a function, isinstance(x, Name) raises TypeError and the class can no longer be subclassed by name."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "pd-class-decorators",
+          "reason": "The singleton is a class decorator that returns a non-class."
+        },
+        {
+          "topic": "pd-closures",
+          "reason": "The single instance is stored in a closure."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "pd-class-decorators"
+      ],
+      "introduces": [
+        "singleton decorator"
+      ],
+      "uses": [
+        "class decorator",
+        "closure"
+      ],
+      "sources": [
+        {
+          "source": "pep-318",
+          "entry": "examples/examples"
+        }
+      ],
+      "problem_ideas": [
+        "Implement PEP 318's @singleton and check a() is a() for two calls",
+        "Predict the error from isinstance(obj, Config) after @singleton",
+        "Rewrite the singleton as a modify-in-place class decorator that keeps the class",
+        "Decide whether a module-level instance would be simpler for a config object",
+        "Predict what happens to constructor arguments on the second call",
+        "Explain why class Child(Config) fails after decoration"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.4,
+        "reason": "A cautionary example of a decorator that changes what a name means."
+      }
+    },
+    {
+      "id": "pd-descriptor-basics",
+      "title": "What a descriptor is: __get__ on a class attribute",
+      "size": "standard",
+      "est_min": 10,
+      "section": "descriptors",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-descriptor-definition",
+          "statement": "A descriptor is any object whose type defines __get__, __set__ or __delete__."
+        },
+        {
+          "id": "kc-get-signature",
+          "statement": "__get__(self, obj, objtype) receives the instance as obj, or None when the attribute is looked up on the class itself."
+        },
+        {
+          "id": "kc-descriptor-class-attribute-only",
+          "statement": "Descriptors take effect only as class attributes; a descriptor stored in an instance's __dict__ is returned as a plain object and its __get__ is not called."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Predicting obj.attr for a descriptor starts from what __get__ receives."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "pd-property"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "descriptor",
+        "__get__"
+      ],
+      "uses": [
+        "attribute access",
+        "class"
+      ],
+      "sources": [
+        {
+          "source": "descriptor-howto",
+          "entry": "primer/primer"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "primer/simple-example-a-descriptor-that-returns"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "primer/dynamic-lookups"
+        }
+      ],
+      "problem_ideas": [
+        "Write a Ten descriptor that always returns 10 and predict A().x and A.x",
+        "Predict what obj and objtype are for instance and class lookups",
+        "Write a DirectorySize descriptor that recomputes on each access",
+        "Predict the result when a descriptor is assigned to self.x in __init__",
+        "Log every lookup of a managed attribute with a descriptor",
+        "Decide which of five objects are descriptors by their methods"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Where __get__ is called from inside object.__getattribute__"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "The hidden machinery behind @property and methods; demystifies the built-ins."
+      }
+    },
+    {
+      "id": "pd-descriptor-protocol",
+      "title": "Data vs non-data descriptors and lookup order",
+      "size": "big",
+      "est_min": 14,
+      "section": "descriptors",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-data-vs-nondata",
+          "statement": "A data descriptor defines __set__ or __delete__; a non-data descriptor defines only __get__."
+        },
+        {
+          "id": "kc-lookup-precedence",
+          "statement": "Under default instance lookup, a data descriptor defining __get__ takes precedence over the instance dictionary, which in turn takes precedence over non-data descriptors and plain class attributes; a descriptor without __get__ does not override an instance value on reads."
+        },
+        {
+          "id": "kc-set-data-descriptor",
+          "statement": "Under default assignment, a descriptor on the type that defines __set__ handles obj.x = v; a data descriptor defining only __delete__ rejects assignment with AttributeError; otherwise v is stored in the instance dictionary when one is available, shadowing any non-data descriptor."
+        },
+        {
+          "id": "kc-getattr-last",
+          "statement": "__getattr__ is called only after normal lookup, including descriptors and the instance dictionary, raises AttributeError."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Predicting obj.attr requires the lookup precedence rules."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-descriptor-basics",
+          "reason": "Precedence is defined over descriptors and __get__."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "pd-descriptor-basics"
+      ],
+      "introduces": [
+        "descriptor protocol",
+        "data descriptor",
+        "non-data descriptor"
+      ],
+      "uses": [
+        "descriptor",
+        "__get__"
+      ],
+      "sources": [
+        {
+          "source": "descriptor-howto",
+          "entry": "technical-tutorial/descriptor-protocol"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "technical-tutorial/overview-of-descriptor-invocation"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "technical-tutorial/invocation-from-an-instance"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "technical-tutorial/summary-of-invocation-logic"
+        }
+      ],
+      "problem_ideas": [
+        "Predict obj.x when x is a non-data descriptor and obj.__dict__['x'] exists",
+        "Same scenario with a data descriptor: predict the result",
+        "Predict what obj.method = 5 does to later obj.method lookups",
+        "Add __set__ to a descriptor and predict how assignment behaviour changes",
+        "Predict obj.x = 1 and a later obj.x read for a descriptor defining only __set__ and __delete__",
+        "Classify property, function, classmethod and staticmethod as data or non-data"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Pure-Python equivalent of object.__getattribute__"
+        },
+        {
+          "kind": "edge",
+          "title": "Invocation from super() and the MRO"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "The rule that explains why attribute lookups behave the way they do."
+      }
+    },
+    {
+      "id": "pd-set-name",
+      "title": "__set_name__: descriptors that know their name",
+      "size": "standard",
+      "est_min": 8,
+      "section": "descriptors",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-set-name-called",
+          "statement": "When a class is created, type.__new__ calls __set_name__(self, owner, name) on each class attribute that defines it, passing the attribute's name."
+        },
+        {
+          "id": "kc-set-name-storage",
+          "statement": "A descriptor should store per-instance values on the instance, for example under a private name derived in __set_name__; storing them on the descriptor itself shares one value across all instances."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "A reusable validator descriptor needs per-instance storage keyed by its name."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-descriptor-protocol",
+          "reason": "Storage design depends on data-descriptor lookup and assignment."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "__set_name__"
+      ],
+      "uses": [
+        "descriptor",
+        "data descriptor"
+      ],
+      "sources": [
+        {
+          "source": "descriptor-howto",
+          "entry": "primer/customized-names"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "technical-tutorial/automatic-name-notification"
+        }
+      ],
+      "problem_ideas": [
+        "Write a LoggedAccess descriptor that logs 'reading age' using the name from __set_name__",
+        "Find the bug where two Person instances share one age value",
+        "Predict whether __set_name__ runs for a descriptor added with setattr after class creation",
+        "Store values under '_' + name and inspect vars(obj)",
+        "Use one descriptor class for both name and age attributes",
+        "Predict the owner argument when the descriptor is defined in a base class"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.55,
+        "reason": "The small hook that makes descriptors reusable without repeating names."
+      }
+    },
+    {
+      "id": "pd-property",
+      "title": "@property as a data descriptor",
+      "size": "standard",
+      "est_min": 10,
+      "section": "descriptors",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-property-is-data-descriptor",
+          "statement": "property(fget, fset, fdel, doc) creates a data descriptor, and @property on a method is the same as property(method)."
+        },
+        {
+          "id": "kc-property-setter",
+          "statement": "@x.setter returns a new property that copies fget and adds fset, so the setter method must reuse the name x."
+        },
+        {
+          "id": "kc-property-readonly",
+          "statement": "Assigning to a property that has no setter raises AttributeError, because the data descriptor takes precedence over the instance __dict__."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "o5 asks to explain @property via the descriptor protocol."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-descriptor-protocol",
+          "reason": "The read-only behaviour follows from data-descriptor precedence."
+        },
+        {
+          "topic": "pd-decorator-syntax",
+          "reason": "@property and @x.setter are desugared assignments."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "pd-validator-descriptors"
+      ],
+      "introduces": [
+        "property"
+      ],
+      "uses": [
+        "data descriptor",
+        "decorator syntax"
+      ],
+      "sources": [
+        {
+          "source": "descriptor-howto",
+          "entry": "primer/managed-attributes"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "pure-python-equivalents/pure-python-equivalents"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "pure-python-equivalents/properties"
+        }
+      ],
+      "problem_ideas": [
+        "Add a celsius property with a setter that rejects values below -273.15",
+        "Desugar @property / @temp.setter into explicit property() calls",
+        "Predict the error when the setter is named set_temp instead of temp",
+        "Write a computed area property and predict r.area after changing width",
+        "Implement a minimal pure-Python Property class with __get__ and __set__",
+        "Predict obj.__dict__ after assigning through a property setter"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "functools.cached_property as a non-data descriptor"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "The built-in decorator you already use, explained from the inside."
+      }
+    },
+    {
+      "id": "pd-bound-methods",
+      "title": "Functions as descriptors: bound methods",
+      "size": "standard",
+      "est_min": 10,
+      "section": "descriptors",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-functions-are-nondata",
+          "statement": "Functions are non-data descriptors: looking up a function through an instance calls its __get__, which returns a bound method whose __self__ is the instance."
+        },
+        {
+          "id": "kc-bound-method-call",
+          "statement": "Calling obj.m(a) is equivalent to type(obj).m(obj, a); the bound method inserts the instance as the first argument."
+        },
+        {
+          "id": "kc-class-decorator-binding",
+          "statement": "A decorator implemented as a class with __call__ but no __get__ breaks when applied to a method, because its instances do not bind and self is not passed; a closure-based wrapper is a function and binds normally."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Decorating methods correctly depends on how functions bind."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-descriptor-protocol",
+          "reason": "Binding is the non-data descriptor case of the protocol."
+        },
+        {
+          "topic": "pd-wrapper-functions",
+          "reason": "The decorating-methods KC compares wrappers with callable objects."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "pd-classmethod-staticmethod"
+      ],
+      "introduces": [
+        "bound method"
+      ],
+      "uses": [
+        "non-data descriptor",
+        "wrapper function",
+        "method",
+        "__get__"
+      ],
+      "sources": [
+        {
+          "source": "descriptor-howto",
+          "entry": "pure-python-equivalents/functions-and-methods"
+        }
+      ],
+      "problem_ideas": [
+        "Predict obj.m is obj.m and explain the result",
+        "Inspect obj.m.__self__ and obj.m.__func__",
+        "Predict the TypeError when a @CountCalls class decorator is applied to a method",
+        "Add __get__ to CountCalls using types.MethodType and confirm it works",
+        "Call Class.m(obj, 3) and obj.m(3) and compare",
+        "Apply @log_calls to a method and predict what args[0] is inside the wrapper"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "types.MethodType and the pure-Python function __get__"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Explains where self comes from and why some method decorators break."
+      }
+    },
+    {
+      "id": "pd-classmethod-staticmethod",
+      "title": "@classmethod and @staticmethod under the hood",
+      "size": "big",
+      "est_min": 14,
+      "section": "descriptors",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-staticmethod-get",
+          "statement": "staticmethod's __get__ returns the underlying function unchanged, so neither the instance nor the class is passed."
+        },
+        {
+          "id": "kc-classmethod-get",
+          "statement": "classmethod's __get__ binds the function to the class (type(obj) when accessed through an instance), so cls is passed as the first argument."
+        },
+        {
+          "id": "kc-classmethod-alt-constructor",
+          "statement": "A classmethod called on a subclass receives the subclass as cls, which makes it the right tool for alternative constructors that return cls(...)."
+        },
+        {
+          "id": "kc-builtin-decorator-outermost",
+          "statement": "When combined with a custom function decorator, @classmethod or @staticmethod should be the outermost (top) decorator; a custom wrapper placed above it yields a plain function that binds as an ordinary instance method."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "o5 asks to explain classmethod and staticmethod via descriptors and decorate methods correctly."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-bound-methods",
+          "reason": "Both are defined by how they change binding."
+        },
+        {
+          "topic": "pd-stacked-decorators",
+          "reason": "The ordering KC is about stacking with a custom decorator."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "pd-bound-methods"
+      ],
+      "introduces": [
+        "classmethod",
+        "staticmethod"
+      ],
+      "uses": [
+        "bound method",
+        "stacked decorators",
+        "__get__"
+      ],
+      "sources": [
+        {
+          "source": "descriptor-howto",
+          "entry": "pure-python-equivalents/kinds-of-methods"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "pure-python-equivalents/static-methods"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "pure-python-equivalents/class-methods"
+        }
+      ],
+      "problem_ideas": [
+        "Write Date.from_string as a classmethod and predict the type returned when called on a subclass",
+        "Predict the first argument for C.f(), C().f() for regular, class and static methods",
+        "Predict the error when @log_calls sits above @staticmethod and the method is called on an instance",
+        "Implement pure-Python StaticMethod and ClassMethod descriptors",
+        "Decide whether a helper that uses no self or cls should be static or module-level",
+        "Predict C.__dict__['f'] versus C.f for a classmethod"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Chaining classmethod with property: added in 3.9, removed in 3.13"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Turns two familiar built-ins into a predictable consequence of descriptors."
+      }
+    },
+    {
+      "id": "pd-validator-descriptors",
+      "title": "Reusable validators built from descriptors",
+      "size": "standard",
+      "est_min": 10,
+      "section": "descriptors",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-validator-abc",
+          "statement": "The Descriptor HowTo's Validator base class is a data descriptor whose __set__ calls an abstract validate(value) before storing, so subclasses only implement validate."
+        },
+        {
+          "id": "kc-validator-checks-every-assignment",
+          "statement": "Because validation runs in __set__, assignments in __init__ and every later assignment are checked, and an invalid value raises before anything is stored."
+        },
+        {
+          "id": "kc-validator-reuse",
+          "statement": "One validator class, such as Number(minvalue=0), can guard many attributes across classes because each descriptor instance gets its own name from __set_name__."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Writing a reusable validator descriptor is o5's observable product."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "pd-set-name",
+          "reason": "Per-attribute storage comes from __set_name__."
+        },
+        {
+          "topic": "pd-descriptor-protocol",
+          "reason": "Validation relies on __set__ of a data descriptor."
+        }
+      ],
+      "suggests": [
+        "pd-property"
+      ],
+      "confusable_with": [
+        "pd-property"
+      ],
+      "introduces": [
+        "validator descriptor"
+      ],
+      "uses": [
+        "data descriptor",
+        "__set_name__"
+      ],
+      "sources": [
+        {
+          "source": "descriptor-howto",
+          "entry": "complete-practical-example/complete-practical-example"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "complete-practical-example/validator-class"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "complete-practical-example/custom-validators"
+        },
+        {
+          "source": "descriptor-howto",
+          "entry": "complete-practical-example/practical-application"
+        }
+      ],
+      "problem_ideas": [
+        "Implement OneOf('wood', 'metal') and Number(minvalue=0) validators",
+        "Predict which line raises for Component('Widget', 'metal', -5)",
+        "Write a String(maxsize=10, predicate=str.isupper) validator",
+        "Refactor three repeated properties into one validator class",
+        "Predict whether an invalid value is left in obj.__dict__ after the exception",
+        "Use validators on a mini ORM-style Movie class and check every field"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "The HowTo's ORM example: descriptors backed by a database row"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "A practical payoff: write validation once and reuse it on any attribute."
+      }
+    }
+  ],
+  "groups": {}
+}

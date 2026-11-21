@@ -1,0 +1,126 @@
+[
+  {
+    "id": "sd-dns-routing/test-b1",
+    "family": "sd-dns-routing-dns-forms-match-routing-policy",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "prompt_md": "A video platform is choosing how its authoritative DNS picks an IP address per query. Match each goal to the policy that fits it best.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "Send about 5% of lookups to a brand-new region to test it, and the rest to the existing one",
+        "why_md": "Answers handed out in proportion to set weights (e.g. 1 : 19): weighted round robin."
+      },
+      {
+        "id": "l2",
+        "md": "Answer with whichever region has the shortest measured round trip from the asker's network",
+        "why_md": "Choosing by measured round-trip time: latency-based routing."
+      },
+      {
+        "id": "l3",
+        "md": "Assign each continent to a region you chose, e.g. Europe → eu-west, Asia → ap-south",
+        "why_md": "Choosing by where the asker is located: geolocation-based routing."
+      },
+      {
+        "id": "r1",
+        "md": "Weighted round robin",
+        "why_md": "Fits l1: shares follow the weights."
+      },
+      {
+        "id": "r2",
+        "md": "Latency-based",
+        "why_md": "Fits l2: the provider measures round trips to each region."
+      },
+      {
+        "id": "r3",
+        "md": "Geolocation-based",
+        "why_md": "Fits l3: the asker's country or continent decides the region."
+      },
+      {
+        "id": "r4",
+        "md": "Always return one fixed address",
+        "why_md": "Fits none: a fixed answer can neither split traffic by share nor send users to a nearer region."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3"
+      }
+    },
+    "hints": [
+      "Ask what each goal is based on: a share of lookups, a measured time, or a place.",
+      "Share → weighted; measured round trip → latency-based; country or continent → geolocation."
+    ],
+    "solution_md": "A 5% test split is a share of answers → **weighted round robin** (r1). Shortest measured round trip → **latency-based** (r2). Continent → chosen region → **geolocation-based** (r3). A fixed address (r4) meets none of the goals.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-routing",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-routing/test-b2",
+    "family": "sd-dns-routing-dns-forms-failover-deadline",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "prompt_md": "A ride-hailing app routes users between two regions with DNS. Its records have TTL **120 s**. At 11:00:00 the ap-south region fails. The DNS provider notices after **45 s** and stops returning ap-south's address. Assuming every cache honours the TTL, until about when may some users still be sent to ap-south?",
+    "options": [
+      {
+        "id": "a",
+        "md": "11:00:00: users are moved the moment the region fails",
+        "why_md": "DNS first needs time to notice, and cached answers then live for up to one TTL.",
+        "misconception": "mc-dns-instant"
+      },
+      {
+        "id": "b",
+        "md": "11:00:45",
+        "why_md": "That is when DNS stops handing out ap-south. Copies fetched just before then are still reused for up to 120 s."
+      },
+      {
+        "id": "c",
+        "md": "11:02:00",
+        "why_md": "That counts only the TTL from the failure. It forgets the 45 s before DNS stops returning ap-south."
+      },
+      {
+        "id": "d",
+        "md": "11:02:45",
+        "correct": true,
+        "why_md": "Right. The last ap-south answer goes out just before 11:00:45, and a copy of it can be reused until 11:00:45 + 120 s = 11:02:45."
+      }
+    ],
+    "hints": [
+      "Failover delay ≤ detection time + TTL.",
+      "DNS stops returning ap-south at 11:00:45; add one TTL of 120 s."
+    ],
+    "solution_md": "DNS stops returning ap-south at 11:00:00 + 45 s = 11:00:45. A copy fetched just before that can be reused for up to 120 s, until 11:00:45 + 120 s = **11:02:45**. That is up to 45 + 120 = 165 s after the failure. Answer: d.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-routing",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  }
+]

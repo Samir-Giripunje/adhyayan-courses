@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u23-govern",
+  "title": "Reviewing, advising and governing accounts",
+  "topics": [
+    {
+      "id": "clf-trusted-advisor",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-service-quotas",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-license-manager",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-well-architected-tool",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-control-tower",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-service-catalog",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

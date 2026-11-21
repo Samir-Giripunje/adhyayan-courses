@@ -1,0 +1,928 @@
+{
+  "answer": "**Decoration time** is the moment Python runs a `def` that has an `@` line above it. The decorator's own body runs then, once; the wrapper it returns runs later, on every call of the decorated name.",
+  "example": "```python\ndef shout(func):\n    print(\"decorating\", func.__name__)\n    def wrapper():\n        print(\"calling\", func.__name__)\n        return func()\n    return wrapper\n\n@shout\ndef hello():\n    return \"hi\"\n\nhello()\nhello()\n```\n\nThis prints three lines:\n\n```text\ndecorating hello\ncalling hello\ncalling hello\n```\n\n\"decorating\" prints once, before any call. \"calling\" prints once per call.",
+  "how": {
+    "md": "1. Python reaches `@shout` and `def hello`. It creates the function and runs `hello = shout(hello)`.\n2. `shout`'s body runs now. It prints \"decorating hello\", defines `wrapper` and returns it. Defining `wrapper` does not run it: a `def` only creates a function.\n3. The name `hello` now points to `wrapper`.\n4. Each `hello()` call runs `wrapper`'s body. It prints \"calling hello\" and then calls the original function.\n\nSo the rule is about position. Code inside `wrapper` runs on every call. Code in the decorator but outside `wrapper` runs once, at decoration time.\n\nA common wrong idea is that the whole decorator runs on each call. It does not: after step 3, calls never touch `shout` again.\n\nThis also explains import output. Importing a module runs its top-level `def` lines, so it prints \"decorating hello\" even if nothing calls `hello`.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-decoration-time",
+      "kind": "memory",
+      "title": "Once at decoration, then wrapper on every call",
+      "alt": "At the decorated def, shout runs with func pointing to the original hello and prints decorating hello. It defines wrapper, which keeps func in a cell, and returns it. The name hello is rebound to wrapper. Each hello() call then runs wrapper, which prints calling hello and calls the original function; shout never runs again.",
+      "spec": {
+        "code": "def shout(func):\n    print(\"decorating\", func.__name__)\n    def wrapper():\n        print(\"calling\", func.__name__)\n        return func()\n    return wrapper\n\n@shout\ndef hello():\n    return \"hi\"\n\nhello()\nhello()",
+        "steps": [
+          {
+            "step": 1,
+            "line": 8,
+            "run": "hello = shout(hello)",
+            "label": "The def builds hello; shout runs with it as func",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "sh"
+                  }
+                ]
+              },
+              {
+                "name": "shout(func)",
+                "vars": [
+                  {
+                    "name": "func",
+                    "ref": "orig"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "sh",
+                "type": "function",
+                "label": "shout"
+              },
+              {
+                "id": "orig",
+                "type": "function",
+                "label": "hello"
+              }
+            ]
+          },
+          {
+            "step": 2,
+            "line": 3,
+            "run": "def wrapper(): …",
+            "label": "shout's body prints and defines wrapper; wrapper does not run",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "sh"
+                  }
+                ]
+              },
+              {
+                "name": "shout(func)",
+                "vars": [
+                  {
+                    "name": "func",
+                    "ref": "orig"
+                  },
+                  {
+                    "name": "wrapper",
+                    "ref": "wr"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "sh",
+                "type": "function",
+                "label": "shout"
+              },
+              {
+                "id": "orig",
+                "type": "function",
+                "label": "hello"
+              },
+              {
+                "id": "wr",
+                "type": "function",
+                "label": "wrapper",
+                "fields": [
+                  {
+                    "name": "func",
+                    "ref": "orig"
+                  }
+                ]
+              }
+            ],
+            "output": [
+              "decorating hello"
+            ]
+          },
+          {
+            "step": 3,
+            "line": 8,
+            "run": "hello = <wrapper>",
+            "label": "shout returns: the name hello now points to wrapper",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "sh"
+                  },
+                  {
+                    "name": "hello",
+                    "ref": "wr"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "sh",
+                "type": "function",
+                "label": "shout"
+              },
+              {
+                "id": "orig",
+                "type": "function",
+                "label": "hello"
+              },
+              {
+                "id": "wr",
+                "type": "function",
+                "label": "wrapper",
+                "fields": [
+                  {
+                    "name": "func",
+                    "ref": "orig"
+                  }
+                ]
+              }
+            ],
+            "output": [
+              "decorating hello"
+            ]
+          },
+          {
+            "step": 4,
+            "line": 12,
+            "run": "hello()",
+            "label": "Each call runs wrapper: it prints, then calls the original",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "sh"
+                  },
+                  {
+                    "name": "hello",
+                    "ref": "wr"
+                  }
+                ]
+              },
+              {
+                "name": "wrapper()",
+                "vars": [
+                  {
+                    "name": "func",
+                    "ref": "orig"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "sh",
+                "type": "function",
+                "label": "shout"
+              },
+              {
+                "id": "orig",
+                "type": "function",
+                "label": "hello"
+              },
+              {
+                "id": "wr",
+                "type": "function",
+                "label": "wrapper",
+                "fields": [
+                  {
+                    "name": "func",
+                    "ref": "orig"
+                  }
+                ]
+              }
+            ],
+            "output": [
+              "decorating hello",
+              "calling hello"
+            ]
+          },
+          {
+            "line": 13,
+            "run": "hello()",
+            "label": "The second call: wrapper again; shout never runs again",
+            "frames": [
+              {
+                "name": "global",
+                "vars": [
+                  {
+                    "name": "shout",
+                    "ref": "sh"
+                  },
+                  {
+                    "name": "hello",
+                    "ref": "wr"
+                  }
+                ]
+              },
+              {
+                "name": "wrapper()",
+                "vars": [
+                  {
+                    "name": "func",
+                    "ref": "orig"
+                  }
+                ]
+              }
+            ],
+            "objects": [
+              {
+                "id": "sh",
+                "type": "function",
+                "label": "shout"
+              },
+              {
+                "id": "orig",
+                "type": "function",
+                "label": "hello"
+              },
+              {
+                "id": "wr",
+                "type": "function",
+                "label": "wrapper",
+                "fields": [
+                  {
+                    "name": "func",
+                    "ref": "orig"
+                  }
+                ]
+              }
+            ],
+            "output": [
+              "decorating hello",
+              "calling hello",
+              "calling hello"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-decoration-time-import",
+    "kind": "mcq",
+    "difficulty": 2,
+    "kcs": [
+      "kc-decorators-run-at-definition",
+      "kc-wrapper-runs-per-call"
+    ],
+    "prompt_md": "A module decorates two functions with the `@shout` decorator above and never calls either. How many lines print when you import it?",
+    "options": [
+      {
+        "id": "a",
+        "md": "2",
+        "correct": true,
+        "why_md": "Right. Each `def` runs `shout` once at decoration time, printing \"decorating\". No call means no \"calling\" lines."
+      },
+      {
+        "id": "b",
+        "md": "0",
+        "correct": false,
+        "why_md": "Importing runs the `def` lines, and each one calls `shout`, whose body prints. Output does not wait for a call.",
+        "misconception": "mc-import-prints-nothing"
+      },
+      {
+        "id": "c",
+        "md": "4",
+        "correct": false,
+        "why_md": "That counts \"calling\" lines too. Those come from `wrapper`, which runs only when a decorated function is called.",
+        "misconception": "mc-wrapper-runs-at-definition"
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "Not always import time",
+      "md": "Decoration happens when the `def` statement runs. For a function at the top of a module, that is when the module is imported. A `def` inside another function runs each time that outer function runs. So a decorator on a nested function runs again on every call of the outer function, and builds a new wrapper each time."
+    },
+    {
+      "title": "The frozen-timestamp bug",
+      "md": "```python\nimport time\n\ndef stamp(func):\n    t = time.time()          # runs once, at decoration time\n    def wrapper(*args, **kwargs):\n        print(\"called at\", t)\n        return func(*args, **kwargs)\n    return wrapper\n```\n\nEvery call prints the same time: the moment the module was imported. The fix is to move `t = time.time()` inside `wrapper`, so it runs on each call."
+    },
+    {
+      "title": "Using decoration time on purpose",
+      "md": "Work that is the same for every call belongs outside the wrapper. Say a setup step takes 0.05 s. Inside the wrapper, 1,000 calls cost 1,000 × 0.05 = 50 s. Outside it, the step runs once: 0.05 s, a saving of 49.95 s. Registration decorators use the same idea: they add the function to a list at decoration time, so the list is full before anything is called."
+    }
+  ],
+  "visual_fit": {
+    "kind": "memory",
+    "why": "Once versus every call depends on which function runs when; frames and names at each step show it."
+  },
+  "glossary": [
+    {
+      "term": "decoration time",
+      "md": "The moment Python runs a decorated `def` statement and calls the decorator on the new function. The decorator's body runs then, once; its wrapper runs later, on each call."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-decorator-runs-per-call",
+      "statement": "The whole decorator body runs again every time the decorated function is called.",
+      "tags": [
+        "kc-decorators-run-at-definition"
+      ]
+    },
+    {
+      "id": "mc-wrapper-runs-at-definition",
+      "statement": "Defining the wrapper inside the decorator runs the wrapper's code at decoration time.",
+      "tags": [
+        "kc-wrapper-runs-per-call"
+      ]
+    },
+    {
+      "id": "mc-import-prints-nothing",
+      "statement": "Importing a module with decorated functions cannot print anything until one of them is called.",
+      "tags": [
+        "kc-decorators-run-at-definition"
+      ]
+    }
+  ],
+  "recap": {
+    "formula": "outside wrapper → once, at decoration time; inside wrapper → every call",
+    "pitfall": "Code you need on every call, like reading the time, must go inside the wrapper, not in the decorator body around it."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-why-import-prints",
+      "beat": "b-lesson",
+      "question": "Why does importing my module print stuff when I haven't called anything?",
+      "match": [
+        "import prints",
+        "prints on import",
+        "haven't called",
+        "printed when imported"
+      ],
+      "answer_md": "Importing a module runs its top-level code, including every `def`. Each decorated `def` runs `name = dec(name)`, so the decorator's body runs and its `print` fires. Only the wrapper waits for a call.",
+      "deeper_md": "Move the `print` inside the wrapper if it should appear only when the function is called.",
+      "bridge": {
+        "kind": "rewind",
+        "title": "@ is a call that happens right away",
+        "md": "`@shout` above `def hello` means `hello = shout(hello)`, executed the moment the `def` runs. A call to `shout` runs `shout`'s body, prints included.",
+        "verify": {
+          "id": "q-br-import-prints",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-decorators-run-at-definition"
+          ],
+          "prompt_md": "When does `shout`'s body run for `@shout def hello(): ...` at the top of a module?",
+          "options": [
+            {
+              "id": "a",
+              "md": "When the module is imported and the `def` runs",
+              "correct": true,
+              "why_md": "Right. The `@` line calls `shout(hello)` as part of running the `def`."
+            },
+            {
+              "id": "b",
+              "md": "The first time `hello()` is called",
+              "correct": false,
+              "why_md": "By then `hello` already points to the wrapper; `shout` ran earlier, at the `def`."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-wrapper-def-runs",
+      "beat": "b-lesson",
+      "question": "Doesn't the wrapper run when the decorator defines it?",
+      "match": [
+        "wrapper run when defined",
+        "def wrapper runs",
+        "defining the wrapper",
+        "wrapper runs at decoration"
+      ],
+      "answer_md": "No. `def wrapper(...)` only creates a function object and names it. Its body runs when something calls it, which is each call of the decorated name.",
+      "deeper_md": "Any `def` works this way, nested or not: writing `def f(): print(1)` prints nothing until you call `f()`.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Defining versus calling",
+        "md": "In `shout`, `print(\"decorating\", ...)` is a statement that runs. `def wrapper(): print(\"calling\", ...)` is a definition: the inner `print` is stored, not run.",
+        "verify": {
+          "id": "q-br-wrapper-def",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-wrapper-runs-per-call"
+          ],
+          "prompt_md": "Using `shout` from the lesson, `@shout def hello()` is defined and `hello()` is called once. How many times does \"calling hello\" print?",
+          "options": [
+            {
+              "id": "a",
+              "md": "1",
+              "correct": true,
+              "why_md": "Right. The wrapper runs once, for the one call."
+            },
+            {
+              "id": "b",
+              "md": "2",
+              "correct": false,
+              "why_md": "Defining `wrapper` at decoration time does not run it, so there is no extra print."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-same-time-every-call",
+      "beat": "b-lesson",
+      "question": "Why does my timing decorator print the same time on every call?",
+      "match": [
+        "same time every call",
+        "timestamp never changes",
+        "time.time in decorator",
+        "same timestamp"
+      ],
+      "answer_md": "The time is being read in the decorator body, outside the wrapper. That code runs once at decoration time, so every call reuses the stored value. Read the time inside the wrapper instead.",
+      "deeper_md": "The wrapper is a closure: it remembers the variable `t` set once at decoration time, and nothing updates it.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Moving one line",
+        "md": "Before: `t = time.time()` sits above `def wrapper`, so it runs once. After: `t = time.time()` is the first line inside `wrapper`, so it runs on each call and each print shows a new time.",
+        "verify": {
+          "id": "q-br-timestamp",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-wrapper-runs-per-call",
+            "kc-decorators-run-at-definition"
+          ],
+          "prompt_md": "Where must `start = time.time()` go to measure how long each call takes?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Inside the wrapper, before it calls `func`",
+              "correct": true,
+              "why_md": "Right. Only code inside the wrapper runs on every call."
+            },
+            {
+              "id": "b",
+              "md": "In the decorator body, before `def wrapper`",
+              "correct": false,
+              "why_md": "That runs once at decoration time, so every call would measure from the same old start."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-decoration-import-side-effects",
+      "kind": "implementation",
+      "title": "Import-time side effects: registration and plugin discovery",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-decoration-nested-defs",
+      "kind": "edge",
+      "title": "Decorators on nested functions run on every outer call",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "pd-decoration-time",
+  "version": 1,
+  "title": "When decorator code runs: definition vs call",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-decorators-run-at-definition",
+      "version": 1,
+      "statement": "A decorator's own body runs once, when the def statement executes (usually at import time), not each time the decorated function is called."
+    },
+    {
+      "id": "kc-wrapper-runs-per-call",
+      "version": 1,
+      "statement": "Code inside the returned wrapper runs on every call of the decorated name; code outside the wrapper runs only at decoration time."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "pd-decorator-syntax",
+    "pd-wrapper-functions"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "decoration time"
+  ],
+  "uses": [
+    "decorator syntax",
+    "wrapper function",
+    "decorator"
+  ],
+  "problem_ideas": [
+    "Predict the full printed output of a module that decorates two functions and calls one twice",
+    "Count how many times 'decorating' and 'calling' print in a given script",
+    "Explain why importing a module with decorated functions prints messages",
+    "Move a slow setup step from the wrapper to the decorator body and estimate the saving over 1,000 calls",
+    "Predict output when a decorated function is never called",
+    "Find the bug where a timestamp is captured at decoration time instead of call time"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "current-syntax/current-syntax"
+    }
+  ],
+  "mode": "prediction",
+  "exit_ticket": [],
+  "status": "drafted",
+  "provenance": {
+    "origin": "generated",
+    "job": "lesson-pd-decoration-time"
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "title": "When decorator code runs: definition vs call",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "When decorator code runs: definition vs call",
+          "kcs": [
+            "kc-decorators-run-at-definition",
+            "kc-wrapper-runs-per-call"
+          ],
+          "est_minutes": 5,
+          "blocks": [
+            {
+              "id": "blk-pd-decoration-time-01",
+              "block": {
+                "type": "prose",
+                "md": "**Decoration time** is the moment Python runs a `def` that has an `@` line above it. The decorator's own body runs then, once; the wrapper it returns runs later, on every call of the decorated name."
+              }
+            },
+            {
+              "id": "blk-pd-decoration-time-02",
+              "block": {
+                "type": "prose",
+                "md": "```python\ndef shout(func):\n    print(\"decorating\", func.__name__)\n    def wrapper():\n        print(\"calling\", func.__name__)\n        return func()\n    return wrapper\n\n@shout\ndef hello():\n    return \"hi\"\n\nhello()\nhello()\n```\n\nThis prints three lines:\n\n```text\ndecorating hello\ncalling hello\ncalling hello\n```\n\n\"decorating\" prints once, before any call. \"calling\" prints once per call."
+              }
+            },
+            {
+              "id": "blk-pd-decoration-time-03",
+              "block": {
+                "type": "prose",
+                "md": "1. Python reaches `@shout` and `def hello`. It creates the function and runs `hello = shout(hello)`.\n2. `shout`'s body runs now. It prints \"decorating hello\", defines `wrapper` and returns it. Defining `wrapper` does not run it: a `def` only creates a function.\n3. The name `hello` now points to `wrapper`.\n4. Each `hello()` call runs `wrapper`'s body. It prints \"calling hello\" and then calls the original function.\n\nSo the rule is about position. Code inside `wrapper` runs on every call. Code in the decorator but outside `wrapper` runs once, at decoration time.\n\nA common wrong idea is that the whole decorator runs on each call. It does not: after step 3, calls never touch `shout` again.\n\nThis also explains import output. Importing a module runs its top-level `def` lines, so it prints \"decorating hello\" even if nothing calls `hello`."
+              }
+            },
+            {
+              "id": "blk-pd-decoration-time-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-decoration-time-import",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-decorators-run-at-definition",
+                    "kc-wrapper-runs-per-call"
+                  ],
+                  "prompt_md": "A module decorates two functions with the `@shout` decorator above and never calls either. How many lines print when you import it?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "2",
+                      "correct": true,
+                      "why_md": "Right. Each `def` runs `shout` once at decoration time, printing \"decorating\". No call means no \"calling\" lines."
+                    },
+                    {
+                      "id": "b",
+                      "md": "0",
+                      "correct": false,
+                      "why_md": "Importing runs the `def` lines, and each one calls `shout`, whose body prints. Output does not wait for a call.",
+                      "misconception": "mc-import-prints-nothing"
+                    },
+                    {
+                      "id": "c",
+                      "md": "4",
+                      "correct": false,
+                      "why_md": "That counts \"calling\" lines too. Those come from `wrapper`, which runs only when a decorated function is called.",
+                      "misconception": "mc-wrapper-runs-at-definition"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-pd-decoration-time-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Not always import time",
+                "md": "Decoration happens when the `def` statement runs. For a function at the top of a module, that is when the module is imported. A `def` inside another function runs each time that outer function runs. So a decorator on a nested function runs again on every call of the outer function, and builds a new wrapper each time."
+              }
+            },
+            {
+              "id": "blk-pd-decoration-time-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "The frozen-timestamp bug",
+                "md": "```python\nimport time\n\ndef stamp(func):\n    t = time.time()          # runs once, at decoration time\n    def wrapper(*args, **kwargs):\n        print(\"called at\", t)\n        return func(*args, **kwargs)\n    return wrapper\n```\n\nEvery call prints the same time: the moment the module was imported. The fix is to move `t = time.time()` inside `wrapper`, so it runs on each call."
+              }
+            },
+            {
+              "id": "blk-pd-decoration-time-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Using decoration time on purpose",
+                "md": "Work that is the same for every call belongs outside the wrapper. Say a setup step takes 0.05 s. Inside the wrapper, 1,000 calls cost 1,000 × 0.05 = 50 s. Outside it, the step runs once: 0.05 s, a saving of 49.95 s. Registration decorators use the same idea: they add the function to a list at decoration time, so the list is full before anything is called."
+              }
+            },
+            {
+              "id": "blk-pd-decoration-time-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-decoration-time",
+                "kind": "memory",
+                "title": "Once at decoration, then wrapper on every call",
+                "alt": "At the decorated def, shout runs with func pointing to the original hello and prints decorating hello. It defines wrapper, which keeps func in a cell, and returns it. The name hello is rebound to wrapper. Each hello() call then runs wrapper, which prints calling hello and calls the original function; shout never runs again.",
+                "spec": {
+                  "code": "def shout(func):\n    print(\"decorating\", func.__name__)\n    def wrapper():\n        print(\"calling\", func.__name__)\n        return func()\n    return wrapper\n\n@shout\ndef hello():\n    return \"hi\"\n\nhello()\nhello()",
+                  "steps": [
+                    {
+                      "step": 1,
+                      "line": 8,
+                      "run": "hello = shout(hello)",
+                      "label": "The def builds hello; shout runs with it as func",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "sh"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "shout(func)",
+                          "vars": [
+                            {
+                              "name": "func",
+                              "ref": "orig"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "sh",
+                          "type": "function",
+                          "label": "shout"
+                        },
+                        {
+                          "id": "orig",
+                          "type": "function",
+                          "label": "hello"
+                        }
+                      ]
+                    },
+                    {
+                      "step": 2,
+                      "line": 3,
+                      "run": "def wrapper(): …",
+                      "label": "shout's body prints and defines wrapper; wrapper does not run",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "sh"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "shout(func)",
+                          "vars": [
+                            {
+                              "name": "func",
+                              "ref": "orig"
+                            },
+                            {
+                              "name": "wrapper",
+                              "ref": "wr"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "sh",
+                          "type": "function",
+                          "label": "shout"
+                        },
+                        {
+                          "id": "orig",
+                          "type": "function",
+                          "label": "hello"
+                        },
+                        {
+                          "id": "wr",
+                          "type": "function",
+                          "label": "wrapper",
+                          "fields": [
+                            {
+                              "name": "func",
+                              "ref": "orig"
+                            }
+                          ]
+                        }
+                      ],
+                      "output": [
+                        "decorating hello"
+                      ]
+                    },
+                    {
+                      "step": 3,
+                      "line": 8,
+                      "run": "hello = <wrapper>",
+                      "label": "shout returns: the name hello now points to wrapper",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "sh"
+                            },
+                            {
+                              "name": "hello",
+                              "ref": "wr"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "sh",
+                          "type": "function",
+                          "label": "shout"
+                        },
+                        {
+                          "id": "orig",
+                          "type": "function",
+                          "label": "hello"
+                        },
+                        {
+                          "id": "wr",
+                          "type": "function",
+                          "label": "wrapper",
+                          "fields": [
+                            {
+                              "name": "func",
+                              "ref": "orig"
+                            }
+                          ]
+                        }
+                      ],
+                      "output": [
+                        "decorating hello"
+                      ]
+                    },
+                    {
+                      "step": 4,
+                      "line": 12,
+                      "run": "hello()",
+                      "label": "Each call runs wrapper: it prints, then calls the original",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "sh"
+                            },
+                            {
+                              "name": "hello",
+                              "ref": "wr"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "wrapper()",
+                          "vars": [
+                            {
+                              "name": "func",
+                              "ref": "orig"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "sh",
+                          "type": "function",
+                          "label": "shout"
+                        },
+                        {
+                          "id": "orig",
+                          "type": "function",
+                          "label": "hello"
+                        },
+                        {
+                          "id": "wr",
+                          "type": "function",
+                          "label": "wrapper",
+                          "fields": [
+                            {
+                              "name": "func",
+                              "ref": "orig"
+                            }
+                          ]
+                        }
+                      ],
+                      "output": [
+                        "decorating hello",
+                        "calling hello"
+                      ]
+                    },
+                    {
+                      "line": 13,
+                      "run": "hello()",
+                      "label": "The second call: wrapper again; shout never runs again",
+                      "frames": [
+                        {
+                          "name": "global",
+                          "vars": [
+                            {
+                              "name": "shout",
+                              "ref": "sh"
+                            },
+                            {
+                              "name": "hello",
+                              "ref": "wr"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "wrapper()",
+                          "vars": [
+                            {
+                              "name": "func",
+                              "ref": "orig"
+                            }
+                          ]
+                        }
+                      ],
+                      "objects": [
+                        {
+                          "id": "sh",
+                          "type": "function",
+                          "label": "shout"
+                        },
+                        {
+                          "id": "orig",
+                          "type": "function",
+                          "label": "hello"
+                        },
+                        {
+                          "id": "wr",
+                          "type": "function",
+                          "label": "wrapper",
+                          "fields": [
+                            {
+                              "name": "func",
+                              "ref": "orig"
+                            }
+                          ]
+                        }
+                      ],
+                      "output": [
+                        "decorating hello",
+                        "calling hello",
+                        "calling hello"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

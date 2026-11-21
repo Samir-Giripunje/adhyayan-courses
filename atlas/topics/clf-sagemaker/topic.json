@@ -1,0 +1,55 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-sagemaker",
+  "version": 1,
+  "title": "Amazon SageMaker AI: building your own models",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-sagemaker-platform",
+      "version": 1,
+      "statement": "Amazon SageMaker AI is a fully managed platform for data scientists to build, train and deploy custom machine learning models at scale."
+    },
+    {
+      "id": "kc-sagemaker-vs-ai-services",
+      "version": 1,
+      "statement": "Choose SageMaker AI when you need a custom model trained on your own data for a unique problem; choose a managed AI service when a pre-trained API already does the task."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-ai-language-speech"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-ai-language-speech",
+    "clf-generative-ai-q-bedrock"
+  ],
+  "introduces": [
+    "sagemaker",
+    "machine learning model"
+  ],
+  "uses": [
+    "managed ai services"
+  ],
+  "problem_ideas": [
+    "Predict machine failure from a factory's own sensor history: SageMaker or a managed AI service?",
+    "Translate support tickets: should the team train a model in SageMaker? Explain.",
+    "Order the ML lifecycle: prepare data, train, evaluate, deploy, monitor.",
+    "Spot the distractor: 'SageMaker is a chatbot for end users.'",
+    "A data science team wants managed Jupyter notebooks and one-click deployment: which service?",
+    "Classify five requirements as 'custom model' or 'pre-trained API'."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "machine-learning/amazon-sagemaker-ai"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-7-identify-aws-artifici/aws-ai-ml-services"
+    }
+  ],
+  "status": "stub"
+}

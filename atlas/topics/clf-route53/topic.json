@@ -1,0 +1,74 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-route53",
+  "version": 1,
+  "title": "Amazon Route 53: DNS, domains and health checks",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-route53-managed-dns",
+      "version": 1,
+      "statement": "Amazon Route 53 is AWS's managed DNS service: it translates domain names into IP addresses and can also register domain names."
+    },
+    {
+      "id": "kc-route53-hosted-zone",
+      "version": 1,
+      "statement": "A hosted zone holds the DNS records for one domain; a public hosted zone answers queries from the internet and a private hosted zone answers only inside associated VPCs."
+    },
+    {
+      "id": "kc-route53-health-checks",
+      "version": 1,
+      "statement": "Route 53 health checks monitor endpoints so that DNS stops returning an unhealthy endpoint and sends users to a healthy one."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-elastic-load-balancing"
+  ],
+  "confusable_with": [
+    "clf-cloudfront"
+  ],
+  "introduces": [
+    "route 53",
+    "dns",
+    "hosted zone",
+    "dns record"
+  ],
+  "uses": [
+    "vpc",
+    "health check"
+  ],
+  "problem_ideas": [
+    "A startup wants to buy example-shop.com and point it at a load balancer, all in AWS: which service?",
+    "Internal service names must resolve only inside the company VPC: public or private hosted zone?",
+    "Trace a browser request for www.example.com from DNS lookup to the server",
+    "A Region's endpoint goes down at 02:00; how can DNS keep users on a healthy endpoint?",
+    "Which service answers 'what IP is api.example.com?' vs 'cache images close to users'?",
+    "Why is Route 53 named after port 53? Match the port to the protocol"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "route53/route53"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "route53/hosted-zones"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "route53/health-checks"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-5-identify-aws-network-/understanding-the-purpose-of-amazon-rout"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "networking-and-content-delivery/amazon-route-53"
+    }
+  ],
+  "status": "stub"
+}

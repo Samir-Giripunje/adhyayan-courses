@@ -1,0 +1,102 @@
+[
+  {
+    "id": "sd-ip-addresses/placement-1",
+    "family": "sd-ip-addresses-probe-ip-private-range",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "The private IPv4 ranges are 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16. Which of these addresses is **private**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "172.32.0.1",
+        "why_md": "172.16.0.0/12 covers 172.16.0.0 to 172.31.255.255. 172.32.x.x is just outside that range, so it is public."
+      },
+      {
+        "id": "b",
+        "md": "172.20.5.4",
+        "correct": true,
+        "why_md": "Right. 172.20 falls inside 172.16 to 172.31, so it is in 172.16.0.0/12 and is private."
+      },
+      {
+        "id": "c",
+        "md": "192.169.1.1",
+        "why_md": "Only 192.168.x.x is private. 192.169 is a different, public block."
+      },
+      {
+        "id": "d",
+        "md": "11.0.0.1",
+        "why_md": "Only 10.x.x.x is private. 11.x.x.x is public."
+      }
+    ],
+    "hints": [
+      "Check each address against the three ranges. A /12 fixes the first 12 bits, so 172.16.0.0/12 covers second octets 16 to 31.",
+      "10.x.x.x, 172.16–31.x.x and 192.168.x.x are private. Find the only address that fits one of these."
+    ],
+    "solution_md": "The private ranges are:\n- 10.0.0.0/8 → 10.x.x.x\n- 172.16.0.0/12 → 172.16.0.0 to 172.31.255.255\n- 192.168.0.0/16 → 192.168.x.x\n\nChecking each address: 172.32.0.1 is outside 16–31; **172.20.5.4 is inside 16–31, so it is private**; 192.169.1.1 is not 192.168; 11.0.0.1 is not 10.\n\nAnswer: **172.20.5.4**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/placement-2",
+    "family": "sd-ip-addresses-probe-ip-address-space-scale",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "An IoT company plans **10 billion** devices worldwide, and each device needs its own unique public IP address. Which statement is correct?",
+    "options": [
+      {
+        "id": "a",
+        "md": "IPv4 works: each of its 4 numbers runs from 0 to 999, giving a trillion addresses",
+        "why_md": "Each IPv4 number is 8 bits, so it runs from 0 to 255, not 0 to 999. The 32 bits give about 4.3 billion addresses in total."
+      },
+      {
+        "id": "b",
+        "md": "IPv4 works, because every network gets its own 2³² public addresses",
+        "why_md": "2³² ≈ 4.3 billion is the size of the whole public IPv4 space, shared by everyone. Each network does not get its own copy."
+      },
+      {
+        "id": "c",
+        "md": "IPv4 cannot: its 32 bits give about 4.3 billion addresses in total, so the devices need IPv6, which uses 128-bit addresses",
+        "correct": true,
+        "why_md": "Right. 4.3 billion is less than 10 billion, and those addresses have already run out. IPv6's 128 bits give far more addresses than any device count."
+      },
+      {
+        "id": "d",
+        "md": "Neither works: IPv6 is 64 bits, which is also too small",
+        "why_md": "IPv6 addresses are 128 bits, about 3.4 × 10³⁸ addresses, which is far more than 10 billion."
+      }
+    ],
+    "hints": [
+      "Compare the size of each address space with 10 billion. IPv4 has 2³² addresses.",
+      "2³² ≈ 4.3 billion is less than 10 billion. IPv6 has 128 bits."
+    ],
+    "solution_md": "1. IPv4 is 32 bits: 2³² ≈ 4.3 billion addresses in the **whole** internet, and they have already run out.\n2. 10 billion > 4.3 billion, so IPv4 cannot give every device its own public address.\n3. IPv6 is 128 bits: 2¹²⁸ ≈ 3.4 × 10³⁸ addresses, which is plenty.\n\nAnswer: **IPv4 cannot. Use IPv6.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  }
+]

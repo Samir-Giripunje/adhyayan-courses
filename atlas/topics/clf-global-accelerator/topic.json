@@ -1,0 +1,53 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-global-accelerator",
+  "version": 1,
+  "title": "Global Accelerator vs CloudFront",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-global-accelerator-anycast",
+      "version": 1,
+      "statement": "AWS Global Accelerator gives an application two static anycast IP addresses and carries user traffic from the nearest edge location over the AWS global network, improving latency and availability."
+    },
+    {
+      "id": "kc-ga-vs-cloudfront-choice",
+      "version": 1,
+      "statement": "Global Accelerator does not cache content: choose CloudFront for cacheable web content and Global Accelerator for non-HTTP traffic such as UDP gaming or when clients need fixed IP addresses with fast regional failover."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-cloudfront"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-cloudfront",
+    "clf-route53-routing-policies"
+  ],
+  "introduces": [
+    "global accelerator",
+    "anycast ip"
+  ],
+  "uses": [
+    "edge location",
+    "cloudfront",
+    "region"
+  ],
+  "problem_ideas": [
+    "A multiplayer game uses UDP and players worldwide complain of lag: which service?",
+    "A partner firewall can whitelist only two fixed IPs for your global app: pick the service",
+    "A video site wants to cache its catalogue thumbnails worldwide: CloudFront or Global Accelerator?",
+    "Fill a table: caches content?, static IPs?, HTTP only?, uses edge locations?",
+    "An app in two Regions needs failover in seconds without DNS caching delays: choose",
+    "Spot the wrong claim: 'Global Accelerator stores copies of your files at edge locations'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "networking-and-content-delivery/aws-global-accelerator"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,269 @@
+[
+  {
+    "id": "emb-cosine/transfer-1",
+    "version": 1,
+    "family": "cos-transfer-listening",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "A music app stores each user's listening minutes per genre as `[pop, jazz, rock, folk]`. Asha: `[5, 0, 3, 1]`. Ben: `[4, 1, 0, 2]`. What is the cosine similarity of their tastes? (3 decimals)",
+    "answer": {
+      "value": 0.811,
+      "tolerance": 0.005
+    },
+    "common_wrong": [
+      {
+        "value": 22,
+        "kind": "slip",
+        "why_md": "22 is the dot product. Divide by √35 · √21 ≈ 27.11."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na, b = [5, 0, 3, 1], [4, 1, 0, 2]\ndot = sum(x * y for x, y in zip(a, b))\nanswer = round(dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))), 3)\n"
+    },
+    "hints": [
+      "The genres are just dimensions: dot product over the two lengths.",
+      "Dot $= 20 + 0 + 0 + 2 = 22$. Lengths $\\sqrt{35}$ and $\\sqrt{21}$."
+    ],
+    "solution_md": "Dot $= 5\\cdot4 + 0\\cdot1 + 3\\cdot0 + 1\\cdot2 = 20 + 0 + 0 + 2 = 22$. Lengths: $\\sqrt{25 + 0 + 9 + 1} = \\sqrt{35}$ and $\\sqrt{16 + 1 + 0 + 4} = \\sqrt{21}$, so $\\sqrt{735} \\approx 27.111$. Cosine $= 22/27.111 \\approx 0.811$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/transfer-2",
+    "version": 1,
+    "family": "cos-transfer-disjoint-words",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-range"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "Two support tickets are stored as word-count dictionaries; a word that isn't listed has count 0. `t1 = {\"refund\": 2, \"late\": 1}` and `t2 = {\"password\": 3, \"reset\": 1}`. What is their cosine similarity?",
+    "answer": {
+      "value": 0,
+      "tolerance": 0.001
+    },
+    "common_wrong": [
+      {
+        "value": -1,
+        "kind": "misconception",
+        "why_md": "−1 would mean opposite directions. Sharing no words means orthogonal: cosine 0.",
+        "tag": "mc-cosine-zero-opposite"
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\nt1 = {'refund': 2, 'late': 1}\nt2 = {'password': 3, 'reset': 1}\nwords = sorted(set(t1) | set(t2))\na = [t1.get(w, 0) for w in words]\nb = [t2.get(w, 0) for w in words]\ndot = sum(x * y for x, y in zip(a, b))\nanswer = dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))\n"
+    },
+    "hints": [
+      "Line both tickets up over the same four words, filling missing words with 0.",
+      "No word has a non-zero count in both tickets, so every product is 0."
+    ],
+    "solution_md": "Over the words `[refund, late, password, reset]`: $t_1 = [2, 1, 0, 0]$ and $t_2 = [0, 0, 3, 1]$. Every product is 0, so the dot product is 0 and the cosine is $0/(\\sqrt5\\cdot\\sqrt{10}) = 0$: the tickets are orthogonal. Neither is a zero vector, so the cosine is defined.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/transfer-3",
+    "version": 1,
+    "family": "cos-transfer-currency",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-length-invariant"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "Two shops record weekly sales of four products in rupees, and the cosine similarity of their sales vectors is **0.83**. Finance re-expresses shop A's figures in US dollars (every number ÷ 84) and shop B's in thousands of rupees (every number ÷ 1,000). What is the cosine similarity of the converted vectors? (2 decimals)",
+    "answer": {
+      "value": 0.83,
+      "tolerance": 0.001
+    },
+    "common_wrong": [
+      {
+        "value": 0,
+        "kind": "misconception",
+        "why_md": "Smaller numbers don't mean less similar. Cosine ignores the units entirely.",
+        "tag": "mc-cosine-uses-length"
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\n\ndef cos(a, b):\n    dot = sum(x * y for x, y in zip(a, b))\n    return dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))\n\nimport math\na = [1.0, 0.0]\nb = [0.83, math.sqrt(1 - 0.83 ** 2)]\nanswer = round(cos([x / 84 for x in a], [x / 1000 for x in b]), 2)\n"
+    },
+    "hints": [
+      "Changing units multiplies every number in a vector by the same positive factor.",
+      "Both conversions are positive scalings, and positive scaling never changes cosine."
+    ],
+    "solution_md": "Dividing by 84 is scaling by $1/84 > 0$; dividing by 1,000 is scaling by $1/1000 > 0$. Each factor multiplies the dot product and the matching length by the same amount, so it cancels. The cosine stays **0.83**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/transfer-4",
+    "version": 1,
+    "family": "cos-transfer-sparse-table",
+    "kind": "trace",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-by-hand"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "Two tickets as word-count dictionaries (an unlisted word has count 0): `t1 = {\"refund\": 2, \"late\": 1, \"parcel\": 2}` and `t2 = {\"parcel\": 1, \"refund\": 1, \"damaged\": 1}`. Fill every `?` cell, one row per word that appears in either ticket (whole numbers).",
+    "context_md": "| word | t1 | t2 | t1 × t2 | t1² | t2² |\n|---|---|---|---|---|---|\n| refund | 2 | 1 | ? | 4 | 1 |\n| late | 1 | ? | 0 | 1 | ? |\n| parcel | 2 | 1 | ? | ? | 1 |\n| damaged | ? | 1 | 0 | ? | 1 |\n| sum | | | ? | 9 | ? |",
+    "answer": {
+      "cells": {
+        "0,3": "2",
+        "1,2": "0",
+        "1,5": "0",
+        "2,3": "2",
+        "2,4": "4",
+        "3,1": "0",
+        "3,4": "0",
+        "4,3": "4",
+        "4,5": "3"
+      }
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "t1 = {'refund': 2, 'late': 1, 'parcel': 2}\nt2 = {'parcel': 1, 'refund': 1, 'damaged': 1}\nwords = ['refund', 'late', 'parcel', 'damaged']\na = [t1.get(w, 0) for w in words]\nb = [t2.get(w, 0) for w in words]\nprod = [x * y for x, y in zip(a, b)]\nanswer = {\n    '0,3': str(prod[0]),\n    '1,2': str(b[1]), '1,5': str(b[1] ** 2),\n    '2,3': str(prod[2]), '2,4': str(a[2] ** 2),\n    '3,1': str(a[3]), '3,4': str(a[3] ** 2),\n    '4,3': str(sum(prod)), '4,5': str(sum(y * y for y in b)),\n}\n"
+    },
+    "hints": [
+      "A word missing from a ticket counts as 0 in that ticket's column.",
+      "`late` isn't in t2 and `damaged` isn't in t1, so those cells are 0. Then multiply, square and add each column."
+    ],
+    "solution_md": "Over `[refund, late, parcel, damaged]`: $t_1 = [2, 1, 2, 0]$, $t_2 = [1, 0, 1, 1]$. Products $2, 0, 2, 0$ (sum 4); squares of $t_1$: $4, 1, 4, 0$ (sum 9); squares of $t_2$: $1, 0, 1, 1$ (sum 3). Cosine $= 4/(3\\cdot\\sqrt3) \\approx 0.770$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/transfer-5",
+    "version": 1,
+    "family": "cos-transfer-dot-vs-cos",
+    "kind": "predict_output",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "What does this code print? (Type the two printed words, separated by a space.)",
+    "code": "def dot(a, b):\n    return sum(x * y for x, y in zip(a, b))\n\ndef cos(a, b):\n    return dot(a, b) / (dot(a, a) ** 0.5 * dot(b, b) ** 0.5)\n\nq = [1, 0, 1]\ndocs = {\"short\": [1, 0, 1], \"long\": [5, 5, 4]}\nbest_by_dot = max(docs, key=lambda name: dot(q, docs[name]))\nbest_by_cos = max(docs, key=lambda name: cos(q, docs[name]))\nprint(best_by_dot, best_by_cos)\n",
+    "answer": {
+      "value": "long short",
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import io, contextlib\nsrc = 'def dot(a, b):\\n    return sum(x * y for x, y in zip(a, b))\\n\\ndef cos(a, b):\\n    return dot(a, b) / (dot(a, a) ** 0.5 * dot(b, b) ** 0.5)\\n\\nq = [1, 0, 1]\\ndocs = {\"short\": [1, 0, 1], \"long\": [5, 5, 4]}\\nbest_by_dot = max(docs, key=lambda name: dot(q, docs[name]))\\nbest_by_cos = max(docs, key=lambda name: cos(q, docs[name]))\\nprint(best_by_dot, best_by_cos)\\n'\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    exec(src, {})\nanswer = buf.getvalue().strip()\n"
+    },
+    "hints": [
+      "Compute both scores for each document. The dot product rewards big numbers; cosine divides them back out.",
+      "Dot: short $1 + 0 + 1 = 2$, long $5 + 0 + 4 = 9$. Cosine: short points exactly along `q` (cosine 1)."
+    ],
+    "solution_md": "Dot products: short $= 2$, long $= 9$, so the dot winner is `long`. Cosines: short $= 2/(\\sqrt2\\cdot\\sqrt2) = 1$, long $= 9/(\\sqrt2\\cdot\\sqrt{66}) \\approx 0.78$, so the cosine winner is `short`. It prints `long short`.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/transfer-6",
+    "version": 1,
+    "family": "cos-transfer-sparse-code",
+    "kind": "code",
+    "class": "code",
+    "scaffold": "independent",
+    "level": 4,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine",
+      "kc-cosine-by-hand"
+    ],
+    "use": "transfer",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 900,
+    "prompt_md": "Search engines often store a document **sparsely**: a dict `{word: count}` that lists only the words it contains. Write `sparse_cosine(a, b)` in plain Python that returns the cosine similarity of two such dicts **without** building full lists.\n\n- A word missing from a dict counts as 0.\n- Raise `ValueError` if either dict has no non-zero count (it is a zero vector).\n- Don't modify the input dicts.",
+    "code": "import math\n\n\ndef sparse_cosine(a, b):\n    pass\n",
+    "tests": {
+      "visible": [
+        {
+          "id": "t1",
+          "name": "shared words",
+          "code": "assert abs(sparse_cosine({'refund': 2, 'late': 1}, {'refund': 1, 'late': 2}) - 0.8) < 1e-9",
+          "fail_md": "Dot 2·1 + 1·2 = 4, lengths √5 and √5: 4/5 = 0.8."
+        },
+        {
+          "id": "t2",
+          "name": "no shared words gives 0",
+          "code": "assert abs(sparse_cosine({'refund': 2}, {'password': 1})) < 1e-9",
+          "fail_md": "No word appears in both, so the dot product is 0 and the tickets are orthogonal."
+        },
+        {
+          "id": "t3",
+          "name": "different word sets",
+          "code": "assert abs(sparse_cosine({'a': 1, 'b': 2, 'c': 2}, {'b': 2, 'd': 1}) - 4 / (3 * 5 ** 0.5)) < 1e-9",
+          "fail_md": "Only `b` is shared: dot 2·2 = 4. Lengths √(1 + 4 + 4) = 3 and √(4 + 1) = √5. Each length uses **all** of its own dict's words."
+        }
+      ],
+      "held_out_ref": "held-out.json#emb-cosine/transfer-6"
+    },
+    "hints": [
+      "Only words present in **both** dicts add to the dot product. Each magnitude uses only its own dict's values.",
+      "`norm_a = math.sqrt(sum(v * v for v in a.values()))`, same for `b`; raise if either is 0. Dot: `sum(v * b.get(k, 0) for k, v in a.items())`. Divide."
+    ],
+    "solution_md": "Missing words contribute 0 to the dot product, so loop over one dict and look each word up in the other (looping over the smaller dict is faster). Each magnitude only needs its own dict's values.\n\n```python\nimport math\n\n\ndef sparse_cosine(a, b):\n    norm_a = math.sqrt(sum(v * v for v in a.values()))\n    norm_b = math.sqrt(sum(v * v for v in b.values()))\n    if norm_a == 0 or norm_b == 0:\n        raise ValueError(\"cosine is undefined for a zero vector\")\n    small, large = (a, b) if len(a) <= len(b) else (b, a)\n    dot = sum(v * large.get(k, 0) for k, v in small.items())\n    return dot / (norm_a * norm_b)\n```",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  }
+]

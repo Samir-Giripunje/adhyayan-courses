@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-datasync-transfer-choice",
+  "version": 1,
+  "title": "DataSync and choosing a data transfer method",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-datasync",
+      "version": 1,
+      "statement": "AWS DataSync is an online service that automates and accelerates copying large amounts of data between on-premises storage (NFS, SMB, HDFS, object stores) or other clouds and S3, EFS or FSx, with scheduling and integrity checks."
+    },
+    {
+      "id": "kc-transfer-time-calc",
+      "version": 1,
+      "statement": "Network transfer time is roughly data size divided by usable bandwidth: 100 TB over a fully used 1 Gbps link takes about 9 to 10 days."
+    },
+    {
+      "id": "kc-transfer-choice",
+      "version": 1,
+      "statement": "A one-time or scheduled online bulk copy points to DataSync, ongoing on-premises access to cloud storage to Storage Gateway, too much data for the link to Snow Family, and dedicated private bandwidth to Direct Connect."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-snow-family",
+    "clf-storage-gateway"
+  ],
+  "suggests": [
+    "clf-direct-connect"
+  ],
+  "confusable_with": [
+    "clf-snow-family",
+    "clf-storage-gateway",
+    "clf-direct-connect"
+  ],
+  "introduces": [
+    "datasync",
+    "data transfer selection"
+  ],
+  "uses": [
+    "snow family",
+    "storage gateway",
+    "direct connect",
+    "s3",
+    "efs",
+    "fsx",
+    "hybrid cloud"
+  ],
+  "problem_ideas": [
+    "Compute the transfer time for 20 TB over a 500 Mbps link at 80% utilisation, then choose DataSync or Snow.",
+    "Compute days for 1 PB over 10 Gbps and decide whether to order Snowball Edge devices.",
+    "A NAS share must copy new files to S3 every night: which service?",
+    "On-prem apps need to keep reading files that now live in S3: DataSync or Storage Gateway?",
+    "Spot the distractor: 'Direct Connect copies files from NFS to EFS.'",
+    "A team must migrate 50 TB from another cloud's object storage to S3: which online service?"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "other-aws-services/aws-datasync"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "amazon-s3/hybrid-cloud-for-storage"
+    }
+  ],
+  "status": "stub"
+}

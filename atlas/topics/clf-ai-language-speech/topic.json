@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-ai-language-speech",
+  "version": 1,
+  "title": "Managed AI services for language and speech",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-managed-ai-pretrained",
+      "version": 1,
+      "statement": "AWS managed AI services expose pre-trained models through simple APIs, so you can add vision, speech or language features without ML expertise or training your own model."
+    },
+    {
+      "id": "kc-transcribe-polly",
+      "version": 1,
+      "statement": "Amazon Transcribe converts speech to text (call transcripts, subtitles); Amazon Polly converts text to lifelike speech."
+    },
+    {
+      "id": "kc-comprehend-translate",
+      "version": 1,
+      "statement": "Amazon Comprehend uses natural language processing to find sentiment, key phrases, entities and language in text; Amazon Translate translates text between languages."
+    },
+    {
+      "id": "kc-lex",
+      "version": 1,
+      "statement": "Amazon Lex builds conversational chatbots and voice bots with speech recognition and natural-language understanding, the technology behind Alexa."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-sagemaker"
+  ],
+  "confusable_with": [
+    "clf-ai-vision-documents"
+  ],
+  "introduces": [
+    "managed ai services",
+    "transcribe",
+    "polly",
+    "comprehend",
+    "translate",
+    "lex"
+  ],
+  "uses": [
+    "aws sdk"
+  ],
+  "problem_ideas": [
+    "A call centre wants text transcripts of every call and the customer's mood in each: name the two services in order.",
+    "An e-learning site needs audio narration of 500 articles: which service?",
+    "Product reviews in 12 languages must be scored positive or negative in English: chain two services.",
+    "A bank wants a chatbot that understands 'what's my balance?': which service?",
+    "Spot the swap: 'Polly converts speech into text.'",
+    "Match six tasks to Transcribe, Polly, Comprehend, Translate or Lex, naming the distractor each time."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-7-identify-aws-artifici/aws-ai-ml-services"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-7-identify-aws-artifici/task-statement-3-7-identify-aws-artifici"
+    }
+  ],
+  "status": "stub"
+}

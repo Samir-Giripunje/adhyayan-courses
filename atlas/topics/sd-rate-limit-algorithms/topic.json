@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-rate-limit-algorithms",
+  "version": 1,
+  "title": "Fixed window, sliding window and leaky bucket",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-fixed-window",
+      "version": 1,
+      "statement": "A fixed-window counter allows N requests per clock-aligned window; it is cheap but can let up to 2N requests through in a short span around a window boundary."
+    },
+    {
+      "id": "kc-sliding-window",
+      "version": 1,
+      "statement": "A sliding-window log stores every request timestamp and counts those in the last window, which is exact but uses memory proportional to the request rate; a sliding-window counter approximates it by weighting the previous window's count."
+    },
+    {
+      "id": "kc-leaky-bucket",
+      "version": 1,
+      "statement": "A leaky bucket queues requests and processes them at a constant rate, turning bursts into a steady outflow and dropping requests when the queue is full, unlike a token bucket, which lets bursts through."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-token-bucket"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-token-bucket"
+  ],
+  "introduces": [
+    "fixed window counter",
+    "sliding window log",
+    "sliding window counter",
+    "leaky bucket"
+  ],
+  "uses": [
+    "rate limiting",
+    "token bucket"
+  ],
+  "problem_ideas": [
+    "Limit 100/min with a fixed window: 100 requests at 0:59 and 100 at 1:01; how many pass, and why is that a problem?",
+    "Sliding-window counter: the previous minute had 80, the current has 30, we are 25% into the window, the limit is 100; is the next request allowed?",
+    "Memory for a sliding-window log at 1,000 req/min per user with 8-byte timestamps for 1 million users",
+    "Pick an algorithm for calling a payment provider that must receive at most 10 calls/s, evenly spaced",
+    "Pick an algorithm for a public API that tolerates short bursts",
+    "Rank the four algorithms by memory per client and by accuracy"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "algorithms/fixed-window"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "algorithms/sliding-log"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "algorithms/sliding-window"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "algorithms/leaky-bucket"
+    }
+  ],
+  "status": "stub"
+}

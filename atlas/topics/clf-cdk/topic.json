@@ -1,0 +1,46 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-cdk",
+  "version": 1,
+  "title": "AWS CDK: infrastructure in a programming language",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-cdk-synthesizes-cloudformation",
+      "version": 1,
+      "statement": "The AWS Cloud Development Kit (CDK) lets developers define infrastructure in languages such as TypeScript, Python, Java, C# and Go, and synthesizes that code into a CloudFormation template that CloudFormation then deploys."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-cloudformation"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-cloudformation"
+  ],
+  "introduces": [
+    "cdk"
+  ],
+  "uses": [
+    "cloudformation",
+    "cloudformation template",
+    "infrastructure as code"
+  ],
+  "problem_ideas": [
+    "Python developers dislike writing YAML but want infrastructure as code on AWS: which tool fits?",
+    "A CDK app is 'deployed': which service actually creates the resources?",
+    "True or false: using the CDK means you no longer use CloudFormation. Explain.",
+    "A team wants loops and functions to generate 30 similar queues: CDK or a plain template, and why?",
+    "Name two languages the CDK supports, and one wrong assumption about it (for example, that it needs its own special language).",
+    "Distractor drill: CDK vs AWS SDK for 'define cloud infrastructure in a familiar programming language'."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "deploying-and-managing-infrastructure-at/aws-cloud-development-kit-cdk"
+    }
+  ],
+  "status": "stub"
+}

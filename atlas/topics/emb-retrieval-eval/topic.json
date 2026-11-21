@@ -1,0 +1,300 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-retrieval-eval",
+  "version": 1,
+  "title": "Measuring retrieval: recall@k, MRR, nDCG",
+  "size": "standard",
+  "est_min": 26,
+  "kcs": [
+    {
+      "id": "kc-retrieval-eval",
+      "version": 2,
+      "statement": "Retrieval quality is measured on labelled queries."
+    },
+    {
+      "id": "kc-recall-precision-at-k",
+      "version": 1,
+      "statement": "Compute recall@k and precision@k for a ranked list."
+    },
+    {
+      "id": "kc-mrr-ndcg",
+      "version": 1,
+      "statement": "Compute MRR; nDCG weights graded relevance by rank."
+    }
+  ],
+  "mode_hint": "code",
+  "mode": "code",
+  "requires": [
+    "emb-search"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "visual_fit": {
+    "kind": "chart",
+    "why": "Recall and precision change as k grows; a chart of the worked example shows both curves at once."
+  },
+  "introduces": [
+    "recall@k",
+    "MRR",
+    "nDCG"
+  ],
+  "uses": [
+    "top-k",
+    "semantic search"
+  ],
+  "misconceptions": [],
+  "glossary": [
+    {
+      "term": "recall@k",
+      "md": "Of all relevant items, the fraction found in the top k."
+    },
+    {
+      "term": "MRR",
+      "md": "The mean over queries of 1 / (rank of the first relevant result)."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-retrieval-eval-p1",
+      "title": "Measuring retrieval: recall@k and MRR",
+      "beats": [
+        {
+          "id": "b-eval",
+          "title": "Measuring retrieval: recall@k and MRR",
+          "kcs": [
+            "kc-retrieval-eval"
+          ],
+          "est_minutes": 9,
+          "blocks": [
+            {
+              "id": "blk-emb-retrieval-eval-01",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "“It looks good on three queries I tried” is not an evaluation. To **measure** retrieval you need a **labelled set**: queries, each with the chunks that are truly relevant. Sources, from best to worst: real user queries labelled by people, queries written by domain experts, and LLM-generated queries that a human has checked.",
+                  "Then score the retriever's top-k list for each query:",
+                  "- [[recall@k]]: of the relevant chunks, what fraction appear in the top k? This is the main metric when an LLM will read the top k (RAG).\n- **precision@k**: of the top k, what fraction are relevant?\n- [[MRR]] (mean reciprocal rank): 1 / (rank of the first relevant result), averaged over queries. It rewards putting a right answer *first*.\n- **nDCG**: rewards relevant results near the top and supports graded relevance (very relevant vs somewhat relevant)."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-retrieval-eval-02",
+              "block": {
+                "type": "worked_example",
+                "title": "Score one query",
+                "problem_md": "Relevant chunks for a query: **{D2, D7}**. The retriever returns **[D5, D2, D9, D1, D7]**.",
+                "steps": [
+                  {
+                    "md": "recall@3: the top 3 are D5, D2, D9. Only D2 is relevant, so 1 of 2 = **0.5**"
+                  },
+                  {
+                    "md": "recall@5: D2 and D7 are both in the top 5, so 2 of 2 = **1.0**"
+                  },
+                  {
+                    "md": "Reciprocal rank: the first relevant result (D2) is at rank 2, so RR = **1/2**",
+                    "why_md": "Average RR over all queries to get MRR."
+                  }
+                ],
+                "answer_md": "recall@3 = 0.5, recall@5 = 1.0, RR = 0.5. Here k matters a lot: if your LLM only reads 3 chunks, it never sees D7."
+              }
+            },
+            {
+              "id": "blk-emb-retrieval-eval-03",
+              "block": {
+                "type": "math",
+                "tex": "\\text{recall@}k = \\frac{|\\,\\text{relevant} \\cap \\text{top-}k\\,|}{|\\,\\text{relevant}\\,|} \\qquad \\text{MRR} = \\frac{1}{|Q|}\\sum_{q\\in Q}\\frac{1}{\\text{rank}_q}",
+                "explain_md": "If a query has no relevant result in the list, its reciprocal rank is 0.",
+                "parts": [
+                  {
+                    "symbol": "|relevant|",
+                    "means": "how many chunks are truly relevant"
+                  },
+                  {
+                    "symbol": "rank_q",
+                    "means": "position of the first relevant result for query q"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-retrieval-eval-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-recall5",
+                  "kind": "numeric",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-retrieval-eval"
+                  ],
+                  "prompt_md": "Relevant: **{A, B, C}**. Top-5 returned: **[X, A, Y, C, Z]**. What is recall@5? (2 decimals)",
+                  "answer": {
+                    "value": 0.67,
+                    "tolerance": 0.01,
+                    "common_wrong": [
+                      {
+                        "value": 0.4,
+                        "why_md": "0.4 is precision@5 (2 relevant out of 5 returned). Recall divides by the 3 relevant chunks."
+                      }
+                    ]
+                  },
+                  "solution_md": "Found A and C: 2 of the 3 relevant. 2/3 ≈ 0.67.",
+                  "est_seconds": 70
+                }
+              }
+            },
+            {
+              "id": "blk-emb-retrieval-eval-05",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-mrr3",
+                  "kind": "numeric",
+                  "difficulty": 3,
+                  "kcs": [
+                    "kc-retrieval-eval"
+                  ],
+                  "prompt_md": "Over 3 queries, the first relevant result appears at rank **1**, rank **3**, and **not at all**. What is the MRR? (2 decimals)",
+                  "answer": {
+                    "value": 0.44,
+                    "tolerance": 0.01,
+                    "common_wrong": [
+                      {
+                        "value": 0.67,
+                        "why_md": "You dropped the query with no relevant result. It contributes 0 and still counts in the average."
+                      }
+                    ]
+                  },
+                  "solution_md": "$(1 + 1/3 + 0)/3 = 1.333/3 \\approx 0.44$.",
+                  "est_seconds": 120
+                }
+              }
+            },
+            {
+              "id": "blk-emb-retrieval-eval-06",
+              "block": {
+                "type": "diagram",
+                "id": "dg-recall-at-k",
+                "kind": "chart",
+                "title": "One query: recall@k and precision@k as k grows",
+                "alt": "A bar chart for the worked example, relevant chunks D2 and D7 in the list D5, D2, D9, D1, D7. Recall@k is 0, 0.5, 0.5, 0.5 and 1.0 for k from 1 to 5. Precision@k is 0, 0.5, 0.33, 0.25 and 0.4.",
+                "caption_md": "Recall only rises when a relevant chunk appears (D2 at rank 2, D7 at rank 5); precision falls with every miss.",
+                "spec": {
+                  "type": "bar",
+                  "x": {
+                    "label": "k, results read",
+                    "categories": [
+                      "1",
+                      "2",
+                      "3",
+                      "4",
+                      "5"
+                    ]
+                  },
+                  "y": {
+                    "label": "Score",
+                    "unit": "fraction",
+                    "min": 0,
+                    "max": 1
+                  },
+                  "series": [
+                    {
+                      "label": "recall@k",
+                      "values": [
+                        0,
+                        0.5,
+                        0.5,
+                        0.5,
+                        1
+                      ]
+                    },
+                    {
+                      "label": "precision@k",
+                      "values": [
+                        0,
+                        0.5,
+                        0.33,
+                        0.25,
+                        0.4
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp2-recall"
+  ],
+  "recap": {
+    "formula": "recall@k = relevant in top-k ÷ all relevant · MRR = mean of 1 ÷ rank of the first relevant hit",
+    "pitfall": "recall@k says nothing about where in the top-k the hit sits; MRR does."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [
+    {
+      "id": "d-recall-precision",
+      "beat": "b-eval",
+      "question": "Recall vs precision: which matters for search?",
+      "match": [
+        "recall vs precision",
+        "precision",
+        "recall",
+        "which metric",
+        "mrr"
+      ],
+      "answer_md": "**Recall@k** asks: of everything relevant, how much did we surface in the top k? **Precision@k** asks: of the top k, how much is relevant? For RAG, recall usually matters most (the LLM can ignore junk, but it can't use what it never saw). For a results page people read, precision near the top (MRR, nDCG) matters more.",
+      "deeper_md": "Fishing with a net. Recall: what fraction of the fish in the lake did you catch? Precision: what fraction of your catch is fish rather than boots? A huge net catches all the fish and lots of boots (high recall, low precision).",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Same results, two metrics",
+        "md": [
+          "Relevant: {A, B}. Top-5 returned: [A, X, Y, Z, B].",
+          "- recall@5 = 2/2 = **1.0**: found everything.\n- precision@5 = 2/5 = **0.4**: most results are junk.\n- MRR = 1/1 = **1.0**: the first result is relevant.",
+          "An LLM reading 5 chunks is fine here. A human scanning a results page wastes three looks."
+        ],
+        "verify": {
+          "id": "q-br-prec",
+          "kind": "numeric",
+          "difficulty": 1,
+          "kcs": [
+            "kc-retrieval-eval"
+          ],
+          "prompt_md": "Relevant {A}. Top-4 [X, Y, A, Z]. Precision@4?",
+          "answer": {
+            "value": 0.25,
+            "tolerance": 0.01
+          },
+          "solution_md": "1 relevant out of 4 = 0.25.",
+          "est_seconds": 40
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Compute recall@5 and precision@5 for one ranked list",
+    "Compute MRR over three queries by hand",
+    "Implement recall_at_k and mrr and test them on edge cases",
+    "Explain why nDCG needs graded labels",
+    "Label 10 queries for the help-centre bench",
+    "Decide which metric to report for a single-answer FAQ"
+  ],
+  "sources": [
+    {
+      "source": "strata-pack",
+      "entry": "intermediate/b-eval"
+    },
+    {
+      "source": "sentence-transformers",
+      "entry": "semantic-search"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

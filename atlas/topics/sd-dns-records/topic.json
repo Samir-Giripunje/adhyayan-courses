@@ -1,0 +1,413 @@
+{
+  "parts": [
+    {
+      "id": "p1",
+      "title": "DNS records: A, AAAA, CNAME and NS",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "DNS records: A, AAAA, CNAME and NS",
+          "kcs": [
+            "kc-dns-records"
+          ],
+          "est_minutes": 4,
+          "blocks": [
+            {
+              "id": "blk-sd-dns-records-01",
+              "block": {
+                "type": "prose",
+                "md": "A **DNS record** is one entry on a domain's authoritative server: a name, a type and a value. The type says what kind of value it holds, such as an address or another name."
+              }
+            },
+            {
+              "id": "blk-sd-dns-records-02",
+              "block": {
+                "type": "prose",
+                "md": "Ask Wikipedia's DNS servers about its names and you get records like these. `wikipedia.org` has an A record holding an IPv4 address and an AAAA record holding an IPv6 address. `www.wikipedia.org` is a CNAME: it points to another name, `dyna.wikimedia.org`, whose own A record holds the address.\n\n```text\nwikipedia.org.       A       103.102.166.224\nwikipedia.org.       AAAA    2001:df2:e500:ed1a::1\nwww.wikipedia.org.   CNAME   dyna.wikimedia.org.\nwikipedia.org.       NS      ns0.wikimedia.org.\n```"
+              }
+            },
+            {
+              "id": "blk-sd-dns-records-03",
+              "block": {
+                "type": "prose",
+                "md": "Four record types cover most of what you need:\n\n- **A**: the name's IPv4 address.\n- **AAAA**: the name's IPv6 address. An IPv6 address is four times as long as an IPv4 one, hence four As.\n- **CNAME** (canonical name): \"this name is an alias; look up that other name instead.\" Its value is always a name, never an address. The resolver follows it and then looks up the target's A or AAAA record.\n- **NS** (name server): which servers are authoritative for the domain. A TLD server's referral is made of NS records.\n\nEvery record carries its own TTL. A CNAME is how you hand a name to a CDN or another provider: point `www` at the provider's hostname, and the provider can change its addresses without you editing anything."
+              }
+            },
+            {
+              "id": "blk-sd-dns-records-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-dns-records-aaaa",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-dns-records"
+                  ],
+                  "prompt_md": "Which record type holds a name's IPv6 address?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "A",
+                      "why_md": "An A record holds an IPv4 address."
+                    },
+                    {
+                      "id": "b",
+                      "md": "AAAA",
+                      "correct": true,
+                      "why_md": "Right. AAAA holds the 128-bit IPv6 address."
+                    },
+                    {
+                      "id": "c",
+                      "md": "CNAME",
+                      "why_md": "A CNAME holds another name, never an address.",
+                      "misconception": "mc-cname-to-ip"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-sd-dns-records-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Why a CNAME can't sit at the bare domain",
+                "md": "A name that has a CNAME may not have any other records (DNSSEC signatures aside). The bare domain, such as `example.com`, must keep its NS records (and its SOA record, which describes the zone), so it cannot be a CNAME. To point `example.com` itself at a provider's hostname, many DNS providers offer a look-alike record (called ALIAS, ANAME or \"CNAME flattening\"). It follows the target name on the server side and publishes the resulting addresses as ordinary A and AAAA records."
+              }
+            },
+            {
+              "id": "blk-sd-dns-records-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Does a CNAME cost an extra lookup?",
+                "md": "Sometimes. After a CNAME the resolver still needs the target's address. Often the authoritative server includes it in the same reply, or the resolver already has it cached. Otherwise the resolver makes one more lookup for the target name."
+              }
+            },
+            {
+              "id": "blk-sd-dns-records-07",
+              "block": {
+                "type": "diagram",
+                "id": "dg-cname-chain",
+                "kind": "flow",
+                "title": "From an alias to an address",
+                "alt": "www.wikipedia.org has a CNAME record pointing to dyna.wikimedia.org, and dyna.wikimedia.org has an A record with the IPv4 address 103.102.166.224.",
+                "spec": {
+                  "nodes": [
+                    {
+                      "id": "www",
+                      "label": "www.wikipedia.org",
+                      "sub": "the name asked for",
+                      "shape": "pill"
+                    },
+                    {
+                      "id": "dyna",
+                      "label": "dyna.wikimedia.org",
+                      "sub": "canonical name"
+                    },
+                    {
+                      "id": "ip",
+                      "label": "103.102.166.224",
+                      "sub": "IPv4 address"
+                    }
+                  ],
+                  "edges": [
+                    {
+                      "from": "www",
+                      "to": "dyna",
+                      "label": "CNAME record",
+                      "detail": "An alias: look up that other name instead."
+                    },
+                    {
+                      "from": "dyna",
+                      "to": "ip",
+                      "label": "A record",
+                      "detail": "The canonical name's IPv4 address."
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "answer": "A **DNS record** is one entry on a domain's authoritative server: a name, a type and a value. The type says what kind of value it holds, such as an address or another name.",
+  "example": "Ask Wikipedia's DNS servers about its names and you get records like these. `wikipedia.org` has an A record holding an IPv4 address and an AAAA record holding an IPv6 address. `www.wikipedia.org` is a CNAME: it points to another name, `dyna.wikimedia.org`, whose own A record holds the address.\n\n```text\nwikipedia.org.       A       103.102.166.224\nwikipedia.org.       AAAA    2001:df2:e500:ed1a::1\nwww.wikipedia.org.   CNAME   dyna.wikimedia.org.\nwikipedia.org.       NS      ns0.wikimedia.org.\n```",
+  "how": {
+    "md": "Four record types cover most of what you need:\n\n- **A**: the name's IPv4 address.\n- **AAAA**: the name's IPv6 address. An IPv6 address is four times as long as an IPv4 one, hence four As.\n- **CNAME** (canonical name): \"this name is an alias; look up that other name instead.\" Its value is always a name, never an address. The resolver follows it and then looks up the target's A or AAAA record.\n- **NS** (name server): which servers are authoritative for the domain. A TLD server's referral is made of NS records.\n\nEvery record carries its own TTL. A CNAME is how you hand a name to a CDN or another provider: point `www` at the provider's hostname, and the provider can change its addresses without you editing anything.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-cname-chain",
+      "kind": "flow",
+      "title": "From an alias to an address",
+      "alt": "www.wikipedia.org has a CNAME record pointing to dyna.wikimedia.org, and dyna.wikimedia.org has an A record with the IPv4 address 103.102.166.224.",
+      "spec": {
+        "nodes": [
+          {
+            "id": "www",
+            "label": "www.wikipedia.org",
+            "sub": "the name asked for",
+            "shape": "pill"
+          },
+          {
+            "id": "dyna",
+            "label": "dyna.wikimedia.org",
+            "sub": "canonical name"
+          },
+          {
+            "id": "ip",
+            "label": "103.102.166.224",
+            "sub": "IPv4 address"
+          }
+        ],
+        "edges": [
+          {
+            "from": "www",
+            "to": "dyna",
+            "label": "CNAME record",
+            "detail": "An alias: look up that other name instead."
+          },
+          {
+            "from": "dyna",
+            "to": "ip",
+            "label": "A record",
+            "detail": "The canonical name's IPv4 address."
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-dns-records-aaaa",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "prompt_md": "Which record type holds a name's IPv6 address?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A",
+        "why_md": "An A record holds an IPv4 address."
+      },
+      {
+        "id": "b",
+        "md": "AAAA",
+        "correct": true,
+        "why_md": "Right. AAAA holds the 128-bit IPv6 address."
+      },
+      {
+        "id": "c",
+        "md": "CNAME",
+        "why_md": "A CNAME holds another name, never an address.",
+        "misconception": "mc-cname-to-ip"
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "Why a CNAME can't sit at the bare domain",
+      "md": "A name that has a CNAME may not have any other records (DNSSEC signatures aside). The bare domain, such as `example.com`, must keep its NS records (and its SOA record, which describes the zone), so it cannot be a CNAME. To point `example.com` itself at a provider's hostname, many DNS providers offer a look-alike record (called ALIAS, ANAME or \"CNAME flattening\"). It follows the target name on the server side and publishes the resulting addresses as ordinary A and AAAA records."
+    },
+    {
+      "title": "Does a CNAME cost an extra lookup?",
+      "md": "Sometimes. After a CNAME the resolver still needs the target's address. Often the authoritative server includes it in the same reply, or the resolver already has it cached. Otherwise the resolver makes one more lookup for the target name."
+    }
+  ],
+  "visual_fit": {
+    "kind": "flow",
+    "why": "Following a CNAME to an A record is a path from name to name to address."
+  },
+  "glossary": [
+    {
+      "term": "dns record",
+      "md": "One entry on a domain's authoritative server: a name, a type (A, AAAA, CNAME, NS, …), a TTL and a value."
+    },
+    {
+      "term": "a record",
+      "md": "A DNS record that maps a name to an IPv4 address."
+    },
+    {
+      "term": "aaaa record",
+      "md": "A DNS record that maps a name to an IPv6 address."
+    },
+    {
+      "term": "cname record",
+      "md": "A DNS record that makes one name an alias of another name. Its value is always a name, never an address."
+    },
+    {
+      "term": "ns record",
+      "md": "A DNS record that names the servers that are authoritative for a domain."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-cname-to-ip",
+      "statement": "A CNAME record can point a name directly at an IP address.",
+      "tags": [
+        "kc-dns-records"
+      ]
+    }
+  ],
+  "recap": {
+    "pitfall": "A CNAME's value is always another name, never an IP address."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-a-vs-aaaa",
+      "beat": "b-lesson",
+      "question": "Why does a site need both an A and an AAAA record?",
+      "match": [
+        "a and aaaa",
+        "both a and aaaa",
+        "why aaaa",
+        "ipv6 record"
+      ],
+      "answer_md": "Some devices and networks still have only IPv4, and some prefer IPv6. Publishing both lets each client connect over the version it has.",
+      "deeper_md": "A client that has IPv6 usually asks for both records and tries the IPv6 address first. A client on an IPv4-only network uses the A record.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Same name, two kinds of address",
+        "md": "`wikipedia.org A 103.102.166.224` is the IPv4 address (32 bits). `wikipedia.org AAAA 2001:df2:e500:ed1a::1` is the IPv6 address (128 bits). Same site, two record types.",
+        "verify": {
+          "id": "q-br-a-vs-aaaa",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-dns-records"
+          ],
+          "prompt_md": "A phone on an IPv4-only network looks up a site. Which record gives it an address it can use?",
+          "options": [
+            {
+              "id": "a",
+              "md": "The A record",
+              "correct": true,
+              "why_md": "Right. A holds the IPv4 address."
+            },
+            {
+              "id": "b",
+              "md": "The AAAA record",
+              "why_md": "AAAA holds an IPv6 address, which an IPv4-only network can't reach."
+            },
+            {
+              "id": "c",
+              "md": "The NS record",
+              "why_md": "NS names the domain's DNS servers, not the site's address."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-cname-why",
+      "beat": "b-lesson",
+      "question": "Why use a CNAME instead of copying the CDN's IP address into an A record?",
+      "match": [
+        "why cname",
+        "cname instead of a",
+        "cdn ip address",
+        "copy the address"
+      ],
+      "answer_md": "The CDN changes its addresses without telling you. A CNAME points at the CDN's hostname, so the CDN's own records always supply the current address.",
+      "deeper_md": "An A record with today's CDN address keeps sending users there after the CDN moves, until you notice and edit it. The CNAME delegates that job to the CDN.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Following the alias",
+        "md": "`img.example.com CNAME shop.cdn.example`. A resolver asks for `img.example.com`, gets the CNAME, then asks for `shop.cdn.example` and gets the CDN's current A record.",
+        "verify": {
+          "id": "q-br-cname-why",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-dns-records"
+          ],
+          "prompt_md": "Which record keeps working when a CDN changes the addresses behind `media.cdn.example`?",
+          "options": [
+            {
+              "id": "a",
+              "md": "`files.example.com CNAME media.cdn.example`",
+              "correct": true,
+              "why_md": "Right. The alias follows the CDN's own records."
+            },
+            {
+              "id": "b",
+              "md": "`files.example.com A` with the CDN's current address",
+              "why_md": "That address goes stale when the CDN changes it."
+            },
+            {
+              "id": "c",
+              "md": "`files.example.com CNAME` with the CDN's current address",
+              "why_md": "A CNAME's value must be a name, never an address.",
+              "misconception": "mc-cname-to-ip"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-cname-apex",
+      "kind": "edge",
+      "title": "Why a CNAME can't sit at the bare domain and how providers work around it",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "sd-dns-records",
+  "version": 1,
+  "title": "DNS records: A, AAAA, CNAME and NS",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-dns-records",
+      "version": 1,
+      "statement": "An A record maps a name to an IPv4 address, AAAA to an IPv6 address, CNAME aliases one name to another name, and NS names the domain's authoritative servers."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-dns"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "dns record"
+  ],
+  "uses": [
+    "dns",
+    "authoritative dns server",
+    "ipv4",
+    "ipv6"
+  ],
+  "problem_ideas": [
+    "Which record type points www.example.com to example.cdnprovider.net?",
+    "Which record type holds an IPv6 address for api.example.com?",
+    "Is \"files.example.com CNAME 203.0.113.7\" a valid record? Why or why not?",
+    "In a referral, which record type tells the resolver which servers are authoritative for a domain?",
+    "Match four facts about a domain to the record types that store them.",
+    "A CDN says its IP addresses change without notice: which record should point your hostname at it?"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "record-types/record-types"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [
+    "sd-dns-records/exit-1",
+    "sd-dns-records/exit-2"
+  ],
+  "status": "stocked",
+  "provenance": {
+    "origin": "generated",
+    "job": "reauthor-sd-u0"
+  }
+}

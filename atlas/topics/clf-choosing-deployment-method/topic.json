@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-choosing-deployment-method",
+  "version": 1,
+  "title": "Choosing a deployment method for a requirement",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-choose-iac-vs-beanstalk",
+      "version": 1,
+      "statement": "To provision identical infrastructure repeatedly across accounts or Regions, choose CloudFormation (or the CDK); to deploy a web application without managing its infrastructure, choose Elastic Beanstalk."
+    },
+    {
+      "id": "kc-choose-pipeline-vs-iac",
+      "version": 1,
+      "statement": "To automate releasing code changes through build, test and deploy stages, choose CodePipeline with CodeBuild and CodeDeploy; CloudFormation provisions infrastructure but does not by itself run a code release workflow."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-cloudformation",
+    "clf-elastic-beanstalk",
+    "clf-ci-cd-pipeline"
+  ],
+  "suggests": [
+    "clf-cdk",
+    "clf-one-time-vs-repeatable"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "deployment method selection"
+  ],
+  "uses": [
+    "cloudformation",
+    "cdk",
+    "elastic beanstalk",
+    "codepipeline",
+    "codebuild",
+    "codedeploy",
+    "management console",
+    "one-time operation"
+  ],
+  "problem_ideas": [
+    "Ten one-paragraph scenarios: for each, name the deployment service and the distractor you rejected.",
+    "A bank wants every environment reviewed as code before it is created, and rebuilt identically in a second Region: pick and justify.",
+    "A hackathon team needs a Python web app online within an hour, with load balancing: pick and justify.",
+    "A team already has templates but releases code by copying files over SSH: what is missing, and which services fill the gap?",
+    "An engineer must change one tag on one instance: is CloudFormation overkill? What fits?",
+    "Spot the wrong answer: 'Use Elastic Beanstalk to provision a VPC, Transit Gateway and Direct Connect from templates.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-1-define-methods-of-dep/various-ways-of-provisioning-and-operati"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-8-identify-services-fro/identifying-the-tools-to-develop-deploy-"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,393 @@
+[
+  {
+    "id": "q-cp1-why",
+    "version": 1,
+    "family": "q-cp1-why",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Which sentence best explains why keyword search misses *low-cost airfare* for the query *cheap flights*?",
+    "options": [
+      {
+        "id": "a",
+        "md": "It compares strings, and the two phrases share no strings",
+        "correct": true,
+        "why_md": "Right. No shared tokens means no match, even though the meaning is the same."
+      },
+      {
+        "id": "b",
+        "md": "The index is too small",
+        "why_md": "Index size has nothing to do with it. The words simply differ."
+      },
+      {
+        "id": "c",
+        "md": "It ranks by popularity",
+        "why_md": "Ranking signals don't help when there is no match to begin with."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Keyword matching compares strings, so it misses paraphrases and is fooled by shared words with a different intent.",
+      "Right."
+    ],
+    "solution_md": "Right. No shared tokens means no match, even though the meaning is the same.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-b1",
+    "version": 2,
+    "family": "q-dpp-b1",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Which pair would plain keyword matching **fail** to connect?",
+    "options": [
+      {
+        "id": "a",
+        "md": "*can’t sign in* ↔ *Reset your password*",
+        "correct": true,
+        "why_md": "Correct. The two share **no word at all**, yet they describe the same need. Keyword matching scores this pair 0, which is exactly the vocabulary gap embeddings close."
+      },
+      {
+        "id": "b",
+        "md": "*E1234 error* ↔ *What does E1234 mean?*",
+        "why_md": "These share the exact token `E1234`. Keyword search handles this well."
+      },
+      {
+        "id": "c",
+        "md": "*reset password* ↔ *password reset steps*",
+        "why_md": "Both words are shared, just reordered. Bag-of-words matching catches it."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Keyword matching compares strings, so it misses paraphrases and is fooled by shared words with a different intent.",
+      "Keyword search compares strings."
+    ],
+    "solution_md": "Keyword matching only connects texts that share words. *can’t sign in* and *Reset your password* share none, so it cannot connect them even though they mean the same thing. The other pairs share an exact word (*E1234*, *password*), so keyword search finds them.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "emb-keyword-gap/exit-1",
+    "version": 1,
+    "family": "kg-rank-by-shared-words",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "A travel site's help search gives each title one point for every query word that appears in it as the exact same word, skipping little words such as *an*, *at*, *the*, *to* and *your*. A user types **book an extra bag**. Which title ranks first?",
+    "options": [
+      {
+        "id": "a",
+        "md": "*Book an extra night at the hotel*",
+        "correct": true,
+        "why_md": "Right. It shares *book* and *extra* (score 2), though a hotel night is a different need. The luggage article scores 0."
+      },
+      {
+        "id": "b",
+        "md": "*Add checked luggage to your trip*",
+        "why_md": "It's the article the user needs, but it shares no words: *bag* is not *luggage*, and *book* is not *add*. Score 0.",
+        "misconception": "mc-keyword-is-enough"
+      },
+      {
+        "id": "c",
+        "md": "They tie",
+        "why_md": "The hotel article shares two words and the luggage article none, so there is no tie."
+      }
+    ],
+    "hints": [
+      "List the query's real words, then look for each one, exactly, in both titles.",
+      "Hotel title: *book*, *extra* → 2. Luggage title: nothing shared → 0."
+    ],
+    "solution_md": "Query words: *book*, *extra*, *bag*. *Book an extra night at the hotel* shares *book* and *extra* (2). *Add checked luggage to your trip* shares none (0). Keyword ranking puts the hotel article first: fooled by shared words, and blind to *bag* ≈ *luggage*.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  },
+  {
+    "id": "emb-keyword-gap/set-1",
+    "version": 1,
+    "family": "kg-approach-fit",
+    "kind": "pattern_id",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 45,
+    "prompt_md": "**Gist:** support agents paste an exact order number, such as `ORD-58213`, and want the page for that one order. Every query looks like this. Which search approach fits best?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Keyword search",
+        "correct": true,
+        "why_md": "Right. An order number is an exact string with no synonyms or other wordings. Keyword search returns the documents that contain exactly that string."
+      },
+      {
+        "id": "b",
+        "md": "Semantic (meaning-based) search",
+        "why_md": "Semantic search compares meaning, and an order number carries almost none. It can rank a look-alike number such as `ORD-58231` as close.",
+        "misconception": "mc-meaning-search-handles-codes"
+      },
+      {
+        "id": "c",
+        "md": "Hybrid search",
+        "why_md": "Its keyword side would find the order too, but every query here is an exact string, so the semantic side adds work without helping. Hybrid fits when you get both exact strings and reworded needs."
+      }
+    ],
+    "hints": [
+      "Ask: could people word this query differently, or is it one exact string?",
+      "An order number has no other wording. Pick the approach that matches exact strings."
+    ],
+    "solution_md": "Every query is an exact identifier, so there is no rewording to catch. Keyword search matches exact strings, so it fits best. Semantic search can blur look-alike numbers, and hybrid search adds a meaning side that has nothing to do here.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  },
+  {
+    "id": "emb-keyword-gap/set-2",
+    "version": 1,
+    "family": "kg-rank-by-shared-words",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "A bank's help-centre search gives each title one point for every query word that appears in it as the exact same word. Little words such as *my*, *a*, *or*, *and*, *at* and *our* are skipped. A user types **lost my debit card**. Which title ranks first?",
+    "options": [
+      {
+        "id": "a",
+        "md": "*Report a missing or stolen card*",
+        "why_md": "This is the article the user needs, but it shares only *card*: *lost* is not *missing*. Score 1.",
+        "misconception": "mc-keyword-is-enough"
+      },
+      {
+        "id": "b",
+        "md": "*Debit card fees explained*",
+        "correct": true,
+        "why_md": "Right. It shares *debit* and *card* (score 2) and wins, though fees are a different need from a lost card."
+      },
+      {
+        "id": "c",
+        "md": "*Lost and found at our branches*",
+        "why_md": "It shares only *lost* (score 1), and it's about items left behind in a branch."
+      },
+      {
+        "id": "d",
+        "md": "All three tie",
+        "why_md": "They do not tie: the fees article shares two words, the other two share one each."
+      }
+    ],
+    "hints": [
+      "Write down the query's real words (*lost*, *debit*, *card*), then tick each one you find, exactly, in each title.",
+      "Missing-card article: *card* → 1. Fees article: *debit*, *card* → 2. Lost-and-found: *lost* → 1."
+    ],
+    "solution_md": "Query words: *lost*, *debit*, *card*. *Report a missing or stolen card* scores 1 (*card*). *Debit card fees explained* scores 2 (*debit*, *card*). *Lost and found at our branches* scores 1 (*lost*). The fees article wins on shared strings, while the article the user needs scores only 1 because it says *missing*, not *lost*.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  },
+  {
+    "id": "emb-keyword-gap/set-3",
+    "version": 1,
+    "family": "kg-match-is-not-meaning",
+    "kind": "assert_reason",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "**Assertion (A):** Plain keyword search will match the query *password reset steps* to the article *Reset your password*.\n\n**Reason (R):** Keyword search recognises that the query and the article describe the same need.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "R is false. Keyword search recognises nothing about needs; it matched because *password* and *reset* appear in both texts.",
+        "misconception": "mc-keyword-is-enough"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is not just irrelevant, it is false: keyword search has no idea what either text is about.",
+        "misconception": "mc-keyword-is-enough"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "correct": true,
+        "why_md": "Right. A is true: both texts contain *password* and *reset* (word order and capital letters do not matter to the count). R is false: the match comes from shared strings, not from understanding the need."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true: two words are shared, so the article matches. R is the false one: keyword search compares strings, not needs."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. For A, count shared words. For R, ask what keyword search actually compares.",
+      "A: *password* and *reset* appear in both, so it matches. R: keyword search compares strings, so it cannot recognise a need."
+    ],
+    "solution_md": "A is true: *password* and *reset* appear in both texts, and a keyword count ignores word order and capital letters. R is false: keyword search never recognises needs; it only counts shared strings. The same search would score *forgot my login* at 0 for this article. Answer: A true, R false.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  },
+  {
+    "id": "emb-keyword-gap/set-4",
+    "version": 1,
+    "family": "kg-case-search-fix",
+    "kind": "case",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Your help centre uses keyword search. The search log shows two patterns:\n\n- Order-number searches such as `ORD-58213` always find the right page.\n- Searches such as *can't get into my account* and *app won't let me sign in* return nothing useful, though *Reset your password* answers them.\n\nYou want reworded searches to work, **including wordings nobody has typed yet**, without breaking order-number lookups. What's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Add semantic (meaning-based) search and merge its results with keyword search: hybrid search",
+        "correct": true,
+        "why_md": "Best. The semantic side can find *Reset your password* for wordings nobody listed, and the keyword side keeps exact order numbers precise."
+      },
+      {
+        "id": "b",
+        "md": "Add *get into*, *sign in* and *let me in* to a synonym list for the password article",
+        "why_md": "Viable, second-best. It fixes the wordings already in the log and keeps order numbers working, but it only covers pairs someone wrote down: tomorrow's *locked out of the app* still misses.",
+        "misconception": "mc-synonym-list-closes-gap"
+      },
+      {
+        "id": "c",
+        "md": "Replace keyword search with semantic search",
+        "why_md": "Trap. Reworded searches improve, but order numbers lose their exact match: semantic search can rank look-alike numbers as close.",
+        "misconception": "mc-meaning-search-handles-codes"
+      }
+    ],
+    "hints": [
+      "Test each option against both goals: wordings nobody has typed yet, and exact order numbers.",
+      "A synonym list only covers listed wordings; dropping keyword search loses exact matching. Only one option is built for both goals."
+    ],
+    "solution_md": "Two goals: (1) reworded needs, including unseen wordings, and (2) exact order numbers. The synonym list meets (2) but only the logged part of (1). Replacing keyword search helps (1) but puts (2) at risk. Hybrid search keeps the keyword side for exact strings and adds a semantic side for meaning, so it is the only option built for both.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  },
+  {
+    "id": "emb-keyword-gap/set-5",
+    "version": 1,
+    "family": "kg-explain-ranking",
+    "kind": "multi",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "A phone shop's help centre uses plain keyword search: each title scores one point for every query word it contains as the exact same word. A user types **screen cracked**. The results come back in this order:\n\n1. *Screen time limits for kids*\n2. *Repair a broken display*\n\nSelect **every** statement that correctly explains this result.",
+    "options": [
+      {
+        "id": "a",
+        "md": "*Screen time limits for kids* ranks first only because it contains the string *screen*",
+        "correct": true,
+        "why_md": "True. It shares *screen* (score 1); the repair article shares nothing (score 0)."
+      },
+      {
+        "id": "b",
+        "md": "*Repair a broken display* scores 0 because *broken* and *display* are different strings from *cracked* and *screen*",
+        "correct": true,
+        "why_md": "True. Same need, different words, so no point is scored."
+      },
+      {
+        "id": "c",
+        "md": "Keyword search judged screen-time limits to be closer in meaning to the query",
+        "why_md": "False. Keyword search makes no judgement about meaning; it counted one shared string against zero.",
+        "misconception": "mc-keyword-is-enough"
+      },
+      {
+        "id": "d",
+        "md": "Adding *display* as a synonym of *screen* would let keyword search handle every future wording of this problem",
+        "why_md": "False. A synonym list covers only the pairs someone wrote down: *glass smashed* would still score 0.",
+        "misconception": "mc-synonym-list-closes-gap"
+      },
+      {
+        "id": "e",
+        "md": "If the repair article were titled *Repair a cracked screen*, keyword search would rank it above the screen-time article",
+        "correct": true,
+        "why_md": "True. It would share *cracked* and *screen* (score 2), beating the screen-time article (score 1)."
+      }
+    ],
+    "hints": [
+      "Check each statement against the rule: only exact shared words count, and nothing else.",
+      "True statements are about which strings are shared. A statement saying the search *judged meaning*, or that a list covers *every* future wording, is false."
+    ],
+    "solution_md": "Query words: *screen*, *cracked*. *Screen time limits for kids* shares *screen* (1); *Repair a broken display* shares nothing (0). So (a) and (b) are true, and (e) is true too: *Repair a cracked screen* would share both words (2 > 1). (c) is false: keyword search never judges meaning. (d) is false: a synonym list only covers listed pairs, so *glass smashed* would still score 0. Answer: a, b, e.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  }
+]

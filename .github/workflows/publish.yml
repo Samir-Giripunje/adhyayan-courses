@@ -1,0 +1,96 @@
+# Builds the course catalogue and publishes it on GitHub Pages:
+#   https://samir-giripunje.github.io/adhyayan-courses/catalog.json
+# On every push to main, and by hand (Actions → Publish the course catalogue → Run workflow).
+#
+# The build uses the app's own tools at the app commit pinned in app-ref.txt (so this repository decides which app
+# version validates and packs its courses): every course in published.json is validated, packed into a deterministic
+# course file, and listed in catalog.json with a revision that never goes down (it is computed against the catalogue
+# that is live now, which is why the build reads it first). Nothing is committed back.
+name: Publish the course catalogue
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One publish at a time; a newer push waits rather than cancelling a deploy in progress.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  LIVE_CATALOG: https://samir-giripunje.github.io/adhyayan-courses/catalog.json
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the courses
+        uses: actions/checkout@v5
+        with:
+          path: content
+          fetch-depth: 1
+
+      - name: Read the app version to build with (app-ref.txt)
+        id: app
+        run: |
+          ref="$(tr -d '[:space:]' < content/app-ref.txt)"
+          if ! [[ "$ref" =~ ^[0-9a-f]{40}$ ]]; then echo "app-ref.txt must hold a full commit sha of Samir-Giripunje/adhyayan" >&2; exit 1; fi
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+          echo "generated=$(git -C content log -1 --format=%cI)" >> "$GITHUB_OUTPUT"
+
+      - name: Check out the app at that commit
+        uses: actions/checkout@v5
+        with:
+          repository: Samir-Giripunje/adhyayan
+          ref: ${{ steps.app.outputs.ref }}
+          path: app
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      # Only what the command-line tools need: no Electron, no browsers for the tests, no CLI binaries of the AI SDKs.
+      - name: Install the app's tools
+        working-directory: app
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+        run: npm ci --ignore-scripts --omit=dev --omit=optional
+
+      - name: Validate every course
+        run: node app/tools/publish.mjs --root content --check
+
+      - name: Build the course files and catalog.json
+        env:
+          GENERATED: ${{ steps.app.outputs.generated }}
+        run: node app/tools/publish.mjs --root content --out site --previous "$LIVE_CATALOG" --generated "$GENERATED"
+
+      - name: Set up Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

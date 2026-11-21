@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-consensus",
+  "version": 1,
+  "title": "Consensus in one idea: Raft and coordination services",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-consensus-def",
+      "version": 1,
+      "statement": "Consensus algorithms such as Raft and Paxos let a cluster agree on a value or log order; a cluster of 2f+1 nodes tolerates f failures, so 5 nodes survive 2."
+    },
+    {
+      "id": "kc-consensus-use",
+      "version": 1,
+      "statement": "Designs rarely implement consensus directly; they use a coordination service built on it, such as ZooKeeper or etcd, for leader election, locks and configuration."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-leader-election",
+    "sd-quorum"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-quorum",
+    "sd-leader-election"
+  ],
+  "introduces": [
+    "consensus",
+    "raft",
+    "coordination service"
+  ],
+  "uses": [
+    "leader election",
+    "quorum",
+    "split brain",
+    "network partition"
+  ],
+  "problem_ideas": [
+    "How many node failures does a 3-node etcd cluster tolerate? A 4-node one?",
+    "Why do consensus clusters stay small (3–7 nodes) instead of 50?",
+    "Every write needs a majority acknowledgement across 3 regions 80 ms apart: estimate commit latency",
+    "Where would a URL shortener's key ranges be stored, and why a coordination service?",
+    "Raft in three steps: election, log replication, commit; put given events in order",
+    "Quorum replication vs consensus: what extra guarantee does consensus provide?"
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "distributed-system-and-microservices/consensus-algorithms"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "examples-15/apache-zookeeper"
+    }
+  ],
+  "status": "stub"
+}

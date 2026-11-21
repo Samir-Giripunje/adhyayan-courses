@@ -1,0 +1,74 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-load-balancers",
+  "version": 1,
+  "title": "Load balancers: what they do and why you need two",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-lb-role",
+      "version": 1,
+      "statement": "A load balancer receives client traffic and spreads it across a pool of backend servers, taking servers out of rotation when periodic health probes fail."
+    },
+    {
+      "id": "kc-lb-tls-termination",
+      "version": 1,
+      "statement": "Load balancers commonly terminate TLS, decrypting HTTPS once at the edge so backend servers handle plain HTTP inside the private network."
+    },
+    {
+      "id": "kc-lb-redundancy",
+      "version": 1,
+      "statement": "A single load balancer is itself a single point of failure, so production setups run at least two (active-passive or active-active) behind a shared virtual IP or multiple DNS records."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-vertical-horizontal-scaling"
+  ],
+  "suggests": [
+    "sd-stateless-services"
+  ],
+  "confusable_with": [
+    "sd-reverse-proxy",
+    "sd-api-gateway"
+  ],
+  "introduces": [
+    "load balancer",
+    "backend pool"
+  ],
+  "uses": [
+    "horizontal scaling",
+    "https",
+    "tls termination",
+    "ip address",
+    "dns"
+  ],
+  "problem_ideas": [
+    "Draw where the load balancers go for a three-tier app with web, API and database tiers",
+    "One of six backends starts returning 500s: walk through what the load balancer does and how fast",
+    "A design has one load balancer in front of 50 servers: name the flaw and fix it",
+    "Should traffic between the load balancer and backends be re-encrypted? Argue both sides for a payments API",
+    "A 10 Gbps load balancer fronts traffic that peaks at 14 Gbps: what are your options?",
+    "Failure story: health checks hit '/', which returns 200 even when the database is down; what goes wrong?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "load-balancers/load-balancers"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "load-balancer/load-balancer"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "workload-distribution/workload-distribution"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "redundant-load-balancers/redundant-load-balancers"
+    }
+  ],
+  "status": "stub"
+}

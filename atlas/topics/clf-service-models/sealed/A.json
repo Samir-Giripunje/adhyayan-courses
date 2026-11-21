@@ -1,0 +1,309 @@
+[
+  {
+    "id": "clf-service-models/test-a1",
+    "family": "clf-service-models-fa-iaas-genomics-os-control",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-iaas"
+    ],
+    "prompt_md": "A genomics lab needs to run analysis software that requires a custom driver installed into the server's operating system and several operating system settings changed. The lab's IT team wants full control over the operating system, including when it is updated. Which service model fits best?",
+    "options": [
+      {
+        "id": "a",
+        "md": "PaaS, such as AWS Elastic Beanstalk",
+        "why_md": "With PaaS the provider runs the operating system for you. You deploy your app, but you do not get full control over the operating system or decide when it is updated.",
+        "misconception": "mc-paas-you-patch-os"
+      },
+      {
+        "id": "b",
+        "md": "IaaS, such as Amazon EC2",
+        "correct": true,
+        "why_md": "Right. With IaaS the provider runs only the hardware. The lab runs the operating system, so it can install the driver, change the settings and decide when updates are applied."
+      },
+      {
+        "id": "c",
+        "md": "SaaS, such as a ready-made hosted analysis web app",
+        "why_md": "With SaaS the provider runs the whole app and everything beneath it. The lab would only sign in and use it, with no access to the operating system."
+      }
+    ],
+    "hints": [
+      "Find the lowest layer of the five-layer stack that the lab must control. Which model leaves that layer with the customer?",
+      "The lab must control the operating system. Only in IaaS does the customer run the operating system; the provider runs just the hardware."
+    ],
+    "solution_md": "1. The requirement is at the **operating system** layer: install a driver, change settings, decide when to update.\n2. PaaS: the provider runs the operating system, so that control is gone.\n3. SaaS: the provider runs the app and everything under it, so the lab never sees the operating system.\n4. IaaS: the provider runs only the hardware, and the customer runs the operating system and everything above it.\n\nAnswer: **IaaS, such as Amazon EC2** (b).",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/test-a2",
+    "family": "clf-service-models-fa-iaas-ar-hardware",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-iaas"
+    ],
+    "prompt_md": "A video-game studio hosts its online match servers on Amazon EC2 virtual servers.\n\n**Assertion (A):** The studio does not need to replace failed physical disks in the data center where its virtual servers run.\n\n**Reason (R):** With IaaS, the provider runs the hardware: the servers, storage and networking in the data center.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. A is true: EC2 customers never touch physical disks. R is true and is exactly why: in IaaS the hardware layer, including storage, is the provider's job."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "Both are true, but R is the direct reason for A: physical disks are hardware, and in IaaS the provider runs the hardware."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true. The hardware is the one layer the IaaS provider runs; everything above it is the customer's."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. A virtual server is a share of an AWS machine; the studio never handles the physical disks, AWS does."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately, then ask whether R is the reason A holds. Which layer is a physical disk in?",
+      "A physical disk is hardware. In IaaS, the provider runs the hardware, so A is true and R gives the reason."
+    ],
+    "solution_md": "1. **A:** a physical disk belongs to the hardware layer. With EC2 the studio rents virtual servers and never touches the machines underneath, so A is true.\n2. **R:** in IaaS the provider runs the hardware (servers, storage, networking). True.\n3. **Does R explain A?** Yes: the studio does not replace disks *because* hardware is the provider's layer in IaaS.\n\nAnswer: **Both true; R explains A** (a). Note what the studio *does* still run: the operating system and everything above it.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/test-a3",
+    "family": "clf-service-models-fa-paas-move-drops-task",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-paas"
+    ],
+    "prompt_md": "A newspaper's web team runs its reader-comments app on Amazon EC2 virtual servers (IaaS). It moves the app to **AWS Elastic Beanstalk** (PaaS). Which task comes **off** the team's list because of the move?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Fixing bugs in the comments app's code",
+        "why_md": "The application is still the team's in PaaS. Beanstalk runs the code, but the team writes and fixes it."
+      },
+      {
+        "id": "b",
+        "md": "Replacing failed hardware in the data center",
+        "why_md": "This was never on the team's list: with EC2 (IaaS) the provider already ran the hardware. So the move does not take it off."
+      },
+      {
+        "id": "c",
+        "md": "Applying security patches to the servers' operating system",
+        "correct": true,
+        "why_md": "Right. With EC2 the team ran the operating system; with Beanstalk the provider runs the operating system, so patching it comes off the team's list."
+      },
+      {
+        "id": "d",
+        "md": "Deciding which editors may delete readers' comments",
+        "why_md": "That is data and access, which the customer manages in every model, PaaS included."
+      }
+    ],
+    "hints": [
+      "Compare the two columns of the stack: which layers were the team's under IaaS but become the provider's under PaaS?",
+      "Under IaaS the team ran the operating system, runtime, app and data. Under PaaS the provider takes the operating system and runtime. Find the option at one of those layers."
+    ],
+    "solution_md": "1. Under IaaS (EC2) the team ran: operating system, runtime, application, data and access. The provider ran the hardware.\n2. Under PaaS (Beanstalk) the provider also runs the operating system and runtime.\n3. So the layers that move off the team's list are the **operating system** and **runtime**.\n4. Check each option: app bugs (application) stays; hardware was never theirs; editor permissions (access) stays; OS patches move to the provider.\n\nAnswer: **applying operating system patches** (c).",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/test-a4",
+    "family": "clf-service-models-fa-paas-describe-ruby",
+    "kind": "pattern_id",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-paas"
+    ],
+    "prompt_md": "A team describes how it runs its software:\n\n> \"We upload our Ruby web app's code. The platform provides the servers, keeps their operating system and the Ruby runtime up to date, and runs our app. We look after our code and the data it stores.\"\n\nWhich service model is this?",
+    "options": [
+      {
+        "id": "a",
+        "md": "IaaS",
+        "why_md": "With IaaS the team would run the operating system and the Ruby runtime itself. Here the platform does both."
+      },
+      {
+        "id": "b",
+        "md": "SaaS",
+        "why_md": "With SaaS the provider runs the application too, and the customer only uses a finished app. Here the app is the team's own code."
+      },
+      {
+        "id": "c",
+        "md": "PaaS",
+        "correct": true,
+        "why_md": "Right. The provider runs the hardware, operating system and runtime; the team deploys its own app and manages its data. That is PaaS, like AWS Elastic Beanstalk."
+      }
+    ],
+    "hints": [
+      "Sort the description by layer: who runs the operating system and runtime, and whose application is it?",
+      "Provider: servers, operating system, runtime. Team: its own app code and data. Which model draws the line just above the runtime?"
+    ],
+    "solution_md": "1. Provider: servers (hardware), operating system, Ruby runtime.\n2. Team: its own application code and the data it stores.\n3. The line sits between the runtime and the application. In IaaS it would sit above the hardware; in SaaS it would sit above the application.\n\nAnswer: **PaaS** (c).",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 45,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/test-a5",
+    "family": "clf-service-models-fa-saas-clinic-task-pair",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-saas"
+    ],
+    "prompt_md": "A dental clinic books patients through a SaaS appointment app that its staff open in a web browser. Which pair of tasks belongs to the **clinic**?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Patching the app's servers, and keeping patients' contact details in the app correct",
+        "why_md": "Half right: the patient details are the clinic's data. But SaaS customers never patch the servers; they never even see them.",
+        "misconception": "mc-saas-customer-patches"
+      },
+      {
+        "id": "b",
+        "md": "Releasing updates to the booking app's code, and deciding which staff get accounts",
+        "why_md": "Half right: staff accounts are the clinic's. But in SaaS the application itself is run and updated by the provider."
+      },
+      {
+        "id": "c",
+        "md": "Choosing the operating system for the app's servers, and keeping patients' contact details correct",
+        "why_md": "Half right: the patient details are the clinic's. The operating system under a SaaS app is the provider's.",
+        "misconception": "mc-saas-customer-patches"
+      },
+      {
+        "id": "d",
+        "md": "Keeping patients' contact details in the app correct, and deciding which staff get accounts",
+        "correct": true,
+        "why_md": "Right. With SaaS the customer manages only its data and who can access the app; the provider runs everything else."
+      }
+    ],
+    "hints": [
+      "In SaaS the provider runs every layer except one. Which layer stays with the customer?",
+      "The customer keeps only data and access. Find the pair where both tasks are data or access."
+    ],
+    "solution_md": "1. In SaaS the provider runs the hardware, operating system, runtime and application.\n2. The customer keeps the top layer: **data and access**.\n3. Check each half: server patches (provider), app code updates (provider), operating system (provider), patient details (data: clinic), staff accounts (access: clinic).\n4. Only one option has two clinic tasks.\n\nAnswer: **(d)** keeping patient details correct and deciding which staff get accounts.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  },
+  {
+    "id": "clf-service-models/test-a6",
+    "family": "clf-service-models-fa-saas-provider-tasks",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-saas"
+    ],
+    "prompt_md": "A travel agency's staff use a SaaS accounting app in their web browsers. Which tasks does the **provider** handle? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Applying operating system patches on the servers that run the app",
+        "correct": true,
+        "why_md": "Provider. In SaaS the operating system under the app is the provider's; the agency never sees those servers."
+      },
+      {
+        "id": "b",
+        "md": "Fixing bugs in the accounting app itself",
+        "correct": true,
+        "why_md": "Provider. In SaaS the provider runs the application, so it fixes the app's bugs."
+      },
+      {
+        "id": "c",
+        "md": "Removing the account of an accountant who has left the agency",
+        "why_md": "Agency. Who can sign in is access, which the customer manages in every model.",
+        "misconception": "mc-saas-customer-patches"
+      },
+      {
+        "id": "d",
+        "md": "Running the data center hardware that the app runs on",
+        "correct": true,
+        "why_md": "Provider. The hardware is the provider's in every model."
+      },
+      {
+        "id": "e",
+        "md": "Making sure the invoice amounts the agency enters are correct",
+        "why_md": "Agency. What the app stores is the customer's data, and the customer stays responsible for it in SaaS too."
+      }
+    ],
+    "hints": [
+      "Place each task on the five-layer stack. In SaaS, the provider runs every layer except data and access.",
+      "Operating system, application and hardware are the provider's. Accounts (access) and invoice amounts (data) are the agency's."
+    ],
+    "solution_md": "1. In SaaS the provider runs hardware, operating system, runtime and application. The customer keeps data and access.\n2. (a) operating system: provider ✔. (b) application: provider ✔. (d) hardware: provider ✔.\n3. (c) removing a leaver's account: access, the agency's. (e) invoice amounts: data, the agency's.\n\nAnswer: **a, b, d**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-service-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-service-models"
+    }
+  }
+]

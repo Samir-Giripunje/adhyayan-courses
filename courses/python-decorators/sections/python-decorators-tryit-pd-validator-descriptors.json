@@ -1,0 +1,34 @@
+{
+  "schema": "adhy.section/1",
+  "id": "python-decorators-tryit-pd-validator-descriptors",
+  "course": "python-decorators",
+  "kind": "try-it",
+  "title": "Try it: write the code",
+  "blurb": "Uses Functions as descriptors: bound methods, @classmethod and @staticmethod under the hood and Reusable validators built from descriptors: write a small program and run its tests.",
+  "after": "topic:pd-validator-descriptors",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "code",
+    "topics": [
+      "pd-bound-methods",
+      "pd-classmethod-staticmethod",
+      "pd-validator-descriptors"
+    ],
+    "kcs": [
+      "kc-functions-are-nondata",
+      "kc-bound-method-call",
+      "kc-class-decorator-binding",
+      "kc-staticmethod-get",
+      "kc-classmethod-get",
+      "kc-classmethod-alt-constructor",
+      "kc-builtin-decorator-outermost",
+      "kc-validator-abc",
+      "kc-validator-checks-every-assignment",
+      "kc-validator-reuse"
+    ],
+    "minutes": 11,
+    "why": "Uses Functions as descriptors: bound methods, @classmethod and @staticmethod under the hood and Reusable validators built from descriptors: write a small program and run its tests."
+  }
+}

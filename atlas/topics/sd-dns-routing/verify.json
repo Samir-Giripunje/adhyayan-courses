@@ -1,0 +1,33 @@
+{
+  "rounds": {
+    "lesson": 0,
+    "review": 3
+  },
+  "reauthored": {
+    "at": "2026-11-18T08:36:57.000Z",
+    "note": "new topic from the DNS split (author contract v2)"
+  },
+  "novice": {
+    "ok": true,
+    "lesson": "fc37d4581840b179657f328c9f6fe0ba23757db6e627d23dc8203870382163be",
+    "job": "novice-sd-dns-routing-r2",
+    "minor": 5
+  },
+  "review": {
+    "ok": true,
+    "content": "d0b432cc5afa4144da0d3e054ea969e2e260f09da574001a6f36e881b3541b9b",
+    "job": "review-sd-dns-routing-r4",
+    "warn": [
+      "sd-dns-routing: “With weights 3 : 1, three of every four answers name the first server” implies an exact guarantee for each four queries. Weighted DNS policies can select probabilistically; the exercises correctly ask for expected counts.",
+      "sd-dns-routing: The detection-plus-TTL calculation is taught only in collapsed Go deeper content, yet set-3, set-6 and test-b2 require it. This presents assessed material as optional enrichment."
+    ]
+  },
+  "reopened": [
+    {
+      "at": "2026-11-18T08:52:50.000Z",
+      "by": "maintainer",
+      "findings": 1,
+      "note": "re-author pass: the last critic finding fixed by hand; one final review"
+    }
+  ]
+}

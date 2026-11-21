@@ -1,0 +1,1995 @@
+{
+  "stage": {
+    "id": "sd-p5",
+    "title": "Data storage and distribution",
+    "outcome": [
+      "o3",
+      "o6"
+    ],
+    "assumes": [
+      "data model",
+      "qps",
+      "storage estimate",
+      "horizontal scaling",
+      "cache-aside",
+      "cache invalidation"
+    ],
+    "provides": [
+      "relational database",
+      "acid",
+      "transaction",
+      "database index",
+      "normalization",
+      "denormalization",
+      "nosql",
+      "key-value store",
+      "document store",
+      "wide-column store",
+      "graph database",
+      "base",
+      "object storage",
+      "replication",
+      "leader-follower replication",
+      "multi-leader replication",
+      "synchronous replication",
+      "asynchronous replication",
+      "replication lag",
+      "partitioning",
+      "sharding",
+      "shard key",
+      "consistent hashing",
+      "virtual nodes",
+      "cap theorem",
+      "strong consistency",
+      "eventual consistency",
+      "quorum"
+    ]
+  },
+  "sections": [
+    {
+      "id": "relational",
+      "title": "Relational databases: ACID, indexes and schema shape",
+      "rank": 1,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "database"
+      }
+    },
+    {
+      "id": "nosql",
+      "title": "NoSQL store types and choosing a store",
+      "rank": 2,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "high-level-differences"
+      }
+    },
+    {
+      "id": "replication",
+      "title": "Replication: copies, lag and multiple leaders",
+      "rank": 3,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "availability-patterns"
+      }
+    },
+    {
+      "id": "consistency",
+      "title": "Consistency, CAP and quorums",
+      "rank": 4,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "consistency-patterns"
+      }
+    },
+    {
+      "id": "partitioning",
+      "title": "Partitioning, sharding and consistent hashing",
+      "rank": 5,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "data-partitioning"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "sd-relational-acid",
+      "title": "Relational databases, ACID and transactions",
+      "size": "standard",
+      "est_min": 28,
+      "section": "relational",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-relational-model",
+          "statement": "A relational database stores data as rows in tables with a fixed schema and links tables through foreign keys, which SQL joins follow at query time."
+        },
+        {
+          "id": "kc-acid-properties",
+          "statement": "ACID means atomicity (all of a transaction's writes commit or none do), consistency (constraints hold after every commit), isolation (concurrent transactions do not see each other's partial work) and durability (committed data survives a crash)."
+        },
+        {
+          "id": "kc-transaction-use",
+          "statement": "Multi-row changes that must succeed together, such as debiting one account and crediting another, belong in one transaction so a crash midway leaves neither change applied."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Naming SQL as the store type and justifying it requires knowing what transactions and ACID guarantee"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-data-model"
+      ],
+      "confusable_with": [
+        "sd-cap-theorem"
+      ],
+      "introduces": [
+        "relational database",
+        "acid",
+        "transaction",
+        "foreign key",
+        "sql join"
+      ],
+      "uses": [
+        "data model",
+        "entity"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "database/relational-database-management-system-rd"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "acid/acid"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "database-fundamentals/acid-transactions"
+        }
+      ],
+      "problem_ideas": [
+        "A money transfer debits A, then the server crashes before crediting B: which ACID letter prevents the lost money?",
+        "Two users book the last seat at the same moment: which property decides that only one succeeds?",
+        "Classify each of five bugs (half-written order, negative stock, phantom read, lost commit after power cut) under the ACID letter that would prevent it",
+        "Given an e-commerce schema with users, orders and order_items, write the foreign keys and the join that lists a user's orders",
+        "Decide which of six operations (like a post, place an order, update a profile photo URL, transfer credits) truly need a multi-row transaction",
+        "Explain to an interviewer why 'consistency' in ACID is about constraints, not about replicas agreeing"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How a write-ahead log makes commits durable"
+        },
+        {
+          "kind": "edge",
+          "title": "Isolation levels: read committed, repeatable read, serializable"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Every storage choice in an interview starts from whether you need transactions; this is the baseline you compare against."
+      }
+    },
+    {
+      "id": "sd-database-indexes",
+      "title": "Database indexes and what they cost writes",
+      "size": "standard",
+      "est_min": 28,
+      "section": "relational",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-index-lookup",
+          "statement": "A B-tree index on a column turns a lookup by that column from a full table scan, O(n) rows read, into a tree search of about O(log n) page reads."
+        },
+        {
+          "id": "kc-index-write-cost",
+          "statement": "Every secondary index must be updated on each insert, and on each update to the indexed column, so adding indexes speeds reads but slows writes and uses extra storage."
+        },
+        {
+          "id": "kc-composite-index-order",
+          "statement": "A composite index on (a, b) serves queries that filter on a, or on a and b, but not queries that filter only on b."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-relational-acid",
+          "reason": "Indexes are defined on table columns; the lesson needs the relational table model"
+        }
+      ],
+      "suggests": [
+        "sd-data-model"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "database index",
+        "b-tree index",
+        "full table scan",
+        "secondary index",
+        "composite index"
+      ],
+      "uses": [
+        "relational database",
+        "access pattern",
+        "read-to-write ratio"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "database/use-good-indices"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "database-fundamentals/database-indexes"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "dense-index/dense-index"
+        }
+      ],
+      "problem_ideas": [
+        "A 100M-row users table is queried by email 5,000 times a second with no index: estimate rows read per query with and without a B-tree",
+        "Given an index on (user_id, created_at), predict which of five WHERE clauses can use it",
+        "A write-heavy logging table has six secondary indexes; estimate how many index updates one insert causes and propose which to drop",
+        "Pick the indexes for a URL shortener table queried by short_code and by owner_id",
+        "A query filters on status, which has only three values: argue whether an index on it helps",
+        "Predict the change in insert throughput after adding two indexes to a table taking 20k writes/s"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "B-tree vs LSM-tree storage engines"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Covering indexes and index-only scans"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Interviewers expect you to name the index behind each hot query in your data model and admit its write cost."
+      }
+    },
+    {
+      "id": "sd-normalization",
+      "title": "Normalization: store each fact once",
+      "size": "standard",
+      "est_min": 20,
+      "section": "relational",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-normalization-purpose",
+          "statement": "Normalization stores each fact in exactly one row, so an update touches one place and copies cannot disagree (no update anomaly)."
+        },
+        {
+          "id": "kc-normalization-cost",
+          "statement": "A normalized schema answers reads that combine entities with joins, which grow expensive as tables grow and are hard to run when tables live on different machines."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-relational-acid",
+          "reason": "Normalization is defined over relational tables and foreign keys"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-denormalization"
+      ],
+      "introduces": [
+        "normalization",
+        "update anomaly"
+      ],
+      "uses": [
+        "relational database",
+        "sql join",
+        "entity"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "normalization/normalization"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "terms/anomalies"
+        }
+      ],
+      "problem_ideas": [
+        "An orders table repeats the customer's address on every row; show the update anomaly when the customer moves",
+        "Split a flat spreadsheet of (student, course, instructor, instructor_email) into normalized tables",
+        "Count the joins needed to render a news-feed item (post, author, like count, top comment) in a fully normalized schema",
+        "Spot the anomaly in a schema where product price is stored on both products and cart_items",
+        "Explain why a normalized schema is the safe default for a payments ledger",
+        "Given three queries, say which become slow first as tables grow to a billion rows"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "First, second and third normal forms"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "Useful vocabulary for the data-model step; interviews rarely ask for normal forms by name."
+      }
+    },
+    {
+      "id": "sd-denormalization",
+      "title": "Denormalization and materialized views",
+      "size": "standard",
+      "est_min": 28,
+      "section": "relational",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-denormalization-def",
+          "statement": "Denormalization copies data into the rows that read it, such as storing author_name on each post, so a hot read needs no join."
+        },
+        {
+          "id": "kc-denormalization-cost",
+          "statement": "Denormalized copies must be updated on every write to the source, so denormalization suits read-heavy workloads and risks copies drifting out of sync."
+        },
+        {
+          "id": "kc-materialized-view",
+          "statement": "A materialized view stores the precomputed result of a query and is refreshed on a schedule or on change, trading freshness for read speed."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-normalization",
+          "reason": "Denormalization is defined as deliberately undoing normalization; the lesson needs it as the baseline"
+        }
+      ],
+      "suggests": [
+        "sd-cache-aside"
+      ],
+      "confusable_with": [
+        "sd-normalization"
+      ],
+      "introduces": [
+        "denormalization",
+        "materialized view"
+      ],
+      "uses": [
+        "normalization",
+        "sql join",
+        "read-to-write ratio"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "databases/denormalization"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "database/denormalization"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "materialized-views/materialized-views"
+        }
+      ],
+      "problem_ideas": [
+        "A feed reads 100:1 over writes and joins posts with users on every read: decide what to denormalize",
+        "A user renames themselves and appears on 50,000 posts with a copied author_name: estimate the write fan-out",
+        "Design a materialized view for 'top 10 products per category' refreshed every 5 minutes, and state the staleness",
+        "Choose between a cache and a materialized view for a dashboard query that takes 4 seconds",
+        "List what breaks if the job updating denormalized like counts fails silently for an hour",
+        "Decide whether to denormalize the account balance in a banking app and justify it"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Keeping copies in sync with change data capture"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Read-heavy interview prompts almost always end with a denormalized read model; you must name its cost."
+      }
+    },
+    {
+      "id": "sd-nosql-base",
+      "title": "NoSQL and the BASE trade-off",
+      "size": "standard",
+      "est_min": 20,
+      "section": "nosql",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-nosql-def",
+          "statement": "NoSQL is a family of non-relational data models (key-value, document, wide-column, graph); many NoSQL stores trade joins and multi-record transactions for flexible schemas and built-in partitioning, but some offer transactions and strongly consistent reads, so guarantees must be checked per store."
+        },
+        {
+          "id": "kc-base-def",
+          "statement": "BASE (basically available, soft state, eventually consistent) is an optional design approach that favours answering during failures and letting replicas converge later; it is a choice some stores make, not a property of every NoSQL store nor the opposite of ACID."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Choosing a NoSQL store type requires knowing which guarantees a given store keeps or drops compared with a relational one"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-relational-acid",
+          "reason": "BASE is introduced by comparison with ACID transactions"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-relational-acid"
+      ],
+      "introduces": [
+        "nosql",
+        "base",
+        "schema-less"
+      ],
+      "uses": [
+        "relational database",
+        "acid",
+        "horizontal scaling"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "database/nosql"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "base/base"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "acid-vs-base-trade-offs/acid-vs-base-trade-offs"
+        }
+      ],
+      "problem_ideas": [
+        "Sort eight features (likes, wallet balance, product catalog, seat booking, view counts, sessions, audit log, chat history) into 'needs multi-record transactions' and 'eventual consistency is fine'",
+        "A like counter shows 1,203 on one device and 1,201 on another for two seconds: explain why a BASE-style store allows it",
+        "Name what you may lose when moving a users table from SQL to a key-value store, and how to check whether the chosen store keeps it",
+        "An interviewer says 'NoSQL scales, SQL doesn't': give the nuanced answer, covering sharded SQL and transactional NoSQL",
+        "Explain soft state using a shopping cart replicated across two regions",
+        "List three NoSQL stores you know, the family each belongs to, and whether it offers transactions"
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "Why Dynamo and Bigtable started the NoSQL wave"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "'SQL or NoSQL?' is asked in almost every design interview; this is the vocabulary for answering it."
+      }
+    },
+    {
+      "id": "sd-key-value-store",
+      "title": "Key-value stores",
+      "size": "standard",
+      "est_min": 20,
+      "section": "nosql",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-kv-model",
+          "statement": "A key-value store gives efficient lookup and write of a value by its key (exact cost and latency depend on the implementation: hash table, B-tree or LSM-tree) and cannot query by fields inside the value without a separately maintained index."
+        },
+        {
+          "id": "kc-kv-uses",
+          "statement": "Key-value stores fit lookups by ID with no relations, such as sessions, shopping carts, short-code-to-URL mappings and feature flags."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Key-value is one of the four store types the outcome asks the learner to name and justify"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-nosql-base",
+          "reason": "Key-value stores are introduced as one NoSQL family"
+        }
+      ],
+      "suggests": [
+        "sd-distributed-cache"
+      ],
+      "confusable_with": [
+        "sd-document-store"
+      ],
+      "introduces": [
+        "key-value store"
+      ],
+      "uses": [
+        "nosql",
+        "access pattern"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "application-layer/key-value-store"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "database/key-value-store"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "examples-7/key-value"
+        }
+      ],
+      "problem_ideas": [
+        "Design the key and value for a URL shortener's redirect lookup",
+        "A product manager asks for 'all carts containing item X' from a key-value cart store: explain the problem and a fix",
+        "Choose a key scheme for user sessions that expire after 30 minutes",
+        "Decide whether a leaderboard sorted by score fits a plain key-value store",
+        "Estimate memory for 500M short-code mappings at 100 bytes each",
+        "Compare a key-value store with a cache for storing feature flags"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "How a log-structured key-value store appends and compacts"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "The URL shortener, session store and many deep dives reach for a key-value store first."
+      }
+    },
+    {
+      "id": "sd-document-store",
+      "title": "Document stores",
+      "size": "standard",
+      "est_min": 20,
+      "section": "nosql",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-document-model",
+          "statement": "A document store keeps self-contained JSON-like documents whose fields may differ between documents and can be queried and indexed by fields inside the document."
+        },
+        {
+          "id": "kc-document-fit",
+          "statement": "Document stores fit data read as one aggregate, such as a product with its variants or a user profile, and fit poorly when many-to-many relationships need joins."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Document store is one of the four store types the outcome asks the learner to name and justify"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-nosql-base",
+          "reason": "Document stores are introduced as one NoSQL family"
+        }
+      ],
+      "suggests": [
+        "sd-database-indexes"
+      ],
+      "confusable_with": [
+        "sd-key-value-store"
+      ],
+      "introduces": [
+        "document store",
+        "aggregate"
+      ],
+      "uses": [
+        "nosql",
+        "database index",
+        "sql join"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "application-layer/document-store"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "database/document-store"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "examples-7/document"
+        }
+      ],
+      "problem_ideas": [
+        "Model a product catalog where shoes have sizes and laptops have RAM options as documents",
+        "Decide whether a social graph of followers belongs in a document store",
+        "Show the update problem when an author's name is embedded in 10,000 article documents",
+        "Choose between embedding comments in a post document and storing them separately, given posts with up to 50,000 comments",
+        "Write the index you'd add to find orders by customer_id in a document store",
+        "Pick SQL or a document store for a CMS with highly varied page layouts"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Document size limits and unbounded arrays"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "A common, defensible choice for catalogs and profiles; you need its one big weakness ready."
+      }
+    },
+    {
+      "id": "sd-wide-column-store",
+      "title": "Wide-column stores",
+      "size": "standard",
+      "est_min": 20,
+      "section": "nosql",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-wide-column-model",
+          "statement": "A wide-column store such as Cassandra or Bigtable groups rows by a partition key and keeps each partition's rows sorted by a clustering key, so range reads within one partition are fast."
+        },
+        {
+          "id": "kc-wide-column-fit",
+          "statement": "Wide-column stores suit very high write volumes with known query shapes, such as chat messages keyed by (conversation_id, timestamp), and need one table per query pattern."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Wide-column is one of the four store types the outcome asks the learner to name and justify"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-nosql-base",
+          "reason": "Wide-column stores are introduced as one NoSQL family"
+        }
+      ],
+      "suggests": [
+        "sd-denormalization"
+      ],
+      "confusable_with": [
+        "sd-relational-acid"
+      ],
+      "introduces": [
+        "wide-column store",
+        "partition key",
+        "clustering key"
+      ],
+      "uses": [
+        "nosql",
+        "access pattern",
+        "denormalization"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "application-layer/wide-column-store"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "database/wide-column-store"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "examples-7/wide-column"
+        }
+      ],
+      "problem_ideas": [
+        "Design the partition and clustering keys for 'last 50 messages in a chat'",
+        "A chat app writes 1M messages/s: argue for a wide-column store over a single SQL leader",
+        "The product asks for 'all messages by user X across chats': design the second table",
+        "Spot the problem with partitioning IoT metrics by device_type alone",
+        "Choose clustering order (ascending or descending timestamp) for an activity feed",
+        "Estimate partition size for a group chat with 1,000 messages a day kept for 5 years"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Memtables, SSTables and why writes are cheap"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "The standard answer for chat history and timelines in interviews; expect to defend the partition key."
+      }
+    },
+    {
+      "id": "sd-graph-database",
+      "title": "Graph databases in one idea",
+      "size": "micro",
+      "est_min": 10,
+      "section": "nosql",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-graph-db",
+          "statement": "A graph database stores nodes and edges and follows relationships by traversal, so multi-hop queries like friends-of-friends stay fast where SQL would need repeated self-joins."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-nosql-base",
+          "reason": "Graph databases are introduced as one NoSQL family"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "graph database"
+      ],
+      "uses": [
+        "nosql",
+        "sql join"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "application-layer/graph-databases"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "database/graph-database"
+        }
+      ],
+      "problem_ideas": [
+        "Count the self-joins SQL needs for 'friends of friends of friends'",
+        "Pick the store for a fraud-ring detector linking cards, devices and addresses",
+        "Decide whether a follower count belongs in a graph database",
+        "Model 'people you may know' as nodes and edges",
+        "Argue against a graph database for a simple follow list read only one hop deep",
+        "List two interview prompts where a graph store is a reasonable mention"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.4,
+        "reason": "Rarely the main store in an interview; worth one sentence when a prompt is about relationships."
+      }
+    },
+    {
+      "id": "sd-object-storage",
+      "title": "Object storage for files and media",
+      "size": "standard",
+      "est_min": 20,
+      "section": "nosql",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-object-storage-model",
+          "statement": "Object storage (S3-style) keeps immutable blobs under keys in a flat namespace with metadata, accessed over HTTP; it scales cheaply to petabytes but cannot update part of an object in place."
+        },
+        {
+          "id": "kc-object-storage-pattern",
+          "statement": "Images and videos go in object storage while the database keeps only each object's key and metadata, and the bytes are served to users through a CDN."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Photo, video and chat case studies in a mock interview all need media stored outside the database"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-cdn"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "object storage",
+        "blob"
+      ],
+      "uses": [
+        "http",
+        "cdn",
+        "storage estimate"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "object-storage/object-storage"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "file-storage/file-storage"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "block-storage/block-storage"
+        }
+      ],
+      "problem_ideas": [
+        "Instagram stores 100M photos a day at 2 MB each: compute yearly storage and say where it lives",
+        "A teammate stores profile pictures as BLOB columns in Postgres: list three problems",
+        "Design the upload path for a 2 GB video so the bytes never pass through the app servers",
+        "Decide what goes in the database row for a stored video",
+        "Explain why appending a line to a log file in object storage is expensive",
+        "Choose between object storage and a file system for user-uploaded documents shared by many servers"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Pre-signed URLs for direct client uploads"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Any prompt with photos, video or attachments expects 'object storage plus CDN' within the first diagram."
+      }
+    },
+    {
+      "id": "sd-sql-vs-nosql",
+      "title": "Choosing SQL or NoSQL for a workload",
+      "size": "standard",
+      "est_min": 28,
+      "section": "nosql",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-choose-sql",
+          "statement": "Choose a relational database when the data is relational and you need joins, multi-row transactions or strict constraints, as with orders and payments; relational databases can also scale out with read replicas and sharding."
+        },
+        {
+          "id": "kc-choose-nosql",
+          "statement": "Choose a specific NoSQL store by comparing it on access pattern (lookup by a known key, whole-aggregate reads, partition-plus-range reads), schema flexibility, transaction scope, consistency options and built-in partitioning, not on the belief that only NoSQL scales."
+        },
+        {
+          "id": "kc-polyglot-persistence",
+          "statement": "A design may use several stores, each matched to one access pattern, for example SQL for orders, a key-value store for sessions and object storage for images."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "The outcome's product is a named store type with a stated trade-off; this topic is that decision"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-relational-acid",
+          "reason": "The SQL side of the choice rests on transactions and joins"
+        },
+        {
+          "topic": "sd-nosql-base",
+          "reason": "The NoSQL side of the choice rests on which guarantees a given store keeps or drops"
+        }
+      ],
+      "suggests": [
+        "sd-key-value-store",
+        "sd-wide-column-store",
+        "sd-document-store"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "polyglot persistence"
+      ],
+      "uses": [
+        "relational database",
+        "nosql",
+        "key-value store",
+        "document store",
+        "wide-column store",
+        "object storage",
+        "transaction",
+        "access pattern"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "databases/sql-vs-nosql"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "database/sql-or-nosql"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "reasons/reasons"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "database-fundamentals/sql-vs-nosql"
+        }
+      ],
+      "problem_ideas": [
+        "Pick a store for each of: URL mappings, chat messages, payment ledger, product catalog, user sessions, uploaded videos",
+        "A startup with 10k users wants Cassandra 'for scale': give the counter-argument with numbers",
+        "Write a one-sentence justification and one accepted trade-off for using SQL in a hotel booking system",
+        "Ride hailing needs trips (transactional) and driver location pings (200k writes/s): split the storage and compare a sharded SQL option with a wide-column one",
+        "Review a design using one MongoDB for everything including wallet balances: identify what to verify about its transaction scope and consistency settings",
+        "Rank three store choices for a news feed timeline by read latency and write cost"
+      ],
+      "depth_threads": [
+        {
+          "kind": "frontier",
+          "title": "NewSQL: distributed SQL with transactions (Spanner, CockroachDB)"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "This exact choice, with one trade-off, is what interviewers grade in the data-storage part of every prompt."
+      }
+    },
+    {
+      "id": "sd-replication-leader-follower",
+      "title": "Replication and leader-follower setups",
+      "size": "standard",
+      "est_min": 28,
+      "section": "replication",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-replication-purpose",
+          "statement": "Replication keeps copies of the same data on several nodes so the data survives a node loss and read load can be spread across copies."
+        },
+        {
+          "id": "kc-leader-follower",
+          "statement": "In leader-follower replication all writes go to one leader, which streams its changes to followers that serve reads; read capacity grows with followers but write capacity stays that of one node."
+        },
+        {
+          "id": "kc-leader-loss",
+          "statement": "When the leader of a leader-follower setup dies, writes stop until a follower is promoted to leader and clients are redirected to it."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "The outcome requires naming a replication mode; leader-follower is the default one"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-vertical-horizontal-scaling"
+      ],
+      "confusable_with": [
+        "sd-multi-leader-replication"
+      ],
+      "introduces": [
+        "replication",
+        "leader-follower replication",
+        "read replica"
+      ],
+      "uses": [
+        "horizontal scaling",
+        "read-to-write ratio",
+        "replication factor"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "databases/replication"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "database/master-slave-replication"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "master-slave-replication/master-slave-replication"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "database-fundamentals/database-replication"
+        }
+      ],
+      "problem_ideas": [
+        "A service does 50k reads/s and 2k writes/s; one node handles 10k QPS: how many read replicas, and is writing still fine?",
+        "Writes grow to 30k/s: explain why adding followers does not help",
+        "Draw the read and write paths for a leader with three followers behind the app tier",
+        "The leader's disk dies at 3 a.m.: list what happens to writes and reads until recovery",
+        "Compare replication with a cache for absorbing a 10× read spike",
+        "Pick a replication factor for user data and justify it in one line"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Statement-based vs log-shipping replication"
+        },
+        {
+          "kind": "edge",
+          "title": "Split brain when two nodes think they are leader"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Read replicas are the first scaling move interviewers expect for read-heavy prompts."
+      }
+    },
+    {
+      "id": "sd-sync-async-replication",
+      "title": "Synchronous vs asynchronous replication",
+      "size": "standard",
+      "est_min": 20,
+      "section": "replication",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-sync-replication",
+          "statement": "With synchronous replication the leader acknowledges a write only after a follower has stored it, so no acknowledged write is lost if the leader dies, but every write pays the follower round trip and stalls if that follower is down."
+        },
+        {
+          "id": "kc-async-replication",
+          "statement": "With asynchronous replication the leader acknowledges a write immediately and ships it to followers afterwards, giving low write latency but losing the not-yet-replicated writes if the leader dies."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "The outcome's replication mode must be stated with its trade-off, which is the sync vs async choice"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-replication-leader-follower",
+          "reason": "Sync and async describe how the leader ships writes to followers"
+        }
+      ],
+      "suggests": [
+        "sd-latency-numbers"
+      ],
+      "confusable_with": [
+        "sd-replication-lag"
+      ],
+      "introduces": [
+        "synchronous replication",
+        "asynchronous replication"
+      ],
+      "uses": [
+        "leader-follower replication",
+        "latency",
+        "round trip time"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "synchronous-vs-asynchronous-replication/synchronous-vs-asynchronous-replication"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "master-slave-replication/disadvantages"
+        }
+      ],
+      "problem_ideas": [
+        "A follower in another region is 80 ms away: compute write latency under sync vs async replication",
+        "A payment ledger and a like counter: pick sync or async for each and state the risk accepted",
+        "The leader dies with 2 seconds of unreplicated writes at 5k writes/s: how many writes are lost?",
+        "Explain why 'sync to one follower, async to the rest' is a common compromise",
+        "A sync follower goes down: describe what happens to writes and how to avoid it",
+        "Write the one-sentence trade-off an interviewer wants for async replication"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Semi-synchronous replication in practice"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "The durability-vs-latency line you say whenever you mention replicas; interviewers probe it."
+      }
+    },
+    {
+      "id": "sd-replication-lag",
+      "title": "Replication lag and read-your-writes",
+      "size": "standard",
+      "est_min": 20,
+      "section": "replication",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-replication-lag",
+          "statement": "Replication lag is the delay between a write committing on the leader and appearing on a follower, so a read served by a follower can return stale data."
+        },
+        {
+          "id": "kc-read-your-writes",
+          "statement": "To give a user read-your-writes, route that user's reads to the leader for a short window after they write, or until the follower has applied that write."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-sync-async-replication",
+          "reason": "Lag only arises with asynchronous shipping to followers"
+        }
+      ],
+      "suggests": [
+        "sd-cache-invalidation-ttl"
+      ],
+      "confusable_with": [
+        "sd-sync-async-replication"
+      ],
+      "introduces": [
+        "replication lag",
+        "read-your-writes"
+      ],
+      "uses": [
+        "asynchronous replication",
+        "read replica",
+        "stale data"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "master-slave-replication/disadvantages"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "database/master-slave-replication"
+        }
+      ],
+      "problem_ideas": [
+        "A user edits their bio and refreshes 300 ms later; lag is 1 s: predict what they see and fix it",
+        "Lag spikes to 30 s during a batch import: list which features break",
+        "Design a rule that routes reads to the leader for 5 seconds after a write; estimate the extra leader load",
+        "A user sees a comment, refreshes, and it disappears: explain with two replicas at different lag",
+        "Pick which reads in a banking app must never go to a follower",
+        "Lag is 200 ms on average and 4 s at p99: decide whether a cache in front changes the staleness story"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Monotonic reads and sticky replica routing"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "A frequent interviewer follow-up after you add read replicas: 'what if the user reads their own write?'"
+      }
+    },
+    {
+      "id": "sd-multi-leader-replication",
+      "title": "Multi-leader replication and write conflicts",
+      "size": "standard",
+      "est_min": 28,
+      "section": "replication",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-multi-leader",
+          "statement": "Multi-leader replication lets more than one node accept writes, typically one leader per region, so writes stay local and a region's loss does not stop writes elsewhere."
+        },
+        {
+          "id": "kc-write-conflicts",
+          "statement": "Two leaders can accept conflicting writes to the same record before they sync, so a multi-leader setup needs a conflict-resolution rule."
+        },
+        {
+          "id": "kc-last-write-wins",
+          "statement": "Last-write-wins keeps the write with the latest timestamp and silently discards the other, which loses data when writes are concurrent or clocks are skewed."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-replication-leader-follower",
+          "reason": "Multi-leader is taught as the extension of single-leader replication"
+        },
+        {
+          "topic": "sd-sync-async-replication",
+          "reason": "Conflicts exist because leaders replicate to each other asynchronously"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-replication-leader-follower"
+      ],
+      "introduces": [
+        "multi-leader replication",
+        "write conflict",
+        "last-write-wins"
+      ],
+      "uses": [
+        "replication",
+        "leader-follower replication",
+        "asynchronous replication"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "database/master-master-replication"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "master-master-replication/master-master-replication"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "master-master-replication/disadvantages"
+        }
+      ],
+      "problem_ideas": [
+        "Two users in US and EU rename the same shared doc within 100 ms: show what last-write-wins keeps",
+        "A server's clock runs 3 s fast: show how last-write-wins drops a later write",
+        "Decide whether a global inventory counter can use multi-leader writes",
+        "Design per-region leaders for a social app and state which data is written where",
+        "Give a conflict rule for a shopping cart that never loses an added item",
+        "List two reasons interviewers push back when you propose multi-leader by default"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Version vectors and CRDTs for conflict-free merges"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Comes up for multi-region prompts; most designs stay single-leader, so know when not to use it."
+      }
+    },
+    {
+      "id": "sd-consistency-models",
+      "title": "Strong, eventual and weak consistency",
+      "size": "standard",
+      "est_min": 28,
+      "section": "consistency",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-strong-consistency",
+          "statement": "Under strong consistency every read returns the most recent acknowledged write, which typically requires reading from the leader or waiting for replicas to agree."
+        },
+        {
+          "id": "kc-eventual-consistency",
+          "statement": "Under eventual consistency replicas may return stale values for a while but converge to the same value once new writes stop."
+        },
+        {
+          "id": "kc-weak-consistency",
+          "statement": "Under weak consistency a read may never see a given write, which is acceptable for data such as live video frames or game positions where only the latest value matters."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "The outcome requires stating a consistency level for the chosen store"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-replication-lag",
+          "reason": "The models are defined by how they treat lag between replicas"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-cap-theorem"
+      ],
+      "introduces": [
+        "strong consistency",
+        "eventual consistency",
+        "weak consistency"
+      ],
+      "uses": [
+        "replication",
+        "replication lag"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "consistency-patterns/consistency-patterns"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "consistency-patterns/strong-consistency"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "consistency-patterns/eventual-consistency"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-tradeoffs/strong-vs-eventual-consistency"
+        }
+      ],
+      "problem_ideas": [
+        "Assign a consistency model to: bank balance, follower count, VoIP audio, seat inventory, profile bio, DNS record",
+        "A tweet's like count differs across two phones for 3 seconds: name the model and say if it is acceptable",
+        "Explain what an interviewer means by 'eventually' when no bound is given",
+        "Describe what a strongly consistent read costs in latency when the leader is in another region",
+        "A booking system shows a seat free that was just sold: identify the model failure and fix",
+        "Write the consistency line for a URL shortener's redirect lookup"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Linearizability vs serializability"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Every storage answer must state its consistency level; this gives you the three words and when each fits."
+      }
+    },
+    {
+      "id": "sd-cap-theorem",
+      "title": "CAP theorem: what you give up during a partition",
+      "size": "standard",
+      "est_min": 28,
+      "section": "consistency",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cap-statement",
+          "statement": "During a network partition, a replicated store cannot guarantee both linearizable consistency and availability: preserving consistency can require refusing or delaying requests, and preserving availability can require returning responses that may be stale or otherwise violate consistency."
+        },
+        {
+          "id": "kc-cp-vs-ap",
+          "statement": "A CP system, such as a bank ledger, rejects requests it cannot confirm during a partition; an AP system, such as a shopping cart or like counter, keeps serving and reconciles afterwards."
+        },
+        {
+          "id": "kc-cap-misread",
+          "statement": "A networked store cannot opt out of partitions, so 'CA' is not a real choice for it; when there is no partition the remaining trade-off is latency against consistency."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Justifying the consistency level against availability is the trade-off the outcome asks for"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-consistency-models",
+          "reason": "CAP's C is strong consistency; the lesson cannot state the theorem without it"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-consistency-models",
+        "sd-relational-acid"
+      ],
+      "introduces": [
+        "cap theorem",
+        "network partition",
+        "cp system",
+        "ap system"
+      ],
+      "uses": [
+        "strong consistency",
+        "eventual consistency",
+        "replication"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "availability-vs-consistency/cap-theorem"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "availability-vs-consistency/cap-theorem"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "consistency-availability-tradeoff/consistency-availability-tradeoff"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "core-concepts/cap-theorem"
+        }
+      ],
+      "problem_ideas": [
+        "The link between two data centres drops for 90 s: walk through what a CP and an AP store do for a write",
+        "Classify ticket booking, social likes, DNS, a payment ledger and a product catalog as CP or AP",
+        "An interviewer asks 'is your design CA?': give the correct answer in two sentences",
+        "Explain why the C in CAP is not the C in ACID",
+        "Choose CP or AP for a ride-hailing driver location store and defend it",
+        "A shopping cart chose AP: describe how two divergent carts are merged after the partition heals"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "PACELC: the trade-off when nothing is broken"
+        },
+        {
+          "kind": "history",
+          "title": "Brewer's conjecture and the 2002 proof"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Asked by name in most interviews; the CP vs AP call is how you justify a store's consistency."
+      }
+    },
+    {
+      "id": "sd-quorum",
+      "title": "Quorum reads and writes: R + W > N",
+      "size": "standard",
+      "est_min": 28,
+      "section": "consistency",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-leaderless-replication",
+          "statement": "In leaderless (Dynamo-style) replication a client sends each write and read to several replicas directly, with no single leader ordering writes."
+        },
+        {
+          "id": "kc-quorum-overlap",
+          "statement": "With N replicas, writing to W and reading from R where R + W > N guarantees the read set overlaps the latest write set, so at least one replica read holds the latest value."
+        },
+        {
+          "id": "kc-quorum-tuning",
+          "statement": "Lowering W or R speeds that operation and tolerates more unavailable replicas for it; with N=3, W=1, R=3, writes succeed with one replica up but reads fail if any replica is down."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Stating a tunable consistency level for a leaderless store means choosing N, R and W"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-consistency-models",
+          "reason": "Quorum settings are explained by the consistency they buy"
+        }
+      ],
+      "suggests": [
+        "sd-cap-theorem"
+      ],
+      "confusable_with": [
+        "sd-replication-leader-follower"
+      ],
+      "introduces": [
+        "quorum",
+        "leaderless replication"
+      ],
+      "uses": [
+        "replication",
+        "strong consistency",
+        "eventual consistency",
+        "replication factor"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "data-replication/data-replication"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "consistency-patterns/consistency-patterns"
+        }
+      ],
+      "problem_ideas": [
+        "N=3: list every (R, W) pair that satisfies R + W > N",
+        "N=5, W=3, R=3: how many replicas can be down while both reads and writes still succeed?",
+        "N=3, W=2, R=1: show a sequence where a read returns stale data",
+        "Pick N, R, W for a write-heavy metrics store that tolerates staleness",
+        "Pick N, R, W for a user-settings store that must read its own writes",
+        "Compute read latency when R=2 and the three replicas answer in 5 ms, 12 ms and 80 ms"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Sloppy quorums and hinted handoff"
+        },
+        {
+          "kind": "mechanism",
+          "title": "Read repair and anti-entropy"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "The go-to deep dive for a distributed key-value store prompt; interviewers like the arithmetic."
+      }
+    },
+    {
+      "id": "sd-partitioning-basics",
+      "title": "Partitioning: vertical, horizontal and federation",
+      "size": "standard",
+      "est_min": 28,
+      "section": "partitioning",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-partitioning-why",
+          "statement": "Partitioning splits one dataset across nodes so each holds a fraction of the data and serves a fraction of the queries, which raises write capacity where replication alone cannot."
+        },
+        {
+          "id": "kc-vertical-vs-horizontal-partitioning",
+          "statement": "Vertical partitioning splits data by columns or tables, while horizontal partitioning splits the rows of one table by a key value."
+        },
+        {
+          "id": "kc-federation",
+          "statement": "Federation splits a database by function, such as separate users, products and orders databases, which cuts per-database load but turns cross-function queries into application-side joins."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Deciding whether and how to split data comes before choosing a shard key"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-replication-leader-follower"
+      ],
+      "confusable_with": [
+        "sd-replication-leader-follower"
+      ],
+      "introduces": [
+        "partitioning",
+        "vertical partitioning",
+        "horizontal partitioning",
+        "federation"
+      ],
+      "uses": [
+        "replication",
+        "storage estimate",
+        "qps"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "data-partitioning/data-partitioning"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "data-partitioning/methods"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "databases/federation"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "database/federation"
+        }
+      ],
+      "problem_ideas": [
+        "A 20 TB table on 4 TB nodes: compute the minimum number of horizontal partitions",
+        "Split a users table with a large rarely-read bio column vertically and say what improves",
+        "Federate an e-commerce monolith database and list the queries that now need two databases",
+        "Explain to an interviewer why 10 read replicas don't fix a write bottleneck of 40k writes/s",
+        "Decide between federation and sharding for an orders table growing 1 TB a month",
+        "Draw replication and partitioning together: 4 partitions, each with 2 followers"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Partitioning inside one database vs across servers"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "You must explain why you split data before an interviewer accepts a sharded design."
+      }
+    },
+    {
+      "id": "sd-sharding-strategies",
+      "title": "Sharding strategies: range, hash and directory",
+      "size": "standard",
+      "est_min": 28,
+      "section": "partitioning",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-sharding-def",
+          "statement": "Sharding is horizontal partitioning across separate database servers, where each shard owns the rows whose shard key maps to it."
+        },
+        {
+          "id": "kc-range-vs-hash",
+          "statement": "Range sharding keeps adjacent keys together so range scans hit one shard, but sequential keys like timestamps all land on the newest shard; hash sharding spreads keys evenly but sends range scans to every shard."
+        },
+        {
+          "id": "kc-directory-sharding",
+          "statement": "Directory-based sharding keeps a lookup table from key to shard, which lets individual keys move but adds a lookup per query and a component that must stay available."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "The outcome's shard key choice is made within a sharding strategy"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-partitioning-basics",
+          "reason": "Sharding is defined as horizontal partitioning across servers"
+        }
+      ],
+      "suggests": [
+        "sd-lb-algorithms"
+      ],
+      "confusable_with": [
+        "sd-partitioning-basics"
+      ],
+      "introduces": [
+        "sharding",
+        "shard key",
+        "range-based sharding",
+        "hash-based sharding",
+        "directory-based sharding"
+      ],
+      "uses": [
+        "horizontal partitioning"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "databases/sharding"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "database/sharding"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "partitioning-criteria/hash-based"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "partitioning-criteria/range-based"
+        }
+      ],
+      "problem_ideas": [
+        "Shard orders by created_at range across 8 shards and predict the load on each during today's traffic",
+        "Shard the same orders by hash(order_id) and count shards touched by 'orders from last hour'",
+        "Choose range or hash sharding for a time-series metrics store queried by time window",
+        "A tenant must move to a dedicated shard: show why directory sharding makes it easy",
+        "Assign 10 sample user_ids to 4 shards with hash mod 4",
+        "List what breaks if the shard directory service is down"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Geo-sharding by user region"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Sharding is the standard deep dive once storage or write QPS outgrows one node."
+      }
+    },
+    {
+      "id": "sd-shard-key",
+      "title": "Choosing a shard key and avoiding hot shards",
+      "size": "standard",
+      "est_min": 28,
+      "section": "partitioning",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-shard-key-criteria",
+          "statement": "A good shard key has high cardinality, spreads load evenly and matches the dominant access pattern so most queries touch a single shard."
+        },
+        {
+          "id": "kc-hot-shard",
+          "statement": "A skewed shard key, such as a celebrity's user_id or the current date, sends most traffic to one shard; fixes include salting the key with a suffix or splitting that key's data across shards."
+        },
+        {
+          "id": "kc-cross-shard-cost",
+          "statement": "Queries that do not filter on the shard key must scatter to every shard and gather the results, and joins or transactions across shards need application logic."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "The outcome's product explicitly includes a justified shard key"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-sharding-strategies",
+          "reason": "Choosing a key presupposes knowing how keys map to shards"
+        }
+      ],
+      "suggests": [
+        "sd-hot-keys-thundering-herd"
+      ],
+      "confusable_with": [
+        "sd-hot-keys-thundering-herd"
+      ],
+      "introduces": [
+        "hot shard",
+        "scatter-gather query",
+        "key salting"
+      ],
+      "uses": [
+        "shard key",
+        "sharding",
+        "access pattern",
+        "hot key",
+        "qps"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "disadvantages-3/disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "when-to-use-sharding/when-to-use-sharding"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "database-fundamentals/database-sharding"
+        }
+      ],
+      "problem_ideas": [
+        "Pick a shard key for chat messages, tweets, URL mappings and ride trips, with one sentence each",
+        "A celebrity with 50M followers posts; with 16 shards keyed by user_id, predict the share of feed reads hitting one shard",
+        "Salt a hot key into 8 sub-keys and compute the new per-shard load",
+        "Sharding orders by country: predict the load on the US shard if 40% of users are American",
+        "Count shards queried by 'find user by email' when users are sharded by user_id, and add a fix",
+        "Explain why shard key = status (pending/done) is a bad choice"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Global secondary indexes across shards"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "Interviewers almost always ask 'what's your shard key and why?'; a skewed key is the classic trap."
+      }
+    },
+    {
+      "id": "sd-consistent-hashing",
+      "title": "Consistent hashing",
+      "size": "big",
+      "est_min": 38,
+      "section": "partitioning",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-modulo-rehash",
+          "statement": "With hash(key) mod N placement, changing N from 4 to 5 moves about 80% of keys, because a key stays only when both remainders agree."
+        },
+        {
+          "id": "kc-hash-ring",
+          "statement": "Consistent hashing places nodes and keys on the same hash ring and assigns each key to the first node clockwise from the key's position."
+        },
+        {
+          "id": "kc-ring-remap",
+          "statement": "Adding or removing one node on a hash ring moves only the keys in that node's arc, about 1/N of all keys."
+        },
+        {
+          "id": "kc-ring-lookup",
+          "statement": "A ring lookup binary-searches the sorted node positions for the first position at or after the key's hash, wrapping to the first position when the hash is past the last one."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Mock deep dives on caches and key-value stores expect consistent hashing to explain adding nodes without mass remapping"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-sharding-strategies",
+          "reason": "Consistent hashing is taught as the fix for hash-based sharding's remapping"
+        }
+      ],
+      "suggests": [
+        "sd-distributed-cache"
+      ],
+      "confusable_with": [
+        "sd-sharding-strategies"
+      ],
+      "introduces": [
+        "consistent hashing",
+        "hash ring"
+      ],
+      "uses": [
+        "sharding",
+        "hash-based sharding",
+        "distributed cache",
+        "hash-based routing"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "why-do-we-need-this/why-do-we-need-this"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "how-does-it-work/how-does-it-work"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "core-concepts/consistent-hashing"
+        }
+      ],
+      "problem_ideas": [
+        "Write get_node(key) for a ring of sorted node positions using bisect",
+        "Write a function that returns the fraction of 10,000 keys that move when a cache cluster goes from 4 to 5 nodes under mod-N",
+        "Measure the same fraction on a consistent-hash ring and compare",
+        "Write add_node and remove_node and report which keys changed owner",
+        "A 10-node cache loses one node: predict the share of requests that miss",
+        "Edge case: a key hashes past the largest node position; make the lookup wrap correctly"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Jump consistent hash and rendezvous hashing"
+        },
+        {
+          "kind": "history",
+          "title": "Karger et al. 1997 and Akamai's caches"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "A favourite deep-dive question for caches and key-value stores; implementing it makes the 1/N claim stick."
+      }
+    },
+    {
+      "id": "sd-virtual-nodes",
+      "title": "Virtual nodes and replicas on the ring",
+      "size": "standard",
+      "est_min": 20,
+      "section": "partitioning",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-virtual-nodes",
+          "statement": "Giving each physical node many virtual nodes (positions on the ring) evens out arc sizes, and lets a larger machine take a bigger share by owning more virtual nodes."
+        },
+        {
+          "id": "kc-ring-replication",
+          "statement": "To replicate on a ring, store each key on the next N distinct physical nodes clockwise, skipping virtual nodes that belong to a physical node already chosen."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-consistent-hashing",
+          "reason": "Virtual nodes extend the hash ring and its lookup"
+        }
+      ],
+      "suggests": [
+        "sd-quorum"
+      ],
+      "confusable_with": [
+        "sd-consistent-hashing"
+      ],
+      "introduces": [
+        "virtual nodes"
+      ],
+      "uses": [
+        "consistent hashing",
+        "hash ring",
+        "replication",
+        "replication factor"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "virtual-nodes/virtual-nodes"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "data-replication/data-replication"
+        }
+      ],
+      "problem_ideas": [
+        "Extend a ring so each physical node gets k virtual positions; return the owner for a key",
+        "Measure max/min key share across 5 nodes with k=1 vs k=100",
+        "Give a node twice the RAM twice as many virtual nodes and verify its share",
+        "Write preference_list(key, n) returning n distinct physical nodes clockwise",
+        "Edge case: all three next virtual nodes belong to one machine; show the skip",
+        "Predict how load from a removed node spreads with 1 vs 100 virtual nodes"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How Dynamo and Cassandra assign tokens"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "The usual follow-up after consistent hashing: 'how do you avoid uneven load?'"
+      }
+    },
+    {
+      "id": "sd-storage-design-choice",
+      "title": "Putting it together: a storage design in 5 minutes",
+      "size": "standard",
+      "est_min": 28,
+      "section": "partitioning",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-storage-design-steps",
+          "statement": "A storage answer names, for each main entity, the store type, replication mode, shard key and consistency level, deriving each from the access pattern, read-to-write ratio and storage estimate."
+        },
+        {
+          "id": "kc-storage-tradeoff-statement",
+          "statement": "Each storage choice is stated with one trade-off it accepts, for example 'asynchronous replication: low write latency, may lose the last seconds of writes if the leader fails'."
+        },
+        {
+          "id": "kc-storage-scale-trigger",
+          "statement": "Shard only when the storage estimate or write QPS exceeds what one replicated leader can hold or absorb; below that, a single leader with read replicas is simpler and keeps joins and transactions."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "This topic produces the outcome's observable product: store, replication, shard key and consistency, each with a trade-off"
+        },
+        {
+          "outcome": "o6",
+          "reason": "The data-storage step of a full mock interview is this exact routine under time"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-sql-vs-nosql",
+          "reason": "The routine's first step is the store-type choice"
+        },
+        {
+          "topic": "sd-shard-key",
+          "reason": "The routine must name and justify a shard key"
+        },
+        {
+          "topic": "sd-cap-theorem",
+          "reason": "The routine must state a consistency level against availability"
+        }
+      ],
+      "suggests": [
+        "sd-sync-async-replication",
+        "sd-quorum"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "storage design"
+      ],
+      "uses": [
+        "relational database",
+        "nosql",
+        "replication",
+        "asynchronous replication",
+        "sharding",
+        "shard key",
+        "strong consistency",
+        "eventual consistency",
+        "storage estimate",
+        "qps",
+        "read-to-write ratio",
+        "access pattern"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "data-model-design-2/what-kind-of-database-should-we-use"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "data-model-design-4/what-kind-of-database-should-we-use"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "database-fundamentals/database-scaling"
+        }
+      ],
+      "problem_ideas": [
+        "URL shortener: 100M new URLs/month, 100:1 reads: write the full four-part storage design in 5 minutes",
+        "Chat app with 500M messages/day: choose store, replication, shard key and consistency",
+        "Hotel booking with 1k bookings/s: argue that sharding is not needed yet, with numbers",
+        "Critique a given design that shards a 50 GB table across 32 nodes",
+        "Twitter timeline: state the consistency level for tweets vs follower counts and the trade-off for each",
+        "Ride hailing: split trips and driver locations into two storage designs"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Resharding live data without downtime"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "This is the storage segment of your interview answer, rehearsed end to end."
+      }
+    }
+  ],
+  "groups": {}
+}

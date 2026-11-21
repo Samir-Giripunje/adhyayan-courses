@@ -1,0 +1,810 @@
+{
+  "goal": "AWS Certified Cloud Practitioner CLF2",
+  "course": "aws-certified-cloud-practitioner-clf2",
+  "started": "2026-11-18T12:26:44.391Z",
+  "minutes": 72.29,
+  "agent": "claude",
+  "critic": "codex",
+  "effort": {
+    "author": "high",
+    "critic": "high"
+  },
+  "fresh": true,
+  "outcome": "ready",
+  "scout": {
+    "reading": "AWS Certified Cloud Practitioner, exam CLF-C02: entry-level AWS certification covering cloud concepts, security and compliance, core AWS services and technology, and billing, pricing and support.",
+    "roadmap": "roadmap-aws",
+    "proposed": [
+      {
+        "id": "clf-c02-guide",
+        "ref": "https://docs.aws.amazon.com/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02.html",
+        "read": "https://docs.aws.amazon.com/aws-certification/latest/cloud-practitioner-02/cloud-practitioner-02.md",
+        "status": 200,
+        "authority": "official",
+        "sections": 44,
+        "entries": 296,
+        "followed": 6,
+        "dropped": [
+          "Survey"
+        ],
+        "kept": true,
+        "reason": null,
+        "why": "AWS's official CLF-C02 exam guide. Its domain sub-pages list the four domains, task statements, and the in-scope services that set the exam's scope.",
+        "round": 1
+      },
+      {
+        "id": "aws-overview",
+        "ref": "https://docs.aws.amazon.com/whitepapers/latest/aws-overview/introduction.html",
+        "read": "https://docs.aws.amazon.com/whitepapers/latest/aws-overview/introduction.md",
+        "status": 200,
+        "authority": "official",
+        "sections": 1,
+        "entries": 1,
+        "followed": 0,
+        "dropped": [],
+        "kept": false,
+        "reason": "too thin: 1 section(s), 1 entries",
+        "why": "AWS's official 'Overview of Amazon Web Services' whitepaper. It covers cloud computing concepts, global infrastructure, and each service category (compute, storage, database, networking, security, management) that Domain 3 tests.",
+        "round": 1
+      },
+      {
+        "id": "well-architected-pillars",
+        "ref": "https://docs.aws.amazon.com/wellarchitected/latest/framework/the-pillars-of-the-framework.html",
+        "status": 404,
+        "authority": "official",
+        "sections": 0,
+        "entries": 0,
+        "followed": 0,
+        "dropped": [],
+        "kept": false,
+        "reason": "fetch failed (404)",
+        "why": "Official AWS Well-Architected Framework page on the six pillars. It covers the design principles in Domain 1 (cloud concepts) in more depth than the exam guide does.",
+        "round": 1
+      },
+      {
+        "id": "clf-notes",
+        "ref": "https://raw.githubusercontent.com/kananinirav/AWS-Certified-Cloud-Practitioner-Notes/master/README.md",
+        "status": 200,
+        "authority": "secondary",
+        "sections": 20,
+        "entries": 200,
+        "followed": 0,
+        "dropped": [
+          "Buy This AWS Cloud Practitioner Study Notes And Practice Exams PDF",
+          "Other AWS And Azure Certification Notes",
+          "Star History"
+        ],
+        "kept": true,
+        "reason": null,
+        "why": "Widely used open study-notes repository for the Cloud Practitioner exam. Its README gives a topic-by-topic outline (IAM, EC2, S3, databases, networking, security, billing and support), a learner-oriented order that complements the official domains.",
+        "round": 1
+      }
+    ],
+    "dropped_refs": []
+  },
+  "rounds": [
+    {
+      "kind": "compile",
+      "blocking": 1,
+      "lints": []
+    },
+    {
+      "kind": "compile",
+      "blocking": 0,
+      "lints": []
+    },
+    {
+      "kind": "critic",
+      "blocking": 15,
+      "warn": 2
+    },
+    {
+      "kind": "compile",
+      "blocking": 1,
+      "lints": [
+        "L9 fail"
+      ]
+    },
+    {
+      "kind": "compile",
+      "blocking": 1,
+      "lints": [
+        "L9 fail"
+      ]
+    },
+    {
+      "kind": "compile",
+      "blocking": 1,
+      "lints": [
+        "L9 fail"
+      ]
+    },
+    {
+      "kind": "kept",
+      "items": 1,
+      "sourcing": 0
+    },
+    {
+      "kind": "critic",
+      "blocking": 9,
+      "warn": 3
+    }
+  ],
+  "gap": {
+    "kind": "critic",
+    "findings": [
+      {
+        "id": "f1",
+        "severity": "blocking",
+        "target": "clf-service-verb-lens",
+        "claim": "The o6 serves link makes a particular mnemonic mandatory, although the observable requires mock-exam performance. Its service distinctions are already taught in the security and cost-selection topics.",
+        "fix": "Remove the o6 serves link and let this revision technique become recommended or optional."
+      },
+      {
+        "id": "f2",
+        "severity": "blocking",
+        "target": "clf-tco-on-premises-costs",
+        "claim": "The requires edge to clf-fixed-vs-variable-costs is stronger than the KCs justify. Counting lifetime costs and identifying data-center overhead does not require classifying expenditure as fixed, variable, CapEx or OpEx.",
+        "fix": "Change clf-fixed-vs-variable-costs from requires to suggests."
+      },
+      {
+        "id": "f3",
+        "severity": "blocking",
+        "target": "clf-local-zones-wavelength-outposts",
+        "claim": "The prerequisite rationale says these services are explained as extensions of a Region and its AZs, but the KCs only need the Region concept. Knowing AZ isolation and interconnection is unnecessary for the stated distinctions.",
+        "fix": "Replace the requires edge to clf-availability-zones with a requires edge to clf-regions; make clf-availability-zones a suggests link."
+      },
+      {
+        "id": "f4",
+        "severity": "blocking",
+        "target": "clf-cloud-adoption-framework",
+        "claim": "o1 requires choosing a CAF perspective and justifying the choice, but kc-caf-perspectives only lists names and groups them. No KC teaches what distinguishes Business, People, Governance, Platform, Security and Operations.",
+        "evidence": {
+          "source": "-aws-caf-perspectives-https-docs-aws-amazon-com-prescriptive-guidance-latest-strategy-cloud-transformation-resolving-cloud-transformation-challenges-html-",
+          "quote": "The business perspective helps you ensure that your cloud investments accelerate your digital transformation ambitions and business outcomes."
+        },
+        "fix": "Add assessable KCs mapping Business to business outcomes, People to culture and workforce, Governance to oversight and risk, Platform to cloud foundations, Security to protection, and Operations to service delivery and support. Split the topic if necessary to retain its sizing."
+      },
+      {
+        "id": "f5",
+        "severity": "blocking",
+        "target": "clf-p2-clf-p3-clf-p6-clf-p7",
+        "claim": "The course explicitly excludes services listed as out of scope, yet teaches Wavelength, CodeDeploy, Personalize and FSx for Lustre as exam-selection answers. AWS explicitly lists all four as out of scope.",
+        "evidence": {
+          "source": "-clf-c02-out-of-scope-services-https-docs-aws-amazon-com-aws-certification-latest-cloud-practitioner-02-clf-02-out-of-scope-services-html-",
+          "quote": "AWS Wavelength; AWS CodeDeploy; Amazon Personalize; Amazon FSx for Lustre"
+        },
+        "fix": "Remove these four services from instructional KCs, selection rules, terms and serves rationales. Remove Wavelength from o2 and placement comparisons; remove CodeDeploy from pipeline comparisons; retain in-scope FSx coverage without Lustre."
+      },
+      {
+        "id": "f6",
+        "severity": "blocking",
+        "target": "kc-trusted-advisor-plan-tiers-kc-clf-d4-free-vs-paid-help",
+        "claim": "The support update was not propagated: Trusted Advisor still requires the legacy paid-plan ladder, and Domain 4 says TAMs come 'only with Enterprise On-Ramp Support or Enterprise Support.' Both omit current plans with those benefits.",
+        "evidence": {
+          "source": "-aws-support-faq-https-aws-amazon-com-premiumsupport-faqs-unified-operations-team-https-docs-aws-amazon-com-awssupport-latest-user-unified-operations-team-html-",
+          "quote": "AWS Business Support+, Enterprise Support and Unified Operations customers have access to the full set of Trusted Advisor checks. Your designated cloud strategist"
+        },
+        "fix": "State that Business Support+, Enterprise Support and Unified Operations include full Trusted Advisor checks, with legacy entitlements labeled separately. Rewrite the Domain 4 KC to include Unified Operations among plans providing a designated TAM and distinguish legacy On-Ramp's pooled TAM access."
+      },
+      {
+        "id": "f7",
+        "severity": "blocking",
+        "target": "kc-cheapest-plan-by-response",
+        "claim": "The rule promises Unified Operations for 'under 5 minutes,' but AWS states a five-minute response target. This would produce a wrong answer for a requirement strictly below five minutes.",
+        "evidence": {
+          "source": "-aws-support-response-times-https-docs-aws-amazon-com-awssupport-latest-user-case-management-html-",
+          "quote": "AWS Unified Operations: 5 minutes from an Incident Management Engineer"
+        },
+        "fix": "Replace 'Unified Operations for under 5 minutes' with 'Unified Operations for a five-minute target for eligible critical incidents.' State that none of these published targets establishes a response strictly below five minutes."
+      },
+      {
+        "id": "f8",
+        "severity": "blocking",
+        "target": "kc-nosql-db-flexible-scale",
+        "claim": "The statement that NoSQL databases give up complex joins for speed presents a service-dependent tradeoff as a defining property. DocumentDB, which this course teaches, supports joins.",
+        "evidence": {
+          "source": "-documentdb-lookup-https-docs-aws-amazon-com-documentdb-latest-devguide-lookup-html-",
+          "quote": "The `$lookup` aggregation stage in Amazon DocumentDB allows you to perform a left outer join between two collections."
+        },
+        "fix": "Replace the KC with: 'NoSQL databases include key-value, document and graph models. Schema flexibility, scaling, joins and transaction support vary by service; choose the service by the required data model and access patterns.'"
+      },
+      {
+        "id": "f9",
+        "severity": "blocking",
+        "target": "kc-transfer-az-region",
+        "claim": "'Traffic between Availability Zones and between Regions is charged per GB' is an unconditional pricing rule with important counterexamples. In particular, RDS Multi-AZ replication has no data-transfer charge.",
+        "evidence": {
+          "source": "-amazon-rds-pricing-https-aws-amazon-com-rds-pricing-",
+          "quote": "Data transferred between Availability Zones for replication of Multi-AZ deployments Free."
+        },
+        "fix": "Replace the KC with: 'Cross-AZ and cross-Region transfers can incur per-GB charges depending on the service and traffic path. Same-AZ EC2 traffic over private IP addresses is generally free, and RDS Multi-AZ replication transfer is free.'"
+      }
+    ]
+  },
+  "accepted": {
+    "generated_only": [],
+    "lints": [
+      {
+        "stage": null,
+        "id": "L9",
+        "target": "aws-certified-cloud-practitioner-clf2",
+        "message": "159 committed > 150"
+      }
+    ],
+    "dropped_requires": []
+  },
+  "pruned": {
+    "topics": [
+      "clf-what-is-cloud",
+      "clf-capex-opex-scale",
+      "clf-elasticity-scalability",
+      "clf-availability-fault-tolerance",
+      "clf-agility-global-reach",
+      "clf-waf-overview",
+      "clf-waf-pillars-core",
+      "clf-waf-pillars-efficiency",
+      "clf-cloud-design-principles",
+      "clf-7-rs",
+      "clf-migration-tools",
+      "clf-tco",
+      "clf-shared-resp-by-service",
+      "clf-aws-artifact-compliance",
+      "clf-root-user-mfa",
+      "clf-iam-policies-least-privilege",
+      "clf-organizations-scp",
+      "clf-encryption-at-rest-in-transit",
+      "clf-certificate-manager",
+      "clf-aws-shield",
+      "clf-aws-waf",
+      "clf-amazon-guardduty",
+      "clf-amazon-inspector",
+      "clf-amazon-macie",
+      "clf-amazon-detective",
+      "clf-aws-security-hub",
+      "clf-marketplace-security-resources",
+      "clf-local-wavelength-zones",
+      "clf-outposts",
+      "clf-console-cli-sdk",
+      "clf-programmatic-credentials",
+      "clf-instance-types",
+      "clf-amis",
+      "clf-auto-scaling",
+      "clf-load-balancing",
+      "clf-containers-ecs-eks",
+      "clf-fargate",
+      "clf-beanstalk-lightsail",
+      "clf-hybrid-connectivity",
+      "clf-route-53",
+      "clf-ebs-instance-store",
+      "clf-redshift",
+      "clf-emr-quicksight",
+      "clf-bedrock",
+      "clf-sqs-sns",
+      "clf-cloudwatch",
+      "clf-business-end-user-apps",
+      "clf-free-tier",
+      "clf-data-transfer-cost",
+      "clf-choosing-pricing-model",
+      "clf-budgets",
+      "clf-cost-explorer",
+      "clf-cur-cost-allocation-tags",
+      "clf-repost-partner-network",
+      "clf-enterprise-support-tam",
+      "clf-exam-format-domains",
+      "clf-scenario-keywords",
+      "clf-distractor-elimination",
+      "clf-lookalike-services",
+      "clf-pacing-flagging",
+      "clf-mock-review-loop"
+    ],
+    "units": [
+      "clf-u1-cloud-value.json",
+      "clf-u10-global-infra.json",
+      "clf-u11-access-aws.json",
+      "clf-u12-compute-ec2.json",
+      "clf-u13-containers-serverless.json",
+      "clf-u14-networking.json",
+      "clf-u15-storage.json",
+      "clf-u16-databases.json",
+      "clf-u17-analytics.json",
+      "clf-u18-ai-ml.json",
+      "clf-u19-integration-ops.json",
+      "clf-u2-well-architected.json",
+      "clf-u20-pricing-models.json",
+      "clf-u21-cost-tools.json",
+      "clf-u22-support.json",
+      "clf-u23-exam-strategy.json",
+      "clf-u3-migration.json",
+      "clf-u4-shared-resp.json",
+      "clf-u5-identity.json",
+      "clf-u6-data-protection.json",
+      "clf-u7-network-protection.json",
+      "clf-u8-audit.json",
+      "clf-u9-threat-detection.json"
+    ],
+    "stages": [
+      "clf-p3a.json",
+      "clf-p3b.json"
+    ],
+    "findings": []
+  },
+  "schema_errors": [],
+  "shape": {
+    "stages": 9,
+    "units": 35,
+    "topics": 170,
+    "route": 159,
+    "tiers": {
+      "must": 159,
+      "recommended": 0,
+      "optional": 11,
+      "dropped": 0
+    },
+    "scope": "field"
+  },
+  "lints": [
+    {
+      "id": "L1",
+      "result": "pass",
+      "detail": "acyclic"
+    },
+    {
+      "id": "L2",
+      "result": "pass",
+      "detail": "all must topics reachable"
+    },
+    {
+      "id": "L3",
+      "result": "pass",
+      "detail": "0 group(s)"
+    },
+    {
+      "id": "L5",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L6",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L9",
+      "result": "fail",
+      "detail": "max 23 (clf-p7), 159 ≤ 150"
+    },
+    {
+      "id": "L10",
+      "result": "pass",
+      "detail": "max 14 min"
+    },
+    {
+      "id": "L11",
+      "result": "pass",
+      "detail": "3/3/5/5/6/3/7/6/6/4/6/5/3/4/8/5/5/3/5/4/6/7/6/7/5/4/4/3/6/4/5/6/4/4/3 topics, 8/7/13/19/18/8/21/13/18/11/17/14/7/12/21/15/10/6/14/13/15/18/11/18/14/12/13/6/18/11/13/19/12/8/7 KCs"
+    },
+    {
+      "id": "L12",
+      "result": "pass",
+      "detail": "4/3/4/4/5/3/5/4/3 units"
+    },
+    {
+      "id": "L13",
+      "result": "pass",
+      "detail": "o1 ← 2.1 (via 2.2), 2.2, 2.3, 3.1, 3.5, 4.1, 4.2, 4.3, 4.4, 4.5; o2 ← 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 14.3; o3 ← 6.1, 6.2, 6.3, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 15.2, 16.4, 17.1, 17.2, 18.1, 18.2, 19.1, 19.2, 19.3, 19.4, 19.5 (via 20.4), 20.2, 20.4; o4 ← 2.1 (via 23.4), 8.1, 8.5, 8.6, 9.1 (via 9.2), 9.2, 9.3, 9.4, 9.5 (via 9.6), 9.6, 10.1, 10.2, 10.3, 10.4, 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 12.1, 12.2, 12.3, 12.5, 13.1, 13.2, 13.3, 14.1, 14.3, 14.4, 15.1, 15.2, 15.3, 15.4, 15.5, 15.6, 15.7, 15.8, 21.1, 21.2, 21.4, 21.5, 21.6, 22.1, 22.2, 22.3, 22.4, 22.5, 22.6, 22.7, 23.1, 23.2, 23.3, 23.4, 23.5, 23.6, 24.1 (via 24.2), 24.2, 24.3, 24.4, 24.5, 24.6, 24.7, 25.1, 25.2, 25.3, 25.4, 25.5, 26.1, 26.2, 26.3, 26.4, 27.1, 27.2, 27.3, 27.4, 28.1, 28.2, 28.3; o5 ← 29.1, 29.2, 29.3, 29.4, 29.6, 31.1, 31.2, 31.3, 31.5, 32.1, 32.6; o6 ← 1.1, 1.2, 1.3, 2.1 (via 2.2), 2.2, 2.3, 3.1, 3.2, 3.3, 3.4, 3.5, 4.1, 4.2, 4.3, 4.4, 4.5, 7.7, 8.2, 16.1, 16.2, 16.3, 16.4, 17.1, 19.1, 19.5 (via 20.4), 20.1, 20.2, 20.3, 20.4, 21.6, 22.6, 29.5, 30.1, 30.2, 30.3, 30.4, 32.2, 32.3, 32.4, 32.5, 33.1, 33.2, 33.3, 33.4, 34.1, 34.2, 34.3, 34.4, 35.1, 35.2, 35.3"
+    },
+    {
+      "id": "L14",
+      "result": "pass",
+      "detail": "none generated-only"
+    },
+    {
+      "id": "L15",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L17",
+      "result": "pass",
+      "detail": "none"
+    },
+    {
+      "id": "L19",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L20",
+      "result": "pass",
+      "detail": "3 sources"
+    },
+    {
+      "id": "L21",
+      "result": "pass",
+      "detail": "no claims"
+    }
+  ],
+  "tokens": {
+    "input": 1569455,
+    "cache_read": 1691503,
+    "cache_write": 896597,
+    "output": 626321
+  },
+  "calls": [
+    {
+      "job": "scout-propose",
+      "skill": "adhy-scout",
+      "mode": "propose",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 16624,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 0,
+        "cache_write": 3000,
+        "output": 1616
+      }
+    },
+    {
+      "job": "scout-map",
+      "skill": "adhy-scout",
+      "mode": "map",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 398920,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 0,
+        "cache_write": 23715,
+        "output": 56893
+      }
+    },
+    {
+      "job": "course-pass",
+      "skill": "adhy-architect",
+      "mode": "course",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 68826,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 0,
+        "cache_write": 16624,
+        "output": 7497
+      }
+    },
+    {
+      "job": "stage-clf-p1",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 340896,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 6,
+        "cache_read": 28740,
+        "cache_write": 56585,
+        "output": 43951
+      }
+    },
+    {
+      "job": "stage-clf-p2",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 200729,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 6317,
+        "cache_write": 25152,
+        "output": 22527
+      }
+    },
+    {
+      "job": "stage-clf-p3",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 430419,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 6,
+        "cache_read": 38089,
+        "cache_write": 61743,
+        "output": 56400
+      }
+    },
+    {
+      "job": "stage-clf-p4",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 248613,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 6317,
+        "cache_write": 27130,
+        "output": 29265
+      }
+    },
+    {
+      "job": "stage-clf-p5",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 294182,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 6317,
+        "cache_write": 29417,
+        "output": 35408
+      }
+    },
+    {
+      "job": "stage-clf-p6",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 299640,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 6,
+        "cache_read": 43199,
+        "cache_write": 53812,
+        "output": 37956
+      }
+    },
+    {
+      "job": "stage-clf-p7",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 443062,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 4,
+        "cache_read": 44387,
+        "cache_write": 69435,
+        "output": 58401
+      }
+    },
+    {
+      "job": "stage-clf-p8",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 452727,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 4,
+        "cache_read": 48218,
+        "cache_write": 73415,
+        "output": 56982
+      }
+    },
+    {
+      "job": "stage-clf-p9",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 119950,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 4,
+        "cache_read": 42227,
+        "cache_write": 36088,
+        "output": 12641
+      }
+    },
+    {
+      "job": "repair-clf-p5-1",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 146561,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 6317,
+        "cache_write": 55254,
+        "output": 21326
+      }
+    },
+    {
+      "job": "repair-clf-p1-3",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 115167,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 6317,
+        "cache_write": 42481,
+        "output": 17083
+      }
+    },
+    {
+      "job": "repair-clf-p3-3",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 154351,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 6317,
+        "cache_write": 50686,
+        "output": 22328
+      }
+    },
+    {
+      "job": "repair-clf-p8-3",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 183906,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 6317,
+        "cache_write": 59477,
+        "output": 25615
+      }
+    },
+    {
+      "job": "repair-clf-p4-3",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 129515,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 6317,
+        "cache_write": 49796,
+        "output": 19507
+      }
+    },
+    {
+      "job": "repair-clf-p6-3",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 255693,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 6,
+        "cache_read": 61489,
+        "cache_write": 68792,
+        "output": 37197
+      }
+    },
+    {
+      "job": "repair-clf-p9-3",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 174134,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 6317,
+        "cache_write": 36360,
+        "output": 20614
+      }
+    },
+    {
+      "job": "repair-clf-p7-3",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 145010,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 6317,
+        "cache_write": 57635,
+        "output": 22222
+      }
+    },
+    {
+      "job": "critic-1",
+      "skill": "adhy-critic",
+      "mode": "review",
+      "vendor": "codex",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 287897,
+      "model": "codex:gpt-6.1-sol",
+      "usage": {
+        "input": 790805,
+        "cache_read": 666368,
+        "cache_write": 0,
+        "output": 13643
+      }
+    },
+    {
+      "job": "critic-2",
+      "skill": "adhy-critic",
+      "mode": "review",
+      "vendor": "codex",
+      "effort": "high",
+      "attempt": 1,
+      "ok": true,
+      "ms": 252360,
+      "model": "codex:gpt-6.1-sol",
+      "usage": {
+        "input": 778588,
+        "cache_read": 655616,
+        "cache_write": 0,
+        "output": 7249
+      }
+    }
+  ]
+}

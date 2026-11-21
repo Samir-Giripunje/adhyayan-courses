@@ -1,0 +1,127 @@
+[
+  {
+    "id": "emb-keyword-gap/test-a1",
+    "version": 1,
+    "family": "kg-classify-pairs",
+    "kind": "match",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "Plain keyword search finds an article through the query words that appear in it as the exact same word. For each query → title pair, choose what keyword search does.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "*cheap car hire* → *Low-cost vehicle rental*",
+        "why_md": "No shared words (*cheap*/*low-cost*, *car*/*vehicle*, *hire*/*rental*), but the same need: missed."
+      },
+      {
+        "id": "l2",
+        "md": "*change my delivery address* → *Change your password*",
+        "why_md": "They share *change*, but one is about an address and the other about a password: a wrong match."
+      },
+      {
+        "id": "l3",
+        "md": "*return a damaged item* → *How to return an item*",
+        "why_md": "They share *return* and *item*, and the article covers the need: a correct find."
+      },
+      {
+        "id": "r1",
+        "md": "Misses it: same need, no shared words",
+        "why_md": "Fits *cheap car hire* → *Low-cost vehicle rental*."
+      },
+      {
+        "id": "r2",
+        "md": "Matches it wrongly: shared words, different need",
+        "why_md": "Fits *change my delivery address* → *Change your password*."
+      },
+      {
+        "id": "r3",
+        "md": "Finds it correctly: shared words, same need",
+        "why_md": "Fits *return a damaged item* → *How to return an item*."
+      },
+      {
+        "id": "r4",
+        "md": "Finds it because it recognises that the two mean the same",
+        "why_md": "Never right for keyword search: it counts shared strings and recognises no meaning.",
+        "misconception": "mc-keyword-is-enough"
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3"
+      }
+    },
+    "hints": [
+      "For each pair, first look for shared words, then ask whether the two describe the same need.",
+      "No shared words + same need → missed. Shared words + different need → wrong match. Shared words + same need → correct find."
+    ],
+    "solution_md": "*cheap car hire* shares nothing with *Low-cost vehicle rental*: missed (r1). *change my delivery address* shares *change* with *Change your password*: wrong match (r2). *return a damaged item* shares *return* and *item* with *How to return an item*: correct find (r3). r4 never applies: keyword search only counts shared strings.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  },
+  {
+    "id": "emb-keyword-gap/test-a2",
+    "version": 1,
+    "family": "kg-explain-overmatch",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-keyword-gap",
+    "kcs": [
+      "kc-keyword-limits"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "A photo app's help search gives each title one point for every query word it contains as the exact same word (little words such as *my*, *your*, *a* and *from* are skipped). For the query **delete my photo**, it shows *Delete your account* first and *Remove a picture from your profile* last. Which explanation is correct?",
+    "options": [
+      {
+        "id": "a",
+        "md": "*Delete your account* shares *delete* with the query; the picture article shares no word (*delete* ≠ *remove*, *photo* ≠ *picture*), so it scores 0",
+        "correct": true,
+        "why_md": "Right. One shared string beats zero, so account deletion lands on top of a search about deleting a photo."
+      },
+      {
+        "id": "b",
+        "md": "Keyword search judged deleting an account to be the more common need",
+        "why_md": "Keyword search makes no judgement about needs; it counted one shared word against zero.",
+        "misconception": "mc-keyword-is-enough"
+      },
+      {
+        "id": "c",
+        "md": "*Delete your account* contains every real word of the query",
+        "why_md": "It contains *delete* but not *photo*: one of the two real query words."
+      },
+      {
+        "id": "d",
+        "md": "The picture article ranks last because its title is longer",
+        "why_md": "Length is not the problem: it shares no word with the query, so it would score 0 at any length."
+      }
+    ],
+    "hints": [
+      "The query's real words are *delete* and *photo*. Count how many each title contains.",
+      "*Delete your account*: 1 (*delete*). *Remove a picture from your profile*: 0."
+    ],
+    "solution_md": "Query words: *delete*, *photo*. *Delete your account* shares *delete* (1); *Remove a picture from your profile* shares none (0). The order comes from shared strings only, which is how a search about deleting a photo can put account deletion first.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-keyword-gap"
+    }
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-mock-unseen-prompt",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: design it",
+  "blurb": "Uses Timed mock: chat system, Timed mock: ride hailing and Timed mock: an unseen prompt: estimate the numbers and weigh the trade-offs.",
+  "after": "topic:sd-mock-unseen-prompt",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "design",
+    "topics": [
+      "sd-mock-chat",
+      "sd-mock-ride-hailing",
+      "sd-mock-unseen-prompt"
+    ],
+    "kcs": [
+      "kc-mock-chat-scope",
+      "kc-mock-chat-estimates",
+      "kc-mock-chat-delivery",
+      "kc-mock-chat-failures",
+      "kc-mock-ride-scope",
+      "kc-mock-ride-estimates",
+      "kc-mock-ride-spatial-choice",
+      "kc-mock-ride-contention",
+      "kc-mock-unseen-map-pattern",
+      "kc-mock-unseen-novel-part",
+      "kc-mock-unseen-tradeoffs",
+      "kc-mock-unseen-availability"
+    ],
+    "minutes": 21,
+    "why": "Uses Timed mock: chat system, Timed mock: ride hailing and Timed mock: an unseen prompt: estimate the numbers and weigh the trade-offs."
+  }
+}

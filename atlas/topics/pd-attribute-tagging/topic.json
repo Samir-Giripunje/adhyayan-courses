@@ -1,0 +1,51 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-attribute-tagging",
+  "version": 1,
+  "title": "Tagging functions with attributes",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-tagging-sets-attribute",
+      "version": 1,
+      "statement": "An attribute-tagging decorator sets an attribute on the function object, such as func.deprecated = True, and returns the function so other code can inspect the tag."
+    },
+    {
+      "id": "kc-tagging-lost-without-wraps",
+      "version": 1,
+      "statement": "If a wrapping decorator without functools.wraps is applied above a tagging decorator, the tag is lost, because wraps is what copies the wrapped function's __dict__."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "pd-functools-wraps",
+    "pd-stacked-decorators"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "pd-registration-decorators"
+  ],
+  "introduces": [
+    "attribute tagging"
+  ],
+  "uses": [
+    "functools.wraps",
+    "stacked decorators"
+  ],
+  "problem_ideas": [
+    "Write @deprecated that sets func.deprecated = True and list deprecated functions in a module",
+    "Predict whether f.slow survives under @log_calls with and without wraps",
+    "Implement PEP 318's @attrs(version='2.1', author='x') tagger",
+    "Write a test runner that only runs functions tagged @smoke",
+    "Decide whether tagging or registration fits a 'find all API endpoints' task",
+    "Predict tags after stacking two taggers that set the same attribute"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "examples/examples"
+    }
+  ],
+  "status": "stub"
+}

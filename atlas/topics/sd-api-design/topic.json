@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-api-design",
+  "version": 1,
+  "title": "Sketching the API for an interview prompt",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-api-from-requirements",
+      "version": 1,
+      "statement": "Each functional requirement maps to at least one endpoint with a method, path or RPC name, parameters and response, e.g. POST /urls {long_url} → {short_code}."
+    },
+    {
+      "id": "kc-api-list-pagination",
+      "version": 1,
+      "statement": "Any endpoint that returns a list (feed, messages, search) must be paginated, and cursor pagination stays correct when new items are inserted while offset pagination does not."
+    },
+    {
+      "id": "kc-api-auth-and-limits",
+      "version": 1,
+      "statement": "An interview API sketch names how callers are identified (API key or token) because it enables per-user rate limits and abuse controls later in the design."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-requirements"
+  ],
+  "suggests": [
+    "sd-rest",
+    "sd-rpc"
+  ],
+  "confusable_with": [
+    "sd-data-model"
+  ],
+  "introduces": [
+    "api design",
+    "endpoint"
+  ],
+  "uses": [
+    "rest",
+    "rpc",
+    "http method",
+    "pagination",
+    "cursor",
+    "functional requirements"
+  ],
+  "problem_ideas": [
+    "Write the three endpoints for a URL shortener (create, redirect, delete) with request and response shapes",
+    "A feed endpoint uses ?page=3; show how a new post makes the user see a duplicate, then fix it with a cursor",
+    "Choose REST or gRPC for a mobile client API vs an internal service-to-service call and justify each",
+    "Find the missing endpoint in an API sketch for a chat app given its functional requirements",
+    "Pick the HTTP status code for a redirect from a short URL (301 vs 302) and explain the analytics trade-off",
+    "Redesign a chatty API that needs 5 calls to render one screen"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "api-design/api-design"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "api-fundamentals/api-design"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "api-design-2/api-design"
+    }
+  ],
+  "status": "stub"
+}

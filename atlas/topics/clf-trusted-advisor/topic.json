@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-trusted-advisor",
+  "version": 1,
+  "title": "AWS Trusted Advisor: automated best-practice checks",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-trusted-advisor-categories",
+      "version": 1,
+      "statement": "AWS Trusted Advisor inspects your account and recommends improvements in categories including cost optimization, performance, security, fault tolerance and service limits."
+    },
+    {
+      "id": "kc-trusted-advisor-plan-tiers",
+      "version": 1,
+      "statement": "All customers get Trusted Advisor's core security checks and service quota checks; the full set of checks requires the Business, Enterprise On-Ramp or Enterprise Support plan."
+    },
+    {
+      "id": "kc-trusted-advisor-recommends",
+      "version": 1,
+      "statement": "Trusted Advisor flags issues, such as idle EC2 instances, security groups with unrestricted ports, publicly accessible S3 buckets and a root user without MFA, but it does not change your resources itself."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-rightsizing",
+    "clf-security-groups-nacls",
+    "clf-protect-root-mfa"
+  ],
+  "confusable_with": [
+    "clf-well-architected-tool",
+    "clf-health-dashboard"
+  ],
+  "introduces": [
+    "trusted advisor",
+    "trusted advisor check"
+  ],
+  "uses": [
+    "ec2 instance",
+    "security group",
+    "s3",
+    "root user",
+    "mfa",
+    "rightsizing"
+  ],
+  "problem_ideas": [
+    "A company on Basic Support wants the low-utilization EC2 check: what must change?",
+    "Sort six findings (idle load balancer, port 22 open to 0.0.0.0/0, single-AZ RDS, VPC limit at 80%, no MFA on the root user, underused EBS volume) into categories.",
+    "A manager expects Trusted Advisor to delete idle instances automatically: correct the expectation.",
+    "Which service answers 'which of my accounts is close to its Elastic IP service quota'?",
+    "Developer Support vs Business Support: what changes in Trusted Advisor?",
+    "Distractor drill: Trusted Advisor vs Well-Architected Tool vs Inspector for 'automated checks of my account against best practices'."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "management-and-governance/aws-trusted-advisor"
+    }
+  ],
+  "status": "stub"
+}

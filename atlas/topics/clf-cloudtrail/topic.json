@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-cloudtrail",
+  "version": 1,
+  "title": "AWS CloudTrail: who did what, when",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-cloudtrail-api-log",
+      "version": 1,
+      "statement": "AWS CloudTrail records API calls and account activity made through the console, CLI, SDKs or other AWS services: who made the call, what it was, when, and from which IP address. This record is used for auditing and investigations."
+    },
+    {
+      "id": "kc-cloudtrail-retention",
+      "version": 1,
+      "statement": "CloudTrail event history shows the last 90 days of management events at no charge. Keeping logs longer requires a trail that delivers log files to an S3 bucket."
+    },
+    {
+      "id": "kc-cloudtrail-vs-logs",
+      "version": 1,
+      "statement": "CloudTrail answers 'who did what in the account' (API activity). VPC Flow Logs record network traffic, and CloudWatch records performance metrics and application logs."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-access-methods"
+  ],
+  "suggests": [
+    "clf-vpc-flow-logs"
+  ],
+  "confusable_with": [
+    "clf-aws-config",
+    "clf-vpc-flow-logs"
+  ],
+  "introduces": [
+    "cloudtrail",
+    "trail",
+    "api activity log"
+  ],
+  "uses": [
+    "management console",
+    "aws cli",
+    "aws sdk",
+    "aws api",
+    "s3 bucket",
+    "vpc flow logs"
+  ],
+  "problem_ideas": [
+    "An EC2 instance was terminated overnight and nobody admits doing it. Which service shows who did it?",
+    "An auditor needs 7 years of API activity. What must be configured beyond the default event history?",
+    "Sort each log need into CloudTrail, VPC Flow Logs or CloudWatch: rejected SSH packets, a DeleteBucket call, high CPU.",
+    "Someone changed a security group from the CLI at 03:12. List the fields CloudTrail would show.",
+    "How many days of management events can you see for free without creating a trail?",
+    "A root user login happened from an unknown country. Which service recorded it?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-2-understand-aws-cloud-/where-to-capture-and-locate-logs-that-ar"
+    }
+  ],
+  "status": "stub"
+}

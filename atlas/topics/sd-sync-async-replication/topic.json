@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-sync-async-replication",
+  "version": 1,
+  "title": "Synchronous vs asynchronous replication",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-sync-replication",
+      "version": 2,
+      "statement": "With synchronous replication the leader acknowledges a client's write only after the configured set of replicas has acknowledged it. An acknowledged write survives leader failure as long as one of those replicas still holds a durable copy and failover promotes a replica that has it. The cost is that every write waits for the slowest required acknowledgment and stalls when a required replica is unavailable."
+    },
+    {
+      "id": "kc-async-replication",
+      "version": 1,
+      "statement": "With asynchronous replication the leader acknowledges a write immediately and ships it to followers afterwards, giving low write latency but losing the not-yet-replicated writes if the leader dies."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-replication-leader-follower"
+  ],
+  "suggests": [
+    "sd-latency-numbers"
+  ],
+  "confusable_with": [
+    "sd-replication-lag"
+  ],
+  "introduces": [
+    "synchronous replication",
+    "asynchronous replication"
+  ],
+  "uses": [
+    "leader-follower replication",
+    "latency",
+    "round trip time"
+  ],
+  "problem_ideas": [
+    "A follower in another region is 80 ms away: compute write latency under sync vs async replication",
+    "A payment ledger and a like counter: pick sync or async for each and state the risk accepted",
+    "The leader dies with 2 seconds of unreplicated writes at 5k writes/s: how many writes are lost?",
+    "Explain why 'sync to one follower, async to the rest' is a common compromise",
+    "A sync follower goes down: describe what happens to writes and how to avoid it",
+    "Write the one-sentence trade-off an interviewer wants for async replication"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "synchronous-vs-asynchronous-replication/synchronous-vs-asynchronous-replication"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "master-slave-replication/disadvantages"
+    }
+  ],
+  "status": "stub"
+}

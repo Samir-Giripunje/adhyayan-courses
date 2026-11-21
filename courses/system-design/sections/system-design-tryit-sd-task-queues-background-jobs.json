@@ -1,0 +1,31 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-task-queues-background-jobs",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: explain it in your own words",
+  "blurb": "Uses Synchronous vs asynchronous communication, Message queues and load leveling and Task queues and background jobs: predict, then explain in your own words.",
+  "after": "topic:sd-task-queues-background-jobs",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "written",
+    "topics": [
+      "sd-sync-vs-async",
+      "sd-message-queues",
+      "sd-task-queues-background-jobs"
+    ],
+    "kcs": [
+      "kc-sync-call-coupling",
+      "kc-async-decoupling",
+      "kc-queue-holds-until-ack",
+      "kc-competing-consumers",
+      "kc-load-leveling-backlog",
+      "kc-task-queue-off-request-path",
+      "kc-event-vs-schedule-jobs"
+    ],
+    "minutes": 16,
+    "why": "Uses Synchronous vs asynchronous communication, Message queues and load leveling and Task queues and background jobs: predict, then explain in your own words."
+  }
+}

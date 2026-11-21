@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-idempotency-keys",
+  "version": 1,
+  "title": "Idempotency keys and idempotent consumers",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-idem-key-client-generated",
+      "version": 1,
+      "statement": "The client generates a unique idempotency key per logical operation and resends the same key on every retry; the server stores key → result and returns the stored result for a repeat instead of executing again."
+    },
+    {
+      "id": "kc-idem-key-atomic-ttl",
+      "version": 1,
+      "statement": "The server must record the idempotency key and perform the side effect in the same transaction, otherwise a crash between them re-opens the duplicate window; stored keys expire after a TTL longer than the client's retry horizon."
+    },
+    {
+      "id": "kc-idempotent-consumer",
+      "version": 1,
+      "statement": "An idempotent consumer records each processed message id in the same transaction as the message's business effect and skips ids already recorded; when the effect is external (a card charge, an SMS) and cannot share that transaction, local deduplication alone cannot guarantee it happens once, so the external system must enforce idempotency, for example by accepting an idempotency key."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "sd-idempotency",
+    "sd-delivery-guarantees"
+  ],
+  "suggests": [
+    "sd-relational-acid"
+  ],
+  "confusable_with": [
+    "sd-idempotency"
+  ],
+  "introduces": [
+    "idempotency key",
+    "idempotent consumer",
+    "deduplication store"
+  ],
+  "uses": [
+    "idempotency",
+    "retries",
+    "exactly-once processing",
+    "transaction",
+    "ttl"
+  ],
+  "problem_ideas": [
+    "Write handle_payment(key, amount, store) that charges once and returns the cached result on repeats",
+    "Write an idempotent consumer that applies balance-change messages exactly once given duplicate and replayed message ids, updating the balance and the processed-id set in one atomic step",
+    "Clients retry for up to 24 h at 2,000 payments/s: how many keys does the store hold and how much memory at 100 B each?",
+    "Two retries with the same key arrive concurrently: what must the store do (in-progress state)?",
+    "Same key but a different amount in the second request: what should the API return?",
+    "Failure story: a consumer sends an SMS, then crashes before recording the message id—why does the user get two texts, and what must the SMS provider support to prevent it?"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "idempotency-keys/idempotency-keys"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "idempotent-consumers/idempotent-consumers"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "tradeoffs/tradeoffs"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-multi-leader-replication",
+  "version": 1,
+  "title": "Multi-leader replication and write conflicts",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-multi-leader",
+      "version": 1,
+      "statement": "Multi-leader replication lets more than one node accept writes, typically one leader per region, so writes stay local and a region's loss does not stop writes elsewhere."
+    },
+    {
+      "id": "kc-write-conflicts",
+      "version": 1,
+      "statement": "Two leaders can accept conflicting writes to the same record before they sync, so a multi-leader setup needs a conflict-resolution rule."
+    },
+    {
+      "id": "kc-last-write-wins",
+      "version": 1,
+      "statement": "Last-write-wins keeps the write with the latest timestamp and silently discards the other, which loses data when writes are concurrent or clocks are skewed."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-replication-leader-follower",
+    "sd-sync-async-replication"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-replication-leader-follower"
+  ],
+  "introduces": [
+    "multi-leader replication",
+    "write conflict",
+    "last-write-wins"
+  ],
+  "uses": [
+    "replication",
+    "leader-follower replication",
+    "asynchronous replication"
+  ],
+  "problem_ideas": [
+    "Two users in US and EU rename the same shared doc within 100 ms: show what last-write-wins keeps",
+    "A server's clock runs 3 s fast: show how last-write-wins drops a later write",
+    "Decide whether a global inventory counter can use multi-leader writes",
+    "Design per-region leaders for a social app and state which data is written where",
+    "Give a conflict rule for a shopping cart that never loses an added item",
+    "List two reasons interviewers push back when you propose multi-leader by default"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "database/master-master-replication"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "master-master-replication/master-master-replication"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "master-master-replication/disadvantages"
+    }
+  ],
+  "status": "stub"
+}

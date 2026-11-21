@@ -1,0 +1,49 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-distributed-tracing",
+  "version": 1,
+  "title": "Distributed tracing across services",
+  "size": "micro",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-distributed-tracing",
+      "version": 1,
+      "statement": "Distributed tracing propagates a trace id through every service call, and each hop records a span with its timings, so you can see which service made a request slow."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-monitoring-observability"
+  ],
+  "suggests": [
+    "sd-microservices"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "distributed tracing",
+    "trace id",
+    "span"
+  ],
+  "uses": [
+    "microservices",
+    "latency",
+    "metrics",
+    "structured logs"
+  ],
+  "problem_ideas": [
+    "Given five spans with start and end times, find the service on the critical path",
+    "Where is the trace id created and how is it passed over HTTP and a message queue?",
+    "Sampling 1% of traces at 100,000 req/s: how many traces per second are stored?",
+    "Why can't per-service logs alone explain a slow checkout across 6 services?",
+    "A span shows 300 ms in a queue before a worker starts: what does that point to?",
+    "Join a trace with logs: which field makes it possible?"
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "distributed-system-and-microservices/distributed-tracing"
+    }
+  ],
+  "status": "stub"
+}

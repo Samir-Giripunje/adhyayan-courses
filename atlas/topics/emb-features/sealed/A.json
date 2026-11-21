@@ -1,0 +1,228 @@
+[
+  {
+    "id": "emb-features/test-a1",
+    "version": 1,
+    "family": "emb-features-decode-reordered",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "A help centre writes article vectors in the order `[delivery, money, fixing a problem]` (1 = yes, 0 = no). Which article is `[0, 1, 1]`?",
+    "options": [
+      {
+        "id": "a",
+        "md": "*Why was I charged twice?*",
+        "correct": true,
+        "why_md": "Right. Not about delivery (0), about money (1), and a problem to fix (1)."
+      },
+      {
+        "id": "b",
+        "md": "*Where is my parcel?*",
+        "why_md": "That is about delivery and a problem to fix: `[1, 0, 1]` in this order."
+      },
+      {
+        "id": "c",
+        "md": "*Change your billing card*",
+        "why_md": "About money, but a how-to guide rather than a problem: `[0, 1, 0]`."
+      },
+      {
+        "id": "d",
+        "md": "*Update your delivery address*",
+        "why_md": "About delivery and nothing else: `[1, 0, 0]`."
+      }
+    ],
+    "hints": [
+      "Read each position with this list's order, which starts with *delivery*.",
+      "Position 1 (delivery) = 0, position 2 (money) = 1, position 3 (fixing a problem) = 1. Which article is about money and is a complaint?"
+    ],
+    "solution_md": "In the order `[delivery, money, fixing a problem]`, `[0, 1, 1]` means: not delivery, about money, fixing a problem. That is *Why was I charged twice?*. Reading it in some other order would give a different answer, which is why the order is part of the vector.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/test-a2",
+    "version": 1,
+    "family": "emb-features-onehot-assert",
+    "kind": "assert_reason",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "**Assertion (A):** With one-hot vectors, *cancel* and *unsubscribe* share 0 features, even though they mean nearly the same.\n\n**Reason (R):** A one-hot vector has a single 1, in its own word's slot, so two different words never have a 1 in the same position.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. A is true, and R is exactly why: with the 1s in different slots, no position has a 1 in both."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is the direct cause of A: sharing a feature needs a position where both are 1, and R rules that out."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is the definition of a one-hot vector, so it is true."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A follows from R: meaning-alike words get 0 shared features in one-hot, like every other pair of different words.",
+        "misconception": "mc-onehot-relatedness"
+      }
+    ],
+    "hints": [
+      "Check A and R separately, then ask whether R is the reason A happens.",
+      "R is the definition of one-hot. If two words never have a 1 in the same position, how many features can they share?"
+    ],
+    "solution_md": "R is the definition of one-hot, so it is true. It forces A: two different words have their 1s in different slots, so they share 0 features, whatever they mean. Both are true and R explains A: **a**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/test-a3",
+    "version": 1,
+    "family": "emb-features-goal-to-list",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "The support team wants a **Similar complaints** view in which articles about something going wrong sit together, whatever their subject (payments, parcels, sign-in). Which feature list should describe the articles?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`[money, sign-in, delivery]`",
+        "why_md": "These group by subject. *Why was I charged twice?* would sit with *Change your billing card*, a how-to guide, rather than with other complaints."
+      },
+      {
+        "id": "b",
+        "md": "`[how-to steps, fixing a problem]`",
+        "correct": true,
+        "why_md": "Right. Every complaint has a 1 for *fixing a problem*, whatever its subject, so complaints share a feature and sit together."
+      },
+      {
+        "id": "c",
+        "md": "One slot per article (one-hot)",
+        "why_md": "Every pair of different articles shares 0 features, so nothing would sit together."
+      },
+      {
+        "id": "d",
+        "md": "`[word count in thousands, days since last update]`",
+        "why_md": "These group articles by length and age, which says nothing about whether something went wrong."
+      }
+    ],
+    "hints": [
+      "Name the property every article in the view should have in common, then find the list that has it as a feature.",
+      "The shared property is “something went wrong”. Which list includes *fixing a problem*?"
+    ],
+    "solution_md": "The view should group by “something went wrong”, regardless of subject. Only `[how-to steps, fixing a problem]` has that as a feature, so complaints share it and land together. The topic list groups by subject, one-hot groups nothing, and length/age features group by the wrong thing. **b**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/test-a4",
+    "version": 1,
+    "family": "emb-features-list-to-nearest-match",
+    "kind": "match",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "Four articles under two feature lists:\n\n| | topic `[money, sign-in, delivery]` | task `[how-to steps, fixing a problem]` |\n|---|---|---|\n| *Download your invoice* | `[1, 0, 0]` | `[1, 0]` |\n| *Why was I charged twice?* | `[1, 0, 0]` | `[0, 1]` |\n| *Turn on two-step sign-in* | `[0, 1, 0]` | `[1, 0]` |\n| *My parcel arrived damaged* | `[0, 0, 1]` | `[0, 1]` |\n\nA third option is one-hot, with one slot per article. Match each feature list to what it ranks nearest to *Download your invoice* by shared features.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "topic `[money, sign-in, delivery]`",
+        "why_md": "Invoice `[1, 0, 0]` shares *money* with charged twice and nothing with the others."
+      },
+      {
+        "id": "l2",
+        "md": "task `[how-to steps, fixing a problem]`",
+        "why_md": "Invoice `[1, 0]` shares *how-to steps* with two-step sign-in and nothing with the others."
+      },
+      {
+        "id": "l3",
+        "md": "one-hot (one slot per article)",
+        "why_md": "Every pair of different articles shares 0 features."
+      },
+      {
+        "id": "r1",
+        "md": "*Why was I charged twice?*",
+        "why_md": "Nearest under the topic list: 1 shared feature (money) against 0 and 0."
+      },
+      {
+        "id": "r2",
+        "md": "*Turn on two-step sign-in*",
+        "why_md": "Nearest under the task list: both are how-to guides, 1 shared feature against 0 and 0."
+      },
+      {
+        "id": "r3",
+        "md": "No single article: the other three tie at 0",
+        "why_md": "This is what one-hot gives: no two different articles share a 1."
+      },
+      {
+        "id": "r4",
+        "md": "*My parcel arrived damaged*",
+        "why_md": "It shares 0 features with the invoice under both lists, so no list puts it first."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3"
+      }
+    },
+    "hints": [
+      "For each list, count the features each article shares with the invoice and pick the highest.",
+      "Topic: invoice `[1, 0, 0]` shares 1 only with charged twice. Task: invoice `[1, 0]` shares 1 only with two-step sign-in. One-hot: 0 with everyone."
+    ],
+    "solution_md": "Topic list: invoice shares 1 with *Why was I charged twice?* (money) and 0 with the rest → r1. Task list: invoice shares 1 with *Turn on two-step sign-in* (how-to steps) and 0 with the rest → r2. One-hot: all three share 0 → r3. *My parcel arrived damaged* is never nearest.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  }
+]

@@ -1,0 +1,50 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-shared-controls",
+  "version": 1,
+  "title": "Shared and inherited controls",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-shared-controls",
+      "version": 1,
+      "statement": "Patch management, configuration management, and awareness and training are shared controls: AWS performs them for its infrastructure and the customer performs them for its own guest systems, applications and staff."
+    },
+    {
+      "id": "kc-inherited-controls",
+      "version": 1,
+      "statement": "Physical and environmental controls are inherited controls: the customer relies entirely on AWS for them and can cite AWS's audits of them in its own compliance work."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-shared-responsibility-model"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-shared-responsibility-model"
+  ],
+  "introduces": [
+    "shared controls",
+    "inherited controls"
+  ],
+  "uses": [
+    "shared responsibility model"
+  ],
+  "problem_ideas": [
+    "'Which is a shared control?' options: physical security, patch management, data classification, hypervisor updates",
+    "Who trains AWS data center staff, and who trains the customer's developers?",
+    "A compliance auditor asks for proof of data center fire suppression: which control type, and where does the customer get the evidence?",
+    "Sort: configuration management of the guest OS vs of network devices in AWS's backbone",
+    "True/false: an inherited control is one the customer must reconfigure after migrating",
+    "Give one example each of an AWS-only, customer-only, shared and inherited control"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-1-understand-the-aws-sh/describing-responsibilities-that-the-cus"
+    }
+  ],
+  "status": "stub"
+}

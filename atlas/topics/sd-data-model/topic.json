@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-data-model",
+  "version": 1,
+  "title": "Data models from entities and access patterns",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-data-model-entities",
+      "version": 1,
+      "statement": "An interview data model lists each entity with its key, main fields and approximate size per record, which feeds directly into the storage estimate."
+    },
+    {
+      "id": "kc-data-model-access-patterns",
+      "version": 1,
+      "statement": "The data model should be shaped by the access patterns the API needs (e.g. 'fetch the latest 20 messages of a chat'), not only by the entities' relationships."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-api-design"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-api-design"
+  ],
+  "introduces": [
+    "data model",
+    "entity",
+    "access pattern"
+  ],
+  "uses": [
+    "api design",
+    "functional requirements",
+    "data tier"
+  ],
+  "problem_ideas": [
+    "List the entities, keys and field sizes for a URL shortener and total the bytes per record",
+    "Given the endpoint 'get latest 50 messages in a chat', choose the key that makes it one lookup",
+    "A Pastebin model stores paste text in the same row as metadata; argue for splitting it",
+    "Identify the access pattern that a proposed Twitter data model cannot serve efficiently",
+    "Estimate the size of a user record with name, email, bio and timestamps",
+    "Draw the relationship between users, follows and tweets and name the hottest query"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "data-model-design/data-model-design"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "data-model-design-2/data-model-design"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-compute-optimizer",
+  "version": 1,
+  "title": "Compute Optimizer: rightsizing recommendations",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-compute-optimizer-ml",
+      "version": 1,
+      "statement": "AWS Compute Optimizer uses machine learning on CloudWatch utilization metrics to recommend right-sized EC2 instances, Auto Scaling groups, EBS volumes, Lambda memory settings and ECS services on Fargate."
+    },
+    {
+      "id": "kc-compute-optimizer-vs-trusted-advisor",
+      "version": 1,
+      "statement": "Compute Optimizer focuses on resources that are over- or under-provisioned, while Trusted Advisor runs broad checks across cost, security, fault tolerance, performance, service limits and operational excellence."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-rightsizing",
+    "clf-trusted-advisor"
+  ],
+  "confusable_with": [
+    "clf-trusted-advisor"
+  ],
+  "introduces": [
+    "compute optimizer"
+  ],
+  "uses": [
+    "rightsizing",
+    "trusted advisor",
+    "cloudwatch metrics",
+    "ec2 instance",
+    "auto scaling group",
+    "ebs",
+    "lambda",
+    "fargate"
+  ],
+  "problem_ideas": [
+    "An m5.4xlarge averages 6% CPU for a month: which service recommends a smaller size?",
+    "A Lambda function has 3 GB of memory but uses 300 MB: which tool flags it?",
+    "A security team wants to know whether S3 buckets are public: Compute Optimizer or Trusted Advisor?",
+    "Name the data source Compute Optimizer analyzes to make its recommendations.",
+    "A fleet is under-provisioned and throttling: can Compute Optimizer recommend going larger?",
+    "Spot the false statement: 'Compute Optimizer recommends RI purchases.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "management-and-governance/aws-compute-optimizer"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "aws-architecting-ecosystem/aws-right-sizing"
+    }
+  ],
+  "status": "stub"
+}

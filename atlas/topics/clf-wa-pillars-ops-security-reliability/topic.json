@@ -1,0 +1,75 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-wa-pillars-ops-security-reliability",
+  "version": 1,
+  "title": "Pillars I: operational excellence, security, reliability",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-six-pillars-list",
+      "version": 1,
+      "statement": "The six Well-Architected pillars are operational excellence, security, reliability, performance efficiency, cost optimization and sustainability."
+    },
+    {
+      "id": "kc-operational-excellence-pillar",
+      "version": 1,
+      "statement": "The operational excellence pillar covers running and monitoring systems and improving processes: perform operations as code, make frequent small reversible changes, and learn from operational failures."
+    },
+    {
+      "id": "kc-security-pillar",
+      "version": 1,
+      "statement": "The security pillar protects data, systems and assets through a strong identity foundation, traceability, security at all layers, and protecting data in transit and at rest."
+    },
+    {
+      "id": "kc-reliability-pillar",
+      "version": 1,
+      "statement": "The reliability pillar makes a workload recover from failure and meet demand: automatically recover from failure, test recovery procedures, scale horizontally and stop guessing capacity."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-well-architected-framework"
+  ],
+  "suggests": [
+    "clf-high-availability"
+  ],
+  "confusable_with": [
+    "clf-wa-pillars-performance-cost-sustainability"
+  ],
+  "introduces": [
+    "well-architected pillars",
+    "operational excellence pillar",
+    "security pillar",
+    "reliability pillar"
+  ],
+  "uses": [
+    "well-architected framework",
+    "automation",
+    "high availability",
+    "horizontal scaling"
+  ],
+  "problem_ideas": [
+    "'Test your recovery procedures': which pillar? Reliability versus operational excellence is the trap.",
+    "A team ships one huge release a quarter and rollbacks are painful: which pillar's principle are they ignoring?",
+    "Assign eight design principles to operational excellence, security or reliability.",
+    "Enabling logging of every API call for audits maps to which pillar and which principle?",
+    "A workload fails when one instance dies and nobody notices for hours: name two pillars involved and why.",
+    "Recall all six pillars; which one is most often left out?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-2-identify-design-princ/identifying-differences-between-the-pill"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "aws-architecting-ecosystem/well-architected-framework-6-pillars"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "introduction/well-architected-framework"
+    }
+  ],
+  "status": "stub"
+}

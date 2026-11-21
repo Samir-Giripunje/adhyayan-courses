@@ -1,0 +1,44 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u7-accounts-iam",
+  "title": "Accounts, root user and IAM",
+  "topics": [
+    {
+      "id": "clf-aws-account-root-user",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-protect-root-mfa",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-iam-users-groups",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-iam-policies",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-iam-roles",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-least-privilege",
+      "tier": "must",
+      "order": 6
+    },
+    {
+      "id": "clf-access-methods",
+      "tier": "must",
+      "order": 7
+    }
+  ],
+  "halfway_after": 4,
+  "status": "stub"
+}

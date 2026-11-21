@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-direct-connect",
+  "version": 1,
+  "title": "AWS Direct Connect: a private line to AWS",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-direct-connect-dedicated",
+      "version": 1,
+      "statement": "AWS Direct Connect is a dedicated private network connection from an on-premises data center to AWS that bypasses the public internet, giving consistent bandwidth and latency."
+    },
+    {
+      "id": "kc-direct-connect-lead-time",
+      "version": 1,
+      "statement": "A new Direct Connect connection takes weeks to provision, so a requirement for connectivity within days points to Site-to-Site VPN instead."
+    },
+    {
+      "id": "kc-direct-connect-not-encrypted",
+      "version": 1,
+      "statement": "Direct Connect traffic is private but not encrypted by default; running a Site-to-Site VPN over it adds IPsec encryption, and a VPN can also serve as a lower-cost backup link."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-site-to-site-vpn"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-site-to-site-vpn"
+  ],
+  "introduces": [
+    "direct connect"
+  ],
+  "uses": [
+    "site-to-site vpn",
+    "hybrid cloud",
+    "ipsec",
+    "on-premises deployment"
+  ],
+  "problem_ideas": [
+    "A bank moves 50 TB a month to AWS and needs predictable latency: VPN or Direct Connect?",
+    "Compliance requires encryption on the Direct Connect link: what do you add?",
+    "The Direct Connect link fails and the business needs a cheap fallback: pick it",
+    "A startup needs hybrid access by Friday: which option is realistic and why?",
+    "Rank VPN and Direct Connect on setup time, consistency, and whether traffic crosses the public internet",
+    "A media company's VPN throughput swings between 200 Mbps and 1 Gbps; recommend a fix"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "networking-and-content-delivery/aws-direct-connect"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-5-identify-aws-network-/identifying-network-connectivity-options"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "vpc/site-to-site-vpn-direct-connect"
+    }
+  ],
+  "status": "stub"
+}

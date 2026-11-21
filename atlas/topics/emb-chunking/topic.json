@@ -1,0 +1,246 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-chunking",
+  "version": 1,
+  "title": "Chunking",
+  "size": "standard",
+  "est_min": 18,
+  "kcs": [
+    {
+      "id": "kc-chunking",
+      "version": 2,
+      "statement": "Chunks that are too big dilute meaning; chunks that are too small lose context."
+    },
+    {
+      "id": "kc-chunk-overlap-context",
+      "version": 1,
+      "statement": "Overlap and context headers recover context lost at chunk boundaries."
+    }
+  ],
+  "mode_hint": "quiz",
+  "mode": "quiz",
+  "requires": [
+    "emb-pooling"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "chunk",
+    "overlap"
+  ],
+  "uses": [
+    "max sequence length"
+  ],
+  "misconceptions": [],
+  "glossary": [
+    {
+      "term": "ANN",
+      "md": "Approximate nearest neighbour search: finds probably-nearest vectors much faster than exact search."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-chunking-p1",
+      "title": "What you embed: chunking",
+      "beats": [
+        {
+          "id": "b-chunking",
+          "title": "What you embed: chunking",
+          "kcs": [
+            "kc-chunking"
+          ],
+          "est_minutes": 8,
+          "blocks": [
+            {
+              "id": "blk-emb-chunking-01",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Search returns **chunks**, so how you cut documents into chunks decides what can ever be found.",
+                  "- **Too big**: the vector is diluted (and may be truncated). The chunk matches many queries weakly and none strongly.\n- **Too small**: a chunk loses its context. *“It is 30 days.”* What is?\n- **Boundaries**: if a fact straddles a cut, neither half contains it.",
+                  "Good defaults are to split on **structure** (headings, paragraphs) rather than a fixed character count, to add **overlap** so boundary facts survive, and to prepend the **document title and section heading** to each chunk so every chunk carries its context. A few hundred tokens with 10–20% overlap is a common *starting* point. Then **measure** (next beat) and tune."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-chunking-02",
+              "block": {
+                "type": "visual",
+                "id": "v-chunker",
+                "widget": "chunker",
+                "title": "Cut the document",
+                "goal_md": "Slide the chunk size and overlap. Watch where the boundaries fall, and whether the answer to *“How long do refunds take?”* survives in one piece.",
+                "alt": "A paragraph of return-policy text split into coloured chunks. Sliders set the chunk size in words and the overlap. A badge shows the chunk count and whether the refund sentence sits entirely inside one chunk.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "With overlap at 0, find a chunk size that **splits** the refund answer across two chunks.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "overlap",
+                          "op": "==",
+                          "value": 0
+                        },
+                        {
+                          "var": "answer_intact",
+                          "op": "==",
+                          "value": 0
+                        }
+                      ]
+                    },
+                    "aha_md": "Neither half says “refunds take 30 days” on its own, so neither will match the question well. This is how good documents become unfindable."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Keep chunks at **20 words or fewer** and use overlap to make the answer intact again.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "size",
+                          "op": "<=",
+                          "value": 20
+                        },
+                        {
+                          "var": "overlap",
+                          "op": ">=",
+                          "value": 1
+                        },
+                        {
+                          "var": "answer_intact",
+                          "op": "==",
+                          "value": 1
+                        }
+                      ]
+                    },
+                    "aha_md": "Overlap duplicates the boundary text so the fact lands whole in at least one chunk. The cost is more chunks to embed and store. Check the chunk counter."
+                  }
+                ],
+                "params": {
+                  "text": "Our store accepts returns of unused items within 60 days of delivery. To start a return, open your orders page and choose the item. Print the prepaid label and drop the parcel at any courier point. Refunds are issued within 30 days of the return reaching our warehouse. Gift cards and final-sale items cannot be returned. Exchanges for a different size are free and ship within two business days.",
+                  "answer": "Refunds are issued within 30 days of the return reaching our warehouse.",
+                  "question": "How long do refunds take?",
+                  "size": 16,
+                  "overlap": 0
+                }
+              }
+            },
+            {
+              "id": "blk-emb-chunking-03",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-chunk-small",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-chunking"
+                  ],
+                  "prompt_md": "Chunks of **one sentence each** give poor results on questions like *“What's the refund window for gift cards?”*. Why?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Single sentences lose context. The sentence with the number may not mention gift cards or refunds at all",
+                      "why_md": "Right. Context such as the subject or section heading lives in neighbouring sentences. Add titles and headings to chunks, or make them larger.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "Embedding models can't embed single sentences",
+                      "why_md": "Single sentences embed fine. The problem is that the sentence can't stand alone."
+                    },
+                    {
+                      "id": "c",
+                      "md": "Too many chunks make cosine inaccurate",
+                      "why_md": "Cosine is exact per pair. Chunk count affects cost, not the correctness of each score."
+                    }
+                  ],
+                  "est_seconds": 70
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [],
+  "recap": {
+    "pitfall": "An answer split across two chunks is retrievable by neither."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [
+    {
+      "id": "d-chunk-size",
+      "beat": "b-chunking",
+      "question": "So what chunk size should I actually use?",
+      "match": [
+        "chunk size",
+        "how big",
+        "how many tokens",
+        "what size",
+        "overlap"
+      ],
+      "answer_md": "There's no universal number. Start with structure-aware chunks of a few hundred tokens and 10–20% overlap, with the title and heading prepended. Then **measure recall@k** on 50+ labelled queries at 2–3 sizes and keep the best. Two constraints are hard: stay under the model's max input, and stay within what your downstream consumer (LLM context or UI snippet) can use.",
+      "deeper_md": "Chunk size is like the zoom level on a map. Zoomed out, every street matches the area but none stands out. Zoomed in too far, you've lost which neighbourhood you're in. The right zoom depends on what you're looking for, so test a few levels with real questions.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Pick a size with data, not taste",
+        "md": [
+          "1. Label 50 real queries with their correct passage.\n2. Index three versions: ~150, ~400 and ~800 tokens, each with 15% overlap.\n3. Measure recall@5 for each. For example: 0.71 / **0.83** / 0.78.\n4. Pick ~400, then try adding contextual headers (another +0.03 is common).",
+          "Re-run the experiment whenever the documents or the model change."
+        ],
+        "verify": {
+          "id": "q-br-chunk",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-chunking"
+          ],
+          "prompt_md": "Recall@5 is 0.62 at 800-token chunks and 0.81 at 300-token chunks. The most likely reason:",
+          "options": [
+            {
+              "id": "a",
+              "md": "The large chunks were diluted (and possibly truncated), so they matched specific queries weakly",
+              "why_md": "Right.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "Smaller chunks are always better",
+              "why_md": "Too small loses context. Always measure."
+            },
+            {
+              "id": "c",
+              "md": "Cosine works better on short vectors",
+              "why_md": "Vector length is fixed by the model; chunk size doesn't change it."
+            }
+          ],
+          "est_seconds": 70
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Chunk an article at 50 and 200 words and compare which query finds the answer",
+    "Add 20% overlap and show the boundary answer becoming retrievable",
+    "Write a context header for a chunk from a FAQ section",
+    "Predict recall when chunks are a whole page each",
+    "Pick a chunk size for a 256-token model",
+    "Explain why chunking by heading beats fixed windows for docs"
+  ],
+  "sources": [
+    {
+      "source": "strata-pack",
+      "entry": "intermediate/b-chunking"
+    },
+    {
+      "source": "roadmap-ai-engineer",
+      "entry": "use-cases"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

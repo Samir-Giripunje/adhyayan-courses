@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-storage-types",
+  "version": 1,
+  "title": "Object, block and file storage",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-block-storage",
+      "version": 1,
+      "statement": "Block storage presents a raw volume to one server, which formats it with a file system. It gives low-latency random reads and writes for operating systems and databases; on AWS this is EBS and instance store."
+    },
+    {
+      "id": "kc-file-storage",
+      "version": 1,
+      "statement": "File storage is a shared hierarchical file system that many servers mount at once over a network protocol such as NFS or SMB; on AWS this is EFS and FSx."
+    },
+    {
+      "id": "kc-object-storage",
+      "version": 1,
+      "statement": "Object storage keeps each file as a whole object, with metadata and a unique key, in a flat namespace accessed over HTTP APIs. Objects are replaced, not edited in place; on AWS this is S3."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-ec2-basics"
+  ],
+  "confusable_with": [
+    "clf-choosing-storage"
+  ],
+  "introduces": [
+    "object storage",
+    "block storage",
+    "file storage"
+  ],
+  "uses": [
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "Classify six needs as object, block or file: OS boot disk, shared home directories, 2 million product photos, a MySQL data volume, a team's SMB share, nightly log archives.",
+    "Explain why changing one byte in a 1 GB object means rewriting the whole object.",
+    "Twenty servers must read and write the same folder at once: which storage type?",
+    "A distractor offers block storage for serving images directly to browsers: why is it a poor fit?",
+    "Name the AWS services behind each type: block, file and object.",
+    "A database needs low-latency random writes: which type, and why not object storage?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/aws-storage-services"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/task-statement-3-6-identify-aws-storage-"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "ec2-instance-storage/ec2-instance-storage"
+    }
+  ],
+  "status": "stub"
+}

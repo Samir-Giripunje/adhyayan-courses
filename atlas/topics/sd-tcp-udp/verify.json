@@ -1,0 +1,37 @@
+{
+  "rounds": {
+    "lesson": 1,
+    "review": 3
+  },
+  "reopened": [
+    {
+      "at": "2026-11-18T04:11:05.831Z",
+      "by": "user",
+      "findings": 3,
+      "note": "maintainer: the remaining findings are factual with exact fixes; one more round before the final review"
+    }
+  ],
+  "reauthored": {
+    "at": "2026-11-18T08:36:57.000Z",
+    "note": "answer-first rewrite (author contract v2); previous critic record superseded",
+    "previous_review": {
+      "ok": false,
+      "job": "review-sd-tcp-udp-r4",
+      "blocking": 2
+    }
+  },
+  "novice": {
+    "ok": true,
+    "lesson": "fa9307ddf53a677918d0395b9e65fc311f72e09bd43c43cea9003cc339014ae4",
+    "job": "novice-sd-tcp-udp-r4",
+    "minor": 9
+  },
+  "review": {
+    "ok": true,
+    "content": "4ac7996b903bc4a9c72a52854776dddd533a5b5ff18f231ff80fbcf422cec65b",
+    "job": "review-sd-tcp-udp-r7",
+    "warn": [
+      "sd-tcp-udp: Assessed material is taught only inside collapsed Go deeper sections. This includes connection failure, head-of-line blocking, layers 2 and 3, and the distinction between OSI layers and system tiers."
+    ]
+  }
+}

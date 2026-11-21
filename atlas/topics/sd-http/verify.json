@@ -1,0 +1,37 @@
+{
+  "rounds": {
+    "lesson": 0,
+    "review": 3
+  },
+  "reopened": [
+    {
+      "at": "2026-11-18T04:11:05.561Z",
+      "by": "user",
+      "findings": 1,
+      "note": "maintainer: the remaining findings are factual with exact fixes; one more round before the final review"
+    }
+  ],
+  "reauthored": {
+    "at": "2026-11-18T08:36:57.000Z",
+    "note": "answer-first rewrite (author contract v2); previous critic record superseded",
+    "previous_review": {
+      "ok": false,
+      "job": "review-sd-http-r7",
+      "blocking": 2
+    }
+  },
+  "novice": {
+    "ok": true,
+    "lesson": "0ef4df4af225a7d16da8fa6c8515e4257f8181f1bd9f00c0b4e4f00756908396",
+    "job": "novice-sd-http-r5",
+    "minor": 7
+  },
+  "review": {
+    "ok": true,
+    "content": "810de2a6b93fdcf5dfa31960cf5d3a9660ed2c82b1a01141f9457404dd5664a0",
+    "job": "review-sd-http-r10",
+    "warn": [
+      "sd-http/set-4: The stem asks whether the entire server state stays identical, but the lesson explicitly allows repeated incidental effects such as log entries. The marked answers establish identical intended effects on resources, not identical total server state. The same ambiguity appears in test-a3."
+    ]
+  }
+}

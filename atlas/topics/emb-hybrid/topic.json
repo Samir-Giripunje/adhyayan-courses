@@ -1,0 +1,386 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-hybrid",
+  "version": 1,
+  "title": "Hybrid search, RRF and reranking",
+  "size": "standard",
+  "est_min": 29,
+  "kcs": [
+    {
+      "id": "kc-hybrid-rerank",
+      "version": 2,
+      "statement": "Hybrid search fuses BM25 and vector results by rank."
+    },
+    {
+      "id": "kc-rrf",
+      "version": 1,
+      "statement": "RRF score = Σ 1 ÷ (k + rank)."
+    },
+    {
+      "id": "kc-rerank-cross-encoder",
+      "version": 1,
+      "statement": "Cross-encoders rerank the top candidates for precision."
+    }
+  ],
+  "mode_hint": "prediction",
+  "mode": "prediction",
+  "requires": [
+    "emb-keyword-gap",
+    "emb-search",
+    "emb-retrieval-eval"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "BM25",
+    "RRF",
+    "cross-encoder"
+  ],
+  "uses": [
+    "keyword search",
+    "recall@k",
+    "top-k"
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-semantic-replaces-keyword",
+      "statement": "Semantic search makes keyword search obsolete.",
+      "tags": [
+        "kc-hybrid-rerank",
+        "kc-keyword-limits"
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "BM25",
+      "md": "A classic lexical ranking function that scores documents by query-term frequency and rarity."
+    },
+    {
+      "term": "RRF",
+      "md": "Reciprocal rank fusion: combine ranked lists with $\\sum 1/(k + \\text{rank})$."
+    },
+    {
+      "term": "cross-encoder",
+      "md": "A model that reads a (query, document) pair together and outputs a relevance score."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-hybrid-p1",
+      "title": "Hybrid search and reranking",
+      "beats": [
+        {
+          "id": "b-hybrid",
+          "title": "Hybrid search and reranking",
+          "kcs": [
+            "kc-hybrid-rerank"
+          ],
+          "est_minutes": 12,
+          "blocks": [
+            {
+              "id": "blk-emb-hybrid-01",
+              "block": {
+                "type": "predict",
+                "question": {
+                  "id": "q-predict-hybrid",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-hybrid-rerank",
+                    "kc-keyword-limits"
+                  ],
+                  "prompt_md": "A developer pastes the error code `E1234` into your docs search. Which retriever do you expect to put the right page first?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Vector search: it understands meaning",
+                      "why_md": "An error code has almost no “meaning” for an embedding model to understand. Similar-looking codes and generic error pages crowd in.",
+                      "misconception": "mc-semantic-replaces-keyword"
+                    },
+                    {
+                      "id": "b",
+                      "md": "BM25 keyword search: it matches the exact token",
+                      "why_md": "Right. Exact identifiers are BM25's home turf. This beat shows how to keep both strengths at once.",
+                      "correct": true
+                    },
+                    {
+                      "id": "c",
+                      "md": "Both equally well",
+                      "why_md": "They behave very differently on identifiers, as you'll see."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            },
+            {
+              "id": "blk-emb-hybrid-02",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Vector search is weak exactly where keyword search is strong: **exact identifiers** (`E1234`, SKU `X-4410`, a person's name), rare jargon, and sometimes negation. [[BM25]], the classic lexical ranking function, handles those well. So production systems run **both** and fuse the results.",
+                  "The scores don't share a scale (BM25 is unbounded, cosine is between −1 and 1), so fuse by **rank** rather than score. [[RRF]] (reciprocal rank fusion; Cormack, Clarke & Büttcher, 2009) gives each document $\\sum 1/(k + \\text{rank})$ across the lists, with $k = 60$ as the common default. A document that ranks well in *both* lists beats one that ranks first in only one."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-hybrid-03",
+              "block": {
+                "type": "math",
+                "tex": "\\text{RRF}(d) = \\sum_{i \\in \\text{lists}} \\frac{1}{k + \\text{rank}_i(d)}",
+                "explain_md": "Documents missing from a list contribute nothing for that list. A larger $k$ flattens the difference between rank 1 and rank 5, which rewards agreement between the lists.",
+                "parts": [
+                  {
+                    "symbol": "rank_i(d)",
+                    "means": "position of d in list i (1 = top)"
+                  },
+                  {
+                    "symbol": "k",
+                    "means": "smoothing constant, commonly 60"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-hybrid-04",
+              "block": {
+                "type": "visual",
+                "id": "v-rrf",
+                "widget": "rrf",
+                "title": "Fuse two rankings",
+                "goal_md": "Query: *“error E1234 when exporting to PDF”*. Slide `k` and watch the fused ranking change.",
+                "alt": "Two ranked lists side by side, BM25 and vector, with a fused RRF list that re-sorts live as k changes. Lines connect each document's positions.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "Find a `k` where the **top fused result** is the doc that only BM25 ranked first.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "top1",
+                          "op": "==",
+                          "value": "D1"
+                        }
+                      ]
+                    },
+                    "aha_md": "At very small k, a single first place dominates the fused score."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Now make **D3**, ranked #2 by **both** systems, the top fused result.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "top1",
+                          "op": "==",
+                          "value": "D3"
+                        }
+                      ]
+                    },
+                    "aha_md": "With a moderate k, agreement wins: #2 + #2 beats #1 + #4. That's the behaviour you usually want, and why k = 60 works well across many collections."
+                  }
+                ],
+                "params": {
+                  "k": 1
+                }
+              }
+            },
+            {
+              "id": "blk-emb-hybrid-05",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "**Reranking.** The embedders you've used are **bi-encoders**: query and document are embedded *separately*, which is what makes pre-computing an index possible. A **cross-encoder** reads the query and the document *together* in one forward pass and outputs a relevance score. It's far more accurate, but you can't pre-compute it, so it's too slow to run over millions of documents.",
+                  "The standard architecture has two stages. **Retrieve** about 50–200 candidates quickly (vector + BM25, optimized for recall), then **rerank** them with a cross-encoder (optimized for precision). Return the top 5–10."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-hybrid-06",
+              "block": {
+                "type": "compare",
+                "title": "Bi-encoder vs cross-encoder",
+                "columns": [
+                  "",
+                  "Bi-encoder (embedding model)",
+                  "Cross-encoder (reranker)"
+                ],
+                "rows": [
+                  [
+                    "Input",
+                    "One text → one vector",
+                    "(query, document) pair → one score"
+                  ],
+                  [
+                    "Pre-compute docs?",
+                    "Yes, that's the index",
+                    "No, it must run per query"
+                  ],
+                  [
+                    "Speed over 10M docs",
+                    "Milliseconds (with ANN)",
+                    "Impossible in real time"
+                  ],
+                  [
+                    "Accuracy",
+                    "Good",
+                    "Better: it sees word-level interactions"
+                  ],
+                  [
+                    "Role",
+                    "Stage 1: recall",
+                    "Stage 2: precision"
+                  ]
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-hybrid-07",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-rrf-calc",
+                  "kind": "numeric",
+                  "difficulty": 3,
+                  "kcs": [
+                    "kc-hybrid-rerank"
+                  ],
+                  "prompt_md": "With k = 60, a document is ranked **1st** in the BM25 list and **3rd** in the vector list. What is its RRF score? (4 decimals)",
+                  "answer": {
+                    "value": 0.0323,
+                    "tolerance": 0.0002
+                  },
+                  "solution_md": "$1/61 + 1/63 \\approx 0.016393 + 0.015873 = 0.032266 \\approx 0.0323$.",
+                  "est_seconds": 120
+                }
+              }
+            },
+            {
+              "id": "blk-emb-hybrid-08",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-rrf-why-rank",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-hybrid-rerank"
+                  ],
+                  "prompt_md": "Why does RRF fuse by **rank** instead of adding BM25 scores to cosine scores?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "The scores live on different, uncalibrated scales, so adding them lets one system dominate",
+                      "why_md": "Right. BM25 can be 25.3 while cosine is 0.82. Ranks are comparable across systems; raw scores aren't.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "Ranks are faster to compute",
+                      "why_md": "Both are cheap. The issue is comparability."
+                    },
+                    {
+                      "id": "c",
+                      "md": "BM25 doesn't produce scores",
+                      "why_md": "It does, unbounded ones. That's the problem."
+                    }
+                  ],
+                  "est_seconds": 70
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp3-hybrid"
+  ],
+  "recap": {
+    "formula": "RRF(d) = Σ over lists 1 ÷ (k + rank(d)), k ≈ 60",
+    "pitfall": "Fusing raw scores mixes incomparable scales; fuse ranks."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [
+    {
+      "id": "d-rrf-k",
+      "beat": "b-hybrid",
+      "question": "What does k do in reciprocal rank fusion?",
+      "match": [
+        "rrf",
+        "what is k",
+        "k=60",
+        "k = 60",
+        "reciprocal rank",
+        "fusion"
+      ],
+      "answer_md": "k decides how much **rank 1 beats rank 2**. With k = 1, ranks 1 and 2 score 1/2 and 1/3, a big gap, so a single first place dominates. With k = 60 they score 1/61 and 1/62, almost equal, so a document that does well in **both** lists wins. 60 is the value from the original paper and works well across many collections.",
+      "deeper_md": "Judges scoring a competition. With k small, one judge's #1 pick wins almost regardless. With k large, the act that every judge ranked 2nd beats the act that one judge loved and another ranked 4th: consensus wins.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "k = 1 vs k = 60, by hand",
+        "md": [
+          "D1 is #1 in BM25 and #4 in vector. D3 is #2 in both.",
+          "- k = 1: D1 = 1/2 + 1/5 = **0.700**; D3 = 2/3 = **0.667**, so D1 wins.\n- k = 60: D1 = 1/61 + 1/64 ≈ **0.03202**; D3 = 2/62 ≈ **0.03226**, so D3 wins.",
+          "The crossover is at k = 2. Large k rewards agreement."
+        ],
+        "verify": {
+          "id": "q-br-rrf",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-hybrid-rerank"
+          ],
+          "prompt_md": "You want a document ranked #1 by **either** system to almost always win. Choose:",
+          "options": [
+            {
+              "id": "a",
+              "md": "A small k (like 1)",
+              "why_md": "Right. Small k makes rank 1 dominate.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "A large k (like 60)",
+              "why_md": "A large k flattens ranks and rewards agreement."
+            },
+            {
+              "id": "c",
+              "md": "k doesn't change the order",
+              "why_md": "It does: see the worked example."
+            }
+          ],
+          "est_seconds": 70
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Fuse two ranked lists with RRF at k = 60 by hand",
+    "Find the error-code query BM25 wins and vectors lose",
+    "Predict how k changes the fused order",
+    "Decide how many candidates to send to a cross-encoder",
+    "Measure recall@10 before and after hybrid on the bench",
+    "Explain why score averaging fails across BM25 and cosine"
+  ],
+  "sources": [
+    {
+      "source": "strata-pack",
+      "entry": "advanced/b-hybrid"
+    },
+    {
+      "source": "sentence-transformers",
+      "entry": "semantic-search"
+    },
+    {
+      "source": "roadmap-ai-engineer",
+      "entry": "semantic-search"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

@@ -1,0 +1,1021 @@
+{
+  "stage": {
+    "id": "sd-p1",
+    "title": "Foundations: how a request travels the web",
+    "outcome": [
+      "o2",
+      "o4"
+    ],
+    "assumes": [
+      "client",
+      "server",
+      "programming basics",
+      "database query"
+    ],
+    "provides": [
+      "ip address",
+      "tcp",
+      "udp",
+      "http",
+      "https",
+      "tls",
+      "dns",
+      "client-server architecture",
+      "latency",
+      "throughput",
+      "latency numbers",
+      "rest",
+      "rpc"
+    ]
+  },
+  "sections": [
+    {
+      "id": "request-path",
+      "title": "The request path: addresses, transport, DNS and HTTP",
+      "rank": 1,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "tcp-vs-udp"
+      }
+    },
+    {
+      "id": "speed-and-apis",
+      "title": "Speed and API styles",
+      "rank": 2,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "communication"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "sd-client-server",
+      "title": "Client-server and three-tier architecture",
+      "size": "standard",
+      "est_min": 8,
+      "section": "request-path",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-client-server-roles",
+          "statement": "In client-server architecture the client initiates each request and the server waits for requests, processes them and returns a response; many clients share one server's resources."
+        },
+        {
+          "id": "kc-three-tier",
+          "statement": "A three-tier architecture separates the presentation tier (client), the application tier (business logic) and the data tier (database), so each tier can be changed and scaled independently."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-http"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "client-server architecture",
+        "three-tier architecture",
+        "application tier",
+        "data tier"
+      ],
+      "uses": [
+        "client",
+        "server",
+        "database query"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "architectural-patterns/client-server-architecture"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "types-of-n-tier-architectures/3-tier-architecture"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "types-of-n-tier-architectures/types-of-n-tier-architectures"
+        }
+      ],
+      "problem_ideas": [
+        "Label each box in a diagram of a to-do app (browser, API server, PostgreSQL) with its tier.",
+        "A team puts SQL queries directly in the mobile app; name two problems this two-tier design causes.",
+        "Given a 3-tier shop, which tier do you add machines to when checkout logic becomes CPU-bound?",
+        "Can a server also be a client? Trace an API server calling a payment provider.",
+        "Classify a peer-to-peer file-sharing app vs a web email client: which is client-server?",
+        "A spreadsheet desktop app stores files locally: which tiers collapse into one?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Peer-to-peer architectures and when they beat client-server"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Every interview diagram starts with clients, an app tier and a data tier; you need the vocabulary, not the theory."
+      }
+    },
+    {
+      "id": "sd-ip-addresses",
+      "title": "IP addresses: IPv4, IPv6, public and private",
+      "size": "standard",
+      "est_min": 8,
+      "section": "request-path",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-ipv4-ipv6",
+          "statement": "An IPv4 address is 32 bits (about 4.3 billion addresses, written like 203.0.113.7) and an IPv6 address is 128 bits (written in hexadecimal groups); IPv6 exists because IPv4 addresses ran out."
+        },
+        {
+          "id": "kc-public-private-ip",
+          "statement": "Public IP addresses are routable on the internet, while private ranges (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) are only routable inside a network and reach the internet through NAT."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-dns"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "ip address",
+        "ipv4",
+        "ipv6",
+        "private ip address",
+        "nat"
+      ],
+      "uses": [
+        "client",
+        "server"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "versions/ipv4"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "versions/ipv6"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "types/private"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "networking-fundamentals/ip-addresses"
+        }
+      ],
+      "problem_ideas": [
+        "Classify 10.2.3.4, 172.20.0.1, 172.32.0.1 and 8.8.8.8 as public or private.",
+        "How many times more addresses does IPv6 have than IPv4? Express as a power of two.",
+        "Your database servers sit in 10.0.0.0/16: can a laptop on the internet reach them directly? Why is that good?",
+        "Two home laptops both show 192.168.1.5; explain why there is no conflict.",
+        "A server's dynamic public IP changes after reboot and clients break; what fixes it?",
+        "Estimate how many hosts fit in a /24 private subnet."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How NAT rewrites addresses and ports"
+        }
+      ],
+      "lens": {
+        "score": 0.35,
+        "reason": "Rarely asked directly, but private networks explain why databases are not internet-facing in your designs."
+      }
+    },
+    {
+      "id": "sd-tcp-udp",
+      "title": "TCP vs UDP and the transport layer",
+      "size": "standard",
+      "est_min": 10,
+      "section": "request-path",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-tcp-reliable",
+          "statement": "TCP is connection-oriented: a three-way handshake (SYN, SYN-ACK, ACK) opens a connection, and TCP then delivers bytes in order, retransmitting segments that are not acknowledged."
+        },
+        {
+          "id": "kc-udp-connectionless",
+          "statement": "UDP sends independent datagrams with no handshake, ordering or retransmission, trading reliability for lower latency; it suits live video and voice calls, online games and DNS lookups."
+        },
+        {
+          "id": "kc-osi-l4-l7",
+          "statement": "In the OSI model TCP and UDP are layer 4 (transport) and HTTP is layer 7 (application); a component working at layer 4 sees only IP addresses and ports, while one at layer 7 can read URLs, headers and cookies."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-ip-addresses",
+          "reason": "Transport connections are identified by IP address and port, which must already be known."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "tcp",
+        "udp",
+        "three-way handshake",
+        "osi model",
+        "transport layer",
+        "application layer",
+        "port"
+      ],
+      "uses": [
+        "ip address",
+        "client",
+        "server"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "communication/transmission-control-protocol-tcp"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "communication/user-datagram-protocol-udp"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "tcp-vs-udp/tcp-vs-udp"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "layers/transport"
+        }
+      ],
+      "problem_ideas": [
+        "Pick TCP or UDP for: bank transfer API, live sports stream, multiplayer game position updates, file upload.",
+        "A client 75 ms away opens a new TCP connection per request: how much latency does the handshake add each time?",
+        "A video call drops 2% of packets over UDP; describe what the user sees vs what TCP would do.",
+        "Which layer must a router work at to send /images/* to one server pool and /api/* to another?",
+        "Why does DNS mostly use UDP but fall back to TCP for large responses?",
+        "Explain head-of-line blocking when one TCP segment is lost in a chat stream."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "TCP congestion control and slow start"
+        },
+        {
+          "kind": "frontier",
+          "title": "QUIC and HTTP/3: reliable streams over UDP"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "You will justify UDP for real-time media and need layer 4 vs layer 7 to discuss load balancers later."
+      }
+    },
+    {
+      "id": "sd-dns",
+      "title": "DNS: how a name becomes an address",
+      "size": "standard",
+      "est_min": 8,
+      "section": "request-path",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-dns-resolution",
+          "statement": "To resolve a domain name, a DNS resolver queries a root server, then the TLD server (e.g. for .com), then the domain's authoritative server, which returns the IP address."
+        },
+        {
+          "id": "kc-dns-caching",
+          "statement": "DNS answers are cached by browsers, operating systems and resolvers for the record's time-to-live, so a changed record reaches users only after cached copies expire."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-ip-addresses",
+          "reason": "DNS maps names to IP addresses; the answer is meaningless without knowing what an IP address is."
+        }
+      ],
+      "suggests": [
+        "sd-tcp-udp"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "dns",
+        "dns resolver",
+        "authoritative dns server",
+        "dns caching"
+      ],
+      "uses": [
+        "ip address",
+        "client",
+        "server"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "how-dns-works/how-dns-works"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "dns-caching/dns-caching"
+        }
+      ],
+      "problem_ideas": [
+        "Order the servers queried for a cold lookup of shop.example.com.",
+        "Which server returns the final IP address in a cold lookup, and what do the others return?",
+        "Count every query for two lookups in the same domain when the resolver keeps referrals.",
+        "A resolver cached a record with TTL 120 s at 14:20:00 and the address changed at 14:21:00: how long can it still hand out the old address?",
+        "You migrate servers and change the A record, but users hit the old IP for an hour: what was the TTL likely to be, and what should you have done beforehand?",
+        "A laptop gets a cached answer from its resolver 200 s into a 300 s TTL: how long may the laptop keep it?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Recursive vs iterative DNS queries"
+        },
+        {
+          "kind": "edge",
+          "title": "Serve-stale: resolvers that keep expired answers when the authoritative server is down"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Interviewers expect DNS as step one of the request path and as a tool for geo-routing users."
+      }
+    },
+    {
+      "id": "sd-dns-records",
+      "title": "DNS records: A, AAAA, CNAME and NS",
+      "size": "micro",
+      "est_min": 6,
+      "section": "request-path",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-dns-records",
+          "statement": "An A record maps a name to an IPv4 address, AAAA to an IPv6 address, CNAME aliases one name to another name, and NS names the domain's authoritative servers."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Placing a CDN in the request path means pointing a hostname at the CDN edge with a CNAME."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-dns",
+          "reason": "Records are what the authoritative server stores and the resolver fetches; the lookup chain comes first."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "dns record"
+      ],
+      "uses": [
+        "dns",
+        "authoritative dns server",
+        "ipv4",
+        "ipv6"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "record-types/record-types"
+        }
+      ],
+      "problem_ideas": [
+        "Which record type points www.example.com to example.cdnprovider.net?",
+        "Which record type holds an IPv6 address for api.example.com?",
+        "Is \"files.example.com CNAME 203.0.113.7\" a valid record? Why or why not?",
+        "In a referral, which record type tells the resolver which servers are authoritative for a domain?",
+        "Match four facts about a domain to the record types that store them.",
+        "A CDN says its IP addresses change without notice: which record should point your hostname at it?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Why a CNAME can't sit at the bare domain (example.com) and how providers work around it"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "A CNAME to a CDN hostname and NS delegation come up whenever you place a CDN or move DNS providers."
+      }
+    },
+    {
+      "id": "sd-dns-routing",
+      "title": "DNS routing: different users, different answers",
+      "size": "micro",
+      "est_min": 6,
+      "section": "request-path",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-dns-routing",
+          "statement": "An authoritative DNS server can return different IP addresses per query (weighted round robin, latency-based or geolocation-based) to spread users across servers or send them to the nearest region."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "The request-path diagram starts with DNS sending each user to a nearby, healthy region; DNS failover timing (detection + TTL) is part of justifying that choice."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-dns",
+          "reason": "Routing happens at the authoritative server and is limited by resolver caches and TTLs, taught in DNS."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "dns-based routing"
+      ],
+      "uses": [
+        "dns",
+        "authoritative dns server",
+        "dns resolver",
+        "dns caching"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "domain-name-system/latency-based"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "domain-name-system/geolocation-based"
+        }
+      ],
+      "problem_ideas": [
+        "Design DNS for an app with servers in us-east and eu-west so European users go to eu-west.",
+        "With weighted round robin at 3:1 over two regions, what fraction of 10,000 lookups go to each?",
+        "A region goes down but clients keep resolving to it for minutes: explain why, and why a low TTL helps.",
+        "Pick a routing policy for sending 5% of answers to a new region, regardless of where users are.",
+        "A user in Madrid uses a resolver in Virginia: where does geolocation routing send the user, and why?",
+        "Health checks notice a failure after 45 s and the TTL is 120 s: what is the worst-case time some users still reach the dead region?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "When the resolver is far from the user: client subnet hints and their privacy cost"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Interviewers expect DNS to send users to the nearest healthy region, and ask why DNS failover is slow."
+      }
+    },
+    {
+      "id": "sd-http",
+      "title": "HTTP: requests, methods and status codes",
+      "size": "standard",
+      "est_min": 10,
+      "section": "request-path",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-http-request-response",
+          "statement": "HTTP is a stateless request/response protocol: a request carries a method, a path, headers and an optional body, and the response carries a status code, headers and a body. HTTP/1.1 and HTTP/2 usually run over TCP, while HTTP/3 runs over QUIC on UDP."
+        },
+        {
+          "id": "kc-http-methods",
+          "statement": "GET reads a resource, POST creates or submits, PUT replaces, PATCH partially updates and DELETE removes; GET, PUT and DELETE are idempotent (repeating them has the same effect) while POST is not."
+        },
+        {
+          "id": "kc-http-status-codes",
+          "statement": "Status code classes are 2xx success (200, 201), 3xx redirection (301, 302), 4xx client error (400, 401, 404, 429 too many requests) and 5xx server error (500, 503)."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "An API sketch needs correct methods, paths and status codes."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-tcp-udp",
+        "sd-client-server"
+      ],
+      "confusable_with": [
+        "sd-https-tls"
+      ],
+      "introduces": [
+        "http",
+        "http method",
+        "http status code",
+        "http header"
+      ],
+      "uses": [
+        "tcp",
+        "udp",
+        "client",
+        "server",
+        "application layer"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "communication/hypertext-transfer-protocol-http"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "networking-fundamentals/http-https"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "communication/communication"
+        }
+      ],
+      "problem_ideas": [
+        "Pick the method for: fetch a profile, upload a new photo, change only the bio, remove a comment.",
+        "A client retries a timed-out POST /payments; what could go wrong that would not happen with PUT?",
+        "Which status code should a URL shortener return on redirect, and why 301 vs 302 matters for analytics?",
+        "Return codes for: missing auth token, rate limit exceeded, server overloaded, resource not found.",
+        "Write the raw request line and two headers for fetching /users/42 as JSON.",
+        "HTTP is stateless, yet you stay logged in; explain where the state lives."
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "HTTP/1.1 keep-alive, HTTP/2 multiplexing, HTTP/3"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Every API you sketch in an interview is HTTP; wrong methods or codes are noticed immediately."
+      }
+    },
+    {
+      "id": "sd-https-tls",
+      "title": "HTTPS, TLS and where encryption ends",
+      "size": "standard",
+      "est_min": 10,
+      "section": "request-path",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-tls-handshake",
+          "statement": "HTTPS is HTTP over TLS: the TLS handshake authenticates the server with a certificate signed by a trusted certificate authority and agrees on session keys, after which traffic is encrypted with fast symmetric encryption."
+        },
+        {
+          "id": "kc-tls-termination",
+          "statement": "With TLS termination an edge proxy decrypts HTTPS and forwards plain or re-encrypted HTTP to backends, centralising certificates and saving backend CPU."
+        },
+        {
+          "id": "kc-mtls",
+          "statement": "Mutual TLS (mTLS) also authenticates the client with its own certificate, and is used to secure service-to-service traffic inside a system."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-http",
+          "reason": "HTTPS is defined as HTTP carried inside TLS."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-http"
+      ],
+      "introduces": [
+        "https",
+        "tls",
+        "tls handshake",
+        "certificate",
+        "tls termination",
+        "mtls"
+      ],
+      "uses": [
+        "http",
+        "tcp",
+        "client",
+        "server"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "tls/tls"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "ssl/why-was-ssl-so-important"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "mtls/mtls"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "mtls/why-use-mtls"
+        }
+      ],
+      "problem_ideas": [
+        "List what an attacker on café Wi-Fi can see for an HTTP vs an HTTPS request to bank.com/transfer.",
+        "Your 40 backend servers each manage certificates; propose a simpler layout.",
+        "A client 100 ms away needs TCP plus a TLS 1.3 handshake before the first byte: estimate the setup round trips and time.",
+        "Why does TLS use asymmetric crypto only during the handshake?",
+        "An internal payments service must accept calls only from the orders service: which mechanism fits?",
+        "A certificate expires at midnight; describe what users see and how to prevent it."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Certificate chains and certificate authorities"
+        }
+      ],
+      "lens": {
+        "score": 0.4,
+        "reason": "Usually one sentence in an interview ('terminate TLS at the edge'), but you must say it correctly."
+      }
+    },
+    {
+      "id": "sd-latency-throughput",
+      "title": "Latency, throughput and bandwidth",
+      "size": "standard",
+      "est_min": 28,
+      "section": "speed-and-apis",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-latency-vs-throughput",
+          "statement": "Latency is the time one operation takes (e.g. 50 ms per request) and throughput is the number of operations completed per unit time (e.g. 2,000 requests per second); a system should maximise throughput while keeping latency acceptable."
+        },
+        {
+          "id": "kc-bandwidth",
+          "statement": "Bandwidth is the maximum data rate a link can carry (e.g. 1 Gbps); throughput is the rate actually achieved, which is at most the bandwidth."
+        },
+        {
+          "id": "kc-littles-law",
+          "statement": "Little's law: requests in flight = throughput × latency, so a server handling 200 requests per second at 50 ms average latency has about 10 requests in progress at once."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "sd-client-server"
+      ],
+      "confusable_with": [
+        "sd-latency-numbers"
+      ],
+      "introduces": [
+        "latency",
+        "throughput",
+        "bandwidth",
+        "little's law",
+        "tail latency"
+      ],
+      "uses": [
+        "client",
+        "server"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "latency-vs-throughput/latency-vs-throughput"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "core-concepts/latency-vs-throughput-vs-bandwidth"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "latency-vs-throughput/latency-vs-throughput"
+        }
+      ],
+      "problem_ideas": [
+        "A worker pool of 50 threads, each request takes 100 ms: what is the maximum throughput?",
+        "Batching writes raises throughput from 1k to 10k/s but p99 latency from 5 ms to 40 ms; when is that acceptable?",
+        "How long does a 1 GB file take over a 100 Mbps link at full bandwidth?",
+        "A service gets 3,000 req/s at 20 ms; how many concurrent requests must it hold?",
+        "Average latency is 30 ms but p99 is 2 s; explain why users still complain.",
+        "A link is 1 Gbps but uploads reach 200 Mbps; name two reasons throughput is below bandwidth."
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Percentiles: why p99 matters more than the mean"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "Non-functional requirements are stated as latency and throughput targets; you must not mix them up."
+      }
+    },
+    {
+      "id": "sd-latency-numbers",
+      "title": "Latency numbers every engineer should know",
+      "size": "standard",
+      "est_min": 28,
+      "section": "speed-and-apis",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-latency-random-access",
+          "statement": "Rough random-access costs: a main memory reference ≈ 100 ns, a random 4 KB SSD read ≈ 150 µs, a spinning-disk seek ≈ 10 ms, so memory is about a thousand times faster than SSD for random reads."
+        },
+        {
+          "id": "kc-latency-sequential-read",
+          "statement": "Reading 1 MB sequentially takes roughly 250 µs from memory, 1 ms from SSD and 20–30 ms from a spinning disk."
+        },
+        {
+          "id": "kc-latency-network-rtt",
+          "statement": "A network round trip within one datacenter is ≈ 0.5 ms, while a cross-continent round trip (California to the Netherlands) is ≈ 150 ms, so sequential cross-region calls dominate a request's latency."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-latency-throughput",
+          "reason": "The numbers are latencies; the learner must already distinguish latency from throughput."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-latency-throughput"
+      ],
+      "introduces": [
+        "latency numbers",
+        "round trip time"
+      ],
+      "uses": [
+        "latency",
+        "throughput"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "appendix/latency-numbers-every-programmer-should-"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "appendix/latency-numbers-visualized"
+        }
+      ],
+      "problem_ideas": [
+        "A page makes 5 sequential calls to a service in another continent: estimate the minimum added latency.",
+        "How long to read 1 GB sequentially from SSD vs memory?",
+        "A request does 20 random disk seeks; can it meet a 100 ms latency target?",
+        "Compare serving a profile from an in-memory cache vs a same-datacenter database call vs a cross-region call.",
+        "Rank: memory reference, datacenter round trip, SSD random read, disk seek, cross-continent round trip.",
+        "Why can a single server stream from memory far more MB/s than from spinning disk? Compute both rates from the 1 MB numbers."
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "How these numbers changed from 2010 to today"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Quoting the right order of magnitude is how you justify a cache or a regional deployment in an interview."
+      }
+    },
+    {
+      "id": "sd-rest",
+      "title": "REST APIs: resources, statelessness, pagination",
+      "size": "standard",
+      "est_min": 28,
+      "section": "speed-and-apis",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-rest-resources",
+          "statement": "REST models data as resources identified by URLs that are nouns (e.g. /users/42/orders) and acts on them with standard HTTP methods instead of verbs in the path."
+        },
+        {
+          "id": "kc-rest-stateless",
+          "statement": "Each REST request carries everything the server needs (such as an auth token), so the server keeps no per-client session and any server instance can handle any request."
+        },
+        {
+          "id": "kc-rest-pagination",
+          "statement": "REST list endpoints return results in pages using a limit plus a cursor or offset, so a response stays bounded in size however many items exist."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "The API sketch in a scoped design is usually written as REST endpoints."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-http",
+          "reason": "REST endpoints are defined in terms of HTTP methods, paths and status codes."
+        }
+      ],
+      "suggests": [
+        "sd-client-server"
+      ],
+      "confusable_with": [
+        "sd-rpc"
+      ],
+      "introduces": [
+        "rest",
+        "resource",
+        "pagination",
+        "cursor"
+      ],
+      "uses": [
+        "http",
+        "http method",
+        "http status code",
+        "client",
+        "server"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "communication/representational-state-transfer-rest"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "rest/concepts"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "rest/example"
+        }
+      ],
+      "problem_ideas": [
+        "Rewrite POST /createTweet, GET /getUserFollowers?id=7 and POST /deleteComment as RESTful endpoints.",
+        "Design REST endpoints for a URL shortener: create, redirect, delete, stats.",
+        "A feed endpoint returns all 30,000 posts; redesign it with cursor pagination and say why cursor beats offset when posts are inserted.",
+        "A server stores the user's cart in its own memory and requests go to random servers; what breaks?",
+        "Choose status codes for a successful create, a duplicate username and a missing resource.",
+        "Model nested resources for chat: conversations, messages and participants."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "API versioning strategies"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Writing a clean REST API in a few minutes is an expected step of every design interview."
+      }
+    },
+    {
+      "id": "sd-rpc",
+      "title": "RPC, gRPC and choosing REST vs RPC",
+      "size": "standard",
+      "est_min": 28,
+      "section": "speed-and-apis",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-rpc-definition",
+          "statement": "RPC exposes actions as remote function calls (e.g. sendMessage(userId, text)); a client stub serialises the arguments so the call looks local, though it can fail or time out over the network."
+        },
+        {
+          "id": "kc-grpc",
+          "statement": "gRPC is an RPC framework that encodes messages with Protocol Buffers (a compact binary format) over HTTP/2 and supports streaming; it is common for internal service-to-service calls but needs a proxy for browser clients."
+        },
+        {
+          "id": "kc-rest-vs-rpc-choice",
+          "statement": "Public APIs used by third parties usually choose REST for its uniform, cacheable HTTP semantics, while internal, high-volume calls between services often choose RPC for lower overhead and typed contracts."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "The outcome asks for a REST/RPC API sketch, which requires choosing the style per interface."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-rest",
+          "reason": "The RPC trade-off KC is stated as a comparison with REST."
+        }
+      ],
+      "suggests": [
+        "sd-latency-numbers"
+      ],
+      "confusable_with": [
+        "sd-rest"
+      ],
+      "introduces": [
+        "rpc",
+        "grpc",
+        "protocol buffers"
+      ],
+      "uses": [
+        "rest",
+        "http",
+        "tcp",
+        "latency"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "communication/remote-procedure-call-rpc"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "communication/rpc-and-rest-calls-comparison"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "grpc/grpc"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-tradeoffs/rest-vs-rpc"
+        }
+      ],
+      "problem_ideas": [
+        "Choose REST or gRPC for: a public weather API, orders-to-inventory calls at 50k/s, a mobile app backend.",
+        "A JSON payload is 1.2 KB and the protobuf version 300 bytes; estimate bandwidth saved at 20k calls/s.",
+        "Write the same 'send message' operation as an RPC signature and as a REST endpoint.",
+        "An RPC call looks like a local function; list three failure cases a local call never has.",
+        "Why can't a browser call a gRPC service directly, and what sits in between?",
+        "Design a streaming RPC for live driver location updates."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Schema evolution in Protocol Buffers"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Interviewers like a one-line justification for REST at the edge and RPC between services."
+      }
+    },
+    {
+      "id": "sd-graphql",
+      "title": "GraphQL in one idea",
+      "size": "micro",
+      "est_min": 10,
+      "section": "speed-and-apis",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-graphql-fetching",
+          "statement": "GraphQL exposes a single endpoint where the client specifies exactly which fields it needs, avoiding the over-fetching and multiple round trips of several REST calls, at the cost of harder HTTP caching and query-cost control."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-rest",
+          "reason": "GraphQL's benefit is stated as a contrast with over-fetching across REST endpoints."
+        }
+      ],
+      "suggests": [
+        "sd-rpc"
+      ],
+      "confusable_with": [
+        "sd-rest"
+      ],
+      "introduces": [
+        "graphql",
+        "over-fetching"
+      ],
+      "uses": [
+        "rest",
+        "http",
+        "client"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "graphql/graphql"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "rest-vs-graphql-vs-grpc/rest-vs-graphql-vs-grpc"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "api-fundamentals/rest-vs-graphql"
+        }
+      ],
+      "problem_ideas": [
+        "A mobile profile screen needs 3 REST calls returning 40 fields but shows 6; how would GraphQL change this?",
+        "Why can a CDN cache GET /products/9 easily but not a GraphQL POST query?",
+        "A client sends a deeply nested query that hits the database 10,000 times; name a defence.",
+        "Choose REST or GraphQL for a public payments API and for a dashboard with many widgets.",
+        "Count round trips over a 150 ms link for 3 sequential REST calls vs 1 GraphQL query.",
+        "Write the GraphQL query for a user's name and their last 5 post titles."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "The N+1 problem in GraphQL resolvers"
+        }
+      ],
+      "lens": {
+        "score": 0.25,
+        "reason": "Optional: mention it only when a client needs flexible data shapes; few interviews go deeper."
+      }
+    }
+  ],
+  "groups": {}
+}

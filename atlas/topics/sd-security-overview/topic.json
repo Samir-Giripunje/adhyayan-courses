@@ -1,0 +1,75 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-security-overview",
+  "version": 1,
+  "title": "Security overview: authn, authz, encryption, abuse",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-authn-vs-authz",
+      "version": 1,
+      "statement": "Authentication establishes who the caller is; authorization decides whether that identity may perform this action on this specific resource, so it must be checked by the service that owns the resource, not only at the edge."
+    },
+    {
+      "id": "kc-token-at-ingress",
+      "version": 1,
+      "statement": "An API gateway validates the caller's signed access token once at ingress (signature, expiry and audience), rejects invalid requests with 401, and forwards the verified identity to internal services, which still enforce authorization and return 403 when access is denied."
+    },
+    {
+      "id": "kc-transport-and-abuse",
+      "version": 1,
+      "statement": "Encrypt data in transit with TLS from client to edge and TLS or mTLS between internal services, and limit abuse with per-user or per-key rate limiting, input validation and least-privilege credentials for each service."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-api-gateway",
+    "sd-https-tls"
+  ],
+  "suggests": [
+    "sd-rate-limiting",
+    "sd-microservices"
+  ],
+  "confusable_with": [
+    "sd-rate-limiting"
+  ],
+  "introduces": [
+    "authentication",
+    "authorization",
+    "access token",
+    "least privilege"
+  ],
+  "uses": [
+    "api gateway",
+    "tls",
+    "tls termination",
+    "mtls",
+    "rate limiting",
+    "http status code",
+    "microservices"
+  ],
+  "problem_ideas": [
+    "A gateway validates tokens, but the orders service returns any order id it is asked for: name the vulnerability and the fix",
+    "Classify each response: expired token, valid token for another user's file, missing token; choose 401 or 403",
+    "TLS terminates at the load balancer: is traffic to app servers encrypted? What would you add for a payments system?",
+    "A leaked API key sends 50,000 req/s: which controls limit the damage?",
+    "A notification worker holds database admin credentials: apply least privilege",
+    "Where in a URL shortener design would you put authentication, authorization and rate limiting? Draw the request path"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "security/security"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "security/security"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "mtls/why-use-mtls"
+    }
+  ],
+  "status": "stub"
+}

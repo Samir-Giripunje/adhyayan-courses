@@ -1,0 +1,123 @@
+[
+  {
+    "id": "q-cp3-ivf",
+    "version": 1,
+    "family": "q-cp3-ivf",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-ivf",
+    "kcs": [
+      "kc-ivf"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "IVF missed the true nearest neighbour. Which change most directly helps at query time?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Increase nprobe",
+        "correct": true,
+        "why_md": "Right. It scans more neighbouring cells."
+      },
+      {
+        "id": "b",
+        "md": "Decrease nlist without rebuilding",
+        "why_md": "nlist is fixed at build time."
+      },
+      {
+        "id": "c",
+        "md": "Switch to dot product",
+        "why_md": "The metric isn't the cause."
+      }
+    ],
+    "hints": [
+      "Which idea applies? IVF puts vectors into k-means cells and scans only the nprobe nearest cells.",
+      "Right."
+    ],
+    "solution_md": "Right. It scans more neighbouring cells.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-a2",
+    "version": 1,
+    "family": "q-dpp-a2",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-ivf",
+    "kcs": [
+      "kc-ivf"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "IVF with N = 2M, nlist = 2,000, nprobe = 8 and equal cells: how many stored vectors are scanned per query?",
+    "answer": {
+      "value": 8000,
+      "tolerance": 0
+    },
+    "hints": [
+      "Which idea applies? IVF puts vectors into k-means cells and scans only the nprobe nearest cells.",
+      "Each cell holds 1,000 vectors."
+    ],
+    "solution_md": "Each cell holds 1,000 vectors. 8 cells means **8,000** (plus 2,000 centroid comparisons).",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-a3",
+    "version": 1,
+    "family": "q-dpp-a3",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-ivf",
+    "kcs": [
+      "kc-ivf"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "pgvector IVFFlat: why build the index **after** loading the data?",
+    "options": [
+      {
+        "id": "a",
+        "md": "k-means learns the cells from the data. An index built on an empty table has meaningless centroids",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "Inserts are disabled after index creation",
+        "why_md": "Inserts still work. The cells just won't fit the data well."
+      },
+      {
+        "id": "c",
+        "md": "It's purely a speed optimisation",
+        "why_md": "It's about cell quality, which affects recall."
+      }
+    ],
+    "hints": [
+      "Which idea applies? IVF puts vectors into k-means cells and scans only the nprobe nearest cells.",
+      "IVF's partitions come from k-means on the existing vectors."
+    ],
+    "solution_md": "IVF's partitions come from k-means on the existing vectors.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

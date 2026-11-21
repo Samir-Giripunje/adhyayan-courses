@@ -1,0 +1,1303 @@
+{
+  "stage": {
+    "id": "clf-p2",
+    "title": "Global infrastructure, accounts and access",
+    "outcome": [
+      "o2",
+      "o3",
+      "o6"
+    ],
+    "assumes": [
+      "cloud computing",
+      "high availability",
+      "elasticity",
+      "hybrid cloud",
+      "iaas",
+      "paas",
+      "saas"
+    ],
+    "provides": [
+      "region",
+      "availability zone",
+      "edge location",
+      "local zone",
+      "wavelength zone",
+      "outposts",
+      "data residency",
+      "shared responsibility model",
+      "aws account",
+      "root user",
+      "iam user",
+      "iam group",
+      "iam policy",
+      "iam role",
+      "temporary credentials",
+      "least privilege",
+      "mfa",
+      "management console",
+      "aws cli",
+      "aws sdk"
+    ]
+  },
+  "sections": [
+    {
+      "id": "global-infra",
+      "title": "AWS global infrastructure",
+      "rank": 1,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-3-2-define-the-aws-global"
+      }
+    },
+    {
+      "id": "shared-resp",
+      "title": "The shared responsibility model",
+      "rank": 2,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-2-1-understand-the-aws-sh"
+      }
+    },
+    {
+      "id": "accounts-iam",
+      "title": "Accounts, root user and IAM",
+      "rank": 3,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-2-3-identify-aws-access-m"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "clf-regions",
+      "title": "AWS Regions and how to choose one",
+      "size": "standard",
+      "est_min": 10,
+      "section": "global-infra",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-region-definition",
+          "statement": "An AWS Region is a separate geographic area made up of multiple isolated Availability Zones, and most AWS resources are created in and scoped to one Region."
+        },
+        {
+          "id": "kc-region-choice-factors",
+          "statement": "The four factors for choosing a Region are compliance and data-residency rules, proximity to users (latency), which services and features are available there, and price, which differs between Regions."
+        },
+        {
+          "id": "kc-data-residency",
+          "statement": "Data stored in a Region stays in that Region unless the customer explicitly copies or moves it elsewhere, so picking a Region inside a country is how data-residency laws are met."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "Every placement decision starts with choosing a Region for latency, compliance, service availability or price"
+        }
+      ],
+      "requires": [],
+      "suggests": [],
+      "confusable_with": [
+        "clf-availability-zones"
+      ],
+      "introduces": [
+        "region",
+        "data residency"
+      ],
+      "uses": [
+        "global reach"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "introduction/aws-global-infrastructure"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-2-define-the-aws-global/aws-regions-availability-zones-and-edge-"
+        }
+      ],
+      "problem_ideas": [
+        "A German health insurer must keep patient records inside the EU: which Region factor decides, and which Regions qualify?",
+        "A startup's users are mostly in São Paulo but the newest AI service only exists in us-east-1: rank the trade-off between latency and service availability",
+        "Same EC2 instance priced differently in two Regions: which selection factor is that, and when should it win?",
+        "True/false: an S3 object uploaded to ap-south-1 is automatically replicated to another Region for durability",
+        "Sort four requirements (GDPR, 20 ms latency for Tokyo gamers, cheapest storage, needs a new service) into the four Region-choice factors",
+        "A company in Canada asks how to make sure its backups never leave the country: name the mechanism and the customer action that would break it"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Global services like IAM and Route 53 that are not tied to one Region"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Sovereign and isolated Regions such as AWS GovCloud (US)"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Region selection questions (latency, compliance, price, service availability) appear on almost every CLF-C02 form."
+      }
+    },
+    {
+      "id": "clf-availability-zones",
+      "title": "Availability Zones: isolated data centers in a Region",
+      "size": "standard",
+      "est_min": 10,
+      "section": "global-infra",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-az-definition",
+          "statement": "An Availability Zone is one or more discrete data centers with redundant power, networking and connectivity, located inside a Region."
+        },
+        {
+          "id": "kc-az-isolation",
+          "statement": "Availability Zones in a Region are physically separated by a meaningful distance and do not share single points of failure, so a fire, flood or power cut in one should not take down another."
+        },
+        {
+          "id": "kc-az-low-latency-links",
+          "statement": "Availability Zones in the same Region are joined by redundant, low-latency, high-bandwidth private links, which makes synchronous replication between them practical."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "Choosing AZs versus Regions for availability needs a precise idea of what an AZ isolates"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-regions",
+          "reason": "An AZ is defined as a part of a Region"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-regions",
+        "clf-edge-locations"
+      ],
+      "introduces": [
+        "availability zone"
+      ],
+      "uses": [
+        "region",
+        "single point of failure",
+        "high availability"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-2-define-the-aws-global/recognizing-that-availability-zones-do-n"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-2-define-the-aws-global/describing-relationships-among-regions-a"
+        }
+      ],
+      "problem_ideas": [
+        "A storm floods one data center building in us-east-1: which resources go down, and which keep running?",
+        "True/false: an Availability Zone is always exactly one data center",
+        "Why can a database replicate synchronously between two AZs but usually not between two Regions?",
+        "Draw the containment: Region, AZ, data center; place three given facts on it",
+        "A question says 'resources in a single AZ': name the single point of failure it describes",
+        "Two AZ names in different accounts (us-east-1a) may point to different physical zones: what does that tell you about AZ naming?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "AZ IDs versus AZ names and why AWS shuffles the mapping per account"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "The exam repeatedly tests that AZs share no single point of failure and underpin high availability."
+      }
+    },
+    {
+      "id": "clf-multi-az-multi-region",
+      "title": "High availability with multiple AZs and Regions",
+      "size": "standard",
+      "est_min": 10,
+      "section": "global-infra",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-multi-az-ha",
+          "statement": "Running an application's resources in at least two Availability Zones keeps it available when one AZ fails, and is the standard way to achieve high availability within a Region."
+        },
+        {
+          "id": "kc-multi-region-reasons",
+          "statement": "A second Region is used for disaster recovery from a Region-wide outage, for lower latency to users on another continent, or to meet residency rules in several countries."
+        },
+        {
+          "id": "kc-multi-region-cost",
+          "statement": "Multi-Region designs add cost and complexity (cross-Region replication and data transfer), so multi-AZ is the default for availability and multi-Region is chosen only when a requirement demands it."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "Matching an availability requirement to multi-AZ or multi-Region is part of the placement product"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-availability-zones",
+          "reason": "Multi-AZ resilience depends on knowing that AZs are isolated failure domains"
+        }
+      ],
+      "suggests": [
+        "clf-regions"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "multi-az deployment",
+        "disaster recovery"
+      ],
+      "uses": [
+        "region",
+        "availability zone",
+        "high availability"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-2-define-the-aws-global/describing-how-to-achieve-high-availabil"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-2-define-the-aws-global/use-of-multiple-regions"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "global-infrastructure/why-make-a-global-application"
+        }
+      ],
+      "problem_ideas": [
+        "A web shop runs two EC2 instances, both in eu-west-1a: what single change gives high availability?",
+        "A bank must keep running if an entire Region goes offline: multi-AZ or multi-Region, and why?",
+        "An app with users in Sydney and London is slow for one group: is the fix more AZs or another Region?",
+        "A team proposes three Regions for an internal HR tool used in one office: argue the cost against the requirement",
+        "Order these by blast radius: one server, one AZ, one Region",
+        "Which phrase in a question ('fault tolerant within a Region', 'regional disaster', 'global users') maps to which design?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Disaster-recovery strategies: backup and restore, pilot light, warm standby, active-active"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "'How do I make this highly available?' questions almost always hinge on multi-AZ versus multi-Region."
+      }
+    },
+    {
+      "id": "clf-edge-locations",
+      "title": "Edge locations: content close to users",
+      "size": "standard",
+      "est_min": 8,
+      "section": "global-infra",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-edge-location-definition",
+          "statement": "Edge locations are AWS sites in many more cities than there are Regions, used by CloudFront to cache content and by Route 53 and Global Accelerator to answer and route traffic close to users."
+        },
+        {
+          "id": "kc-edge-vs-region",
+          "statement": "Edge locations do not host general workloads such as EC2 instances or databases; the origin stays in a Region and the edge reduces latency for delivering content to users."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "Choosing edge locations for cached, global delivery is one of the placement options in the outcome"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-regions",
+          "reason": "Edge locations are explained in contrast to Regions, where the origin lives"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-availability-zones",
+        "clf-local-zones-wavelength-outposts"
+      ],
+      "introduces": [
+        "edge location"
+      ],
+      "uses": [
+        "region"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-2-define-the-aws-global/benefits-of-edge-locations"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-2-define-the-aws-global/describing-relationships-among-regions-a"
+        }
+      ],
+      "problem_ideas": [
+        "A video site in us-west-2 has buffering complaints from India: which infrastructure component fixes it without moving the origin?",
+        "True/false: you can launch an EC2 instance in an edge location",
+        "There are hundreds of edge locations but only a few dozen Regions: why does AWS need so many more edges?",
+        "Which three services named in the exam guide use edge locations?",
+        "A static image is requested 10,000 times from Paris: trace where the first and the later requests are served from",
+        "Distinguish an edge location from an Availability Zone in one sentence each"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Regional edge caches between edge locations and the origin"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Edge locations are a frequent distractor against AZs and Local Zones on the exam."
+      }
+    },
+    {
+      "id": "clf-local-zones-wavelength-outposts",
+      "title": "Local Zones, Wavelength and Outposts",
+      "size": "big",
+      "est_min": 14,
+      "section": "global-infra",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-local-zone",
+          "statement": "A Local Zone extends a Region into a large metro area by placing AWS compute and storage close to end users there, for single-digit-millisecond latency (for example, media rendering or real-time gaming)."
+        },
+        {
+          "id": "kc-wavelength-zone",
+          "statement": "A Wavelength Zone embeds AWS compute and storage inside a telecom provider's 5G network, so mobile and connected devices reach applications without traffic leaving the carrier network."
+        },
+        {
+          "id": "kc-outposts",
+          "statement": "AWS Outposts are AWS-managed racks installed in the customer's own data center that run AWS services on premises, used for very low latency to local systems, local data processing or data that must stay on site."
+        },
+        {
+          "id": "kc-extension-choice",
+          "statement": "Placement rule: users concentrated in one city needing ultra-low latency means Local Zone, 5G mobile devices means Wavelength, and workloads that must run in the customer's own facility means Outposts."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "The outcome explicitly lists Local Zones, Wavelength and Outposts as placement choices"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-availability-zones",
+          "reason": "Local Zones and Outposts are explained as extensions of a Region and its AZs"
+        }
+      ],
+      "suggests": [
+        "clf-edge-locations"
+      ],
+      "confusable_with": [
+        "clf-edge-locations"
+      ],
+      "introduces": [
+        "local zone",
+        "wavelength zone",
+        "outposts"
+      ],
+      "uses": [
+        "region",
+        "availability zone",
+        "edge location",
+        "hybrid cloud",
+        "data residency"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "global-infrastructure/aws-local-zones"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "global-infrastructure/aws-wavelength"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "global-infrastructure/aws-outposts"
+        }
+      ],
+      "problem_ideas": [
+        "A film studio in Los Angeles needs single-digit-ms access to render nodes while its Region is in Oregon: pick the option",
+        "An AR game streams to phones on a carrier's 5G network: which zone type and why not a Local Zone?",
+        "A factory's control system must keep running on site even if the internet link drops: which option fits?",
+        "A regulator forbids data from leaving the hospital building: Outposts or a Region in the same country?",
+        "Match four scenarios to Local Zone, Wavelength, Outposts and edge location",
+        "Who owns and maintains the hardware in an Outpost, and who owns the floor space and power?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Outposts as AWS's answer to hybrid cloud versus running your own private cloud"
+        },
+        {
+          "kind": "edge",
+          "title": "Why only a subset of AWS services runs in Local Zones"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Each appears in one or two exam questions, usually as a 'which fits this latency need' choice."
+      }
+    },
+    {
+      "id": "clf-global-infra-placement",
+      "title": "Choosing where to run: a placement guide",
+      "size": "standard",
+      "est_min": 10,
+      "section": "global-infra",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-placement-latency",
+          "statement": "For a latency requirement, choose the Region closest to users, add edge locations for cacheable content, and use Local Zones or Wavelength only when single-digit-millisecond latency is required."
+        },
+        {
+          "id": "kc-placement-availability",
+          "statement": "For an availability requirement, spread resources across Availability Zones; add a second Region only when the requirement names a regional disaster or global users."
+        },
+        {
+          "id": "kc-speed-of-deployment",
+          "statement": "Global infrastructure lets a company launch in a new country in minutes by choosing an existing Region instead of building a data center, which is the speed-of-deployment and global-reach benefit."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "This is the decision procedure the outcome's observable product asks for"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-multi-az-multi-region",
+          "reason": "Availability choices rely on the multi-AZ versus multi-Region rule"
+        },
+        {
+          "topic": "clf-local-zones-wavelength-outposts",
+          "reason": "Latency choices compare Local Zones, Wavelength and Outposts"
+        },
+        {
+          "topic": "clf-edge-locations",
+          "reason": "Latency choices include caching at edge locations"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "speed of deployment"
+      ],
+      "uses": [
+        "region",
+        "availability zone",
+        "edge location",
+        "local zone",
+        "wavelength zone",
+        "outposts",
+        "data residency",
+        "multi-az deployment",
+        "disaster recovery",
+        "global reach"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-1-define-the-benefits-o/understanding-the-benefits-of-global-inf"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-2-define-the-aws-global/task-statement-3-2-define-the-aws-global"
+        }
+      ],
+      "problem_ideas": [
+        "Ten one-line requirements: for each, name the placement (Region, multi-AZ, multi-Region, edge, Local Zone, Wavelength, Outposts) and the reason",
+        "A retailer wants to open in Japan next week: which cloud benefit does choosing ap-northeast-1 show?",
+        "Spot the overkill: a design uses Wavelength for a back-office reporting tool",
+        "A requirement combines EU residency and 99.99% availability: give the cheapest placement that meets both",
+        "Rule out the closest distractor in four exam-style stems (edge location vs Local Zone, AZ vs Region)",
+        "A company asks for 'disaster recovery if a whole geographic area fails': which keyword maps to which component?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "When residency and latency requirements conflict"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Pulls the infrastructure pieces into the scenario-picking skill the exam actually tests."
+      }
+    },
+    {
+      "id": "clf-shared-responsibility-model",
+      "title": "Shared responsibility: security of vs in the cloud",
+      "size": "standard",
+      "est_min": 10,
+      "section": "shared-resp",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-srm-aws-side",
+          "statement": "AWS is responsible for security of the cloud: the physical data centers, hardware, global network and the host and virtualization layer that run AWS services."
+        },
+        {
+          "id": "kc-srm-customer-side",
+          "statement": "The customer is responsible for security in the cloud: what it puts on and configures in AWS, such as guest operating systems on IaaS, application code, firewall settings like security groups, and encryption choices."
+        },
+        {
+          "id": "kc-srm-data-always-customer",
+          "statement": "For every service type the customer keeps responsibility for its own data, how it is classified, and which identities can access it."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Sorting security tasks between AWS and the customer is the core of the o3 product"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-service-models"
+      ],
+      "confusable_with": [
+        "clf-shared-controls"
+      ],
+      "introduces": [
+        "shared responsibility model",
+        "security of the cloud",
+        "security in the cloud"
+      ],
+      "uses": [
+        "cloud computing",
+        "iaas"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "introduction/shared-responsibility-model"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-1-understand-the-aws-sh/aws-shared-responsibility-model"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-1-understand-the-aws-sh/describing-aws-responsibilities"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-1-understand-the-aws-sh/describing-the-customer-s-responsibiliti"
+        }
+      ],
+      "problem_ideas": [
+        "Sort ten tasks (shredding failed disks, rotating passwords, patching the hypervisor, setting bucket permissions...) into 'of' and 'in' the cloud",
+        "A customer's S3 bucket was left public and data leaked: whose responsibility failed, and why?",
+        "Who guards the data center door, and who decides whether data is encrypted at rest?",
+        "True/false: with fully managed services the customer no longer owns its data's security",
+        "A breach came from a weak password on a customer's admin account: AWS or customer side?",
+        "Explain the model in one sentence to a manager who thinks 'moving to AWS makes security AWS's problem'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "Why AWS frames security as 'of' versus 'in' the cloud"
+        }
+      ],
+      "lens": {
+        "score": 1,
+        "reason": "Domain 2's most tested idea; several questions per exam hinge on who is responsible."
+      }
+    },
+    {
+      "id": "clf-shared-responsibility-by-service",
+      "title": "Shared responsibility for EC2, RDS and Lambda",
+      "size": "standard",
+      "est_min": 10,
+      "section": "shared-resp",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-srm-ec2",
+          "statement": "With EC2, an IaaS service, the customer patches the guest operating system and applications and configures security groups, while AWS secures the physical host and hypervisor."
+        },
+        {
+          "id": "kc-srm-rds",
+          "statement": "With Amazon RDS, a managed database, AWS patches the database engine and underlying operating system, while the customer manages database users and permissions, network access rules, encryption settings and public accessibility."
+        },
+        {
+          "id": "kc-srm-lambda",
+          "statement": "With AWS Lambda, AWS manages the servers, operating system and runtime patching, while the customer is responsible for function code, its dependencies, its IAM permissions and its data."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "The o3 product names EC2, RDS and Lambda explicitly"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-shared-responsibility-model",
+          "reason": "Per-service splits apply the of/in division"
+        }
+      ],
+      "suggests": [
+        "clf-service-models"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "managed service"
+      ],
+      "uses": [
+        "shared responsibility model",
+        "security of the cloud",
+        "security in the cloud",
+        "iaas",
+        "paas"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/databases-shared-responsibility-on-aws"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-1-understand-the-aws-sh/recognizing-the-components-of-the-aws-sh"
+        }
+      ],
+      "problem_ideas": [
+        "Three-column sort: 'patch the OS' for EC2, RDS and Lambda; who does it in each?",
+        "A company moves a self-run MySQL on EC2 to RDS: list two tasks that move to AWS and two that stay",
+        "A Lambda function uses an npm package with a known vulnerability: whose job is to update it?",
+        "True/false: on RDS, the customer must apply minor engine patches by logging into the OS",
+        "Rank EC2, RDS, Lambda by how much of the stack the customer manages",
+        "An RDS instance is reachable from the internet by mistake: which customer setting caused it?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Shared responsibility for containers on ECS with EC2 versus Fargate"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "The exam's favourite variation on shared responsibility is 'which party patches X on service Y'."
+      }
+    },
+    {
+      "id": "clf-shared-controls",
+      "title": "Shared and inherited controls",
+      "size": "standard",
+      "est_min": 8,
+      "section": "shared-resp",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-shared-controls",
+          "statement": "Patch management, configuration management, and awareness and training are shared controls: AWS performs them for its infrastructure and the customer performs them for its own guest systems, applications and staff."
+        },
+        {
+          "id": "kc-inherited-controls",
+          "statement": "Physical and environmental controls are inherited controls: the customer relies entirely on AWS for them and can cite AWS's audits of them in its own compliance work."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Tasks such as patching and training appear in sort-the-responsibility items and only make sense as shared controls"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-shared-responsibility-model",
+          "reason": "Shared and inherited controls refine the basic split"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-shared-responsibility-model"
+      ],
+      "introduces": [
+        "shared controls",
+        "inherited controls"
+      ],
+      "uses": [
+        "shared responsibility model"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-1-understand-the-aws-sh/describing-responsibilities-that-the-cus"
+        }
+      ],
+      "problem_ideas": [
+        "'Which is a shared control?' options: physical security, patch management, data classification, hypervisor updates",
+        "Who trains AWS data center staff, and who trains the customer's developers?",
+        "A compliance auditor asks for proof of data center fire suppression: which control type, and where does the customer get the evidence?",
+        "Sort: configuration management of the guest OS vs of network devices in AWS's backbone",
+        "True/false: an inherited control is one the customer must reconfigure after migrating",
+        "Give one example each of an AWS-only, customer-only, shared and inherited control"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "How AWS Artifact delivers the audit reports behind inherited controls"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "A smaller but recurring exam item, usually a 'which is a shared control' question."
+      }
+    },
+    {
+      "id": "clf-aws-account-root-user",
+      "title": "AWS accounts and the root user",
+      "size": "standard",
+      "est_min": 10,
+      "section": "accounts-iam",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-aws-account",
+          "statement": "An AWS account is a container for resources that acts as a billing and security boundary: by default resources in one account are isolated from other accounts."
+        },
+        {
+          "id": "kc-root-user-definition",
+          "statement": "The root user is the identity created with the account's sign-up email address and has full access to every resource and the billing settings, which IAM policies cannot restrict."
+        },
+        {
+          "id": "kc-root-only-tasks",
+          "statement": "Some tasks require the root user, including changing the root email or password, closing the account, restoring an IAM administrator's lost permissions, and enabling MFA Delete on an S3 bucket."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Recognising root-only tasks and the root user's power underpins the access-management part of o3"
+        }
+      ],
+      "requires": [],
+      "suggests": [],
+      "confusable_with": [
+        "clf-iam-users-groups"
+      ],
+      "introduces": [
+        "aws account",
+        "root user"
+      ],
+      "uses": [],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-3-identify-aws-access-m/identifying-tasks-that-only-the-account-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-3-identify-aws-access-m/importance-of-protecting-the-aws-root-us"
+        }
+      ],
+      "problem_ideas": [
+        "Pick the root-only task: create an IAM user, close the account, launch EC2, create a bucket",
+        "An admin locked themselves out by detaching their own admin policy: who can fix it?",
+        "Why do companies use separate accounts for dev and prod?",
+        "True/false: you can attach a deny policy to the root user to limit it",
+        "A new account's sign-up email belongs to an employee who just left: what risk does that create?",
+        "List three things you should never use the root user for day to day"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "How service control policies in AWS Organizations can restrict member-account root users"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Root-only tasks are an explicit exam-guide item and a common trick question."
+      }
+    },
+    {
+      "id": "clf-protect-root-mfa",
+      "title": "Protecting the root user with MFA",
+      "size": "standard",
+      "est_min": 10,
+      "section": "accounts-iam",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-mfa-definition",
+          "statement": "Multi-factor authentication requires a second factor in addition to the password, such as a code from a virtual authenticator app, a FIDO2 passkey or security key, or a hardware TOTP token."
+        },
+        {
+          "id": "kc-root-protection-steps",
+          "statement": "To protect the root user: enable MFA, set a strong password, do not create root access keys (delete any that exist), and sign in as root only for root-only tasks."
+        },
+        {
+          "id": "kc-mfa-for-humans",
+          "statement": "MFA should be enabled for every human identity with console access, not only the root user, because it stops a stolen password alone from granting access."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "MFA is the IAM feature expected for 'protect the root user' and 'stop password-only compromise' needs"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-aws-account-root-user",
+          "reason": "Root protection presupposes knowing what the root user is and can do"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "mfa"
+      ],
+      "uses": [
+        "root user",
+        "aws account"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-3-identify-aws-access-m/understanding-which-methods-can-achieve-"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "iam-identity-access-management/multi-factor-authentication-mfa"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "iam-identity-access-management/mfa-devices-options-in-aws"
+        }
+      ],
+      "problem_ideas": [
+        "'What is the best way to protect the root user?' choose from four options including 'share the password with two admins'",
+        "A phishing email stole an admin's password but MFA was on: what does the attacker still lack?",
+        "Classify: authenticator app, YubiKey, SMS code, hardware key fob, as MFA device types",
+        "A root access key was found in a public GitHub repo: list the immediate steps",
+        "Why is 'use root only for root-only tasks' safer than 'use root carefully'?",
+        "Explain 'something you know' plus 'something you have' with an AWS sign-in example"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How time-based one-time passwords (TOTP) are generated"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "'Enable MFA on the root user' is one of the most frequent correct answers on the exam."
+      }
+    },
+    {
+      "id": "clf-iam-users-groups",
+      "title": "IAM users and groups",
+      "size": "standard",
+      "est_min": 10,
+      "section": "accounts-iam",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-iam-service",
+          "statement": "IAM is a global, no-cost AWS service that controls who can sign in to an account (authentication) and what they are allowed to do (authorization)."
+        },
+        {
+          "id": "kc-iam-user",
+          "statement": "An IAM user is a long-term identity for one person or application with its own credentials, and a newly created IAM user has no permissions until some are granted."
+        },
+        {
+          "id": "kc-iam-group",
+          "statement": "An IAM group is a collection of IAM users that share the permissions attached to the group; a user can belong to several groups, but groups cannot contain other groups."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Users and groups are the basic IAM features the outcome asks the learner to name"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-aws-account-root-user",
+          "reason": "IAM users are introduced as the everyday alternative to the root user"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-iam-roles",
+        "clf-aws-account-root-user"
+      ],
+      "introduces": [
+        "iam",
+        "iam user",
+        "iam group"
+      ],
+      "uses": [
+        "aws account",
+        "root user"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "iam/iam"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "iam/users-user-groups"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "iam-identity-access-management/what-is-iam"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-3-identify-aws-access-m/identity-and-access-management-for-examp"
+        }
+      ],
+      "problem_ideas": [
+        "Five new developers join: what is the least-effort way to give them identical permissions?",
+        "True/false: you can put the 'Developers' group inside the 'Engineering' group",
+        "A new IAM user signs in and cannot see any EC2 instances: why?",
+        "Is IAM configured per Region? What does that mean for a company in three Regions?",
+        "Two people share one IAM user: name two problems this causes for auditing",
+        "A user is in 'Readers' and 'Billing' groups: what permissions do they end up with?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "IAM quotas and why large companies move to IAM Identity Center"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Users versus groups is foundational for every IAM question on the exam."
+      }
+    },
+    {
+      "id": "clf-iam-policies",
+      "title": "IAM policies: JSON permissions and evaluation",
+      "size": "standard",
+      "est_min": 10,
+      "section": "accounts-iam",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-policy-json",
+          "statement": "An IAM policy is a JSON document whose statements each give an Effect (Allow or Deny), the Actions, the Resources, and optional Conditions."
+        },
+        {
+          "id": "kc-policy-types",
+          "statement": "Identity-based policies attach to users, groups or roles, while resource-based policies attach to a resource such as an S3 bucket and name which principals may access it."
+        },
+        {
+          "id": "kc-policy-evaluation",
+          "statement": "IAM denies every request by default, an explicit Allow grants access, and an explicit Deny in any applicable policy overrides any Allow."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Predicting whether a request is allowed relies on policy structure and evaluation"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-iam-users-groups",
+          "reason": "Identity-based policies are attached to the users and groups taught there"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "iam policy",
+        "identity-based policy",
+        "resource-based policy",
+        "explicit deny"
+      ],
+      "uses": [
+        "iam",
+        "iam user",
+        "iam group"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "iam/policies"
+        }
+      ],
+      "problem_ideas": [
+        "A user's group allows s3:* and their own policy denies s3:DeleteObject: can they delete an object?",
+        "Read a six-line policy and predict which of four API calls succeed",
+        "No policy mentions dynamodb:PutItem: allowed or denied?",
+        "Which policy type is a bucket policy, and how does it name who gets access?",
+        "Rewrite 'Action: *, Resource: *' to allow only reading one bucket",
+        "A Condition limits access to one IP range: predict the result from home and from the office"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Full IAM evaluation logic with permission boundaries and SCPs"
+        },
+        {
+          "kind": "implementation",
+          "title": "Writing a tiny allow/deny evaluator for policy statements"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Exam items test default deny and explicit-deny-wins more than policy syntax."
+      }
+    },
+    {
+      "id": "clf-iam-roles",
+      "title": "IAM roles and temporary credentials",
+      "size": "standard",
+      "est_min": 10,
+      "section": "accounts-iam",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-role-definition",
+          "statement": "An IAM role is an identity with permissions but no long-term password or access keys, assumed by a trusted entity such as an AWS service, an IAM user, another account or a federated user."
+        },
+        {
+          "id": "kc-temporary-credentials",
+          "statement": "Assuming a role returns temporary credentials from AWS Security Token Service (STS) that expire automatically after a set duration."
+        },
+        {
+          "id": "kc-role-for-services",
+          "statement": "An application running on EC2 should get its AWS permissions from a role attached to the instance rather than from access keys stored on the server."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Roles are the IAM feature that answers 'give a service or another account access securely'"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-iam-policies",
+          "reason": "A role's permissions are expressed as attached policies"
+        }
+      ],
+      "suggests": [
+        "clf-iam-users-groups"
+      ],
+      "confusable_with": [
+        "clf-iam-users-groups"
+      ],
+      "introduces": [
+        "iam role",
+        "temporary credentials",
+        "sts"
+      ],
+      "uses": [
+        "iam",
+        "iam user",
+        "iam policy"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-aws",
+          "entry": "iam/roles"
+        }
+      ],
+      "problem_ideas": [
+        "An EC2 app needs to write to S3: role or IAM user with access keys? Why?",
+        "An auditor from a partner company needs read access for a week: which IAM feature?",
+        "True/false: a role has its own permanent password",
+        "Credentials leaked from a role expire in an hour; credentials leaked from a user's access key do not: explain why",
+        "A Lambda function needs to read DynamoDB: what does it 'assume'?",
+        "Distinguish user, group and role in one line each, then pick one for three scenarios"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Trust policies versus permission policies on a role"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "'Use a role, not access keys' is a staple correct answer in the security domain."
+      }
+    },
+    {
+      "id": "clf-least-privilege",
+      "title": "Least privilege and IAM best practices",
+      "size": "standard",
+      "est_min": 10,
+      "section": "accounts-iam",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-least-privilege",
+          "statement": "The principle of least privilege means granting an identity only the permissions it needs for its task, starting from none and adding more only when required."
+        },
+        {
+          "id": "kc-iam-best-practices",
+          "statement": "IAM best practice is to assign permissions through groups, use roles for applications and cross-account access, require MFA, rotate long-term credentials, and never share credentials."
+        },
+        {
+          "id": "kc-iam-audit-tools",
+          "statement": "The IAM credential report lists every user and the status of their passwords, access keys and MFA, and IAM access advisor shows which services an identity last used, so unused permissions can be removed."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Least privilege is named in the exam guide and is the expected answer for 'how should permissions be granted'"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-iam-roles",
+          "reason": "Best practices recommend roles for applications, which must already be understood"
+        },
+        {
+          "topic": "clf-protect-root-mfa",
+          "reason": "Best practices include requiring MFA"
+        }
+      ],
+      "suggests": [
+        "clf-iam-policies"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "least privilege",
+        "credential report",
+        "access advisor"
+      ],
+      "uses": [
+        "iam",
+        "iam policy",
+        "iam group",
+        "iam role",
+        "mfa"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-3-identify-aws-access-m/principle-of-least-privilege"
+        }
+      ],
+      "problem_ideas": [
+        "A contractor needs to upload files to one bucket: draft the least-privilege grant in words",
+        "An intern was given AdministratorAccess 'to save time': name the principle violated and the risk",
+        "Security wants a list of users without MFA: which IAM tool?",
+        "A role has 40 services allowed but used 3 in 90 days: which tool shows this?",
+        "Rank four practices by how much risk they remove for a 10-person startup",
+        "Spot the three violations in a short story about a team's AWS account setup"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "IAM Access Analyzer for generating least-privilege policies"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Least privilege appears explicitly in the exam guide and as a frequent best-practice answer."
+      }
+    },
+    {
+      "id": "clf-access-methods",
+      "title": "Console, CLI and SDKs: ways to reach AWS",
+      "size": "standard",
+      "est_min": 10,
+      "section": "accounts-iam",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-management-console",
+          "statement": "The AWS Management Console is the browser interface, signed into with a username and password plus MFA, for working with AWS services by point and click."
+        },
+        {
+          "id": "kc-cli-sdk-access-keys",
+          "statement": "The AWS CLI and SDKs authenticate programmatic requests with an access key ID and secret access key or with temporary credentials, and these keys must be protected like passwords."
+        },
+        {
+          "id": "kc-cli-vs-sdk",
+          "statement": "The console, CLI and SDKs all call the same AWS service APIs: the CLI is for commands and scripts in a terminal, and SDKs let application code in languages like Python or Java call AWS."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The exam guide's deployment-methods task asks which access method fits a scenario; no other outcome product depends on it"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-iam-users-groups",
+          "reason": "Access keys and console passwords are credentials of IAM users"
+        }
+      ],
+      "suggests": [
+        "clf-iam-roles"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "management console",
+        "aws cli",
+        "aws sdk",
+        "access keys",
+        "aws api"
+      ],
+      "uses": [
+        "iam user",
+        "mfa",
+        "temporary credentials"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "iam-identity-access-management/how-can-users-access-aws"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "iam-identity-access-management/what-s-the-aws-cli"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "iam-identity-access-management/what-s-the-aws-sdk"
+        }
+      ],
+      "problem_ideas": [
+        "A sysadmin wants to automate nightly snapshots with a shell script: console, CLI or SDK?",
+        "A mobile app's backend in Java must upload to S3: which access method?",
+        "A finance manager checks the bill once a month: which access method and which credentials?",
+        "True/false: the CLI can do things the API cannot",
+        "Where is a secret access key shown, and what happens if you lose it?",
+        "Sort credentials (password, access key, MFA code, temporary token) by which access method uses them"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "AWS CloudShell: a browser terminal with the CLI preinstalled"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "One or two exam items ask which access method suits a task; quick wins."
+      }
+    }
+  ],
+  "groups": {}
+}

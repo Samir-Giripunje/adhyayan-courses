@@ -1,0 +1,321 @@
+[
+  {
+    "id": "sd-https-tls/test-b1",
+    "family": "sd-https-tls-form-rsa-every-byte-proposal",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "An engineer at a music-streaming service proposes encrypting every audio byte sent to listeners with public-key (asymmetric) encryption instead of TLS session keys, \"for extra security\". What is the best response?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Good idea: symmetric session keys are the weak part of TLS, so switching to asymmetric encryption closes the gap",
+        "misconception": "mc-asymmetric-for-all-data",
+        "why_md": "Symmetric encryption isn't TLS's weak point. TLS chose it for the data because it is fast, and the session keys never travel over the network."
+      },
+      {
+        "id": "b",
+        "md": "Unnecessary: TLS already encrypts every byte of data with the server's public key",
+        "misconception": "mc-asymmetric-for-all-data",
+        "why_md": "TLS does not encrypt the data with asymmetric encryption. It uses asymmetric crypto only during the handshake."
+      },
+      {
+        "id": "c",
+        "md": "Needed: the session keys are sent over the network in plain text during the handshake, so anyone can read them",
+        "why_md": "The session keys never travel over the network. Each side computes them from the public key-exchange values."
+      },
+      {
+        "id": "d",
+        "md": "Reject it: asymmetric encryption is much slower, so TLS uses it only to prove the server's identity and agree on session keys, then encrypts the data with fast symmetric encryption",
+        "correct": true,
+        "why_md": "Right. Each family does what it is good at: asymmetric for identity and key agreement without a shared secret, symmetric for bulk data at speed."
+      }
+    ],
+    "hints": [
+      "Recall the two jobs in TLS and which kind of encryption does each one.",
+      "Asymmetric needs no shared secret but is slow, so it is used for the handshake. Symmetric is fast and protects every byte afterwards with session keys that are never sent."
+    ],
+    "solution_md": "TLS uses both kinds of encryption, each for what it is good at:\n\n1. **Handshake (asymmetric):** the server proves its identity, and both sides agree on session keys. Each side sends a public key-exchange value and computes the same secret, so the session keys never travel over the network.\n2. **Data (symmetric):** every HTTP byte, audio included, is encrypted with those session keys, because symmetric encryption is fast enough for large amounts of data.\n\nEncrypting every audio byte with asymmetric encryption would be much slower and fixes no weakness. **Answer: d.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  },
+  {
+    "id": "sd-https-tls/test-b2",
+    "family": "sd-https-tls-form-cert-name-mismatch",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "Sam opens `https://shop.harbourbooks.example`. During the handshake the server presents a certificate that:\n\n- is signed by a CA in the browser's trust store,\n- is within its validity dates,\n- names **only** `www.otherbooks.example`.\n\nThe server signs the handshake correctly with that certificate's private key. What does the browser do?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Stops and shows a full-page security warning, because the name in the certificate doesn't match the name in the URL",
+        "correct": true,
+        "why_md": "Right. The browser checks the CA signature, the name and the dates. The name check fails, so the browser stops instead of loading the site."
+      },
+      {
+        "id": "b",
+        "md": "Connects normally, because a trusted CA signed the certificate and it is in date",
+        "why_md": "Two of the three checks pass, but the browser needs all three. The certificate is for a different name, so it doesn't prove this server is `shop.harbourbooks.example`."
+      },
+      {
+        "id": "c",
+        "md": "Connects, but sends the HTTP data unencrypted",
+        "why_md": "The browser doesn't fall back to plain HTTP when a check fails. It stops and shows a warning."
+      },
+      {
+        "id": "d",
+        "md": "Connects normally, because the server proved it holds the certificate's private key",
+        "why_md": "The signature proves the server owns *that* certificate, but the certificate is for `www.otherbooks.example`. It proves nothing about `shop.harbourbooks.example`."
+      }
+    ],
+    "hints": [
+      "List the three checks the browser makes on a certificate, plus the handshake signature. Which one fails here?",
+      "Signature to a trusted CA: passes. Dates: pass. Name matches the URL: fails. Any failed check → warning."
+    ],
+    "solution_md": "The browser checks three things:\n\n1. The CA signature leads back to a CA in the trust store: passes.\n2. The name in the certificate matches the URL, `shop.harbourbooks.example`: **fails** (it names `www.otherbooks.example`).\n3. Today's date is within the validity dates: passes.\n\nThe handshake signature only proves the server owns *that* certificate. Since one check failed, the browser stops and shows a full-page security warning instead of the site.\n\n**Answer: a.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  },
+  {
+    "id": "sd-https-tls/test-b3",
+    "family": "sd-https-tls-form-ar-reencrypt-backend-work",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-termination"
+    ],
+    "prompt_md": "A travel-booking site's edge proxy terminates TLS from browsers and then **re-encrypts** each request on its way to the backend servers.\n\n**Assertion (A):** The backend servers still do TLS work.\n\n**Reason (R):** With re-encryption, the proxy opens a separate TLS connection to the backend.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. Each backend is the end of that second TLS connection, so it does a handshake and decrypts what it receives. That TLS work is the price of keeping the inside hop encrypted."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is the reason for A: the backends' TLS work exists precisely because the proxy opens a second TLS connection to them."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true. Re-encryption means the proxy opens its own, separate TLS connection to the backend; it doesn't extend the browser's connection."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "misconception": "mc-termination-is-end-to-end",
+        "why_md": "A is true. Termination alone would spare the backends all TLS work, but with re-encryption they finish the proxy's TLS connection, so they do handshakes and decrypt."
+      }
+    ],
+    "hints": [
+      "Judge each statement separately. How many TLS connections does one request cross with re-encryption, and where does each one end?",
+      "Two: browser → proxy, and proxy → backend. The second ends at the backend, so the backend does TLS work."
+    ],
+    "solution_md": "With re-encryption, one request crosses **two** separate TLS connections: browser → proxy (ends at the proxy) and proxy → backend (ends at the backend). So **R is true**.\n\nBecause the backend is the end of the second connection, it must complete a handshake and decrypt the request: **A is true**, and R is exactly why. The trade-off: every hop is encrypted, but the backends do TLS work again. With plain HTTP inside, they would do none.\n\n**Answer: a.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  },
+  {
+    "id": "sd-https-tls/test-b4",
+    "family": "sd-https-tls-form-pattern-passthrough-layout",
+    "kind": "pattern_id",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-termination"
+    ],
+    "prompt_md": "A map-tile company describes its setup:\n\n- Its load balancer holds **no** certificate and **no** private key.\n- Each of its 12 tile servers holds its own copy of the `tiles.mapco.example` certificate and private key, and completes the TLS handshake with users' browsers.\n- The load balancer can't see which paths users request.\n\nWhich layout is this?",
+    "options": [
+      {
+        "id": "a",
+        "md": "TLS termination at the load balancer, with plain HTTP to the tile servers",
+        "why_md": "With termination the load balancer would hold the key, do the handshakes and be able to read paths. Here it does none of these."
+      },
+      {
+        "id": "b",
+        "md": "TLS termination at the load balancer, with re-encryption to the tile servers",
+        "why_md": "Re-encryption still starts with termination: the load balancer would hold the public key and the private key and could read paths between its two TLS connections."
+      },
+      {
+        "id": "c",
+        "md": "TLS passthrough: the load balancer forwards the encrypted bytes unopened",
+        "correct": true,
+        "why_md": "Right. Every backend does its own TLS with its own key copy, and the load balancer, never decrypting, can't see paths or headers."
+      },
+      {
+        "id": "d",
+        "md": "Mutual TLS between browsers and the tile servers",
+        "why_md": "mTLS means the client also presents a certificate. Nothing here says the browsers do, and mTLS says nothing about where the load balancer sits."
+      }
+    ],
+    "hints": [
+      "Ask where the browser's TLS connection ends: at the load balancer or at a tile server?",
+      "The tile servers hold the key and do the handshakes, and the load balancer can't read paths, so it forwards the encrypted bytes unopened."
+    ],
+    "solution_md": "Three clues point the same way:\n\n1. The load balancer holds no key, so it can't complete a handshake or decrypt anything.\n2. Each tile server holds a key copy and completes the handshake, so the browser's TLS connection ends at a tile server.\n3. The load balancer can't see paths: it never decrypts.\n\nThat is **TLS passthrough**. Both termination layouts put the key on the load balancer and let it read paths; mTLS is about the client presenting a certificate.\n\n**Answer: c.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 45,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  },
+  {
+    "id": "sd-https-tls/test-b5",
+    "family": "sd-https-tls-form-factory-gateway-mechanism",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-mtls"
+    ],
+    "prompt_md": "A factory's sensor gateways send readings to an internal **ingest** service. Ingest must reject every caller that is not one of the company's own gateways, even a program running on another machine inside the factory network. The readings must be encrypted. Which mechanism fits?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Give ingest a certificate from a public CA, so the gateways can check that they are really talking to ingest",
+        "misconception": "mc-tls-authenticates-client",
+        "why_md": "That authenticates only the server. Any caller still gets an encrypted connection, so ingest still can't tell a gateway from an attacker's program."
+      },
+      {
+        "id": "b",
+        "md": "Mutual TLS: each gateway presents a certificate from the company's internal CA, and ingest accepts only certificates issued to gateways",
+        "correct": true,
+        "why_md": "Right. Each gateway must present an internal-CA certificate and sign the handshake with its private key, so a program on another machine without that key is rejected, and the traffic is encrypted."
+      },
+      {
+        "id": "c",
+        "md": "TLS termination at an edge proxy in front of ingest",
+        "why_md": "Termination decides where TLS ends. It doesn't make the client prove who it is."
+      },
+      {
+        "id": "d",
+        "md": "Ordinary HTTPS between the gateways and ingest, since HTTPS checks both sides' certificates",
+        "misconception": "mc-tls-authenticates-client",
+        "why_md": "Ordinary HTTPS checks only the server's certificate. Checking the client's certificate too is exactly what mTLS adds."
+      }
+    ],
+    "hints": [
+      "Ingest needs to know who the **client** is. Which mechanism makes the client show a certificate?",
+      "Ordinary TLS proves only the server. mTLS asks the client for a certificate from the internal CA and a signature made with its private key."
+    ],
+    "solution_md": "The requirement is about the **caller's** identity: ingest must tell its own gateways apart from any other machine on the network.\n\n- Ordinary TLS, with a public or any other server certificate, proves only the server's identity (a, d).\n- TLS termination only decides where encryption ends (c).\n- **mTLS** makes each gateway present a certificate from the internal CA and sign the handshake with its private key. Ingest accepts only certificates issued to gateways, so a program without such a certificate and key is rejected before any request is processed, and the readings are encrypted.\n\n**Answer: b.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  },
+  {
+    "id": "sd-https-tls/test-b6",
+    "family": "sd-https-tls-form-multi-mtls-billing-invoices",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-mtls",
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "Inside an accounting company, the **billing** service calls the **invoices** service over mTLS. Both services have certificates from the company's internal CA, and each service trusts only that CA.\n\nWhich statements about a successful call are true? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both billing and invoices present a certificate during the handshake",
+        "correct": true,
+        "why_md": "True. That is what makes it mutual: the server asks the client for a certificate, and each side checks the other's."
+      },
+      {
+        "id": "b",
+        "md": "Invoices must have a certificate from a public CA that browsers trust, or billing will reject it",
+        "why_md": "False. Billing trusts the internal CA, so an internal-CA certificate is exactly what it accepts. Public CAs are for sites that browsers visit."
+      },
+      {
+        "id": "c",
+        "md": "Billing signs the handshake with its own private key",
+        "correct": true,
+        "why_md": "True. The certificate is not secret, so billing must also prove that it holds the matching private key."
+      },
+      {
+        "id": "d",
+        "md": "mTLS authenticates both sides, but the request itself is sent unencrypted",
+        "why_md": "False. mTLS is still TLS: once the handshake ends, the traffic is encrypted."
+      },
+      {
+        "id": "e",
+        "md": "After the handshake, the request and response are encrypted with symmetric session keys",
+        "correct": true,
+        "why_md": "True. As in ordinary TLS, the asymmetric part ends with the handshake and the data is protected with fast symmetric encryption."
+      }
+    ],
+    "hints": [
+      "mTLS is ordinary TLS plus one extra step. Name that step, then check what stays the same as in ordinary TLS.",
+      "Extra step: the client presents a certificate and signs the handshake. Unchanged: certificates are checked against a trusted CA (here the internal one), and data is encrypted with symmetric session keys."
+    ],
+    "solution_md": "mTLS = ordinary TLS + the client proving itself too.\n\n- **Added:** invoices asks billing for a certificate. Billing sends its internal-CA certificate and signs the handshake with its private key. Both sides check each other's certificate (**a**, **c** true).\n- **Trust:** each side trusts only the internal CA, so internal-CA certificates are exactly what they accept. A public CA is not needed (**b** false).\n- **Unchanged:** after the handshake every byte is encrypted with symmetric session keys (**e** true), so the request is not sent in the clear (**d** false).\n\n**Answer: a, c, e.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  }
+]

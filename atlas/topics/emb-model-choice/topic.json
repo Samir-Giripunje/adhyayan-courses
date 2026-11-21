@@ -1,0 +1,253 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-model-choice",
+  "version": 1,
+  "title": "Choosing a model",
+  "size": "standard",
+  "est_min": 25,
+  "kcs": [
+    {
+      "id": "kc-model-choice",
+      "version": 2,
+      "statement": "Choose an embedding model by language and domain, max input, dimensions and cost."
+    },
+    {
+      "id": "kc-model-eval-own",
+      "version": 1,
+      "statement": "Decide with an eval on your own queries, not a leaderboard alone."
+    },
+    {
+      "id": "kc-model-no-mixing",
+      "version": 1,
+      "statement": "Respect query and document prefixes, and never mix models in one index."
+    }
+  ],
+  "mode_hint": "quiz",
+  "mode": "quiz",
+  "requires": [
+    "emb-model",
+    "emb-pooling"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "visual_fit": {
+    "kind": "none",
+    "why": "A checklist of model properties; the comparison table of reference models already sets the options side by side."
+  },
+  "introduces": [
+    "MTEB",
+    "query prefix"
+  ],
+  "uses": [
+    "embedding model",
+    "max sequence length"
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-bigger-dims-better",
+      "statement": "More dimensions always means better retrieval.",
+      "tags": [
+        "kc-model-choice"
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "MTEB",
+      "md": "Massive Text Embedding Benchmark (Muennighoff et al., 2022): a public leaderboard of embedding models across many tasks."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-model-choice-p1",
+      "title": "Choosing an embedding model",
+      "beats": [
+        {
+          "id": "b-models",
+          "title": "Choosing an embedding model",
+          "kcs": [
+            "kc-model-choice"
+          ],
+          "est_minutes": 8,
+          "blocks": [
+            {
+              "id": "blk-emb-model-choice-01",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "There are hundreds of embedding models. Choose using questions about **your** data, not a leaderboard rank:",
+                  "1. **Language and domain.** English only? Multilingual? Legal, medical or code?\n2. **Input length.** Do your chunks fit the model's maximum?\n3. **Dimensions.** More dimensions means more memory and slower search. It doesn't automatically mean better results.\n4. **Cost and hosting.** A paid API (per token) or open weights you run yourself (GPU/CPU cost, data stays in-house).\n5. **Quality on your own queries.** Use a benchmark like [[MTEB]] (Muennighoff et al., 2022) to shortlist, then evaluate on 50–200 labelled queries from your real traffic. Benchmark rank and rank on your data often differ."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-model-choice-02",
+              "block": {
+                "type": "compare",
+                "title": "A few reference points (check current docs before deciding)",
+                "columns": [
+                  "Model",
+                  "Dimensions",
+                  "Max input",
+                  "Notes"
+                ],
+                "rows": [
+                  [
+                    "all-MiniLM-L6-v2",
+                    "384",
+                    "256 word pieces",
+                    "Small, fast, English, open weights (Apache-2.0). A good baseline."
+                  ],
+                  [
+                    "e5-base-v2 / bge-base-en-v1.5",
+                    "768",
+                    "512 tokens",
+                    "Open weights. Expect query/passage prefixes or an instruction (see below)."
+                  ],
+                  [
+                    "OpenAI text-embedding-3-small",
+                    "1,536 (shortenable)",
+                    "8,192 tokens",
+                    "API. About \\$0.02 per 1M tokens."
+                  ],
+                  [
+                    "OpenAI text-embedding-3-large",
+                    "3,072 (shortenable)",
+                    "8,192 tokens",
+                    "API. About \\$0.13 per 1M tokens. Higher MTEB score."
+                  ]
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-model-choice-03",
+              "block": {
+                "type": "callout",
+                "kind": "warning",
+                "md": "Some models are trained **asymmetrically** and expect markers. E5 models want `\"query: \"` in front of queries and `\"passage: \"` in front of documents. BGE recommends an instruction prefix for short queries. Forget the prefix and quality drops, with no error to tell you.",
+                "title": "Prefixes are part of the model"
+              }
+            },
+            {
+              "id": "blk-emb-model-choice-04",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "md": "Some models are trained **Matryoshka-style** (Kusupati et al., 2022), so the first $m$ dimensions are themselves a usable embedding. OpenAI exposes this through the `dimensions` parameter. Its docs note that `text-embedding-3-large` shortened to 256 dimensions still beats the older `text-embedding-ada-002` at 1,536 on MTEB. If you truncate vectors yourself, **re-normalize** afterwards.",
+                "title": "Shorter vectors, almost free"
+              }
+            },
+            {
+              "id": "blk-emb-model-choice-05",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-model-switch",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-model-choice"
+                  ],
+                  "prompt_md": "Your index holds 2M chunks embedded with `text-embedding-3-small`. You want better quality from `text-embedding-3-large`. What must you do?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Re-embed all 2M chunks with the new model and query that new index with the new model",
+                      "why_md": "Right. New model, new space. The usual pattern is to build the new index alongside the old one, evaluate it, then switch over (see Real world: model migration).",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "Embed only new queries with the large model",
+                      "why_md": "Queries and documents would then live in different spaces, and scores would be meaningless.",
+                      "misconception": "mc-mix-models"
+                    },
+                    {
+                      "id": "c",
+                      "md": "Truncate the large model's 3,072 dims to 1,536 so they fit the old index",
+                      "why_md": "Matching sizes doesn't make the spaces compatible.",
+                      "misconception": "mc-mix-models"
+                    }
+                  ],
+                  "est_seconds": 70
+                }
+              }
+            },
+            {
+              "id": "blk-emb-model-choice-06",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-model-factors",
+                  "kind": "multi",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-model-choice"
+                  ],
+                  "prompt_md": "Which of these should drive your choice of embedding model? Select all that apply.",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Retrieval quality measured on your own labelled queries",
+                      "why_md": "Yes. It's the strongest signal you can get.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "Whether your chunks fit within its max input length",
+                      "why_md": "Yes. Otherwise text gets truncated or rejected.",
+                      "correct": true
+                    },
+                    {
+                      "id": "c",
+                      "md": "Having the most dimensions available",
+                      "why_md": "No. More dimensions cost memory and speed and don't guarantee better results.",
+                      "misconception": "mc-bigger-dims-better"
+                    },
+                    {
+                      "id": "d",
+                      "md": "Language and domain coverage",
+                      "why_md": "Yes. A model never trained on your language or jargon will struggle.",
+                      "correct": true
+                    }
+                  ],
+                  "est_seconds": 70
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp2-e5"
+  ],
+  "recap": {
+    "pitfall": "A leaderboard winner can lose on your queries; and a new model means re-embedding everything."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [],
+  "problem_ideas": [
+    "Shortlist two models for Hindi support tickets and justify each",
+    "Design a 30-query eval to choose between two models",
+    "Estimate storage for 1M docs at 384 vs 1536 dimensions",
+    "Find the bug when an E5 model is used without its query prefix",
+    "Decide whether a bigger model is worth 4× the cost",
+    "Plan the switch from model A to model B without mixing vectors"
+  ],
+  "sources": [
+    {
+      "source": "strata-pack",
+      "entry": "intermediate/b-models"
+    },
+    {
+      "source": "sentence-transformers",
+      "entry": "semantic-search"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

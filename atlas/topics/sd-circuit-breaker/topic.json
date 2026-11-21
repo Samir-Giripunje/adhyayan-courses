@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-circuit-breaker",
+  "version": 1,
+  "title": "Circuit breakers: failing fast",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-cb-states",
+      "version": 1,
+      "statement": "A circuit breaker stays closed (calls pass) until failures exceed a threshold, then opens (calls fail immediately without reaching the dependency), then after a cool-down goes half-open, where a few trial calls decide whether to close or reopen."
+    },
+    {
+      "id": "kc-cb-purpose",
+      "version": 1,
+      "statement": "Failing fast while the breaker is open stops the caller from wasting threads on a dead dependency and gives the dependency room to recover, preventing a cascading failure."
+    },
+    {
+      "id": "kc-cb-fallback",
+      "version": 1,
+      "statement": "While the breaker is open, the caller returns a fallback such as cached data, a default or a degraded response instead of an error, where the product allows it."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "sd-timeouts"
+  ],
+  "suggests": [
+    "sd-retry-backoff-jitter",
+    "sd-bulkhead"
+  ],
+  "confusable_with": [
+    "sd-timeouts",
+    "sd-rate-limiting"
+  ],
+  "introduces": [
+    "circuit breaker",
+    "half-open state",
+    "fallback"
+  ],
+  "uses": [
+    "timeout",
+    "cascading failure",
+    "retry storm"
+  ],
+  "problem_ideas": [
+    "Implement a CircuitBreaker class with closed/open/half-open states driven by a fake clock",
+    "Given a sequence of call results and timestamps, output the breaker state after each call",
+    "Threshold 50% failures over 20 calls, cool-down 30 s: trace a 2-minute outage",
+    "Pick a fallback for a product page when the reviews service's breaker is open",
+    "Why combine retries with a breaker, and in which order do they wrap the call?",
+    "A breaker per host vs per service: which isolates a single bad instance?"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "why-do-we-need-circuit-breaking/why-do-we-need-circuit-breaking"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "states-2/states"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "high-availability/circuit-breaker"
+    }
+  ],
+  "status": "stub"
+}

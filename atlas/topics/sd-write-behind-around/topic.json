@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-write-behind-around",
+  "version": 1,
+  "title": "Write-behind and write-around",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-write-behind",
+      "version": 1,
+      "statement": "With write-behind (write-back), a write is acknowledged once it is in the cache and is flushed to the database asynchronously later, giving low write latency but losing unflushed writes if the cache fails."
+    },
+    {
+      "id": "kc-write-around",
+      "version": 1,
+      "statement": "With write-around, writes go directly to the database and bypass the cache, so the cache fills only on reads and recently written data misses on its first read."
+    },
+    {
+      "id": "kc-write-pattern-fit",
+      "version": 1,
+      "statement": "Write-behind suits write-heavy data that tolerates some loss, such as view counters; write-around suits data written once and rarely re-read, such as logs."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-read-write-through"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-read-write-through"
+  ],
+  "introduces": [
+    "write-behind",
+    "write-around"
+  ],
+  "uses": [
+    "write-through",
+    "cache miss"
+  ],
+  "problem_ideas": [
+    "A like counter takes 50,000 writes/s: compare DB writes per second with write-behind batching every second",
+    "Cache node crashes 2 s after the last flush under write-behind: what is lost?",
+    "Choose a write pattern for audit logs, video view counts and user passwords",
+    "Count first-read misses after 1,000 uploads under write-around",
+    "Explain why write-behind can reorder writes reaching the database",
+    "Sketch how write-behind batches 100 increments into one database update"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "cache/write-behind-write-back"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "cache-invalidation/write-around-cache"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "cache-invalidation/write-back-cache"
+    }
+  ],
+  "status": "stub"
+}

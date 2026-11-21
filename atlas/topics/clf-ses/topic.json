@@ -1,0 +1,59 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-ses",
+  "version": 1,
+  "title": "Amazon SES: sending email at scale",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-ses-email",
+      "version": 1,
+      "statement": "Amazon SES sends transactional, marketing and bulk email at scale (and can receive email), with deliverability features such as DKIM signing and sender-reputation tracking."
+    },
+    {
+      "id": "kc-ses-vs-sns",
+      "version": 1,
+      "statement": "For customised email to customers, such as HTML receipts or newsletters, choose SES; for simple alert notifications to subscribed endpoints, including email, choose SNS."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-sns"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-sns",
+    "clf-amazon-connect"
+  ],
+  "introduces": [
+    "ses",
+    "transactional email"
+  ],
+  "uses": [
+    "sns"
+  ],
+  "problem_ideas": [
+    "An online shop must send 200,000 personalised HTML order confirmations a day: SES or SNS?",
+    "A new SES account cannot email customers: explain the sandbox and verified-identity restriction.",
+    "Ops wants an email when CPU passes 90%: which service sends it?",
+    "Rank three bounce/complaint scenarios by their effect on sender reputation.",
+    "Spot the distractor: 'Amazon Connect sends marketing email campaigns.'",
+    "A newsletter goes to spam folders; name the SES feature that proves the domain sent it."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "business-applications/amazon-simple-email-service-amazon-ses"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "ses/ses"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "ses/sandbox-sending-limits"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,59 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-reliability-fault-tolerance",
+  "version": 1,
+  "title": "Reliability, high availability and fault tolerance",
+  "size": "standard",
+  "est_min": 18,
+  "kcs": [
+    {
+      "id": "kc-reliability-vs-availability",
+      "version": 1,
+      "statement": "Availability measures whether the system is up when asked; reliability measures whether it performs correctly over time, so a system can be up yet unreliable when it returns wrong results."
+    },
+    {
+      "id": "kc-ha-vs-fault-tolerance",
+      "version": 1,
+      "statement": "High availability minimises downtime by recovering quickly and accepts a brief blip during failover; fault tolerance keeps operating with no interruption through a failure, at higher cost through full redundancy."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-availability-nines"
+  ],
+  "confusable_with": [
+    "sd-failover"
+  ],
+  "introduces": [
+    "reliability",
+    "high availability",
+    "fault tolerance"
+  ],
+  "uses": [
+    "availability nines"
+  ],
+  "problem_ideas": [
+    "A payment API is up 99.99% but double-charges 0.1% of users: is it available, reliable, both?",
+    "Classify: an aircraft flight computer with triple redundancy vs a web app with a standby DB",
+    "A 20-second failover pause: high availability or fault tolerance?",
+    "Which costs more for a chat service, and when is it worth it?",
+    "A search service returns stale results during an outage: which property degraded?",
+    "Rewrite the NFR 'must never go down' into a precise availability and reliability requirement"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "availability-vs-reliability/availability-vs-reliability"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "high-availability-vs-fault-tolerance/high-availability-vs-fault-tolerance"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "core-concepts/fault-tolerance"
+    }
+  ],
+  "status": "stub"
+}

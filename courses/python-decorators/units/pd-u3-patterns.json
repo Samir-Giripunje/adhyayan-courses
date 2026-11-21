@@ -1,0 +1,34 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "pd-u3-patterns",
+  "title": "Decorator patterns and class decorators",
+  "topics": [
+    {
+      "id": "pd-registration-decorators",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "pd-attribute-tagging",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "pd-lru-cache",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "pd-class-decorators",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "pd-singleton-decorator",
+      "tier": "optional",
+      "order": 5
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

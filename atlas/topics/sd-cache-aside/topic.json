@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-cache-aside",
+  "version": 1,
+  "title": "Cache-aside: the default caching pattern",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-cache-aside-read",
+      "version": 1,
+      "statement": "With cache-aside, a read checks the cache; on a miss the application loads the value from the database and then writes it into the cache."
+    },
+    {
+      "id": "kc-cache-aside-ownership",
+      "version": 1,
+      "statement": "In cache-aside the application talks to both the cache and the database; the cache never reads from or writes to the database itself."
+    },
+    {
+      "id": "kc-cache-aside-tradeoffs",
+      "version": 1,
+      "statement": "Cache-aside caches only data that is actually requested and survives a cache outage because reads fall back to the database, but each miss costs three trips and entries can go stale."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "sd-cache-basics"
+  ],
+  "suggests": [
+    "sd-cache-layers"
+  ],
+  "confusable_with": [
+    "sd-read-write-through"
+  ],
+  "introduces": [
+    "cache-aside"
+  ],
+  "uses": [
+    "cache hit",
+    "cache miss",
+    "application cache"
+  ],
+  "problem_ideas": [
+    "Write get_user(id, cache, db) implementing cache-aside with dicts and count database reads",
+    "Trace 10 reads of 3 keys through an empty cache-aside cache and count misses",
+    "The cache cluster goes down: describe what happens to reads and database load",
+    "Compute latency of a miss with 1 ms cache and 8 ms database under cache-aside",
+    "Explain why a freshly started cache-aside node causes a spike of database reads",
+    "Find the bug: code writes to the cache before reading the database on a miss"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "cache/cache-aside"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "data-management/cache-aside"
+    }
+  ],
+  "status": "stub"
+}

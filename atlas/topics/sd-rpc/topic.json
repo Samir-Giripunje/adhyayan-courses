@@ -1,0 +1,73 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-rpc",
+  "version": 1,
+  "title": "RPC, gRPC and choosing REST vs RPC",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-rpc-definition",
+      "version": 1,
+      "statement": "RPC exposes actions as remote function calls (e.g. sendMessage(userId, text)); a client stub serialises the arguments so the call looks local, though it can fail or time out over the network."
+    },
+    {
+      "id": "kc-grpc",
+      "version": 1,
+      "statement": "gRPC is an RPC framework that encodes messages with Protocol Buffers (a compact binary format) over HTTP/2 and supports streaming; it is common for internal service-to-service calls but needs a proxy for browser clients."
+    },
+    {
+      "id": "kc-rest-vs-rpc-choice",
+      "version": 1,
+      "statement": "Public APIs used by third parties usually choose REST for its uniform, cacheable HTTP semantics, while internal, high-volume calls between services often choose RPC for lower overhead and typed contracts."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-rest"
+  ],
+  "suggests": [
+    "sd-latency-numbers"
+  ],
+  "confusable_with": [
+    "sd-rest"
+  ],
+  "introduces": [
+    "rpc",
+    "grpc",
+    "protocol buffers"
+  ],
+  "uses": [
+    "rest",
+    "http",
+    "tcp",
+    "latency"
+  ],
+  "problem_ideas": [
+    "Choose REST or gRPC for: a public weather API, orders-to-inventory calls at 50k/s, a mobile app backend.",
+    "A JSON payload is 1.2 KB and the protobuf version 300 bytes; estimate bandwidth saved at 20k calls/s.",
+    "Write the same 'send message' operation as an RPC signature and as a REST endpoint.",
+    "An RPC call looks like a local function; list three failure cases a local call never has.",
+    "Why can't a browser call a gRPC service directly, and what sits in between?",
+    "Design a streaming RPC for live driver location updates."
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "communication/remote-procedure-call-rpc"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "communication/rpc-and-rest-calls-comparison"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "grpc/grpc"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-tradeoffs/rest-vs-rpc"
+    }
+  ],
+  "status": "stub"
+}

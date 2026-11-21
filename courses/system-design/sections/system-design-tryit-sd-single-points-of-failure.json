@@ -1,0 +1,31 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-single-points-of-failure",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: design it",
+  "blurb": "Uses Availability in nines and downtime budgets, Availability in series and in parallel and Finding and removing single points of failure: estimate the numbers and weigh the trade-offs.",
+  "after": "topic:sd-single-points-of-failure",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "design",
+    "topics": [
+      "sd-availability-nines",
+      "sd-availability-series-parallel",
+      "sd-single-points-of-failure"
+    ],
+    "kcs": [
+      "kc-availability-definition",
+      "kc-nines-downtime",
+      "kc-avail-series",
+      "kc-avail-parallel",
+      "kc-avail-independence",
+      "kc-spof-definition",
+      "kc-spof-redundancy"
+    ],
+    "minutes": 21,
+    "why": "Uses Availability in nines and downtime budgets, Availability in series and in parallel and Finding and removing single points of failure: estimate the numbers and weigh the trade-offs."
+  }
+}

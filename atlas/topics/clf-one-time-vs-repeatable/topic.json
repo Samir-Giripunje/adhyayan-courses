@@ -1,0 +1,56 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-one-time-vs-repeatable",
+  "version": 1,
+  "title": "One-time operations vs repeatable processes",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-one-time-vs-repeatable-ops",
+      "version": 1,
+      "statement": "A one-off task, such as trying out a new service or changing a single setting, fits the Management Console; a task repeated across environments, accounts or Regions should be scripted with the CLI or SDK or defined in templates."
+    },
+    {
+      "id": "kc-repeatable-process-benefits",
+      "version": 1,
+      "statement": "Repeatable, automated processes reduce human error, keep dev, test and production environments identical, and let an environment be rebuilt quickly after a failure."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-access-methods",
+    "clf-economies-of-scale-automation"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "one-time operation",
+    "repeatable process"
+  ],
+  "uses": [
+    "management console",
+    "aws cli",
+    "aws sdk",
+    "automation"
+  ],
+  "problem_ideas": [
+    "An admin must turn on S3 versioning for one bucket, once: console, CLI script or template? Justify the choice.",
+    "A team must create the same VPC, subnets and EC2 setup in 12 accounts: which approach, and why is the console a bad choice?",
+    "A production outage happened because someone clicked a different setting in prod than in test: name the process change that prevents it.",
+    "Sort 8 tasks (rotate one key, nightly report export, new-region rollout, demo for a manager...) into one-time vs repeatable.",
+    "A startup rebuilt its environment by hand after a Region issue and took 3 days: what would a repeatable process have changed?",
+    "Distractor drill: 'the fastest way to deploy identical environments repeatedly' with options console, CLI one-liner, template, support ticket."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-1-define-methods-of-dep/evaluating-requirements-to-determine-whe"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-1-define-methods-of-dep/various-ways-of-provisioning-and-operati"
+    }
+  ],
+  "status": "stub"
+}

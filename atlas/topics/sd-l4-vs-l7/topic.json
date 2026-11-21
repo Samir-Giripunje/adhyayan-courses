@@ -1,0 +1,74 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-l4-vs-l7",
+  "version": 1,
+  "title": "Layer 4 vs layer 7 load balancing",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-l4-lb",
+      "version": 1,
+      "statement": "A layer 4 load balancer routes on IP address and TCP/UDP port without reading the request content, so it is fast and protocol-agnostic but cannot route by URL path or header."
+    },
+    {
+      "id": "kc-l7-lb",
+      "version": 1,
+      "statement": "A layer 7 load balancer parses the HTTP request, so it can route by path, host or header (e.g. /api to one pool, /images to another) at the cost of more CPU and terminating the client connection."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-load-balancers"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-reverse-proxy"
+  ],
+  "introduces": [
+    "layer 4 load balancing",
+    "layer 7 load balancing",
+    "path-based routing"
+  ],
+  "uses": [
+    "load balancer",
+    "transport layer",
+    "application layer",
+    "tcp",
+    "udp",
+    "port",
+    "http header",
+    "ip address"
+  ],
+  "problem_ideas": [
+    "Route /video/* to a streaming pool and /api/* to the API pool: which layer is needed?",
+    "A game server uses UDP on port 7777: which load balancer type fits?",
+    "Send 5% of traffic to a canary based on a header value: L4 or L7, and why?",
+    "Estimate the extra cost of L7: if TLS termination plus parsing costs 0.2 ms of CPU per request, how many cores does 50,000 QPS need?",
+    "A gRPC service over HTTP/2 shows all traffic pinned to one backend behind an L4 balancer: explain why",
+    "Classify six routing rules as possible at L4 or L7-only"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "load-balancers/layer-4-load-balancing"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "load-balancers/layer-7-load-balancing"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "load-balancer/layer-4-load-balancing"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "load-balancer/layer-7-load-balancing"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "layers-2/layers"
+    }
+  ],
+  "status": "stub"
+}

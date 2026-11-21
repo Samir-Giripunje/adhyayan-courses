@@ -1,0 +1,73 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-domain4-practice",
+  "version": 1,
+  "title": "Domain 4 practice: billing, pricing and support (12%)",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-clf-d4-task-statements",
+      "version": 1,
+      "statement": "Domain 4 (Billing, Pricing and Support, 12%, about 6 scored items) has three task statements: compare AWS pricing models, understand resources for billing, budget and cost management, and identify AWS technical resources and AWS Support options."
+    },
+    {
+      "id": "kc-clf-d4-free-vs-paid-help",
+      "version": 1,
+      "statement": "Support-resource items separate free from paid help: AWS re:Post, the AWS Knowledge Center, AWS documentation and the core Trusted Advisor checks are open to every account, while a technical account manager and the Concierge Support Team come only with Enterprise On-Ramp Support or Enterprise Support."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-exam-format-scoring",
+    "clf-tam-support-center",
+    "clf-technical-resources"
+  ],
+  "suggests": [
+    "clf-choosing-purchase-option",
+    "clf-choosing-cost-tool",
+    "clf-choosing-support-option"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "free vs paid support"
+  ],
+  "uses": [
+    "domain practice set",
+    "task statement",
+    "support plans",
+    "aws re:post",
+    "aws knowledge center",
+    "aws documentation",
+    "trusted advisor",
+    "technical account manager",
+    "concierge support team",
+    "enterprise on-ramp support",
+    "enterprise support",
+    "savings plans"
+  ],
+  "problem_ideas": [
+    "A 9-question Domain 4 set with three items per task statement; record the score per task statement.",
+    "A startup on Basic Support wants a community answer to a Lambda timeout question at no cost; pick the resource and rule out a TAM.",
+    "A company needs a pool of TAMs and the Concierge Support Team for the lowest price; pick the plan.",
+    "A steady 24/7 workload on mixed EC2 families and Fargate for three years: choose between a Compute Savings Plan and Standard Reserved Instances.",
+    "Domain 4 has about 6 scored items; compute how many you can miss and still score at least 70% in this domain.",
+    "A stem asks for a forecast of next month's spend from past usage; pick Cost Explorer and rule out the Pricing Calculator.",
+    "Write the one-line rule you will use for every 'cheapest support plan that meets X' question."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "content-outline/content-domain-4-billing-pricing-and-sup"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/account-management-billing-support"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/pricing-models-in-aws"
+    }
+  ],
+  "status": "stub"
+}

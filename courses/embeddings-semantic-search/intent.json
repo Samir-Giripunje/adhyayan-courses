@@ -1,0 +1,17 @@
+{
+  "goal_text": "Embeddings for semantic search",
+  "pasted": [],
+  "chips": {
+    "level": "some",
+    "target": "job",
+    "depth": "working",
+    "daily_min": 60,
+    "days": [
+      "mon",
+      "tue",
+      "thu",
+      "sat"
+    ]
+  },
+  "parsed_from": []
+}

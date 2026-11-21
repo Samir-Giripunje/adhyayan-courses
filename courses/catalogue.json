@@ -1,0 +1,28 @@
+{
+  "sketches": [
+    {
+      "id": "embeddings-semantic-search",
+      "dir": "courses/embeddings-semantic-search",
+      "course": "embeddings-semantic-search",
+      "label": "Embeddings and semantic search",
+      "match": [
+        "embedding",
+        "semantic search",
+        "vector search",
+        "dense retrieval"
+      ],
+      "grid": true
+    },
+    {
+      "id": "system-design",
+      "dir": "courses/system-design",
+      "course": "system-design",
+      "label": "System design (interview-focused)",
+      "match": [
+        "system design",
+        "systems design"
+      ],
+      "grid": true
+    }
+  ]
+}

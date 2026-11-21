@@ -1,0 +1,73 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-iam-identity-center",
+  "version": 1,
+  "title": "IAM Identity Center: one sign-in for many accounts",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-idc-single-portal",
+      "version": 1,
+      "statement": "IAM Identity Center (formerly AWS Single Sign-On) gives workforce users one sign-in portal for all the AWS accounts in an organization and for supported business applications."
+    },
+    {
+      "id": "kc-idc-permission-sets",
+      "version": 1,
+      "statement": "IAM Identity Center grants access by assigning a user or group a permission set in a chosen account. The permission set becomes an IAM role in that account."
+    },
+    {
+      "id": "kc-idc-identity-sources",
+      "version": 1,
+      "statement": "IAM Identity Center can use its own built-in directory, an external identity provider such as Okta or Microsoft Entra ID, or a Microsoft Active Directory as its source of identities."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-identity-federation",
+    "clf-organizations"
+  ],
+  "suggests": [
+    "clf-iam-roles"
+  ],
+  "confusable_with": [
+    "clf-cognito-directory-service",
+    "clf-iam-users-groups"
+  ],
+  "introduces": [
+    "iam identity center",
+    "permission set",
+    "workforce identity"
+  ],
+  "uses": [
+    "aws organizations",
+    "identity federation",
+    "identity provider",
+    "single sign-on",
+    "iam role",
+    "iam group"
+  ],
+  "problem_ideas": [
+    "Auditors need read-only access to 25 accounts. Design the permission set and group assignment.",
+    "A company already uses Okta for 800 staff. Which identity source should Identity Center use?",
+    "Choose between IAM Identity Center and creating IAM users in each of 15 accounts for the same 50 engineers, and count the credentials each option creates.",
+    "What does a developer see after signing in to the Identity Center access portal?",
+    "A permission set is changed from ReadOnly to PowerUser. Which accounts' roles are updated?",
+    "Scenario: a question says 'centrally manage workforce access to multiple AWS accounts'. Name the service and the closest distractor."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-3-identify-aws-access-m/aws-iam-identity-center"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-iam-identity-center"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "advanced-identity/aws-iam-identity-center"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,277 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-compression",
+  "version": 1,
+  "title": "Quantisation and shorter embeddings",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-compression",
+      "version": 2,
+      "statement": "float16, int8, binary and product quantisation shrink memory at some recall cost."
+    },
+    {
+      "id": "kc-oversample-rescore",
+      "version": 1,
+      "statement": "Oversample-and-rescore and shorter Matryoshka vectors recover recall or trade size."
+    }
+  ],
+  "mode_hint": "quiz",
+  "mode": "quiz",
+  "requires": [
+    "emb-exact-cost"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "quantization",
+    "Matryoshka embeddings"
+  ],
+  "uses": [
+    "dimension",
+    "ANN"
+  ],
+  "misconceptions": [],
+  "glossary": [],
+  "parts": [
+    {
+      "id": "emb-compression-p1",
+      "title": "Shrinking vectors: quantization and shorter embeddings",
+      "beats": [
+        {
+          "id": "b-compression",
+          "title": "Shrinking vectors: quantization and shorter embeddings",
+          "kcs": [
+            "kc-compression"
+          ],
+          "est_minutes": 10,
+          "blocks": [
+            {
+              "id": "blk-emb-compression-01",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "A float32 dimension takes 4 bytes, so a 1,536-d vector is 6 KB. At 100M vectors that's 614 GB of RAM. The options for shrinking it:",
+                  "- **float16**: 2 bytes per dimension (2× smaller). Usually close to lossless for retrieval.\n- **int8 scalar quantization**: map each dimension's range onto 256 levels (4× smaller).\n- **Binary quantization**: keep only the sign, 1 bit per dimension (**32× smaller**). Compare with Hamming distance. Quality loss varies a lot by model.\n- **Product quantization** (Jégou, Douze & Schmid, 2011): split the vector into $m$ sub-vectors and replace each with the ID of its nearest sub-centroid. For example, 1,536-d split into 96 pieces of 1 byte each is **96 bytes per vector** (64× smaller).\n- **Fewer dimensions**: Matryoshka-trained models can drop trailing dimensions (Intermediate layer).",
+                  "The standard recovery trick is **oversample and rescore**. Retrieve the top 100 using the compressed vectors, re-score those 100 with full-precision vectors (kept on disk), and return the top 10. You get most of the memory saving and most of the recall back."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-compression-02",
+              "block": {
+                "type": "visual",
+                "id": "v-memcalc",
+                "widget": "memory-calc",
+                "title": "The RAM bill",
+                "goal_md": "Pick how many vectors you have, their dimensions and their storage type. The calculator shows raw memory, and HNSW link overhead if you turn it on.",
+                "alt": "Controls for vector count (10K to 1B), dimensions (256 to 3,072) and storage type (float32, float16, int8, binary), plus an HNSW-links toggle. A bar shows total memory against a 64 GB server.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "Size this: **10M** vectors × **1,536** dims in **float32**.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "n",
+                          "op": "==",
+                          "value": 10000000
+                        },
+                        {
+                          "var": "dims",
+                          "op": "==",
+                          "value": 1536
+                        },
+                        {
+                          "var": "dtype",
+                          "op": "==",
+                          "value": "float32"
+                        }
+                      ]
+                    },
+                    "aha_md": "About 61 GB of raw vectors, before any index. One big server, and no headroom for growth."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Fit **100M** vectors with at least **1,024** dims under **64 GB**.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "n",
+                          "op": ">=",
+                          "value": 100000000
+                        },
+                        {
+                          "var": "dims",
+                          "op": ">=",
+                          "value": 1024
+                        },
+                        {
+                          "var": "gb",
+                          "op": "<",
+                          "value": 64
+                        }
+                      ]
+                    },
+                    "aha_md": "Only binary gets there (100M × 1,024 bits = 12.8 GB). In practice you'd pair it with rescoring against full vectors on SSD."
+                  }
+                ],
+                "params": {
+                  "n": 1000000,
+                  "dims": 1536,
+                  "dtype": "float32"
+                }
+              }
+            },
+            {
+              "id": "blk-emb-compression-03",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-binary-mem",
+                  "kind": "numeric",
+                  "difficulty": 3,
+                  "kcs": [
+                    "kc-compression"
+                  ],
+                  "prompt_md": "**100M** vectors × **1,024** dims with **binary** quantization. Raw size in GB (10⁹ bytes)?",
+                  "answer": {
+                    "value": 12.8,
+                    "tolerance": 0.1,
+                    "unit": "GB",
+                    "common_wrong": [
+                      {
+                        "value": 102.4,
+                        "why_md": "That's 1 byte per dimension (int8). Binary is 1 **bit**: divide by 8."
+                      }
+                    ]
+                  },
+                  "solution_md": "$10^8 \\times 1024$ bits $= 1.024 \\times 10^{11}$ bits $= 1.28 \\times 10^{10}$ bytes ≈ **12.8 GB**.",
+                  "est_seconds": 120
+                }
+              }
+            },
+            {
+              "id": "blk-emb-compression-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-rescore",
+                  "kind": "mcq",
+                  "difficulty": 3,
+                  "kcs": [
+                    "kc-compression"
+                  ],
+                  "prompt_md": "After switching to binary quantization, recall@10 drops from 0.95 to 0.80. What's the standard fix that keeps most of the memory savings?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Retrieve the top ~100 by Hamming distance, rescore them with full-precision vectors, return the top 10",
+                      "why_md": "Right: oversample and rescore. Full vectors can live on disk because you only read 100 of them per query.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "Go back to float32 everywhere",
+                      "why_md": "That works, but throws away the 32× saving."
+                    },
+                    {
+                      "id": "c",
+                      "md": "Lower k to 5",
+                      "why_md": "A smaller k doesn't make the top results more accurate."
+                    }
+                  ],
+                  "est_seconds": 120
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp3-int8"
+  ],
+  "recap": {
+    "formula": "memory = N · d · bytes per value",
+    "pitfall": "int8 and binary lose recall unless you oversample and rescore with full vectors."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [
+    {
+      "id": "d-quant-recall",
+      "beat": "b-compression",
+      "question": "Why does quantization hurt recall, and how much?",
+      "match": [
+        "quantiz",
+        "binary",
+        "int8",
+        "lose accuracy",
+        "compression",
+        "recall drop"
+      ],
+      "answer_md": "Quantization rounds each number to fewer levels, so two vectors that were slightly different can now look the same or swap order. int8 (256 levels per dimension) usually costs little. Binary (just the sign) loses much more, and how much depends heavily on the model. The fix is **oversample + rescore**: fetch more candidates using the compressed vectors, then rank them precisely with full vectors.",
+      "deeper_md": "Rounding exam scores to grades. 81 and 89 both become “B”, so you can't tell who did better. Keep the B-grade shortlist, then look at the exact scores to rank it. That's rescoring.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "Rounding loses order; rescoring restores it",
+        "md": [
+          "Two docs score 0.812 and 0.809 against a query in float32. After quantization both round to ≈ 0.81, or even swap.",
+          "**Oversample and rescore:** take the top 100 from the compressed index, re-score those 100 with float32 vectors (read from disk), and return the top 10. Most of the memory saving stays, and most of the recall comes back."
+        ],
+        "verify": {
+          "id": "q-br-quant",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-compression"
+          ],
+          "prompt_md": "Which storage loses the most information per dimension?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Binary (1 bit)",
+              "why_md": "Right. Only the sign survives.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "int8",
+              "why_md": "256 levels per dimension, a mild loss."
+            },
+            {
+              "id": "c",
+              "md": "float16",
+              "why_md": "Nearly lossless for retrieval."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Compute RAM for 10M × 768 at float32, int8 and binary",
+    "Predict recall after binary quantisation with and without rescoring",
+    "Truncate a Matryoshka vector to 256 dimensions and compare rankings",
+    "Choose a compression for a 100M-vector index on one machine",
+    "Explain product quantisation with two sub-vectors",
+    "Decide how much to oversample before rescoring"
+  ],
+  "sources": [
+    {
+      "source": "strata-pack",
+      "entry": "advanced/b-compression"
+    },
+    {
+      "source": "faiss-docs",
+      "entry": "pq"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

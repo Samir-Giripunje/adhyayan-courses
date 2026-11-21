@@ -1,0 +1,182 @@
+[
+  {
+    "id": "q-proof1-same-model",
+    "version": 1,
+    "family": "q-proof1-same-model",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-pipeline",
+      "kc-embedding-def"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "A colleague proposes embedding queries with a newer, “compatible” 1,536-d model while the index stays on the old 1,536-d model. You say:",
+    "options": [
+      {
+        "id": "a",
+        "md": "No: different models mean different spaces. Re-embed the corpus first",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "Fine, the dimensions match",
+        "why_md": "Equal dimensions don't make the spaces compatible.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "c",
+        "md": "Fine if we use Euclidean distance",
+        "why_md": "The metric can't align two spaces."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Embed documents offline, embed the query with the same model, rank by similarity, return the top-k.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "emb-search/test-a1",
+    "version": 1,
+    "family": "emb-search-score-rank-table",
+    "kind": "trace",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-pipeline"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "The query *refund not received* embeds to **q = [2, 0, 1]**. Four help articles are stored as below. Every stored vector has length 3, so ranking by dot product gives the same order as cosine. Fill in each article's dot product with q and its rank (1 = best match).",
+    "context_md": "| Article | Stored vector | Dot with q | Rank |\n|---|---|---|---|\n| Refund timelines | [2, 1, 2] | ? | ? |\n| Reset your password | [0, 3, 0] | ? | ? |\n| Cancel an order | [1, 2, 2] | ? | ? |\n| Track a parcel | [2, 2, 1] | ? | ? |",
+    "answer": {
+      "cells": {
+        "0,2": "6",
+        "0,3": "1",
+        "1,2": "0",
+        "1,3": "4",
+        "2,2": "4",
+        "2,3": "3",
+        "3,2": "5",
+        "3,3": "2"
+      }
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "q = [2, 0, 1]\nrows = [('Refund timelines', [2, 1, 2]), ('Reset your password', [0, 3, 0]), ('Cancel an order', [1, 2, 2]), ('Track a parcel', [2, 2, 1])]\ndots = [sum(a * b for a, b in zip(q, v)) for _, v in rows]\norder = sorted(range(len(rows)), key=lambda i: -dots[i])\nrank = {i: r + 1 for r, i in enumerate(order)}\nanswer = {}\nfor i in range(len(rows)):\n    answer[f'{i},2'] = str(dots[i])\n    answer[f'{i},3'] = str(rank[i])\n"
+    },
+    "hints": [
+      "Dot product: multiply matching positions and add. Then rank by score, highest first.",
+      "Refund timelines: 2·2 + 0·1 + 1·2 = 6; Reset your password: 2·0 + 0·3 + 1·0 = 0; Cancel an order: 2·1 + 0·2 + 1·2 = 4; Track a parcel: 2·2 + 0·2 + 1·1 = 5."
+    ],
+    "solution_md": "Refund timelines: 2·2 + 0·1 + 1·2 = 6; Reset your password: 2·0 + 0·3 + 1·0 = 0; Cancel an order: 2·1 + 0·2 + 1·2 = 4; Track a parcel: 2·2 + 0·2 + 1·1 = 5. Ranked highest first, the best match is **Refund timelines**: Refund timelines 1, Reset your password 4, Cancel an order 3, Track a parcel 2.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/test-a2",
+    "version": 1,
+    "family": "emb-search-call-ledger",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "A help centre with **30** articles is indexed on Monday: every article is embedded once and its vector stored. On Tuesday, **45** searches arrive. On Wednesday morning, **2** articles are rewritten and **1** new article is added; the system embeds only what has to be embedded. Then **50** more searches arrive. The embedding model never changes. How many embedding-model calls does the system make, from Monday's indexing through the last search on Wednesday?",
+    "answer": {
+      "value": 128,
+      "tolerance": 0,
+      "unit": "model calls"
+    },
+    "common_wrong": [
+      {
+        "value": 125,
+        "kind": "slip",
+        "why_md": "That leaves out the 2 rewritten articles and the new one. Their text is new, so they need new vectors."
+      },
+      {
+        "value": 156,
+        "kind": "misconception",
+        "tag": "mc-reindex-all-on-edit",
+        "why_md": "That re-embeds all 31 articles on Wednesday. An edit or a new article needs only its own vector; the other 28 are still valid."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "monday_index = 30\ntuesday_queries = 45\nwednesday_changed = 2 + 1\nwednesday_queries = 50\nanswer = monday_index + tuesday_queries + wednesday_changed + wednesday_queries\n"
+    },
+    "hints": [
+      "List the events in order and ask, for each, which texts need a new vector.",
+      "Monday: 30. Tuesday: 1 per search, 45. Wednesday: the 2 rewritten + 1 new article, then 1 per search, 50. Add them."
+    ],
+    "solution_md": "Monday indexing: 30. Tuesday: 45 queries, 1 call each = 45. Wednesday: 2 rewritten + 1 new article = 3, then 50 queries = 50. Total **30 + 45 + 3 + 50 = 128**. Unchanged articles keep their vectors because neither their text nor the model changed.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  },
+  {
+    "id": "emb-search/test-a3",
+    "version": 1,
+    "family": "emb-search-madd-counter",
+    "kind": "predict_output",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-search",
+    "kcs": [
+      "kc-search-offline-online"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 75,
+    "prompt_md": "This brute-force search counts its multiply-adds while it answers two queries. What does it print?",
+    "code": "index = {\"refund\": [1, 0, 2], \"login\": [0, 1, 1], \"parcel\": [2, 2, 0], \"billing\": [1, 1, 1]}\nqueries = [[1, 0, 0], [0, 1, 2]]\nmadds = 0\nfor q in queries:\n    scores = {}\n    for doc_id, v in index.items():\n        total = 0\n        for a, b in zip(q, v):\n            total += a * b\n            madds += 1\n        scores[doc_id] = total\n    best = sorted(scores, key=scores.get, reverse=True)[:1]\nprint(madds)\n",
+    "answer": {
+      "value": 24,
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import io, contextlib\nsrc = 'index = {\"refund\": [1, 0, 2], \"login\": [0, 1, 1], \"parcel\": [2, 2, 0], \"billing\": [1, 1, 1]}\\nqueries = [[1, 0, 0], [0, 1, 2]]\\nmadds = 0\\nfor q in queries:\\n    scores = {}\\n    for doc_id, v in index.items():\\n        total = 0\\n        for a, b in zip(q, v):\\n            total += a * b\\n            madds += 1\\n        scores[doc_id] = total\\n    best = sorted(scores, key=scores.get, reverse=True)[:1]\\nprint(madds)\\n'\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    exec(src, {})\nanswer = buf.getvalue().strip()\nanswer = int(answer)\n"
+    },
+    "hints": [
+      "The counter goes up once per position of every dot product. Count stored vectors, numbers per vector and queries.",
+      "4 stored vectors × 3 numbers × 2 queries. Keeping only the best result happens after all the scoring."
+    ],
+    "solution_md": "Each query scores all 4 stored vectors, and each dot product has 3 positions: $4 \\times 3 = 12$ multiply-adds per query. Two queries: $2 \\times 12 = $ **24**. Keeping only the top 1 (`[:1]`) happens after scoring, so it doesn't reduce the count.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-search"
+    }
+  }
+]

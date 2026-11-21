@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-marketplace-partner-network",
+  "version": 1,
+  "title": "Marketplace, Partner Network, Professional Services",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-aws-marketplace",
+      "version": 1,
+      "statement": "AWS Marketplace is a curated digital catalog of third-party software, data and services from independent software vendors that you can buy and deploy, with charges on your AWS bill."
+    },
+    {
+      "id": "kc-apn-isv-si",
+      "version": 1,
+      "statement": "The AWS Partner Network includes partners that build software on AWS (independent software vendors) and partners that help customers design, migrate and run workloads (system integrators and consulting partners)."
+    },
+    {
+      "id": "kc-professional-services",
+      "version": 1,
+      "statement": "AWS Professional Services is AWS's own paid team of experts that works alongside customers and partners on large outcomes such as data-center migrations."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-security-resources"
+  ],
+  "confusable_with": [
+    "clf-technical-resources"
+  ],
+  "introduces": [
+    "aws marketplace",
+    "aws partner network",
+    "independent software vendor",
+    "system integrator",
+    "professional services"
+  ],
+  "uses": [
+    "third-party security products",
+    "aws account"
+  ],
+  "problem_ideas": [
+    "A company wants a pre-configured third-party firewall AMI billed through AWS: where does it buy it?",
+    "A business needs an outside firm to run its whole migration: which kind of partner?",
+    "A software vendor wants to sell its SaaS product to AWS customers: which two programs apply?",
+    "An enterprise wants AWS's own consultants on a large modernization: name the offering.",
+    "Classify: Datadog, Accenture, AWS Professional Services, a Marketplace AMI.",
+    "Spot the false statement: 'AWS Marketplace purchases need a separate invoice from each vendor.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "aws-architecting-ecosystem/aws-marketplace"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-3-identify-aws-technica/role-of-the-aws-partner-network-includin"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "technologies-and-concepts/aws-professional-services"
+    }
+  ],
+  "status": "stub"
+}

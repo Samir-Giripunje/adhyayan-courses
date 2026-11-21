@@ -1,0 +1,76 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-cognito-directory-service",
+  "version": 1,
+  "title": "Cognito and Directory Service: app users and AD",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-cognito-app-users",
+      "version": 1,
+      "statement": "Amazon Cognito adds sign-up, sign-in and access control for the end users of your web and mobile apps (customer identity). It scales to millions of users and supports social and SAML logins."
+    },
+    {
+      "id": "kc-cognito-vs-iam",
+      "version": 1,
+      "statement": "Cognito user pools hold an application's customers, while IAM and IAM Identity Center hold the people who operate AWS. So 'users of our mobile app' points to Cognito, not to IAM users."
+    },
+    {
+      "id": "kc-directory-service",
+      "version": 1,
+      "statement": "AWS Directory Service runs a managed Microsoft Active Directory in AWS (AWS Managed Microsoft AD) or connects to an existing on-premises AD (AD Connector), so workloads and users that depend on AD can work with AWS."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-identity-federation"
+  ],
+  "suggests": [
+    "clf-iam-identity-center"
+  ],
+  "confusable_with": [
+    "clf-iam-identity-center"
+  ],
+  "introduces": [
+    "cognito",
+    "user pool",
+    "customer identity",
+    "directory service",
+    "active directory"
+  ],
+  "uses": [
+    "identity federation",
+    "identity provider",
+    "iam user",
+    "iam identity center",
+    "hybrid cloud"
+  ],
+  "problem_ideas": [
+    "A fitness app expects 2 million users who sign in with Google or Apple. Name the service and explain why IAM users would be wrong.",
+    "A Windows file server moving to EC2 needs domain join with no new directory to run. Choose between AD Connector and AWS Managed Microsoft AD.",
+    "Sort these into workforce or customer identity: call-centre agents, online shoppers, DevOps engineers, partner API clients.",
+    "A question mentions 'user pools'. Which service is it about?",
+    "Map each requirement to Cognito, IAM Identity Center or Directory Service: employees accessing 10 accounts, game players signing in, SharePoint needing AD.",
+    "Explain why a hybrid company with an on-premises AD might use AD Connector instead of copying users."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/amazon-cognito"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "advanced-identity/amazon-cognito-simplified"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-directory-service"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "advanced-identity/what-is-microsoft-active-directory-ad"
+    }
+  ],
+  "status": "stub"
+}

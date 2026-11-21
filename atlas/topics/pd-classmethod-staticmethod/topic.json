@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-classmethod-staticmethod",
+  "version": 1,
+  "title": "@classmethod and @staticmethod under the hood",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-staticmethod-get",
+      "version": 1,
+      "statement": "staticmethod's __get__ returns the underlying function unchanged, so neither the instance nor the class is passed."
+    },
+    {
+      "id": "kc-classmethod-get",
+      "version": 1,
+      "statement": "classmethod's __get__ binds the function to the class (type(obj) when accessed through an instance), so cls is passed as the first argument."
+    },
+    {
+      "id": "kc-classmethod-alt-constructor",
+      "version": 1,
+      "statement": "A classmethod called on a subclass receives the subclass as cls, which makes it the right tool for alternative constructors that return cls(...)."
+    },
+    {
+      "id": "kc-builtin-decorator-outermost",
+      "version": 1,
+      "statement": "When combined with a custom function decorator, @classmethod or @staticmethod should be the outermost (top) decorator; a custom wrapper placed above it yields a plain function that binds as an ordinary instance method."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "pd-bound-methods",
+    "pd-stacked-decorators"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "pd-bound-methods"
+  ],
+  "introduces": [
+    "classmethod",
+    "staticmethod"
+  ],
+  "uses": [
+    "bound method",
+    "stacked decorators",
+    "__get__"
+  ],
+  "problem_ideas": [
+    "Write Date.from_string as a classmethod and predict the type returned when called on a subclass",
+    "Predict the first argument for C.f(), C().f() for regular, class and static methods",
+    "Predict the error when @log_calls sits above @staticmethod and the method is called on an instance",
+    "Implement pure-Python StaticMethod and ClassMethod descriptors",
+    "Decide whether a helper that uses no self or cls should be static or module-level",
+    "Predict C.__dict__['f'] versus C.f for a classmethod"
+  ],
+  "sources": [
+    {
+      "source": "descriptor-howto",
+      "entry": "pure-python-equivalents/kinds-of-methods"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "pure-python-equivalents/static-methods"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "pure-python-equivalents/class-methods"
+    }
+  ],
+  "status": "stub"
+}

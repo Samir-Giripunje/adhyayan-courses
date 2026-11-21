@@ -1,0 +1,48 @@
+[
+  {
+    "id": "q-proof2-multilingual",
+    "version": 1,
+    "family": "q-proof2-multilingual",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model-choice",
+    "kcs": [
+      "kc-model-choice"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "**Transfer:** an English-only embedding model is used on Hindi support tickets. What do you expect, and what do you do?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Poor retrieval: the model never learned Hindi. Evaluate multilingual models on labelled Hindi queries",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "Fine: meaning is language-independent",
+        "why_md": "Embeddings capture what the model was trained on."
+      },
+      {
+        "id": "c",
+        "md": "Fine, if you normalize",
+        "why_md": "Normalization doesn't teach a model a language."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Choose an embedding model by language and domain, max input, dimensions and cost.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

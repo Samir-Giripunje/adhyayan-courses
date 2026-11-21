@@ -1,0 +1,55 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-token-bucket",
+  "version": 1,
+  "title": "The token bucket algorithm",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-token-bucket-mechanism",
+      "version": 1,
+      "statement": "A token bucket holds up to C tokens, refills at r tokens per second, and admits a request only if at least one token is available, removing one token per admitted request."
+    },
+    {
+      "id": "kc-token-bucket-burst",
+      "version": 1,
+      "statement": "A full token bucket admits a burst of up to C requests at once, then sustains r requests per second; with C=10 and r=2/s, 10 requests pass instantly and then one every 0.5 s."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "sd-rate-limiting"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-rate-limit-algorithms"
+  ],
+  "introduces": [
+    "token bucket",
+    "refill rate",
+    "bucket capacity"
+  ],
+  "uses": [
+    "rate limiting"
+  ],
+  "problem_ideas": [
+    "Implement allow(now) for a token bucket that refills lazily from elapsed time",
+    "Given C=5, r=1/s and request times [0,0,0,0,0,0,1.5,2,2], list which requests are admitted",
+    "Choose C and r for an API that should allow 600 requests/min with bursts of 50",
+    "Implement a map of per-user buckets and expire buckets idle for an hour",
+    "Prove with a test that the bucket never exceeds its capacity after a long idle period",
+    "Compute the most requests admitted in any 10-second window for C=20, r=3/s"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "algorithms/token-bucket"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "algorithms/algorithms"
+    }
+  ],
+  "status": "stub"
+}

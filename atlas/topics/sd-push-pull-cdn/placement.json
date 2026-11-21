@@ -1,0 +1,102 @@
+[
+  {
+    "id": "sd-push-pull-cdn/placement-1",
+    "family": "sd-push-pull-cdn-probe-cdn-type-news-site",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-pull-cdn"
+    ],
+    "prompt_md": "A news site has **millions** of article images, adds thousands of new ones every day and gets very heavy traffic. Following the standard guidance on push and pull CDNs, which CDN type suits it, and what cost comes with that choice?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Push CDN; the cost is that the first request for each image is slow",
+        "why_md": "A push CDN already holds content because the origin uploaded it, so first requests are not slow. A push CDN suits small or rarely changing content sets, not millions of changing images."
+      },
+      {
+        "id": "b",
+        "md": "Pull CDN; the cost is that the origin must upload every new image to the CDN",
+        "why_md": "That is how a push CDN works. A pull CDN fetches the image from the origin by itself on the first request."
+      },
+      {
+        "id": "c",
+        "md": "Pull CDN; the cost is that the first request for an image, before it is cached, is slow because the edge must fetch it from the origin",
+        "correct": true,
+        "why_md": "Right. Pull suits large, high-traffic content sets. Its cost is the slow first request while the edge fetches the object from the origin."
+      },
+      {
+        "id": "d",
+        "md": "Push CDN; the cost is that you have no control over which images are stored",
+        "why_md": "A push CDN gives you control over what is stored, because it holds only what the origin uploads."
+      }
+    ],
+    "hints": [
+      "Ask which CDN type fetches content by itself and which needs the origin to upload it. Then ask which of those fits a huge, fast-growing content set.",
+      "Pull fetches on the first request and keeps the object until it expires. That suits large, high-traffic sites, at the cost of slow first requests."
+    ],
+    "solution_md": "- A **pull CDN** fetches each object from the origin the first time it is requested, then caches it until it expires. That suits large, high-traffic content sets like this one.\n- Its cost is that the first request for an object is slow because the edge has to go to the origin.\n- A push CDN would need the origin to upload thousands of new images a day. It suits small or rarely changing sets.\n\nAnswer: **Pull CDN; slow first requests.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-push-pull-cdn",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  },
+  {
+    "id": "sd-push-pull-cdn/placement-2",
+    "family": "sd-push-pull-cdn-probe-cdn-type-docs-site",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-push-cdn"
+    ],
+    "prompt_md": "A product documentation site has **40** static files that change about twice a year. The team wants precise control over exactly which files the CDN stores. Which CDN type suits it, and what does the team have to do?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Push CDN; the origin must upload each file, and upload it again whenever the file changes",
+        "correct": true,
+        "why_md": "Right. Push suits small, rarely changing sets and gives control over what is stored. The cost is that the origin must push every update."
+      },
+      {
+        "id": "b",
+        "md": "Pull CDN; the team must upload each file before it can be served",
+        "why_md": "Uploading is how a push CDN works. A pull CDN fetches files by itself on the first request."
+      },
+      {
+        "id": "c",
+        "md": "Pull CDN, because it gives the most precise control over which files are stored",
+        "why_md": "A pull CDN stores whatever users request. A push CDN gives control, because it holds only what the origin uploads."
+      },
+      {
+        "id": "d",
+        "md": "Push CDN; nothing further is needed, because the CDN fetches updated files on the next request",
+        "why_md": "Fetching on request is pull behaviour. With a push CDN, the origin must push every update itself."
+      }
+    ],
+    "hints": [
+      "Which CDN type stores only what the origin uploads?",
+      "Push suits small, rarely changing sets and gives control over what is stored. Its cost is that the origin must push every change."
+    ],
+    "solution_md": "- The content set is small (40 files) and rarely changes, and the team wants control over what is stored. That matches a **push CDN**.\n- With push, the CDN holds only what the origin uploads, so the origin must upload each file at the start and again after every change.\n\nAnswer: **Push CDN; the origin uploads every file and every update.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-push-pull-cdn",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  }
+]

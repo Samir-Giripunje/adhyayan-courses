@@ -1,0 +1,31 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-sql-vs-nosql",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: design it",
+  "blurb": "Uses Wide-column stores, Object storage for files and media and Choosing SQL or NoSQL for a workload: estimate the numbers and weigh the trade-offs.",
+  "after": "topic:sd-sql-vs-nosql",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "design",
+    "topics": [
+      "sd-wide-column-store",
+      "sd-object-storage",
+      "sd-sql-vs-nosql"
+    ],
+    "kcs": [
+      "kc-wide-column-model",
+      "kc-wide-column-fit",
+      "kc-object-storage-model",
+      "kc-object-storage-pattern",
+      "kc-choose-sql",
+      "kc-choose-nosql",
+      "kc-polyglot-persistence"
+    ],
+    "minutes": 21,
+    "why": "Uses Wide-column stores, Object storage for files and media and Choosing SQL or NoSQL for a workload: estimate the numbers and weigh the trade-offs."
+  }
+}

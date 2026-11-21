@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-descriptor-basics",
+  "version": 1,
+  "title": "What a descriptor is: __get__ on a class attribute",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-descriptor-definition",
+      "version": 1,
+      "statement": "A descriptor is any object whose type defines __get__, __set__ or __delete__."
+    },
+    {
+      "id": "kc-get-signature",
+      "version": 1,
+      "statement": "__get__(self, obj, objtype) receives the instance as obj, or None when the attribute is looked up on the class itself."
+    },
+    {
+      "id": "kc-descriptor-class-attribute-only",
+      "version": 1,
+      "statement": "Descriptors take effect only as class attributes; a descriptor stored in an instance's __dict__ is returned as a plain object and its __get__ is not called."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "pd-property"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "descriptor",
+    "__get__"
+  ],
+  "uses": [
+    "attribute access",
+    "class"
+  ],
+  "problem_ideas": [
+    "Write a Ten descriptor that always returns 10 and predict A().x and A.x",
+    "Predict what obj and objtype are for instance and class lookups",
+    "Write a DirectorySize descriptor that recomputes on each access",
+    "Predict the result when a descriptor is assigned to self.x in __init__",
+    "Log every lookup of a managed attribute with a descriptor",
+    "Decide which of five objects are descriptors by their methods"
+  ],
+  "sources": [
+    {
+      "source": "descriptor-howto",
+      "entry": "primer/primer"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "primer/simple-example-a-descriptor-that-returns"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "primer/dynamic-lookups"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "emb-pooling/placement-1",
+    "version": 1,
+    "family": "emb-pooling-mean-coordinate",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-pooling",
+    "kcs": ["kc-pooling-limits"],
+    "use": "placement",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 75,
+    "prompt_md": "A model turns the query \"reset my password\" into three token vectors: `[2, 0]`, `[4, 2]` and `[0, 4]`. It uses **mean pooling** to get one vector for the whole query. What is the **first** coordinate of that query vector?",
+    "answer": { "value": 2, "tolerance": 0 },
+    "common_wrong": [
+      { "value": 6, "kind": "slip", "why_md": "6 is the sum of the first coordinates. Mean pooling divides by the 3 tokens." },
+      { "value": 4, "kind": "misconception", "tag": "mc-pool-is-max", "why_md": "4 is the largest first coordinate: that would be max pooling, not mean pooling." }
+    ],
+    "derivation": { "lang": "python", "code": "tokens = [[2, 0], [4, 2], [0, 4]]\nprint(sum(t[0] for t in tokens) / len(tokens))" },
+    "hints": ["Mean pooling averages each coordinate over the tokens.", "Add the three first coordinates (2 + 4 + 0) and divide by 3."],
+    "solution_md": "Mean pooling averages coordinate by coordinate: (2 + 4 + 0) ÷ 3 = **2**. The whole query vector is `[2, 2]`.",
+    "provenance": { "origin": "static" }
+  },
+  {
+    "id": "emb-pooling/placement-2",
+    "version": 1,
+    "family": "emb-pooling-silent-truncation",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-pooling",
+    "kcs": ["kc-truncation"],
+    "use": "placement",
+    "origin": "static",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "prompt_md": "Your embedding model's maximum input length is 256 tokens. You embed a 900-token help-centre article in one call, and its troubleshooting steps begin around token 400. A user then searches for one of those steps. What most likely happens?",
+    "options": [
+      { "id": "a", "md": "The article ranks low: text past token 256 was cut off before pooling, so the steps never reached its vector", "correct": true, "why_md": "Right. Input past the maximum length is truncated, often without a warning, so the vector only describes the first 256 tokens." },
+      { "id": "b", "md": "The article ranks well, slightly diluted: mean pooling averages all 900 tokens", "correct": false, "why_md": "Pooling only sees the tokens that reached the model. The last 644 were dropped before pooling.", "misconception": "mc-truncation-visible" },
+      { "id": "c", "md": "The library always raises an error, so the article never gets a vector", "correct": false, "why_md": "Some libraries warn or raise, but many truncate silently, which is why this failure goes unnoticed." },
+      { "id": "d", "md": "The model splits the article into chunks and keeps the best-matching one", "correct": false, "why_md": "Chunking is something you build before embedding; the model itself does not do it." }
+    ],
+    "hints": ["What does the model do with tokens beyond its maximum length?", "Only the first 256 tokens are pooled into the vector."],
+    "solution_md": "**(a)**. The model truncates at 256 tokens, often silently. The steps at token 400 never reach the vector, so a query about them matches poorly. Chunk long articles before embedding.",
+    "provenance": { "origin": "static" }
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-access-methods",
+  "version": 1,
+  "title": "Console, CLI and SDKs: ways to reach AWS",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-management-console",
+      "version": 1,
+      "statement": "The AWS Management Console is the browser interface, signed into with a username and password plus MFA, for working with AWS services by point and click."
+    },
+    {
+      "id": "kc-cli-sdk-access-keys",
+      "version": 1,
+      "statement": "The AWS CLI and SDKs authenticate programmatic requests with an access key ID and secret access key or with temporary credentials, and these keys must be protected like passwords."
+    },
+    {
+      "id": "kc-cli-vs-sdk",
+      "version": 1,
+      "statement": "The console, CLI and SDKs all call the same AWS service APIs: the CLI is for commands and scripts in a terminal, and SDKs let application code in languages like Python or Java call AWS."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-iam-users-groups"
+  ],
+  "suggests": [
+    "clf-iam-roles"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "management console",
+    "aws cli",
+    "aws sdk",
+    "access keys",
+    "aws api"
+  ],
+  "uses": [
+    "iam user",
+    "mfa",
+    "temporary credentials"
+  ],
+  "problem_ideas": [
+    "A sysadmin wants to automate nightly snapshots with a shell script: console, CLI or SDK?",
+    "A mobile app's backend in Java must upload to S3: which access method?",
+    "A finance manager checks the bill once a month: which access method and which credentials?",
+    "True/false: the CLI can do things the API cannot",
+    "Where is a secret access key shown, and what happens if you lose it?",
+    "Sort credentials (password, access key, MFA code, temporary token) by which access method uses them"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "iam-identity-access-management/how-can-users-access-aws"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "iam-identity-access-management/what-s-the-aws-cli"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "iam-identity-access-management/what-s-the-aws-sdk"
+    }
+  ],
+  "status": "stub"
+}

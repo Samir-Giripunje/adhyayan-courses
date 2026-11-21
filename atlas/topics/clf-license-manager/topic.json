@@ -1,0 +1,46 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-license-manager",
+  "version": 1,
+  "title": "AWS License Manager: tracking software licences",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-license-manager-purpose",
+      "version": 1,
+      "statement": "AWS License Manager tracks and enforces software licences from vendors such as Microsoft, Oracle and SAP, including licences you bring yourself, across AWS and on-premises servers, so usage cannot exceed what was bought."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-systems-manager"
+  ],
+  "confusable_with": [
+    "clf-aws-config"
+  ],
+  "introduces": [
+    "license manager",
+    "bring your own license"
+  ],
+  "uses": [
+    "ec2 instance",
+    "hybrid cloud"
+  ],
+  "problem_ideas": [
+    "A company owns 200 Windows Server licences and runs Windows on EC2 and on-premises: which service stops it exceeding 200?",
+    "An auditor from a database vendor asks for proof of licence usage: which AWS service produces it?",
+    "A launch is blocked because it would break a licence rule: which service enforced that?",
+    "License Manager vs AWS Config for 'track how many Oracle cores are in use across accounts': pick and justify.",
+    "What does BYOL mean, and why does it make licence tracking necessary?",
+    "Distractor drill: 'manage software licences across AWS and on-premises' with options License Manager, Marketplace, Systems Manager, Artifact."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "management-and-governance/aws-license-manager"
+    }
+  ],
+  "status": "stub"
+}

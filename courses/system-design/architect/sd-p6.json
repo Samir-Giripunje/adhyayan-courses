@@ -1,0 +1,1554 @@
+{
+  "stage": {
+    "id": "sd-p6",
+    "title": "Asynchronism, messaging and real-time delivery",
+    "outcome": [
+      "o4",
+      "o5",
+      "o6"
+    ],
+    "assumes": [
+      "stateless service",
+      "api gateway",
+      "database index",
+      "transaction",
+      "replication",
+      "eventual consistency",
+      "partitioning"
+    ],
+    "provides": [
+      "synchronous communication",
+      "asynchronous communication",
+      "message queue",
+      "task queue",
+      "background job",
+      "publish/subscribe",
+      "event streaming",
+      "consumer group",
+      "at-least-once delivery",
+      "exactly-once processing",
+      "dead-letter queue",
+      "back pressure",
+      "idempotency",
+      "idempotency key",
+      "fan-out on write",
+      "fan-out on read",
+      "long polling",
+      "websockets",
+      "server-sent events",
+      "change data capture",
+      "cqrs"
+    ]
+  },
+  "sections": [
+    {
+      "id": "messaging",
+      "title": "Queues, workers and pub/sub",
+      "rank": 1,
+      "source_ref": {
+        "source": "sd-primer",
+        "section": "asynchronism"
+      }
+    },
+    {
+      "id": "delivery",
+      "title": "Delivery guarantees and idempotency",
+      "rank": 2,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "features-2"
+      }
+    },
+    {
+      "id": "realtime",
+      "title": "Real-time delivery to clients",
+      "rank": 3,
+      "source_ref": {
+        "source": "karan-sd",
+        "section": "websockets"
+      }
+    },
+    {
+      "id": "data-flow",
+      "title": "Fan-out, change data capture and CQRS",
+      "rank": 4
+    }
+  ],
+  "topics": [
+    {
+      "id": "sd-sync-vs-async",
+      "title": "Synchronous vs asynchronous communication",
+      "size": "standard",
+      "est_min": 20,
+      "section": "messaging",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-sync-call-coupling",
+          "statement": "In synchronous communication the caller blocks until the callee responds, so the caller's latency includes the callee's latency and the call fails when the callee is down."
+        },
+        {
+          "id": "kc-async-decoupling",
+          "statement": "In asynchronous communication the caller hands work to an intermediary and returns at once, giving up an immediate result in exchange for availability decoupled from the callee and the ability to absorb load spikes."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Deciding which arrows in the diagram go through a queue starts from the sync-vs-async choice"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "sd-message-queues"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "synchronous communication",
+        "asynchronous communication"
+      ],
+      "uses": [
+        "latency",
+        "http"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "asynchronism/asynchronism"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "asynchronism/asynchronism"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-tradeoffs/synchronous-vs-asynchronous-communicatio"
+        }
+      ],
+      "problem_ideas": [
+        "Checkout calls payment (200 ms), inventory (50 ms) and email (800 ms) synchronously in sequence: compute the user-visible latency, then recompute with email made asynchronous",
+        "An order service calls a recommendations service that is down 1% of the time: what fraction of orders fail if the call is synchronous vs queued?",
+        "Classify ten operations (login, send welcome email, resize avatar, charge card, update search index…) as must-be-sync or can-be-async and justify each",
+        "A user uploads a video and expects a URL immediately: which part is sync and which async?",
+        "Failure story: a synchronous chain of five services each at 99.9% uptime; what availability does the caller see?",
+        "Interviewer asks 'why not make everything async?': list two costs of asynchrony"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Async request-reply: returning 202 Accepted and a status URL"
+        },
+        {
+          "kind": "mechanism",
+          "title": "Temporal coupling vs spatial coupling"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Every design interview has a moment where you move slow work off the request path; this is the vocabulary for it."
+      }
+    },
+    {
+      "id": "sd-message-queues",
+      "title": "Message queues and load leveling",
+      "size": "standard",
+      "est_min": 28,
+      "section": "messaging",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-queue-holds-until-ack",
+          "statement": "A message queue stores messages from producers durably until a consumer acknowledges them, so producers and consumers do not need to be up at the same time."
+        },
+        {
+          "id": "kc-competing-consumers",
+          "statement": "With competing consumers, each message in a queue is delivered to exactly one of the consumers reading it, so adding consumers increases processing throughput."
+        },
+        {
+          "id": "kc-load-leveling-backlog",
+          "statement": "With queue-based load leveling, when producers enqueue faster than consumers drain, the backlog grows by the rate difference each second and is worked off after the burst ends, keeping consumer load steady."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Placing a queue in the high-level diagram and justifying it against bursty writes is part of the o4 product"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-sync-vs-async",
+          "reason": "A queue is the intermediary that makes asynchronous communication possible; its purpose cannot be stated without that distinction"
+        }
+      ],
+      "suggests": [
+        "sd-qps-estimate"
+      ],
+      "confusable_with": [
+        "sd-pub-sub",
+        "sd-event-streaming"
+      ],
+      "introduces": [
+        "message queue",
+        "producer",
+        "consumer",
+        "queue-based load leveling",
+        "competing consumers"
+      ],
+      "uses": [
+        "asynchronous communication",
+        "peak qps",
+        "throughput"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "asynchronism/message-queues"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "asynchronism/message-queues"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "messaging/queue-based-load-leveling"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "messaging/competing-consumers"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "features-2/features"
+        }
+      ],
+      "problem_ideas": [
+        "A flash sale enqueues 5,000 orders/s for 2 minutes; 10 workers each process 300/s. Compute the peak backlog and how long until it drains",
+        "How many workers are needed to keep the backlog flat at a peak of 12,000 messages/s if each takes 40 ms?",
+        "A queue holds 1.2 million messages with 4 KB payloads: how much storage does the backlog need?",
+        "Draw where a queue goes in a photo-upload pipeline and name the producer and consumer",
+        "A consumer crashes mid-message: what does the queue do with the unacknowledged message?",
+        "Interview prompt: 'writes spike 10× at 9 a.m.'—propose a queue and state one trade-off it introduces"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Visibility timeouts and acknowledgements"
+        },
+        {
+          "kind": "edge",
+          "title": "FIFO queues and why ordering costs throughput"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Priority queues for urgent work"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Queues appear in almost every interview design; you must be able to size and justify one."
+      }
+    },
+    {
+      "id": "sd-task-queues-background-jobs",
+      "title": "Task queues and background jobs",
+      "size": "standard",
+      "est_min": 20,
+      "section": "messaging",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-task-queue-off-request-path",
+          "statement": "A task queue holds units of work (such as resizing an image) that workers execute outside the request path, so the API can return 202 Accepted with a job id instead of waiting for the work to finish."
+        },
+        {
+          "id": "kc-event-vs-schedule-jobs",
+          "statement": "Background jobs are either event-driven (triggered when a message arrives) or schedule-driven (run on a timer such as a nightly cron), and a scheduled job must tolerate running late or twice."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-message-queues",
+          "reason": "Task queues are message queues whose messages are jobs; workers are competing consumers"
+        }
+      ],
+      "suggests": [
+        "sd-sync-vs-async"
+      ],
+      "confusable_with": [
+        "sd-message-queues"
+      ],
+      "introduces": [
+        "task queue",
+        "background job",
+        "worker",
+        "schedule-driven job"
+      ],
+      "uses": [
+        "message queue",
+        "competing consumers",
+        "http status code"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "background-jobs/background-jobs"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "background-jobs/event-driven"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "background-jobs/schedule-driven"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "asynchronism/task-queues"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "messaging/async-request-reply"
+        }
+      ],
+      "problem_ideas": [
+        "Design the API response and status endpoint for a 3-minute video transcode job",
+        "A nightly report job runs on two servers by accident: what goes wrong and how do you prevent it?",
+        "Video transcoding takes 90 s per video and 20 videos arrive per second: how many workers?",
+        "Pick event-driven or schedule-driven for: welcome email, expired-link cleanup, thumbnail generation, monthly invoice",
+        "A worker is killed mid-job: list what must be true so the job is retried safely",
+        "Client polls job status every second for 1M concurrent jobs: compute the polling QPS and suggest an alternative"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Job status tables and progress reporting"
+        },
+        {
+          "kind": "edge",
+          "title": "Distributed cron and the double-run problem"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Video processing, notifications and crawlers all rely on workers pulling jobs; interviewers expect you to name them."
+      }
+    },
+    {
+      "id": "sd-back-pressure",
+      "title": "Back pressure: when the queue keeps growing",
+      "size": "standard",
+      "est_min": 20,
+      "section": "messaging",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-backlog-wait-time",
+          "statement": "A new message waits roughly backlog size divided by drain rate, so an unbounded queue that keeps growing turns into unbounded latency and eventually memory exhaustion."
+        },
+        {
+          "id": "kc-back-pressure-reject",
+          "statement": "Back pressure bounds the queue and pushes the overload back to producers by blocking, slowing or rejecting them (for example HTTP 429 or 503 with Retry-After) instead of accepting work that cannot be finished in time."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-message-queues",
+          "reason": "Back pressure is defined in terms of queue backlog and drain rate"
+        }
+      ],
+      "suggests": [
+        "sd-rate-limiting"
+      ],
+      "confusable_with": [
+        "sd-rate-limiting"
+      ],
+      "introduces": [
+        "back pressure",
+        "bounded queue"
+      ],
+      "uses": [
+        "message queue",
+        "queue-based load leveling",
+        "http 429",
+        "little's law"
+      ],
+      "sources": [
+        {
+          "source": "sd-primer",
+          "entry": "asynchronism/back-pressure"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "asynchronism/back-pressure"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "backpressure/backpressure"
+        }
+      ],
+      "problem_ideas": [
+        "Backlog is 600,000 messages and consumers drain 2,000/s: how long does a new message wait?",
+        "Your SLA is 5 s from enqueue to processed at 1,000/s drain: what queue bound do you set?",
+        "Producers send 3,000/s, consumers drain 2,500/s with 4 GB of memory and 2 KB messages: when does the broker run out?",
+        "Compare back pressure with rate limiting: who decides the limit and on what signal?",
+        "Failure story: a logging pipeline with an unbounded in-memory buffer takes down the app servers—redesign it",
+        "Choose: drop, block or reject for metrics events, payment requests and chat messages"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Credit-based flow control in streaming systems"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Load shedding by priority"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "A strong bottleneck answer: says what happens when the queue you added can't keep up."
+      }
+    },
+    {
+      "id": "sd-pub-sub",
+      "title": "Publish/subscribe: one event, many consumers",
+      "size": "standard",
+      "est_min": 20,
+      "section": "messaging",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-pubsub-copy-per-subscription",
+          "statement": "In publish/subscribe every subscription on a topic receives its own copy of each message, whereas a point-to-point queue delivers each message to only one consumer."
+        },
+        {
+          "id": "kc-pubsub-publisher-unaware",
+          "statement": "Publishers do not know their subscribers, so a new downstream service (for example analytics) can subscribe to a topic without any change to the publishing service."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "News feed, chat and notification designs all broadcast one event to several services through pub/sub"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-message-queues",
+          "reason": "Pub/sub is taught by contrast with point-to-point queue delivery"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "sd-message-queues",
+        "sd-event-streaming"
+      ],
+      "introduces": [
+        "publish/subscribe",
+        "topic",
+        "subscriber"
+      ],
+      "uses": [
+        "message queue",
+        "consumer",
+        "competing consumers"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "messaging/publisher-subscriber"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "working-2/working"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "features-3/fanout"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "asynchronous-communication/pub-sub"
+        }
+      ],
+      "problem_ideas": [
+        "An 'order placed' event must reach billing, shipping, email and analytics: queue or pub/sub, and draw it",
+        "A topic has 4 subscriptions and receives 10,000 events/s: how many deliveries per second does the broker make?",
+        "Each subscription has 3 competing consumers: how many processes see a given message?",
+        "Adding fraud detection to an existing checkout: what changes with pub/sub vs direct calls?",
+        "A subscriber is offline for an hour: what happens to its messages with durable vs non-durable subscriptions?",
+        "Interviewer: 'how does the notification service learn a new comment was posted?'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Message filtering on subscriptions"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Choreography vs orchestration of services"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "The standard way to fan an event out to several services in feed, chat and notification designs."
+      }
+    },
+    {
+      "id": "sd-event-streaming",
+      "title": "Event streaming, partitions and consumer groups",
+      "size": "standard",
+      "est_min": 28,
+      "section": "messaging",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-log-retention-replay",
+          "statement": "An event streaming platform appends events to a retained append-only log and each consumer tracks its own offset, so events are not deleted on consumption and can be replayed from an earlier offset."
+        },
+        {
+          "id": "kc-consumer-group-partitions",
+          "statement": "Within one consumer group each partition is read by exactly one consumer, so the group's parallelism is capped at the partition count, while every separate consumer group reads all events."
+        },
+        {
+          "id": "kc-ordering-per-partition",
+          "statement": "Event streams guarantee order only within a partition, so events that must stay in order (for example all events for one order id) must share a partition key."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-pub-sub",
+          "reason": "Consumer groups are explained as subscriptions that each receive every event"
+        },
+        {
+          "topic": "sd-partitioning-basics",
+          "reason": "Partitions and partition keys of the log reuse partitioning"
+        }
+      ],
+      "suggests": [
+        "sd-wide-column-store"
+      ],
+      "confusable_with": [
+        "sd-message-queues",
+        "sd-pub-sub"
+      ],
+      "introduces": [
+        "event streaming",
+        "append-only log",
+        "offset",
+        "consumer group"
+      ],
+      "uses": [
+        "partitioning",
+        "partition key",
+        "publish/subscribe",
+        "competing consumers"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "message-brokers-vs-event-streaming/message-brokers-vs-event-streaming"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "examples-9/apache-kafka"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "models/models"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "asynchronous-communication/message-brokers"
+        }
+      ],
+      "problem_ideas": [
+        "A topic has 12 partitions and a consumer group of 20 consumers: how many are idle?",
+        "Events arrive at 60,000/s and one consumer handles 4,000/s: minimum partition count?",
+        "A bug corrupted the search index for 6 hours: how does replay from an offset fix it, and what retention is needed?",
+        "Ride location updates must stay in order per driver: pick the partition key and name the hot-partition risk",
+        "Retention 7 days at 20,000 events/s of 1 KB with replication factor 3: storage needed",
+        "Queue or stream: email sending, clickstream analytics, audit log, image resizing"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Consumer group rebalancing"
+        },
+        {
+          "kind": "edge",
+          "title": "Log compaction for latest-value-per-key topics"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Batch vs stream processing"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Interviewers often say 'Kafka' expecting you to know partitions, offsets and per-partition ordering."
+      }
+    },
+    {
+      "id": "sd-delivery-guarantees",
+      "title": "At-most-once, at-least-once, exactly-once",
+      "size": "standard",
+      "est_min": 28,
+      "section": "delivery",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-at-most-once",
+          "statement": "With at-most-once delivery the consumer acknowledges before processing, so a crash during processing loses the message but never duplicates it."
+        },
+        {
+          "id": "kc-at-least-once",
+          "statement": "With at-least-once delivery the consumer acknowledges after processing, so a crash after processing but before the acknowledgement causes redelivery and therefore duplicates."
+        },
+        {
+          "id": "kc-exactly-once-processing",
+          "statement": "Exactly-once delivery over an unreliable network is not achievable in general; systems get exactly-once processing only by combining at-least-once delivery with deduplication that commits atomically with the side effect, or with a destination that itself enforces idempotency."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Naming duplicate delivery as a failure mode and its fix is part of the reliability product"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-message-queues",
+          "reason": "Guarantees are defined by when a consumer acknowledges a queued message"
+        }
+      ],
+      "suggests": [
+        "sd-event-streaming"
+      ],
+      "confusable_with": [
+        "sd-idempotency"
+      ],
+      "introduces": [
+        "at-most-once delivery",
+        "at-least-once delivery",
+        "exactly-once processing",
+        "acknowledgement"
+      ],
+      "uses": [
+        "message queue",
+        "consumer",
+        "offset"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "features-2/at-least-once-delivery"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "features-2/exactly-once-delivery"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "features-2/features"
+        }
+      ],
+      "problem_ideas": [
+        "Trace a timeline: consumer charges a card, crashes before ack—what happens under each guarantee?",
+        "Pick a guarantee for metrics sampling, payment capture, push notifications and inventory decrement",
+        "A consumer commits its offset every 1,000 messages and crashes after 700: how many messages are reprocessed?",
+        "Why can't the broker alone guarantee exactly-once if the consumer writes to an external database?",
+        "Failure story: customers received the same SMS three times—diagnose",
+        "Interviewer: 'your queue is at-least-once; how do you avoid double-charging?'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Transactional offset commits in streaming platforms"
+        },
+        {
+          "kind": "history",
+          "title": "The two generals problem"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "'What if the message is delivered twice?' is one of the most common interview follow-ups."
+      }
+    },
+    {
+      "id": "sd-idempotency",
+      "title": "Idempotency and safe retries",
+      "size": "standard",
+      "est_min": 20,
+      "section": "delivery",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-idempotent-definition",
+          "statement": "An operation is idempotent when applying it N times has the same effect as applying it once: 'set balance to 100' is idempotent, 'add 10 to balance' is not."
+        },
+        {
+          "id": "kc-retry-needs-idempotency",
+          "statement": "Retries after a timeout are safe only for idempotent operations, because a timeout does not tell the client whether the server applied the request; by HTTP semantics GET, PUT and DELETE are idempotent and POST is not."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "Specifying retries as a reliability mechanism requires stating which operations are safe to retry"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-http",
+          "reason": "The idempotency of HTTP methods is a KC here"
+        }
+      ],
+      "suggests": [
+        "sd-delivery-guarantees"
+      ],
+      "confusable_with": [
+        "sd-delivery-guarantees",
+        "sd-idempotency-keys"
+      ],
+      "introduces": [
+        "idempotency",
+        "retries"
+      ],
+      "uses": [
+        "http method",
+        "at-least-once delivery"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "idempotent-operations/idempotent-operations"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "why-do-we-need-idempotency/why-do-we-need-idempotency"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "idempotency-in-http/idempotency-in-http"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "api-fundamentals/idempotency"
+        }
+      ],
+      "problem_ideas": [
+        "Label ten operations idempotent or not: increment like count, set profile photo, append message, delete file, transfer money…",
+        "Rewrite 'add 10 credits' so it becomes idempotent",
+        "A client times out on POST /orders after 2 s: list the three possible server states",
+        "Is DELETE /items/42 returning 404 on the second call still idempotent? Explain",
+        "Failure story: a mobile app's automatic retry created duplicate bookings—what was missing?",
+        "Turn 'increment view counter' into an idempotent consumer of view events"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Idempotent but not commutative: ordering still matters"
+        },
+        {
+          "kind": "mechanism",
+          "title": "Conditional writes with version numbers"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Payment, booking and messaging prompts all turn on whether a retry is safe."
+      }
+    },
+    {
+      "id": "sd-idempotency-keys",
+      "title": "Idempotency keys and idempotent consumers",
+      "size": "standard",
+      "est_min": 28,
+      "section": "delivery",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-idem-key-client-generated",
+          "statement": "The client generates a unique idempotency key per logical operation and resends the same key on every retry; the server stores key → result and returns the stored result for a repeat instead of executing again."
+        },
+        {
+          "id": "kc-idem-key-atomic-ttl",
+          "statement": "The server must record the idempotency key and perform the side effect in the same transaction, otherwise a crash between them re-opens the duplicate window; stored keys expire after a TTL longer than the client's retry horizon."
+        },
+        {
+          "id": "kc-idempotent-consumer",
+          "statement": "An idempotent consumer records each processed message id in the same transaction as the message's business effect and skips ids already recorded; when the effect is external (a card charge, an SMS) and cannot share that transaction, local deduplication alone cannot guarantee it happens once, so the external system must enforce idempotency, for example by accepting an idempotency key."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o5",
+          "reason": "The o5 product explicitly lists an idempotency key as a fix to specify"
+        },
+        {
+          "outcome": "o6",
+          "reason": "Payment and booking deep dives in mock interviews expect an idempotency key design"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-idempotency",
+          "reason": "Keys are a mechanism to make non-idempotent operations safe to retry"
+        },
+        {
+          "topic": "sd-delivery-guarantees",
+          "reason": "The idempotent consumer is defined against at-least-once delivery"
+        }
+      ],
+      "suggests": [
+        "sd-relational-acid"
+      ],
+      "confusable_with": [
+        "sd-idempotency"
+      ],
+      "introduces": [
+        "idempotency key",
+        "idempotent consumer",
+        "deduplication store"
+      ],
+      "uses": [
+        "idempotency",
+        "retries",
+        "exactly-once processing",
+        "transaction",
+        "ttl"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "idempotency-keys/idempotency-keys"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "idempotent-consumers/idempotent-consumers"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "tradeoffs/tradeoffs"
+        }
+      ],
+      "problem_ideas": [
+        "Write handle_payment(key, amount, store) that charges once and returns the cached result on repeats",
+        "Write an idempotent consumer that applies balance-change messages exactly once given duplicate and replayed message ids, updating the balance and the processed-id set in one atomic step",
+        "Clients retry for up to 24 h at 2,000 payments/s: how many keys does the store hold and how much memory at 100 B each?",
+        "Two retries with the same key arrive concurrently: what must the store do (in-progress state)?",
+        "Same key but a different amount in the second request: what should the API return?",
+        "Failure story: a consumer sends an SMS, then crashes before recording the message id—why does the user get two texts, and what must the SMS provider support to prevent it?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Key states: in-progress, completed, failed"
+        },
+        {
+          "kind": "edge",
+          "title": "Key scope: per user vs global"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "The concrete answer interviewers want for 'how do you prevent double charges?'."
+      }
+    },
+    {
+      "id": "sd-dead-letter-queues",
+      "title": "Dead-letter queues and poison messages",
+      "size": "standard",
+      "est_min": 20,
+      "section": "delivery",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-poison-message",
+          "statement": "A poison message fails processing every time, so under at-least-once delivery it is redelivered forever, wasting consumer capacity and, in an ordered queue or partition, blocking everything behind it."
+        },
+        {
+          "id": "kc-dlq-max-attempts",
+          "statement": "After a maximum number of delivery attempts the message is moved to a dead-letter queue, which needs alerting and a redrive path so engineers can inspect, fix and replay the messages."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-delivery-guarantees",
+          "reason": "Endless redelivery of poison messages follows from at-least-once delivery"
+        }
+      ],
+      "suggests": [
+        "sd-idempotency"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "dead-letter queue",
+        "poison message",
+        "max delivery attempts"
+      ],
+      "uses": [
+        "message queue",
+        "at-least-once delivery",
+        "retries"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "features-2/dead-letter-queues"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "features-2/poison-pill-messages"
+        }
+      ],
+      "problem_ideas": [
+        "A malformed JSON message is at the head of a FIFO queue: describe the system's behaviour with and without a DLQ",
+        "Choose max delivery attempts for a payment-webhook consumer vs a thumbnail generator and justify",
+        "DLQ receives 50 messages/min after a deploy: what's your runbook?",
+        "Distinguish transient failures (database timeout) from permanent ones (schema mismatch): which should hit the DLQ fast?",
+        "After fixing a bug you redrive 10,000 DLQ messages: what must the consumer guarantee?",
+        "In an event stream partition, how does one poison event stall a whole partition?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Redrive policies and replay tooling"
+        },
+        {
+          "kind": "edge",
+          "title": "Retry topics with delays in log-based systems"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "A quick, credible answer to 'what if a message keeps failing?' in reliability deep dives."
+      }
+    },
+    {
+      "id": "sd-polling-long-polling",
+      "title": "Short polling vs long polling",
+      "size": "standard",
+      "est_min": 20,
+      "section": "realtime",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-short-polling-cost",
+          "statement": "With short polling every T seconds, an update waits T/2 on average to be seen and the server receives clients/T requests per second, most of which return nothing."
+        },
+        {
+          "id": "kc-long-polling-hold",
+          "statement": "With long polling the server holds each request open until data arrives or a timeout fires and the client immediately reissues it, cutting empty responses and delay at the cost of one held connection per waiting client."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-http",
+          "reason": "Both techniques are patterns of HTTP request/response"
+        }
+      ],
+      "suggests": [
+        "sd-qps-estimate"
+      ],
+      "confusable_with": [
+        "sd-websockets",
+        "sd-server-sent-events"
+      ],
+      "introduces": [
+        "short polling",
+        "long polling"
+      ],
+      "uses": [
+        "http",
+        "qps",
+        "latency"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "long-polling/long-polling"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "long-polling/working"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "long-polling/advantages"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "long-polling/disadvantages"
+        }
+      ],
+      "problem_ideas": [
+        "2M online clients poll every 5 s: compute QPS and the average notification delay",
+        "Same clients with long polling at a 30 s timeout and 1 update per client per minute: compute requests per second",
+        "How many concurrently open connections does long polling need for 2M clients?",
+        "A message arrives just after a long-poll response returns: what is the worst-case delay?",
+        "Why does long polling survive corporate proxies that block WebSockets?",
+        "Choose a polling interval for a dashboard updated once per minute vs a chat app"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Lost messages between long-poll requests and cursors"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Webhooks: server-to-server push"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "The baseline you compare WebSockets against in chat and notification designs."
+      }
+    },
+    {
+      "id": "sd-websockets",
+      "title": "WebSockets and stateful connection servers",
+      "size": "standard",
+      "est_min": 20,
+      "section": "realtime",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-websocket-upgrade",
+          "statement": "A WebSocket starts as an HTTP request with an Upgrade header and then becomes a persistent, full-duplex TCP connection on which both client and server can send frames at any time."
+        },
+        {
+          "id": "kc-websocket-stateful",
+          "statement": "A server holding WebSocket connections is stateful because each connection lives on one server, so the load balancer must support long-lived connections and capacity is planned by concurrent connections per server rather than by QPS."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The chat mock interview requires choosing and scaling WebSockets"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-polling-long-polling",
+          "reason": "WebSockets are motivated and taught by contrast with long polling"
+        },
+        {
+          "topic": "sd-stateless-services",
+          "reason": "The stateful-connection KC is stated against stateless services"
+        }
+      ],
+      "suggests": [
+        "sd-load-balancers"
+      ],
+      "confusable_with": [
+        "sd-server-sent-events",
+        "sd-polling-long-polling"
+      ],
+      "introduces": [
+        "websockets",
+        "persistent connection"
+      ],
+      "uses": [
+        "http",
+        "tcp",
+        "long polling",
+        "stateless service",
+        "load balancer"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "websockets/websockets"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "websockets/working"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "websockets/disadvantages"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "api-fundamentals/websockets"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-tradeoffs/long-polling-vs-websockets"
+        }
+      ],
+      "problem_ideas": [
+        "10M concurrent users, 50,000 connections per server: how many connection servers plus 30% headroom?",
+        "A connection server is drained for deploy: what happens to its 50,000 clients and how do you avoid a reconnect storm?",
+        "Why does round robin per request not apply to WebSocket traffic?",
+        "Compare bytes on the wire for 1 message/s over long polling vs WebSockets (headers per request)",
+        "Pick WebSockets or not for: multiplayer game, stock ticker, order status page, collaborative cursor",
+        "Design the client reconnect logic after a network drop, including missed messages"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Ping/pong frames and idle timeouts"
+        },
+        {
+          "kind": "edge",
+          "title": "Reconnect storms after a server restart"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Chat, live location and collaborative prompts all expect WebSockets and their scaling story."
+      }
+    },
+    {
+      "id": "sd-server-sent-events",
+      "title": "Server-sent events and choosing a push method",
+      "size": "standard",
+      "est_min": 20,
+      "section": "realtime",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-sse-one-way",
+          "statement": "Server-sent events stream one-way messages from server to client over a single long-lived HTTP response (text/event-stream), and the browser reconnects automatically, resuming with the Last-Event-ID header."
+        },
+        {
+          "id": "kc-choose-push-method",
+          "statement": "Use server-sent events when only the server pushes (notifications, live scores, streamed tokens), WebSockets when both sides send frequently with low latency (chat, games), and long polling as a fallback where neither is supported."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-websockets",
+          "reason": "The selection KC compares SSE against WebSockets"
+        }
+      ],
+      "suggests": [
+        "sd-polling-long-polling"
+      ],
+      "confusable_with": [
+        "sd-websockets",
+        "sd-polling-long-polling"
+      ],
+      "introduces": [
+        "server-sent events"
+      ],
+      "uses": [
+        "http",
+        "websockets",
+        "long polling"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "server-sent-events-sse/server-sent-events-sse"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "server-sent-events-sse/working"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "server-sent-events-sse/advantages"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "server-sent-events-sse/disadvantages"
+        }
+      ],
+      "problem_ideas": [
+        "Pick SSE, WebSockets or long polling for: sports scores, chat, delivery tracking, AI chat token stream, auction bidding",
+        "A client on SSE drops for 10 s: how does Last-Event-ID let it catch up, and what must the server retain?",
+        "Why can't SSE carry binary audio from the client?",
+        "A notification feed sends 1 event/min per user: argue for SSE over WebSockets",
+        "How does an SSE client send a 'mark as read' action back to the server?",
+        "Interviewer pushes back: 'WebSockets everywhere?'—give one reason not to"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "HTTP/1.1 per-domain connection limits and HTTP/2"
+        },
+        {
+          "kind": "frontier",
+          "title": "Streaming LLM responses over SSE"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Lets you justify the push mechanism instead of reflexively saying WebSockets."
+      }
+    },
+    {
+      "id": "sd-realtime-at-scale",
+      "title": "Routing messages to millions of open connections",
+      "size": "standard",
+      "est_min": 28,
+      "section": "realtime",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-session-registry",
+          "statement": "To deliver a message to user B, the sender's connection server looks up which connection server holds B in a session registry (a key-value store of user → server) and forwards the message there, or publishes it to B's pub/sub channel that B's server subscribes to."
+        },
+        {
+          "id": "kc-offline-delivery",
+          "statement": "If the recipient has no open connection, the message is persisted for later sync on reconnect and a mobile push notification is sent instead."
+        },
+        {
+          "id": "kc-presence-tracking",
+          "statement": "Presence (online/last seen) is tracked from connect and disconnect events plus periodic client pings with a timeout, because a dropped connection is not always reported."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The chat system mock requires the cross-server message routing design"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-websockets",
+          "reason": "Routing is between servers holding WebSocket connections"
+        },
+        {
+          "topic": "sd-pub-sub",
+          "reason": "One routing option is per-user pub/sub channels"
+        },
+        {
+          "topic": "sd-key-value-store",
+          "reason": "The session registry is a key-value store"
+        }
+      ],
+      "suggests": [
+        "sd-distributed-cache"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "connection server",
+        "session registry",
+        "presence"
+      ],
+      "uses": [
+        "websockets",
+        "publish/subscribe",
+        "key-value store",
+        "persistent connection"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-2/real-time-messaging"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-2/last-seen"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-2/notifications"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-interview-problems/design-whatsapp"
+        }
+      ],
+      "problem_ideas": [
+        "Trace a message from Alice (server 7) to Bob (server 42) step by step, naming every store touched",
+        "50M online users each ping every 30 s: what write QPS does presence put on the registry?",
+        "Bob's server crashes: what happens to his registry entry and to messages in flight?",
+        "A group chat with 500 members: how many registry lookups per message, and how would you batch them?",
+        "Compare registry lookup vs per-user pub/sub channels on latency and broker load",
+        "Design the sync-on-reconnect API using a per-conversation cursor"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Per-conversation sequence numbers for ordering"
+        },
+        {
+          "kind": "edge",
+          "title": "Multi-device delivery for one user"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "The deep dive interviewers ask for in chat prompts: how does a message find the right server?"
+      }
+    },
+    {
+      "id": "sd-fan-out",
+      "title": "Fan-out on write vs fan-out on read",
+      "size": "standard",
+      "est_min": 28,
+      "section": "data-flow",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-fan-out-on-write",
+          "statement": "Fan-out on write pushes each new post id into every follower's precomputed timeline at write time, making reads a single cheap lookup but costing one write per follower."
+        },
+        {
+          "id": "kc-fan-out-on-read",
+          "statement": "Fan-out on read assembles a timeline at read time by fetching and merging recent posts from every followed account, making writes cheap but each read cost proportional to the number of followees."
+        },
+        {
+          "id": "kc-hybrid-fan-out",
+          "statement": "Hybrid fan-out uses fan-out on write for ordinary accounts and fan-out on read for celebrity accounts with millions of followers, merging both at read time to avoid million-write bursts."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The news feed mock interview hinges on this choice"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "sd-message-queues",
+          "reason": "Fan-out on write is performed asynchronously by workers consuming a queue"
+        }
+      ],
+      "suggests": [
+        "sd-denormalization",
+        "sd-distributed-cache"
+      ],
+      "confusable_with": [
+        "sd-pub-sub"
+      ],
+      "introduces": [
+        "fan-out on write",
+        "fan-out on read",
+        "hybrid fan-out",
+        "celebrity problem"
+      ],
+      "uses": [
+        "read-to-write ratio",
+        "message queue",
+        "distributed cache",
+        "denormalization"
+      ],
+      "sources": [
+        {
+          "source": "karan-sd",
+          "entry": "high-level-design-3/newsfeed"
+        },
+        {
+          "source": "sd-primer",
+          "entry": "system-design-interview-questions-with-s/design-the-twitter-timeline-and-search-o"
+        },
+        {
+          "source": "awesome-sd",
+          "entry": "system-design-tradeoffs/push-vs-pull-architecture"
+        }
+      ],
+      "problem_ideas": [
+        "5,000 posts/s with 200 followers on average: timeline writes per second under fan-out on write",
+        "A celebrity with 80M followers posts: at 1M timeline writes/s per cluster, how long until the last follower sees it?",
+        "Timeline reads are 300,000/s and users follow 400 accounts: reads per second against the post store under fan-out on read",
+        "Set a follower threshold for hybrid fan-out and justify it with numbers",
+        "Timeline cache keeps 800 post ids × 8 B for 300M users: memory needed",
+        "A user unfollows someone: what cleanup does each approach need?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Inactive users: skipping fan-out for dormant accounts"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Ranking on top of a chronological timeline"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Asked in almost every feed, Twitter or Instagram interview; the core trade-off of the round."
+      }
+    },
+    {
+      "id": "sd-change-data-capture",
+      "title": "Change data capture and the outbox pattern",
+      "size": "standard",
+      "est_min": 28,
+      "section": "data-flow",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-dual-write-problem",
+          "statement": "A dual write (commit to the database, then publish an event) can leave the two out of sync, because a crash or failure between the two steps leaves one done without the other."
+        },
+        {
+          "id": "kc-cdc-reads-log",
+          "statement": "Change data capture reads the database's transaction or replication log and emits each committed change as an event, so downstream systems (search index, caches, analytics) follow the database without the application writing twice."
+        },
+        {
+          "id": "kc-transactional-outbox",
+          "statement": "With a transactional outbox the service writes the business row and an event row in the same database transaction, and a relay (often CDC) publishes outbox rows, so an event exists if and only if the change committed."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-relational-acid",
+          "reason": "The outbox depends on atomic transactions"
+        },
+        {
+          "topic": "sd-event-streaming",
+          "reason": "CDC emits changes into an event stream"
+        }
+      ],
+      "suggests": [
+        "sd-replication-leader-follower",
+        "sd-cache-invalidation-ttl"
+      ],
+      "confusable_with": [
+        "sd-cqrs-event-sourcing"
+      ],
+      "introduces": [
+        "change data capture",
+        "dual write",
+        "transactional outbox"
+      ],
+      "uses": [
+        "transaction",
+        "replication",
+        "event streaming",
+        "cache invalidation"
+      ],
+      "sources": [
+        {
+          "source": "awesome-sd",
+          "entry": "asynchronous-communication/change-data-capture-cdc"
+        }
+      ],
+      "problem_ideas": [
+        "Trace a crash between 'UPDATE price' and 'publish PriceChanged': what does the search index show?",
+        "Design keeping an Elasticsearch-style search index in sync with an orders table using CDC",
+        "Use CDC to invalidate cache entries: what does it fix that application-side invalidation misses?",
+        "The outbox relay publishes a row then crashes before marking it sent: what does the consumer see?",
+        "CDC emits 30,000 row changes/s from a 6-table schema: which partition key keeps per-row order?",
+        "Interviewer: 'why not just publish from the app after commit?'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Reading a write-ahead log or binlog"
+        },
+        {
+          "kind": "edge",
+          "title": "Schema changes flowing through CDC"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "A senior-sounding fix for keeping caches and search indexes consistent with the database."
+      }
+    },
+    {
+      "id": "sd-cqrs-event-sourcing",
+      "title": "CQRS and event sourcing",
+      "size": "standard",
+      "est_min": 28,
+      "section": "data-flow",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cqrs-separate-models",
+          "statement": "CQRS separates the write model from one or more read models shaped for queries and updated asynchronously from the write side, so read models are eventually consistent with writes."
+        },
+        {
+          "id": "kc-event-sourcing-replay",
+          "statement": "Event sourcing stores state as an append-only sequence of events and rebuilds current state by replaying them, using periodic snapshots to keep replay time bounded."
+        },
+        {
+          "id": "kc-cqrs-when",
+          "statement": "CQRS does not require event sourcing, and both add complexity worth paying only when read and write workloads differ greatly in shape or scale, or a full audit history is required."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "sd-denormalization",
+          "reason": "Read models are materialized views"
+        },
+        {
+          "topic": "sd-event-streaming",
+          "reason": "Read models are fed by an event stream and event sourcing builds on an append-only log"
+        }
+      ],
+      "suggests": [
+        "sd-change-data-capture"
+      ],
+      "confusable_with": [
+        "sd-change-data-capture"
+      ],
+      "introduces": [
+        "cqrs",
+        "event sourcing",
+        "read model",
+        "snapshot"
+      ],
+      "uses": [
+        "materialized view",
+        "eventual consistency",
+        "event streaming",
+        "append-only log"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-system-design",
+          "entry": "data-management/cqrs"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "patterns/command-and-query-responsibility-segrega"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "cqrs-with-event-sourcing/cqrs-with-event-sourcing"
+        },
+        {
+          "source": "roadmap-system-design",
+          "entry": "data-management/event-sourcing"
+        },
+        {
+          "source": "karan-sd",
+          "entry": "patterns/event-sourcing"
+        }
+      ],
+      "problem_ideas": [
+        "A bank account has 2M events: with a snapshot every 10,000 events, how many are replayed to load it?",
+        "Design a write model and two read models for an e-commerce order system",
+        "A user updates their address and immediately reloads: why might they see the old one, and how do you mask it?",
+        "Should a URL shortener use CQRS? Argue no with reasons",
+        "A bug in a projection corrupted a read model: how does event sourcing let you rebuild it?",
+        "Interviewer: 'how do you delete a user's data under event sourcing?'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Event schema versioning and upcasting"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Sagas built on events (next stage)"
+        }
+      ],
+      "lens": {
+        "score": 0.4,
+        "reason": "Comes up as a named pattern in senior interviews; enough to recognise it and know when not to use it."
+      }
+    }
+  ],
+  "groups": {}
+}

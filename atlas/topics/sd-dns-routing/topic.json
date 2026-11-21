@@ -1,0 +1,441 @@
+{
+  "parts": [
+    {
+      "id": "p1",
+      "title": "DNS routing: different users, different answers",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "DNS routing: different users, different answers",
+          "kcs": [
+            "kc-dns-routing"
+          ],
+          "est_minutes": 4,
+          "blocks": [
+            {
+              "id": "blk-sd-dns-routing-01",
+              "block": {
+                "type": "prose",
+                "md": "**DNS-based routing** means a domain's authoritative DNS server gives different users different IP addresses for the same name. Sites use it to spread traffic across servers or send each user to a nearby region."
+              }
+            },
+            {
+              "id": "blk-sd-dns-routing-02",
+              "block": {
+                "type": "prose",
+                "md": "Wikipedia runs data centres on several continents. Asked for `wikipedia.org` on behalf of a network in the UK, its DNS servers answer `185.15.59.224`, an address in Amsterdam. For a network in Australia they answer `103.102.166.224`, in Singapore. Same name, different answers: each reader connects to a nearby data centre."
+              }
+            },
+            {
+              "id": "blk-sd-dns-routing-03",
+              "block": {
+                "type": "prose",
+                "md": "The authoritative server picks an answer for each query using a **routing policy**:\n\n- **Weighted round robin:** hand out each address in proportion to its weight. With weights 3 : 1, three of every four answers name the first server. Good for spreading load or trying out a new region with a small share.\n- **Latency-based:** answer with the region that has the lowest measured delay to the user's network.\n- **Geolocation-based:** answer by where the user appears to be, for example Europe → the Amsterdam servers.\n\nThe authoritative server never talks to the user. It sees the user's resolver, plus a hint of the user's network if the resolver sends one. Health checks let it stop handing out a region that is down."
+              }
+            },
+            {
+              "id": "blk-sd-dns-routing-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-dns-routing-weighted",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-dns-routing"
+                  ],
+                  "prompt_md": "Weighted round robin is set to server A 3 : server B 1. About how many of 1,000 lookups are answered with server B's address?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "250",
+                      "correct": true,
+                      "why_md": "Right. B's share is 1 / (3 + 1) = 1/4, and 1/4 of 1,000 is 250."
+                    },
+                    {
+                      "id": "b",
+                      "md": "333",
+                      "why_md": "That divides B's weight by A's weight. Divide by the total weight, 4."
+                    },
+                    {
+                      "id": "c",
+                      "md": "750",
+                      "why_md": "That is A's share, 3/4."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-sd-dns-routing-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Why failover through DNS is slow",
+                "md": "When a region fails, health checks notice after a delay and the DNS server withdraws its address. Cached copies still point there until their TTL runs out. Assuming caches honour the TTL, the worst case is detection plus TTL: if detection and withdrawal take at most 30 seconds and answers are cached for at most 60, stale answers can last up to 90 seconds after the failure. A lower TTL shortens this but means more lookups."
+              }
+            },
+            {
+              "id": "blk-sd-dns-routing-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "When the resolver is far from the user",
+                "md": "Geolocation routing may send a user in Paris whose resolver is in Chicago to a US region, unless the resolver sends part of the user's network address with the query (an extension called **EDNS Client Subnet**). Some resolvers leave it out to protect privacy."
+              }
+            },
+            {
+              "id": "blk-sd-dns-routing-07",
+              "block": {
+                "type": "diagram",
+                "id": "dg-dns-routing",
+                "kind": "sequence",
+                "title": "Same name, different answers by region",
+                "alt": "A resolver in the UK and a resolver in Australia both ask wikipedia.org's authoritative server for wikipedia.org. Using its routing policy, the server answers the UK resolver with 185.15.59.224 in Amsterdam and the Australian resolver with 103.102.166.224 in Singapore.",
+                "spec": {
+                  "participants": [
+                    {
+                      "id": "uk",
+                      "label": "Resolver in the UK",
+                      "type": "dns"
+                    },
+                    {
+                      "id": "auth",
+                      "label": "wikipedia.org's server",
+                      "sub": "authoritative",
+                      "type": "dns"
+                    },
+                    {
+                      "id": "au",
+                      "label": "Resolver in Australia",
+                      "type": "dns"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "from": "uk",
+                      "to": "auth",
+                      "label": "wikipedia.org?"
+                    },
+                    {
+                      "from": "auth",
+                      "kind": "note",
+                      "label": "the routing policy picks a region"
+                    },
+                    {
+                      "from": "auth",
+                      "to": "uk",
+                      "kind": "reply",
+                      "label": "185.15.59.224 (Amsterdam)"
+                    },
+                    {
+                      "from": "au",
+                      "to": "auth",
+                      "label": "wikipedia.org?"
+                    },
+                    {
+                      "from": "auth",
+                      "to": "au",
+                      "kind": "reply",
+                      "label": "103.102.166.224 (Singapore)"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "answer": "**DNS-based routing** means a domain's authoritative DNS server gives different users different IP addresses for the same name. Sites use it to spread traffic across servers or send each user to a nearby region.",
+  "example": "Wikipedia runs data centres on several continents. Asked for `wikipedia.org` on behalf of a network in the UK, its DNS servers answer `185.15.59.224`, an address in Amsterdam. For a network in Australia they answer `103.102.166.224`, in Singapore. Same name, different answers: each reader connects to a nearby data centre.",
+  "how": {
+    "md": "The authoritative server picks an answer for each query using a **routing policy**:\n\n- **Weighted round robin:** hand out each address in proportion to its weight. With weights 3 : 1, three of every four answers name the first server. Good for spreading load or trying out a new region with a small share.\n- **Latency-based:** answer with the region that has the lowest measured delay to the user's network.\n- **Geolocation-based:** answer by where the user appears to be, for example Europe → the Amsterdam servers.\n\nThe authoritative server never talks to the user. It sees the user's resolver, plus a hint of the user's network if the resolver sends one. Health checks let it stop handing out a region that is down.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-dns-routing",
+      "kind": "sequence",
+      "title": "Same name, different answers by region",
+      "alt": "A resolver in the UK and a resolver in Australia both ask wikipedia.org's authoritative server for wikipedia.org. Using its routing policy, the server answers the UK resolver with 185.15.59.224 in Amsterdam and the Australian resolver with 103.102.166.224 in Singapore.",
+      "spec": {
+        "participants": [
+          {
+            "id": "uk",
+            "label": "Resolver in the UK",
+            "type": "dns"
+          },
+          {
+            "id": "auth",
+            "label": "wikipedia.org's server",
+            "sub": "authoritative",
+            "type": "dns"
+          },
+          {
+            "id": "au",
+            "label": "Resolver in Australia",
+            "type": "dns"
+          }
+        ],
+        "messages": [
+          {
+            "from": "uk",
+            "to": "auth",
+            "label": "wikipedia.org?"
+          },
+          {
+            "from": "auth",
+            "kind": "note",
+            "label": "the routing policy picks a region"
+          },
+          {
+            "from": "auth",
+            "to": "uk",
+            "kind": "reply",
+            "label": "185.15.59.224 (Amsterdam)"
+          },
+          {
+            "from": "au",
+            "to": "auth",
+            "label": "wikipedia.org?"
+          },
+          {
+            "from": "auth",
+            "to": "au",
+            "kind": "reply",
+            "label": "103.102.166.224 (Singapore)"
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-dns-routing-weighted",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "prompt_md": "Weighted round robin is set to server A 3 : server B 1. About how many of 1,000 lookups are answered with server B's address?",
+    "options": [
+      {
+        "id": "a",
+        "md": "250",
+        "correct": true,
+        "why_md": "Right. B's share is 1 / (3 + 1) = 1/4, and 1/4 of 1,000 is 250."
+      },
+      {
+        "id": "b",
+        "md": "333",
+        "why_md": "That divides B's weight by A's weight. Divide by the total weight, 4."
+      },
+      {
+        "id": "c",
+        "md": "750",
+        "why_md": "That is A's share, 3/4."
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "Why failover through DNS is slow",
+      "md": "When a region fails, health checks notice after a delay and the DNS server withdraws its address. Cached copies still point there until their TTL runs out. Assuming caches honour the TTL, the worst case is detection plus TTL: if detection and withdrawal take at most 30 seconds and answers are cached for at most 60, stale answers can last up to 90 seconds after the failure. A lower TTL shortens this but means more lookups."
+    },
+    {
+      "title": "When the resolver is far from the user",
+      "md": "Geolocation routing may send a user in Paris whose resolver is in Chicago to a US region, unless the resolver sends part of the user's network address with the query (an extension called **EDNS Client Subnet**). Some resolvers leave it out to protect privacy."
+    }
+  ],
+  "visual_fit": {
+    "kind": "sequence",
+    "why": "The point is that one question gets two different answers depending on who asks, which is clearest as two exchanges side by side."
+  },
+  "glossary": [
+    {
+      "term": "dns-based routing",
+      "md": "The authoritative DNS server answering the same name with different IP addresses for different queries, to spread users across servers or send them to a nearby region."
+    },
+    {
+      "term": "weighted round robin",
+      "md": "A DNS routing policy that hands out each address in proportion to its weight: with 3 : 1, three answers in four name the first server."
+    },
+    {
+      "term": "latency-based routing",
+      "md": "A DNS routing policy that answers with the region that has the lowest measured delay to the user's network."
+    },
+    {
+      "term": "geolocation routing",
+      "md": "A DNS routing policy that answers by where the query appears to come from, such as Europe or Asia."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-geo-user-ip",
+      "statement": "Geolocation DNS routing always sees the user's own IP address and location.",
+      "tags": [
+        "kc-dns-routing"
+      ]
+    }
+  ],
+  "recap": {
+    "formula": "Weighted share = weight ÷ sum of weights. Worst-case DNS failover ≈ detection time + TTL.",
+    "pitfall": "The authoritative server sees the resolver, not the user, unless the resolver sends a hint of the user's network."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-different-answers",
+      "beat": "b-lesson",
+      "question": "Why did my friend get a different IP address for the same site?",
+      "match": [
+        "different ip",
+        "different address",
+        "same site different",
+        "why another address"
+      ],
+      "answer_md": "The site's authoritative DNS server picked a different answer for each of you, usually the data centre nearest to each resolver, or a share set by weights.",
+      "deeper_md": "Big sites run the same service in several places. DNS is the first point where they can steer you: they answer with the address of the place that should serve you.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Two readers, two answers",
+        "md": "A query for `wikipedia.org` from a UK network gets `185.15.59.224` (Amsterdam). The same query from an Australian network gets `103.102.166.224` (Singapore).",
+        "verify": {
+          "id": "q-br-different-answers",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-dns-routing"
+          ],
+          "prompt_md": "Two users get different IP addresses for the same name. Which server decided that?",
+          "options": [
+            {
+              "id": "a",
+              "md": "The domain's authoritative DNS server",
+              "correct": true,
+              "why_md": "Right. It picks the answer for each query using its routing policy."
+            },
+            {
+              "id": "b",
+              "md": "The root server",
+              "why_md": "The root only refers resolvers to the TLD servers."
+            },
+            {
+              "id": "c",
+              "md": "Each user's browser",
+              "why_md": "The browser uses whatever address DNS returns."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-dns-vs-lb",
+      "beat": "b-lesson",
+      "question": "If DNS can spread users, why do I still need a load balancer?",
+      "match": [
+        "need a load balancer",
+        "dns vs load balancer",
+        "instead of load balancer",
+        "why load balancer"
+      ],
+      "answer_md": "DNS decides once per lookup and answers are cached, so it steers coarsely and reacts slowly. A load balancer spreads each request across healthy servers within seconds.",
+      "deeper_md": "Use DNS to pick the region and a load balancer inside the region to pick the server. When a server dies, the load balancer stops using it at once; DNS would wait for caches to expire.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Per lookup vs per request",
+        "md": "DNS: one decision per lookup, then cached for the TTL. Load balancer: one decision per request (or connection), changed the moment a server fails a health check.",
+        "verify": {
+          "id": "q-br-dns-vs-lb",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-dns-routing"
+          ],
+          "prompt_md": "One of four app servers in a region crashes. What stops sending users to it within seconds?",
+          "options": [
+            {
+              "id": "a",
+              "md": "The region's load balancer, after a failed health check",
+              "correct": true,
+              "why_md": "Right. It decides per request, so it can drop the server at once."
+            },
+            {
+              "id": "b",
+              "md": "DNS-based routing",
+              "why_md": "Cached DNS answers keep pointing where they pointed until their TTL runs out."
+            },
+            {
+              "id": "c",
+              "md": "The root server",
+              "why_md": "The root server knows nothing about a site's servers."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-ecs",
+      "kind": "edge",
+      "title": "When the resolver is far from the user: client subnet hints and their privacy cost",
+      "level": 3,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "sd-dns-routing",
+  "version": 1,
+  "title": "DNS routing: different users, different answers",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-dns-routing",
+      "version": 1,
+      "statement": "An authoritative DNS server can return different IP addresses per query (weighted round robin, latency-based or geolocation-based) to spread users across servers or send them to the nearest region."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-dns"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "dns-based routing"
+  ],
+  "uses": [
+    "dns",
+    "authoritative dns server",
+    "dns resolver",
+    "dns caching"
+  ],
+  "problem_ideas": [
+    "Design DNS for an app with servers in us-east and eu-west so European users go to eu-west.",
+    "With weighted round robin at 3:1 over two regions, what fraction of 10,000 lookups go to each?",
+    "A region goes down but clients keep resolving to it for minutes: explain why, and why a low TTL helps.",
+    "Pick a routing policy for sending 5% of answers to a new region, regardless of where users are.",
+    "A user in Madrid uses a resolver in Virginia: where does geolocation routing send the user, and why?",
+    "Health checks notice a failure after 45 s and the TTL is 120 s: what is the worst-case time some users still reach the dead region?"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "domain-name-system/latency-based"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "domain-name-system/geolocation-based"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [
+    "sd-dns-routing/exit-1",
+    "sd-dns-routing/exit-2"
+  ],
+  "status": "stocked",
+  "provenance": {
+    "origin": "generated",
+    "job": "reauthor-sd-u0"
+  }
+}

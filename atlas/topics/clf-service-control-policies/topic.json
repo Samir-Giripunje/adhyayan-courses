@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-service-control-policies",
+  "version": 1,
+  "title": "Service control policies: guardrails for accounts",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-scp-max-permissions",
+      "version": 1,
+      "statement": "A service control policy (SCP) sets the maximum permissions available in the accounts it is attached to. It grants nothing by itself, so a user still needs an IAM policy that allows the action."
+    },
+    {
+      "id": "kc-scp-effective-permission",
+      "version": 1,
+      "statement": "An action in a member account is allowed only if both the SCPs and the IAM policies allow it. An explicit deny in either one blocks the action."
+    },
+    {
+      "id": "kc-scp-scope",
+      "version": 1,
+      "statement": "SCPs restrict every IAM user and role in a member account, including that account's root user. They never restrict the management account."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-organizations",
+    "clf-iam-policies"
+  ],
+  "suggests": [
+    "clf-least-privilege"
+  ],
+  "confusable_with": [
+    "clf-iam-policies"
+  ],
+  "introduces": [
+    "service control policy"
+  ],
+  "uses": [
+    "aws organizations",
+    "organizational unit",
+    "iam policy",
+    "explicit deny",
+    "root user",
+    "management account",
+    "member account"
+  ],
+  "problem_ideas": [
+    "An SCP allows only EC2 and S3. A user's IAM policy allows DynamoDB:*. Can the user create a DynamoDB table? Predict the result.",
+    "An SCP denies the use of every Region except eu-west-1. A developer with AdministratorAccess tries to launch EC2 in us-east-1. Predict the outcome.",
+    "The root user of a member account tries to disable CloudTrail, and an SCP denies cloudtrail:StopLogging. Does it work?",
+    "The same SCP is attached to the management account. Does it stop the management account's admin?",
+    "A company wants no account in the Sandbox OU to buy Reserved Instances. Which policy type, and where is it attached?",
+    "An SCP allows s3:* and the IAM policy is empty. List exactly what the user can do."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/service-control-policies-scp"
+    }
+  ],
+  "status": "stub"
+}

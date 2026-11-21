@@ -1,0 +1,312 @@
+[
+  {
+    "id": "clf-deployment-models/test-a1",
+    "family": "clf-deployment-models-dm-form-language-app-migrated-all-in",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-cloud-deployment-all-in"
+    ],
+    "prompt_md": "A language-learning company used to run its lesson website, learner-progress database and video library on servers in its own server room. Over the past year it moved all three to AWS (the website to Amazon EC2, the database to Amazon RDS and the videos to Amazon S3) and then shut the server room down. Nothing runs on its own servers any more.\n\nWhich deployment model does the company use now?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Hybrid, because the application started on premises and was moved to the cloud",
+        "misconception": "mc-migrated-not-all-in",
+        "why_md": "Where the application started doesn't matter. The model depends on where its parts run now, and every part now runs in AWS."
+      },
+      {
+        "id": "b",
+        "md": "Cloud (all-in)",
+        "correct": true,
+        "why_md": "Right. Every part runs in the cloud, and an application that was migrated from on premises still counts as all-in."
+      },
+      {
+        "id": "c",
+        "md": "Hybrid, because it uses several different AWS services together",
+        "misconception": "mc-hybrid-means-mixed-services",
+        "why_md": "Using several services is not hybrid. Hybrid means some parts run on premises and are connected to the cloud, and nothing here runs on premises."
+      },
+      {
+        "id": "d",
+        "md": "On-premises (private cloud), because the application was first built for the company's own servers",
+        "why_md": "On-premises means the parts run in the organisation's own data center **now**. The server room is shut, so nothing runs there."
+      }
+    ],
+    "hints": [
+      "Ask the lesson's first question about each part: where does it run **now**, in the cloud or in the company's own data center?",
+      "Website, database and videos all run in AWS, and nothing is left on premises. Whether the app was built in the cloud or migrated there makes no difference."
+    ],
+    "solution_md": "1. Website: now on Amazon EC2, so in the cloud.\n2. Database: now on Amazon RDS, so in the cloud.\n3. Videos: now in Amazon S3, so in the cloud.\n4. Nothing runs on premises, because the server room is shut.\n\nEverything runs in the cloud, so the model is **cloud (all-in)**. The lesson says this applies \"whether the app was built there or migrated from on premises\". Using several AWS services doesn't make it hybrid either.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-deployment-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-deployment-models"
+    }
+  },
+  {
+    "id": "clf-deployment-models/test-a2",
+    "family": "clf-deployment-models-dm-form-ar-cinema-ledger-not-all-in",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-cloud-deployment-all-in"
+    ],
+    "prompt_md": "A cinema chain's ticket-booking website runs in AWS. The website writes every sale, over a private network link, to a payments ledger that runs on servers in the chain's own data center.\n\n**Assertion (A):** The chain's booking application is a cloud (all-in) deployment.\n\n**Reason (R):** In a cloud (all-in) deployment, every part of the application runs in the cloud.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "misconception": "mc-any-cloud-is-all-in",
+        "why_md": "A is false. The payments ledger runs in the chain's own data center, so not every part runs in the cloud."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "misconception": "mc-any-cloud-is-all-in",
+        "why_md": "A is false. Having the website in AWS doesn't make the whole application all-in while the ledger stays on premises."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "This reverses it. R is the lesson's definition of all-in cloud, so it is true, and A is the false statement."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "correct": true,
+        "why_md": "Right. R is the definition of all-in cloud. Because the ledger runs on premises, A fails that definition. The setup is actually hybrid."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. For R, compare it with the lesson's definition. For A, check where **every** part of the application runs.",
+      "R matches the definition. The ledger is in the chain's own data center, connected to the website in AWS, so not every part is in the cloud."
+    ],
+    "solution_md": "**R:** this is the lesson's definition of cloud (all-in): every part runs in the cloud. R is true.\n\n**A:** the website runs in AWS, but the payments ledger runs on the chain's own servers. Not every part is in the cloud, so A is false. The two parts are connected across both places, which makes the application **hybrid**.\n\nAnswer: **A false; R true**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-deployment-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-deployment-models"
+    }
+  },
+  {
+    "id": "clf-deployment-models/test-a3",
+    "family": "clf-deployment-models-dm-form-water-utility-portal-hybrid",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-hybrid-deployment"
+    ],
+    "prompt_md": "A city water utility keeps its billing system on servers in its own data center. Its new customer self-service portal runs in AWS and reads each customer's bills from the billing system over a private network link.\n\nWhich deployment model does this describe?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Cloud (all-in), because the portal runs in AWS",
+        "misconception": "mc-any-cloud-is-all-in",
+        "why_md": "All-in needs **every** part in the cloud. The billing system still runs in the utility's own data center."
+      },
+      {
+        "id": "b",
+        "md": "On-premises (private cloud), because the billing system stays in the utility's data center",
+        "why_md": "On-premises needs every part in the organisation's own data center. The portal runs in AWS."
+      },
+      {
+        "id": "c",
+        "md": "Hybrid",
+        "correct": true,
+        "why_md": "Right. One part runs on premises (billing), one runs in the cloud (portal), and the two are connected so they work as one application."
+      },
+      {
+        "id": "d",
+        "md": "Private cloud, because the two parts talk over a private network link",
+        "why_md": "A private network link is how the two places are connected. It doesn't make the deployment a private cloud, which would need everything in the utility's own data center."
+      }
+    ],
+    "hints": [
+      "Ask two questions: where does each part run, and if the parts sit in both places, are they connected?",
+      "Billing is on premises, the portal is in AWS, and the portal reads from billing over a link. Some parts in each place, connected."
+    ],
+    "solution_md": "1. Billing system: in the utility's own data center, so on premises.\n2. Self-service portal: in AWS, so in the cloud.\n3. Connected? Yes, the portal reads bills over a private network link.\n\nSome parts in each place, connected, so the model is **hybrid**. It isn't all-in, because billing is on premises. It isn't on-premises either, because the portal is in AWS. The private link only connects the two places.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-deployment-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-deployment-models"
+    }
+  },
+  {
+    "id": "clf-deployment-models/test-a4",
+    "family": "clf-deployment-models-dm-form-multi-which-are-hybrid",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-hybrid-deployment"
+    ],
+    "prompt_md": "Which of these describe a **hybrid** deployment? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "A school district keeps its exam-records database in its own server room. A parent portal running in AWS reads grades from that database.",
+        "correct": true,
+        "why_md": "Hybrid. The database is on premises, the portal is in the cloud, and they are connected."
+      },
+      {
+        "id": "b",
+        "md": "A charity runs its donation website on Amazon EC2 (IaaS), and its staff use a SaaS email service. It has no servers of its own.",
+        "misconception": "mc-hybrid-means-mixed-services",
+        "why_md": "Not hybrid. Mixing IaaS and SaaS is about service models, not place. Nothing runs on premises, so this is all-in cloud."
+      },
+      {
+        "id": "c",
+        "md": "An airline's crew-scheduling system runs on servers in its own data center. An analytics application in AWS receives schedule data from it over a VPN connection.",
+        "correct": true,
+        "why_md": "Hybrid. Scheduling is on premises, analytics is in the cloud, and the VPN connects them."
+      },
+      {
+        "id": "d",
+        "md": "A hotel chain runs its booking website, guest database and reporting tools in AWS, using several different AWS services. It owns no servers.",
+        "misconception": "mc-hybrid-means-mixed-services",
+        "why_md": "Not hybrid. Using many cloud services is still all-in cloud when nothing runs on premises."
+      },
+      {
+        "id": "e",
+        "md": "A law firm runs all of its applications on virtual servers in its own data center, using virtualisation software.",
+        "why_md": "Not hybrid. Everything runs on premises, so this is an on-premises deployment (private cloud)."
+      }
+    ],
+    "hints": [
+      "For each option, find any part that runs on premises and any part that runs in the cloud. Hybrid needs both, connected.",
+      "Mixing IaaS and SaaS, or using many AWS services, is not hybrid. Look for an on-premises system linked to something in AWS."
+    ],
+    "solution_md": "Check each option for (1) a part on premises and (2) a part in the cloud, (3) connected.\n\n- (a) Database on premises, portal in AWS, connected: **hybrid**.\n- (b) Nothing on premises, only IaaS plus SaaS: all-in cloud.\n- (c) Scheduling on premises, analytics in AWS, linked by VPN: **hybrid**.\n- (d) Everything in AWS: all-in cloud, however many services it uses.\n- (e) Everything on premises: on-premises (private cloud).\n\nAnswer: **a, c**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-deployment-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-deployment-models"
+    }
+  },
+  {
+    "id": "clf-deployment-models/test-a5",
+    "family": "clf-deployment-models-dm-form-broadcaster-virtualised-own-dc",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-on-premises-private-cloud"
+    ],
+    "prompt_md": "A television broadcaster runs every one of its systems on servers it owns, in its own data center. Its IT team installs virtualisation software, so each physical server runs many virtual servers, and a resource management tool, so producers can create virtual servers for themselves. Nothing runs in AWS or in any other provider's data center.\n\nWhich deployment model is this, as AWS uses the terms?",
+    "options": [
+      {
+        "id": "a",
+        "md": "On-premises (private cloud)",
+        "correct": true,
+        "why_md": "Right. Virtualisation and resource management tools in the organisation's own data center are exactly what AWS calls on-premises, or private cloud."
+      },
+      {
+        "id": "b",
+        "md": "Cloud (all-in), because producers get self-service virtual servers just as they would in AWS",
+        "why_md": "Self-service doesn't decide the model, place does. Every part runs in the broadcaster's own data center, not in the cloud."
+      },
+      {
+        "id": "c",
+        "md": "Hybrid, because it mixes physical servers and virtual servers",
+        "why_md": "Hybrid is about place: some parts on premises, connected to parts in the cloud. Here nothing runs in the cloud."
+      }
+    ],
+    "hints": [
+      "Ask where each part runs: in a provider's data centers or in the broadcaster's own data center?",
+      "Everything runs on the broadcaster's own servers, made self-service with virtualisation and resource management tools. That is the lesson's description of one model."
+    ],
+    "solution_md": "1. Where does each part run? On servers the broadcaster owns, in its own data center.\n2. Is anything in the cloud? No.\n\nEverything is on premises. With virtualisation software and resource management tools giving teams self-service servers, this is an **on-premises deployment (private cloud)**. Self-service virtual servers don't make it cloud, and mixing physical and virtual servers doesn't make it hybrid.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-deployment-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-deployment-models"
+    }
+  },
+  {
+    "id": "clf-deployment-models/test-a6",
+    "family": "clf-deployment-models-dm-form-case-ticketing-peak-cost",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-on-premises-private-cloud"
+    ],
+    "prompt_md": "An online concert-ticketing platform sells most of its tickets on a few big on-sale days each year. On those days, traffic is about 50 times higher than on a normal day. No rule limits where its data may be stored, and it owns no servers today.\n\nThe finance director proposes building a private cloud: buying servers for a new company data center and running virtualisation and resource management tools on them. The goal is to handle the peak days at the lowest cost.\n\nWhat's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Build the private cloud, sized for an ordinary day: virtualisation gives it the same pay-as-you-go savings as the public cloud",
+        "misconception": "mc-private-cloud-saves-money",
+        "why_md": "Trap. Virtualisation splits servers you have already bought. It doesn't add capacity or make you pay as you go, so peak days would overload the servers."
+      },
+      {
+        "id": "b",
+        "md": "Run the platform in the public cloud (AWS) and pay for extra capacity only on the peak days",
+        "correct": true,
+        "why_md": "Best. Nothing forces the data on premises, and pay-as-you-go pricing means no upfront servers and no paying for idle peak capacity the rest of the year."
+      },
+      {
+        "id": "c",
+        "md": "Build the private cloud, sized for the busiest on-sale day",
+        "why_md": "Viable, second-best. It handles the peaks and gives full control, but the company buys the hardware upfront, pays for it while it sits idle most of the year, and runs the building, power and repairs itself. That isn't the lowest cost."
+      }
+    ],
+    "hints": [
+      "Check each option against both goals: handle the peak days, and do it at the lowest cost. Remember what a private cloud gives up compared with the public cloud.",
+      "A private cloud has to be bought for the busiest day and is paid for even when idle, and virtualisation doesn't change that. Only one option avoids upfront hardware."
+    ],
+    "solution_md": "The two goals are (1) handling 50× traffic on peak days and (2) doing it at the lowest cost.\n\n- **Private cloud sized for an ordinary day:** fails (1). Virtualisation splits servers you already own, and it doesn't give pay-as-you-go pricing.\n- **Private cloud sized for the busiest day:** meets (1), but fails (2). The company buys servers upfront, pays for them while they sit idle most of the year, and runs the building, power and repairs itself.\n- **Public cloud:** meets both. No rule keeps the data on premises, and pay-as-you-go means paying for extra capacity only when it is used.\n\nThe call: **run in the public cloud (AWS)**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "clf-deployment-models",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-clf-deployment-models"
+    }
+  }
+]

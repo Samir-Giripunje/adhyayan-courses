@@ -1,0 +1,508 @@
+{
+  "schema": "adhy.course/1",
+  "id": "embeddings-semantic-search",
+  "version": 1,
+  "title": "Embeddings and semantic search",
+  "archetype": "concept",
+  "scope_class": "chapter",
+  "goal": {
+    "text": "Embeddings for semantic search",
+    "target": "job",
+    "level": "some",
+    "depth": "working"
+  },
+  "budget": {
+    "daily_min": 60,
+    "days": [
+      "mon",
+      "tue",
+      "thu",
+      "sat"
+    ],
+    "review_min": 15,
+    "test_share": 0.4,
+    "weekly_slot": "sat"
+  },
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Compute similarity by hand and explain why cosine ignores length",
+      "observable": "a hand-computed cosine for two small vectors with a one-line justification of length invariance"
+    },
+    {
+      "id": "o2",
+      "text": "Build and evaluate semantic search on labelled queries",
+      "observable": "a working top-k search with recall@k and MRR reported on a labelled query set"
+    },
+    {
+      "id": "o3",
+      "text": "Choose model, chunking, index and hybrid setup under stated constraints",
+      "observable": "a written choice of model, chunking, index and fusion naming the constraint each one meets"
+    },
+    {
+      "id": "o4",
+      "text": "Diagnose production failures: mixed models, truncation, filter starvation, borrowed thresholds",
+      "observable": "a diagnosis naming the cause and the fix for a failing search log"
+    }
+  ],
+  "exclusions": [
+    {
+      "text": "Training an embedding model from scratch",
+      "why": "Working depth uses pre-trained models; training is a depth thread on 2.1"
+    },
+    {
+      "text": "Vector-database vendor comparison",
+      "why": "Vendor features change monthly; the course teaches the index ideas they share"
+    }
+  ],
+  "committed_route": {
+    "version": 1,
+    "topics": [
+      "emb-keyword-gap",
+      "emb-features",
+      "emb-cosine",
+      "emb-model",
+      "emb-search",
+      "emb-contrastive",
+      "emb-pooling",
+      "emb-metrics",
+      "emb-model-choice",
+      "emb-chunking",
+      "emb-retrieval-eval",
+      "emb-exact-cost",
+      "emb-ivf",
+      "emb-hnsw",
+      "emb-hybrid",
+      "emb-pitfalls"
+    ],
+    "from": {
+      "depth": "working",
+      "picks": {},
+      "kept_threads": [],
+      "diffs": []
+    }
+  },
+  "completion": {
+    "rule": "full-proof-or-kept",
+    "final": "final-test"
+  },
+  "sources": [
+    {
+      "id": "roadmap-ai-engineer",
+      "kind": "roadmap.sh",
+      "ref": "https://roadmap.sh/ai-engineer",
+      "fetched": "2026-11-17",
+      "hash": "6c1ebdfc1428912008b4e7b02ae28bfaf0efe3c2e23c84fbb0e091160ff36ec3"
+    },
+    {
+      "id": "strata-pack",
+      "kind": "pack",
+      "ref": "adhyayan/topics/embeddings.json",
+      "fetched": "2026-11-17",
+      "hash": "d483d583819b0cc086ab311582cc37830974da60c4a26604a2f409323432af70"
+    },
+    {
+      "id": "sentence-transformers",
+      "kind": "docs",
+      "ref": "https://www.sbert.net/",
+      "fetched": "2026-11-17",
+      "hash": "e4d1f07d3fcd9b50987dd699561525b73817e02f4463730babd0d420f2a50850"
+    },
+    {
+      "id": "faiss-docs",
+      "kind": "docs",
+      "ref": "https://github.com/facebookresearch/faiss/wiki",
+      "fetched": "2026-11-17",
+      "hash": "9f15401609ade7729b7f13b4d1db7e25913a3761f581b30f050e0f4ef113ccca"
+    }
+  ],
+  "stages": [
+    {
+      "id": "emb-core",
+      "title": "Embeddings and semantic search",
+      "outcome": [
+        "o1",
+        "o2",
+        "o3",
+        "o4"
+      ],
+      "units": [
+        "emb-u1-meaning",
+        "emb-u2-retrieval",
+        "emb-u3-scale"
+      ],
+      "exam": null,
+      "provisional": false
+    }
+  ],
+  "placements": {
+    "emb-keyword-gap": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "via": [
+          "emb-hybrid"
+        ],
+        "sources": [
+          "roadmap-ai-engineer",
+          "strata-pack"
+        ]
+      },
+      "unit": "emb-u1-meaning",
+      "order": 1,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "emb-features": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "roadmap-ai-engineer",
+          "strata-pack"
+        ]
+      },
+      "unit": "emb-u1-meaning",
+      "order": 2,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "emb-cosine": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "roadmap-ai-engineer",
+          "strata-pack",
+          "sentence-transformers"
+        ]
+      },
+      "unit": "emb-u1-meaning",
+      "order": 3,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "docs"
+      ]
+    },
+    "emb-model": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "roadmap-ai-engineer",
+          "strata-pack",
+          "sentence-transformers"
+        ]
+      },
+      "unit": "emb-u1-meaning",
+      "order": 4,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "docs"
+      ]
+    },
+    "emb-search": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "roadmap-ai-engineer",
+          "strata-pack",
+          "sentence-transformers"
+        ]
+      },
+      "unit": "emb-u1-meaning",
+      "order": 5,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "docs"
+      ]
+    },
+    "emb-contrastive": {
+      "topic_version": 1,
+      "tier": "recommended",
+      "why": {
+        "rule": "score",
+        "score": 0.425,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.9,
+          "lens_reason": "Knowing what the model was trained on explains its failures on the job."
+        },
+        "sources": [
+          "strata-pack",
+          "sentence-transformers"
+        ]
+      },
+      "unit": "emb-u2-retrieval",
+      "order": 6,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "emb-pooling": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "strata-pack",
+          "sentence-transformers"
+        ]
+      },
+      "unit": "emb-u2-retrieval",
+      "order": 7,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "emb-metrics": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "strata-pack",
+          "faiss-docs"
+        ]
+      },
+      "unit": "emb-u2-retrieval",
+      "order": 8,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "emb-model-choice": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "strata-pack",
+          "sentence-transformers"
+        ]
+      },
+      "unit": "emb-u2-retrieval",
+      "order": 9,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "emb-chunking": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "strata-pack",
+          "roadmap-ai-engineer"
+        ]
+      },
+      "unit": "emb-u2-retrieval",
+      "order": 10,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh"
+      ]
+    },
+    "emb-retrieval-eval": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "strata-pack",
+          "sentence-transformers"
+        ]
+      },
+      "unit": "emb-u2-retrieval",
+      "order": 11,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "emb-exact-cost": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-ai-engineer",
+          "strata-pack",
+          "faiss-docs"
+        ]
+      },
+      "unit": "emb-u3-scale",
+      "order": 12,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "docs"
+      ]
+    },
+    "emb-ivf": {
+      "topic_version": 1,
+      "tier": "recommended",
+      "why": {
+        "rule": "score",
+        "score": 0.4475,
+        "terms": {
+          "spine": 0.4,
+          "support": 0.75,
+          "fanout": 0,
+          "lens": 0.7,
+          "lens_reason": "IVF is common in FAISS and pgvector deployments."
+        },
+        "sources": [
+          "roadmap-ai-engineer",
+          "strata-pack",
+          "faiss-docs"
+        ]
+      },
+      "unit": "emb-u3-scale",
+      "order": 13,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "docs"
+      ]
+    },
+    "emb-hnsw": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "roadmap-ai-engineer",
+          "strata-pack",
+          "faiss-docs"
+        ]
+      },
+      "unit": "emb-u3-scale",
+      "order": 14,
+      "status": "planned",
+      "badges": [
+        "roadmap.sh",
+        "docs"
+      ]
+    },
+    "emb-compression": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.205,
+        "terms": {
+          "spine": 0,
+          "support": 0.5,
+          "fanout": 0,
+          "lens": 0.4,
+          "lens_reason": "Useful past ~10M vectors; most jobs start smaller."
+        },
+        "sources": [
+          "strata-pack",
+          "faiss-docs"
+        ]
+      },
+      "unit": "emb-u3-scale",
+      "order": 15,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "emb-hybrid": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "strata-pack",
+          "sentence-transformers",
+          "roadmap-ai-engineer"
+        ]
+      },
+      "unit": "emb-u3-scale",
+      "order": 16,
+      "status": "planned",
+      "badges": [
+        "docs",
+        "roadmap.sh"
+      ]
+    },
+    "emb-pitfalls": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "strata-pack",
+          "faiss-docs"
+        ]
+      },
+      "unit": "emb-u3-scale",
+      "order": 17,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    }
+  },
+  "groups": {},
+  "cadence": {
+    "recall_thresholds": [
+      10,
+      15,
+      20,
+      30
+    ],
+    "recall_repeat": 30,
+    "small_course": false,
+    "mocks": "none",
+    "interview_rounds": false
+  },
+  "resolution": {
+    "units_cut_for": [
+      "emb-core"
+    ],
+    "written": [
+      "emb-u1-meaning",
+      "emb-u2-retrieval",
+      "emb-u3-scale"
+    ]
+  },
+  "overrides": []
+}

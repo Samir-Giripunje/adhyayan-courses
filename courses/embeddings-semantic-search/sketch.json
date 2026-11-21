@@ -1,0 +1,117 @@
+{
+  "course": "embeddings-semantic-search",
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Compute similarity by hand and explain why cosine ignores length",
+      "observable": "a hand-computed cosine for two small vectors with a one-line justification of length invariance"
+    },
+    {
+      "id": "o2",
+      "text": "Build and evaluate semantic search on labelled queries",
+      "observable": "a working top-k search with recall@k and MRR reported on a labelled query set"
+    },
+    {
+      "id": "o3",
+      "text": "Choose model, chunking, index and hybrid setup under stated constraints",
+      "observable": "a written choice of model, chunking, index and fusion naming the constraint each one meets"
+    },
+    {
+      "id": "o4",
+      "text": "Diagnose production failures: mixed models, truncation, filter starvation, borrowed thresholds",
+      "observable": "a diagnosis naming the cause and the fix for a failing search log"
+    }
+  ],
+  "stages": [
+    {
+      "id": "emb-core",
+      "title": "Embeddings and semantic search",
+      "provisional": false,
+      "units": [
+        {
+          "id": "emb-u1-meaning",
+          "title": "Meaning as vectors",
+          "topics": 5
+        },
+        {
+          "id": "emb-u2-retrieval",
+          "title": "Making retrieval good",
+          "topics": 6
+        },
+        {
+          "id": "emb-u3-scale",
+          "title": "Retrieval at scale",
+          "topics": 6
+        }
+      ]
+    }
+  ],
+  "tiers": {
+    "must": 14,
+    "recommended": 2,
+    "optional": 1,
+    "dropped": 0
+  },
+  "out_of_scope": [
+    {
+      "title": "Training an embedding model from scratch",
+      "why": "Working depth uses pre-trained models; training is a depth thread on 2.1"
+    },
+    {
+      "title": "Vector-database vendor comparison",
+      "why": "Vendor features change monthly; the course teaches the index ideas they share"
+    }
+  ],
+  "sources": [
+    {
+      "id": "roadmap-ai-engineer",
+      "badge": "roadmap.sh"
+    },
+    {
+      "id": "strata-pack",
+      "badge": "pack"
+    },
+    {
+      "id": "sentence-transformers",
+      "badge": "docs"
+    },
+    {
+      "id": "faiss-docs",
+      "badge": "docs"
+    }
+  ],
+  "forecast": {
+    "source": "gate",
+    "median_weeks": 7,
+    "p90_weeks": 7.86,
+    "binding": "ceiling",
+    "by_month": [
+      {
+        "month": 1,
+        "topics_per_day": 0.76,
+        "review_min": 2.61,
+        "test_min": 11.49,
+        "hands_on_min": 13.74,
+        "binding": "ceiling"
+      },
+      {
+        "month": 2,
+        "topics_per_day": 0.38,
+        "review_min": 3.29,
+        "test_min": 15.62,
+        "hands_on_min": 18.27,
+        "binding": "tests"
+      },
+      {
+        "month": 3,
+        "topics_per_day": 0,
+        "review_min": 3.07,
+        "test_min": 21.33,
+        "hands_on_min": 28,
+        "binding": "tests"
+      }
+    ]
+  },
+  "diffs": [],
+  "lints": []
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u23-operations",
+  "title": "SLOs, observability, security, disaster recovery and failure reviews",
+  "topics": [
+    {
+      "id": "sd-sla-slo-sli",
+      "tier": "optional",
+      "order": 1
+    },
+    {
+      "id": "sd-monitoring-observability",
+      "tier": "recommended",
+      "order": 2
+    },
+    {
+      "id": "sd-distributed-tracing",
+      "tier": "optional",
+      "order": 3
+    },
+    {
+      "id": "sd-security-overview",
+      "tier": "recommended",
+      "order": 4
+    },
+    {
+      "id": "sd-disaster-recovery",
+      "tier": "optional",
+      "order": 5
+    },
+    {
+      "id": "sd-reliability-review",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

@@ -1,0 +1,1175 @@
+{
+  "stage": {
+    "id": "emb-core",
+    "title": "Embeddings and semantic search",
+    "outcome": [
+      "o1",
+      "o2",
+      "o3",
+      "o4"
+    ],
+    "assumes": [
+      "vector",
+      "dot product",
+      "token"
+    ],
+    "provides": [
+      "semantic search",
+      "recall@k",
+      "HNSW",
+      "RRF"
+    ]
+  },
+  "sections": [
+    {
+      "id": "meaning",
+      "title": "Meaning as vectors",
+      "rank": 1,
+      "source_ref": {
+        "source": "strata-pack",
+        "section": "basics"
+      }
+    },
+    {
+      "id": "retrieval",
+      "title": "Making retrieval good",
+      "rank": 2,
+      "source_ref": {
+        "source": "strata-pack",
+        "section": "intermediate"
+      }
+    },
+    {
+      "id": "scale",
+      "title": "Retrieval at scale",
+      "rank": 3,
+      "source_ref": {
+        "source": "strata-pack",
+        "section": "advanced"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "emb-keyword-gap",
+      "title": "Why keyword search misses meaning",
+      "size": "micro",
+      "est_min": 8,
+      "section": "meaning",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-keyword-limits",
+          "statement": "Keyword matching compares strings, so it misses paraphrases and is fooled by shared words with a different intent."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "keyword search",
+        "paraphrase"
+      ],
+      "uses": [],
+      "sources": [
+        {
+          "source": "roadmap-ai-engineer",
+          "entry": "what-are-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "entry": "basics/b-why"
+        }
+      ],
+      "problem_ideas": [
+        "Find two help-centre queries that share no words with the article that answers them",
+        "Explain why “car insurance quote” misses “auto insurance quote”",
+        "Rank three articles for “cheap flights to Goa” by shared words and spot the wrong winner",
+        "Show a shared word that fools keyword ranking into the wrong intent",
+        "List three paraphrases a synonym list would miss",
+        "Decide when exact keyword match beats meaning (error codes, SKUs)"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "Every semantic-search job starts from the keyword gap."
+      }
+    },
+    {
+      "id": "emb-features",
+      "title": "Describing things with numbers",
+      "size": "standard",
+      "est_min": 19,
+      "section": "meaning",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-vectors-as-features",
+          "statement": "A vector is a list of feature values that describes a thing."
+        },
+        {
+          "id": "kc-features-define-similarity",
+          "statement": "The features you choose decide what “similar” means."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Similarity by hand starts from feature vectors."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "emb-keyword-gap"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "feature vector",
+        "dimension"
+      ],
+      "uses": [
+        "vector"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-ai-engineer",
+          "entry": "what-are-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "entry": "basics/b-features"
+        }
+      ],
+      "problem_ideas": [
+        "Describe five animals with three hand-picked features and find each one's nearest neighbour",
+        "Change one feature's scale and watch the neighbours change",
+        "Explain why one-hot vectors make dog and puppy as different as dog and truck",
+        "Pick features that make two support tickets similar for routing",
+        "Count the dimensions of a feature vector for a product catalogue",
+        "Argue which of two feature sets better captures ‘similar recipes’"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "Feature vectors are the intuition every later topic leans on."
+      }
+    },
+    {
+      "id": "emb-cosine",
+      "title": "Dot product and cosine",
+      "size": "big",
+      "est_min": 36,
+      "section": "meaning",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-dot-cosine",
+          "statement": "Cosine similarity = dot product ÷ (‖a‖ ‖b‖)."
+        },
+        {
+          "id": "kc-cosine-range",
+          "statement": "Cosine lies in [−1, 1]; 0 means orthogonal."
+        },
+        {
+          "id": "kc-cosine-length-invariant",
+          "statement": "Scaling a vector by a positive number leaves its cosine unchanged."
+        },
+        {
+          "id": "kc-cosine-by-hand",
+          "statement": "Compute the cosine of two small vectors by hand."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o1",
+          "reason": "Computes similarity by hand and explains why cosine ignores length."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-features",
+          "reason": "Cosine compares two feature vectors; without them there is nothing to compare."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "cosine similarity",
+        "magnitude"
+      ],
+      "uses": [
+        "dot product",
+        "feature vector"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-ai-engineer",
+          "entry": "performing-similarity-search"
+        },
+        {
+          "source": "strata-pack",
+          "entry": "basics/b-cosine"
+        },
+        {
+          "source": "sentence-transformers",
+          "entry": "semantic-textual-similarity"
+        }
+      ],
+      "problem_ideas": [
+        "Compute the cosine of [1, 2, 2] and [2, 4, 4] and explain the result",
+        "Find a pair of 2-D vectors with cosine exactly 0",
+        "Show that doubling a vector leaves its cosine with any other vector unchanged",
+        "Implement cosine_sim in plain Python and test it on orthogonal and opposite vectors",
+        "Rank three short documents for a query vector by cosine by hand",
+        "Explain when cosine and dot product give different rankings"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 1,
+        "reason": "Cosine is the similarity every embedding stack ships with."
+      }
+    },
+    {
+      "id": "emb-model",
+      "title": "What an embedding model is",
+      "size": "standard",
+      "est_min": 25,
+      "section": "meaning",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-embedding-def",
+          "statement": "An embedding model maps input to a fixed-length vector so that similar meanings land close together."
+        },
+        {
+          "id": "kc-embedding-same-model",
+          "statement": "Vectors are comparable only within one model."
+        },
+        {
+          "id": "kc-embedding-dims-opaque",
+          "statement": "Single dimensions of an embedding carry no readable meaning."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "Semantic search embeds documents and queries with one model."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-cosine",
+          "reason": "Closeness between embeddings is measured with cosine."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "embedding",
+        "embedding model"
+      ],
+      "uses": [
+        "cosine similarity"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-ai-engineer",
+          "entry": "what-are-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "entry": "basics/b-embedding"
+        },
+        {
+          "source": "sentence-transformers",
+          "entry": "semantic-textual-similarity"
+        }
+      ],
+      "problem_ideas": [
+        "Embed five sentences and find the two closest by cosine",
+        "Explain why a 384-dimension vector has no ‘topic’ dimension",
+        "Predict what happens when queries use model B and documents model A",
+        "Compare the length of embeddings for a word, a sentence and a paragraph",
+        "Sketch where paraphrases and unrelated sentences land on a 2-D projection",
+        "Explain an embedding to a product manager in three sentences"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 1,
+        "reason": "The core object of the course."
+      }
+    },
+    {
+      "id": "emb-search",
+      "title": "Semantic search in four moves",
+      "size": "standard",
+      "est_min": 18,
+      "section": "meaning",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-search-pipeline",
+          "statement": "Embed documents offline, embed the query with the same model, rank by similarity, return the top-k."
+        },
+        {
+          "id": "kc-search-offline-online",
+          "statement": "Which steps run once and which run per query, and what each costs."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "This is the search the course builds and evaluates."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-model",
+          "reason": "Search embeds every document and every query."
+        },
+        {
+          "topic": "emb-cosine",
+          "reason": "Ranking scores each document by cosine."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "semantic search",
+        "top-k"
+      ],
+      "uses": [
+        "embedding model",
+        "cosine similarity"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-ai-engineer",
+          "entry": "semantic-search"
+        },
+        {
+          "source": "strata-pack",
+          "entry": "basics/b-search"
+        },
+        {
+          "source": "sentence-transformers",
+          "entry": "semantic-search"
+        }
+      ],
+      "problem_ideas": [
+        "Trace a query through the four moves on the help-centre bench",
+        "Estimate per-query cost for 10k documents with exact ranking",
+        "Decide which step must be redone when an article changes",
+        "Predict the top-3 for a query given a small similarity table",
+        "Find the bug when queries are embedded with a different model",
+        "Explain why top-k is cut after ranking, not before"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 1,
+        "reason": "The pipeline every later unit improves."
+      }
+    },
+    {
+      "id": "emb-contrastive",
+      "title": "Learning by contrast",
+      "size": "standard",
+      "est_min": 20,
+      "section": "retrieval",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-training-contrastive",
+          "statement": "Contrastive training pulls matching pairs together and pushes in-batch negatives apart."
+        },
+        {
+          "id": "kc-similar-per-training",
+          "statement": "“Similar” means whatever the training pairs said was similar."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "emb-model",
+          "reason": "Explains how an embedding model learned to place meanings."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "contrastive learning",
+        "in-batch negatives"
+      ],
+      "uses": [
+        "embedding model"
+      ],
+      "sources": [
+        {
+          "source": "strata-pack",
+          "entry": "intermediate/b-training"
+        },
+        {
+          "source": "sentence-transformers",
+          "entry": "training-overview"
+        }
+      ],
+      "problem_ideas": [
+        "Draw one contrastive step for a batch of three pairs",
+        "Explain why in-batch negatives make large batches better",
+        "Predict which pair a QA-trained model scores higher: paraphrase or answer",
+        "Choose training pairs for a duplicate-ticket detector",
+        "Explain why ‘similar’ is not ‘relevant’ for a search engine",
+        "Spot the leakage when test queries appear in training pairs"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "Knowing what the model was trained on explains its failures on the job."
+      }
+    },
+    {
+      "id": "emb-pooling",
+      "title": "Pooling and token limits",
+      "size": "standard",
+      "est_min": 19,
+      "section": "retrieval",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-pooling-limits",
+          "statement": "Token vectors are pooled into one vector for the whole input."
+        },
+        {
+          "id": "kc-truncation",
+          "statement": "Input past the model's max length is truncated, silently in some libraries."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "Truncation decides what a document vector actually contains."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-model",
+          "reason": "Pooling is the last step inside an embedding model."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "pooling",
+        "max sequence length"
+      ],
+      "uses": [
+        "token",
+        "embedding model"
+      ],
+      "sources": [
+        {
+          "source": "strata-pack",
+          "entry": "intermediate/b-pooling"
+        },
+        {
+          "source": "sentence-transformers",
+          "entry": "max-seq-length"
+        }
+      ],
+      "problem_ideas": [
+        "Mean-pool three token vectors by hand",
+        "Find the sentence a 256-token model never sees in a long article",
+        "Explain why mean pooling blurs a long document's topics",
+        "Check a library's max_seq_length and what it does past it",
+        "Predict the effect of moving the answer to the end of a long document",
+        "Compare CLS pooling with mean pooling on one example"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "Silent truncation is a top cause of bad retrieval."
+      }
+    },
+    {
+      "id": "emb-metrics",
+      "title": "Metrics and normalisation",
+      "size": "standard",
+      "est_min": 19,
+      "section": "retrieval",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-metrics-normalization",
+          "statement": "For unit vectors, cosine, dot product and Euclidean distance give identical rankings."
+        },
+        {
+          "id": "kc-unnormalised-dot-bias",
+          "statement": "An unnormalised dot product favours long vectors."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "Choosing the metric correctly is part of a working search."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-cosine",
+          "reason": "Compares cosine with dot product and Euclidean distance."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "normalisation",
+        "Euclidean distance"
+      ],
+      "uses": [
+        "cosine similarity",
+        "magnitude"
+      ],
+      "sources": [
+        {
+          "source": "strata-pack",
+          "entry": "intermediate/b-metrics"
+        },
+        {
+          "source": "faiss-docs",
+          "entry": "flat"
+        }
+      ],
+      "problem_ideas": [
+        "Normalise two vectors and check that dot product equals cosine",
+        "Rank three vectors by dot, cosine and Euclidean and compare",
+        "Show a long vector winning on dot product but not on cosine",
+        "Choose the FAISS metric for normalised embeddings",
+        "Derive ‖a − b‖² = 2 − 2cos for unit vectors",
+        "Debug a search where long articles always rank first"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.8,
+        "reason": "Index settings ask for the metric on day one."
+      }
+    },
+    {
+      "id": "emb-model-choice",
+      "title": "Choosing a model",
+      "size": "standard",
+      "est_min": 25,
+      "section": "retrieval",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-model-choice",
+          "statement": "Choose an embedding model by language and domain, max input, dimensions and cost."
+        },
+        {
+          "id": "kc-model-eval-own",
+          "statement": "Decide with an eval on your own queries, not a leaderboard alone."
+        },
+        {
+          "id": "kc-model-no-mixing",
+          "statement": "Respect query and document prefixes, and never mix models in one index."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Chooses a model under stated constraints."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-model",
+          "reason": "Choosing compares embedding models."
+        },
+        {
+          "topic": "emb-pooling",
+          "reason": "Max input length is a selection criterion."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "MTEB",
+        "query prefix"
+      ],
+      "uses": [
+        "embedding model",
+        "max sequence length"
+      ],
+      "sources": [
+        {
+          "source": "strata-pack",
+          "entry": "intermediate/b-models"
+        },
+        {
+          "source": "sentence-transformers",
+          "entry": "semantic-search"
+        }
+      ],
+      "problem_ideas": [
+        "Shortlist two models for Hindi support tickets and justify each",
+        "Design a 30-query eval to choose between two models",
+        "Estimate storage for 1M docs at 384 vs 1536 dimensions",
+        "Find the bug when an E5 model is used without its query prefix",
+        "Decide whether a bigger model is worth 4× the cost",
+        "Plan the switch from model A to model B without mixing vectors"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "Model choice is a weekly decision on the job."
+      }
+    },
+    {
+      "id": "emb-chunking",
+      "title": "Chunking",
+      "size": "standard",
+      "est_min": 18,
+      "section": "retrieval",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-chunking",
+          "statement": "Chunks that are too big dilute meaning; chunks that are too small lose context."
+        },
+        {
+          "id": "kc-chunk-overlap-context",
+          "statement": "Overlap and context headers recover context lost at chunk boundaries."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "Chunking decides what a search can return."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-pooling",
+          "reason": "Chunking exists because inputs are pooled and truncated."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "chunk",
+        "overlap"
+      ],
+      "uses": [
+        "max sequence length"
+      ],
+      "sources": [
+        {
+          "source": "strata-pack",
+          "entry": "intermediate/b-chunking"
+        },
+        {
+          "source": "roadmap-ai-engineer",
+          "entry": "use-cases"
+        }
+      ],
+      "problem_ideas": [
+        "Chunk an article at 50 and 200 words and compare which query finds the answer",
+        "Add 20% overlap and show the boundary answer becoming retrievable",
+        "Write a context header for a chunk from a FAQ section",
+        "Predict recall when chunks are a whole page each",
+        "Pick a chunk size for a 256-token model",
+        "Explain why chunking by heading beats fixed windows for docs"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "Chunking is the first knob tuned in every RAG system."
+      }
+    },
+    {
+      "id": "emb-retrieval-eval",
+      "title": "Measuring retrieval: recall@k, MRR, nDCG",
+      "size": "standard",
+      "est_min": 26,
+      "section": "retrieval",
+      "mode_hint": "code",
+      "kcs": [
+        {
+          "id": "kc-retrieval-eval",
+          "statement": "Retrieval quality is measured on labelled queries."
+        },
+        {
+          "id": "kc-recall-precision-at-k",
+          "statement": "Compute recall@k and precision@k for a ranked list."
+        },
+        {
+          "id": "kc-mrr-ndcg",
+          "statement": "Compute MRR; nDCG weights graded relevance by rank."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o2",
+          "reason": "Evaluates search on labelled queries."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-search",
+          "reason": "Evaluates a search pipeline's ranked output."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "recall@k",
+        "MRR",
+        "nDCG"
+      ],
+      "uses": [
+        "top-k",
+        "semantic search"
+      ],
+      "sources": [
+        {
+          "source": "strata-pack",
+          "entry": "intermediate/b-eval"
+        },
+        {
+          "source": "sentence-transformers",
+          "entry": "semantic-search"
+        }
+      ],
+      "problem_ideas": [
+        "Compute recall@5 and precision@5 for one ranked list",
+        "Compute MRR over three queries by hand",
+        "Implement recall_at_k and mrr and test them on edge cases",
+        "Explain why nDCG needs graded labels",
+        "Label 10 queries for the help-centre bench",
+        "Decide which metric to report for a single-answer FAQ"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 1,
+        "reason": "Without an eval, every change is a guess."
+      }
+    },
+    {
+      "id": "emb-exact-cost",
+      "title": "Why exact search stops scaling",
+      "size": "micro",
+      "est_min": 8,
+      "section": "scale",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-ann-tradeoff",
+          "statement": "Exact search costs N·d per query; ANN indexes trade a little recall for large speedups, measured against an exact baseline."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Chooses an index under a latency constraint."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-search",
+          "reason": "Exact search ranks every document for every query."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "ANN",
+        "exact search"
+      ],
+      "uses": [
+        "semantic search",
+        "dimension"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-ai-engineer",
+          "entry": "indexing-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "entry": "advanced/b-brute"
+        },
+        {
+          "source": "faiss-docs",
+          "entry": "flat"
+        }
+      ],
+      "problem_ideas": [
+        "Compute multiply-adds per query for 10M × 768",
+        "Estimate exact-search latency on one CPU core",
+        "Decide at which corpus size exact search stops meeting 50 ms",
+        "Explain what ‘recall against exact’ measures",
+        "Predict how latency grows when the corpus doubles",
+        "Name two ways to cut exact cost without ANN"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.9,
+        "reason": "Scale is where prototypes break."
+      }
+    },
+    {
+      "id": "emb-ivf",
+      "title": "IVF: partition, then probe",
+      "size": "standard",
+      "est_min": 19,
+      "section": "scale",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-ivf",
+          "statement": "IVF puts vectors into k-means cells and scans only the nprobe nearest cells."
+        },
+        {
+          "id": "kc-ivf-nprobe",
+          "statement": "Border neighbours can be missed; nprobe trades latency for recall."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "emb-exact-cost",
+          "reason": "IVF answers the cost of exact search."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "emb-hnsw"
+      ],
+      "introduces": [
+        "IVF",
+        "nprobe"
+      ],
+      "uses": [
+        "ANN"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-ai-engineer",
+          "entry": "indexing-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "entry": "advanced/b-ivf"
+        },
+        {
+          "source": "faiss-docs",
+          "entry": "ivf"
+        }
+      ],
+      "problem_ideas": [
+        "Assign six 2-D points to two k-means cells by hand",
+        "Find the query whose true neighbour sits in the next cell",
+        "Predict recall at nprobe 1, 2 and 4",
+        "Estimate vectors scanned per query for 1M vectors in 1,000 cells",
+        "Choose nlist for 10M vectors",
+        "Explain why IVF needs training data and HNSW does not"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.7,
+        "reason": "IVF is common in FAISS and pgvector deployments."
+      }
+    },
+    {
+      "id": "emb-hnsw",
+      "title": "HNSW",
+      "size": "standard",
+      "est_min": 29,
+      "section": "scale",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-hnsw",
+          "statement": "HNSW runs a greedy beam search over a layered proximity graph."
+        },
+        {
+          "id": "kc-hnsw-build",
+          "statement": "M and efConstruction trade memory and build time for recall."
+        },
+        {
+          "id": "kc-hnsw-efsearch",
+          "statement": "efSearch is the query-time recall and latency knob."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Chooses and tunes the index."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-exact-cost",
+          "reason": "HNSW answers the cost of exact search."
+        }
+      ],
+      "suggests": [
+        "emb-ivf"
+      ],
+      "confusable_with": [
+        "emb-ivf"
+      ],
+      "introduces": [
+        "HNSW",
+        "efSearch"
+      ],
+      "uses": [
+        "ANN"
+      ],
+      "sources": [
+        {
+          "source": "roadmap-ai-engineer",
+          "entry": "indexing-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "entry": "advanced/b-hnsw"
+        },
+        {
+          "source": "faiss-docs",
+          "entry": "hnsw"
+        }
+      ],
+      "problem_ideas": [
+        "Trace a greedy search on a 10-node graph",
+        "Predict recall at efSearch 10 and 100",
+        "Estimate link memory for M = 16 and 10M vectors",
+        "Tune efSearch to recall@10 ≥ 0.95 of exact",
+        "Explain why the top layer has so few nodes",
+        "Choose between IVF and HNSW for a corpus that changes hourly"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 1,
+        "reason": "HNSW is the default index in most vector stores."
+      }
+    },
+    {
+      "id": "emb-compression",
+      "title": "Quantisation and shorter embeddings",
+      "size": "standard",
+      "est_min": 20,
+      "section": "scale",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-compression",
+          "statement": "float16, int8, binary and product quantisation shrink memory at some recall cost."
+        },
+        {
+          "id": "kc-oversample-rescore",
+          "statement": "Oversample-and-rescore and shorter Matryoshka vectors recover recall or trade size."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "emb-exact-cost",
+          "reason": "Compression attacks the memory side of exact search."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "quantization",
+        "Matryoshka embeddings"
+      ],
+      "uses": [
+        "dimension",
+        "ANN"
+      ],
+      "sources": [
+        {
+          "source": "strata-pack",
+          "entry": "advanced/b-compression"
+        },
+        {
+          "source": "faiss-docs",
+          "entry": "pq"
+        }
+      ],
+      "problem_ideas": [
+        "Compute RAM for 10M × 768 at float32, int8 and binary",
+        "Predict recall after binary quantisation with and without rescoring",
+        "Truncate a Matryoshka vector to 256 dimensions and compare rankings",
+        "Choose a compression for a 100M-vector index on one machine",
+        "Explain product quantisation with two sub-vectors",
+        "Decide how much to oversample before rescoring"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 0.4,
+        "reason": "Useful past ~10M vectors; most jobs start smaller."
+      }
+    },
+    {
+      "id": "emb-hybrid",
+      "title": "Hybrid search, RRF and reranking",
+      "size": "standard",
+      "est_min": 29,
+      "section": "scale",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-hybrid-rerank",
+          "statement": "Hybrid search fuses BM25 and vector results by rank."
+        },
+        {
+          "id": "kc-rrf",
+          "statement": "RRF score = Σ 1 ÷ (k + rank)."
+        },
+        {
+          "id": "kc-rerank-cross-encoder",
+          "statement": "Cross-encoders rerank the top candidates for precision."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Chooses a hybrid and reranking setup under constraints."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-keyword-gap",
+          "reason": "Hybrid search keeps keyword matching for the exact terms vectors blur."
+        },
+        {
+          "topic": "emb-search",
+          "reason": "Fusion combines the vector result list."
+        },
+        {
+          "topic": "emb-retrieval-eval",
+          "reason": "Whether fusion helps is judged with recall@k."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "BM25",
+        "RRF",
+        "cross-encoder"
+      ],
+      "uses": [
+        "keyword search",
+        "recall@k",
+        "top-k"
+      ],
+      "sources": [
+        {
+          "source": "strata-pack",
+          "entry": "advanced/b-hybrid"
+        },
+        {
+          "source": "sentence-transformers",
+          "entry": "semantic-search"
+        },
+        {
+          "source": "roadmap-ai-engineer",
+          "entry": "semantic-search"
+        }
+      ],
+      "problem_ideas": [
+        "Fuse two ranked lists with RRF at k = 60 by hand",
+        "Find the error-code query BM25 wins and vectors lose",
+        "Predict how k changes the fused order",
+        "Decide how many candidates to send to a cross-encoder",
+        "Measure recall@10 before and after hybrid on the bench",
+        "Explain why score averaging fails across BM25 and cosine"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 1,
+        "reason": "Hybrid plus rerank is the production default."
+      }
+    },
+    {
+      "id": "emb-pitfalls",
+      "title": "Production pitfalls",
+      "size": "standard",
+      "est_min": 28,
+      "section": "scale",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-production-pitfalls",
+          "statement": "Model migrations need full re-embedding, and stored vectors go stale."
+        },
+        {
+          "id": "kc-filter-starvation",
+          "statement": "Post-filtering after ANN search can starve the results."
+        },
+        {
+          "id": "kc-borrowed-thresholds",
+          "statement": "Similarity thresholds are model-specific; never borrow one."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Diagnoses the production failures the course names."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "emb-model-choice",
+          "reason": "A model change forces re-embedding."
+        },
+        {
+          "topic": "emb-chunking",
+          "reason": "Truncation and chunking failures surface in production."
+        },
+        {
+          "topic": "emb-hnsw",
+          "reason": "Filter starvation happens after ANN search."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "filter starvation",
+        "re-embedding"
+      ],
+      "uses": [
+        "HNSW",
+        "chunk",
+        "query prefix"
+      ],
+      "sources": [
+        {
+          "source": "strata-pack",
+          "entry": "advanced/b-pitfalls"
+        },
+        {
+          "source": "faiss-docs",
+          "entry": "hnsw"
+        }
+      ],
+      "problem_ideas": [
+        "Diagnose a search that returns 2 results when 10 were asked for with a filter",
+        "Plan a zero-downtime re-embedding after a model upgrade",
+        "Recalibrate a duplicate threshold for a new model",
+        "Find the stale vectors after an article edit",
+        "Explain why mixing two models' vectors breaks ranking",
+        "Write a monitoring check that catches truncation in production"
+      ],
+      "depth_threads": [],
+      "lens": {
+        "score": 1,
+        "reason": "These are the incidents a job will page you for."
+      }
+    }
+  ],
+  "groups": {}
+}

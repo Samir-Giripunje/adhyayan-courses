@@ -1,0 +1,31 @@
+# The site `npm run build` writes (CI builds its own and deploys it to GitHub Pages).
+site/
+node_modules/
+.DS_Store
+
+# Written by the app when it runs on this folder in development (npm start / npm run desktop next to the app):
+# the generation queue and its records, uploads, the install registry, and unfinished installs. None of it is course
+# content.
+desk/
+.courses.json
+.library.json
+.adhy-import-*/
+.adhy-old-*/
+cache/
+# Course change requests can hold files you uploaded; the app never puts them in a course file. Keep them local.
+courses/*/changes/
+courses/*/uploads/
+courses/*/reanchor.json
+# Build records: only the one the app reads (runs/architect-1.json) is part of a course; the others are run logs of the
+# authoring pipeline (token counts, end-to-end check transcripts) and stay local.
+courses/*/runs/*
+!courses/*/runs/architect-1.json
+# Older versions of the app copied the engine configuration into the content folder; it belongs to the app.
+framework/
+*.tmp
+
+# Sections kept on this computer only: courses/index.local.json lists them (the app and its tools add them to
+# courses/index.json's), and their files stay out of the repository. Course files and the catalogue never include them.
+courses/index.local.json
+# The CLF-C02 course's sample papers: third-party exam questions (copyrighted), kept for personal study only.
+courses/aws-certified-cloud-practitioner-clf2/sections/aws-certified-cloud-practitioner-clf2-papers.json

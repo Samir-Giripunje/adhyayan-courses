@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-performance-vs-scalability",
+  "version": 1,
+  "title": "Performance vs scalability",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-performance-vs-scalability",
+      "version": 1,
+      "statement": "A system has a performance problem if it is slow for a single user, and a scalability problem if it is fast for one user but slows down under heavy load."
+    },
+    {
+      "id": "kc-scalability-definition",
+      "version": 1,
+      "statement": "A service is scalable if adding resources increases its capacity (throughput) roughly in proportion to the resources added."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-vertical-horizontal-scaling"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "performance vs scalability",
+    "scalability"
+  ],
+  "uses": [
+    "latency",
+    "throughput",
+    "bottleneck"
+  ],
+  "problem_ideas": [
+    "A product page takes 4 s for a single test user: label it a performance or a scalability problem and name the first thing to profile",
+    "p99 latency is 80 ms at 1,000 QPS and 2 s at 5,000 QPS on the same code: classify the problem and say what the graph shows",
+    "Doubling servers from 4 to 8 raises throughput from 4,000 to 5,000 QPS: is the system scalable, and where might the shared bottleneck be?",
+    "Pick which of five incident reports describe scalability failures and which describe performance failures",
+    "An interviewer says 'make it scale': rewrite this as two measurable targets, one for latency and one for throughput",
+    "A batch job finishes in 10 min on 1 node and 9 min on 4 nodes: explain what likely limits it"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "performance-vs-scalability/performance-vs-scalability"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "performance-vs-scalability/performance-vs-scalability"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "core-concepts/scalability"
+    }
+  ],
+  "status": "stub"
+}

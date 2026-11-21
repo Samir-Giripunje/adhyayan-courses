@@ -1,0 +1,310 @@
+{
+  "schema": "adhy.lab/1",
+  "exercises": [
+    {
+      "id": "ex-pay-for-what-you-use",
+      "title": "The closet bill vs the pay-as-you-go bill",
+      "stage": "worked",
+      "difficulty": 1,
+      "kcs": [
+        "kc-cloud-computing-definition",
+        "kc-cloud-vs-on-premises"
+      ],
+      "est_minutes": 8,
+      "brief_md": "**Harbor Lane Dental** bought 2 servers for **$60,000**, and they are replaced every **4 years**. The company pays for them whether they are busy or idle. On average they run at about **15%** CPU. They are only that large because of the **3x Monday-morning booking spike**.\n\nThe starter code is a worked example with three functions:\n\n- `closet_monthly_cost(purchase_price, refresh_years)` spreads the hardware purchase over its refresh cycle. This is the **on-premises** bill: Harbor Lane buys, houses and maintains its own servers.\n- `average_utilisation(load_by_hour, capacity)` shows how much of that bought capacity is actually busy.\n- `cloud_cost(servers_by_hour, price_per_server_hour)` is meant to show **on-demand delivery with pay-as-you-go pricing**: you rent servers when you need them and pay only for the server-hours you run.\n\n`cloud_cost` still charges for the peak in every hour, as if Harbor Lane had to buy for Monday morning. **Make one change to the marked line** so that each hour is charged for the servers needed in that hour.\n\nWhen you have made the change, `cloud_cost([1, 1, 1, 3], 0.5)` returns `3.0`. Before the change it returns `6.0`.",
+      "starter": "# Harbor Lane Dental: paying for the closet vs paying as you go\n# Worked example: read it top to bottom, then make the ONE change marked below.\n\ndef closet_monthly_cost(purchase_price, refresh_years):\n    '''On premises: buy the servers up front; they last one refresh cycle.\n    Spread the purchase evenly over the months of that cycle.'''\n    months = refresh_years * 12\n    return purchase_price / months\n\n\ndef average_utilisation(load_by_hour, capacity):\n    '''Share of the bought capacity that is busy, on average (0.15 means 15%).'''\n    return sum(load_by_hour) / (len(load_by_hour) * capacity)\n\n\ndef cloud_cost(servers_by_hour, price_per_server_hour):\n    '''Cloud: rent servers on demand and pay only for the server-hours you run.\n    servers_by_hour[i] is how many servers the booking app needs in hour i.'''\n    total = 0\n    for servers in servers_by_hour:\n        # CHANGE THIS LINE. It pays for the peak in every hour,\n        # which is what buying hardware for the closet forces you to do.\n        total += max(servers_by_hour) * price_per_server_hour\n    return total\n\n\n# Three ordinary hours, then the 3x Monday-morning spike.\nsample = [1, 1, 1, 3]\nprint(closet_monthly_cost(60000, 4))   # 1250.0 dollars a month, busy or idle\nprint(average_utilisation(sample, 3))  # 0.5: hardware sized for the peak sits half idle\nprint(cloud_cost(sample, 0.5))         # 6.0 now; 3.0 after your change\n",
+      "solution": "# Harbor Lane Dental: paying for the closet vs paying as you go\n\ndef closet_monthly_cost(purchase_price, refresh_years):\n    '''On premises: buy the servers up front; they last one refresh cycle.\n    Spread the purchase evenly over the months of that cycle.'''\n    months = refresh_years * 12\n    return purchase_price / months\n\n\ndef average_utilisation(load_by_hour, capacity):\n    '''Share of the bought capacity that is busy, on average (0.15 means 15%).'''\n    return sum(load_by_hour) / (len(load_by_hour) * capacity)\n\n\ndef cloud_cost(servers_by_hour, price_per_server_hour):\n    '''Cloud: rent servers on demand and pay only for the server-hours you run.\n    servers_by_hour[i] is how many servers the booking app needs in hour i.'''\n    total = 0\n    for servers in servers_by_hour:\n        total += servers * price_per_server_hour\n    return total\n\n\nsample = [1, 1, 1, 3]\nprint(closet_monthly_cost(60000, 4))   # 1250.0\nprint(average_utilisation(sample, 3))  # 0.5\nprint(cloud_cost(sample, 0.5))         # 3.0\n",
+      "solution_walkthrough_md": "1. **The closet bill.** `closet_monthly_cost(60000, 4)` is 60,000 / (4 × 12) = 60,000 / 48 = **$1,250 a month**. Harbor Lane pays this every month, busy or idle, because it owns the hardware.\n2. **Idle capacity.** In the sample week the busiest hour needs 3 servers, so the hardware has to be sized for 3. Average use is (1 + 1 + 1 + 3) / (4 × 3) = 6 / 12 = **0.5**, so half of the bought capacity sits idle. Harbor Lane's real figure is 15%, which means 85% idle.\n3. **The one change.** The starter line `total += max(servers_by_hour) * price_per_server_hour` charges every hour at the peak: 3 × 0.5 × 4 hours = **6.0**. Pay-as-you-go charges each hour for what that hour uses, so the line becomes `total += servers * price_per_server_hour`.\n4. **The result.** (1 + 1 + 1 + 3) × 0.5 = **3.0**. Harbor Lane pays for the Monday spike only during the hour it happens.\n\nThis is the definition of cloud computing in practice. Capacity is delivered on demand over the internet, and you pay only for what you use. The provider owns the hardware, so Harbor Lane no longer buys servers sized for its busiest hour.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "The closet spreads $60,000 over 48 months",
+          "code": "assert closet_monthly_cost(60000, 4) == 1250",
+          "fail_md": "`closet_monthly_cost(60000, 4)` should be 1250: 60,000 divided by 4 × 12 = 48 months. You only needed to change `cloud_cost`. Undo any other edits."
+        },
+        {
+          "id": "t2",
+          "name": "Peak-sized hardware sits half idle in the sample",
+          "code": "assert average_utilisation([1, 1, 1, 3], 3) == 0.5",
+          "fail_md": "`average_utilisation([1, 1, 1, 3], 3)` should be 6 / 12 = 0.5. This function was already correct, so restore it."
+        },
+        {
+          "id": "t3",
+          "name": "Cloud charges only the server-hours used",
+          "code": "assert cloud_cost([1, 1, 1, 3], 0.5) == 3.0",
+          "fail_md": "`cloud_cost([1, 1, 1, 3], 0.5)` returned something other than 3.0. If you got 6.0, the loop still charges `max(servers_by_hour)` in every hour. Charge `servers` (this hour's need) instead."
+        },
+        {
+          "id": "t4",
+          "name": "A quiet week after one busy hour",
+          "code": "assert cloud_cost([2, 0, 0, 0], 0.25) == 0.5",
+          "fail_md": "Two servers for one hour at $0.25 is $0.50. Hours that need no servers should cost nothing. If you got 2.0, every hour is still being charged at the peak."
+        },
+        {
+          "id": "t5",
+          "name": "A week with a Monday spike costs the sum of hourly use",
+          "code": "assert cloud_cost([1, 1, 1, 1, 1, 1, 3], 0.25) == 2.25",
+          "fail_md": "(6 × 1 + 3) server-hours × $0.25 = $2.25. Make sure each hour adds `servers * price_per_server_hour`.",
+          "hidden": true
+        },
+        {
+          "id": "t6",
+          "name": "No servers, no bill",
+          "code": "assert cloud_cost([0, 0, 0], 1.0) == 0",
+          "fail_md": "If no servers run, pay-as-you-go costs nothing.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "Look at the marked line. Which variable holds the servers needed in the current hour, and which holds the busiest hour of the week?",
+        "Replace `max(servers_by_hour)` with the loop variable `servers`, so the line reads `total += servers * price_per_server_hour`."
+      ]
+    },
+    {
+      "id": "ex-who-manages-what",
+      "title": "Who manages what: IaaS, PaaS, SaaS",
+      "stage": "faded",
+      "difficulty": 2,
+      "kcs": [
+        "kc-iaas",
+        "kc-paas",
+        "kc-saas"
+      ],
+      "est_minutes": 10,
+      "brief_md": "The service models split one stack of layers between Harbor Lane and the provider. The layers are listed from the top (closest to the user) to the bottom (the physical hardware):\n\n`['user access', 'data', 'application', 'runtime', 'os', 'virtualisation', 'hardware']`\n\nIn this lab, the customer always manages a **run of layers starting from the top**, and the provider manages everything below that run:\n\n| model | customer manages | example |\n|---|---|---|\n| on-premises | all 7 layers | the server closet |\n| IaaS | user access, data, application, runtime, OS | a Windows VM on Amazon EC2 |\n| PaaS | user access, data, application | AWS Elastic Beanstalk |\n| SaaS | user access, data | hosted web email |\n\nThe on-premises and IaaS rows are already filled in. Complete the rest:\n\n1. Replace the two `None` values in `CUSTOMER_TOP_LAYERS` with the right counts.\n2. Write the body of `provider_manages(model)`. It returns the layers the customer does **not** manage, top first.",
+      "starter": "# Who manages what? Layers run from the top (the user) to the bottom (the metal).\nLAYERS = ['user access', 'data', 'application', 'runtime', 'os', 'virtualisation', 'hardware']\n\n# How many layers, counted from the top, the CUSTOMER still manages.\nCUSTOMER_TOP_LAYERS = {\n    'on-premises': 7,  # you run everything, down to the hardware\n    'iaas': 5,         # provider runs virtualisation and hardware (e.g. Amazon EC2)\n    'paas': None,      # TODO: provider also runs the OS and runtime (e.g. AWS Elastic Beanstalk)\n    'saas': None,      # TODO: provider runs the whole application (e.g. hosted web email)\n}\n\n\ndef customer_manages(model):\n    '''Layers the customer still manages under this model, top first.'''\n    count = CUSTOMER_TOP_LAYERS[model]\n    return LAYERS[:count]\n\n\ndef provider_manages(model):\n    '''Layers the provider takes over under this model, top first.'''\n    # TODO: return every layer that customer_manages(model) leaves out.\n    return []\n",
+      "solution": "LAYERS = ['user access', 'data', 'application', 'runtime', 'os', 'virtualisation', 'hardware']\n\nCUSTOMER_TOP_LAYERS = {\n    'on-premises': 7,\n    'iaas': 5,\n    'paas': 3,\n    'saas': 2,\n}\n\n\ndef customer_manages(model):\n    '''Layers the customer still manages under this model, top first.'''\n    count = CUSTOMER_TOP_LAYERS[model]\n    return LAYERS[:count]\n\n\ndef provider_manages(model):\n    '''Layers the provider takes over under this model, top first.'''\n    count = CUSTOMER_TOP_LAYERS[model]\n    return LAYERS[count:]\n",
+      "solution_walkthrough_md": "1. **PaaS.** The provider runs the infrastructure, the OS and the runtime. The customer deploys and manages only the application and its data, plus who can use it. That is the top 3 layers (`user access`, `data`, `application`), so `'paas': 3`.\n2. **SaaS.** The provider operates the whole application. The customer only uses it and manages its own data and user access, which is the top 2 layers, so `'saas': 2`.\n3. **The provider's share.** The customer has the first `count` layers (`LAYERS[:count]`), so the provider has the rest, `LAYERS[count:]`. The two slices together always rebuild the full stack, and on premises the provider's slice is empty.\n\nCheck against the bench:\n- Moving the booking app from the closet to EC2 (IaaS) hands off virtualisation and hardware.\n- Moving it to Elastic Beanstalk (PaaS) also hands off the OS and runtime patching.\n- Moving email to a hosted service (SaaS) also hands off the application itself. This is what ends the part-time admin's manual patching.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "IaaS: the customer still runs the OS",
+          "code": "assert customer_manages('iaas') == ['user access', 'data', 'application', 'runtime', 'os']",
+          "fail_md": "Under IaaS (for example Amazon EC2), the customer manages the OS, runtime, application, data and user access. The `'iaas': 5` entry was already correct, so restore it."
+        },
+        {
+          "id": "t2",
+          "name": "PaaS: the customer manages only the app and its data",
+          "code": "assert customer_manages('paas') == ['user access', 'data', 'application']",
+          "fail_md": "Under PaaS the provider also runs the OS and runtime. The customer keeps 3 layers: user access, data and application. Check the `'paas'` count."
+        },
+        {
+          "id": "t3",
+          "name": "SaaS: the customer manages only data and user access",
+          "code": "assert customer_manages('saas') == ['user access', 'data']",
+          "fail_md": "Under SaaS the provider operates the whole application. The customer keeps only user access and data, which is 2 layers."
+        },
+        {
+          "id": "t4",
+          "name": "IaaS: the provider runs virtualisation and hardware",
+          "code": "assert provider_manages('iaas') == ['virtualisation', 'hardware']",
+          "fail_md": "`provider_manages` should return the layers after the customer's share. Try slicing `LAYERS` from `CUSTOMER_TOP_LAYERS[model]` to the end."
+        },
+        {
+          "id": "t5",
+          "name": "Customer + provider always make the full stack",
+          "code": "full = ['user access', 'data', 'application', 'runtime', 'os', 'virtualisation', 'hardware']\nfor m in ['on-premises', 'iaas', 'paas', 'saas']:\n    assert customer_manages(m) + provider_manages(m) == full, m\nassert provider_manages('on-premises') == []",
+          "fail_md": "For every model, the customer's layers followed by the provider's layers should rebuild all 7 layers in order. On premises the provider manages nothing.",
+          "hidden": true
+        },
+        {
+          "id": "t6",
+          "name": "SaaS: the provider runs the application down",
+          "code": "assert provider_manages('saas') == ['application', 'runtime', 'os', 'virtualisation', 'hardware']",
+          "fail_md": "Under SaaS the provider runs everything from the application down to the hardware.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "Count down from the top of `LAYERS` to the last layer the customer still touches under PaaS, then do the same for SaaS. `provider_manages` is the other half of the same slice.",
+        "Use `'paas': 3` and `'saas': 2`, and in `provider_manages` write `return LAYERS[CUSTOMER_TOP_LAYERS[model]:]`."
+      ]
+    },
+    {
+      "id": "ex-label-the-offer",
+      "title": "Label each offer by the lowest layer you still manage",
+      "stage": "scratch",
+      "difficulty": 2,
+      "kcs": [
+        "kc-iaas",
+        "kc-paas",
+        "kc-saas",
+        "kc-cloud-vs-on-premises"
+      ],
+      "est_minutes": 12,
+      "brief_md": "Harbor Lane has quotes from several vendors. Each quote says which layers Harbor Lane would still manage. The layers are `'user access'`, `'data'`, `'application'`, `'runtime'`, `'os'`, `'virtualisation'` and `'hardware'`. You need to label every offer.\n\nWrite two functions from scratch:\n\n1. `service_model(customer_layers)` takes a collection (a set or a list) of the layers the customer manages. It returns one of `'on-premises'`, `'IaaS'`, `'PaaS'` or `'SaaS'`. The **lowest** layer the customer still manages decides the label:\n   - If the customer manages the `'hardware'`, it is `'on-premises'`, because they own the servers.\n   - Otherwise, if the customer manages the `'os'`, it is `'IaaS'`, as with a Windows VM on Amazon EC2.\n   - Otherwise, if the customer manages the `'application'`, it is `'PaaS'`, as with AWS Elastic Beanstalk.\n   - Otherwise it is `'SaaS'`: the customer only uses the app and manages its data and user access, as with hosted web email.\n2. `label_estate(offers)` takes a dict that maps each workload name to the layers the customer manages. It returns a dict with the same names mapped to their labels.",
+      "starter": "def service_model(customer_layers):\n    '''Return 'on-premises', 'IaaS', 'PaaS' or 'SaaS' for the layers the customer manages.'''\n    # Write this from scratch.\n    pass\n\n\ndef label_estate(offers):\n    '''offers maps a workload name to the layers the customer manages.\n    Return a dict mapping the same names to their labels.'''\n    # Write this from scratch.\n    pass\n",
+      "solution": "def service_model(customer_layers):\n    '''Return 'on-premises', 'IaaS', 'PaaS' or 'SaaS' for the layers the customer manages.'''\n    if 'hardware' in customer_layers:\n        return 'on-premises'\n    if 'os' in customer_layers:\n        return 'IaaS'\n    if 'application' in customer_layers:\n        return 'PaaS'\n    return 'SaaS'\n\n\ndef label_estate(offers):\n    '''offers maps a workload name to the layers the customer manages.\n    Return a dict mapping the same names to their labels.'''\n    return {name: service_model(layers) for name, layers in offers.items()}\n",
+      "solution_walkthrough_md": "1. **Check from the bottom up.** Each model hands the provider more of the stack than the one before it. So the lowest layer the customer still manages is enough to tell the models apart. Test for `'hardware'` first, then `'os'`, then `'application'`. The first match wins.\n2. **Hardware means on premises.** If Harbor Lane manages the hardware, it owns the servers, like the closet today.\n3. **OS without hardware means IaaS.** The provider supplies virtual servers, storage and networking. Harbor Lane still patches the OS and runs the runtime, application and data, as with EC2.\n4. **Application without OS means PaaS.** The platform runs the OS and runtime, and Harbor Lane only deploys its app and manages its data, as with Elastic Beanstalk.\n5. **Otherwise SaaS.** Harbor Lane only uses the app and manages its data and who can log in, as with hosted email.\n6. **`label_estate`** applies `service_model` to every entry. A dict comprehension does this in one line.\n\nBecause the checks use `in`, the function works the same for sets and lists.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "A Windows VM on Amazon EC2 is IaaS",
+          "code": "assert service_model({'user access', 'data', 'application', 'runtime', 'os'}) == 'IaaS'",
+          "fail_md": "The customer still manages the OS but not the hardware, so this is IaaS. Check for `'os'` after you rule out `'hardware'`."
+        },
+        {
+          "id": "t2",
+          "name": "Booking app on AWS Elastic Beanstalk is PaaS",
+          "code": "assert service_model({'user access', 'data', 'application'}) == 'PaaS'",
+          "fail_md": "The customer manages the application and its data but not the OS, so this is PaaS."
+        },
+        {
+          "id": "t3",
+          "name": "Hosted web email is SaaS",
+          "code": "assert service_model({'user access', 'data'}) == 'SaaS'",
+          "fail_md": "The customer manages only user access and data, so this is SaaS. It should be your fall-through case."
+        },
+        {
+          "id": "t4",
+          "name": "The server closet is on premises",
+          "code": "assert service_model({'user access', 'data', 'application', 'runtime', 'os', 'virtualisation', 'hardware'}) == 'on-premises'",
+          "fail_md": "If the customer manages the hardware, it owns the servers, so this is `'on-premises'`. Check for `'hardware'` before anything else."
+        },
+        {
+          "id": "t5",
+          "name": "label_estate sorts Harbor Lane's offers",
+          "code": "offers = {\n    'booking app': {'user access', 'data', 'application'},\n    'x-ray share': {'user access', 'data', 'application', 'runtime', 'os'},\n    'email': {'user access', 'data'},\n    'billing': {'user access', 'data', 'application', 'runtime', 'os', 'virtualisation', 'hardware'},\n}\nassert label_estate(offers) == {\n    'booking app': 'PaaS',\n    'x-ray share': 'IaaS',\n    'email': 'SaaS',\n    'billing': 'on-premises',\n}",
+          "fail_md": "`label_estate` should return a dict with the same keys, each mapped to `service_model` of its layers.",
+          "hidden": true
+        },
+        {
+          "id": "t6",
+          "name": "Works on a list in any order",
+          "code": "assert service_model(['os', 'runtime', 'application', 'data', 'user access']) == 'IaaS'\nassert service_model(['data', 'application', 'user access']) == 'PaaS'",
+          "fail_md": "Use membership tests (`'os' in customer_layers`) rather than relying on order or on a set type.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "Use the lowest layer the customer still manages: test `'hardware'`, then `'os'`, then `'application'`, and return at the first match.",
+        "`if 'hardware' in customer_layers: return 'on-premises'`, then the same pattern for `'os'` → `'IaaS'` and `'application'` → `'PaaS'`, and finally `return 'SaaS'`. For `label_estate` use `{name: service_model(layers) for name, layers in offers.items()}`."
+      ]
+    },
+    {
+      "id": "ex-fix-the-deployment-label",
+      "title": "Debug: why does a half-moved estate count as 'cloud'?",
+      "stage": "debug",
+      "difficulty": 2,
+      "kcs": [
+        "kc-cloud-deployment-all-in",
+        "kc-hybrid-deployment",
+        "kc-on-premises-private-cloud"
+      ],
+      "est_minutes": 8,
+      "brief_md": "A colleague wrote `deployment_model(plan)`. The `plan` argument maps each Harbor Lane workload to where it runs, either `'cloud'` or `'on-premises'`. The function should return:\n\n- `'cloud'` if **every** workload runs in the cloud (an all-in cloud deployment);\n- `'on-premises'` if **every** workload stays in Harbor Lane's own data center (on premises, also called a private cloud);\n- `'hybrid'` if some workloads run in the cloud and some stay on premises.\n\nIt reports Harbor Lane's real plan as `'cloud'`, even though billing must stay in the closet for 2 more years. In that plan the booking app, X-ray share and email move to AWS and billing stays on premises. The correct answer is `'hybrid'`. **Find the bug and fix it.**",
+      "starter": "def deployment_model(plan):\n    '''plan maps each workload to where it runs: 'cloud' or 'on-premises'.\n\n    Return 'cloud' if every workload runs in the cloud,\n    'on-premises' if every workload stays on premises,\n    and 'hybrid' if some run in each place.\n    '''\n    places = list(plan.values())\n    if any(place == 'cloud' for place in places):\n        return 'cloud'\n    if all(place == 'on-premises' for place in places):\n        return 'on-premises'\n    return 'hybrid'\n",
+      "solution": "def deployment_model(plan):\n    '''plan maps each workload to where it runs: 'cloud' or 'on-premises'.\n\n    Return 'cloud' if every workload runs in the cloud,\n    'on-premises' if every workload stays on premises,\n    and 'hybrid' if some run in each place.\n    '''\n    places = list(plan.values())\n    if all(place == 'cloud' for place in places):\n        return 'cloud'\n    if all(place == 'on-premises' for place in places):\n        return 'on-premises'\n    return 'hybrid'\n",
+      "solution_walkthrough_md": "1. **Reproduce the bug.** Harbor Lane's plan is `{'booking app': 'cloud', 'x-ray share': 'cloud', 'email': 'cloud', 'billing': 'on-premises'}`. The first test, `any(place == 'cloud' ...)`, is already true when the booking app is in the cloud, so the function returns `'cloud'` before it ever looks at billing.\n2. **Compare with the definition.** An all-in cloud deployment means **every** part runs in the cloud, so the test has to be `all(...)`, not `any(...)`.\n3. **The fix.** Change `any` to `all` in the first `if`. Now Harbor Lane's plan fails both `all` checks and falls through to `'hybrid'`. That matches the definition: cloud resources connected to infrastructure that stays on premises.\n4. **Check the other cases.** An all-cloud plan still returns `'cloud'` and an all-closet plan still returns `'on-premises'`. The second `if` was already correct.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "Everything moved: an all-in cloud deployment",
+          "code": "assert deployment_model({'booking app': 'cloud', 'x-ray share': 'cloud', 'email': 'cloud', 'billing': 'cloud'}) == 'cloud'",
+          "fail_md": "When every workload runs in the cloud, the answer is `'cloud'`."
+        },
+        {
+          "id": "t2",
+          "name": "Billing still in the closet makes it hybrid",
+          "code": "assert deployment_model({'booking app': 'cloud', 'x-ray share': 'cloud', 'email': 'cloud', 'billing': 'on-premises'}) == 'hybrid'",
+          "fail_md": "Billing stays on premises while the rest moves to AWS, so this is hybrid. Your function returned something else. Does the first check require *every* workload to be in the cloud, or only one?"
+        },
+        {
+          "id": "t3",
+          "name": "Nothing moved: on premises",
+          "code": "assert deployment_model({'booking app': 'on-premises', 'x-ray share': 'on-premises', 'email': 'on-premises', 'billing': 'on-premises'}) == 'on-premises'",
+          "fail_md": "When every workload stays in Harbor Lane's own data center, the answer is `'on-premises'` (a private cloud)."
+        },
+        {
+          "id": "t4",
+          "name": "Order does not matter: on-premises listed first",
+          "code": "assert deployment_model({'billing': 'on-premises', 'email': 'cloud'}) == 'hybrid'",
+          "fail_md": "A mix of cloud and on-premises workloads is hybrid, whatever order they are listed in.",
+          "hidden": true
+        },
+        {
+          "id": "t5",
+          "name": "A single cloud workload is all-in cloud",
+          "code": "assert deployment_model({'email': 'cloud'}) == 'cloud'",
+          "fail_md": "With one workload in the cloud and none on premises, every workload is in the cloud.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "Compare the first `if` with the definition of an all-in cloud deployment. Does it need *some* workloads in the cloud, or *every* workload?",
+        "The first check uses `any(...)`. Change it to `all(place == 'cloud' for place in places)`."
+      ]
+    },
+    {
+      "id": "ex-harbor-lane-move-plan",
+      "title": "Build: Harbor Lane's move plan, now and after the contract",
+      "stage": "build",
+      "difficulty": 3,
+      "kcs": [
+        "kc-iaas",
+        "kc-paas",
+        "kc-saas",
+        "kc-cloud-deployment-all-in",
+        "kc-hybrid-deployment",
+        "kc-on-premises-private-cloud"
+      ],
+      "est_minutes": 20,
+      "brief_md": "This is the unit capstone reduced to one function. The cost argument was covered in the first exercise. Here you write `move_plan(estate, months_from_now)`.\n\n`estate` is a list of workloads. Each workload is a dict with these keys:\n- `'name'`: the workload's name;\n- `'cloud_option'`: how it would run in the cloud, one of `'iaas'`, `'paas'` or `'saas'`;\n- `'locked_months'`: how many months from today it must stay on premises. This is `0` if it is free to move.\n\nA workload **stays on premises while `months_from_now < locked_months`**. Once that is no longer true, it runs as its `cloud_option`.\n\nReturn this dict:\n\n```python\n{'deployment': 'cloud' | 'hybrid' | 'on-premises',\n 'workloads': {name: {'model': 'IaaS' | 'PaaS' | 'SaaS' | 'on-premises',\n                      'customer_manages': [layers, top first],\n                      'provider_manages': [layers, top first]}}}\n```\n\nUse the layer stack `['user access', 'data', 'application', 'runtime', 'os', 'virtualisation', 'hardware']`. The customer manages the top 7 layers on premises, the top 5 under IaaS, the top 3 under PaaS and the top 2 under SaaS. The provider manages the rest.\n\nThe `deployment` value is `'cloud'` when no workload is on premises, `'on-premises'` when every workload is, and `'hybrid'` otherwise.\n\nHarbor Lane's estate, as used by the tests:\n- **booking app** → `'paas'`: AWS Elastic Beanstalk runs the OS and runtime and can absorb the Monday spike.\n- **x-ray share** → `'iaas'`: a file server on an Amazon EC2 instance.\n- **email** → `'saas'`: hosted web email, which ends the hand-patching.\n- **billing** → `'iaas'` once it is free to move, but `locked_months = 24`.",
+      "starter": "LAYERS = ['user access', 'data', 'application', 'runtime', 'os', 'virtualisation', 'hardware']\n\n\ndef move_plan(estate, months_from_now):\n    '''Build Harbor Lane's move plan as it stands months_from_now months from today.\n\n    estate: a list of dicts with keys 'name', 'cloud_option' ('iaas', 'paas' or 'saas')\n            and 'locked_months' (months it must stay on premises; 0 if free to move).\n\n    Return {'deployment': 'cloud' | 'hybrid' | 'on-premises',\n            'workloads': {name: {'model': 'IaaS' | 'PaaS' | 'SaaS' | 'on-premises',\n                                 'customer_manages': [...],\n                                 'provider_manages': [...]}}}\n    '''\n    # TODO: build the plan.\n    return {'deployment': None, 'workloads': {}}\n",
+      "solution": "LAYERS = ['user access', 'data', 'application', 'runtime', 'os', 'virtualisation', 'hardware']\n\nCUSTOMER_TOP_LAYERS = {'on-premises': 7, 'iaas': 5, 'paas': 3, 'saas': 2}\nLABELS = {'on-premises': 'on-premises', 'iaas': 'IaaS', 'paas': 'PaaS', 'saas': 'SaaS'}\n\n\ndef move_plan(estate, months_from_now):\n    '''Build Harbor Lane's move plan as it stands months_from_now months from today.'''\n    workloads = {}\n    for w in estate:\n        if months_from_now < w['locked_months']:\n            model = 'on-premises'\n        else:\n            model = w['cloud_option']\n        count = CUSTOMER_TOP_LAYERS[model]\n        workloads[w['name']] = {\n            'model': LABELS[model],\n            'customer_manages': LAYERS[:count],\n            'provider_manages': LAYERS[count:],\n        }\n\n    on_prem = [name for name, info in workloads.items() if info['model'] == 'on-premises']\n    if len(on_prem) == 0:\n        deployment = 'cloud'\n    elif len(on_prem) == len(workloads):\n        deployment = 'on-premises'\n    else:\n        deployment = 'hybrid'\n    return {'deployment': deployment, 'workloads': workloads}\n",
+      "solution_walkthrough_md": "1. **Decide where each workload runs.** A workload stays in the closet while `months_from_now < locked_months`. Today (month 0), billing has `locked_months = 24`, so it stays on premises. Everything else moves to its `cloud_option`.\n2. **Label it and split the stack.** Look up how many top layers the customer keeps: 7 on premises, 5 for IaaS, 3 for PaaS, 2 for SaaS. Then slice `LAYERS[:count]` for Harbor Lane and `LAYERS[count:]` for the provider. Today's plan:\n   - **booking app**, PaaS: Harbor Lane keeps user access, data and application. AWS runs the runtime, OS, virtualisation and hardware.\n   - **x-ray share**, IaaS: Harbor Lane still patches the OS. AWS runs virtualisation and hardware.\n   - **email**, SaaS: Harbor Lane keeps only user access and data. The provider operates the mail application, so the admin's hand-patching ends.\n   - **billing**, on premises: Harbor Lane manages all 7 layers and the provider manages none.\n3. **Name the deployment.** Count the workloads that are on premises. If none are, it is `'cloud'`; if all are, it is `'on-premises'`; otherwise it is `'hybrid'`. At month 0 that gives **hybrid**, because cloud workloads are connected to the billing system left in the closet.\n4. **After the contract.** At month 24, `24 < 24` is false, so billing moves to IaaS. No workload is left on premises and the plan becomes an **all-in cloud** deployment. At month 23 it is still hybrid.\n5. **Why not stay fully on premises?** A private cloud gives full control but not the public cloud's cost benefits. Harbor Lane would still buy hardware sized for Monday peaks and patch everything itself, which are the two things the owners want to stop.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "Today Harbor Lane is hybrid",
+          "code": "ESTATE = [\n    {'name': 'booking app', 'cloud_option': 'paas', 'locked_months': 0},\n    {'name': 'x-ray share', 'cloud_option': 'iaas', 'locked_months': 0},\n    {'name': 'email', 'cloud_option': 'saas', 'locked_months': 0},\n    {'name': 'billing', 'cloud_option': 'iaas', 'locked_months': 24},\n]\nassert move_plan(ESTATE, 0)['deployment'] == 'hybrid'",
+          "fail_md": "At month 0, billing is still locked in the closet and the other three run in the cloud. That mix is a hybrid deployment."
+        },
+        {
+          "id": "t2",
+          "name": "Each workload gets the right label today",
+          "code": "ESTATE = [\n    {'name': 'booking app', 'cloud_option': 'paas', 'locked_months': 0},\n    {'name': 'x-ray share', 'cloud_option': 'iaas', 'locked_months': 0},\n    {'name': 'email', 'cloud_option': 'saas', 'locked_months': 0},\n    {'name': 'billing', 'cloud_option': 'iaas', 'locked_months': 24},\n]\nplan = move_plan(ESTATE, 0)\nassert {n: w['model'] for n, w in plan['workloads'].items()} == {\n    'booking app': 'PaaS',\n    'x-ray share': 'IaaS',\n    'email': 'SaaS',\n    'billing': 'on-premises',\n}",
+          "fail_md": "Labels should be exactly `'IaaS'`, `'PaaS'`, `'SaaS'` or `'on-premises'`. A workload that is still locked (`months_from_now < locked_months`) is `'on-premises'`, whatever its `cloud_option` says."
+        },
+        {
+          "id": "t3",
+          "name": "Email as SaaS: Harbor Lane manages only data and user access",
+          "code": "ESTATE = [\n    {'name': 'booking app', 'cloud_option': 'paas', 'locked_months': 0},\n    {'name': 'x-ray share', 'cloud_option': 'iaas', 'locked_months': 0},\n    {'name': 'email', 'cloud_option': 'saas', 'locked_months': 0},\n    {'name': 'billing', 'cloud_option': 'iaas', 'locked_months': 24},\n]\nemail = move_plan(ESTATE, 0)['workloads']['email']\nassert email['customer_manages'] == ['user access', 'data']\nassert email['provider_manages'] == ['application', 'runtime', 'os', 'virtualisation', 'hardware']",
+          "fail_md": "Under SaaS the customer keeps the top 2 layers (user access, data) and the provider runs the other 5, from the application down to the hardware. Keep the layers in top-first order."
+        },
+        {
+          "id": "t4",
+          "name": "After the contract ends (month 24): all-in cloud",
+          "code": "ESTATE = [\n    {'name': 'booking app', 'cloud_option': 'paas', 'locked_months': 0},\n    {'name': 'x-ray share', 'cloud_option': 'iaas', 'locked_months': 0},\n    {'name': 'email', 'cloud_option': 'saas', 'locked_months': 0},\n    {'name': 'billing', 'cloud_option': 'iaas', 'locked_months': 24},\n]\nplan = move_plan(ESTATE, 24)\nassert plan['deployment'] == 'cloud'\nassert plan['workloads']['billing']['model'] == 'IaaS'",
+          "fail_md": "At month 24, `24 < 24` is false, so billing is free to move and runs as IaaS. With nothing left on premises, the deployment is `'cloud'`.",
+          "hidden": true
+        },
+        {
+          "id": "t5",
+          "name": "Month 23: billing is still locked",
+          "code": "ESTATE = [\n    {'name': 'booking app', 'cloud_option': 'paas', 'locked_months': 0},\n    {'name': 'x-ray share', 'cloud_option': 'iaas', 'locked_months': 0},\n    {'name': 'email', 'cloud_option': 'saas', 'locked_months': 0},\n    {'name': 'billing', 'cloud_option': 'iaas', 'locked_months': 24},\n]\nplan = move_plan(ESTATE, 23)\nassert plan['deployment'] == 'hybrid'\nassert plan['workloads']['billing']['model'] == 'on-premises'",
+          "fail_md": "A workload stays on premises while `months_from_now < locked_months`. At month 23 that is true for billing.",
+          "hidden": true
+        },
+        {
+          "id": "t6",
+          "name": "Billing in the closet: Harbor Lane manages every layer",
+          "code": "ESTATE = [\n    {'name': 'booking app', 'cloud_option': 'paas', 'locked_months': 0},\n    {'name': 'x-ray share', 'cloud_option': 'iaas', 'locked_months': 0},\n    {'name': 'email', 'cloud_option': 'saas', 'locked_months': 0},\n    {'name': 'billing', 'cloud_option': 'iaas', 'locked_months': 24},\n]\nplan = move_plan(ESTATE, 0)\nbilling = plan['workloads']['billing']\nassert billing['customer_manages'] == ['user access', 'data', 'application', 'runtime', 'os', 'virtualisation', 'hardware']\nassert billing['provider_manages'] == []\nbooking = plan['workloads']['booking app']\nassert booking['customer_manages'] == ['user access', 'data', 'application']\nassert booking['provider_manages'] == ['runtime', 'os', 'virtualisation', 'hardware']",
+          "fail_md": "On premises Harbor Lane manages all 7 layers and the provider none. Under PaaS Harbor Lane keeps the top 3 layers.",
+          "hidden": true
+        },
+        {
+          "id": "t7",
+          "name": "Everything locked stays on premises",
+          "code": "plan = move_plan([{'name': 'billing', 'cloud_option': 'iaas', 'locked_months': 24}], 0)\nassert plan['deployment'] == 'on-premises'",
+          "fail_md": "If every workload is still locked in the closet, nothing runs in the cloud, so the deployment is `'on-premises'`.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "Work in two passes. First, for each workload pick its model (`'on-premises'` while `months_from_now < locked_months`, otherwise its `cloud_option`), then slice `LAYERS` by that model's count (7, 5, 3 or 2). Second, count how many workloads ended up on premises to choose the deployment.",
+        "Keep a dict `{'on-premises': 7, 'iaas': 5, 'paas': 3, 'saas': 2}` and a label dict `{'iaas': 'IaaS', ...}`. For each workload store `{'model': label, 'customer_manages': LAYERS[:count], 'provider_manages': LAYERS[count:]}`. Then return `'cloud'` if no workload is on premises, `'on-premises'` if all are, and `'hybrid'` otherwise."
+      ]
+    }
+  ]
+}

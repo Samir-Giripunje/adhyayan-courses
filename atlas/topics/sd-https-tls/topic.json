@@ -1,0 +1,630 @@
+{
+  "parts": [
+    {
+      "id": "p1",
+      "title": "HTTPS, TLS and where encryption ends",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "HTTPS, TLS and where encryption ends",
+          "kcs": [
+            "kc-tls-handshake",
+            "kc-tls-termination",
+            "kc-mtls"
+          ],
+          "est_minutes": 7,
+          "blocks": [
+            {
+              "id": "blk-sd-https-tls-01",
+              "block": {
+                "type": "prose",
+                "md": "**HTTPS** is HTTP sent through **TLS** (Transport Layer Security), an encrypted connection. TLS proves to your browser that it is talking to the real site, then encrypts everything, so others on the network can't read or alter it unnoticed."
+              }
+            },
+            {
+              "id": "blk-sd-https-tls-02",
+              "block": {
+                "type": "prose",
+                "md": "Open `https://en.wikipedia.org` on café Wi-Fi. Before any HTTP is sent, your browser and Wikipedia's server run a TLS handshake. The server presents a certificate for `*.wikipedia.org`, issued by Let's Encrypt, a certificate authority your browser trusts. From then on, the page address, your cookies and the page itself travel encrypted."
+              }
+            },
+            {
+              "id": "blk-sd-https-tls-03",
+              "block": {
+                "type": "prose",
+                "md": "**The handshake** runs once per new connection (over TCP, right after TCP's own):\n\n1. The browser sends **ClientHello**: the TLS versions and settings it supports.\n2. The server replies **ServerHello**, choosing the settings, then sends its **certificate**: \"this **public key** belongs to wikipedia.org\", signed by a **certificate authority** (CA) the browser trusts. Only the site holds the matching **private key**.\n3. The browser checks the signature and the name; the server proves it holds the private key, and both sides agree on **session keys** for this connection.\n\nThen HTTP travels encrypted with fast **symmetric encryption** (one shared key).\n\n**Where encryption ends.** An **edge proxy** in front of the app servers often finishes TLS (**TLS termination**), keeping certificates in one place. Behind it, traffic goes on as plain HTTP or is encrypted again.\n\n**mTLS** (mutual TLS) makes the client present a certificate too, so a company's services can prove who's calling."
+              }
+            },
+            {
+              "id": "blk-sd-https-tls-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-tls-cert-proves",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-tls-handshake"
+                  ],
+                  "prompt_md": "Your browser accepts a site's certificate. What has it checked?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "That the site is honest and safe to buy from",
+                      "why_md": "A certificate says who you are talking to, not whether they are honest.",
+                      "misconception": "mc-padlock-trustworthy"
+                    },
+                    {
+                      "id": "b",
+                      "md": "That a trusted CA vouches the key belongs to this site's name, and the server holds the private key",
+                      "correct": true,
+                      "why_md": "Right. That is what proves you reached the real site."
+                    },
+                    {
+                      "id": "c",
+                      "md": "That you are logged in to the site",
+                      "why_md": "Ordinary TLS proves the server's identity only. Your login happens inside the encrypted connection.",
+                      "misconception": "mc-tls-authenticates-client"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-sd-https-tls-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "What HTTPS hides, and what it doesn't",
+                "md": "TLS hides the request path, headers, cookies, body and status code. It does not hide the server's IP address, the port (443), how much data flows or when. The site's name usually leaks too, through the DNS lookup and the name the browser sends at the start of the handshake.\n\nOnly the handshake uses public-key cryptography, to check the certificate's signature and agree on keys; the data itself uses the symmetric session keys. A copied certificate is useless without its private key, because the handshake makes the server prove it holds that key."
+              }
+            },
+            {
+              "id": "blk-sd-https-tls-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Round trips for a new HTTPS connection over TCP",
+                "md": "Over TCP, the TCP handshake takes one round trip, TLS 1.3's takes one more, and the request and response take a third. With a 40 ms round-trip time, the first byte of the response arrives after about 3 × 40 = 120 ms. Reusing an open connection skips both handshakes. HTTP/3 runs TLS 1.3 inside QUIC over UDP and sets up the connection and the encryption together in one round trip."
+              }
+            },
+            {
+              "id": "blk-sd-https-tls-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Terminate, re-encrypt or pass through?",
+                "md": "To route requests by path, a proxy has to decrypt them, so it terminates TLS. If data such as card numbers must be encrypted on every hop, the proxy opens a second TLS connection to the app server (re-encryption). A proxy that only passes TLS through to the app servers can't read paths at all.\n\nBrowsers rarely use mTLS, because every user would need their own certificate installed; users log in with passwords inside HTTPS instead. Between services, a company's own CA can issue certificates automatically."
+              }
+            },
+            {
+              "id": "blk-sd-https-tls-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-tls-handshake",
+                "kind": "sequence",
+                "title": "The TLS handshake, then HTTP through an edge proxy",
+                "alt": "The browser sends ClientHello to the edge proxy, which replies with ServerHello and its certificate. The browser checks the signature and the name, and both agree on session keys. Then the browser sends an encrypted GET; the edge proxy finishes TLS and passes the request to the app servers as plain or re-encrypted traffic, and the response returns the same way.",
+                "spec": {
+                  "participants": [
+                    {
+                      "id": "browser",
+                      "label": "Browser",
+                      "type": "client"
+                    },
+                    {
+                      "id": "edge",
+                      "label": "Edge proxy",
+                      "sub": "TLS ends here",
+                      "type": "lb"
+                    },
+                    {
+                      "id": "app",
+                      "label": "App servers",
+                      "type": "server"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "from": "browser",
+                      "to": "edge",
+                      "label": "ClientHello",
+                      "step": 1,
+                      "detail": "The TLS versions and settings the browser supports."
+                    },
+                    {
+                      "from": "edge",
+                      "to": "browser",
+                      "kind": "reply",
+                      "label": "ServerHello + certificate",
+                      "step": 2,
+                      "detail": "The certificate says this public key is wikipedia.org's, signed by a CA."
+                    },
+                    {
+                      "from": "browser",
+                      "kind": "note",
+                      "label": "checks the signature and the name",
+                      "step": 3
+                    },
+                    {
+                      "from": "browser",
+                      "to": "edge",
+                      "label": "agree on session keys",
+                      "step": 3,
+                      "detail": "The server proves it holds the private key; both share session keys."
+                    },
+                    {
+                      "from": "browser",
+                      "to": "edge",
+                      "label": "GET / (encrypted)"
+                    },
+                    {
+                      "from": "edge",
+                      "to": "app",
+                      "label": "plain or re-encrypted",
+                      "detail": "TLS termination: the edge proxy decrypts, so certificates live in one place."
+                    },
+                    {
+                      "from": "app",
+                      "to": "edge",
+                      "kind": "reply",
+                      "label": "response"
+                    },
+                    {
+                      "from": "edge",
+                      "to": "browser",
+                      "kind": "reply",
+                      "label": "encrypted response"
+                    }
+                  ],
+                  "frames": [
+                    {
+                      "kind": "group",
+                      "label": "handshake",
+                      "from": 1,
+                      "to": 4
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "answer": "**HTTPS** is HTTP sent through **TLS** (Transport Layer Security), an encrypted connection. TLS proves to your browser that it is talking to the real site, then encrypts everything, so others on the network can't read or alter it unnoticed.",
+  "example": "Open `https://en.wikipedia.org` on café Wi-Fi. Before any HTTP is sent, your browser and Wikipedia's server run a TLS handshake. The server presents a certificate for `*.wikipedia.org`, issued by Let's Encrypt, a certificate authority your browser trusts. From then on, the page address, your cookies and the page itself travel encrypted.",
+  "how": {
+    "md": "**The handshake** runs once per new connection (over TCP, right after TCP's own):\n\n1. The browser sends **ClientHello**: the TLS versions and settings it supports.\n2. The server replies **ServerHello**, choosing the settings, then sends its **certificate**: \"this **public key** belongs to wikipedia.org\", signed by a **certificate authority** (CA) the browser trusts. Only the site holds the matching **private key**.\n3. The browser checks the signature and the name; the server proves it holds the private key, and both sides agree on **session keys** for this connection.\n\nThen HTTP travels encrypted with fast **symmetric encryption** (one shared key).\n\n**Where encryption ends.** An **edge proxy** in front of the app servers often finishes TLS (**TLS termination**), keeping certificates in one place. Behind it, traffic goes on as plain HTTP or is encrypted again.\n\n**mTLS** (mutual TLS) makes the client present a certificate too, so a company's services can prove who's calling.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-tls-handshake",
+      "kind": "sequence",
+      "title": "The TLS handshake, then HTTP through an edge proxy",
+      "alt": "The browser sends ClientHello to the edge proxy, which replies with ServerHello and its certificate. The browser checks the signature and the name, and both agree on session keys. Then the browser sends an encrypted GET; the edge proxy finishes TLS and passes the request to the app servers as plain or re-encrypted traffic, and the response returns the same way.",
+      "spec": {
+        "participants": [
+          {
+            "id": "browser",
+            "label": "Browser",
+            "type": "client"
+          },
+          {
+            "id": "edge",
+            "label": "Edge proxy",
+            "sub": "TLS ends here",
+            "type": "lb"
+          },
+          {
+            "id": "app",
+            "label": "App servers",
+            "type": "server"
+          }
+        ],
+        "messages": [
+          {
+            "from": "browser",
+            "to": "edge",
+            "label": "ClientHello",
+            "step": 1,
+            "detail": "The TLS versions and settings the browser supports."
+          },
+          {
+            "from": "edge",
+            "to": "browser",
+            "kind": "reply",
+            "label": "ServerHello + certificate",
+            "step": 2,
+            "detail": "The certificate says this public key is wikipedia.org's, signed by a CA."
+          },
+          {
+            "from": "browser",
+            "kind": "note",
+            "label": "checks the signature and the name",
+            "step": 3
+          },
+          {
+            "from": "browser",
+            "to": "edge",
+            "label": "agree on session keys",
+            "step": 3,
+            "detail": "The server proves it holds the private key; both share session keys."
+          },
+          {
+            "from": "browser",
+            "to": "edge",
+            "label": "GET / (encrypted)"
+          },
+          {
+            "from": "edge",
+            "to": "app",
+            "label": "plain or re-encrypted",
+            "detail": "TLS termination: the edge proxy decrypts, so certificates live in one place."
+          },
+          {
+            "from": "app",
+            "to": "edge",
+            "kind": "reply",
+            "label": "response"
+          },
+          {
+            "from": "edge",
+            "to": "browser",
+            "kind": "reply",
+            "label": "encrypted response"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "group",
+            "label": "handshake",
+            "from": 1,
+            "to": 4
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-tls-cert-proves",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "Your browser accepts a site's certificate. What has it checked?",
+    "options": [
+      {
+        "id": "a",
+        "md": "That the site is honest and safe to buy from",
+        "why_md": "A certificate says who you are talking to, not whether they are honest.",
+        "misconception": "mc-padlock-trustworthy"
+      },
+      {
+        "id": "b",
+        "md": "That a trusted CA vouches the key belongs to this site's name, and the server holds the private key",
+        "correct": true,
+        "why_md": "Right. That is what proves you reached the real site."
+      },
+      {
+        "id": "c",
+        "md": "That you are logged in to the site",
+        "why_md": "Ordinary TLS proves the server's identity only. Your login happens inside the encrypted connection.",
+        "misconception": "mc-tls-authenticates-client"
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "What HTTPS hides, and what it doesn't",
+      "md": "TLS hides the request path, headers, cookies, body and status code. It does not hide the server's IP address, the port (443), how much data flows or when. The site's name usually leaks too, through the DNS lookup and the name the browser sends at the start of the handshake.\n\nOnly the handshake uses public-key cryptography, to check the certificate's signature and agree on keys; the data itself uses the symmetric session keys. A copied certificate is useless without its private key, because the handshake makes the server prove it holds that key."
+    },
+    {
+      "title": "Round trips for a new HTTPS connection over TCP",
+      "md": "Over TCP, the TCP handshake takes one round trip, TLS 1.3's takes one more, and the request and response take a third. With a 40 ms round-trip time, the first byte of the response arrives after about 3 × 40 = 120 ms. Reusing an open connection skips both handshakes. HTTP/3 runs TLS 1.3 inside QUIC over UDP and sets up the connection and the encryption together in one round trip."
+    },
+    {
+      "title": "Terminate, re-encrypt or pass through?",
+      "md": "To route requests by path, a proxy has to decrypt them, so it terminates TLS. If data such as card numbers must be encrypted on every hop, the proxy opens a second TLS connection to the app server (re-encryption). A proxy that only passes TLS through to the app servers can't read paths at all.\n\nBrowsers rarely use mTLS, because every user would need their own certificate installed; users log in with passwords inside HTTPS instead. Between services, a company's own CA can issue certificates automatically."
+    }
+  ],
+  "visual_fit": {
+    "kind": "sequence",
+    "why": "The handshake is an ordered exchange, and where encryption ends is about who talks to whom."
+  },
+  "glossary": [
+    {
+      "term": "https",
+      "md": "HTTP sent through a TLS connection, so it is encrypted and the server is authenticated."
+    },
+    {
+      "term": "tls",
+      "md": "Transport Layer Security: authenticates the server with a certificate, agrees on session keys, then encrypts the connection."
+    },
+    {
+      "term": "tls handshake",
+      "md": "The setup at the start of a TLS connection: the server's certificate is checked and both sides agree on session keys. TLS 1.3 needs one round trip."
+    },
+    {
+      "term": "certificate",
+      "md": "A document, signed by a certificate authority, that says a public key belongs to a site's name."
+    },
+    {
+      "term": "certificate authority",
+      "md": "An organisation that browsers trust to sign certificates, such as Let's Encrypt."
+    },
+    {
+      "term": "tls termination",
+      "md": "Ending the TLS connection at an edge proxy, which decrypts the traffic and forwards it to the app servers as plain or re-encrypted HTTP."
+    },
+    {
+      "term": "mtls",
+      "md": "Mutual TLS: both sides present certificates, so the client is authenticated too. Common between services inside a company."
+    },
+    {
+      "term": "session key",
+      "md": "A secret key agreed during the handshake and used to encrypt one connection."
+    },
+    {
+      "term": "symmetric encryption",
+      "md": "Encryption where the same key locks and unlocks. Fast, so TLS uses it for all the data."
+    },
+    {
+      "term": "edge proxy",
+      "md": "A server at the front of a site that receives users' connections and forwards requests to the app servers."
+    },
+    {
+      "term": "public key",
+      "md": "The half of a key pair that anyone may know; it checks signatures made with the matching private key, which only its owner holds."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-https-hides-everything",
+      "statement": "HTTPS hides everything, including which site I am visiting.",
+      "tags": [
+        "kc-tls-handshake"
+      ]
+    },
+    {
+      "id": "mc-padlock-trustworthy",
+      "statement": "A valid certificate (the padlock) means the site is honest and safe.",
+      "tags": [
+        "kc-tls-handshake"
+      ]
+    },
+    {
+      "id": "mc-asymmetric-for-all-data",
+      "statement": "TLS encrypts all the data with public-key (asymmetric) encryption, or avoids it because it is insecure.",
+      "tags": [
+        "kc-tls-handshake"
+      ]
+    },
+    {
+      "id": "mc-wifi-password-is-enough",
+      "statement": "A password-protected Wi-Fi network already keeps my web traffic private, so HTTPS adds nothing.",
+      "tags": [
+        "kc-tls-handshake"
+      ]
+    },
+    {
+      "id": "mc-termination-is-end-to-end",
+      "statement": "If the URL is https, traffic is encrypted all the way to the app server, even behind a terminating proxy.",
+      "tags": [
+        "kc-tls-termination"
+      ]
+    },
+    {
+      "id": "mc-tls-authenticates-client",
+      "statement": "Ordinary TLS also proves who the client is.",
+      "tags": [
+        "kc-mtls",
+        "kc-tls-handshake"
+      ]
+    }
+  ],
+  "recap": {
+    "formula": "New HTTPS connection over TCP with TLS 1.3: about 3 round trips to the first byte of the response.",
+    "pitfall": "With TLS termination, traffic behind the proxy is plain HTTP unless it is re-encrypted."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-sees-hostname",
+      "beat": "b-lesson",
+      "question": "Can people on my Wi-Fi see which sites I visit over HTTPS?",
+      "match": [
+        "see which site",
+        "wifi see",
+        "hide the site",
+        "can they see"
+      ],
+      "answer_md": "Usually yes, the site's name, but not the pages or what you send. They see the server's IP address and, usually, the name through the DNS lookup and the start of the handshake. The path, cookies and content are encrypted.",
+      "deeper_md": "HTTPS hides what you say, not who you talk to or how much. Newer techniques can hide the name too, but they aren't used everywhere yet.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Visible vs hidden",
+        "md": "Visible: server IP, port 443, sizes and timing, usually the site name. Hidden: path, headers, cookies, body, status code.",
+        "verify": {
+          "id": "q-br-sees-hostname",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-tls-handshake"
+          ],
+          "prompt_md": "You open `https://example.com/account` on shared Wi-Fi. What can an eavesdropper on that Wi-Fi read?",
+          "options": [
+            {
+              "id": "a",
+              "md": "The server's IP address",
+              "correct": true,
+              "why_md": "Right. Packets need it outside the encryption to be delivered."
+            },
+            {
+              "id": "b",
+              "md": "The path `/account`",
+              "why_md": "The path is inside the encrypted HTTP request.",
+              "misconception": "mc-https-hides-everything"
+            },
+            {
+              "id": "c",
+              "md": "Your session cookie",
+              "why_md": "Cookies are HTTP headers, encrypted by TLS."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-plain-inside-safe",
+      "beat": "b-lesson",
+      "question": "If the proxy decrypts, is my data unprotected inside the company?",
+      "match": [
+        "plain inside",
+        "after the proxy",
+        "inside the network",
+        "termination safe"
+      ],
+      "answer_md": "Between the proxy and the app servers it is plain HTTP unless the proxy re-encrypts it. Many companies re-encrypt, or use mTLS between services, for exactly that reason.",
+      "deeper_md": "TLS termination ends the browser's encrypted connection at the proxy. Anyone who can read the internal network can read terminated traffic, so sensitive data is usually re-encrypted.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "Two hops",
+        "md": "Hop 1: browser → proxy, TLS. Hop 2: proxy → app server, plain HTTP unless re-encrypted. The padlock in the browser describes hop 1 only.",
+        "verify": {
+          "id": "q-br-plain-inside",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-tls-termination"
+          ],
+          "prompt_md": "An edge proxy terminates TLS and forwards plain HTTP to the app servers. Where can a packet capture read the requests?",
+          "options": [
+            {
+              "id": "a",
+              "md": "On the network between the proxy and the app servers",
+              "correct": true,
+              "why_md": "Right. That hop is plain HTTP."
+            },
+            {
+              "id": "b",
+              "md": "Nowhere: the URL is https",
+              "why_md": "The https applies to the browser's connection, which ends at the proxy.",
+              "misconception": "mc-termination-is-end-to-end"
+            },
+            {
+              "id": "c",
+              "md": "Only on the user's Wi-Fi",
+              "why_md": "That hop is encrypted by TLS."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-diffie-hellman",
+      "kind": "math",
+      "title": "How two strangers compute the same secret: Diffie–Hellman key exchange",
+      "level": 3,
+      "status": "stub"
+    },
+    {
+      "id": "dt-resumption",
+      "kind": "mechanism",
+      "title": "Skipping handshakes: connection reuse, TLS session resumption, 0-RTT and QUIC's combined setup",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-cert-rotation",
+      "kind": "implementation",
+      "title": "Issuing and rotating certificates automatically (ACME, internal CAs, service meshes)",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "sd-https-tls",
+  "version": 1,
+  "title": "HTTPS, TLS and where encryption ends",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-tls-handshake",
+      "version": 1,
+      "statement": "HTTPS is HTTP over TLS: the TLS handshake authenticates the server with a certificate signed by a trusted certificate authority and agrees on session keys, after which traffic is encrypted with fast symmetric encryption."
+    },
+    {
+      "id": "kc-tls-termination",
+      "version": 1,
+      "statement": "With TLS termination an edge proxy decrypts HTTPS and forwards plain or re-encrypted HTTP to backends, centralising certificates and saving backend CPU."
+    },
+    {
+      "id": "kc-mtls",
+      "version": 1,
+      "statement": "Mutual TLS (mTLS) also authenticates the client with its own certificate, and is used to secure service-to-service traffic inside a system."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-http"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-http"
+  ],
+  "introduces": [
+    "https",
+    "tls",
+    "tls handshake",
+    "certificate",
+    "tls termination",
+    "mtls"
+  ],
+  "uses": [
+    "http",
+    "tcp",
+    "client",
+    "server"
+  ],
+  "problem_ideas": [
+    "List what an attacker on café Wi-Fi can see for an HTTP vs an HTTPS request to bank.com/transfer.",
+    "Your 40 backend servers each manage certificates; propose a simpler layout.",
+    "A client 100 ms away needs TCP plus a TLS 1.3 handshake before the first byte: estimate the setup round trips and time.",
+    "Why does TLS use asymmetric crypto only during the handshake?",
+    "An internal payments service must accept calls only from the orders service: which mechanism fits?",
+    "A certificate expires at midnight; describe what users see and how to prevent it."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "tls/tls"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "ssl/why-was-ssl-so-important"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "mtls/mtls"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "mtls/why-use-mtls"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [
+    "sd-https-tls/exit-1",
+    "sd-https-tls/exit-2",
+    "sd-https-tls/exit-3"
+  ],
+  "status": "stocked",
+  "provenance": {
+    "origin": "generated",
+    "job": "reauthor-sd-u0"
+  }
+}

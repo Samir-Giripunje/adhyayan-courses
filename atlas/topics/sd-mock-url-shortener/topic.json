@@ -1,0 +1,72 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-mock-url-shortener",
+  "version": 1,
+  "title": "Timed mock: URL shortener",
+  "size": "big",
+  "est_min": 40,
+  "kcs": [
+    {
+      "id": "kc-mock-url-requirements",
+      "version": 2,
+      "statement": "In the URL shortener mock, the requirement of non-guessable codes is separate from uniqueness: codes from a counter or sequential key ranges are unique but predictable, so they do not meet it. Codes meet it when they come from a cryptographically secure random generator, are long enough that the codes in use fill only a tiny fraction of all possible codes, and are stored with an atomic insert-if-absent that retries when a code is already taken."
+    },
+    {
+      "id": "kc-mock-url-estimates",
+      "version": 1,
+      "statement": "In the URL shortener mock, the estimate derives write QPS, read QPS at roughly 100:1, 5-year storage and cache size, and uses them to justify a cache and a key-value store."
+    },
+    {
+      "id": "kc-mock-url-deep-dive",
+      "version": 1,
+      "statement": "In the URL shortener mock, the deep dive defends code generation (key generation service vs hashing) and the redirect status plus cache headers, each with one stated trade-off."
+    },
+    {
+      "id": "kc-mock-url-bottlenecks",
+      "version": 1,
+      "statement": "In the URL shortener mock, the bottleneck review names the key generation service and the cache as single points of failure and gives a fix for each: replicas with failover and pre-allocated key ranges."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-case-url-shortener",
+    "sd-mock-method"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [],
+  "uses": [
+    "mock interview",
+    "mock rubric",
+    "url shortener design",
+    "base62 encoding",
+    "key generation service",
+    "single point of failure",
+    "failover",
+    "peak qps",
+    "storage estimate"
+  ],
+  "problem_ideas": [
+    "Core activity: in one uninterrupted 45-minute attempt, submit a complete written answer for 200M new URLs a month covering requirements, estimates, API, data model, diagram, deep dive and bottlenecks; then score all seven areas in a separate review.",
+    "Variant: links must expire after 24 hours by default. Rework storage and cleanup.",
+    "Variant: the interviewer adds 'analytics per link per country'. Extend the design in 5 minutes.",
+    "Estimate the cache size if 20% of links get 80% of clicks.",
+    "Interviewer pushback: 'Why not just use auto-increment ids?' Answer it.",
+    "Present the bottleneck list with a fix for each in under 3 minutes."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "requirements/requirements"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "estimation-and-constraints-2/high-level-estimate"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "identify-and-resolve-bottlenecks-2/identify-and-resolve-bottlenecks"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,794 @@
+[
+  {
+    "id": "sd-tcp-udp/set-1",
+    "family": "sd-tcp-udp-tcp-handshake-order",
+    "kind": "order",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-tcp-reliable"
+    ],
+    "prompt_md": "A browser wants `GET /news/42` from a web server at `198.51.100.20:443`. No TCP connection between them is open yet. Put the four steps in the order they happen, from first to last. (Ignore TLS.)",
+    "options": [
+      {
+        "id": "a",
+        "md": "Client → server: ACK, which completes the handshake. The `GET /news/42` request goes in the same segment or straight after it.",
+        "why_md": "Third. The client's ACK confirms the server's numbering and opens the connection. The request then goes out right away: the lesson's diagram shows 'ACK, then GET /' on the same leg. TCP even lets this final ACK carry the request data. Either way, this step comes third."
+      },
+      {
+        "id": "b",
+        "md": "Server → client: the HTTP response with the page",
+        "why_md": "Last. The server can only answer a request it has received."
+      },
+      {
+        "id": "c",
+        "md": "Client → server: SYN",
+        "why_md": "First. The client asks to connect and states where its byte numbering starts."
+      },
+      {
+        "id": "e",
+        "md": "Server → client: SYN-ACK",
+        "why_md": "Second. The server acknowledges the client's numbering and states its own."
+      }
+    ],
+    "answer": {
+      "sequence": [
+        "c",
+        "e",
+        "a",
+        "b"
+      ]
+    },
+    "hints": [
+      "Use the three-way handshake: the setup messages come before the request.",
+      "SYN, then SYN-ACK, then the client's ACK, with the request in the same segment or right behind it. The response comes last."
+    ],
+    "solution_md": "1. **SYN** (client): I want to connect, and my bytes start at x.\n2. **SYN-ACK** (server): I acknowledge your numbering, and mine starts at y.\n3. **ACK** (client): I acknowledge yours. The connection is now open, and `GET /news/42` goes out with this ACK or straight after it. This is the 'ACK, then GET /' leg in the lesson's diagram.\n4. The HTTP response (server).\n\nOrder: **c, e, a, b**.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp-r4"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/set-2",
+    "family": "sd-tcp-udp-osi-match-layers",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-osi-l4-l7"
+    ],
+    "prompt_md": "The fan's page load is wrapped in layers. Match each piece to its OSI layer.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "`GET /events/42` with a `Cookie: session=abc123` header",
+        "why_md": "This is HTTP, the program's own message: layer 7 (application)."
+      },
+      {
+        "id": "l2",
+        "md": "A TCP segment from port `51234` to port `443`",
+        "why_md": "TCP and ports are the transport layer: layer 4."
+      },
+      {
+        "id": "l3",
+        "md": "A packet from `192.0.2.44` to `198.51.100.20`",
+        "why_md": "IP addresses and machine-to-machine delivery are the network layer: layer 3."
+      },
+      {
+        "id": "l4",
+        "md": "A Wi-Fi frame between the laptop and the home router",
+        "why_md": "Delivery across one local link is the data link layer: layer 2."
+      },
+      {
+        "id": "r1",
+        "md": "Layer 7 (application)",
+        "why_md": "Fits the HTTP request with its cookie."
+      },
+      {
+        "id": "r2",
+        "md": "Layer 4 (transport)",
+        "why_md": "Fits the TCP segment between ports."
+      },
+      {
+        "id": "r3",
+        "md": "Layer 3 (network)",
+        "why_md": "Fits the IP packet between addresses."
+      },
+      {
+        "id": "r4",
+        "md": "Layer 2 (data link)",
+        "why_md": "Fits the Wi-Fi frame on one local link."
+      },
+      {
+        "id": "r5",
+        "md": "Layer 6 (presentation)",
+        "why_md": "Fits none of these. The OSI presentation layer is not the browser's presentation tier; the HTTP request belongs to layer 7.",
+        "misconception": "mc-osi-layer-is-tier"
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3",
+        "l4": "r4"
+      }
+    },
+    "hints": [
+      "Ask what job each piece does: the program's own message, program-to-program delivery with ports, machine-to-machine delivery with IPs, or one local link.",
+      "HTTP → 7, TCP/ports → 4, IP addresses → 3, Wi-Fi/Ethernet → 2."
+    ],
+    "solution_md": "- HTTP request line, headers and cookies are the application's own message → **layer 7**.\n- TCP with ports is program-to-program delivery → **layer 4**.\n- IP addresses are machine-to-machine delivery → **layer 3**.\n- A Wi-Fi frame crosses one local link → **layer 2**.\n\nLayer 6 is left over: the OSI presentation layer is not the presentation tier.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/set-3",
+    "family": "sd-tcp-udp-tcp-handshake-one-rtt",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-tcp-reliable"
+    ],
+    "prompt_md": "A user's phone is **60 ms one way** from a news website's server. Compare a request sent on a new TCP connection with the same request sent on an already-open connection. How many extra **milliseconds** does the new connection take before the response comes back? (Ignore TLS.)",
+    "answer": {
+      "value": 120,
+      "tolerance": 0,
+      "unit": "ms"
+    },
+    "common_wrong": [
+      {
+        "value": 60,
+        "kind": "slip",
+        "why_md": "60 ms is one way. The handshake costs a full round trip: SYN out and SYN-ACK back, 2 × 60 ms."
+      },
+      {
+        "value": 180,
+        "kind": "slip",
+        "why_md": "That counts the final ACK as a separate extra leg. The request goes out with the ACK, on the same leg, so the handshake adds only one round trip."
+      },
+      {
+        "value": 240,
+        "kind": "slip",
+        "why_md": "240 ms is the total time to the response on a new connection. The question asks for the extra time compared with an open connection: 240 − 120 = 120 ms."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "one_way = 60\nrtt = 2 * one_way\nnew_conn = 4 * one_way  # SYN, SYN-ACK, ACK+request, response\nopen_conn = 2 * one_way  # request, response\nanswer = new_conn - open_conn\n"
+    },
+    "hints": [
+      "The handshake costs one round-trip time (RTT). Work out the RTT from the one-way latency.",
+      "RTT = 2 × 60 ms. Lay out the timeline for both cases and subtract."
+    ],
+    "solution_md": "RTT = 2 × 60 ms = 120 ms.\n\n- New connection: SYN arrives at 60 ms, SYN-ACK is back at 120 ms, ACK + request arrive at 180 ms, response is back at 240 ms.\n- Open connection: request arrives at 60 ms, response is back at 120 ms.\n\nExtra = 240 − 120 = **120 ms**, one RTT.",
+    "version": 2,
+    "class": "predict",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp-r4"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/set-4",
+    "family": "sd-tcp-udp-udp-fit-select",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-udp-connectionless"
+    ],
+    "prompt_md": "Use the lesson's rule: UDP fits when late data is worthless, or when the exchange is one small message the client can simply ask again. If every byte must arrive complete and in order, use TCP. Which of these fit **UDP** better than TCP? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Audio packets of a live voice call between two friends",
+        "correct": true,
+        "why_md": "Late audio is worthless: a resent slice would arrive after the moment has passed. UDP keeps the call live."
+      },
+      {
+        "id": "b",
+        "md": "Downloading a 200 MB app update",
+        "why_md": "Every byte must arrive or the update is corrupt. That needs TCP's retransmission and ordering.",
+        "misconception": "mc-udp-always-faster-better"
+      },
+      {
+        "id": "c",
+        "md": "Car positions in an online racing game, sent 30 times per second",
+        "correct": true,
+        "why_md": "Only the newest position matters, so a lost one is replaced by the next update ~33 ms later."
+      },
+      {
+        "id": "d",
+        "md": "A DNS lookup for `example.com`",
+        "correct": true,
+        "why_md": "One small question and one small answer. A handshake would double the wait, and if no answer comes the computer just asks again. The answer matters, yet UDP still fits."
+      },
+      {
+        "id": "e",
+        "md": "Submitting `POST /orders` to buy a concert ticket on a shopping website",
+        "why_md": "The order must arrive complete. It is an HTTP request, which travels over TCP.",
+        "misconception": "mc-udp-unimportant-data"
+      }
+    ],
+    "hints": [
+      "For each case, ask: is late data worthless, or is it one small message the client can re-ask? Or must it arrive complete?",
+      "Live voice and game positions: late is worthless. DNS: one small message. The update and the order must be complete."
+    ],
+    "solution_md": "- (a) Live voice: late audio is worthless → **UDP**.\n- (c) Game positions: only the newest counts → **UDP**.\n- (d) DNS lookup: one small question, ask again if no answer → **UDP**, even though the answer matters.\n- (b) 200 MB update and (e) `POST /orders`: every byte must arrive in order → TCP.\n\nAnswer: a, c, d.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp-r4"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/set-5",
+    "family": "sd-tcp-udp-tcp-guarantee-ar",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tcp-reliable"
+    ],
+    "prompt_md": "**Assertion (A):** Over TCP, the data always reaches the other program, even if the network link fails for good partway through.\n\n**Reason (R):** TCP retransmits segments that are not acknowledged in time.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "A is false. Retransmitting cannot cross a dead link: TCP eventually gives up and reports an error.",
+        "misconception": "mc-tcp-guarantees-arrival"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "A is not true at all. TCP cannot make a dead network work.",
+        "misconception": "mc-tcp-guarantees-arrival"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "Both halves are the wrong way round. R is true (TCP does retransmit), and A is false."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "correct": true,
+        "why_md": "Right. TCP retransmits unacknowledged segments (R true), but if acknowledgments never come it gives up and reports an error (A false)."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. For A, ask what TCP does if acknowledgments never come back.",
+      "R is how TCP recovers losses. But a dead link never acknowledges anything: TCP eventually gives up and the program sees an error."
+    ],
+    "solution_md": "R is true: TCP resends any segment not acknowledged in time. A is false: if the link stays dead, acknowledgments never arrive, so TCP eventually gives up and reports an error to the program. What TCP guarantees is that the program never sees gaps, duplicates or reordering: the bytes arrive complete and in order, or the connection fails visibly. Answer: **A false; R true**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/set-6",
+    "family": "sd-tcp-udp-tcp-handshake-many-conns",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tcp-reliable"
+    ],
+    "prompt_md": "A barcode scanner in a warehouse is **30 ms one way** from the stock-control server. It makes **12 requests** one after another and opens a **new** TCP connection for each. Compared with sending all 12 over one already-open connection, how many **milliseconds** do the handshakes add in total? (Ignore TLS.)",
+    "answer": {
+      "value": 720,
+      "tolerance": 0,
+      "unit": "ms"
+    },
+    "common_wrong": [
+      {
+        "value": 360,
+        "kind": "slip",
+        "why_md": "That uses the one-way latency (12 × 30). Each handshake costs a full RTT of 60 ms."
+      },
+      {
+        "value": 660,
+        "kind": "slip",
+        "why_md": "That leaves out one handshake. The comparison connection is already open, so all 12 handshakes are extra."
+      },
+      {
+        "value": 60,
+        "kind": "slip",
+        "why_md": "That is the cost of one handshake. There are 12 new connections, one after another."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "one_way = 30\nrtt = 2 * one_way\nn_new = 12\nanswer = n_new * rtt\n"
+    },
+    "hints": [
+      "Extra latency from handshakes = (number of new connections) × RTT.",
+      "RTT = 2 × 30 ms = 60 ms. Multiply by 12."
+    ],
+    "solution_md": "RTT = 2 × 30 ms = 60 ms. Each new connection adds one RTT before its request can go. 12 new connections in sequence: 12 × 60 ms = **720 ms**. The already-open connection needs no handshake at all, so the whole 720 ms is extra.",
+    "version": 2,
+    "class": "predict",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp-r4"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/set-7",
+    "family": "sd-tcp-udp-osi-l4-cookie",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-osi-l4-l7"
+    ],
+    "prompt_md": "A shopping website's servers sit behind a load balancer that works at **layer 4**. The team wants every request carrying the cookie `beta=1` to go to a test server. Can this load balancer do it?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Yes. The cookie travels in the same packets it forwards, so it can match on it.",
+        "why_md": "The bytes pass through, but a layer-4 component does not read them. It works with IP addresses, ports and other transport-level fields, never the HTTP request.",
+        "misconception": "mc-l4-reads-urls"
+      },
+      {
+        "id": "b",
+        "md": "Yes, because cookies identify the user, and layer 4 routes by who is connecting",
+        "why_md": "Layer 4 knows only the source IP address and port, not the logged-in user. The cookie is inside the HTTP message.",
+        "misconception": "mc-l4-reads-urls"
+      },
+      {
+        "id": "c",
+        "md": "No. The cookie is in an HTTP header at layer 7, and a layer-4 component works with IP addresses, ports and other transport-level fields, not HTTP headers.",
+        "correct": true,
+        "why_md": "Right. Routing by cookie needs a component that reads the HTTP request: layer 7."
+      },
+      {
+        "id": "d",
+        "md": "No, because cookies are handled at the OSI presentation layer, which only the browser runs",
+        "why_md": "Right verdict, wrong reason. Cookies are HTTP headers (layer 7). The OSI presentation layer is not the browser's presentation tier; those are different ideas.",
+        "misconception": "mc-osi-layer-is-tier"
+      }
+    ],
+    "hints": [
+      "List what a layer-4 component reads, then ask where the cookie lives.",
+      "A cookie is sent in an HTTP header. HTTP is layer 7. Layer 4 works with IP addresses, ports and other transport-level fields, not HTTP."
+    ],
+    "solution_md": "A layer-4 load balancer routes on transport-level facts: source and destination IP address and source and destination port (it may read other TCP header fields, but never the HTTP request). The cookie `beta=1` is an HTTP header, which is layer 7. A request with the cookie and one without it look the same at layer 4. So it **cannot** route by cookie; a layer-7 load balancer can. Answer: c.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp-r4"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/set-8",
+    "family": "sd-tcp-udp-udp-why-dns",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-udp-connectionless"
+    ],
+    "prompt_md": "A colleague says: \"DNS answers are vital, since nothing loads without them, so DNS lookups should use TCP.\" Which reply best explains why a normal DNS lookup uses UDP?",
+    "options": [
+      {
+        "id": "a",
+        "md": "DNS answers aren't really important: if one is lost the page still loads",
+        "why_md": "Without the DNS answer the browser has no IP address, so nothing loads. UDP is not for unimportant data.",
+        "misconception": "mc-udp-unimportant-data"
+      },
+      {
+        "id": "b",
+        "md": "The question and the answer each fit in one small datagram, so a handshake would double the wait, and if no answer comes the client just asks again",
+        "correct": true,
+        "why_md": "Right. For a one-message exchange, a cheap retry by the application beats a full TCP handshake."
+      },
+      {
+        "id": "c",
+        "md": "UDP retransmits lost datagrams automatically, so DNS gets TCP's reliability without the handshake",
+        "why_md": "UDP never retransmits. A lost datagram stays lost; the DNS client itself asks again."
+      },
+      {
+        "id": "d",
+        "md": "UDP keeps datagrams in order, which DNS needs",
+        "why_md": "UDP does no ordering. A single question and answer have no order to keep anyway."
+      }
+    ],
+    "hints": [
+      "The lesson's rule for UDP has two parts: late data is worthless, **or** the exchange is one small message. Which one fits DNS?",
+      "Count the round trips: a handshake costs one RTT and the question costs another. And who resends if the answer is lost?"
+    ],
+    "solution_md": "DNS answers matter, so (a) is wrong. UDP fits DNS because the exchange is **one small question and one small answer**. A TCP handshake would add a round trip, roughly doubling the wait. If the answer is lost, the DNS client simply asks again, which is cheap. UDP itself neither retransmits (c) nor orders (d). Answer: b.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/set-9",
+    "family": "sd-tcp-udp-tcp-loss-trace",
+    "kind": "trace",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-tcp-reliable"
+    ],
+    "prompt_md": "The proxy sends segments S1–S5 to a browser over TCP. S1 has **already arrived**: the receiver handed S1 to the browser program and sent ACK `S1`. S2 was lost and is resent later. The table lists the order in which the **remaining** segments arrive at the browser's TCP layer. For each arrival, fill in:\n\n- **ACK**: the last segment up to which the receiver now has everything, with no gaps (write e.g. `S1`);\n- **Handed to program**: the segments passed to the browser program at that moment, in order, separated by commas with no spaces (e.g. `S2,S3`), or `none`.",
+    "context_md": "| Arrives | ACK: have everything up to | Handed to program |\n|---|---|---|\n| S3 | ? | ? |\n| S4 | ? | ? |\n| S5 | ? | ? |\n| S2 (resent) | ? | ? |",
+    "answer": {
+      "cells": {
+        "0,1": "S1",
+        "0,2": "none",
+        "1,1": "S1",
+        "1,2": "none",
+        "2,1": "S1",
+        "2,2": "none",
+        "3,1": "S5",
+        "3,2": "S2,S3,S4,S5"
+      }
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "arrivals = ['S3', 'S4', 'S5', 'S2']\nreceived = {1}\nnext_i = 2  # S1 already handed over\nanswer = {}\nfor row, seg in enumerate(arrivals):\n    received.add(int(seg[1:]))\n    handed = []\n    while next_i in received:\n        handed.append('S%d' % next_i)\n        next_i += 1\n    answer['%d,1' % row] = 'S%d' % (next_i - 1)\n    answer['%d,2' % row] = ','.join(handed) if handed else 'none'\n"
+    },
+    "hints": [
+      "TCP hands bytes to the program only in order. A segment that arrives after a gap is held in a buffer, and the ACK keeps naming the last segment before the gap.",
+      "S3, S4 and S5 are held while S2 is missing, so the ACK stays at S1. When S2 arrives, the gap closes and everything held goes up at once."
+    ],
+    "solution_md": "S1 is already delivered, so the receiver is waiting for S2.\n\n- S3 arrives: S2 is missing, so S3 is **held**. ACK stays `S1`. Handed: `none`.\n- S4 arrives: held. ACK `S1`, handed `none`.\n- S5 arrives: held. ACK `S1`, handed `none`.\n- S2 (resent) arrives: the gap is closed. The ACK jumps to `S5`, and `S2,S3,S4,S5` go to the program together, in order.\n\nS3–S5 waited even though they had arrived. That is **head-of-line blocking**. TCP never hands S3 to the program before S2.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/set-10",
+    "family": "sd-tcp-udp-udp-case-live-voice",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-udp-connectionless"
+    ],
+    "prompt_md": "A phone app streams **live audio** from a concert: 50 audio packets per second, each a slice of sound that should play *now*. To stay close to live, the player keeps only a **small playback buffer**, much shorter than one round trip. Listeners' connections have an RTT of about 200 ms and lose about 1% of packets. Which transport choice is best for the audio?",
+    "options": [
+      {
+        "id": "a",
+        "md": "TCP, opening a new connection for each second of audio, because the audio matters and UDP is for data that doesn't",
+        "why_md": "Trap. The audio matters, but UDP isn't only for unimportant data. This choice has all of TCP's head-of-line waits after a loss, **and** it adds a ~200 ms handshake every second. That handshake time alone is longer than the small buffer can cover.",
+        "misconception": "mc-udp-unimportant-data"
+      },
+      {
+        "id": "b",
+        "md": "UDP: play the packets that arrive, and let the player deal with the occasional lost slice",
+        "correct": true,
+        "why_md": "Best. UDP delivers later datagrams without waiting for any resend, so playback can stay close to live. About 1 slice in 100 is missing; how audible that is depends on the player. For live audio, on time matters more than complete."
+      },
+      {
+        "id": "c",
+        "md": "TCP over one long-lived connection",
+        "why_md": "Viable, second-best. There are no repeated handshakes, and TCP resends missing bytes and delivers them in order. But TCP holds back later bytes until a lost segment is resent (head-of-line blocking), at least ~200 ms after the original send. The small buffer can't cover that delay, so playback may stall and fall behind live."
+      }
+    ],
+    "hints": [
+      "Ask what a late audio slice is worth, and what TCP does with the bytes behind a lost segment.",
+      "Under TCP, recovering a loss takes at least one RTT (~200 ms), and later bytes wait for it. The buffer here is much shorter. Under UDP, later datagrams aren't held back. A new connection every second also adds a handshake each time."
+    ],
+    "solution_md": "Loss: 1% × 50 = about 0.5 lost packets per second, on average.\n\n- **UDP (b):** later datagrams reach the player without waiting for a resend. The player decides what to do about each missing slice, and playback stays close to live. **Best.**\n- **TCP, one connection (c):** TCP resends missing bytes and delivers in order, but it holds back later bytes until the lost one is resent (head-of-line blocking), which takes at least ~200 ms. The playback buffer is much shorter, so playback may stall and drift behind live. It works, but it's second-best.\n- **TCP, new connection every second (a):** the same head-of-line waits, plus a ~200 ms handshake every second. This is the worst choice, and its reason (UDP is only for unimportant data) is a misconception.\n\n**Answer: b.**",
+    "version": 4,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp-r4"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/set-11",
+    "family": "sd-tcp-udp-udp-files-multi",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-udp-connectionless"
+    ],
+    "prompt_md": "A bank's engineer proposes sending customers' 2 MB statement PDFs to its phone app over **plain UDP** \"because UDP is faster\". Each PDF must arrive complete or it won't open. Which statements about this plan are correct? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Any datagram lost on the way stays lost unless the bank's own code notices and resends it",
+        "correct": true,
+        "why_md": "True. UDP has no acknowledgements or resending."
+      },
+      {
+        "id": "b",
+        "md": "The datagrams may reach the app in a different order, so the app must put the pieces back in order itself",
+        "correct": true,
+        "why_md": "True. UDP does no ordering: datagrams reach the program as they arrive."
+      },
+      {
+        "id": "c",
+        "md": "Skipping TCP's handshake saves about one RTT before the first data can be sent",
+        "correct": true,
+        "why_md": "True. UDP's first datagram can carry data at once. That saving is real, but small next to rebuilding reliability for a 2 MB file."
+      },
+      {
+        "id": "d",
+        "md": "Because UDP is faster, it is the better choice here, since speed matters to customers",
+        "why_md": "False. The PDF must be complete. Plain UDP gives up the resending and ordering this transfer needs; TCP is the fit.",
+        "misconception": "mc-udp-always-faster-better"
+      },
+      {
+        "id": "e",
+        "md": "UDP's checksum means lost datagrams are detected and resent automatically",
+        "why_md": "False. A checksum can flag a damaged datagram that arrives, but nothing in UDP resends a lost one."
+      }
+    ],
+    "hints": [
+      "Check each statement against UDP's three \"no\"s: no handshake, no resending, no ordering.",
+      "a, b and c each follow from one of those \"no\"s. The other two claim UDP gives something it doesn't, or that speed beats completeness here."
+    ],
+    "solution_md": "UDP has no handshake (so c is true: about one RTT saved), no resending (a true; e false, since the checksum doesn't resend anything) and no ordering (b true). (d) is the misconception: a file that must be complete needs TCP's guarantees, and rebuilding them on top of UDP gives back most of the speed. Answer: a, b, c.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp-r4"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/set-12",
+    "family": "sd-tcp-udp-osi-case-balancer",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-osi-l4-l7"
+    ],
+    "prompt_md": "A shopping website runs 4 app servers (10.0.1.10 to 10.0.1.13) and a separate test server, 10.0.1.14. Customers reach it from browsers and from the company's phone app. It needs one load balancer in front that does two things:\n\n1. spreads ordinary requests across the 4 app servers;\n2. sends every request whose HTTP request carries the cookie `beta=1`, from browsers and the app alike, to the test server 10.0.1.14.\n\nWhich design should you pick?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A layer-4 load balancer with a rule matching `Cookie: beta=1`",
+        "why_md": "Trap. A layer-4 balancer routes on IP addresses, ports and other transport-level fields, not HTTP content. It cannot read the cookie, so the rule can't work.",
+        "misconception": "mc-l4-reads-urls"
+      },
+      {
+        "id": "b",
+        "md": "A layer-4 load balancer, and ship a beta build of the phone app that connects to port 8443, so the balancer can split by port",
+        "why_md": "Viable, second-best. Layer 4 can split by port, so beta app users reach the test server. But it ignores the cookie: browser users with `beta=1` still land on the normal servers, and every beta client must be changed."
+      },
+      {
+        "id": "c",
+        "md": "A layer-7 load balancer that reads the `Cookie` header and spreads the remaining requests across the 4 app servers",
+        "correct": true,
+        "why_md": "Best. Layer 7 reads URLs, headers and cookies, so it meets both requirements for every client."
+      }
+    ],
+    "hints": [
+      "Requirement 2 is about a cookie. At which layer does a cookie live, and which balancer can read it?",
+      "Cookies are HTTP headers (layer 7). Layer 4 works with addresses, ports and other transport-level fields, not HTTP content, so it can only split by something like a port, and that misses browser users."
+    ],
+    "solution_md": "Spreading requests (1) works at either layer. Requirement 2 needs the `Cookie` header, which is part of the HTTP message at **layer 7**.\n\n- (c) A layer-7 balancer reads the cookie and also spreads load: **best**.\n- (b) Splitting by port at layer 4 works only for clients you change, and ignores the cookie: second-best.\n- (a) A layer-4 cookie rule is impossible; the balancer never reads HTTP.\n\nAnswer: c.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-tcp-udp-r4"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/exit-1",
+    "family": "sd-tcp-udp-exit-handshake-second",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-tcp-reliable"
+    ],
+    "prompt_md": "A client has sent **SYN** to open a TCP connection. What does the server send next?",
+    "options": [
+      {
+        "id": "a",
+        "md": "ACK, and the connection is open",
+        "why_md": "The plain ACK is the third message, and the client sends it."
+      },
+      {
+        "id": "b",
+        "md": "SYN-ACK: it acknowledges the client's numbering and gives its own",
+        "correct": true,
+        "why_md": "Right. SYN, SYN-ACK, ACK."
+      },
+      {
+        "id": "c",
+        "md": "The requested page",
+        "why_md": "No data moves until the handshake has finished, and the client hasn't sent a request yet."
+      }
+    ],
+    "hints": [
+      "Recall the three-way handshake: three messages, alternating sides.",
+      "SYN → SYN-ACK → ACK."
+    ],
+    "solution_md": "The three-way handshake is SYN (client), **SYN-ACK** (server), ACK (client). The server's reply acknowledges the client's numbering (ACK) and starts its own (SYN). Answer: b.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/exit-2",
+    "family": "sd-tcp-udp-exit-udp-lost",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-udp-connectionless"
+    ],
+    "prompt_md": "A game sends player positions over UDP. One datagram is lost on the way. What happens to it?",
+    "options": [
+      {
+        "id": "a",
+        "md": "UDP resends it after about one RTT",
+        "why_md": "That is TCP's behaviour. UDP has no acknowledgments or retransmission."
+      },
+      {
+        "id": "b",
+        "md": "UDP holds back later datagrams until it arrives",
+        "why_md": "UDP does no ordering and holds nothing back; later datagrams reach the game as they arrive.",
+        "misconception": "mc-tcp-out-of-order"
+      },
+      {
+        "id": "c",
+        "md": "It stays lost unless the game itself sends it again",
+        "correct": true,
+        "why_md": "Right. UDP makes no promises. Here the next position update replaces it anyway."
+      }
+    ],
+    "hints": [
+      "List what UDP does **not** do: handshake, retransmission, ordering.",
+      "With no retransmission, a lost datagram stays lost unless the application resends it."
+    ],
+    "solution_md": "UDP has no acknowledgments, no retransmission and no ordering. A lost datagram is simply gone unless the application resends it. For a game that's fine: the next position arrives a moment later. Answer: c.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-tcp-udp"
+    }
+  },
+  {
+    "id": "sd-tcp-udp/exit-3",
+    "family": "sd-tcp-udp-exit-l4-sees",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-osi-l4-l7"
+    ],
+    "prompt_md": "A request for `GET /api/orders` passes through a **layer-4** load balancer. What can the balancer read?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The source and destination IP addresses and ports, and that it is TCP",
+        "correct": true,
+        "why_md": "Right. Layer 4 reads only the outer labels."
+      },
+      {
+        "id": "b",
+        "md": "The IPs and ports, plus the path `/api/orders`",
+        "why_md": "The path is part of the HTTP request at layer 7. Layer 4 forwards it unread.",
+        "misconception": "mc-l4-reads-urls"
+      },
+      {
+        "id": "c",
+        "md": "The IPs, ports, path and cookies",
+        "why_md": "That is what a layer-7 component sees."
+      }
+    ],
+    "hints": [
+      "Layer 4 is the transport layer. Which labels belong to transport and below?",
+      "IPs (layer 3), ports and TCP/UDP (layer 4). URLs, headers and cookies are layer 7."
+    ],
+    "solution_md": "A layer-4 component routes using IP addresses, ports and the protocol (TCP or UDP), and may read other TCP header fields, but never the HTTP request inside. The path, headers and cookies are inside the HTTP message at layer 7. Answer: a.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-tcp-udp",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-tcp-udp"
+    }
+  }
+]

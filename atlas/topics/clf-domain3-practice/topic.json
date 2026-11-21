@@ -1,0 +1,73 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-domain3-practice",
+  "version": 1,
+  "title": "Domain 3 practice: technology and services (34%)",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-clf-d3-task-statements",
+      "version": 1,
+      "statement": "Domain 3 (Cloud Technology and Services, 34%, the largest) has eight task statements: deploying and operating, global infrastructure, compute, database, network, storage, AI/ML and analytics, and other in-scope service categories, so its practice set must rotate across all eight rather than drill compute alone."
+    },
+    {
+      "id": "kc-clf-d3-global-regional-az-trap",
+      "version": 1,
+      "statement": "Many Domain 3 items hinge on scope: IAM, Route 53 and CloudFront are global services, EC2, RDS and VPC are Regional, and an EBS volume lives in one Availability Zone and attaches only to instances in that zone."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-exam-format-scoring",
+    "clf-availability-zones",
+    "clf-ebs"
+  ],
+  "suggests": [
+    "clf-choosing-compute",
+    "clf-choosing-storage",
+    "clf-choosing-database",
+    "clf-choosing-analytics"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "service scope"
+  ],
+  "uses": [
+    "domain practice set",
+    "task statement",
+    "iam",
+    "route 53",
+    "cloudfront",
+    "ec2",
+    "rds",
+    "vpc",
+    "ebs",
+    "region",
+    "availability zone"
+  ],
+  "problem_ideas": [
+    "A 16-question Domain 3 set with two items per task statement; mark which of the eight task statements fell below 70%.",
+    "An EC2 instance in us-east-1a cannot see an EBS volume created in us-east-1b; explain why and give the fix (snapshot and restore).",
+    "Classify ten services as global, Regional or zonal in under 90 seconds.",
+    "A stem asks for a NoSQL key-value store with single-digit-millisecond reads and no servers; pick the service and rule out ElastiCache.",
+    "A stem asks to query CSV files in S3 with SQL without loading them anywhere; pick Athena and rule out Redshift.",
+    "Domain 3 is about 17 scored items; compute the maximum misses that keep you at 70% in this domain.",
+    "Pick the two task statements with the most misses and schedule their 'choosing a service' lessons for replay."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "content-outline/content-domain-3-cloud-technology-and-se"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-3-identify-aws-compute-/task-statement-3-3-identify-aws-compute-"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-5-identify-aws-network-/task-statement-3-5-identify-aws-network-"
+    }
+  ],
+  "status": "stub"
+}

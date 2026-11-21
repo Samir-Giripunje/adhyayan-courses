@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-geohash",
+  "version": 1,
+  "title": "Geohash: turning locations into searchable strings",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-geohash-encoding",
+      "version": 1,
+      "statement": "A geohash interleaves longitude and latitude bisection bits and encodes them in base32, so points that share a longer prefix lie in the same, smaller cell."
+    },
+    {
+      "id": "kc-geohash-precision",
+      "version": 1,
+      "statement": "Each extra geohash character adds 5 bits and shrinks the cell about 32×. A 6-character geohash is roughly 1.2 km × 0.6 km."
+    },
+    {
+      "id": "kc-geohash-neighbors",
+      "version": 1,
+      "statement": "Nearby points can sit on opposite sides of a cell boundary and share no prefix. A radius search therefore picks a precision, queries every cell that intersects the search circle, and filters candidates by exact distance; the centre cell plus its 8 neighbours is enough only when those cells are at least as large as the radius at that latitude."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [],
+  "suggests": [
+    "sd-database-indexes"
+  ],
+  "confusable_with": [
+    "sd-quadtree"
+  ],
+  "introduces": [
+    "geohash",
+    "geohash precision"
+  ],
+  "uses": [
+    "database index",
+    "key-value store"
+  ],
+  "problem_ideas": [
+    "Implement encode(lat, lon, precision) in pure Python and check it against a known geohash.",
+    "Predict the cell size for 5, 6 and 7 characters and pick one for a 1 km search.",
+    "Two cafés 50 m apart have geohashes with no common prefix. Explain why and fix the query.",
+    "Implement cells_covering(lat, lon, radius_m, precision) that returns every cell intersecting the circle, and show a 3 km radius at precision 6 needs more than 9 cells.",
+    "Store restaurants in a SQL table with a geohash column and an index, then write the prefix query plus the exact-distance filter.",
+    "Explain why geohash cells near the poles are distorted and how that changes the cells a fixed radius covers."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "geohashing/how-does-geohashing-work"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "geohashing/use-cases"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-denormalization",
+  "version": 1,
+  "title": "Denormalization and materialized views",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-denormalization-def",
+      "version": 1,
+      "statement": "Denormalization copies data into the rows that read it, such as storing author_name on each post, so a hot read needs no join."
+    },
+    {
+      "id": "kc-denormalization-cost",
+      "version": 1,
+      "statement": "Denormalized copies must be updated on every write to the source, so denormalization suits read-heavy workloads and risks copies drifting out of sync."
+    },
+    {
+      "id": "kc-materialized-view",
+      "version": 1,
+      "statement": "A materialized view stores the precomputed result of a query and is refreshed on a schedule or on change, trading freshness for read speed."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-normalization"
+  ],
+  "suggests": [
+    "sd-cache-aside"
+  ],
+  "confusable_with": [
+    "sd-normalization"
+  ],
+  "introduces": [
+    "denormalization",
+    "materialized view"
+  ],
+  "uses": [
+    "normalization",
+    "sql join",
+    "read-to-write ratio"
+  ],
+  "problem_ideas": [
+    "A feed reads 100:1 over writes and joins posts with users on every read: decide what to denormalize",
+    "A user renames themselves and appears on 50,000 posts with a copied author_name: estimate the write fan-out",
+    "Design a materialized view for 'top 10 products per category' refreshed every 5 minutes, and state the staleness",
+    "Choose between a cache and a materialized view for a dashboard query that takes 4 seconds",
+    "List what breaks if the job updating denormalized like counts fails silently for an hour",
+    "Decide whether to denormalize the account balance in a banking app and justify it"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "databases/denormalization"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "database/denormalization"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "materialized-views/materialized-views"
+    }
+  ],
+  "status": "stub"
+}

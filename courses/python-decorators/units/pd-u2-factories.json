@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "pd-u2-factories",
+  "title": "Decorators with arguments and stacking",
+  "topics": [
+    {
+      "id": "pd-decorator-factories",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "pd-retry-decorator",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "pd-stacked-decorators",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "pd-functools-partial",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "pd-optional-argument-decorators",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "pd-decorator-history",
+      "tier": "optional",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

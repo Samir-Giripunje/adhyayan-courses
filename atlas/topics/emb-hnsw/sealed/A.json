@@ -1,0 +1,48 @@
+[
+  {
+    "id": "q-proof1-ann",
+    "version": 1,
+    "family": "q-proof1-ann",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-hnsw",
+    "kcs": [
+      "kc-hnsw"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "prompt_md": "You need higher recall from an HNSW index **without a rebuild**. Which knob?",
+    "options": [
+      {
+        "id": "a",
+        "md": "efSearch",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "M",
+        "why_md": "Changing M needs a rebuild."
+      },
+      {
+        "id": "c",
+        "md": "efConstruction",
+        "why_md": "That's build time."
+      }
+    ],
+    "hints": [
+      "Which idea applies? HNSW runs a greedy beam search over a layered proximity graph.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

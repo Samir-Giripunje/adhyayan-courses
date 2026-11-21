@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-vertical-horizontal-scaling",
+  "version": 1,
+  "title": "Vertical vs horizontal scaling",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-vertical-scaling",
+      "version": 1,
+      "statement": "Vertical scaling (scaling up) makes a single server bigger, with more CPU or memory; it is limited by the largest available machine and is common for non-distributed systems such as a database."
+    },
+    {
+      "id": "kc-horizontal-scaling",
+      "version": 1,
+      "statement": "Horizontal scaling (scaling out) adds more servers that share the load; it needs a distributed application and is how web tiers usually scale in the cloud."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-elasticity-agility",
+    "clf-high-availability"
+  ],
+  "confusable_with": [
+    "clf-elasticity-agility"
+  ],
+  "introduces": [
+    "scalability",
+    "vertical scaling",
+    "horizontal scaling"
+  ],
+  "uses": [
+    "server",
+    "application"
+  ],
+  "problem_ideas": [
+    "A database server hits 95% memory: does moving from 16 GB to 64 GB RAM scale up or out?",
+    "A web shop goes from 2 to 10 identical web servers for Black Friday: name the scaling direction.",
+    "Which approach hits a hard ceiling, and why?",
+    "Pick the scaling type a call-centre analogy describes: hiring more operators versus training one operator to work faster.",
+    "A legacy app keeps session state on one machine: which scaling type is easiest and why?",
+    "Order three changes (bigger instance, more instances, add a load balancer) by which ones need a distributed app."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "elastic-load-balancing-auto-scaling-grou/scalability-high-availability"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "elastic-load-balancing-auto-scaling-grou/vertical-scalability"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "elastic-load-balancing-auto-scaling-grou/horizontal-scalability"
+    }
+  ],
+  "status": "stub"
+}

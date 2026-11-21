@@ -1,0 +1,984 @@
+{
+  "stage": {
+    "id": "clf-p9",
+    "title": "Exam readiness: strategy and full mocks",
+    "outcome": [
+      "o6"
+    ],
+    "assumes": [
+      "shared responsibility model",
+      "well-architected pillars",
+      "support plans",
+      "savings plans",
+      "region"
+    ],
+    "provides": [
+      "exam domain weighting",
+      "scaled score",
+      "distractor elimination",
+      "mock exam review"
+    ]
+  },
+  "sections": [
+    {
+      "id": "exam-readiness",
+      "title": "Exam readiness: format, tactics and pacing",
+      "rank": 1,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "exam-content"
+      }
+    },
+    {
+      "id": "domain-practice",
+      "title": "Practice by domain: all four CLF-C02 domains",
+      "rank": 2,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "content-outline"
+      }
+    },
+    {
+      "id": "full-mocks",
+      "title": "Two timed full mocks with review in between",
+      "rank": 3,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "exam-content"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "clf-exam-format-scoring",
+      "title": "The CLF-C02 exam: format, domains and scoring",
+      "size": "big",
+      "est_min": 14,
+      "section": "exam-readiness",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-clf-exam-65-questions-90-minutes",
+          "statement": "CLF-C02 has 65 questions in 90 minutes; 50 are scored and 15 are unscored pilot items that are not marked, so every question must be treated as if it counts."
+        },
+        {
+          "id": "kc-clf-scaled-score-700",
+          "statement": "Results are reported as a scaled score from 100 to 1,000 with 700 as the passing mark, and the scaled score is not the same as the raw percentage of questions answered correctly."
+        },
+        {
+          "id": "kc-clf-domain-weighting",
+          "statement": "Scored content is weighted Cloud Concepts 24%, Security and Compliance 30%, Cloud Technology and Services 34% and Billing, Pricing and Support 12%, so of 50 scored items about 17 come from Domain 3 and about 6 from Domain 4."
+        },
+        {
+          "id": "kc-clf-compensatory-no-guess-penalty",
+          "statement": "Scoring is compensatory (you pass on the overall score, not on each domain), and an unanswered question counts as wrong with no extra penalty for a wrong guess, so every question should get an answer."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Knowing the question count, timing, weighting and pass mark is needed to plan and judge a timed 65-question mock."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-timed-mock-pacing"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "exam domain weighting",
+        "scaled score",
+        "unscored questions",
+        "compensatory scoring"
+      ],
+      "uses": [],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "exam-content/exam-content"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "exam-content/unscored-content"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "exam-content/exam-results"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "content-outline/content-outline"
+        }
+      ],
+      "problem_ideas": [
+        "Given the four domain weights, compute how many of the 50 scored questions to expect from each domain.",
+        "A learner says 'I need 70% right to pass because the pass mark is 700'; identify what is wrong with that claim.",
+        "A candidate scores 'Needs improvement' on Billing but passes overall; explain how that is possible under compensatory scoring.",
+        "With 3 minutes left and 6 unanswered questions, decide whether to leave them blank or guess, and say why.",
+        "A learner wants to skip Domain 4 entirely; estimate the maximum share of the scored exam they are giving up.",
+        "A friend recognises an odd question and assumes it is unscored, so skips it; explain why that is a bad bet.",
+        "Rank the four domains by how many scored questions each contributes and pick which to revise first with two days left."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Why certification exams use scaled scores and equating across exam forms"
+        },
+        {
+          "kind": "edge",
+          "title": "Exam accommodations such as extra time for non-native English speakers"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Every study and pacing decision for the exam rests on these numbers: 65 questions, 90 minutes, 700 to pass, and how the domains are weighted."
+      }
+    },
+    {
+      "id": "clf-question-keywords-distractors",
+      "title": "Reading stems: keyword cues and eliminating distractors",
+      "size": "standard",
+      "est_min": 10,
+      "section": "exam-readiness",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-clf-qualifier-keyword-cues",
+          "statement": "Qualifier phrases decide the answer: 'least operational overhead' points to a managed or serverless service, and 'most cost-effective' points to the cheapest option that still meets every stated requirement."
+        },
+        {
+          "id": "kc-clf-eliminate-wrong-job-options",
+          "statement": "Distractors are usually real AWS services that do a different job or belong to a different category, so eliminating them first typically leaves two options to compare against the stem's exact requirement."
+        },
+        {
+          "id": "kc-clf-multiple-response-items",
+          "statement": "A multiple-response item states how many options to select (two or more out of five or more) and earns credit only when every option you choose is correct."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Reading qualifiers and ruling out look-alike services is how scenario questions are answered correctly under time pressure."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-exam-format-scoring"
+      ],
+      "confusable_with": [
+        "clf-service-verb-lens"
+      ],
+      "introduces": [
+        "distractor elimination",
+        "keyword cue",
+        "multiple-response question"
+      ],
+      "uses": [
+        "managed service",
+        "serverless"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "exam-content/exam-content"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-3-identify-aws-compute-/recognizing-the-appropriate-use-of-vario"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-4-identify-aws-database/deciding-when-to-use-ec2-hosted-database"
+        }
+      ],
+      "problem_ideas": [
+        "A stem asks for a relational database with the least operational overhead; options are MySQL on EC2, RDS, DynamoDB and Redshift; eliminate two and pick one.",
+        "Underline the qualifier in five stems ('most cost-effective', 'highly available', 'least effort', 'without managing servers', 'global users') and name the service family each points to.",
+        "A 'Select TWO' question about increasing availability: choose the two correct options out of five and explain why the attractive third one is wrong.",
+        "Rewrite a distractor so that it would become the correct answer, showing which requirement it fails today.",
+        "A stem asks for the cheapest storage for data read once a year with 12-hour retrieval allowed; eliminate S3 Standard and EFS and justify the choice.",
+        "Spot the trap: the stem says 'without provisioning servers' and the options include EC2 Auto Scaling and Lambda.",
+        "Classify three wrong options in a missed question as 'wrong category', 'wrong job' or 'fails a qualifier'."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How exam writers build plausible distractors from the same service family"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Most CLF-C02 questions are short scenarios where one qualifier word separates the right service from a believable wrong one."
+      }
+    },
+    {
+      "id": "clf-service-verb-lens",
+      "title": "Telling look-alike services apart by what they do",
+      "size": "standard",
+      "est_min": 10,
+      "section": "exam-readiness",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-clf-verb-lens-method",
+          "statement": "Naming the verb the stem needs (prevent, detect, record, estimate, alert or analyze) before reading the options turns a service-name question into a category match and removes most distractors."
+        },
+        {
+          "id": "kc-clf-security-verb-sort",
+          "statement": "Under the verb lens, Shield and WAF prevent attacks, GuardDuty detects threats, Inspector scans for software vulnerabilities, Macie discovers sensitive data in S3, and CloudTrail and AWS Config record activity and configuration."
+        },
+        {
+          "id": "kc-clf-cost-time-sort",
+          "statement": "Cost tools sort by time: the Pricing Calculator estimates before you build, AWS Budgets alerts while you spend, and Cost Explorer and the Cost and Usage Report analyze spending afterwards."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Security (30%) and billing (12%) questions repeatedly pair look-alike services; a quick sorting lens is needed to clear them reliably in a timed mock."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-question-keywords-distractors",
+          "reason": "The verb lens is a way of doing distractor elimination, so that step must already be known."
+        }
+      ],
+      "suggests": [
+        "clf-choosing-security-service",
+        "clf-choosing-cost-tool",
+        "clf-monitoring-vs-auditing"
+      ],
+      "confusable_with": [
+        "clf-question-keywords-distractors"
+      ],
+      "introduces": [
+        "service verb lens"
+      ],
+      "uses": [
+        "distractor elimination",
+        "shield",
+        "waf",
+        "guardduty",
+        "inspector",
+        "macie",
+        "cloudtrail",
+        "aws config",
+        "s3",
+        "pricing calculator",
+        "aws budgets",
+        "cost explorer",
+        "cost and usage report"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "content-outline/content-domain-2-security-and-compliance"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "content-outline/content-domain-4-billing-pricing-and-sup"
+        }
+      ],
+      "problem_ideas": [
+        "Sort twelve service names into prevent, detect, record, estimate, alert and analyze columns in under two minutes.",
+        "A stem: 'a company wants to be notified when monthly spend is forecast to exceed $5,000'; name the verb, then the service, then the closest distractor.",
+        "A stem: 'find which IAM user deleted an S3 bucket last Tuesday'; apply the lens and rule out AWS Config.",
+        "A stem: 'block SQL injection attempts against an Application Load Balancer'; pick between WAF, Shield Standard and GuardDuty.",
+        "A stem: 'estimate the monthly cost of a new three-tier app before launch'; rule out Cost Explorer.",
+        "A stem: 'discover credit card numbers stored in S3 buckets'; choose between Macie and Inspector and say which verb decides it.",
+        "Build your own verb card for five services that cost you points in your last mock."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Mapping the verb lens onto the Well-Architected security pillar's detect and protect practices"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Pairs like WAF vs Shield or Budgets vs Cost Explorer show up again and again; one sorting habit clears most of them quickly."
+      }
+    },
+    {
+      "id": "clf-timed-mock-pacing",
+      "title": "Pacing a 90-minute mock: time per question and flags",
+      "size": "standard",
+      "est_min": 8,
+      "section": "exam-readiness",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-clf-pacing-math",
+          "statement": "90 minutes over 65 questions is about 83 seconds per question; a first pass at about one minute per question finishes in roughly 65 minutes and leaves about 25 minutes to revisit flagged items."
+        },
+        {
+          "id": "kc-clf-flag-and-move-on",
+          "statement": "When a question runs past about two minutes, select a best guess, flag it for review and move on, so no question is left unanswered if time runs out."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Finishing 65 questions inside 90 minutes is part of the outcome's 'under exam conditions' requirement."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-exam-format-scoring",
+          "reason": "The pacing math depends on the 65-question, 90-minute format and on blank answers scoring zero."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [],
+      "introduces": [
+        "pacing plan",
+        "flag for review"
+      ],
+      "uses": [
+        "unscored questions",
+        "compensatory scoring"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "exam-content/exam-content"
+        }
+      ],
+      "problem_ideas": [
+        "At the 45-minute mark you have answered 30 questions; compute whether you are ahead of or behind a one-minute-per-question first pass.",
+        "Plan checkpoints: what question number should you reach by minute 20, 40 and 60?",
+        "You have flagged 12 questions and have 18 minutes left; compute the time per flagged item and decide the order to revisit them.",
+        "One question has taken 4 minutes; list what to do in the next 10 seconds.",
+        "With 30 extra minutes from an accommodation (120 minutes total), recompute seconds per question.",
+        "Compare two strategies on a mock log: answering strictly in order vs flagging long stems, and estimate the questions each would leave blank.",
+        "Draft a one-line pacing plan to write on the whiteboard at the start of the exam."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Online proctored vs test-centre delivery: what changes for breaks and timing"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Plenty of candidates who know the material still lose points by running out of time or leaving answers blank."
+      }
+    },
+    {
+      "id": "clf-domain1-practice",
+      "title": "Domain 1 practice: cloud concepts (24%)",
+      "size": "standard",
+      "est_min": 8,
+      "section": "domain-practice",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-clf-d1-task-statements",
+          "statement": "Domain 1 (Cloud Concepts, 24%) has four task statements: benefits of the AWS Cloud, design principles of the Well-Architected Framework, benefits of and strategies for migration, and concepts of cloud economics, so a Domain 1 practice set samples all four."
+        },
+        {
+          "id": "kc-clf-d1-pillar-vs-caf-trap",
+          "statement": "The six Well-Architected pillars (operational excellence, security, reliability, performance efficiency, cost optimization, sustainability) assess a workload, while the six CAF perspectives (business, people, governance, platform, security, operations) organise an organisation's adoption; security is in both lists, so the stem's subject (a workload or an organisation) decides which framework answers it."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "o6 requires every domain at 70% or higher; this topic's practice set is the Domain 1 practice assessment that checks that bar before the mocks (the set itself is scheduled separately, so est_min covers only the briefing and exit ticket)."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-exam-format-scoring",
+          "reason": "The practice set is sized and judged against Domain 1's 24% weighting and the per-domain floor."
+        },
+        {
+          "topic": "clf-wa-pillars-performance-cost-sustainability",
+          "reason": "The pillar-vs-perspective trap needs the full list of six pillars, completed in this lesson."
+        },
+        {
+          "topic": "clf-cloud-adoption-framework",
+          "reason": "The trap compares the pillars with the CAF perspectives, which must already be known."
+        }
+      ],
+      "suggests": [
+        "clf-migration-strategies",
+        "clf-six-advantages"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "task statement",
+        "domain practice set"
+      ],
+      "uses": [
+        "exam domain weighting",
+        "well-architected pillars",
+        "cloud adoption framework",
+        "caf perspectives",
+        "migration strategies"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "content-outline/content-domain-1-cloud-concepts-24-of-sc"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-1-define-the-benefits-o/task-statement-1-1-define-the-benefits-o"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-3-understand-the-benefi/task-statement-1-3-understand-the-benefi"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-1-4-understand-concepts-o/task-statement-1-4-understand-concepts-o"
+        }
+      ],
+      "problem_ideas": [
+        "A 12-question Domain 1 set with three items per task statement; score each task statement and name the weakest.",
+        "A stem says 'a company wants to train staff and redesign roles before moving to AWS'; decide pillar or CAF perspective, then name it.",
+        "A stem says 'reduce the energy footprint of a running workload'; pick the pillar and rule out the CAF platform perspective.",
+        "A retailer moves a legacy app to EC2 unchanged to exit a data centre in 60 days; name the migration strategy and the closest wrong R.",
+        "A CFO wants to stop buying servers three years ahead; name the economics concept and the cloud benefit it maps to.",
+        "Domain 1 is about 12 scored items; compute how many you can miss and still stay at or above 70%.",
+        "Classify each miss from the set by task statement and choose which earlier lesson to replay."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "How the Well-Architected lenses extend the six pillars for specific workloads"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Nearly a quarter of the scored exam; this set shows whether your concept and economics answers hold up before you try a full mock."
+      }
+    },
+    {
+      "id": "clf-domain2-practice",
+      "title": "Domain 2 practice: security and compliance (30%)",
+      "size": "standard",
+      "est_min": 8,
+      "section": "domain-practice",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-clf-d2-task-statements",
+          "statement": "Domain 2 (Security and Compliance, 30%, about 15 scored items) has four task statements: the shared responsibility model, security, governance and compliance concepts, access management capabilities, and components and resources for security."
+        },
+        {
+          "id": "kc-clf-d2-permission-scope-trap",
+          "statement": "IAM policies grant permissions inside one account, a service control policy only caps the maximum permissions of accounts in an organization and grants nothing by itself, and IAM Identity Center assigns people access across many accounts, so the scope named in the stem decides which one fits."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "o6 requires every domain at 70% or higher; this is the Domain 2 practice assessment for the second-heaviest domain (the set runs as a separately scheduled practice set)."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-exam-format-scoring",
+          "reason": "The set is sized and judged against Domain 2's 30% weighting and the per-domain floor."
+        },
+        {
+          "topic": "clf-service-control-policies",
+          "reason": "The scope trap needs the fact that an SCP limits but never grants permissions."
+        },
+        {
+          "topic": "clf-iam-identity-center",
+          "reason": "The scope trap contrasts IAM Identity Center's multi-account access with single-account IAM policies."
+        }
+      ],
+      "suggests": [
+        "clf-service-verb-lens",
+        "clf-shared-responsibility-by-service",
+        "clf-choosing-security-service"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "permission scope"
+      ],
+      "uses": [
+        "domain practice set",
+        "task statement",
+        "shared responsibility model",
+        "iam policy",
+        "service control policy",
+        "aws organizations",
+        "iam identity center",
+        "aws account"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "content-outline/content-domain-2-security-and-compliance"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-3-identify-aws-access-m/task-statement-2-3-identify-aws-access-m"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-3-identify-aws-access-m/aws-iam-identity-center"
+        }
+      ],
+      "problem_ideas": [
+        "A 15-question Domain 2 set split across the four task statements; record the score per task statement.",
+        "A company must stop every account in its Sales OU from using any Region outside the EU; choose between an IAM policy, an SCP and IAM Identity Center.",
+        "An admin attaches an SCP allowing S3 but the user has no IAM policy; predict whether the user can list buckets and say why.",
+        "200 employees need one sign-in to 12 AWS accounts using the corporate directory; pick the service and rule out IAM users.",
+        "Sort eight tasks (patch guest OS on EC2, rotate RDS engine patches, encrypt S3 data, secure data-centre doors, ...) into AWS vs customer.",
+        "Domain 2 is about 15 scored items; compute the maximum misses that keep you at 70% in this domain.",
+        "Turn your two worst misses into 'scope' or 'responsibility' flashcards."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How IAM evaluates an SCP, an identity policy and an explicit deny together"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Security is 30% of the scored exam, and permission-scope and responsibility questions are where many people lose points."
+      }
+    },
+    {
+      "id": "clf-domain3-practice",
+      "title": "Domain 3 practice: technology and services (34%)",
+      "size": "standard",
+      "est_min": 8,
+      "section": "domain-practice",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-clf-d3-task-statements",
+          "statement": "Domain 3 (Cloud Technology and Services, 34%, the largest) has eight task statements: deploying and operating, global infrastructure, compute, database, network, storage, AI/ML and analytics, and other in-scope service categories, so its practice set must rotate across all eight rather than drill compute alone."
+        },
+        {
+          "id": "kc-clf-d3-global-regional-az-trap",
+          "statement": "Many Domain 3 items hinge on scope: IAM, Route 53 and CloudFront are global services, EC2, RDS and VPC are Regional, and an EBS volume lives in one Availability Zone and attaches only to instances in that zone."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "o6 requires every domain at 70% or higher; this is the Domain 3 practice assessment for the heaviest domain (the set runs as a separately scheduled practice set)."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-exam-format-scoring",
+          "reason": "The set is sized and judged against Domain 3's 34% weighting and the per-domain floor."
+        },
+        {
+          "topic": "clf-availability-zones",
+          "reason": "The scope trap needs the difference between a Region and an Availability Zone."
+        },
+        {
+          "topic": "clf-ebs",
+          "reason": "The scope trap uses the fact that an EBS volume is tied to one Availability Zone."
+        }
+      ],
+      "suggests": [
+        "clf-choosing-compute",
+        "clf-choosing-storage",
+        "clf-choosing-database",
+        "clf-choosing-analytics"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "service scope"
+      ],
+      "uses": [
+        "domain practice set",
+        "task statement",
+        "iam",
+        "route 53",
+        "cloudfront",
+        "ec2",
+        "rds",
+        "vpc",
+        "ebs",
+        "region",
+        "availability zone"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "content-outline/content-domain-3-cloud-technology-and-se"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-3-identify-aws-compute-/task-statement-3-3-identify-aws-compute-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-5-identify-aws-network-/task-statement-3-5-identify-aws-network-"
+        }
+      ],
+      "problem_ideas": [
+        "A 16-question Domain 3 set with two items per task statement; mark which of the eight task statements fell below 70%.",
+        "An EC2 instance in us-east-1a cannot see an EBS volume created in us-east-1b; explain why and give the fix (snapshot and restore).",
+        "Classify ten services as global, Regional or zonal in under 90 seconds.",
+        "A stem asks for a NoSQL key-value store with single-digit-millisecond reads and no servers; pick the service and rule out ElastiCache.",
+        "A stem asks to query CSV files in S3 with SQL without loading them anywhere; pick Athena and rule out Redshift.",
+        "Domain 3 is about 17 scored items; compute the maximum misses that keep you at 70% in this domain.",
+        "Pick the two task statements with the most misses and schedule their 'choosing a service' lessons for replay."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Services that blur the global/Regional line, such as S3's global namespace with Regional buckets"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "The largest domain and the widest range of services; one weak task statement here can sink the whole domain score."
+      }
+    },
+    {
+      "id": "clf-domain4-practice",
+      "title": "Domain 4 practice: billing, pricing and support (12%)",
+      "size": "standard",
+      "est_min": 8,
+      "section": "domain-practice",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-clf-d4-task-statements",
+          "statement": "Domain 4 (Billing, Pricing and Support, 12%, about 6 scored items) has three task statements: compare AWS pricing models, understand resources for billing, budget and cost management, and identify AWS technical resources and AWS Support options."
+        },
+        {
+          "id": "kc-clf-d4-free-vs-paid-help",
+          "statement": "Support-resource items separate free from paid help: AWS re:Post, the AWS Knowledge Center, AWS documentation and the core Trusted Advisor checks are open to every account, while a technical account manager and the Concierge Support Team come only with Enterprise On-Ramp Support or Enterprise Support."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "o6 requires every domain at 70% or higher, and with only about 6 scored items one or two misses decide Domain 4; this is its practice assessment (scheduled as a separate practice set)."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-exam-format-scoring",
+          "reason": "The set is sized and judged against Domain 4's 12% weighting and the per-domain floor."
+        },
+        {
+          "topic": "clf-tam-support-center",
+          "reason": "The free-vs-paid split needs which plans include a technical account manager and the Concierge Support Team."
+        },
+        {
+          "topic": "clf-technical-resources",
+          "reason": "The free side of the split is re:Post, the Knowledge Center and documentation, taught there."
+        }
+      ],
+      "suggests": [
+        "clf-choosing-purchase-option",
+        "clf-choosing-cost-tool",
+        "clf-choosing-support-option"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "free vs paid support"
+      ],
+      "uses": [
+        "domain practice set",
+        "task statement",
+        "support plans",
+        "aws re:post",
+        "aws knowledge center",
+        "aws documentation",
+        "trusted advisor",
+        "technical account manager",
+        "concierge support team",
+        "enterprise on-ramp support",
+        "enterprise support",
+        "savings plans"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "content-outline/content-domain-4-billing-pricing-and-sup"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/account-management-billing-support"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/pricing-models-in-aws"
+        }
+      ],
+      "problem_ideas": [
+        "A 9-question Domain 4 set with three items per task statement; record the score per task statement.",
+        "A startup on Basic Support wants a community answer to a Lambda timeout question at no cost; pick the resource and rule out a TAM.",
+        "A company needs a pool of TAMs and the Concierge Support Team for the lowest price; pick the plan.",
+        "A steady 24/7 workload on mixed EC2 families and Fargate for three years: choose between a Compute Savings Plan and Standard Reserved Instances.",
+        "Domain 4 has about 6 scored items; compute how many you can miss and still score at least 70% in this domain.",
+        "A stem asks for a forecast of next month's spend from past usage; pick Cost Explorer and rule out the Pricing Calculator.",
+        "Write the one-line rule you will use for every 'cheapest support plan that meets X' question."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "How AWS changes support plan names and features, and why the exam guide's version is what counts"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Only about 6 scored items, so each miss costs roughly 17% of the domain score; this set keeps it above the floor."
+      }
+    },
+    {
+      "id": "clf-mock-exam-1",
+      "title": "Mock exam 1: a full 65-question baseline",
+      "size": "standard",
+      "est_min": 8,
+      "section": "full-mocks",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-clf-mock-exam-conditions",
+          "statement": "A mock predicts the real exam only when taken in one sitting, closed-book and timed at 90 minutes for 65 questions with every question answered; pausing, looking up answers or reusing seen questions inflates the score."
+        },
+        {
+          "id": "kc-clf-domain-score-calc",
+          "statement": "A domain score is the number of correct answers in that domain divided by that domain's question count, and it is recorded for each of the four domains because a strong overall percentage can hide one domain below 70%."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "This topic is the first of the two required timed 65-question, 90-minute mocks: the lesson is the briefing and score sheet, and the mock itself runs as a separately scheduled assessment that records overall and per-domain results (hence est_min covers only the briefing)."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-exam-format-scoring",
+          "reason": "Running the mock under real conditions needs the 65-question, 90-minute format and domain weights."
+        },
+        {
+          "topic": "clf-timed-mock-pacing",
+          "reason": "The mock is taken with the pacing plan and flag-for-review habit from that lesson."
+        }
+      ],
+      "suggests": [
+        "clf-domain3-practice",
+        "clf-domain2-practice"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "full-length mock",
+        "domain score"
+      ],
+      "uses": [
+        "exam domain weighting",
+        "pacing plan",
+        "flag for review",
+        "unscored questions"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "exam-content/exam-content"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "content-outline/content-outline"
+        }
+      ],
+      "problem_ideas": [
+        "Take mock 1 (65 questions, 90 minutes) and fill in the score sheet: overall percentage plus four domain scores.",
+        "You got 11 of 15 Domain 2 items right; compute the domain score and say whether it clears 70%.",
+        "Your overall is 81% but Domain 4 is 3 of 6; decide whether mock 1 meets the course bar.",
+        "A learner paused the mock for lunch and checked two answers online; estimate how that biases the score and what to do.",
+        "Compare your minute-60 checkpoint with the pacing plan and note how many items were flagged.",
+        "From a list of 65 answered items tagged by domain, compute all four domain scores in under five minutes.",
+        "Predict your Domain 3 score before seeing results, then compare with the actual score to calibrate."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Why first-attempt mock scores usually run below later ones, and what that means for the baseline"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "Your first honest measurement under real exam conditions; every later study decision builds on these numbers."
+      }
+    },
+    {
+      "id": "clf-mock-exam-review",
+      "title": "Reviewing a mock: error log, priorities and readiness",
+      "size": "standard",
+      "est_min": 10,
+      "section": "full-mocks",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-clf-error-log-causes",
+          "statement": "After a mock, log every missed question with its domain and its cause (knowledge gap, misread qualifier or distractor trap), because each cause needs a different fix: relearn the topic, slow down on the stem, or practise the comparison."
+        },
+        {
+          "id": "kc-clf-weight-times-miss-rate",
+          "statement": "Prioritise review by domain weight times miss rate: missing 30% of Domain 3 (34%) costs about 10% of the scored exam, while missing 30% of Domain 4 (12%) costs about 4%."
+        },
+        {
+          "id": "kc-clf-readiness-threshold",
+          "statement": "Treat yourself as ready when two timed, full-length mocks each score at least 80% with every domain at or above 70%, which leaves a safety margin above the 700 scaled passing mark."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "The outcome is defined as two mocks at 80% or higher with every domain at 70% or higher; this is the scheduled review between mock 1 and mock 2 that turns results into fixes and judges readiness against that bar."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-exam-format-scoring",
+          "reason": "Prioritising by domain needs the domain weights, and the readiness margin is set against the 700 scaled pass mark."
+        },
+        {
+          "topic": "clf-question-keywords-distractors",
+          "reason": "Classifying a miss as a misread qualifier or a distractor trap needs those ideas first."
+        }
+      ],
+      "suggests": [
+        "clf-mock-exam-1",
+        "clf-service-verb-lens",
+        "clf-timed-mock-pacing"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "mock exam review",
+        "error log",
+        "readiness threshold"
+      ],
+      "uses": [
+        "exam domain weighting",
+        "scaled score",
+        "distractor elimination",
+        "keyword cue"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "exam-content/exam-results"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "content-outline/content-outline"
+        }
+      ],
+      "problem_ideas": [
+        "Mock 1 domain scores were 85%, 72%, 64% and 90%; compute each domain's weighted loss and pick the revision order.",
+        "Classify eight logged misses (given with your notes) as knowledge gap, misread qualifier or distractor trap and assign a fix to each.",
+        "Two mocks scored 82% and 78% overall; decide whether to book the exam and justify the answer against the readiness threshold.",
+        "Your overall score is 84% but Domain 2 is 66%; explain why you are not yet ready by this course's bar even though the exam itself is compensatory.",
+        "Most misses are misread qualifiers; design a one-week drill for that cause.",
+        "Estimate how many more Domain 3 questions you must get right to lift an overall score of 76% to 80% on 65 questions.",
+        "Turn three error-log entries into flashcards that test the comparison you got wrong, not the fact."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Why spaced retesting of your own error log beats re-reading notes"
+        },
+        {
+          "kind": "edge",
+          "title": "When mock-exam banks are easier or harder than the real exam"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "This is how you turn mock results into a study plan and decide, using numbers, when you're ready to book the exam."
+      }
+    },
+    {
+      "id": "clf-mock-exam-2",
+      "title": "Mock exam 2: a fresh set to confirm readiness",
+      "size": "standard",
+      "est_min": 8,
+      "section": "full-mocks",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-clf-second-mock-fresh-set",
+          "statement": "The second mock must use a different 65-question set from the first and be taken after the error-log fixes are done, because retaking seen questions measures memory of answers rather than readiness."
+        },
+        {
+          "id": "kc-clf-below-bar-retest-loop",
+          "statement": "If the second mock misses the bar (below 80% overall or any domain under 70%), go back to the weakest domain's practice set and then take a third, fresh mock rather than retaking either earlier one."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "This topic is the second, distinct timed 65-question, 90-minute mock the outcome requires; the mock runs as a separately scheduled assessment, and its overall and per-domain results are checked against the 80% and 70% targets."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-mock-exam-1",
+          "reason": "Mock 2 repeats mock 1's conditions and score sheet, and its question set must differ from mock 1's."
+        },
+        {
+          "topic": "clf-mock-exam-review",
+          "reason": "Mock 2 is taken after the error-log fixes and judged against the readiness threshold set there."
+        }
+      ],
+      "suggests": [
+        "clf-domain1-practice",
+        "clf-domain4-practice"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "fresh question set",
+        "retest loop"
+      ],
+      "uses": [
+        "full-length mock",
+        "domain score",
+        "error log",
+        "readiness threshold",
+        "domain practice set"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "exam-content/exam-content"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "exam-content/exam-results"
+        }
+      ],
+      "problem_ideas": [
+        "Take mock 2 on a fresh 65-question set in 90 minutes and fill in the same score sheet as mock 1.",
+        "Mock 1 was 74% and mock 2 is 83% with Domain 1 at 68%; decide the next step using the retest loop.",
+        "A learner retakes mock 1 and scores 92%; explain why that result does not count toward readiness.",
+        "Compare the two score sheets and compute which domain improved most in weighted terms.",
+        "Mock 2 meets every target; list what to do in the days before the real exam and what not to do.",
+        "With four study days a week, schedule practice set, review and mock 2 so that at least three days separate the mocks.",
+        "Predict your mock 2 domain scores from your error-log fixes, then compare with actual results."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Why two independent mocks predict the real result better than one high score"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "The second full mock on new questions is your proof of readiness: pass it at 80% with every domain at 70% and you're ready to book."
+      }
+    }
+  ],
+  "groups": {}
+}

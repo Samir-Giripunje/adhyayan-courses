@@ -1,0 +1,84 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-url-shortener",
+  "version": 1,
+  "title": "Case study: URL shortener",
+  "size": "big",
+  "est_min": 38,
+  "kcs": [
+    {
+      "id": "kc-url-base62-length",
+      "version": 1,
+      "statement": "Base62 encoding with 7 characters gives 62^7 ≈ 3.5 trillion distinct short codes, enough for about 1,000 new URLs per second for over 100 years."
+    },
+    {
+      "id": "kc-url-key-generation-service",
+      "version": 2,
+      "statement": "A key generation service guarantees that short codes are unique, not that they are unpredictable: codes from counter ranges come out in sequence, so anyone can guess them. When codes must be non-guessable, the service pre-generates codes from a cryptographically secure random source. Each code must be long enough that guessing a valid one is impractical. Each code is stored under a uniqueness constraint (an atomic insert-if-absent that retries on a collision), and then the code is handed out exactly once."
+    },
+    {
+      "id": "kc-url-301-vs-302",
+      "version": 1,
+      "statement": "A 301 (permanent) redirect is cacheable by default, so browsers and proxies may serve repeat clicks without reaching the service. A 302 is not cached by default but can be when caching headers allow it, so a shortener that must count every click returns a 302 with Cache-Control: no-store (or private, max-age=0) rather than relying on the status code alone."
+    },
+    {
+      "id": "kc-url-read-heavy-cache",
+      "version": 1,
+      "statement": "Redirect traffic is read-heavy (often around 100:1). A cache-aside cache holding the hottest ~20% of mappings in front of a key-value store sharded by short code serves most redirects."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-qps-estimate",
+    "sd-cache-aside"
+  ],
+  "suggests": [
+    "sd-key-value-store",
+    "sd-sharding-strategies"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "url shortener design",
+    "base62 encoding",
+    "key generation service",
+    "http redirect"
+  ],
+  "uses": [
+    "read-to-write ratio",
+    "peak qps",
+    "storage estimate",
+    "cache-aside",
+    "key-value store",
+    "shard key",
+    "80/20 rule",
+    "http status code",
+    "http header"
+  ],
+  "problem_ideas": [
+    "With 100M new URLs a month and 500 bytes per row, estimate storage over 5 years.",
+    "How many base62 characters do you need for 50 billion URLs? Show the log.",
+    "Two app servers hash the same long URL with MD5 and truncate it to 7 characters. Walk through the collision and how a key generation service avoids it.",
+    "The marketing team wants click counts per link. Choose the redirect status and the Cache-Control header that keep repeat clicks visible, and say what a 301 would cost.",
+    "Size a redirect cache for 20K reads/s using the 80/20 rule and 500-byte entries.",
+    "Design expiry cleanup for links with a TTL without scanning the whole table at peak hours."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design/url-encoding"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design/key-generation-service-kgs"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "system-design-interview-questions-with-s/design-pastebin-com-or-bit-ly"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-url-shortener-like-tinyurl"
+    }
+  ],
+  "status": "stub"
+}

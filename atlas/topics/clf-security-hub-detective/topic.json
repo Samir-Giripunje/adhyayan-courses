@@ -1,0 +1,77 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-security-hub-detective",
+  "version": 1,
+  "title": "Security Hub and Detective: one view and root cause",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-security-hub-aggregate",
+      "version": 1,
+      "statement": "AWS Security Hub collects findings from GuardDuty, Inspector, Macie and partner tools into a single view across accounts. It also runs automated checks against standards such as the CIS AWS Foundations Benchmark and AWS Foundational Security Best Practices."
+    },
+    {
+      "id": "kc-detective-investigate",
+      "version": 1,
+      "statement": "Amazon Detective analyzes and visualizes log data such as CloudTrail events, VPC Flow Logs and GuardDuty findings, so you can investigate the root cause and scope of a security issue."
+    },
+    {
+      "id": "kc-hub-detective-guardduty-roles",
+      "version": 1,
+      "statement": "GuardDuty detects threats, Security Hub gives one prioritized view of security posture across accounts, and Detective investigates a specific finding in depth."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-guardduty",
+    "clf-inspector-macie"
+  ],
+  "suggests": [
+    "clf-cloudtrail"
+  ],
+  "confusable_with": [
+    "clf-guardduty",
+    "clf-firewall-manager"
+  ],
+  "introduces": [
+    "security hub",
+    "detective",
+    "security posture"
+  ],
+  "uses": [
+    "guardduty",
+    "inspector",
+    "macie",
+    "security finding",
+    "cloudtrail",
+    "vpc flow logs"
+  ],
+  "problem_ideas": [
+    "A CISO wants one dashboard of findings from GuardDuty, Inspector and Macie across 20 accounts. Name the service.",
+    "GuardDuty flagged an IAM role. The team needs to see every related API call and IP address over the past week. Which service?",
+    "Order the workflow: detect → aggregate → investigate, and place GuardDuty, Security Hub and Detective in it.",
+    "Which service scores your accounts against the CIS AWS Foundations Benchmark?",
+    "Does Detective block attacks? Explain what it actually does.",
+    "Spot the distractor: 'Use Security Hub to scan EC2 instances for CVEs.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-security-hub"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/aws-security-hub"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/amazon-detective"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/amazon-detective"
+    }
+  ],
+  "status": "stub"
+}

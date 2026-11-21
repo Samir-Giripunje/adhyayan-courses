@@ -1,0 +1,101 @@
+{
+  "course": {
+    "id": "python-decorators",
+    "title": "Python Decorators: From @ Syntax to Descriptors",
+    "archetype": "concept",
+    "unit_prefix": "pd",
+    "first_unit": 1
+  },
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Desugar any decorated definition, stacked or with arguments, into plain calls",
+      "observable": "Rewrite a given @-decorated function or class as explicit assignments and predict its printed output and call order"
+    },
+    {
+      "id": "o2",
+      "text": "Write a correct function decorator with functools.wraps that preserves metadata and handles any signature",
+      "observable": "Implement a timing or logging decorator that passes *args/**kwargs through and keeps __name__ and __doc__"
+    },
+    {
+      "id": "o3",
+      "text": "Write a decorator factory that takes arguments, including the optional-argument form",
+      "observable": "Implement @retry(times=3) and a decorator usable both as @dec and @dec(...)"
+    },
+    {
+      "id": "o4",
+      "text": "Apply common decorator patterns: registration, caching, attribute tagging and class decorators",
+      "observable": "Build a plugin registry decorator and a class decorator that adds a method, and explain when each runs"
+    },
+    {
+      "id": "o5",
+      "text": "Explain how @property, @classmethod and @staticmethod work via the descriptor protocol and decorate methods correctly",
+      "observable": "Predict what obj.attr returns for a given descriptor and write a reusable validator descriptor"
+    }
+  ],
+  "exclusions": [
+    {
+      "text": "Metaclasses and __init_subclass__",
+      "why": "Alternative class-customisation tools, a separate topic beyond decorators"
+    },
+    {
+      "text": "Static typing of decorators (ParamSpec, Concatenate)",
+      "why": "Type-checker detail not needed to write or understand working decorators"
+    },
+    {
+      "text": "Async and generator-specific decorators, contextlib.contextmanager internals",
+      "why": "Builds on coroutines and generators, which this course does not teach"
+    },
+    {
+      "text": "Framework decorators (Flask routes, pytest fixtures, dataclasses internals)",
+      "why": "Library-specific APIs; the course teaches the mechanism they all share"
+    },
+    {
+      "text": "Third-party wrapper libraries such as wrapt",
+      "why": "Optional tooling; functools covers what a working learner needs"
+    }
+  ],
+  "stages": [
+    {
+      "id": "pd-p1",
+      "title": "Python decorators: functions, factories, classes and descriptors",
+      "outcome": [
+        "o1",
+        "o2",
+        "o3",
+        "o4",
+        "o5"
+      ],
+      "assumes": [
+        "function",
+        "def statement",
+        "class",
+        "method",
+        "*args and **kwargs",
+        "attribute access"
+      ],
+      "provides": [
+        "first-class function",
+        "closure",
+        "decorator",
+        "decorator syntax",
+        "wrapper function",
+        "functools.wraps",
+        "stacked decorators",
+        "decorator factory",
+        "functools.partial",
+        "registration decorator",
+        "functools.lru_cache",
+        "class decorator",
+        "descriptor",
+        "descriptor protocol",
+        "property",
+        "bound method",
+        "classmethod",
+        "staticmethod",
+        "validator descriptor"
+      ],
+      "topic_estimate": 22
+    }
+  ]
+}

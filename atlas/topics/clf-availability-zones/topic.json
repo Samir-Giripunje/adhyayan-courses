@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-availability-zones",
+  "version": 1,
+  "title": "Availability Zones: isolated data centers in a Region",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-az-definition",
+      "version": 1,
+      "statement": "An Availability Zone is one or more discrete data centers with redundant power, networking and connectivity, located inside a Region."
+    },
+    {
+      "id": "kc-az-isolation",
+      "version": 1,
+      "statement": "Availability Zones in a Region are physically separated by a meaningful distance and do not share single points of failure, so a fire, flood or power cut in one should not take down another."
+    },
+    {
+      "id": "kc-az-low-latency-links",
+      "version": 1,
+      "statement": "Availability Zones in the same Region are joined by redundant, low-latency, high-bandwidth private links, which makes synchronous replication between them practical."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-regions"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-regions",
+    "clf-edge-locations"
+  ],
+  "introduces": [
+    "availability zone"
+  ],
+  "uses": [
+    "region",
+    "single point of failure",
+    "high availability"
+  ],
+  "problem_ideas": [
+    "A storm floods one data center building in us-east-1: which resources go down, and which keep running?",
+    "True/false: an Availability Zone is always exactly one data center",
+    "Why can a database replicate synchronously between two AZs but usually not between two Regions?",
+    "Draw the containment: Region, AZ, data center; place three given facts on it",
+    "A question says 'resources in a single AZ': name the single point of failure it describes",
+    "Two AZ names in different accounts (us-east-1a) may point to different physical zones: what does that tell you about AZ naming?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-2-define-the-aws-global/recognizing-that-availability-zones-do-n"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-2-define-the-aws-global/describing-relationships-among-regions-a"
+    }
+  ],
+  "status": "stub"
+}

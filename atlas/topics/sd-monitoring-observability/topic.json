@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-monitoring-observability",
+  "version": 1,
+  "title": "Monitoring: metrics, logs, traces and alerts",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-observability-signals",
+      "version": 1,
+      "statement": "Observability rests on three signals: metrics (cheap numeric time series for dashboards and alerts), logs (detailed records of individual events) and traces (one request's path across services)."
+    },
+    {
+      "id": "kc-golden-signals",
+      "version": 1,
+      "statement": "The four golden signals to monitor for any service are latency, traffic, errors and saturation, and alerts should fire on user-facing symptoms such as SLO burn rather than on every internal cause."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-sla-slo-sli"
+  ],
+  "confusable_with": [
+    "sd-health-checks-heartbeats"
+  ],
+  "introduces": [
+    "monitoring",
+    "metrics",
+    "structured logs",
+    "alerting",
+    "golden signals"
+  ],
+  "uses": [
+    "sli",
+    "slo",
+    "health check",
+    "throughput",
+    "latency"
+  ],
+  "problem_ideas": [
+    "Pick the right signal: count of 5xx per minute, one failed checkout's details, a slow request's path",
+    "Map four metrics of a queue worker to the golden signals",
+    "Why page on 'error rate above 2% for 5 minutes' instead of 'CPU above 80%'?",
+    "Estimate log volume: 50,000 req/s × 1 KB per log line, per day",
+    "Which dashboards would you name at the end of a URL shortener interview?",
+    "High-cardinality labels (user id) in metrics: what goes wrong?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "monitoring/monitoring"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "monitoring/instrumentation"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "monitoring/visualization-alerts"
+    }
+  ],
+  "status": "stub"
+}

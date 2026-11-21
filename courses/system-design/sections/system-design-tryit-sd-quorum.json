@@ -1,0 +1,33 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-quorum",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: explain it in your own words",
+  "blurb": "Uses Strong, eventual and weak consistency, CAP theorem: what you give up during a partition and Quorum reads and writes: R + W > N: predict, then explain in your own words.",
+  "after": "topic:sd-quorum",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "written",
+    "topics": [
+      "sd-consistency-models",
+      "sd-cap-theorem",
+      "sd-quorum"
+    ],
+    "kcs": [
+      "kc-strong-consistency",
+      "kc-eventual-consistency",
+      "kc-weak-consistency",
+      "kc-cap-statement",
+      "kc-cp-vs-ap",
+      "kc-cap-misread",
+      "kc-leaderless-replication",
+      "kc-quorum-overlap",
+      "kc-quorum-tuning"
+    ],
+    "minutes": 20,
+    "why": "Uses Strong, eventual and weak consistency, CAP theorem: what you give up during a partition and Quorum reads and writes: R + W > N: predict, then explain in your own words."
+  }
+}

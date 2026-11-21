@@ -1,0 +1,54 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-edge-locations",
+  "version": 1,
+  "title": "Edge locations: content close to users",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-edge-location-definition",
+      "version": 1,
+      "statement": "Edge locations are AWS sites in many more cities than there are Regions, used by CloudFront to cache content and by Route 53 and Global Accelerator to answer and route traffic close to users."
+    },
+    {
+      "id": "kc-edge-vs-region",
+      "version": 1,
+      "statement": "Edge locations do not host general workloads such as EC2 instances or databases; the origin stays in a Region and the edge reduces latency for delivering content to users."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-regions"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-availability-zones",
+    "clf-local-zones-wavelength-outposts"
+  ],
+  "introduces": [
+    "edge location"
+  ],
+  "uses": [
+    "region"
+  ],
+  "problem_ideas": [
+    "A video site in us-west-2 has buffering complaints from India: which infrastructure component fixes it without moving the origin?",
+    "True/false: you can launch an EC2 instance in an edge location",
+    "There are hundreds of edge locations but only a few dozen Regions: why does AWS need so many more edges?",
+    "Which three services named in the exam guide use edge locations?",
+    "A static image is requested 10,000 times from Paris: trace where the first and the later requests are served from",
+    "Distinguish an edge location from an Availability Zone in one sentence each"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-2-define-the-aws-global/benefits-of-edge-locations"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-2-define-the-aws-global/describing-relationships-among-regions-a"
+    }
+  ],
+  "status": "stub"
+}

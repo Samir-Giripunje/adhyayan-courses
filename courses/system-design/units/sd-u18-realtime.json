@@ -1,0 +1,29 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u18-realtime",
+  "title": "Real-time delivery to clients",
+  "topics": [
+    {
+      "id": "sd-polling-long-polling",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-websockets",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-server-sent-events",
+      "tier": "optional",
+      "order": 3
+    },
+    {
+      "id": "sd-realtime-at-scale",
+      "tier": "must",
+      "order": 4
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

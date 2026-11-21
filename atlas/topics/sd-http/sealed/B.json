@@ -1,0 +1,349 @@
+[
+  {
+    "id": "sd-http/test-b1",
+    "family": "sd-http-http-form-transport-http3",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-http-request-response"
+    ],
+    "prompt_md": "A video-streaming site serves its pages over **HTTP/3**. Which transport carries those HTTP messages?",
+    "options": [
+      {
+        "id": "a",
+        "md": "TCP, because HTTP always runs over TCP",
+        "why_md": "HTTP/1.1 and HTTP/2 usually run over TCP, but HTTP/3 does not.",
+        "misconception": "mc-http-always-tcp"
+      },
+      {
+        "id": "b",
+        "md": "No transport: HTTP/3 sends its messages straight in IP packets",
+        "why_md": "HTTP is an application-layer protocol; it always needs a transport underneath."
+      },
+      {
+        "id": "c",
+        "md": "HTTP/2, which carries the HTTP/3 messages inside it",
+        "why_md": "HTTP/2 is another version of HTTP, not a transport. Both versions need a transport below them."
+      },
+      {
+        "id": "d",
+        "md": "QUIC, a transport protocol built on top of UDP",
+        "correct": true,
+        "why_md": "Right. HTTP/3 runs over QUIC, which runs on UDP and adds reliability, ordering and encryption itself."
+      }
+    ],
+    "hints": [
+      "HTTP is application-layer; ask which transport the HTTP/3 version uses.",
+      "HTTP/1.1 and HTTP/2 → usually TCP. HTTP/3 → QUIC, which sits on UDP."
+    ],
+    "solution_md": "1. HTTP needs a transport layer underneath.\n2. HTTP/1.1 and HTTP/2 usually use TCP.\n3. HTTP/3 uses QUIC, a newer transport built on UDP that adds reliability, ordering and encryption.\n\nAnswer: **d**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/test-b2",
+    "family": "sd-http-http-form-stateless-ar",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-request-response"
+    ],
+    "prompt_md": "**Assertion (A):** A recipe website keeps a user logged in across page loads. After login, the browser sends a session identifier in a `Cookie` header on later requests to the site, as long as the cookie's domain and path match, it has not expired, and its security settings and the browser's policy allow it.\n\n**Reason (R):** HTTP is stateless: the protocol does not remember earlier requests, so a request must carry whatever identifies the user.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. HTTP remembers nothing between requests (R). So the identifier has to travel with the later requests, and the cookie does exactly that (A)."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is exactly why the cookie is needed. If HTTP remembered users, the browser would not need to send an identifier again on later requests."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true: HTTP keeps no memory between requests. Staying logged in is built on top of HTTP with cookies.",
+        "misconception": "mc-http-keeps-state"
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. After login, the browser sends the stored session cookie on later matching requests that its rules allow, and the server looks the identifier up in its own session store."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. Then ask whether R is the reason A is needed.",
+      "HTTP is stateless, so R is true. That is why the browser must send the session cookie again on later matching requests, so A is true and R explains it."
+    ],
+    "solution_md": "1. A: after login the server sends a `Set-Cookie` header. The browser stores the cookie and sends the identifier back in a `Cookie` header on later requests that the cookie's domain, path, expiry and security settings and the browser's policy allow → **true**.\n2. R: HTTP is stateless and remembers nothing between requests → **true**.\n3. The protocol forgets each request, so the identifier must come along with the later requests. R explains A.\n\nAnswer: **a**.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r3"
+    }
+  },
+  {
+    "id": "sd-http/test-b3",
+    "family": "sd-http-http-form-method-choice-match",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-methods"
+    ],
+    "prompt_md": "You are designing the API for a help-desk app. Match each action (left) to the HTTP method it should use (right). One method is not used.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "Open a new support ticket; the server picks its id",
+        "why_md": "Creating something new with a server-chosen id is POST."
+      },
+      {
+        "id": "l2",
+        "md": "Show the list of a customer's tickets",
+        "why_md": "Reading without changing anything is GET."
+      },
+      {
+        "id": "l3",
+        "md": "Change only the `priority` field of ticket 88",
+        "why_md": "Updating some fields only is a partial update: PATCH."
+      },
+      {
+        "id": "l4",
+        "md": "Overwrite ticket 88 with a complete new version sent in the body",
+        "why_md": "Replacing the whole resource with a full version is PUT."
+      },
+      {
+        "id": "r1",
+        "md": "GET",
+        "why_md": "Fits showing the ticket list."
+      },
+      {
+        "id": "r2",
+        "md": "POST",
+        "why_md": "Fits opening a new ticket."
+      },
+      {
+        "id": "r3",
+        "md": "PUT",
+        "why_md": "Fits overwriting ticket 88 with a full version."
+      },
+      {
+        "id": "r4",
+        "md": "PATCH",
+        "why_md": "Fits changing only the priority field."
+      },
+      {
+        "id": "r5",
+        "md": "DELETE",
+        "why_md": "Not used: no action removes a resource."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r2",
+        "l2": "r1",
+        "l3": "r4",
+        "l4": "r3"
+      }
+    },
+    "hints": [
+      "GET read, POST create, PUT replace the whole resource, PATCH partial update, DELETE remove.",
+      "New ticket → POST; list → GET; one field → PATCH; full overwrite → PUT."
+    ],
+    "solution_md": "1. Open a new ticket, server picks the id → **POST** (create).\n2. Show the list → **GET** (read).\n3. Change only `priority` → **PATCH** (partial update).\n4. Overwrite with a complete version → **PUT** (replace).\n5. DELETE is unused: nothing is removed.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/test-b4",
+    "family": "sd-http-http-form-payment-retry-case",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-http-methods"
+    ],
+    "prompt_md": "A ride-hailing app charges riders with `POST /charges`. Sometimes the request times out, and the app cannot tell whether the charge was created. The team wants the app to retry automatically **without ever charging a rider twice**. What's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Retry the same `POST /charges` automatically: a timed-out request never reached the server",
+        "why_md": "Trap. The first POST may have created the charge and only the response was lost. POST is not idempotent, so a blind retry can charge twice.",
+        "misconception": "mc-retry-always-safe"
+      },
+      {
+        "id": "b",
+        "md": "Have the app generate a unique key per charge attempt, send it in an `Idempotency-Key` header and reuse it on every retry; the server returns the original result for a key it has already processed",
+        "correct": true,
+        "why_md": "Best. The server recognises the repeat and returns the first result instead of creating a second charge, so retries are automatic and safe."
+      },
+      {
+        "id": "c",
+        "md": "Do not retry; show the rider an error and ask them to check their payment history before trying again",
+        "why_md": "Viable, second-best. It avoids blind double charges, but it fails the goal of retrying automatically and pushes the work onto the rider."
+      }
+    ],
+    "hints": [
+      "Is POST idempotent? What can the client add so the server can recognise a repeated attempt?",
+      "An idempotency key sent in a header and reused on retries lets the server return the original result instead of charging again."
+    ],
+    "solution_md": "1. A timeout does not mean the request was lost: the charge may exist with only the response lost.\n2. POST is not idempotent, so a blind retry (a) can create a second charge.\n3. Not retrying (c) is safe but drops the goal of automatic retries.\n4. An idempotency key (b) lets the server spot the repeat and return the original result: retries are automatic and charge once.\n\nAnswer: **b**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/test-b5",
+    "family": "sd-http-http-form-client-fault-multi",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-status-codes"
+    ],
+    "prompt_md": "A parcel-tracking API logs the responses below. Which ones say the **client's request** was the problem, rather than the server failing? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "`401 Unauthorized`: the request's access token had expired",
+        "correct": true,
+        "why_md": "4xx: the client did not prove who it is. The server is healthy."
+      },
+      {
+        "id": "b",
+        "md": "`503 Service Unavailable`: the tracking servers were overloaded",
+        "why_md": "5xx: the request may be fine, but the server could not serve it.",
+        "misconception": "mc-4xx-server-fault"
+      },
+      {
+        "id": "c",
+        "md": "`400 Bad Request`: the request body was malformed JSON",
+        "correct": true,
+        "why_md": "4xx: the request itself is malformed."
+      },
+      {
+        "id": "d",
+        "md": "`500 Internal Server Error`: a bug in the tracking code",
+        "why_md": "5xx: something broke inside the server."
+      },
+      {
+        "id": "e",
+        "md": "`429 Too Many Requests`: one shop's script sent 50 requests a second",
+        "correct": true,
+        "why_md": "4xx: the client is sending too fast; a healthy server is refusing it."
+      }
+    ],
+    "hints": [
+      "Read the first digit: 4 blames the client, 5 blames the server.",
+      "401, 400 and 429 start with 4; 503 and 500 start with 5."
+    ],
+    "solution_md": "1. First digit 4 → client error: 401 (expired token), 400 (malformed body), 429 (too fast).\n2. First digit 5 → server error: 503 (overloaded), 500 (bug).\n\nAnswer: **a, c, e**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-http"
+    }
+  },
+  {
+    "id": "sd-http/test-b6",
+    "family": "sd-http-http-form-retry-later-code",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-http-status-codes"
+    ],
+    "prompt_md": "A music app's background job fetches playlists. Its retry rule: \"resend the **unchanged** request a few minutes later only when the status code says the request may be fine but the **server** cannot handle it right now.\" Which of these responses should make the job retry?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`503 Service Unavailable`",
+        "correct": true,
+        "why_md": "Right. A 5xx code reports a server error, and 503 specifically means the server is overloaded or down for now. The request may be fine, so the same request may succeed later. This is exactly what the rule describes."
+      },
+      {
+        "id": "b",
+        "md": "`404 Not Found`",
+        "why_md": "This is a 4xx code, so the response classifies the problem as a client error: no such resource. It does not report that the server is temporarily unable to handle the request, so it does not meet the rule.",
+        "misconception": "mc-4xx-server-fault"
+      },
+      {
+        "id": "c",
+        "md": "`400 Bad Request`",
+        "why_md": "This is a 4xx code, so the response classifies the request as malformed. It does not report a temporary server problem, and resending the request unchanged will normally get the same rejection.",
+        "misconception": "mc-4xx-server-fault"
+      },
+      {
+        "id": "d",
+        "md": "`401 Unauthorized`",
+        "why_md": "This is a 4xx code, so the response classifies the problem as a client error: the job is not authenticated. It does not report a temporary server problem, and resending the unchanged request will normally keep failing until the job supplies valid credentials.",
+        "misconception": "mc-4xx-server-fault"
+      }
+    ],
+    "hints": [
+      "Read the first digit. A 4xx code classifies the response as a client error, and a 5xx code reports a server error.",
+      "The rule only allows a retry when the response reports a temporary problem on the server's side. Find the 5xx code that means \"overloaded or down for now\"."
+    ],
+    "solution_md": "1. The rule allows a retry only when the response says the request may be fine and the server cannot handle it right now.\n2. 404, 400 and 401 all start with 4. These responses classify the problem as a client error: no such resource (404), a malformed request (400), or missing or invalid credentials (401). None of them reports a temporary server problem, so none matches the rule.\n3. 503 starts with 5, so it reports a server error, and it means the server is overloaded or down for now. It is the only response that matches the rule.\n\nAnswer: **a**.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-http",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-http-r5"
+    }
+  }
+]

@@ -1,0 +1,74 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-security-groups-nacls",
+  "version": 1,
+  "title": "Security groups vs network ACLs",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-security-group-stateful-allow",
+      "version": 1,
+      "statement": "A security group is a stateful firewall attached to an instance's network interface: it has allow rules only, and return traffic for an allowed request is permitted automatically."
+    },
+    {
+      "id": "kc-nacl-stateless-subnet",
+      "version": 1,
+      "statement": "A network ACL is a stateless firewall at the subnet boundary: it has numbered allow and deny rules evaluated lowest number first, and return traffic must be explicitly allowed."
+    },
+    {
+      "id": "kc-sg-nacl-defaults",
+      "version": 1,
+      "statement": "A new security group denies all inbound and allows all outbound traffic, while a VPC's default network ACL allows all inbound and outbound traffic."
+    },
+    {
+      "id": "kc-nacl-blocks-specific-ip",
+      "version": 1,
+      "statement": "To block one specific IP address or range, add a deny rule to a network ACL, because security groups cannot express deny rules."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-vpc-subnets"
+  ],
+  "suggests": [
+    "clf-shared-responsibility-model"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "security group",
+    "network acl",
+    "stateful firewall",
+    "stateless firewall"
+  ],
+  "uses": [
+    "vpc",
+    "subnet",
+    "ec2 instance",
+    "shared responsibility model"
+  ],
+  "problem_ideas": [
+    "A known attacker IP 203.0.113.7 keeps probing the web tier: which control blocks it, and why not the other?",
+    "An inbound HTTPS rule exists on a NACL but responses never reach clients: what rule is missing?",
+    "Fill a comparison table: level (instance/subnet), stateful?, allow/deny, rule evaluation",
+    "NACL rule 100 allows port 22 from anywhere and rule 200 denies it: is SSH allowed?",
+    "Sort tasks into AWS or customer responsibility: configuring security group rules, patching the physical firewall hardware",
+    "A newly launched instance with a fresh security group gets no inbound traffic: predict the default behaviour",
+    "Design two security groups so the database accepts traffic only from the web tier's security group"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "iam/security-groups"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-5-identify-aws-network-/understanding-security-in-a-vpc-for-exam"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "vpc/network-acl-security-groups"
+    }
+  ],
+  "status": "stub"
+}

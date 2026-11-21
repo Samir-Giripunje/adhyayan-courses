@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-mock-exam-1",
+  "version": 1,
+  "title": "Mock exam 1: a full 65-question baseline",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-clf-mock-exam-conditions",
+      "version": 1,
+      "statement": "A mock predicts the real exam only when taken in one sitting, closed-book and timed at 90 minutes for 65 questions with every question answered; pausing, looking up answers or reusing seen questions inflates the score."
+    },
+    {
+      "id": "kc-clf-domain-score-calc",
+      "version": 1,
+      "statement": "A domain score is the number of correct answers in that domain divided by that domain's question count, and it is recorded for each of the four domains because a strong overall percentage can hide one domain below 70%."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-exam-format-scoring",
+    "clf-timed-mock-pacing"
+  ],
+  "suggests": [
+    "clf-domain3-practice",
+    "clf-domain2-practice"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "full-length mock",
+    "domain score"
+  ],
+  "uses": [
+    "exam domain weighting",
+    "pacing plan",
+    "flag for review",
+    "unscored questions"
+  ],
+  "problem_ideas": [
+    "Take mock 1 (65 questions, 90 minutes) and fill in the score sheet: overall percentage plus four domain scores.",
+    "You got 11 of 15 Domain 2 items right; compute the domain score and say whether it clears 70%.",
+    "Your overall is 81% but Domain 4 is 3 of 6; decide whether mock 1 meets the course bar.",
+    "A learner paused the mock for lunch and checked two answers online; estimate how that biases the score and what to do.",
+    "Compare your minute-60 checkpoint with the pacing plan and note how many items were flagged.",
+    "From a list of 65 answered items tagged by domain, compute all four domain scores in under five minutes.",
+    "Predict your Domain 3 score before seeing results, then compare with the actual score to calibrate."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "exam-content/exam-content"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "content-outline/content-outline"
+    }
+  ],
+  "status": "stub"
+}

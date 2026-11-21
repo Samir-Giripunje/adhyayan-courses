@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-replication-leader-follower",
+  "version": 1,
+  "title": "Replication and leader-follower setups",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-replication-purpose",
+      "version": 1,
+      "statement": "Replication keeps copies of the same data on several nodes so the data survives a node loss and read load can be spread across copies."
+    },
+    {
+      "id": "kc-leader-follower",
+      "version": 1,
+      "statement": "In leader-follower replication all writes go to one leader, which streams its changes to followers that serve reads; read capacity grows with followers but write capacity stays that of one node."
+    },
+    {
+      "id": "kc-leader-loss",
+      "version": 1,
+      "statement": "When the leader of a leader-follower setup dies, writes stop until a follower is promoted to leader and clients are redirected to it."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-vertical-horizontal-scaling"
+  ],
+  "confusable_with": [
+    "sd-multi-leader-replication"
+  ],
+  "introduces": [
+    "replication",
+    "leader-follower replication",
+    "read replica"
+  ],
+  "uses": [
+    "horizontal scaling",
+    "read-to-write ratio",
+    "replication factor"
+  ],
+  "problem_ideas": [
+    "A service does 50k reads/s and 2k writes/s; one node handles 10k QPS: how many read replicas, and is writing still fine?",
+    "Writes grow to 30k/s: explain why adding followers does not help",
+    "Draw the read and write paths for a leader with three followers behind the app tier",
+    "The leader's disk dies at 3 a.m.: list what happens to writes and reads until recovery",
+    "Compare replication with a cache for absorbing a 10× read spike",
+    "Pick a replication factor for user data and justify it in one line"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "databases/replication"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "database/master-slave-replication"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "master-slave-replication/master-slave-replication"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "database-fundamentals/database-replication"
+    }
+  ],
+  "status": "stub"
+}

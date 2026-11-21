@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-property",
+  "version": 1,
+  "title": "@property as a data descriptor",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-property-is-data-descriptor",
+      "version": 1,
+      "statement": "property(fget, fset, fdel, doc) creates a data descriptor, and @property on a method is the same as property(method)."
+    },
+    {
+      "id": "kc-property-setter",
+      "version": 1,
+      "statement": "@x.setter returns a new property that copies fget and adds fset, so the setter method must reuse the name x."
+    },
+    {
+      "id": "kc-property-readonly",
+      "version": 1,
+      "statement": "Assigning to a property that has no setter raises AttributeError, because the data descriptor takes precedence over the instance __dict__."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "pd-descriptor-protocol",
+    "pd-decorator-syntax"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "pd-validator-descriptors"
+  ],
+  "introduces": [
+    "property"
+  ],
+  "uses": [
+    "data descriptor",
+    "decorator syntax"
+  ],
+  "problem_ideas": [
+    "Add a celsius property with a setter that rejects values below -273.15",
+    "Desugar @property / @temp.setter into explicit property() calls",
+    "Predict the error when the setter is named set_temp instead of temp",
+    "Write a computed area property and predict r.area after changing width",
+    "Implement a minimal pure-Python Property class with __get__ and __set__",
+    "Predict obj.__dict__ after assigning through a property setter"
+  ],
+  "sources": [
+    {
+      "source": "descriptor-howto",
+      "entry": "primer/managed-attributes"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "pure-python-equivalents/pure-python-equivalents"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "pure-python-equivalents/properties"
+    }
+  ],
+  "status": "stub"
+}

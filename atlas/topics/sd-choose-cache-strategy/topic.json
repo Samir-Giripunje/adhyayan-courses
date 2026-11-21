@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-choose-cache-strategy",
+  "version": 1,
+  "title": "Choosing a cache strategy from the read/write ratio",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-strategy-by-ratio",
+      "version": 2,
+      "statement": "For a read-heavy workload (for example 100 reads per write), cache-aside or read-through with a TTL is the default. If a user must see their own write immediately, the design needs an explicit read-your-writes mechanism: either the user's reads go to an authoritative source that has already applied the write, or cache reads and fills check versions and reject older ones. Deleting the cache key alone does not guarantee read-your-writes."
+    },
+    {
+      "id": "kc-strategy-statement",
+      "version": 1,
+      "statement": "A complete cache choice names the pattern, the TTL and the staleness cost, and ties each to the stated read-to-write ratio and freshness requirement."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-read-write-through",
+    "sd-cache-invalidation-ttl"
+  ],
+  "suggests": [
+    "sd-requirements",
+    "sd-write-behind-around"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "read-your-writes"
+  ],
+  "uses": [
+    "read-to-write ratio",
+    "cache-aside",
+    "read-through",
+    "write-through",
+    "ttl",
+    "stale data"
+  ],
+  "problem_ideas": [
+    "URL shortener with 100:1 reads to writes: pick and justify a strategy and TTL",
+    "Inventory count for flash sales must not oversell: choose a strategy and explain staleness risk",
+    "Analytics dashboard read hourly, data rebuilt nightly: pick a pattern and TTL",
+    "Critique an answer that promises users see their own profile edit instantly using cache-aside with a 10-minute TTL",
+    "Rewrite a vague 'add Redis' answer into a full cache choice statement",
+    "Chat message history read on open, written constantly: choose and justify"
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "caching-fundamentals/caching-strategies"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "cache/when-to-update-the-cache"
+    }
+  ],
+  "status": "stub"
+}

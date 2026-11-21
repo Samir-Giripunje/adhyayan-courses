@@ -1,0 +1,59 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-generative-ai-q-bedrock",
+  "version": 1,
+  "title": "Generative AI on AWS: Amazon Q and Bedrock",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-bedrock-foundation-models",
+      "version": 1,
+      "statement": "Amazon Bedrock is a fully managed, serverless service that gives API access to foundation models from Amazon and third-party providers to build generative AI applications without managing infrastructure."
+    },
+    {
+      "id": "kc-amazon-q",
+      "version": 1,
+      "statement": "Amazon Q is a generative AI assistant: Amazon Q Business answers questions and creates content from a company's own data, and Amazon Q Developer helps write code and work with AWS resources."
+    },
+    {
+      "id": "kc-genai-choice",
+      "version": 1,
+      "statement": "To embed a foundation model in your own application use Bedrock; to give employees or developers a ready-made AI assistant use Amazon Q; to train your own model use SageMaker AI."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-sagemaker"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-sagemaker"
+  ],
+  "introduces": [
+    "generative ai",
+    "foundation model",
+    "bedrock",
+    "amazon q"
+  ],
+  "uses": [
+    "sagemaker",
+    "managed ai services",
+    "serverless"
+  ],
+  "problem_ideas": [
+    "A developer wants help writing a Lambda function and explaining an AWS error: which service?",
+    "A product team wants to add text summarisation to their app using a third-party model via API: Bedrock or SageMaker AI?",
+    "Employees want to ask questions of internal wikis and tickets in plain language: which Amazon Q offering?",
+    "Spot the distractor: 'Bedrock requires you to provision GPU EC2 instances.'",
+    "Classify four scenarios as Bedrock, Amazon Q, SageMaker AI or a managed AI service.",
+    "Explain in one sentence what a foundation model is to a non-technical manager."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-7-identify-aws-artifici/aws-ai-ml-services"
+    }
+  ],
+  "status": "stub"
+}

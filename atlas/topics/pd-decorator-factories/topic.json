@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-decorator-factories",
+  "version": 1,
+  "title": "Decorators with arguments: decorator factories",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-factory-three-levels",
+      "version": 1,
+      "statement": "A decorator with arguments is a factory: @dec(args) first calls dec(args), which must return the actual decorator that then receives the function."
+    },
+    {
+      "id": "kc-factory-desugar",
+      "version": 1,
+      "statement": "@retry(times=3) above def f is equivalent to f = retry(times=3)(f)."
+    },
+    {
+      "id": "kc-factory-closure-args",
+      "version": 1,
+      "statement": "The factory's arguments are captured in a closure, so the wrapper can read them on every call."
+    },
+    {
+      "id": "kc-factory-missing-parens",
+      "version": 1,
+      "statement": "Writing @retry without parentheses when retry is a factory passes the function as the factory's first argument, so the name becomes bound to the inner decorator instead of a wrapper."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "pd-decorator-syntax",
+    "pd-wrapper-functions"
+  ],
+  "suggests": [
+    "pd-closures"
+  ],
+  "confusable_with": [
+    "pd-stacked-decorators",
+    "pd-decorator-syntax"
+  ],
+  "introduces": [
+    "decorator factory"
+  ],
+  "uses": [
+    "closure",
+    "decorator syntax",
+    "wrapper function"
+  ],
+  "problem_ideas": [
+    "Implement @prefix('>> ') that prepends text to a function's string result",
+    "Implement @repeat(n) and predict the output of a decorated greet()",
+    "Desugar @tag('a', 'b') into explicit calls",
+    "Predict what f is bound to after @retry with missing parentheses",
+    "Write @rate_limit(calls=5, per=1.0) storing timestamps in a closure list",
+    "Implement @expect_type(int) that raises TypeError on a wrong return type"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "current-syntax/current-syntax"
+    }
+  ],
+  "status": "stub"
+}

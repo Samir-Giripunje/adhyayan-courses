@@ -1,0 +1,379 @@
+{
+  "course": "system-design",
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Estimate the capacity a stated workload needs",
+      "observable": "Given DAU, actions per user and payload sizes, produce peak QPS, storage per year and bandwidth figures within 2× of a reference answer, showing the arithmetic"
+    },
+    {
+      "id": "o2",
+      "text": "Turn a vague prompt into a scoped design",
+      "observable": "A written list of functional and non-functional requirements, a REST/RPC API sketch and a data model for a prompt, produced in under 10 minutes"
+    },
+    {
+      "id": "o3",
+      "text": "Choose and justify a data storage design",
+      "observable": "For a workload, a named store type (SQL, key-value, document, wide-column), replication mode, shard key and consistency level, each with one stated trade-off"
+    },
+    {
+      "id": "o4",
+      "text": "Scale the request path with standard building blocks",
+      "observable": "A high-level diagram placing load balancers, caches, CDN and queues, with a cache strategy and load-balancing choice justified against the stated reads/writes ratio"
+    },
+    {
+      "id": "o5",
+      "text": "Find failure modes and specify reliability mechanisms",
+      "observable": "For a given design, a list of single points of failure with a fix for each (failover, retries with backoff, circuit breaker, idempotency key) and a computed availability figure in nines"
+    },
+    {
+      "id": "o6",
+      "text": "Run a full system design interview under time",
+      "observable": "A complete 45-minute mock answer to a classic prompt (URL shortener, news feed, chat, ride hailing) covering requirements, estimates, API, data model, high-level design, deep dive and bottlenecks"
+    }
+  ],
+  "stages": [
+    {
+      "id": "sd-p1",
+      "title": "Foundations: how a request travels the web",
+      "provisional": false,
+      "units": [
+        {
+          "id": "sd-u0-request-path",
+          "title": "The request path: addresses, transport, DNS and HTTP",
+          "topics": 8
+        },
+        {
+          "id": "sd-u1-speed-and-apis",
+          "title": "Speed and API styles",
+          "topics": 5
+        }
+      ]
+    },
+    {
+      "id": "sd-p2",
+      "title": "The interview framework and estimation",
+      "provisional": true,
+      "units": [
+        {
+          "id": "sd-u2-framework",
+          "title": "The interview framework and scoping",
+          "topics": 4
+        },
+        {
+          "id": "sd-u3-estimation",
+          "title": "Back-of-the-envelope estimation",
+          "topics": 5
+        },
+        {
+          "id": "sd-u4-design-flow",
+          "title": "From high-level design to a timed answer",
+          "topics": 3
+        }
+      ]
+    },
+    {
+      "id": "sd-p3",
+      "title": "Scaling the request path",
+      "provisional": true,
+      "units": [
+        {
+          "id": "sd-u5-scale-out",
+          "title": "Scaling out and load balancing",
+          "topics": 7
+        },
+        {
+          "id": "sd-u6-edge-gateway",
+          "title": "The edge: CDNs, gateways and discovery",
+          "topics": 4
+        },
+        {
+          "id": "sd-u7-protect-assemble",
+          "title": "Rate limiting and assembling the request path",
+          "topics": 5
+        }
+      ]
+    },
+    {
+      "id": "sd-p4",
+      "title": "Caching",
+      "provisional": true,
+      "units": [
+        {
+          "id": "sd-u8-cache-fundamentals",
+          "title": "Cache fundamentals and cache-aside",
+          "topics": 4
+        },
+        {
+          "id": "sd-u9-write-strategies",
+          "title": "Read and write strategies",
+          "topics": 4
+        },
+        {
+          "id": "sd-u10-scaling-caches",
+          "title": "Eviction, distribution and hot keys",
+          "topics": 3
+        }
+      ]
+    },
+    {
+      "id": "sd-p5",
+      "title": "Data storage and distribution",
+      "provisional": true,
+      "units": [
+        {
+          "id": "sd-u11-relational",
+          "title": "Relational databases: ACID, indexes and schema shape",
+          "topics": 4
+        },
+        {
+          "id": "sd-u12-nosql",
+          "title": "NoSQL store types and choosing a store",
+          "topics": 7
+        },
+        {
+          "id": "sd-u13-replication",
+          "title": "Replication: copies, lag and multiple leaders",
+          "topics": 4
+        },
+        {
+          "id": "sd-u14-consistency",
+          "title": "Consistency, CAP and quorums",
+          "topics": 3
+        },
+        {
+          "id": "sd-u15-partitioning",
+          "title": "Partitioning, sharding and consistent hashing",
+          "topics": 6
+        }
+      ]
+    },
+    {
+      "id": "sd-p6",
+      "title": "Asynchronism, messaging and real-time delivery",
+      "provisional": true,
+      "units": [
+        {
+          "id": "sd-u16-messaging",
+          "title": "Queues, workers and pub/sub",
+          "topics": 6
+        },
+        {
+          "id": "sd-u17-delivery",
+          "title": "Delivery guarantees and idempotency",
+          "topics": 4
+        },
+        {
+          "id": "sd-u18-realtime",
+          "title": "Real-time delivery to clients",
+          "topics": 4
+        },
+        {
+          "id": "sd-u19-data-flow",
+          "title": "Fan-out, change data capture and CQRS",
+          "topics": 3
+        }
+      ]
+    },
+    {
+      "id": "sd-p7",
+      "title": "Reliability, availability and coordination",
+      "provisional": true,
+      "units": [
+        {
+          "id": "sd-u20-availability",
+          "title": "Availability math, redundancy and failover",
+          "topics": 6
+        },
+        {
+          "id": "sd-u21-resilience",
+          "title": "Resilience patterns between services",
+          "topics": 4
+        },
+        {
+          "id": "sd-u22-coordination",
+          "title": "Microservices, distributed transactions and coordination",
+          "topics": 5
+        },
+        {
+          "id": "sd-u23-operations",
+          "title": "SLOs, observability, security, disaster recovery and failure reviews",
+          "topics": 6
+        }
+      ]
+    },
+    {
+      "id": "sd-p8",
+      "title": "Case studies and mock interviews",
+      "provisional": true,
+      "units": [
+        {
+          "id": "sd-u24-core-cases",
+          "title": "Classic warm-up designs and the structures behind them",
+          "topics": 6
+        },
+        {
+          "id": "sd-u25-social-realtime",
+          "title": "Social feeds, media sharing and chat",
+          "topics": 3
+        },
+        {
+          "id": "sd-u26-media-location",
+          "title": "Video streaming and location-based systems",
+          "topics": 4
+        },
+        {
+          "id": "sd-u27-reliable-money",
+          "title": "Reliable delivery, payments and bookings",
+          "topics": 3
+        },
+        {
+          "id": "sd-u28-mocks",
+          "title": "Timed mock interviews",
+          "topics": 6
+        }
+      ]
+    }
+  ],
+  "tiers": {
+    "must": 83,
+    "recommended": 9,
+    "optional": 44,
+    "dropped": 0
+  },
+  "out_of_scope": [
+    {
+      "title": "Object-oriented / low-level design (class diagrams, design patterns in code)",
+      "why": "A separate interview round with different skills; it would double the course"
+    },
+    {
+      "title": "Authentication and identity protocols in depth (OAuth 2.0 flows, OIDC, SAML, SSO)",
+      "why": "Interviews rarely go beyond 'use a token at the gateway'; covered in one security overview topic only"
+    },
+    {
+      "title": "The full cloud design patterns catalogue (valet key, strangler fig, deployment stamps, gatekeeper, etc.)",
+      "why": "Mostly migration and operations patterns that rarely come up in design interviews"
+    },
+    {
+      "title": "Storage hardware and file systems (RAID, block volumes, HDFS internals)",
+      "why": "Below the abstraction level interviewers expect; object storage is covered as a building block"
+    },
+    {
+      "title": "VMs, containers and orchestration (Kubernetes)",
+      "why": "Deployment tooling, not a design decision in typical interview prompts"
+    },
+    {
+      "title": "Machine-learning system design (recommendation and ranking pipelines)",
+      "why": "A specialised interview track with its own body of knowledge"
+    },
+    {
+      "title": "Vendor-specific configuration (Redis, Kafka, Nginx, AWS service settings)",
+      "why": "Interviews test the concept and trade-off, not the configuration syntax"
+    }
+  ],
+  "sources": [
+    {
+      "id": "roadmap-system-design",
+      "badge": "roadmap.sh"
+    },
+    {
+      "id": "sd-primer",
+      "badge": "book"
+    },
+    {
+      "id": "karan-sd",
+      "badge": "book"
+    },
+    {
+      "id": "awesome-sd",
+      "badge": "sheet"
+    }
+  ],
+  "forecast": {
+    "source": "gate",
+    "median_weeks": 31.29,
+    "p90_weeks": 33.29,
+    "binding": "ceiling",
+    "by_month": [
+      {
+        "month": 1,
+        "topics_per_day": 0.97,
+        "review_min": 2.48,
+        "test_min": 11.36,
+        "hands_on_min": 35.83,
+        "binding": "ceiling"
+      },
+      {
+        "month": 2,
+        "topics_per_day": 0.74,
+        "review_min": 4.51,
+        "test_min": 20.83,
+        "hands_on_min": 27.22,
+        "binding": "ceiling"
+      },
+      {
+        "month": 3,
+        "topics_per_day": 0.67,
+        "review_min": 5.96,
+        "test_min": 21.87,
+        "hands_on_min": 28,
+        "binding": "ceiling"
+      },
+      {
+        "month": 4,
+        "topics_per_day": 0.72,
+        "review_min": 7.41,
+        "test_min": 17.35,
+        "hands_on_min": 27.57,
+        "binding": "ceiling"
+      },
+      {
+        "month": 5,
+        "topics_per_day": 0.59,
+        "review_min": 8.17,
+        "test_min": 21.44,
+        "hands_on_min": 29.25,
+        "binding": "ceiling"
+      },
+      {
+        "month": 6,
+        "topics_per_day": 0.55,
+        "review_min": 8.61,
+        "test_min": 17.23,
+        "hands_on_min": 33.29,
+        "binding": "ceiling"
+      },
+      {
+        "month": 7,
+        "topics_per_day": 0.42,
+        "review_min": 9.01,
+        "test_min": 18.87,
+        "hands_on_min": 32.78,
+        "binding": "reviews"
+      },
+      {
+        "month": 8,
+        "topics_per_day": 0.27,
+        "review_min": 9.41,
+        "test_min": 22.66,
+        "hands_on_min": 36.36,
+        "binding": "tests"
+      },
+      {
+        "month": 9,
+        "topics_per_day": 0.07,
+        "review_min": 8.65,
+        "test_min": 38.52,
+        "hands_on_min": 33.26,
+        "binding": "tests"
+      }
+    ]
+  },
+  "diffs": [
+    "system-design-critic-f1",
+    "system-design-critic-f2",
+    "system-design-critic-f3",
+    "system-design-critic-f4"
+  ],
+  "lints": []
+}

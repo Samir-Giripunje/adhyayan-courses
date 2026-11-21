@@ -1,0 +1,1947 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-cosine",
+  "version": 1,
+  "title": "Dot product and cosine",
+  "size": "big",
+  "est_min": 36,
+  "kcs": [
+    {
+      "id": "kc-dot-cosine",
+      "version": 2,
+      "statement": "Cosine similarity = dot product ÷ (‖a‖ ‖b‖)."
+    },
+    {
+      "id": "kc-cosine-range",
+      "version": 1,
+      "statement": "Cosine lies in [−1, 1]; 0 means orthogonal."
+    },
+    {
+      "id": "kc-cosine-length-invariant",
+      "version": 1,
+      "statement": "Scaling a vector by a positive number leaves its cosine unchanged."
+    },
+    {
+      "id": "kc-cosine-by-hand",
+      "version": 1,
+      "statement": "Compute the cosine of two small vectors by hand."
+    }
+  ],
+  "mode_hint": "code",
+  "mode": "code",
+  "requires": [
+    "emb-features"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "cosine similarity",
+    "magnitude",
+    "orthogonal",
+    "scaling",
+    "zero vector",
+    "unit vector"
+  ],
+  "uses": [
+    "dot product",
+    "feature vector"
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-cosine-uses-length",
+      "statement": "Longer vectors (bigger numbers) are more similar.",
+      "tags": [
+        "kc-dot-cosine",
+        "kc-cosine-length-invariant"
+      ]
+    },
+    {
+      "id": "mc-cosine-range-01",
+      "statement": "Cosine similarity is a 0–1 percentage or probability.",
+      "tags": [
+        "kc-dot-cosine",
+        "kc-cosine-range"
+      ]
+    },
+    {
+      "id": "mc-cosine-zero-opposite",
+      "statement": "A cosine of 0 means the vectors point in opposite directions.",
+      "tags": [
+        "kc-cosine-range"
+      ]
+    },
+    {
+      "id": "mc-cosine-zero-vector",
+      "statement": "The cosine of any vector with an all-zero vector is 0.",
+      "tags": [
+        "kc-cosine-range"
+      ]
+    },
+    {
+      "id": "mc-cosine-negative-scale",
+      "statement": "Multiplying a vector by any number, even a negative one, leaves its cosine unchanged.",
+      "tags": [
+        "kc-cosine-length-invariant"
+      ]
+    },
+    {
+      "id": "mc-cosine-one-norm",
+      "statement": "Dividing the dot product by one vector's length (or by one length twice) is enough.",
+      "tags": [
+        "kc-cosine-by-hand"
+      ]
+    },
+    {
+      "id": "mc-cosine-forgets-sqrt",
+      "statement": "A vector's length is the sum of its squares; the square root can be skipped.",
+      "tags": [
+        "kc-cosine-by-hand"
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "cosine similarity",
+      "md": "$\\frac{a\\cdot b}{\\|a\\|\\,\\|b\\|}$: the cosine of the angle between two vectors. It runs from −1 (opposite directions) through 0 (orthogonal) to 1 (same direction) and ignores length."
+    },
+    {
+      "term": "magnitude",
+      "md": "A vector's length: $\\|a\\| = \\sqrt{a_1^2 + \\dots + a_n^2}$ (Pythagoras). Also called the norm."
+    },
+    {
+      "term": "orthogonal",
+      "md": "At right angles (90°) to each other; another word for perpendicular. Two non-zero vectors are orthogonal exactly when their dot product is 0, so their cosine is 0."
+    },
+    {
+      "term": "scaling",
+      "md": "Multiplying every number in a vector by the same number $c$: $3\\cdot[2, 0, 1] = [6, 0, 3]$. A positive $c$ stretches or shrinks the arrow; a negative $c$ also turns it around."
+    },
+    {
+      "term": "zero vector",
+      "md": "A vector whose numbers are all 0, such as `[0, 0, 0]`. It has length 0 and no direction, so its cosine with any vector is undefined (the formula would divide by 0)."
+    },
+    {
+      "term": "unit vector",
+      "md": "A vector of length 1. Dividing a vector by its magnitude gives the unit vector pointing the same way. For two unit vectors, cosine similarity equals the dot product."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-cosine-p1",
+      "title": "Measuring closeness: dot product and cosine",
+      "beats": [
+        {
+          "id": "b-cosine",
+          "title": "Measuring closeness: dot product and cosine",
+          "kcs": [
+            "kc-dot-cosine"
+          ],
+          "est_minutes": 11,
+          "blocks": [
+            {
+              "id": "blk-emb-cosine-01",
+              "block": {
+                "type": "predict",
+                "question": {
+                  "id": "q-predict-length",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-dot-cosine"
+                  ],
+                  "prompt_md": "Two arrows point in exactly the same direction: `a = [1, 0]` and `b = [3, 0]`. `b` is three times longer. Measured by **direction**, how similar are they?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Identical: same direction",
+                      "why_md": "Right. If we only care about direction, length doesn't matter. Cosine similarity is built on exactly this idea.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "Less similar than `a` is to itself, because `b` is longer",
+                      "why_md": "That would be measuring length, not direction. Keep this guess in mind: it is the most common confusion in this topic.",
+                      "misconception": "mc-cosine-uses-length"
+                    },
+                    {
+                      "id": "c",
+                      "md": "Can't tell without more dimensions",
+                      "why_md": "Two dimensions are enough to compare directions."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            },
+            {
+              "id": "blk-emb-cosine-02",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "We need a single number that says **how much two vectors point the same way**. Build it in two steps.",
+                  "**Step 1, the dot product.** Multiply matching positions and add them up: $a \\cdot b = a_1 b_1 + a_2 b_2 + \\dots + a_n b_n$. For `[1, 2]` and `[3, 4]` that is $1\\cdot3 + 2\\cdot4 = 11$. When both vectors have big numbers in the *same* positions, the products are big and positive. When one is positive where the other is negative, the products cancel out.",
+                  "**Step 2, remove length.** The dot product also grows when vectors get longer, which we don't want. The [[magnitude]] of a vector is $\\|a\\| = \\sqrt{a_1^2 + \\dots + a_n^2}$. Divide by both magnitudes and only direction is left. That ratio is the [[cosine similarity]]."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-cosine-03",
+              "block": {
+                "type": "math",
+                "tex": "\\cos\\theta \\;=\\; \\frac{a \\cdot b}{\\|a\\|\\,\\|b\\|} \\;=\\; \\frac{\\sum_i a_i b_i}{\\sqrt{\\sum_i a_i^2}\\,\\sqrt{\\sum_i b_i^2}}",
+                "explain_md": "Geometry gives the same quantity: $a\\cdot b = \\|a\\|\\|b\\|\\cos\\theta$, where $\\theta$ is the angle between the arrows. So cosine similarity **is** the cosine of the angle between them.",
+                "parts": [
+                  {
+                    "symbol": "θ",
+                    "means": "the angle between the two arrows"
+                  },
+                  {
+                    "symbol": "a · b",
+                    "means": "dot product: multiply position by position, then add"
+                  },
+                  {
+                    "symbol": "‖a‖",
+                    "means": "length (magnitude) of a"
+                  },
+                  {
+                    "symbol": "result",
+                    "means": "1 = same direction · 0 = perpendicular · −1 = opposite"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-cosine-04",
+              "block": {
+                "type": "worked_example",
+                "title": "Cosine of [1, 2] and [2, 1]",
+                "problem_md": "Compute the cosine similarity of $a = [1, 2]$ and $b = [2, 1]$.",
+                "steps": [
+                  {
+                    "md": "Dot product: $1\\cdot2 + 2\\cdot1 = 4$"
+                  },
+                  {
+                    "md": "Lengths: $\\|a\\| = \\sqrt{1+4} = \\sqrt5$ and $\\|b\\| = \\sqrt5$"
+                  },
+                  {
+                    "md": "Divide: $\\dfrac{4}{\\sqrt5\\cdot\\sqrt5} = \\dfrac45 = 0.8$",
+                    "why_md": "√5 · √5 = 5. Writing it as a fraction keeps the arithmetic exact."
+                  },
+                  {
+                    "md": "Angle: $\\theta = \\arccos(0.8) \\approx 36.9°$",
+                    "why_md": "Optional, but it connects the number to the picture."
+                  }
+                ],
+                "answer_md": "**0.8**: fairly similar directions, about 37° apart."
+              }
+            },
+            {
+              "id": "blk-emb-cosine-05",
+              "block": {
+                "type": "visual",
+                "id": "v-cosine-dial",
+                "widget": "cosine-dial",
+                "title": "The cosine dial",
+                "goal_md": "Drag the two arrow tips. Watch which numbers change when you change **direction** and which change when you only change **length**.",
+                "alt": "Two draggable arrows from the origin on a grid. A live panel shows each vector, its length, the dot product, the angle, cosine similarity and Euclidean distance.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "Make the vectors perpendicular: cosine ≈ 0 (between −0.03 and 0.03).",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "cos",
+                          "op": "between",
+                          "value": [
+                            -0.03,
+                            0.03
+                          ]
+                        }
+                      ]
+                    },
+                    "aha_md": "Perpendicular means the dot product is 0, so the vectors share nothing. Note that their lengths are irrelevant."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Make them point in opposite directions: cosine below −0.95.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "cos",
+                          "op": "<",
+                          "value": -0.95
+                        }
+                      ]
+                    },
+                    "aha_md": "Opposite directions give −1. Text embeddings rarely reach this in practice (the Intermediate layer explains why), but the math allows it."
+                  },
+                  {
+                    "id": "t3",
+                    "prompt": "Keep cosine above 0.95 while making one arrow at least 3× longer than the other.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "cos",
+                          "op": ">",
+                          "value": 0.95
+                        },
+                        {
+                          "var": "len_ratio",
+                          "op": ">=",
+                          "value": 3
+                        }
+                      ]
+                    },
+                    "aha_md": "Cosine didn't move while the dot product and the distance changed a lot. Cosine is **blind to length**, and that is exactly why it's the default for comparing meaning."
+                  }
+                ],
+                "params": {
+                  "a": [
+                    2,
+                    1
+                  ],
+                  "b": [
+                    1,
+                    2
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-emb-cosine-06",
+              "block": {
+                "type": "callout",
+                "kind": "misconception",
+                "md": "Cosine similarity is **not** a probability and is **not** limited to 0…1. It ranges from −1 to 1. And scaling a vector (doubling every number) does not change its cosine with anything.",
+                "title": "“Cosine is a percentage, and bigger vectors are more similar”",
+                "misconception": "mc-cosine-range-01"
+              }
+            },
+            {
+              "id": "blk-emb-cosine-07",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-cos-34-43",
+                  "kind": "numeric",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-dot-cosine"
+                  ],
+                  "prompt_md": "Compute the cosine similarity of `[3, 4]` and `[4, 3]`. Give a decimal.",
+                  "answer": {
+                    "value": 0.96,
+                    "tolerance": 0.005,
+                    "common_wrong": [
+                      {
+                        "value": 24,
+                        "why_md": "24 is the dot product. You still need to divide by the lengths (5 × 5 = 25)."
+                      },
+                      {
+                        "value": 1,
+                        "why_md": "They aren't the same direction: `[3,4]` and `[4,3]` are mirror images about the diagonal."
+                      }
+                    ]
+                  },
+                  "hint_md": "Dot product first, then each length is a 3-4-5 triangle.",
+                  "solution_md": "Dot product $= 3\\cdot4 + 4\\cdot3 = 24$. Lengths: $\\sqrt{9+16} = 5$ each. Cosine $= 24/25 = 0.96$.",
+                  "est_seconds": 70
+                }
+              }
+            },
+            {
+              "id": "blk-emb-cosine-08",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-cos-scaled",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-dot-cosine"
+                  ],
+                  "prompt_md": "What is the cosine similarity of `[1, 2]` and `[10, 20]`?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "1",
+                      "why_md": "Right. `[10, 20]` is `[1, 2]` scaled by 10, so it points the same way. Cosine ignores length.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "0.1",
+                      "why_md": "That would be a length ratio. Cosine compares only direction.",
+                      "misconception": "mc-cosine-uses-length"
+                    },
+                    {
+                      "id": "c",
+                      "md": "50",
+                      "why_md": "50 is the dot product ($1\\cdot10 + 2\\cdot20$). Divide by the lengths ($\\sqrt5 \\cdot \\sqrt{500} = 50$) to get 1."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b-cosine-range",
+          "title": "Reading the scale: −1, 0 and 1",
+          "kcs": [
+            "kc-cosine-range"
+          ],
+          "est_minutes": 7,
+          "blocks": [
+            {
+              "id": "blk-emb-cosine-09",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Your help-centre search scores the query *“I can't log in”* against all 25 articles and gets numbers such as **0.81**, **0.07** and **−0.12**. Before you can rank them, or choose a cut-off below which an article counts as “not relevant”, you need to know the scale: the highest score possible, the lowest, and what sits in the middle."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-cosine-10",
+              "block": {
+                "type": "predict",
+                "question": {
+                  "id": "q-predict-range",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-cosine-range"
+                  ],
+                  "prompt_md": "Cosine similarity compares the directions of two arrows. Which range of values can it take?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "0 to 1, like a percentage",
+                      "why_md": "A natural guess, and the most common confusion. Arrows can also point *away* from each other, and that needs negative values.",
+                      "misconception": "mc-cosine-range-01"
+                    },
+                    {
+                      "id": "b",
+                      "md": "−1 to 1",
+                      "why_md": "Right. 1 for the same direction, −1 for exactly opposite, and every other direction in between.",
+                      "correct": true
+                    },
+                    {
+                      "id": "c",
+                      "md": "Any number: longer vectors give bigger values",
+                      "why_md": "That describes the dot product. Cosine divides the lengths out, so it can't grow without limit.",
+                      "misconception": "mc-cosine-uses-length"
+                    },
+                    {
+                      "id": "d",
+                      "md": "0 to 180",
+                      "why_md": "That's the range of the **angle**, in degrees. Cosine turns the angle into a number between −1 and 1."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            },
+            {
+              "id": "blk-emb-cosine-11",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Cosine similarity **is** the cosine of the angle $\\theta$ between the two arrows. Two arrows drawn from the same origin can be anywhere from $0°$ apart (same direction) to $180°$ apart (opposite directions), and the cosine of any angle in that range lands between −1 and 1:",
+                  "- $\\theta = 0°$: $\\cos\\theta = 1$. Same direction: as similar as two vectors can be.\n- $\\theta = 90°$: $\\cos\\theta = 0$. The arrows are at right angles, or [[orthogonal]]: the dot product is 0, so they share no direction at all.\n- $\\theta = 180°$: $\\cos\\theta = -1$. Exactly opposite directions.",
+                  "So however big the numbers inside the vectors are, the score can never go above 1 or below −1. The **sign** comes from the dot product, because the two lengths underneath it are never negative: a positive dot product means the arrows lean the same way (angle under 90°), a negative one means they lean apart (angle over 90°).",
+                  "One case has **no** answer: the [[zero vector]], every number 0, such as `[0, 0]`. It has length 0 and points nowhere, so the formula would divide by 0. Its cosine with anything is *undefined*, not 0."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-cosine-12",
+              "block": {
+                "type": "compare",
+                "title": "Angle → cosine",
+                "columns": [
+                  "Angle θ",
+                  "cos θ",
+                  "What the arrows do"
+                ],
+                "rows": [
+                  [
+                    "0°",
+                    "1",
+                    "Point the same way"
+                  ],
+                  [
+                    "60°",
+                    "0.5",
+                    "Lean the same way"
+                  ],
+                  [
+                    "90°",
+                    "0",
+                    "Orthogonal: share no direction"
+                  ],
+                  [
+                    "120°",
+                    "−0.5",
+                    "Lean apart"
+                  ],
+                  [
+                    "180°",
+                    "−1",
+                    "Point in opposite directions"
+                  ]
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-cosine-13",
+              "block": {
+                "type": "worked_example",
+                "title": "One vector, three landmarks",
+                "problem_md": "Take $a = [2, 1]$. Compute its cosine with $b = [4, 2]$, with $c = [-1, 2]$ and with $d = [-2, -1]$.",
+                "steps": [
+                  {
+                    "md": "Length of $a$, needed every time: $\\|a\\| = \\sqrt{2^2 + 1^2} = \\sqrt{4 + 1} = \\sqrt5$."
+                  },
+                  {
+                    "md": "$a$ and $b$: dot $= 2\\cdot4 + 1\\cdot2 = 8 + 2 = 10$. $\\|b\\| = \\sqrt{4^2 + 2^2} = \\sqrt{16 + 4} = \\sqrt{20}$. Cosine $= \\dfrac{10}{\\sqrt5\\cdot\\sqrt{20}} = \\dfrac{10}{\\sqrt{100}} = \\dfrac{10}{10} = 1$.",
+                    "why_md": "$b = 2a$: the same direction, twice as long. Writing $\\sqrt5\\cdot\\sqrt{20}$ as $\\sqrt{5\\cdot20} = \\sqrt{100}$ keeps the arithmetic exact."
+                  },
+                  {
+                    "md": "$a$ and $c$: dot $= 2\\cdot(-1) + 1\\cdot2 = -2 + 2 = 0$. $\\|c\\| = \\sqrt{(-1)^2 + 2^2} = \\sqrt{1 + 4} = \\sqrt5$. Cosine $= \\dfrac{0}{\\sqrt5\\cdot\\sqrt5} = \\dfrac05 = 0$.",
+                    "why_md": "The two products cancel exactly, so $a$ and $c$ are orthogonal: at right angles."
+                  },
+                  {
+                    "md": "$a$ and $d$: dot $= 2\\cdot(-2) + 1\\cdot(-1) = -4 - 1 = -5$. $\\|d\\| = \\sqrt{(-2)^2 + (-1)^2} = \\sqrt{4 + 1} = \\sqrt5$. Cosine $= \\dfrac{-5}{\\sqrt5\\cdot\\sqrt5} = \\dfrac{-5}{5} = -1$.",
+                    "why_md": "$d = -a$: every number flipped, so the arrow points the opposite way. Squaring erases the minus signs, so $\\|d\\| = \\|a\\|$."
+                  }
+                ],
+                "answer_md": "**1, 0 and −1**: the top, the middle and the bottom of the scale. Any other vector you compare with $a$ lands somewhere in between."
+              }
+            },
+            {
+              "id": "blk-emb-cosine-14",
+              "block": {
+                "type": "visual",
+                "id": "v-cosine-range",
+                "widget": "cosine-dial",
+                "title": "Walk the scale",
+                "goal_md": "Drag the arrows to hit in-between values on the scale, and watch the sign of the cosine follow the sign of the dot product.",
+                "alt": "Two draggable arrows from the origin on a grid, starting 45° apart. A live panel shows the dot product, the angle in degrees and the cosine similarity as you move them.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "Open the angle to about 60°: cosine between 0.48 and 0.52.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "cos",
+                          "op": "between",
+                          "value": [
+                            0.48,
+                            0.52
+                          ]
+                        }
+                      ]
+                    },
+                    "aha_md": "60° gives 0.5. The scale isn't linear in the angle: at 45°, halfway to perpendicular, cosine is still 0.71. It falls slowly near 0° and quickly near 90°."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Push past perpendicular to about 120°: cosine between −0.52 and −0.48.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "cos",
+                          "op": "between",
+                          "value": [
+                            -0.52,
+                            -0.48
+                          ]
+                        }
+                      ]
+                    },
+                    "aha_md": "Negative, but not −1: the arrows lean apart without pointing in opposite directions. Every angle from 0° to 180° has exactly one cosine between 1 and −1."
+                  },
+                  {
+                    "id": "t3",
+                    "prompt": "Make the dot product negative while keeping the cosine above −0.2.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "dot",
+                          "op": "<",
+                          "value": 0
+                        },
+                        {
+                          "var": "cos",
+                          "op": ">",
+                          "value": -0.2
+                        }
+                      ]
+                    },
+                    "aha_md": "The cosine's sign always matches the dot product's sign, because the lengths it divides by are never negative. A slightly negative cosine means “just past 90°”: almost orthogonal."
+                  }
+                ],
+                "params": {
+                  "a": [
+                    3,
+                    0
+                  ],
+                  "b": [
+                    2,
+                    2
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-emb-cosine-15",
+              "block": {
+                "type": "callout",
+                "kind": "misconception",
+                "title": "“0 means opposite”",
+                "md": "0 is the **middle** of the scale, not the bottom. A cosine of 0 means the arrows are orthogonal: they share no direction. Opposite directions give **−1**. And a zero vector doesn't score 0 either: its cosine is undefined, so code should refuse it (raise an error) instead of returning 0.",
+                "misconception": "mc-cosine-zero-opposite"
+              }
+            },
+            {
+              "id": "blk-emb-cosine-16",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-range-possible",
+                  "kind": "multi",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-cosine-range"
+                  ],
+                  "prompt_md": "Which of these could be the cosine similarity of two non-zero vectors? Select **all** that apply.",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "`0.93`",
+                      "why_md": "Possible: a small angle, about 22°.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "`-0.4`",
+                      "why_md": "Possible: an angle a little over 90°, about 114°.",
+                      "correct": true
+                    },
+                    {
+                      "id": "c",
+                      "md": "`1.2`",
+                      "why_md": "Impossible. Two arrows pointing the same way only reach 1, however long they are.",
+                      "misconception": "mc-cosine-uses-length"
+                    },
+                    {
+                      "id": "d",
+                      "md": "`0`",
+                      "why_md": "Possible: orthogonal vectors, such as `[1, 0]` and `[0, 5]`.",
+                      "correct": true
+                    },
+                    {
+                      "id": "e",
+                      "md": "`85`",
+                      "why_md": "Impossible. Cosine is not a score out of 100; the scale stops at 1.",
+                      "misconception": "mc-cosine-range-01"
+                    }
+                  ],
+                  "solution_md": "Any value from −1 to 1 is possible, negatives and 0 included. 1.2 and 85 are outside the range, so no pair of vectors can produce them.",
+                  "est_seconds": 50
+                }
+              }
+            },
+            {
+              "id": "blk-emb-cosine-17",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-midcheck-cos",
+                  "kind": "numeric",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-dot-cosine",
+                    "kc-cosine-range"
+                  ],
+                  "prompt_md": "**Mid-topic check.** Compute the cosine similarity of `[1, 2]` and `[-3, 1]` (2 decimals). Is the angle between them a little under or a little over 90°?",
+                  "answer": {
+                    "value": -0.14,
+                    "tolerance": 0.01,
+                    "common_wrong": [
+                      {
+                        "value": 0.14,
+                        "why_md": "Check the sign: $1\\cdot(-3) = -3$, so the dot product is $-3 + 2 = -1$, which is negative.",
+                        "misconception": "mc-cosine-range-01"
+                      },
+                      {
+                        "value": -1,
+                        "why_md": "−1 is the dot product. Divide it by the lengths $\\sqrt5$ and $\\sqrt{10}$."
+                      }
+                    ]
+                  },
+                  "hint_md": "Dot product first, then the two lengths. The sign of the answer tells you which side of 90° you're on.",
+                  "solution_md": "Dot $= 1\\cdot(-3) + 2\\cdot1 = -3 + 2 = -1$. Lengths: $\\sqrt{1 + 4} = \\sqrt5$ and $\\sqrt{9 + 1} = \\sqrt{10}$, so $\\sqrt5\\cdot\\sqrt{10} = \\sqrt{50} \\approx 7.07$. Cosine $= -1/7.07 \\approx -0.14$. Slightly negative, so the angle is a little **over** 90° (about 98°): nearly orthogonal, leaning very slightly apart.",
+                  "est_seconds": 90
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "emb-cosine-p2",
+      "title": "Cosine you can trust: length and hand computation",
+      "beats": [
+        {
+          "id": "b-cosine-scale",
+          "title": "Stretching a vector doesn't change its cosine",
+          "kcs": [
+            "kc-cosine-length-invariant"
+          ],
+          "est_minutes": 7,
+          "blocks": [
+            {
+              "id": "blk-emb-cosine-18",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Some help-centre articles are short; others repeat the same words again and again. Describe each article by counting three words, `[password, billing, login]`. *Reset your password* gives `[2, 0, 1]`. Now someone pastes the same article twice into one page: `[4, 0, 2]`. Same topic, same words, every count doubled.",
+                  "A good similarity score should treat the two copies the same: repeating yourself doesn't make you more relevant. Does cosine do that? And what happens if a vector gets multiplied by a **negative** number?"
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-cosine-19",
+              "block": {
+                "type": "predict",
+                "question": {
+                  "id": "q-predict-scale",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-cosine-length-invariant"
+                  ],
+                  "prompt_md": "Query `q = [1, 0, 1]`. Article `A = [2, 0, 1]`, and `B = [4, 0, 2]` is the same article pasted twice. How do `cos(q, A)` and `cos(q, B)` compare?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "They are equal",
+                      "why_md": "Right. B is A stretched to twice the length, pointing the same way, and cosine only sees direction.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "`cos(q, B)` is twice as big",
+                      "why_md": "The **dot product** doubles (3 → 6), but so does B's length. Cosine divides one by the other, so the doubling cancels.",
+                      "misconception": "mc-cosine-uses-length"
+                    },
+                    {
+                      "id": "c",
+                      "md": "`cos(q, B)` is smaller, because B is longer",
+                      "why_md": "Length doesn't count against B either. Cosine ignores it in both directions."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            },
+            {
+              "id": "blk-emb-cosine-20",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Multiplying every number in a vector by the same number $c$ is called [[scaling]]: $3\\cdot[2, 0, 1] = [6, 0, 3]$. Watch what scaling $b$ by $c$ does to each part of the cosine formula:",
+                  "- **The dot product** is multiplied by $c$: each product $a_i\\cdot(c\\,b_i) = c\\,(a_i b_i)$, so the whole sum is $c$ times bigger.\n- **The length of b** is multiplied by $|c|$, the size of $c$ without its sign: each square becomes $c^2 b_i^2$, and $\\sqrt{c^2} = |c|$.",
+                  "For a positive $c$, $c$ and $|c|$ are the same number, so the top and the bottom of the fraction grow by the same factor and it cancels: the cosine stays exactly the same. For a negative $c$ the top flips sign but the bottom can't (a length is never negative), so the cosine **flips sign** and keeps its size. That matches the picture: multiplying by a negative number turns the arrow around.",
+                  "A useful consequence: divide any vector by its own length and you get a [[unit vector]], length 1, pointing the same way. Its cosine with everything is unchanged, and for two unit vectors the bottom of the fraction is $1 \\times 1$, so **cosine = dot product**. The one exception to all this is $c = 0$: it turns $b$ into the zero vector, whose cosine is undefined."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-cosine-21",
+              "block": {
+                "type": "math",
+                "tex": "\\cos(a,\\,c\\,b) \\;=\\; \\frac{a\\cdot(c\\,b)}{\\|a\\|\\,\\|c\\,b\\|} \\;=\\; \\frac{c\\,(a\\cdot b)}{\\|a\\|\\,|c|\\,\\|b\\|} \\;=\\; \\frac{c}{|c|}\\,\\cos(a,\\,b)",
+                "explain_md": "$\\frac{c}{|c|}$ is $+1$ when $c > 0$ and $-1$ when $c < 0$. So positive scaling leaves cosine unchanged and negative scaling flips its sign. Scaling $a$ instead of $b$ works the same way.",
+                "parts": [
+                  {
+                    "symbol": "c",
+                    "means": "the scaling factor, any non-zero number"
+                  },
+                  {
+                    "symbol": "|c|",
+                    "means": "c without its sign: |−3| = 3"
+                  },
+                  {
+                    "symbol": "c / |c|",
+                    "means": "+1 if c > 0, −1 if c < 0"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-cosine-22",
+              "block": {
+                "type": "worked_example",
+                "title": "Stretch it, flip it",
+                "problem_md": "Let $a = [1, 2, 2]$ and $b = [0, 3, 4]$. Compute $\\cos(a, b)$, then compute $\\cos(a, 2b)$ and $\\cos(a, -b)$ from scratch, and compare.",
+                "steps": [
+                  {
+                    "md": "Lengths: $\\|a\\| = \\sqrt{1^2 + 2^2 + 2^2} = \\sqrt{1 + 4 + 4} = \\sqrt9 = 3$ and $\\|b\\| = \\sqrt{0^2 + 3^2 + 4^2} = \\sqrt{0 + 9 + 16} = \\sqrt{25} = 5$."
+                  },
+                  {
+                    "md": "$\\cos(a, b)$: dot $= 1\\cdot0 + 2\\cdot3 + 2\\cdot4 = 0 + 6 + 8 = 14$. Cosine $= \\dfrac{14}{3\\cdot5} = \\dfrac{14}{15} \\approx 0.933$."
+                  },
+                  {
+                    "md": "$2b = [0, 6, 8]$. Dot $= 1\\cdot0 + 2\\cdot6 + 2\\cdot8 = 0 + 12 + 16 = 28$. Length $= \\sqrt{0 + 36 + 64} = \\sqrt{100} = 10$. Cosine $= \\dfrac{28}{3\\cdot10} = \\dfrac{28}{30} \\approx 0.933$.",
+                    "why_md": "The dot product doubled (14 → 28) and so did the length (5 → 10). The 2 cancels."
+                  },
+                  {
+                    "md": "$-b = [0, -3, -4]$. Dot $= 1\\cdot0 + 2\\cdot(-3) + 2\\cdot(-4) = 0 - 6 - 8 = -14$. Length $= \\sqrt{0 + 9 + 16} = \\sqrt{25} = 5$. Cosine $= \\dfrac{-14}{3\\cdot5} = -\\dfrac{14}{15} \\approx -0.933$.",
+                    "why_md": "Squaring erases the minus signs, so the length is still 5. Only the dot product changed sign."
+                  }
+                ],
+                "answer_md": "$\\cos(a, 2b) = \\cos(a, b) \\approx 0.933$, while $\\cos(a, -b) \\approx -0.933$: the same size with the opposite sign."
+              }
+            },
+            {
+              "id": "blk-emb-cosine-23",
+              "block": {
+                "type": "visual",
+                "id": "v-cosine-scale",
+                "widget": "calc",
+                "title": "Scale b, watch the cosine",
+                "goal_md": "Change the scale factor $c$ and compare the four outputs. Which ones grow with $c$, and which one only cares about the sign of $c$?",
+                "alt": "A calculator with inputs for the vectors a and b and a scale factor c. It shows the dot product a·(c·b), the length of c·b, cos(a, b) and cos(a, c·b), updating as the inputs change.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "Set c to 5 or more.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "c",
+                          "op": ">=",
+                          "value": 5
+                        }
+                      ]
+                    },
+                    "aha_md": "a·(c·b) and ‖c·b‖ both grew by the same factor, so cos(a, c·b) stayed at 0.933. Stretching never changes cosine."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Make c negative.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "c",
+                          "op": "<",
+                          "value": 0
+                        }
+                      ]
+                    },
+                    "aha_md": "‖c·b‖ is still positive, but the dot product changed sign, so cos(a, c·b) became −0.933. A negative scale turns the arrow around."
+                  },
+                  {
+                    "id": "t3",
+                    "prompt": "Shrink b to half its length or less, keeping c above 0.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "c",
+                          "op": ">",
+                          "value": 0
+                        },
+                        {
+                          "var": "c",
+                          "op": "<=",
+                          "value": 0.5
+                        }
+                      ]
+                    },
+                    "aha_md": "Shrinking is scaling too, so cosine doesn't move. Only c = 0 breaks it: c·b becomes the zero vector and the cosine is undefined."
+                  }
+                ],
+                "params": {
+                  "inputs": [
+                    {
+                      "name": "a1",
+                      "label": "a₁",
+                      "value": 1,
+                      "step": 1
+                    },
+                    {
+                      "name": "a2",
+                      "label": "a₂",
+                      "value": 2,
+                      "step": 1
+                    },
+                    {
+                      "name": "a3",
+                      "label": "a₃",
+                      "value": 2,
+                      "step": 1
+                    },
+                    {
+                      "name": "b1",
+                      "label": "b₁",
+                      "value": 0,
+                      "step": 1
+                    },
+                    {
+                      "name": "b2",
+                      "label": "b₂",
+                      "value": 3,
+                      "step": 1
+                    },
+                    {
+                      "name": "b3",
+                      "label": "b₃",
+                      "value": 4,
+                      "step": 1
+                    },
+                    {
+                      "name": "c",
+                      "label": "scale c",
+                      "value": 1,
+                      "step": 0.5,
+                      "min": -5,
+                      "max": 10
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "dot_cb",
+                      "label": "a · (c·b)",
+                      "expr": "a1*c*b1 + a2*c*b2 + a3*c*b3",
+                      "digits": 2
+                    },
+                    {
+                      "name": "norm_cb",
+                      "label": "‖c·b‖",
+                      "expr": "sqrt((c*b1)^2 + (c*b2)^2 + (c*b3)^2)",
+                      "digits": 3
+                    },
+                    {
+                      "name": "cos_ab",
+                      "label": "cos(a, b)",
+                      "expr": "(a1*b1 + a2*b2 + a3*b3) / (sqrt(a1^2 + a2^2 + a3^2) * sqrt(b1^2 + b2^2 + b3^2))",
+                      "digits": 3
+                    },
+                    {
+                      "name": "cos_acb",
+                      "label": "cos(a, c·b)",
+                      "expr": "(a1*c*b1 + a2*c*b2 + a3*c*b3) / (sqrt(a1^2 + a2^2 + a3^2) * sqrt((c*b1)^2 + (c*b2)^2 + (c*b3)^2))",
+                      "digits": 3
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-emb-cosine-24",
+              "block": {
+                "type": "callout",
+                "kind": "misconception",
+                "title": "“Scaling never changes cosine”",
+                "md": "Only **positive** scaling leaves cosine unchanged. Multiply by a negative number and the arrow turns around: the cosine keeps its size but flips its sign (0.933 becomes −0.933). Multiplying by 0 gives no cosine at all, because the result is the zero vector.",
+                "misconception": "mc-cosine-negative-scale"
+              }
+            },
+            {
+              "id": "blk-emb-cosine-25",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-scale-flip",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-cosine-length-invariant"
+                  ],
+                  "prompt_md": "`cos([3, 1], [1, 2])` ≈ 0.707. What is `cos([3, 1], [-5, -10])`?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "0.707",
+                      "why_md": "`[-5, -10]` is `[1, 2]` times **−5**. A negative factor turns the arrow around, so the sign flips.",
+                      "misconception": "mc-cosine-negative-scale"
+                    },
+                    {
+                      "id": "b",
+                      "md": "−0.707",
+                      "why_md": "Right. `[-5, -10] = −5 · [1, 2]`: the 5 cancels and the minus sign flips the cosine.",
+                      "correct": true
+                    },
+                    {
+                      "id": "c",
+                      "md": "−3.54",
+                      "why_md": "That's −0.707 × 5. Cosine divides the length back out, so the 5 cancels.",
+                      "misconception": "mc-cosine-uses-length"
+                    },
+                    {
+                      "id": "d",
+                      "md": "−1",
+                      "why_md": "−1 would need `[-5, -10]` to point exactly opposite `[3, 1]`. It points opposite `[1, 2]` instead."
+                    }
+                  ],
+                  "solution_md": "$[-5, -10] = -5\\cdot[1, 2]$, and $\\frac{-5}{|-5|} = -1$, so $\\cos([3, 1], [-5, -10]) = -\\cos([3, 1], [1, 2]) \\approx -0.707$. Check from scratch: dot $= -15 - 10 = -25$, lengths $\\sqrt{10}$ and $\\sqrt{125}$, $\\sqrt{1250} \\approx 35.36$, $-25/35.36 \\approx -0.707$.",
+                  "est_seconds": 60
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "b-cosine-by-hand",
+          "title": "Cosine by hand, step by step",
+          "kcs": [
+            "kc-cosine-by-hand"
+          ],
+          "est_minutes": 7,
+          "blocks": [
+            {
+              "id": "blk-emb-cosine-26",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "In this unit's capstone you rank five help-centre articles **by hand** before writing any code, and in the Lab you write `cosine_sim` yourself. Hand computation is how you check that code: if your function prints 0.62 and your pencil says 0.94, one of them is wrong, and you need to know which.",
+                  "You already have every piece: the dot product, the two lengths, one division. This beat turns them into a routine you can run on any small vectors, negative numbers included, without slipping."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-cosine-27",
+              "block": {
+                "type": "predict",
+                "question": {
+                  "id": "q-predict-hand",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-cosine-by-hand"
+                  ],
+                  "prompt_md": "Query `q = [1, 1, 0]`. Article `A = [2, 1, 0]` and article `B = [4, 4, 4]`. Before computing anything: which article has the **higher** cosine with `q`?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "A",
+                      "why_md": "Right: about 0.95 against 0.82. B's big numbers give it the larger dot product (8 against 3), but B also points along the third axis, where `q` has nothing.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "B, because its numbers are bigger",
+                      "why_md": "Bigger numbers raise the dot product (8 against 3), but the length divides that back out. B leans towards the third dimension, which `q` doesn't share.",
+                      "misconception": "mc-cosine-uses-length"
+                    },
+                    {
+                      "id": "c",
+                      "md": "They tie",
+                      "why_md": "They point in different directions, so their cosines differ: about 0.95 for A and 0.82 for B."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            },
+            {
+              "id": "blk-emb-cosine-28",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "Cosine by hand is four steps. Lay them out as a table, one row per position, and you can't lose a term:",
+                  "1. **Products.** Multiply matching positions, $a_i\\cdot b_i$, and add them up: that's $a\\cdot b$. Watch the signs: a negative times a positive is negative.\n2. **Length of a.** Square each $a_i$, add the squares, take the square root: $\\|a\\|$.\n3. **Length of b.** The same for $b$: $\\|b\\|$.\n4. **Divide.** $\\cos = \\dfrac{a\\cdot b}{\\|a\\|\\,\\|b\\|}$. Keep square roots exact until this step, then round once.",
+                  "Then **sanity-check** the answer before trusting it: it must lie between −1 and 1; its sign must match the sign of the dot product; and a vector compared with itself must give exactly 1."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-cosine-29",
+              "block": {
+                "type": "worked_example",
+                "title": "Cosine of [2, 1, 2] and [1, 0, 1], step by step",
+                "problem_md": "Compute $\\cos(a, b)$ for $a = [2, 1, 2]$ and $b = [1, 0, 1]$, showing every step.",
+                "steps": [
+                  {
+                    "md": [
+                      "Lay out the table:",
+                      "| $i$ | $a_i$ | $b_i$ | $a_i b_i$ | $a_i^2$ | $b_i^2$ |\n|---|---|---|---|---|---|\n| 1 | 2 | 1 | $2\\cdot1 = 2$ | 4 | 1 |\n| 2 | 1 | 0 | $1\\cdot0 = 0$ | 1 | 0 |\n| 3 | 2 | 1 | $2\\cdot1 = 2$ | 4 | 1 |\n| **sum** | | | **4** | **9** | **2** |"
+                    ],
+                    "why_md": "One row per position, so no term gets dropped. Squares are never negative."
+                  },
+                  {
+                    "md": "Dot product: $a\\cdot b = 2 + 0 + 2 = 4$."
+                  },
+                  {
+                    "md": "Lengths: $\\|a\\| = \\sqrt{4 + 1 + 4} = \\sqrt9 = 3$ and $\\|b\\| = \\sqrt{1 + 0 + 1} = \\sqrt2 \\approx 1.414$."
+                  },
+                  {
+                    "md": "Divide: $\\cos = \\dfrac{4}{3\\cdot\\sqrt2} = \\dfrac{4}{4.243} \\approx 0.943$.",
+                    "why_md": "$3 \\times 1.414 = 4.243$ (to 3 decimals). Rounding only at this last step keeps the answer accurate to 3 decimals."
+                  },
+                  {
+                    "md": "Sanity check: $0.943$ is between −1 and 1 ✓, positive like the dot product ✓, and close to 1, so the angle is small (about $19.5°$)."
+                  }
+                ],
+                "answer_md": "$\\cos(a, b) \\approx$ **0.943**."
+              }
+            },
+            {
+              "id": "blk-emb-cosine-30",
+              "block": {
+                "type": "visual",
+                "id": "v-cosine-hand-calc",
+                "widget": "calc",
+                "title": "Cosine calculator",
+                "goal_md": "Type in any two 3-number vectors and check each step of a hand calculation: the dot product, both lengths and the cosine.",
+                "alt": "A calculator with three input boxes for vector a and three for vector b. It shows the dot product, the length of a, the length of b and the cosine similarity, updating as you type.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "Change b so that a and b are orthogonal (dot product 0), without making b all zeros.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "dot",
+                          "op": "==",
+                          "value": 0
+                        },
+                        {
+                          "var": "norm_b",
+                          "op": ">",
+                          "value": 0
+                        }
+                      ]
+                    },
+                    "aha_md": "With a = [2, 1, 2], b = [1, 0, −1] works: 2 + 0 − 2 = 0. In 3-D there are many directions at right angles to a, not just one."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Make ‖b‖ exactly 7 using whole numbers.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "norm_b",
+                          "op": "==",
+                          "value": 7
+                        }
+                      ]
+                    },
+                    "aha_md": "[2, 3, 6] works: 4 + 9 + 36 = 49 and √49 = 7. Vectors with whole-number lengths, like [1, 2, 2] (length 3) and [2, 3, 6] (length 7), make good hand exercises."
+                  },
+                  {
+                    "id": "t3",
+                    "prompt": "Make the cosine lower than −0.9 by changing only the signs of b's numbers.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "cos",
+                          "op": "<",
+                          "value": -0.9
+                        }
+                      ]
+                    },
+                    "aha_md": "Flipping every sign of b gives −0.943: the same size, the opposite sign. That's scaling by −1, from the previous beat."
+                  }
+                ],
+                "params": {
+                  "inputs": [
+                    {
+                      "name": "a1",
+                      "label": "a₁",
+                      "value": 2,
+                      "step": 1,
+                      "min": -9,
+                      "max": 9
+                    },
+                    {
+                      "name": "a2",
+                      "label": "a₂",
+                      "value": 1,
+                      "step": 1,
+                      "min": -9,
+                      "max": 9
+                    },
+                    {
+                      "name": "a3",
+                      "label": "a₃",
+                      "value": 2,
+                      "step": 1,
+                      "min": -9,
+                      "max": 9
+                    },
+                    {
+                      "name": "b1",
+                      "label": "b₁",
+                      "value": 1,
+                      "step": 1,
+                      "min": -9,
+                      "max": 9
+                    },
+                    {
+                      "name": "b2",
+                      "label": "b₂",
+                      "value": 0,
+                      "step": 1,
+                      "min": -9,
+                      "max": 9
+                    },
+                    {
+                      "name": "b3",
+                      "label": "b₃",
+                      "value": 1,
+                      "step": 1,
+                      "min": -9,
+                      "max": 9
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "name": "dot",
+                      "label": "a · b",
+                      "expr": "a1*b1 + a2*b2 + a3*b3",
+                      "digits": 2
+                    },
+                    {
+                      "name": "norm_a",
+                      "label": "‖a‖",
+                      "expr": "sqrt(a1^2 + a2^2 + a3^2)",
+                      "digits": 3
+                    },
+                    {
+                      "name": "norm_b",
+                      "label": "‖b‖",
+                      "expr": "sqrt(b1^2 + b2^2 + b3^2)",
+                      "digits": 3
+                    },
+                    {
+                      "name": "cos",
+                      "label": "cos(a, b)",
+                      "expr": "(a1*b1 + a2*b2 + a3*b3) / (sqrt(a1^2 + a2^2 + a3^2) * sqrt(b1^2 + b2^2 + b3^2))",
+                      "digits": 3
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-emb-cosine-31",
+              "block": {
+                "type": "callout",
+                "kind": "misconception",
+                "title": "“Divide by one length”, and other hand slips",
+                "md": [
+                  "Three slips cause most wrong hand answers:",
+                  "- **Dividing by only one length**, or by one length twice. With unequal lengths this can produce a “cosine” above 1, which is impossible.\n- **Forgetting the square root.** $1^2 + 0^2 + 1^2 = 2$ is the length **squared**; the length is $\\sqrt2$.\n- **Dropping a minus sign** in a product: $(-2)\\cdot1 = -2$, not $2$.",
+                  "The sanity check catches the first two (an answer outside −1…1, or one that is suspiciously small), and the sign rule catches the third."
+                ],
+                "misconception": "mc-cosine-one-norm"
+              }
+            },
+            {
+              "id": "blk-emb-cosine-32",
+              "block": {
+                "type": "code",
+                "lang": "python",
+                "runnable": true,
+                "code": "import math\n\na = [3, 0, 4]\nb = [1, 2, 2]\n\nmy_dot = 0\nmy_norm_a = 0\nmy_norm_b = 0\nmy_cos = 0\n\ndot = sum(x * y for x, y in zip(a, b))\nnorm_a = math.sqrt(sum(x * x for x in a))\nnorm_b = math.sqrt(sum(y * y for y in b))\ncos = dot / (norm_a * norm_b)\n\nfor name, mine, actual in [(\"dot\", my_dot, dot), (\"|a|\", my_norm_a, norm_a), (\"|b|\", my_norm_b, norm_b), (\"cos\", my_cos, cos)]:\n    mark = \"✓\" if abs(mine - actual) < 0.01 else \"✗ try again\"\n    print(f\"{name:>4}: you said {mine}  {mark}\")\n",
+                "caption_md": "**Micro-exercise (2 minutes).** On paper, compute the dot product, both lengths and the cosine of `a = [3, 0, 4]` and `b = [1, 2, 2]`. Type your four numbers into the `my_` variables and press **Run**: each line shows ✓ when you're within 0.01."
+              }
+            },
+            {
+              "id": "blk-emb-cosine-33",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-hand-signs",
+                  "kind": "numeric",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-cosine-by-hand"
+                  ],
+                  "prompt_md": "Compute the cosine similarity of `[1, -2, 2]` and `[2, 1, -2]` by hand (3 decimals).",
+                  "answer": {
+                    "value": -0.444,
+                    "tolerance": 0.005,
+                    "common_wrong": [
+                      {
+                        "value": 0.444,
+                        "why_md": "Check the signs: $(-2)\\cdot1 = -2$ and $2\\cdot(-2) = -4$, so the dot product is $2 - 2 - 4 = -4$."
+                      },
+                      {
+                        "value": -4,
+                        "why_md": "−4 is the dot product. Divide it by $\\|a\\|\\,\\|b\\| = 3\\cdot3 = 9$."
+                      },
+                      {
+                        "value": -0.049,
+                        "why_md": "You divided by $9\\cdot9 = 81$, the lengths **squared**. Take the square roots: $\\sqrt9 = 3$ each.",
+                        "misconception": "mc-cosine-forgets-sqrt"
+                      }
+                    ]
+                  },
+                  "hint_md": "Make the table: one row per position. Both lengths come out as whole numbers.",
+                  "solution_md": "Products: $1\\cdot2 = 2$, $(-2)\\cdot1 = -2$, $2\\cdot(-2) = -4$, so $a\\cdot b = -4$. Lengths: $\\sqrt{1 + 4 + 4} = 3$ and $\\sqrt{4 + 1 + 4} = 3$. Cosine $= -4/9 \\approx -0.444$. Negative like the dot product ✓, inside −1…1 ✓.",
+                  "est_seconds": 90
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp1-cos",
+    "emb-cosine/exit-1",
+    "emb-cosine/exit-2",
+    "emb-cosine/exit-3"
+  ],
+  "recap": {
+    "formula": "cos(a, b) = a·b ÷ (‖a‖ ‖b‖), with ‖a‖ = √(a₁² + … + aₙ²); cos(a, c·b) = cos(a, b) for c > 0 and −cos(a, b) for c < 0",
+    "template": "Products → add (a·b) · squares → add → √ (‖a‖, ‖b‖) · divide · check: −1 ≤ cos ≤ 1 and its sign matches a·b",
+    "pitfall": "Cosine ignores length; an unnormalised dot product does not. Cosine is not a 0–1 percentage: it runs from −1 to 1, flips sign under a negative scale, and is undefined for a zero vector."
+  },
+  "depth_threads": [
+    {
+      "id": "dt-cauchy-schwarz",
+      "kind": "math",
+      "title": "Why |a·b| ≤ ‖a‖‖b‖: the Cauchy–Schwarz inequality",
+      "level": 3,
+      "status": "stub"
+    },
+    {
+      "id": "dt-cosine-distance",
+      "kind": "math",
+      "title": "Cosine distance (1 − cosine) and why it isn't a true distance",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-float-clamp",
+      "kind": "implementation",
+      "title": "Floating-point cosines just above 1, and why libraries clamp them",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-normalize-once",
+      "kind": "implementation",
+      "title": "Normalise once at index time, then rank by dot product",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-anisotropy",
+      "kind": "mechanism",
+      "title": "Why text embeddings crowd into a narrow cone of directions",
+      "level": 3,
+      "status": "stub"
+    }
+  ],
+  "anticipated_doubts": [
+    {
+      "id": "d-dot-meaning",
+      "beat": "b-cosine",
+      "question": "Why does multiply-and-add measure similarity?",
+      "match": [
+        "why multiply",
+        "dot product mean",
+        "why does dot",
+        "multiply and add",
+        "what is dot product",
+        "dot product"
+      ],
+      "answer_md": "Each product $a_i b_i$ is big and positive when **both** vectors are large in the same position, which means agreement. Opposite signs give a negative product, which means disagreement. Adding the products up gives a total agreement score across all positions.",
+      "deeper_md": "Try it with ratings. Two friends rate 3 films from −2 to +2: you `[2, −1, 1]`, your friend `[2, −2, 0]`. Multiply film by film: `4, 2, 0`. Both loved film 1 (+4), and both disliked film 2 (+2). Total 6: you agree. Now take someone with the opposite taste, `[−2, 1, −1]`: `−4, −1, −1` = −6. The dot product is “sum of agreements”.",
+      "bridge": {
+        "kind": "analogy",
+        "title": "Dot product = total agreement",
+        "md": [
+          "Think of each dimension as a **question** both vectors answer, such as *“how much about animals?”*.",
+          "- Both answer strongly yes: a large positive product, strong agreement.\n- One says yes and the other says no: a negative product, disagreement.\n- Either one says “don't care” (≈ 0): a product near 0, no evidence either way.",
+          "The dot product sums the agreement over all the questions. Cosine then divides out how *loud* each vector is (its length), so only the agreement pattern is left."
+        ],
+        "verify": {
+          "id": "q-br-dot",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-dot-cosine"
+          ],
+          "prompt_md": "Film ratings: you `[2, 0, -1]`, a friend `[1, 0, -2]`. Do you agree?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Yes: dot = 2 + 0 + 2 = 4 > 0",
+              "why_md": "Right. You both like film 1 and both dislike film 3.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "No: the numbers are different",
+              "why_md": "Agreement is about sign and direction, not identical numbers."
+            },
+            {
+              "id": "c",
+              "md": "Can't tell without lengths",
+              "why_md": "The sign of the dot product already tells you whether the direction broadly agrees. Lengths only scale it."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-why-not-euclid",
+      "beat": "b-cosine",
+      "question": "Why cosine and not just distance?",
+      "match": [
+        "why cosine",
+        "why not euclid",
+        "why not distance",
+        "euclidean",
+        "cosine instead",
+        "cosine vs"
+      ],
+      "answer_md": "Distance mixes **direction** and **length**, and for meaning we usually want direction only. A long text and a short text about the same thing can have vectors of different lengths that point the same way. Cosine sees them as identical; Euclidean distance sees them as far apart. Once all vectors are normalized to length 1 the two give the same ranking, which is why many systems normalize and then use whichever the database computes fastest.",
+      "deeper_md": "Picture two arrows from the centre of a clock, both pointing at 3 o'clock, one 2 cm long and one 10 cm long. They mean “3 o'clock” equally. Distance says they're 8 cm apart; cosine says they're identical. For meaning, the direction is what matters.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Cosine vs distance on one picture",
+        "md": [
+          "Two arrows point the same way, `[1, 1]` and `[4, 4]`:",
+          "- **Cosine** = 1.0: identical direction.\n- **Euclidean distance** = $\\sqrt{3^2+3^2} \\approx 4.24$: “far apart”.",
+          "Normalize both to length 1 and they become the same point, so the distance is 0. With unit vectors, $\\|a-b\\|^2 = 2 - 2\\cos\\theta$, so both metrics rank identically."
+        ],
+        "verify": {
+          "id": "q-br-euclid",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-dot-cosine",
+            "kc-metrics-normalization"
+          ],
+          "prompt_md": "`a = [2, 0]`, `b = [5, 0]`. Which statement is true?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Cosine = 1, but the Euclidean distance is 3",
+              "why_md": "Right. Same direction, different lengths.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "Both say the vectors are identical",
+              "why_md": "Distance sees a 3-unit gap."
+            },
+            {
+              "id": "c",
+              "md": "Cosine = 0.4 (2/5)",
+              "why_md": "Cosine ignores length.",
+              "misconception": "mc-cosine-uses-length"
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-negative-cos",
+      "beat": "b-cosine",
+      "question": "What does a negative cosine mean for text?",
+      "match": [
+        "negative cosine",
+        "negative similarity",
+        "below zero",
+        "less than 0",
+        "minus"
+      ],
+      "answer_md": "Mathematically, it means the vectors point in broadly opposite directions. With most text embedding models you rarely see strongly negative values, because the vectors tend to occupy a narrow cone of the space, so even unrelated texts score above 0. Don't read −0.1 as “opposite meaning”. Read scores **relative to the model's typical range**.",
+      "deeper_md": "Opposite *meaning* (love/hate) usually isn't opposite *direction*: *I love this* and *I hate this* share a topic and a structure, so they often score fairly high. Embeddings capture what is being talked about more than what stance is taken.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "Negative cosine ≠ opposite meaning",
+        "md": [
+          "Two facts to keep apart:",
+          "1. **Geometry:** cosine < 0 means an angle above 90°, so the arrows point away from each other.\n2. **Text models:** embeddings usually cluster in a narrow cone, so most pairs score above 0, and *love/hate* sentences can score **high** because they share a topic.",
+          "If you need sentiment, use a sentiment model or a classifier on the embeddings. Raw cosine won't give you that."
+        ],
+        "verify": {
+          "id": "q-br-negcos",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-dot-cosine",
+            "kc-embedding-def"
+          ],
+          "prompt_md": "*“The movie was great”* vs *“The movie was terrible”* with a typical text embedder. Expect:",
+          "options": [
+            {
+              "id": "a",
+              "md": "A fairly high positive cosine: same topic, same structure",
+              "why_md": "Right. Embeddings capture what is being discussed more than the stance.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "Close to −1, because the meanings are opposite",
+              "why_md": "Opposite stance rarely means opposite direction.",
+              "misconception": "mc-similar-means-relevant"
+            },
+            {
+              "id": "c",
+              "md": "Exactly 0",
+              "why_md": "Unlikely. Both are about a movie's quality."
+            }
+          ],
+          "est_seconds": 70
+        }
+      }
+    },
+    {
+      "id": "d-cosine-above-one",
+      "beat": "b-cosine-range",
+      "question": "Can cosine ever be bigger than 1?",
+      "match": [
+        "bigger than 1",
+        "above 1",
+        "more than 1",
+        "greater than 1",
+        "exceed 1",
+        "over 1"
+      ],
+      "answer_md": "No. Cosine is the cosine of an angle, and that never exceeds 1. In vector terms, $|a\\cdot b| \\le \\|a\\|\\,\\|b\\|$ always holds, so the fraction can't pass 1 in either direction. If code prints `1.0000000000000002`, that's floating-point rounding, not a real value above 1.",
+      "deeper_md": "Picture the dot product as a shadow. $a\\cdot b$ equals $\\|a\\|$ times the length of $b$'s shadow cast onto $a$'s direction. A shadow can be as long as the stick (when $b$ lies along $a$) but never longer, so $a\\cdot b$ can reach $\\|a\\|\\,\\|b\\|$ but not exceed it.",
+      "bridge": {
+        "kind": "zoom-in",
+        "title": "The shadow can't be longer than the stick",
+        "md": [
+          "Hold $b$ above $a$ and shine a light straight down onto $a$'s line. $b$'s shadow has length $\\|b\\|\\cos\\theta$.",
+          "- $b$ along $a$: shadow $= \\|b\\|$, cosine $= 1$.\n- $b$ at right angles: shadow $= 0$, cosine $= 0$.\n- $b$ pointing back: the shadow falls behind, cosine $= -1$ at most.",
+          "Rounding errors in code can nudge a cosine to 1.0000000000000002; production code clamps the value back into −1…1."
+        ],
+        "verify": {
+          "id": "q-br-above-one",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-cosine-range"
+          ],
+          "prompt_md": "Your code prints `cos = 1.0000000000000002` for a vector compared with itself. What happened?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Floating-point rounding: the true value is exactly 1",
+              "why_md": "Right. Computers round tiny amounts; clamp to −1…1 if it matters.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "The vector is “more than identical” to itself",
+              "why_md": "Nothing can be more aligned than identical. 1 is the ceiling."
+            },
+            {
+              "id": "c",
+              "md": "The dot product function has a bug",
+              "why_md": "The dot product is fine; the tiny excess comes from rounding in the square root and the division."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-cosine-zero-vector",
+      "beat": "b-cosine-range",
+      "question": "What's the cosine with an all-zero vector?",
+      "match": [
+        "zero vector",
+        "all zeros",
+        "divide by zero",
+        "[0, 0]",
+        "zero length",
+        "empty vector"
+      ],
+      "answer_md": "It's **undefined**. A zero vector has length 0, so the formula divides 0 by 0. It isn't 0 (which would claim the vectors are orthogonal) and it isn't 1. Code should refuse it, for example by raising `ValueError`, rather than return a number. In search, an empty document that embeds to all zeros should be skipped.",
+      "deeper_md": "A zero vector is a point sitting on the origin: there's no arrow, so there's no direction to compare. Asking for its angle with another arrow is like asking which way a dot is pointing.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "“0” versus “no answer”",
+        "md": [
+          "- Cosine **0**: two real arrows at right angles, such as `[1, 0]` and `[0, 3]`. A genuine measurement.\n- Cosine **undefined**: one of the vectors has no arrow at all, such as `[0, 0]`. There's nothing to measure.",
+          "Returning 0 for the second case quietly mixes the two up, so a search engine would rank an empty document as “orthogonal” instead of flagging it."
+        ],
+        "verify": {
+          "id": "q-br-zero-vector",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-cosine-range"
+          ],
+          "prompt_md": "What is the cosine similarity of `[0, 0, 0]` and `[1, 2, 3]`?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Undefined: the zero vector has no direction",
+              "why_md": "Right. The formula divides by ‖[0, 0, 0]‖ = 0.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "0",
+              "why_md": "0 means orthogonal arrows. Here one arrow doesn't exist.",
+              "misconception": "mc-cosine-zero-vector"
+            },
+            {
+              "id": "c",
+              "md": "1",
+              "why_md": "Nothing points the same way as a vector with no direction."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-cosine-half",
+      "beat": "b-cosine-range",
+      "question": "Is a cosine of 0.5 “half as similar” as 1?",
+      "match": [
+        "half as similar",
+        "0.5 mean",
+        "percent",
+        "percentage",
+        "how similar is"
+      ],
+      "answer_md": "Not in any straight-line sense. 0.5 corresponds to an angle of 60°, while the angle halfway between same direction (0°) and orthogonal (90°) is 45°, which gives 0.71. Cosine changes slowly near 0° and quickly near 90°. Treat scores as a ranking, and compare them with the scores the same model gives to known similar and dissimilar pairs.",
+      "deeper_md": "Read the angle–cosine table: 0° → 1, 45° → 0.71, 60° → 0.5, 90° → 0. Equal steps in angle don't give equal steps in cosine, so “0.5 = 50% similar” isn't a meaningful statement.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Equal angle steps, unequal cosine steps",
+        "md": [
+          "| Angle | 0° | 30° | 45° | 60° | 90° |\n|---|---|---|---|---|---|\n| Cosine | 1 | 0.87 | 0.71 | 0.5 | 0 |",
+          "The first 30° costs 0.13; the last 30° (60° → 90°) costs 0.5. A cosine is a position on this curve, not a percentage."
+        ],
+        "verify": {
+          "id": "q-br-half",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-cosine-range"
+          ],
+          "prompt_md": "Which angle sits exactly halfway between “same direction” and “orthogonal”, and what is its cosine?",
+          "options": [
+            {
+              "id": "a",
+              "md": "45°, cosine ≈ 0.71",
+              "why_md": "Right. Halfway in angle is not 0.5 in cosine.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "45°, cosine 0.5",
+              "why_md": "cos 45° ≈ 0.71; 0.5 belongs to 60°.",
+              "misconception": "mc-cosine-range-01"
+            },
+            {
+              "id": "c",
+              "md": "60°, cosine 0.5",
+              "why_md": "60° has cosine 0.5, but it's two thirds of the way to 90°, not halfway."
+            }
+          ],
+          "est_seconds": 50
+        }
+      }
+    },
+    {
+      "id": "d-scale-why-cancel",
+      "beat": "b-cosine-scale",
+      "question": "Why does the scaling factor cancel out?",
+      "match": [
+        "why cancel",
+        "cancel out",
+        "why doesn't scaling",
+        "why unchanged",
+        "why does it not change",
+        "stays the same"
+      ],
+      "answer_md": "Because $c$ shows up once on the top and once on the bottom. Scaling $b$ by $c$ multiplies every product $a_i b_i$ by $c$, so the dot product is $c$ times bigger. It also multiplies $b$'s length by $|c|$. For positive $c$ those are the same number, and $\\frac{c}{c} = 1$.",
+      "deeper_md": "Think of a recipe: 2 cups of flour to 1 cup of sugar tastes the same as 4 cups to 2 cups. Doubling everything changes the amount, not the proportions. Cosine compares proportions (direction), so doubling a vector changes nothing it measures.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Watch the 3 cancel",
+        "md": [
+          "$a = [1, 2]$, $b = [3, 1]$: dot $= 3 + 2 = 5$, lengths $\\sqrt5$ and $\\sqrt{10}$, cosine $= 5/\\sqrt{50} \\approx 0.707$.",
+          "$3b = [9, 3]$: dot $= 9 + 6 = 15 = 3\\cdot5$, length $\\sqrt{81 + 9} = \\sqrt{90} = 3\\sqrt{10}$. Cosine $= \\dfrac{3\\cdot5}{\\sqrt5\\cdot3\\sqrt{10}} = \\dfrac{5}{\\sqrt{50}} \\approx 0.707$."
+        ],
+        "verify": {
+          "id": "q-br-cancel",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-cosine-length-invariant"
+          ],
+          "prompt_md": "`cos(a, b) = 0.4`. What is `cos(a, 7b)`?",
+          "options": [
+            {
+              "id": "a",
+              "md": "0.4",
+              "why_md": "Right. The 7 multiplies the dot product and the length of b, and cancels.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "2.8",
+              "why_md": "That multiplies the cosine by 7. Cosine can't exceed 1, and the 7 cancels.",
+              "misconception": "mc-cosine-uses-length"
+            },
+            {
+              "id": "c",
+              "md": "0.057",
+              "why_md": "That divides by 7. The factor cancels; it doesn't shrink the cosine."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-scale-negative",
+      "beat": "b-cosine-scale",
+      "question": "Why does a negative number flip the sign but not the size?",
+      "match": [
+        "negative",
+        "minus",
+        "flip",
+        "sign change",
+        "multiply by -1",
+        "opposite sign"
+      ],
+      "answer_md": "Lengths can't be negative: $\\|c\\,b\\| = |c|\\,\\|b\\|$ uses the size of $c$ without its sign. The dot product, though, keeps $c$'s sign: $a\\cdot(c\\,b) = c\\,(a\\cdot b)$. So with a negative $c$ the top of the fraction changes sign and the bottom doesn't, and the size cancels as before.",
+      "deeper_md": "Geometrically, $-b$ is $b$ turned around. If $b$ made an angle $\\theta$ with $a$, then $-b$ makes $180° - \\theta$, and $\\cos(180° - \\theta) = -\\cos\\theta$. For example, 60° (cosine 0.5) becomes 120° (cosine −0.5).",
+      "bridge": {
+        "kind": "contrast",
+        "title": "What c < 0 changes and what it doesn't",
+        "md": [
+          "- **Changes:** the direction of $b$ (it turns around), the sign of $a\\cdot b$, the sign of the cosine.\n- **Doesn't change:** the length of $b$ (up to the factor $|c|$), the size of the cosine."
+        ],
+        "verify": {
+          "id": "q-br-negative",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-cosine-length-invariant"
+          ],
+          "prompt_md": "`cos(a, b) = 0.3`. What is `cos(-2a, b)`?",
+          "options": [
+            {
+              "id": "a",
+              "md": "−0.3",
+              "why_md": "Right. Scaling a works like scaling b: the 2 cancels and the minus sign flips the cosine.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "0.3",
+              "why_md": "Only positive factors leave cosine unchanged. −2 is negative.",
+              "misconception": "mc-cosine-negative-scale"
+            },
+            {
+              "id": "c",
+              "md": "−0.6",
+              "why_md": "The size of the factor cancels; only its sign survives."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-scale-doc-length",
+      "beat": "b-cosine-scale",
+      "question": "So does document length not matter at all for search?",
+      "match": [
+        "document length",
+        "long document",
+        "longer article",
+        "length of text",
+        "short text",
+        "long text"
+      ],
+      "answer_md": "It doesn't matter **when the longer vector is just a scaled copy**, like an article pasted twice. A real longer article usually isn't: its extra paragraphs add new words in new proportions, so its vector points in a slightly different direction and its cosine does change. And if you rank by the raw dot product instead of cosine, length matters a lot; the later topic on similarity metrics covers that.",
+      "deeper_md": "Scaling multiplies every count by the same number, which keeps the proportions. Adding a paragraph about billing changes the proportions: `[2, 0, 1]` might become `[2, 3, 1]`, which is not a multiple of `[2, 0, 1]`, so it points somewhere new.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Pasted twice versus extended",
+        "md": [
+          "- Pasted twice: `[2, 0, 1]` → `[4, 0, 2]`. Every count × 2, same direction, same cosine.\n- Extended with a billing paragraph: `[2, 0, 1]` → `[2, 3, 1]`. Not a multiple, new direction, different cosine."
+        ],
+        "verify": {
+          "id": "q-br-doc-length",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-cosine-length-invariant"
+          ],
+          "prompt_md": "An article's vector `[2, 0, 1]` becomes `[2, 3, 1]` after an extra paragraph. Is its cosine with a query guaranteed to stay the same?",
+          "options": [
+            {
+              "id": "a",
+              "md": "No: `[2, 3, 1]` isn't a multiple of `[2, 0, 1]`, so the direction changed",
+              "why_md": "Right. Only scaling preserves direction.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "Yes: cosine ignores length",
+              "why_md": "Cosine ignores length, but this is a change of direction, not just of length.",
+              "misconception": "mc-cosine-uses-length"
+            },
+            {
+              "id": "c",
+              "md": "Yes, if the query is short",
+              "why_md": "The query's length never matters to cosine; the article's direction changed."
+            }
+          ],
+          "est_seconds": 50
+        }
+      }
+    },
+    {
+      "id": "d-hand-rounding",
+      "beat": "b-cosine-by-hand",
+      "question": "When should I round?",
+      "match": [
+        "round",
+        "rounding",
+        "decimals",
+        "how many decimal",
+        "approximate"
+      ],
+      "answer_md": "As late as possible. Keep square roots and fractions exact until the final division, and combine roots first: $\\sqrt5\\cdot\\sqrt{20} = \\sqrt{100} = 10$ exactly. Then round the final answer to the decimals asked for.",
+      "deeper_md": "Rounding early compounds. $\\sqrt5 \\approx 2.2$ and $\\sqrt{20} \\approx 4.5$ give $2.2 \\times 4.5 = 9.9$ instead of $10$, a 1% error that can change the third decimal of the cosine.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Combine the roots before you round",
+        "md": [
+          "$\\cos([1, 2], [2, 4]) = \\dfrac{2 + 8}{\\sqrt5\\cdot\\sqrt{20}}$.",
+          "- Early rounding: $\\dfrac{10}{2.2 \\times 4.5} = \\dfrac{10}{9.9} \\approx 1.010$, outside the allowed range.\n- Exact: $\\sqrt5\\cdot\\sqrt{20} = \\sqrt{100} = 10$, so the cosine is exactly $1$."
+        ],
+        "verify": {
+          "id": "q-br-rounding",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-cosine-by-hand"
+          ],
+          "prompt_md": "What is $\\sqrt2\\cdot\\sqrt8$?",
+          "options": [
+            {
+              "id": "a",
+              "md": "4",
+              "why_md": "Right. $\\sqrt{2\\cdot8} = \\sqrt{16} = 4$, exactly.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "√10",
+              "why_md": "Square roots multiply, they don't add: √2 · √8 = √16."
+            },
+            {
+              "id": "c",
+              "md": "16",
+              "why_md": "That's the product under the root. Take its square root: 4."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-hand-why-sqrt",
+      "beat": "b-cosine-by-hand",
+      "question": "Why is there a square root in the length?",
+      "match": [
+        "square root",
+        "why sqrt",
+        "why square",
+        "pythagoras",
+        "length formula"
+      ],
+      "answer_md": "It's Pythagoras. The arrow `[3, 4]` is the long side of a right triangle with sides 3 and 4, so its length is $\\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$. In 3-D you apply the same rule once more, which gives $\\sqrt{a_1^2 + a_2^2 + a_3^2}$. Without the root you'd have the length **squared**, and the cosine would come out wrong.",
+      "deeper_md": "Squaring does two jobs: it makes every side positive (a step left is still a step), and it adds the sides the way right angles demand. The square root then undoes the squaring so the answer is a length, in the same units as the numbers you started with.",
+      "bridge": {
+        "kind": "rewind",
+        "title": "Pythagoras in one line",
+        "md": [
+          "Right triangle with sides $x$ and $y$: long side $= \\sqrt{x^2 + y^2}$. `[6, 8]` → $\\sqrt{36 + 64} = \\sqrt{100} = 10$.",
+          "Three dimensions: $\\sqrt{x^2 + y^2 + z^2}$. `[2, 3, 6]` → $\\sqrt{4 + 9 + 36} = \\sqrt{49} = 7$."
+        ],
+        "verify": {
+          "id": "q-br-sqrt",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-cosine-by-hand"
+          ],
+          "prompt_md": "Length (magnitude) of `[2, 3, 6]`?",
+          "options": [
+            {
+              "id": "a",
+              "md": "7",
+              "why_md": "Right. 4 + 9 + 36 = 49, and √49 = 7.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "49",
+              "why_md": "That's the length squared. Take the square root.",
+              "misconception": "mc-cosine-forgets-sqrt"
+            },
+            {
+              "id": "c",
+              "md": "11",
+              "why_md": "That adds the numbers. Square them first, then add, then take the root."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Compute the cosine of [1, 2, 2] and [2, 4, 4] and explain the result",
+    "Find a pair of 2-D vectors with cosine exactly 0",
+    "Show that doubling a vector leaves its cosine with any other vector unchanged",
+    "Implement cosine_sim in plain Python and test it on orthogonal and opposite vectors",
+    "Rank three short documents for a query vector by cosine by hand",
+    "Explain when cosine and dot product give different rankings"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-ai-engineer",
+      "entry": "performing-similarity-search"
+    },
+    {
+      "source": "strata-pack",
+      "entry": "basics/b-cosine"
+    },
+    {
+      "source": "sentence-transformers",
+      "entry": "semantic-textual-similarity"
+    }
+  ],
+  "provenance": {
+    "origin": "static",
+    "job": "u1-emb-cosine"
+  },
+  "status": "stocked"
+}

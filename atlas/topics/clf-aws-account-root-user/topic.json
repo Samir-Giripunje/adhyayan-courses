@@ -1,0 +1,55 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-aws-account-root-user",
+  "version": 1,
+  "title": "AWS accounts and the root user",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-aws-account",
+      "version": 1,
+      "statement": "An AWS account is a container for resources that acts as a billing and security boundary: by default resources in one account are isolated from other accounts."
+    },
+    {
+      "id": "kc-root-user-definition",
+      "version": 1,
+      "statement": "The root user is the identity created with the account's sign-up email address and has full access to every resource and the billing settings, which IAM policies cannot restrict."
+    },
+    {
+      "id": "kc-root-only-tasks",
+      "version": 1,
+      "statement": "Some tasks require the root user, including changing the root email or password, closing the account, restoring an IAM administrator's lost permissions, and enabling MFA Delete on an S3 bucket."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [],
+  "confusable_with": [
+    "clf-iam-users-groups"
+  ],
+  "introduces": [
+    "aws account",
+    "root user"
+  ],
+  "uses": [],
+  "problem_ideas": [
+    "Pick the root-only task: create an IAM user, close the account, launch EC2, create a bucket",
+    "An admin locked themselves out by detaching their own admin policy: who can fix it?",
+    "Why do companies use separate accounts for dev and prod?",
+    "True/false: you can attach a deny policy to the root user to limit it",
+    "A new account's sign-up email belongs to an employee who just left: what risk does that create?",
+    "List three things you should never use the root user for day to day"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-3-identify-aws-access-m/identifying-tasks-that-only-the-account-"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-3-identify-aws-access-m/importance-of-protecting-the-aws-root-us"
+    }
+  ],
+  "status": "stub"
+}

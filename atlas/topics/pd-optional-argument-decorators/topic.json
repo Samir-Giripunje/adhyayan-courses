@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-optional-argument-decorators",
+  "version": 1,
+  "title": "Decorators usable as @dec and @dec(...)",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-optional-arg-detect",
+      "version": 1,
+      "statement": "A decorator usable as both @dec and @dec(...) checks its first positional argument: if it is the function it decorates directly; if it is None it returns a decorator."
+    },
+    {
+      "id": "kc-optional-arg-keyword-only",
+      "version": 1,
+      "statement": "Making the options keyword-only, as in def dec(func=None, *, times=3), prevents a positional option from being mistaken for the function."
+    },
+    {
+      "id": "kc-optional-arg-partial",
+      "version": 1,
+      "statement": "In the @dec(...) branch, returning functools.partial(dec, times=times) gives a callable that later receives the function as func."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "pd-decorator-factories",
+    "pd-functools-partial"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "pd-decorator-factories"
+  ],
+  "introduces": [
+    "optional-argument decorator"
+  ],
+  "uses": [
+    "decorator factory",
+    "functools.partial"
+  ],
+  "problem_ideas": [
+    "Implement @retry and @retry(times=5) with one function",
+    "Predict what happens to @dec(3) when options are not keyword-only",
+    "Rewrite the dual-use decorator without partial, using an inner function",
+    "Note that @functools.lru_cache works with and without parentheses since 3.8 and explain how",
+    "Write @log and @log(level='DEBUG') sharing one implementation",
+    "Find the bug where callable(arg) is used and a callable option breaks it"
+  ],
+  "sources": [
+    {
+      "source": "functools-docs",
+      "entry": "class-partial-objects/class-partial-objects"
+    },
+    {
+      "source": "pep-318",
+      "entry": "current-syntax/current-syntax"
+    }
+  ],
+  "status": "stub"
+}

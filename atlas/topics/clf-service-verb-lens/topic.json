@@ -1,0 +1,75 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-service-verb-lens",
+  "version": 1,
+  "title": "Telling look-alike services apart by what they do",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-clf-verb-lens-method",
+      "version": 1,
+      "statement": "Naming the verb the stem needs (prevent, detect, record, estimate, alert or analyze) before reading the options turns a service-name question into a category match and removes most distractors."
+    },
+    {
+      "id": "kc-clf-security-verb-sort",
+      "version": 1,
+      "statement": "Under the verb lens, Shield and WAF prevent attacks, GuardDuty detects threats, Inspector scans for software vulnerabilities, Macie discovers sensitive data in S3, and CloudTrail and AWS Config record activity and configuration."
+    },
+    {
+      "id": "kc-clf-cost-time-sort",
+      "version": 1,
+      "statement": "Cost tools sort by time: the Pricing Calculator estimates before you build, AWS Budgets alerts while you spend, and Cost Explorer and the Cost and Usage Report analyze spending afterwards."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-question-keywords-distractors"
+  ],
+  "suggests": [
+    "clf-choosing-security-service",
+    "clf-choosing-cost-tool",
+    "clf-monitoring-vs-auditing"
+  ],
+  "confusable_with": [
+    "clf-question-keywords-distractors"
+  ],
+  "introduces": [
+    "service verb lens"
+  ],
+  "uses": [
+    "distractor elimination",
+    "shield",
+    "waf",
+    "guardduty",
+    "inspector",
+    "macie",
+    "cloudtrail",
+    "aws config",
+    "s3",
+    "pricing calculator",
+    "aws budgets",
+    "cost explorer",
+    "cost and usage report"
+  ],
+  "problem_ideas": [
+    "Sort twelve service names into prevent, detect, record, estimate, alert and analyze columns in under two minutes.",
+    "A stem: 'a company wants to be notified when monthly spend is forecast to exceed $5,000'; name the verb, then the service, then the closest distractor.",
+    "A stem: 'find which IAM user deleted an S3 bucket last Tuesday'; apply the lens and rule out AWS Config.",
+    "A stem: 'block SQL injection attempts against an Application Load Balancer'; pick between WAF, Shield Standard and GuardDuty.",
+    "A stem: 'estimate the monthly cost of a new three-tier app before launch'; rule out Cost Explorer.",
+    "A stem: 'discover credit card numbers stored in S3 buckets'; choose between Macie and Inspector and say which verb decides it.",
+    "Build your own verb card for five services that cost you points in your last mock."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "content-outline/content-domain-2-security-and-compliance"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "content-outline/content-domain-4-billing-pricing-and-sup"
+    }
+  ],
+  "status": "stub"
+}

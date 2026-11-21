@@ -1,0 +1,301 @@
+{
+  "goal": "Python decorators",
+  "course": "python-decorators",
+  "started": "2026-11-18T09:25:56.808Z",
+  "minutes": 12.86,
+  "agent": "claude",
+  "critic": "codex",
+  "scout": {
+    "roadmap": null,
+    "proposed": [
+      {
+        "id": "pep-318",
+        "ref": "https://raw.githubusercontent.com/python/peps/main/peps/pep-0318.rst",
+        "status": 200,
+        "sections": 11,
+        "kept": true,
+        "why": "Canonical spec for function and method decorators: the @ syntax, how it desugars to f = deco(f), stacking order, decorators with arguments, and the motivating examples (classmethod, staticmethod, registration). No roadmap exists, so this anchors the core concept."
+      },
+      {
+        "id": "pep-3129",
+        "ref": "https://raw.githubusercontent.com/python/peps/main/peps/pep-3129.rst",
+        "status": 200,
+        "sections": 7,
+        "kept": true,
+        "why": "Covers class decorators. PEP 318 only covers functions and methods, so this fills a separate topic a working-level learner needs."
+      },
+      {
+        "id": "functools-docs",
+        "ref": "https://raw.githubusercontent.com/python/cpython/main/Doc/library/functools.rst",
+        "status": 200,
+        "sections": 1,
+        "kept": true,
+        "why": "Official docs for the standard decorator toolkit: wraps/update_wrapper (keeping metadata), lru_cache/cache, cached_property, singledispatch, total_ordering and partial. This is where practical, working-depth decorator use is documented."
+      },
+      {
+        "id": "descriptor-howto",
+        "ref": "https://raw.githubusercontent.com/python/cpython/main/Doc/howto/descriptor.rst",
+        "status": 200,
+        "sections": 4,
+        "kept": true,
+        "why": "Official HOWTO explaining how the built-in decorators property, classmethod and staticmethod work through the descriptor protocol. It also covers why decorated methods still bind to their instance."
+      }
+    ],
+    "dropped_refs": []
+  },
+  "rounds": [
+    {
+      "kind": "compile",
+      "blocking": 0,
+      "lints": []
+    },
+    {
+      "kind": "critic",
+      "blocking": 5,
+      "warn": 0
+    },
+    {
+      "kind": "compile",
+      "blocking": 0,
+      "lints": []
+    },
+    {
+      "kind": "critic",
+      "blocking": 3,
+      "warn": 1
+    }
+  ],
+  "gap": {
+    "kind": "critic",
+    "findings": [
+      {
+        "id": "f1",
+        "severity": "blocking",
+        "target": "pd-attribute-tagging",
+        "claim": "The serves link to o4 is unjustified by its observable. Building a plugin registry and a class decorator that adds a method does not require attribute tagging.",
+        "fix": "Remove pd-attribute-tagging's serves link to o4 and recompute its tier."
+      },
+      {
+        "id": "f2",
+        "severity": "blocking",
+        "target": "pd-lru-cache",
+        "claim": "The serves link to o4 is unjustified by its observable. Neither building the registry nor adding a method with a class decorator requires caching.",
+        "fix": "Remove pd-lru-cache's serves link to o4 and recompute its tier."
+      },
+      {
+        "id": "f3",
+        "severity": "blocking",
+        "target": "pd-decorator-factories",
+        "claim": "kc-factory-missing-parens says the name necessarily becomes bound to the inner decorator. With the factory-time validation required by kc-retry-validate-times, passing the function as times instead raises TypeError at times < 1.",
+        "fix": "Replace kc-factory-missing-parens with: \"For a factory expecting configuration, @retry passes the decorated function as its first argument instead. This can raise during factory execution; if the factory accepts that argument and returns its inner decorator, that inner decorator becomes the decorated name's value.\""
+      }
+    ]
+  },
+  "schema_errors": [],
+  "shape": {
+    "stages": 1,
+    "units": 4,
+    "topics": 25,
+    "route": 23,
+    "tiers": {
+      "must": 23,
+      "recommended": 0,
+      "optional": 2,
+      "dropped": 0
+    },
+    "scope": "chapter"
+  },
+  "lints": [
+    {
+      "id": "L1",
+      "result": "pass",
+      "detail": "acyclic"
+    },
+    {
+      "id": "L2",
+      "result": "pass",
+      "detail": "all must topics reachable"
+    },
+    {
+      "id": "L3",
+      "result": "pass",
+      "detail": "0 group(s)"
+    },
+    {
+      "id": "L5",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L6",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L9",
+      "result": "pass",
+      "detail": "max 25 (pd-p1), 23 ≤ 150"
+    },
+    {
+      "id": "L10",
+      "result": "pass",
+      "detail": "max 14 min"
+    },
+    {
+      "id": "L11",
+      "result": "pass",
+      "detail": "7/6/5/7 topics, 17/17/12/22 KCs"
+    },
+    {
+      "id": "L12",
+      "result": "pass",
+      "detail": "4 units"
+    },
+    {
+      "id": "L13",
+      "result": "pass",
+      "detail": "o1 ← 1.1 (via 1.3), 1.2 (via 1.6), 1.3, 1.4, 1.6, 2.1, 2.3, 3.4; o2 ← 1.1 (via 1.5), 1.2 (via 1.5), 1.5, 1.7; o3 ← 1.1 (via 2.1), 1.2 (via 2.1), 2.1, 2.2, 2.4 (via 2.5), 2.5; o4 ← 1.1 (via 1.6), 1.2 (via 1.6), 1.6, 3.1, 3.2, 3.3, 3.4; o5 ← 1.1 (via 4.4), 1.2 (via 4.5), 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7"
+    },
+    {
+      "id": "L14",
+      "result": "pass",
+      "detail": "none generated-only"
+    },
+    {
+      "id": "L15",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L17",
+      "result": "pass",
+      "detail": "collapsed: pd-p1"
+    },
+    {
+      "id": "L19",
+      "result": "pass",
+      "detail": "pass"
+    },
+    {
+      "id": "L20",
+      "result": "pass",
+      "detail": "4 sources"
+    },
+    {
+      "id": "L21",
+      "result": "pass",
+      "detail": "no claims"
+    }
+  ],
+  "tokens": {
+    "input": 177342,
+    "cache_read": 158965,
+    "cache_write": 59561,
+    "output": 82522
+  },
+  "calls": [
+    {
+      "job": "scout-propose",
+      "skill": "adhy-scout",
+      "mode": "propose",
+      "vendor": "claude",
+      "cached": true
+    },
+    {
+      "job": "scout-map",
+      "skill": "adhy-scout",
+      "mode": "map",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 26974,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 1657,
+        "cache_write": 3055,
+        "output": 3255
+      }
+    },
+    {
+      "job": "course-pass",
+      "skill": "adhy-architect",
+      "mode": "course",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 15147,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 5501,
+        "cache_write": 1992,
+        "output": 1369
+      }
+    },
+    {
+      "job": "stage-pd-p1",
+      "skill": "adhy-architect",
+      "mode": "stage",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 219636,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 2,
+        "cache_read": 6219,
+        "cache_write": 5548,
+        "output": 26234
+      }
+    },
+    {
+      "job": "repair-pd-p1-2",
+      "skill": "adhy-architect",
+      "mode": "repair",
+      "vendor": "claude",
+      "attempt": 1,
+      "ok": true,
+      "ms": 260997,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input": 6,
+        "cache_read": 40372,
+        "cache_write": 48966,
+        "output": 39184
+      }
+    },
+    {
+      "job": "critic-1",
+      "skill": "adhy-critic",
+      "mode": "review",
+      "vendor": "codex",
+      "attempt": 1,
+      "ok": true,
+      "ms": 147747,
+      "model": "codex:gpt-6.1-sol",
+      "usage": {
+        "input": 152313,
+        "cache_read": 105216,
+        "cache_write": 0,
+        "output": 6843
+      }
+    },
+    {
+      "job": "critic-2",
+      "skill": "adhy-critic",
+      "mode": "review",
+      "vendor": "codex",
+      "attempt": 1,
+      "ok": true,
+      "ms": 100086,
+      "model": "codex:gpt-6.1-sol",
+      "usage": {
+        "input": 25017,
+        "cache_read": 0,
+        "cache_write": 0,
+        "output": 5637
+      }
+    }
+  ]
+}

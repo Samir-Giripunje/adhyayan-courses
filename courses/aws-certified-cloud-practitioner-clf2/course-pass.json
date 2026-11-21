@@ -1,0 +1,444 @@
+{
+  "course": {
+    "id": "aws-certified-cloud-practitioner-clf2",
+    "title": "AWS Certified Cloud Practitioner (CLF-C02)",
+    "archetype": "syllabus",
+    "unit_prefix": "clf",
+    "first_unit": 1
+  },
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Explain cloud concepts and the AWS value proposition",
+      "observable": "Given a business scenario, pick the cloud benefit, Well-Architected pillar, Cloud Adoption Framework perspective or migration strategy (the 7 Rs) that fits, and justify the choice in one sentence"
+    },
+    {
+      "id": "o2",
+      "text": "Choose AWS global infrastructure placement",
+      "observable": "For a stated latency, availability or data-residency requirement, choose between Regions, Availability Zones, edge locations, Local Zones, Wavelength and Outposts and name the reason"
+    },
+    {
+      "id": "o3",
+      "text": "Apply the shared responsibility model and AWS security services",
+      "observable": "Sort a list of security tasks into AWS versus customer responsibility for EC2, RDS and Lambda, and name the IAM feature or security service (GuardDuty, Shield, WAF, KMS, Inspector, Macie, CloudTrail, Config, Artifact) that answers a stated security or compliance need"
+    },
+    {
+      "id": "o4",
+      "text": "Identify the right AWS service for a requirement",
+      "observable": "Given a one-paragraph requirement, name the matching service across compute, storage, networking, database, integration, analytics, AI/ML, migration and management categories, and rule out the closest distractor"
+    },
+    {
+      "id": "o5",
+      "text": "Compare pricing models and choose cost and support resources",
+      "observable": "For a described workload, choose On-Demand, Reserved Instances, Savings Plans or Spot and estimate the relative saving; pick the right tool (Pricing Calculator, Budgets, Cost Explorer, Cost and Usage Report) and the cheapest Support plan that meets a stated response-time need"
+    },
+    {
+      "id": "o6",
+      "text": "Pass the CLF-C02 exam under exam conditions",
+      "observable": "Score at least 80% on two timed, full-length 65-question mock exams (90 minutes each) with every domain at or above 70%"
+    }
+  ],
+  "exclusions": [
+    {
+      "text": "Hands-on console labs and deploying real workloads",
+      "why": "CLF-C02 tests recognition and selection of services, not operating them; labs would roughly double the time without raising the score"
+    },
+    {
+      "text": "Associate-level architecture depth (subnet CIDR math, VPC routing design, database tuning)",
+      "why": "These belong to Solutions Architect Associate; the Cloud Practitioner exam only asks what each component is for"
+    },
+    {
+      "text": "Writing code, CloudFormation templates or CLI scripts",
+      "why": "The exam asks which deployment method fits, never to write one"
+    },
+    {
+      "text": "Services the CLF-C02 exam guide lists as out of scope",
+      "why": "They are not examined and would dilute study time"
+    },
+    {
+      "text": "Exam registration, booking and testing-centre logistics",
+      "why": "Administrative steps covered on the AWS Certification site, not exam content"
+    },
+    {
+      "text": "Other AWS certifications (AI Practitioner, Associate and Professional tracks)",
+      "why": "Separate exams with their own syllabi"
+    }
+  ],
+  "stages": [
+    {
+      "id": "clf-p1",
+      "title": "Cloud concepts and the AWS value proposition",
+      "outcome": [
+        "o1",
+        "o6"
+      ],
+      "assumes": [
+        "server",
+        "data center",
+        "internet",
+        "operating system",
+        "application"
+      ],
+      "provides": [
+        "cloud computing",
+        "iaas",
+        "paas",
+        "saas",
+        "cloud deployment model",
+        "hybrid cloud",
+        "elasticity",
+        "agility",
+        "vertical scaling",
+        "horizontal scaling",
+        "high availability",
+        "economies of scale",
+        "fixed costs",
+        "variable costs",
+        "total cost of ownership",
+        "rightsizing",
+        "well-architected framework",
+        "well-architected pillars",
+        "cloud adoption framework",
+        "migration strategies"
+      ],
+      "topic_estimate": 14
+    },
+    {
+      "id": "clf-p2",
+      "title": "Global infrastructure, accounts and access",
+      "outcome": [
+        "o2",
+        "o3",
+        "o6"
+      ],
+      "assumes": [
+        "cloud computing",
+        "high availability",
+        "elasticity",
+        "hybrid cloud",
+        "iaas",
+        "paas",
+        "saas"
+      ],
+      "provides": [
+        "region",
+        "availability zone",
+        "edge location",
+        "local zone",
+        "wavelength zone",
+        "outposts",
+        "data residency",
+        "shared responsibility model",
+        "aws account",
+        "root user",
+        "iam user",
+        "iam group",
+        "iam policy",
+        "iam role",
+        "temporary credentials",
+        "least privilege",
+        "mfa",
+        "management console",
+        "aws cli",
+        "aws sdk"
+      ],
+      "topic_estimate": 16
+    },
+    {
+      "id": "clf-p3",
+      "title": "Core services: compute and storage",
+      "outcome": [
+        "o4",
+        "o6"
+      ],
+      "assumes": [
+        "region",
+        "availability zone",
+        "iam role",
+        "shared responsibility model",
+        "horizontal scaling",
+        "vertical scaling",
+        "elasticity",
+        "high availability"
+      ],
+      "provides": [
+        "ec2 instance",
+        "instance type",
+        "ami",
+        "user data",
+        "elastic load balancing",
+        "auto scaling group",
+        "container",
+        "ecs",
+        "eks",
+        "fargate",
+        "ecr",
+        "serverless",
+        "lambda",
+        "object storage",
+        "block storage",
+        "file storage",
+        "ebs",
+        "instance store",
+        "efs",
+        "fsx",
+        "s3",
+        "s3 storage class",
+        "s3 lifecycle policy",
+        "storage gateway",
+        "aws backup"
+      ],
+      "topic_estimate": 20
+    },
+    {
+      "id": "clf-p4",
+      "title": "Core services: networking, content delivery and databases",
+      "outcome": [
+        "o2",
+        "o4",
+        "o6"
+      ],
+      "assumes": [
+        "region",
+        "availability zone",
+        "edge location",
+        "ec2 instance",
+        "elastic load balancing",
+        "s3",
+        "shared responsibility model",
+        "hybrid cloud"
+      ],
+      "provides": [
+        "vpc",
+        "public subnet",
+        "private subnet",
+        "internet gateway",
+        "nat gateway",
+        "security group",
+        "network acl",
+        "vpc peering",
+        "vpc endpoint",
+        "site-to-site vpn",
+        "direct connect",
+        "transit gateway",
+        "route 53",
+        "cloudfront",
+        "global accelerator",
+        "managed database",
+        "rds",
+        "aurora",
+        "dynamodb",
+        "elasticache",
+        "documentdb",
+        "neptune"
+      ],
+      "topic_estimate": 20
+    },
+    {
+      "id": "clf-p5",
+      "title": "Security, governance and compliance services",
+      "outcome": [
+        "o3",
+        "o6"
+      ],
+      "assumes": [
+        "shared responsibility model",
+        "root user",
+        "iam user",
+        "iam policy",
+        "iam role",
+        "least privilege",
+        "mfa",
+        "vpc",
+        "security group",
+        "network acl",
+        "cloudfront",
+        "s3",
+        "ec2 instance",
+        "rds"
+      ],
+      "provides": [
+        "aws organizations",
+        "service control policy",
+        "iam identity center",
+        "identity federation",
+        "cognito",
+        "directory service",
+        "encryption at rest",
+        "encryption in transit",
+        "kms",
+        "cloudhsm",
+        "acm",
+        "secrets manager",
+        "shield",
+        "waf",
+        "firewall manager",
+        "guardduty",
+        "inspector",
+        "macie",
+        "security hub",
+        "detective",
+        "cloudtrail",
+        "aws config",
+        "aws artifact",
+        "compliance program"
+      ],
+      "topic_estimate": 18
+    },
+    {
+      "id": "clf-p6",
+      "title": "Deploying, operating and monitoring on AWS",
+      "outcome": [
+        "o1",
+        "o4",
+        "o6"
+      ],
+      "assumes": [
+        "management console",
+        "aws cli",
+        "aws sdk",
+        "ec2 instance",
+        "auto scaling group",
+        "lambda",
+        "cloudtrail",
+        "aws config",
+        "aws organizations",
+        "well-architected framework"
+      ],
+      "provides": [
+        "infrastructure as code",
+        "cloudformation",
+        "cdk",
+        "elastic beanstalk",
+        "systems manager",
+        "cloudwatch",
+        "cloudwatch alarm",
+        "health dashboard",
+        "trusted advisor",
+        "well-architected tool",
+        "control tower",
+        "service catalog",
+        "codepipeline",
+        "codebuild",
+        "codedeploy",
+        "x-ray"
+      ],
+      "topic_estimate": 12
+    },
+    {
+      "id": "clf-p7",
+      "title": "Integration, analytics, AI/ML and migration services",
+      "outcome": [
+        "o1",
+        "o4",
+        "o6"
+      ],
+      "assumes": [
+        "s3",
+        "lambda",
+        "ec2 instance",
+        "rds",
+        "dynamodb",
+        "migration strategies",
+        "hybrid cloud",
+        "serverless",
+        "cloudwatch"
+      ],
+      "provides": [
+        "loose coupling",
+        "sqs",
+        "sns",
+        "eventbridge",
+        "step functions",
+        "amazon mq",
+        "ses",
+        "kinesis",
+        "athena",
+        "glue",
+        "emr",
+        "redshift",
+        "quicksight",
+        "opensearch",
+        "sagemaker",
+        "managed ai services",
+        "amazon q",
+        "database migration service",
+        "schema conversion tool",
+        "application migration service",
+        "snow family",
+        "datasync",
+        "migration hub",
+        "workspaces",
+        "appstream",
+        "amazon connect",
+        "amplify",
+        "iot core"
+      ],
+      "topic_estimate": 20
+    },
+    {
+      "id": "clf-p8",
+      "title": "Billing, pricing and support",
+      "outcome": [
+        "o5",
+        "o6"
+      ],
+      "assumes": [
+        "ec2 instance",
+        "s3 storage class",
+        "lambda",
+        "aws organizations",
+        "trusted advisor",
+        "rightsizing",
+        "total cost of ownership",
+        "variable costs",
+        "region",
+        "cloudfront"
+      ],
+      "provides": [
+        "on-demand pricing",
+        "reserved instances",
+        "savings plans",
+        "spot instances",
+        "dedicated hosts",
+        "data transfer costs",
+        "consolidated billing",
+        "cost allocation tags",
+        "pricing calculator",
+        "aws budgets",
+        "cost explorer",
+        "cost and usage report",
+        "compute optimizer",
+        "support plans",
+        "technical account manager",
+        "aws marketplace",
+        "aws partner network",
+        "professional services",
+        "aws re:post",
+        "prescriptive guidance"
+      ],
+      "topic_estimate": 16
+    },
+    {
+      "id": "clf-p9",
+      "title": "Exam readiness: strategy and full mocks",
+      "outcome": [
+        "o6"
+      ],
+      "assumes": [
+        "shared responsibility model",
+        "well-architected pillars",
+        "support plans",
+        "savings plans",
+        "region"
+      ],
+      "provides": [
+        "exam domain weighting",
+        "scaled score",
+        "distractor elimination",
+        "mock exam review"
+      ],
+      "topic_estimate": 4
+    }
+  ]
+}

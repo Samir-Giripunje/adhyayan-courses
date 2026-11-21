@@ -1,0 +1,118 @@
+[
+  {
+    "id": "sd-dns-records/test-b1",
+    "family": "sd-dns-records-dns-forms-referral-record-type",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "prompt_md": "In its referral, an `.io` TLD server tells the resolver which servers are authoritative for `ferrolabs.io`. Which record type carries that information?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A",
+        "why_md": "An A record maps a name to an IPv4 address. The referral names the domain's authoritative servers."
+      },
+      {
+        "id": "b",
+        "md": "NS",
+        "correct": true,
+        "why_md": "Right. An NS record names a domain's authoritative servers, e.g. `ferrolabs.io NS ns1.ferrolabs.io`."
+      },
+      {
+        "id": "c",
+        "md": "CNAME",
+        "why_md": "A CNAME makes one name an alias of another. It does not say which servers are in charge of a domain."
+      },
+      {
+        "id": "d",
+        "md": "AAAA",
+        "why_md": "An AAAA record maps a name to an IPv6 address, not to the domain's servers."
+      }
+    ],
+    "hints": [
+      "Which record type's value is the name of a server that holds the domain's records?",
+      "NS = name server."
+    ],
+    "solution_md": "The referral says \"`ferrolabs.io` is handled by `ns1.ferrolabs.io`…\", which is an **NS** (name server) record: domain → names of its authoritative servers. Answer: b.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-records/test-b2",
+    "family": "sd-dns-records-dns-forms-valid-records-multi",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "prompt_md": "Ferro Labs drafts six records. A record is **valid** here if its value is the kind of value its type requires. Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "`api.ferrolabs.io  A  198.51.100.7`",
+        "correct": true,
+        "why_md": "Valid. An A record holds an IPv4 address."
+      },
+      {
+        "id": "b",
+        "md": "`api.ferrolabs.io  AAAA  2001:db8::7`",
+        "correct": true,
+        "why_md": "Valid. An AAAA record holds an IPv6 address."
+      },
+      {
+        "id": "c",
+        "md": "`cdn.ferrolabs.io  CNAME  192.0.2.9`",
+        "why_md": "Invalid. A CNAME's value must be another name, never an IP address. Use an A record for `192.0.2.9`.",
+        "misconception": "mc-cname-to-ip"
+      },
+      {
+        "id": "d",
+        "md": "`docs.ferrolabs.io  CNAME  ferrolabs.docshost.example`",
+        "correct": true,
+        "why_md": "Valid. A CNAME aliases one name to another name."
+      },
+      {
+        "id": "e",
+        "md": "`api.ferrolabs.io  A  2001:db8::7`",
+        "why_md": "Invalid. `2001:db8::7` is an IPv6 address; it belongs in an AAAA record, not an A record."
+      },
+      {
+        "id": "f",
+        "md": "`ferrolabs.io  NS  ns1.ferrolabs.io`",
+        "correct": true,
+        "why_md": "Valid. An NS record names one of the domain's authoritative servers."
+      }
+    ],
+    "hints": [
+      "For each record, check the value: IPv4 address, IPv6 address, or a name? Then check what the type needs.",
+      "A → IPv4, AAAA → IPv6, CNAME → another name, NS → an authoritative server's name."
+    ],
+    "solution_md": "a: A with IPv4 ✓. b: AAAA with IPv6 ✓. c: CNAME with an IP address ✗. d: CNAME with a name ✓. e: A with an IPv6 address ✗. f: NS with a server name ✓. Answer: a, b, d, f.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  }
+]

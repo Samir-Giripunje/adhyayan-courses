@@ -1,0 +1,55 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-acm",
+  "version": 1,
+  "title": "AWS Certificate Manager: free TLS certificates",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-acm-certificates",
+      "version": 1,
+      "statement": "AWS Certificate Manager (ACM) provisions, manages and automatically renews public SSL/TLS certificates at no extra cost, for use with integrated services such as Elastic Load Balancing, CloudFront and API Gateway. This is how those services serve HTTPS (encryption in transit)."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-encryption-rest-transit"
+  ],
+  "suggests": [
+    "clf-cloudfront"
+  ],
+  "confusable_with": [
+    "clf-kms"
+  ],
+  "introduces": [
+    "acm",
+    "ssl/tls certificate"
+  ],
+  "uses": [
+    "encryption in transit",
+    "tls",
+    "elastic load balancing",
+    "cloudfront",
+    "api gateway"
+  ],
+  "problem_ideas": [
+    "A site behind an Application Load Balancer must move from HTTP to HTTPS without manual renewals. Name the service.",
+    "A certificate expired last year and caused an outage. Which ACM feature prevents a repeat?",
+    "Pick the service for each need: manage encryption keys, issue TLS certificates, store database passwords.",
+    "Can a public ACM certificate be installed directly on an EC2 instance's web server? Explain why exam questions pair ACM with ELB and CloudFront instead.",
+    "How much does a public certificate from ACM cost?",
+    "Which type of encryption does ACM help with: at rest or in transit?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-certificate-manager-acm"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/aws-certificate-manager-acm"
+    }
+  ],
+  "status": "stub"
+}

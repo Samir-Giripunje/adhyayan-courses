@@ -1,0 +1,73 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-efs-fsx",
+  "version": 1,
+  "title": "EFS and FSx: shared file systems",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-efs",
+      "version": 1,
+      "statement": "Amazon EFS is a managed NFS file system for Linux that many EC2 instances across multiple Availability Zones can mount at once. It grows and shrinks automatically and is billed per GB stored."
+    },
+    {
+      "id": "kc-efs-ia",
+      "version": 1,
+      "statement": "EFS lifecycle management moves files that have not been accessed for a chosen period to the lower-cost EFS Infrequent Access storage class."
+    },
+    {
+      "id": "kc-fsx",
+      "version": 1,
+      "statement": "Amazon FSx provides fully managed third-party file systems: FSx for Windows File Server (SMB, Active Directory integration), FSx for Lustre (high-performance computing and ML), and FSx for NetApp ONTAP and OpenZFS."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-storage-types"
+  ],
+  "suggests": [
+    "clf-ebs"
+  ],
+  "confusable_with": [
+    "clf-ebs",
+    "clf-storage-gateway"
+  ],
+  "introduces": [
+    "efs",
+    "fsx",
+    "efs infrequent access"
+  ],
+  "uses": [
+    "file storage",
+    "ec2 instance",
+    "availability zone"
+  ],
+  "problem_ideas": [
+    "A Linux web fleet across three AZs must share uploaded files: which service?",
+    "A Windows app needs SMB shares joined to Active Directory: which service?",
+    "An ML team needs a file system with very high throughput fed from S3 for training: which FSx flavour?",
+    "Files untouched for 60 days make up 80% of an EFS file system: name the feature that cuts cost.",
+    "A distractor offers EBS for 50 instances sharing one folder: why does it fail?",
+    "Match four requirements to EFS, FSx for Windows, FSx for Lustre or FSx for NetApp ONTAP."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/identifying-file-services-for-example-am"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "ec2-instance-storage/efs-elastic-file-system"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "ec2-instance-storage/efs-infrequent-access-efs-ia"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "ec2-instance-storage/amazon-fsx-overview"
+    }
+  ],
+  "status": "stub"
+}

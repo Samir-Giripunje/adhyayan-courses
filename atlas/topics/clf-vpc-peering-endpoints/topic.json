@@ -1,0 +1,72 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-vpc-peering-endpoints",
+  "version": 1,
+  "title": "VPC peering, VPC endpoints and PrivateLink",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-vpc-peering-non-transitive",
+      "version": 1,
+      "statement": "VPC peering privately connects two VPCs, even across accounts or Regions, so they route traffic as one network; peering is not transitive and the two CIDR ranges must not overlap."
+    },
+    {
+      "id": "kc-vpc-endpoint-no-internet",
+      "version": 1,
+      "statement": "A VPC endpoint lets resources in a private subnet reach AWS services such as S3 without going over the internet, an internet gateway or a NAT gateway."
+    },
+    {
+      "id": "kc-gateway-vs-interface-endpoint",
+      "version": 1,
+      "statement": "Gateway endpoints serve only S3 and DynamoDB; interface endpoints, powered by AWS PrivateLink, expose other AWS services or a third party's service privately inside your VPC."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-internet-nat-gateways"
+  ],
+  "suggests": [
+    "clf-s3-basics"
+  ],
+  "confusable_with": [
+    "clf-transit-gateway",
+    "clf-internet-nat-gateways"
+  ],
+  "introduces": [
+    "vpc peering",
+    "vpc endpoint",
+    "privatelink"
+  ],
+  "uses": [
+    "vpc",
+    "private subnet",
+    "nat gateway",
+    "internet gateway",
+    "s3",
+    "cidr block"
+  ],
+  "problem_ideas": [
+    "VPC A peers with B, B peers with C: can A reach C? What would fix it?",
+    "Two VPCs both use 10.0.0.0/16 and peering fails: explain",
+    "A private-subnet batch job uploads 5 TB a day to S3 through a NAT gateway; which feature removes the NAT path?",
+    "A SaaS vendor wants to expose its API privately to hundreds of customer VPCs: name the technology",
+    "Pick gateway or interface endpoint for S3, DynamoDB, and Secrets Manager",
+    "A compliance rule says traffic to S3 must never touch the public internet: choose the component"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "vpc/vpc-peering"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "vpc/vpc-endpoints"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "networking-and-content-delivery/aws-privatelink"
+    }
+  ],
+  "status": "stub"
+}

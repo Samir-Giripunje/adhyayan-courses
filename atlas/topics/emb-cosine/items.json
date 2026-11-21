@@ -1,0 +1,824 @@
+[
+  {
+    "id": "q-cp1-cos",
+    "version": 1,
+    "family": "q-cp1-cos",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Cosine similarity of `[1, 0]` and `[1, 1]`? (2 decimals)",
+    "answer": {
+      "value": 0.71,
+      "tolerance": 0.01
+    },
+    "common_wrong": [
+      {
+        "value": 1,
+        "kind": "slip",
+        "why_md": "The dot product is 1, but the lengths are 1 and √2, so divide: 1/√2 ≈ 0.71."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Cosine similarity = dot product ÷ (‖a‖ ‖b‖).",
+      "Dot $= 1$."
+    ],
+    "solution_md": "Dot $= 1$. Lengths $1$ and $\\sqrt2$. Cosine $= 1/\\sqrt2 \\approx 0.71$ (a 45° angle).",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na, b = [1, 0], [1, 1]\ndot = sum(x * y for x, y in zip(a, b))\nanswer = round(dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))), 2)\n"
+    }
+  },
+  {
+    "id": "q-dpp-b2",
+    "version": 1,
+    "family": "q-dpp-b2",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Dot product of `[2, -1, 3]` and `[1, 4, 2]`?",
+    "answer": {
+      "value": 4,
+      "tolerance": 0
+    },
+    "common_wrong": [
+      {
+        "value": 12,
+        "kind": "slip",
+        "why_md": "Don't drop the sign: −1 × 4 = −4."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Cosine similarity = dot product ÷ (‖a‖ ‖b‖).",
+      "$2\\cdot1 + (-1)\\cdot4 + 3\\cdot2 = 2 - 4 + 6 = 4$."
+    ],
+    "solution_md": "$2\\cdot1 + (-1)\\cdot4 + 3\\cdot2 = 2 - 4 + 6 = 4$.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "a, b = [2, -1, 3], [1, 4, 2]\nanswer = sum(x * y for x, y in zip(a, b))\n"
+    }
+  },
+  {
+    "id": "q-dpp-b3",
+    "version": 1,
+    "family": "q-dpp-b3",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Length (magnitude) of `[6, 8]`?",
+    "answer": {
+      "value": 10,
+      "tolerance": 0
+    },
+    "hints": [
+      "Which idea applies? Cosine similarity = dot product ÷ (‖a‖ ‖b‖).",
+      "$\\sqrt{36 + 64} = \\sqrt{100} = 10$."
+    ],
+    "solution_md": "$\\sqrt{36 + 64} = \\sqrt{100} = 10$.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import math\nanswer = math.sqrt(sum(x * x for x in [6, 8]))\n"
+    }
+  },
+  {
+    "id": "q-dpp-b4",
+    "version": 1,
+    "family": "q-dpp-b4",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Cosine similarity of `[2, 1]` and `[1, 3]`? (3 decimals)",
+    "answer": {
+      "value": 0.707,
+      "tolerance": 0.005
+    },
+    "hints": [
+      "Which idea applies? Cosine similarity = dot product ÷ (‖a‖ ‖b‖).",
+      "Dot $= 2 + 3 = 5$."
+    ],
+    "solution_md": "Dot $= 2 + 3 = 5$. Lengths $\\sqrt5$ and $\\sqrt{10}$. Cosine $= 5/\\sqrt{50} = 1/\\sqrt2 \\approx 0.707$.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na, b = [2, 1], [1, 3]\ndot = sum(x * y for x, y in zip(a, b))\nanswer = round(dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))), 3)\n"
+    }
+  },
+  {
+    "id": "q-dpp-b5",
+    "version": 1,
+    "family": "q-dpp-b5",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Predict the output:",
+    "code": "v = [3, 4]\nn = sum(x * x for x in v) ** 0.5\nprint([x / n for x in v])",
+    "options": [
+      {
+        "id": "a",
+        "md": "`[0.6, 0.8]`",
+        "correct": true,
+        "why_md": "Right. The length is 5, and each coordinate is divided by 5."
+      },
+      {
+        "id": "b",
+        "md": "`[3, 4]`",
+        "why_md": "The code divides by `n`, so the values change."
+      },
+      {
+        "id": "c",
+        "md": "`[0.75, 1.0]`",
+        "why_md": "That divides by 4 (the max), not by the length 5."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Cosine similarity = dot product ÷ (‖a‖ ‖b‖).",
+      "`n = sqrt(9 + 16) = 5`, so the output is `[3/5, 4/5] = [0.6, 0.8]`: a unit vector in the same direction."
+    ],
+    "solution_md": "`n = sqrt(9 + 16) = 5`, so the output is `[3/5, 4/5] = [0.6, 0.8]`: a unit vector in the same direction.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-b6",
+    "version": 1,
+    "family": "q-dpp-b6",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "What does a cosine similarity of **0** mean geometrically?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The vectors are perpendicular",
+        "correct": true,
+        "why_md": "Right. The dot product is 0 and the angle is 90°."
+      },
+      {
+        "id": "b",
+        "md": "One of the vectors is zero",
+        "why_md": "A zero vector makes cosine *undefined*, not 0."
+      },
+      {
+        "id": "c",
+        "md": "The vectors are opposite",
+        "why_md": "Opposite directions give −1.",
+        "misconception": "mc-cosine-range-01"
+      }
+    ],
+    "hints": [
+      "Which idea applies? Cosine similarity = dot product ÷ (‖a‖ ‖b‖).",
+      "$\\cos 90° = 0$."
+    ],
+    "solution_md": "$\\cos 90° = 0$. Perpendicular vectors share no direction.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-b10",
+    "version": 1,
+    "family": "q-dpp-b10",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Cosine similarity of `[1, 1, 0]` and `[1, 0, 1]`?",
+    "answer": {
+      "value": 0.5,
+      "tolerance": 0.01
+    },
+    "hints": [
+      "Which idea applies? Cosine similarity = dot product ÷ (‖a‖ ‖b‖).",
+      "Dot $= 1$."
+    ],
+    "solution_md": "Dot $= 1$. Both lengths are $\\sqrt2$. Cosine $= 1/2 = 0.5$ (60°).",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na, b = [1, 1, 0], [1, 0, 1]\ndot = sum(x * y for x, y in zip(a, b))\nanswer = round(dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))), 2)\n"
+    }
+  },
+  {
+    "id": "q-dpp-i11",
+    "version": 1,
+    "family": "q-dpp-i11",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Predict the output (note the vector lengths):",
+    "code": "a = [1, 2, 3]\nb = [1, 1]\nprint(sum(x * y for x, y in zip(a, b)))",
+    "options": [
+      {
+        "id": "a",
+        "md": "`3`",
+        "correct": true,
+        "why_md": "Right. `zip` stops at the shorter list, so the 3rd coordinate is silently dropped: 1·1 + 2·1 = 3."
+      },
+      {
+        "id": "b",
+        "md": "An error",
+        "why_md": "Python's `zip` doesn't raise on mismatched lengths. That's why production code checks lengths explicitly."
+      },
+      {
+        "id": "c",
+        "md": "`6`",
+        "why_md": "That would need a third pair, but zip stopped after two."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Cosine similarity = dot product ÷ (‖a‖ ‖b‖).",
+      "zip pairs (1,1) and (2,1), giving 1 + 2 = 3."
+    ],
+    "solution_md": "zip pairs (1,1) and (2,1), giving 1 + 2 = 3. Mixed-dimension vectors (e.g. from two different models) fail silently like this, so validate dimensions.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "emb-cosine/set-1",
+    "version": 1,
+    "family": "cos-implement-cosine-sim",
+    "kind": "code",
+    "class": "code",
+    "scaffold": "faded",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine",
+      "kc-cosine-range"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 900,
+    "prompt_md": "Write `cosine_sim(a, b)` in plain Python (no numpy):\n\n- return the cosine similarity of two equal-length lists of numbers;\n- raise `ValueError` if either vector is all zeros (cosine is undefined);\n- raise `ValueError` if the two lists have different lengths.\n\n**Run** checks the visible tests; **Submit** also runs held-out tests.",
+    "code": "import math\n\n\ndef cosine_sim(a, b):\n    # 1. the lists must have the same length\n    # 2. dot product: multiply matching positions, then add\n    # 3. both magnitudes: square, add, square-root\n    # 4. a zero magnitude means cosine is undefined\n    # 5. divide\n    pass\n",
+    "tests": {
+      "visible": [
+        {
+          "id": "t1",
+          "name": "[1, 2] and [2, 1] give 0.8",
+          "code": "assert abs(cosine_sim([1, 2], [2, 1]) - 0.8) < 1e-9, f'got {cosine_sim([1, 2], [2, 1])}'",
+          "fail_md": "Dot product 4, lengths √5 and √5, so 4/5 = 0.8. Divide by the **product** of both lengths."
+        },
+        {
+          "id": "t2",
+          "name": "orthogonal vectors give 0",
+          "code": "assert abs(cosine_sim([1, 0, 0], [0, 3, 0])) < 1e-9",
+          "fail_md": "`[1, 0, 0]` and `[0, 3, 0]` share no direction: the dot product is 0, so the cosine is 0."
+        },
+        {
+          "id": "t3",
+          "name": "opposite vectors give -1",
+          "code": "assert abs(cosine_sim([1, 2, 3], [-2, -4, -6]) + 1) < 1e-9",
+          "fail_md": "Opposite directions give −1. Did you take an absolute value? Cosine can be negative."
+        },
+        {
+          "id": "t4",
+          "name": "a zero vector raises ValueError",
+          "code": "try:\n    cosine_sim([0, 0], [1, 2])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('expected ValueError for a zero vector')",
+          "fail_md": "`[0, 0]` has length 0, so the formula would divide by 0. Raise `ValueError` **before** dividing (a `ZeroDivisionError` doesn't count)."
+        }
+      ],
+      "held_out_ref": "held-out.json#emb-cosine/set-1"
+    },
+    "hints": [
+      "Follow the lesson's recipe: dot product, two magnitudes, one division. Check for a zero magnitude **before** you divide.",
+      "Check `len(a) != len(b)` first. Then `dot = sum(x * y for x, y in zip(a, b))`, `norm_a = math.sqrt(sum(x * x for x in a))` and the same for `b`; if either norm is 0 raise `ValueError`; return `dot / (norm_a * norm_b)`."
+    ],
+    "solution_md": "Check the lengths, compute the dot product and both magnitudes, refuse a zero magnitude, then divide. Don't take an absolute value: cosine can be negative.\n\n```python\nimport math\n\n\ndef cosine_sim(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"vectors must have the same length\")\n    dot = sum(x * y for x, y in zip(a, b))\n    norm_a = math.sqrt(sum(x * x for x in a))\n    norm_b = math.sqrt(sum(y * y for y in b))\n    if norm_a == 0 or norm_b == 0:\n        raise ValueError(\"cosine is undefined for a zero vector\")\n    return dot / (norm_a * norm_b)\n```",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/set-2",
+    "version": 1,
+    "family": "cos-hand-table",
+    "kind": "trace",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-by-hand"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Work out the cosine of `a = [3, -1, 2]` and `b = [1, 2, 2]` by hand. Fill every `?` cell of the table (whole numbers; write a minus sign as `-`).",
+    "context_md": "| i | a_i | b_i | a_i × b_i | a_i² | b_i² |\n|---|---|---|---|---|---|\n| 1 | 3 | 1 | ? | 9 | 1 |\n| 2 | -1 | 2 | ? | ? | 4 |\n| 3 | 2 | 2 | ? | 4 | ? |\n| sum | | | ? | 14 | ? |",
+    "answer": {
+      "cells": {
+        "0,3": "3",
+        "1,3": "-2",
+        "1,4": "1",
+        "2,3": "4",
+        "2,5": "4",
+        "3,3": "5",
+        "3,5": "9"
+      }
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "a = [3, -1, 2]\nb = [1, 2, 2]\nprod = [x * y for x, y in zip(a, b)]\nsq_a = [x * x for x in a]\nsq_b = [y * y for y in b]\nanswer = {\n    '0,3': str(prod[0]),\n    '1,3': str(prod[1]), '1,4': str(sq_a[1]),\n    '2,3': str(prod[2]), '2,5': str(sq_b[2]),\n    '3,3': str(sum(prod)), '3,5': str(sum(sq_b)),\n}\n"
+    },
+    "hints": [
+      "Each row multiplies the two numbers in that position, then squares each one. The **sum** row adds the column above it.",
+      "Products: 3·1, (−1)·2, 2·2. Squares of a: 9, (−1)², 4. Squares of b: 1, 4, 2². Then add each column."
+    ],
+    "solution_md": "Products: $3\\cdot1 = 3$, $(-1)\\cdot2 = -2$, $2\\cdot2 = 4$, so $a\\cdot b = 3 - 2 + 4 = 5$. Squares of $a$: $9, 1, 4$ (sum 14). Squares of $b$: $1, 4, 4$ (sum 9). So $\\|a\\| = \\sqrt{14} \\approx 3.742$, $\\|b\\| = 3$ and $\\cos = 5/(3.742\\cdot3) \\approx 0.445$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/set-3",
+    "version": 1,
+    "family": "cos-least-similar-output",
+    "kind": "predict_output",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-range"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "What does this code print? (Type the printed word exactly.)",
+    "code": "import math\n\ndef cos(a, b):\n    dot = sum(x * y for x, y in zip(a, b))\n    return dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))\n\nq = [2, 1, 0]\ndocs = {\"reset\": [3, 1, 0], \"invoice\": [0, 0, 3], \"parcel\": [-1, 0, 2]}\nscores = {name: cos(q, v) for name, v in docs.items()}\nprint(min(scores, key=scores.get))\n",
+    "answer": {
+      "value": "parcel",
+      "tolerance": 0
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import io, contextlib\nsrc = 'import math\\n\\ndef cos(a, b):\\n    dot = sum(x * y for x, y in zip(a, b))\\n    return dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))\\n\\nq = [2, 1, 0]\\ndocs = {\"reset\": [3, 1, 0], \"invoice\": [0, 0, 3], \"parcel\": [-1, 0, 2]}\\nscores = {name: cos(q, v) for name, v in docs.items()}\\nprint(min(scores, key=scores.get))\\n'\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    exec(src, {})\nanswer = buf.getvalue().strip()\n"
+    },
+    "hints": [
+      "`min(scores, key=scores.get)` returns the name with the **lowest** cosine. Remember the scale runs from −1 to 1.",
+      "You only need the sign of each dot product with `q`: reset 6 + 1 = 7 (positive), invoice 0 (orthogonal), parcel −2 + 0 + 0 = −2 (negative). The lowest cosine is the negative one."
+    ],
+    "solution_md": "Dot products with `q = [2, 1, 0]`: reset $6 + 1 + 0 = 7$, invoice $0$, parcel $-2 + 0 + 0 = -2$. Cosines: reset $7/\\sqrt{50} \\approx 0.99$, invoice $0$, parcel $-2/(\\sqrt5\\cdot\\sqrt5) = -0.4$. The minimum is $-0.4$, so it prints `parcel`. A cosine of 0 is the middle of the scale, not the bottom.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/set-4",
+    "version": 1,
+    "family": "cos-debug-abs-norm",
+    "kind": "debug",
+    "class": "code",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-dot-cosine",
+      "kc-cosine-range"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 480,
+    "prompt_md": "A teammate edited `cosine_sim` so the scores would “look like percentages”, and copy-pasted one line while doing it. Some tests now fail. Find and fix the bugs so every test passes.",
+    "code": "import math\n\n\ndef cosine_sim(a, b):\n    dot = sum(x * y for x, y in zip(a, b))\n    norm_a = math.sqrt(sum(x * x for x in a))\n    norm_b = math.sqrt(sum(y * y for y in a))\n    if norm_a == 0 or norm_b == 0:\n        raise ValueError(\"cosine is undefined for a zero vector\")\n    return abs(dot) / (norm_a * norm_b)\n",
+    "tests": {
+      "visible": [
+        {
+          "id": "t1",
+          "name": "[1, 2] and [2, 1] give 0.8",
+          "code": "assert abs(cosine_sim([1, 2], [2, 1]) - 0.8) < 1e-9",
+          "fail_md": "Dot product 4 over lengths √5 · √5 = 5."
+        },
+        {
+          "id": "t2",
+          "name": "[1, 0] and [3, 4] give 0.6",
+          "code": "assert abs(cosine_sim([1, 0], [3, 4]) - 0.6) < 1e-9, f'got {cosine_sim([1, 0], [3, 4])}'",
+          "fail_md": "Dot product 3, lengths 1 and 5, so 0.6. If you got 3.0, the length of `b` was never computed: check which vector `norm_b` squares."
+        },
+        {
+          "id": "t3",
+          "name": "opposite vectors give -1",
+          "code": "assert abs(cosine_sim([1, 2], [-2, -4]) + 1) < 1e-9, f'got {cosine_sim([1, 2], [-2, -4])}'",
+          "fail_md": "Opposite directions must give −1. Anything that removes the sign (such as `abs`) breaks this."
+        }
+      ],
+      "held_out_ref": "held-out.json#emb-cosine/set-4"
+    },
+    "hints": [
+      "Check each part of the formula separately: is the dot product right, is **each** length computed from its own vector, and can the result still be negative?",
+      "The line for `norm_b` squares the numbers of `a`, not `b`. And `abs(dot)` throws the sign away, so opposite vectors score +1 instead of −1."
+    ],
+    "solution_md": "Two bugs. `norm_b` summed the squares of `a` (a copy-paste slip), so b's length was never used: wrong whenever the lengths differ, and a zero `b` slipped through. `abs(dot)` erased the sign, so opposite vectors gave 1 instead of −1. Cosine runs from −1 to 1; it is not a percentage.\n\n```python\nimport math\n\n\ndef cosine_sim(a, b):\n    dot = sum(x * y for x, y in zip(a, b))\n    norm_a = math.sqrt(sum(x * x for x in a))\n    norm_b = math.sqrt(sum(y * y for y in b))\n    if norm_a == 0 or norm_b == 0:\n        raise ValueError(\"cosine is undefined for a zero vector\")\n    return dot / (norm_a * norm_b)\n```",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/set-5",
+    "version": 1,
+    "family": "cos-hand-4d",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-by-hand"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Compute the cosine similarity of `[1, -1, 2, 0]` and `[3, 1, 1, -2]` by hand (3 decimals).",
+    "answer": {
+      "value": 0.422,
+      "tolerance": 0.005
+    },
+    "common_wrong": [
+      {
+        "value": 4,
+        "kind": "slip",
+        "why_md": "4 is the dot product. Divide it by the two lengths, √6 and √15."
+      },
+      {
+        "value": 0.044,
+        "kind": "misconception",
+        "why_md": "That's $4/90$: you divided by the lengths **squared**. Take the square roots first: $\\sqrt{90} \\approx 9.487$.",
+        "tag": "mc-cosine-forgets-sqrt"
+      },
+      {
+        "value": 1.633,
+        "kind": "misconception",
+        "why_md": "That's $4/\\sqrt6$: you divided by only one length. A result above 1 is a sure sign.",
+        "tag": "mc-cosine-one-norm"
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na, b = [1, -1, 2, 0], [3, 1, 1, -2]\ndot = sum(x * y for x, y in zip(a, b))\nanswer = round(dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))), 3)\n"
+    },
+    "hints": [
+      "Same four steps as in 3-D, with one more row: products, two lengths, divide.",
+      "Products: $3, -1, 2, 0$, so the dot product is 4. Lengths: $\\sqrt{1 + 1 + 4 + 0} = \\sqrt6$ and $\\sqrt{9 + 1 + 1 + 4} = \\sqrt{15}$."
+    ],
+    "solution_md": "Products: $1\\cdot3 = 3$, $(-1)\\cdot1 = -1$, $2\\cdot1 = 2$, $0\\cdot(-2) = 0$, so $a\\cdot b = 4$. Lengths: $\\|a\\| = \\sqrt{1 + 1 + 4 + 0} = \\sqrt6$ and $\\|b\\| = \\sqrt{9 + 1 + 1 + 4} = \\sqrt{15}$, so $\\|a\\|\\,\\|b\\| = \\sqrt{90} \\approx 9.487$. Cosine $= 4/9.487 \\approx 0.422$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/set-6",
+    "version": 1,
+    "family": "cos-impossible-score",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-range"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "A teammate's `cosine_similarity(a, b)`, meant to return the cosine of two vectors, returns these four scores for four pairs of **non-zero** vectors. Which score proves the function is wrong?",
+    "options": [
+      {
+        "id": "a",
+        "md": "0.92",
+        "why_md": "A valid cosine: a small angle between the vectors."
+      },
+      {
+        "id": "b",
+        "md": "1.07",
+        "why_md": "Right. Nothing can be more aligned than pointing the same way, which gives 1. Above 1 means a bug, typically dividing by the wrong lengths.",
+        "correct": true
+      },
+      {
+        "id": "c",
+        "md": "−0.40",
+        "why_md": "Valid. Cosine can be negative when the vectors lean apart (angle over 90°).",
+        "misconception": "mc-cosine-range-01"
+      },
+      {
+        "id": "d",
+        "md": "0.00",
+        "why_md": "Valid: orthogonal vectors. With non-zero vectors, 0 is a real score, not an error."
+      }
+    ],
+    "hints": [
+      "Recall the scale: what is the highest and the lowest value cosine can take?",
+      "Cosine lies between −1 and 1. Negative values and 0 are fine; anything above 1 is impossible."
+    ],
+    "solution_md": "Cosine lies in $[-1, 1]$ for any two non-zero vectors, so 1.07 can't be a cosine. 0.92, −0.40 and 0.00 are all valid: a small angle, an angle a little over 90°, and orthogonal vectors.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/set-7",
+    "version": 1,
+    "family": "cos-flip-assert-reason",
+    "kind": "assert_reason",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-length-invariant"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "**Assertion (A):** Replacing `b` with `-b` (every number negated) leaves `cos(a, b)` unchanged.\n\n**Reason (R):** `‖-b‖ = ‖b‖`: negating every number doesn't change a vector's length.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "A is false: negating b flips the sign of the cosine.",
+        "misconception": "mc-cosine-negative-scale"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "A is false, so this can't be right.",
+        "misconception": "mc-cosine-negative-scale"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "It's the other way round: R is true (lengths ignore signs) and A is false."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "Right. The length doesn't change, but the dot product changes sign, so the cosine flips: 0.6 becomes −0.6.",
+        "correct": true
+      }
+    ],
+    "hints": [
+      "Check each statement on its own. Try `a = [1, 0]`, `b = [1, 0]`: what are `cos(a, b)` and `cos(a, -b)`?",
+      "R is true: squaring erases the signs. But the dot product changes sign, $a\\cdot(-b) = -(a\\cdot b)$, so the cosine flips sign. A is false."
+    ],
+    "solution_md": "R is true: $\\|-b\\| = \\sqrt{\\sum(-b_i)^2} = \\sqrt{\\sum b_i^2} = \\|b\\|$. A is false: $a\\cdot(-b) = -(a\\cdot b)$ while the lengths stay the same, so $\\cos(a, -b) = -\\cos(a, b)$. For example $\\cos([1, 0], [1, 0]) = 1$ but $\\cos([1, 0], [-1, 0]) = -1$. Answer: **A false; R true**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/exit-1",
+    "version": 1,
+    "family": "cos-exit-minus-one",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-range"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "A query and an article have cosine similarity **−1**. What does that mean?",
+    "options": [
+      {
+        "id": "a",
+        "md": "They point in exactly opposite directions",
+        "why_md": "Right. −1 means an angle of 180°.",
+        "correct": true
+      },
+      {
+        "id": "b",
+        "md": "They are orthogonal: they share no direction",
+        "why_md": "That's a cosine of 0, the middle of the scale.",
+        "misconception": "mc-cosine-zero-opposite"
+      },
+      {
+        "id": "c",
+        "md": "One of them is the zero vector",
+        "why_md": "A zero vector has no direction, so the cosine is undefined, not −1.",
+        "misconception": "mc-cosine-zero-vector"
+      },
+      {
+        "id": "d",
+        "md": "The article is 1 unit shorter than the query",
+        "why_md": "Cosine ignores length; it only compares directions.",
+        "misconception": "mc-cosine-uses-length"
+      }
+    ],
+    "hints": [
+      "Picture the scale: 1, 0 and −1 each correspond to one angle.",
+      "−1 is the bottom of the scale: an angle of 180°."
+    ],
+    "solution_md": "−1 is the bottom of the scale: the angle between the arrows is 180°, so they point in exactly opposite directions. 0 would mean orthogonal, and a zero vector would make the cosine undefined.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/exit-2",
+    "version": 1,
+    "family": "cos-exit-scale-given",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-length-invariant"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "`cos(a, b) = 0.62`. What is `cos(a, 4b)`? (2 decimals)",
+    "answer": {
+      "value": 0.62,
+      "tolerance": 0.001
+    },
+    "common_wrong": [
+      {
+        "value": 2.48,
+        "kind": "misconception",
+        "why_md": "That multiplies the cosine by 4. The 4 multiplies the length too, so it cancels; and a cosine can't exceed 1.",
+        "tag": "mc-cosine-uses-length"
+      },
+      {
+        "value": 0.155,
+        "kind": "slip",
+        "why_md": "That divides by 4. The factor cancels; it doesn't shrink the cosine."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\n\ndef cos(a, b):\n    dot = sum(x * y for x, y in zip(a, b))\n    return dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))\n\nimport math\na = [1.0, 0.0]\nb = [0.62, math.sqrt(1 - 0.62 ** 2)]\nanswer = round(cos(a, [4 * x for x in b]), 2)\n"
+    },
+    "hints": [
+      "What happens to the dot product and to b's length when b is multiplied by 4?",
+      "Both are multiplied by 4, so the 4 cancels."
+    ],
+    "solution_md": "Scaling $b$ by $4 > 0$ multiplies $a\\cdot b$ by 4 and $\\|b\\|$ by 4, so the fraction is unchanged: $\\cos(a, 4b) = 0.62$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  },
+  {
+    "id": "emb-cosine/exit-3",
+    "version": 1,
+    "family": "cos-exit-hand-3d",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-cosine",
+    "kcs": [
+      "kc-cosine-by-hand"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Compute the cosine similarity of `[2, 2, 1]` and `[0, 3, 4]` by hand (2 decimals).",
+    "answer": {
+      "value": 0.67,
+      "tolerance": 0.01
+    },
+    "common_wrong": [
+      {
+        "value": 10,
+        "kind": "slip",
+        "why_md": "10 is the dot product. Divide by 3 × 5 = 15."
+      },
+      {
+        "value": 0.04,
+        "kind": "misconception",
+        "why_md": "That's 10/(9 · 25): the lengths squared. Take the square roots, 3 and 5.",
+        "tag": "mc-cosine-forgets-sqrt"
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "import math\na, b = [2, 2, 1], [0, 3, 4]\ndot = sum(x * y for x, y in zip(a, b))\nanswer = round(dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))), 2)\n"
+    },
+    "hints": [
+      "Products, add; squares, add, square-root; divide.",
+      "Dot $= 0 + 6 + 4 = 10$. Both lengths are whole numbers: $\\sqrt9$ and $\\sqrt{25}$."
+    ],
+    "solution_md": "Dot $= 2\\cdot0 + 2\\cdot3 + 1\\cdot4 = 0 + 6 + 4 = 10$. Lengths: $\\sqrt{4 + 4 + 1} = 3$ and $\\sqrt{0 + 9 + 16} = 5$. Cosine $= 10/15 \\approx 0.67$.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-cosine"
+    }
+  }
+]

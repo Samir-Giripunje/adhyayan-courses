@@ -1,0 +1,10 @@
+{
+  "title": "Adhyayan courses",
+  "courses": [
+    { "id": "system-design", "tags": ["interviews"] },
+    { "id": "aws-certified-cloud-practitioner-clf2", "tags": ["certification", "cloud"] },
+    { "id": "python-decorators", "tags": ["python"] },
+    { "id": "embeddings-semantic-search", "tags": ["machine learning"] }
+  ],
+  "lists": ["blind-75", "neetcode-150"]
+}

@@ -1,0 +1,69 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-two-phase-commit",
+  "version": 1,
+  "title": "Distributed transactions and two-phase commit",
+  "size": "standard",
+  "est_min": 25,
+  "kcs": [
+    {
+      "id": "kc-2pc-phases",
+      "version": 1,
+      "statement": "In two-phase commit a coordinator first asks every participant to prepare (each votes yes only after durably recording its changes and holding locks), then sends commit if all voted yes and abort otherwise."
+    },
+    {
+      "id": "kc-2pc-blocking",
+      "version": 1,
+      "statement": "Two-phase commit is blocking: if the coordinator fails after participants voted yes, they keep holding locks and cannot decide on their own until it recovers."
+    },
+    {
+      "id": "kc-2pc-when",
+      "version": 1,
+      "statement": "Two-phase commit gives atomicity across stores at the cost of latency and availability, so it suits a few tightly coupled databases, not long-running business flows across services."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-relational-acid"
+  ],
+  "suggests": [
+    "sd-microservices"
+  ],
+  "confusable_with": [
+    "sd-sagas"
+  ],
+  "introduces": [
+    "two-phase commit",
+    "distributed transaction",
+    "coordinator"
+  ],
+  "uses": [
+    "transaction",
+    "acid",
+    "microservices",
+    "single point of failure"
+  ],
+  "problem_ideas": [
+    "Trace 2PC message by message for a transfer between two bank shards",
+    "Participant B votes no: what does each participant do?",
+    "The coordinator crashes after collecting all yes votes: what state are the locks in?",
+    "Count network round trips for a 2PC commit across 3 participants",
+    "Why is 2PC a poor fit for book-flight + book-hotel + charge-card across companies?",
+    "Three-phase commit adds a pre-commit phase: what problem does it try to fix?"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "why-do-we-need-distributed-transactions/why-do-we-need-distributed-transactions"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "two-phase-commit/phases"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "two-phase-commit/problems"
+    }
+  ],
+  "status": "stub"
+}

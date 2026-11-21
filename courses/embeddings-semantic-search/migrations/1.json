@@ -1,0 +1,2455 @@
+{
+  "from": {
+    "topic": "embeddings",
+    "schema": "strata.topic/1",
+    "version": "strata.topic/1"
+  },
+  "kcs": [
+    {
+      "old": "kc-keyword-limits",
+      "new": [
+        {
+          "id": "kc-keyword-limits",
+          "eq": "identical"
+        }
+      ]
+    },
+    {
+      "old": "kc-vectors-as-features",
+      "new": [
+        {
+          "id": "kc-vectors-as-features",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-features-define-similarity",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-dot-cosine",
+      "new": [
+        {
+          "id": "kc-dot-cosine",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-cosine-range",
+          "eq": "new"
+        },
+        {
+          "id": "kc-cosine-length-invariant",
+          "eq": "new"
+        },
+        {
+          "id": "kc-cosine-by-hand",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-embedding-def",
+      "new": [
+        {
+          "id": "kc-embedding-def",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-embedding-same-model",
+          "eq": "new"
+        },
+        {
+          "id": "kc-embedding-dims-opaque",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-search-pipeline",
+      "new": [
+        {
+          "id": "kc-search-pipeline",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-search-offline-online",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-training-contrastive",
+      "new": [
+        {
+          "id": "kc-training-contrastive",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-similar-per-training",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-pooling-limits",
+      "new": [
+        {
+          "id": "kc-pooling-limits",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-truncation",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-metrics-normalization",
+      "new": [
+        {
+          "id": "kc-metrics-normalization",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-unnormalised-dot-bias",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-model-choice",
+      "new": [
+        {
+          "id": "kc-model-choice",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-model-eval-own",
+          "eq": "new"
+        },
+        {
+          "id": "kc-model-no-mixing",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-chunking",
+      "new": [
+        {
+          "id": "kc-chunking",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-chunk-overlap-context",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-retrieval-eval",
+      "new": [
+        {
+          "id": "kc-retrieval-eval",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-recall-precision-at-k",
+          "eq": "new"
+        },
+        {
+          "id": "kc-mrr-ndcg",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-ann-tradeoff",
+      "new": [
+        {
+          "id": "kc-ann-tradeoff",
+          "eq": "identical"
+        }
+      ]
+    },
+    {
+      "old": "kc-ivf",
+      "new": [
+        {
+          "id": "kc-ivf",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-ivf-nprobe",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-hnsw",
+      "new": [
+        {
+          "id": "kc-hnsw",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-hnsw-build",
+          "eq": "new"
+        },
+        {
+          "id": "kc-hnsw-efsearch",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-compression",
+      "new": [
+        {
+          "id": "kc-compression",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-oversample-rescore",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-hybrid-rerank",
+      "new": [
+        {
+          "id": "kc-hybrid-rerank",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-rrf",
+          "eq": "new"
+        },
+        {
+          "id": "kc-rerank-cross-encoder",
+          "eq": "new"
+        }
+      ]
+    },
+    {
+      "old": "kc-production-pitfalls",
+      "new": [
+        {
+          "id": "kc-production-pitfalls",
+          "eq": "narrowed"
+        },
+        {
+          "id": "kc-filter-starvation",
+          "eq": "new"
+        },
+        {
+          "id": "kc-borrowed-thresholds",
+          "eq": "new"
+        }
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "beat": "b-why",
+      "topic": "emb-keyword-gap",
+      "unit": "emb-u1-meaning"
+    },
+    {
+      "beat": "b-features",
+      "topic": "emb-features",
+      "unit": "emb-u1-meaning"
+    },
+    {
+      "beat": "b-cosine",
+      "topic": "emb-cosine",
+      "unit": "emb-u1-meaning"
+    },
+    {
+      "beat": "b-embedding",
+      "topic": "emb-model",
+      "unit": "emb-u1-meaning"
+    },
+    {
+      "beat": "b-search",
+      "topic": "emb-search",
+      "unit": "emb-u1-meaning"
+    },
+    {
+      "beat": "b-training",
+      "topic": "emb-contrastive",
+      "unit": "emb-u2-retrieval"
+    },
+    {
+      "beat": "b-pooling",
+      "topic": "emb-pooling",
+      "unit": "emb-u2-retrieval"
+    },
+    {
+      "beat": "b-metrics",
+      "topic": "emb-metrics",
+      "unit": "emb-u2-retrieval"
+    },
+    {
+      "beat": "b-models",
+      "topic": "emb-model-choice",
+      "unit": "emb-u2-retrieval"
+    },
+    {
+      "beat": "b-chunking",
+      "topic": "emb-chunking",
+      "unit": "emb-u2-retrieval"
+    },
+    {
+      "beat": "b-eval",
+      "topic": "emb-retrieval-eval",
+      "unit": "emb-u2-retrieval"
+    },
+    {
+      "beat": "b-brute",
+      "topic": "emb-exact-cost",
+      "unit": "emb-u3-scale"
+    },
+    {
+      "beat": "b-ivf",
+      "topic": "emb-ivf",
+      "unit": "emb-u3-scale"
+    },
+    {
+      "beat": "b-hnsw",
+      "topic": "emb-hnsw",
+      "unit": "emb-u3-scale"
+    },
+    {
+      "beat": "b-compression",
+      "topic": "emb-compression",
+      "unit": "emb-u3-scale"
+    },
+    {
+      "beat": "b-hybrid",
+      "topic": "emb-hybrid",
+      "unit": "emb-u3-scale"
+    },
+    {
+      "beat": "b-pitfalls",
+      "topic": "emb-pitfalls",
+      "unit": "emb-u3-scale"
+    }
+  ],
+  "items": [
+    {
+      "id": "q-predict-goa",
+      "kcs_new": [
+        "kc-keyword-limits"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-why-keyword-strength",
+      "kcs_new": [
+        "kc-keyword-limits"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-onehot-sim",
+      "kcs_new": [
+        "kc-vectors-as-features"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-predict-length",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-cos-34-43",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-cos-scaled",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-embed-length",
+      "kcs_new": [
+        "kc-embedding-def"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-pipeline-order",
+      "kcs_new": [
+        "kc-search-pipeline"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-mixed-models",
+      "kcs_new": [
+        "kc-search-pipeline",
+        "kc-embedding-def"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-inbatch",
+      "kcs_new": [
+        "kc-training-contrastive"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-paraphrase-model",
+      "kcs_new": [
+        "kc-training-contrastive"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-truncation",
+      "kcs_new": [
+        "kc-pooling-limits"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-meanpool",
+      "kcs_new": [
+        "kc-pooling-limits"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-predict-unit-metrics",
+      "kcs_new": [
+        "kc-metrics-normalization"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-l2-from-cos",
+      "kcs_new": [
+        "kc-metrics-normalization"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-dot-bug",
+      "kcs_new": [
+        "kc-metrics-normalization"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-model-switch",
+      "kcs_new": [
+        "kc-model-choice"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-model-factors",
+      "kcs_new": [
+        "kc-model-choice"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-chunk-small",
+      "kcs_new": [
+        "kc-chunking"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-recall5",
+      "kcs_new": [
+        "kc-retrieval-eval"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-mrr3",
+      "kcs_new": [
+        "kc-retrieval-eval"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-mem-1m",
+      "kcs_new": [
+        "kc-ann-tradeoff"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-predict-ivf-miss",
+      "kcs_new": [
+        "kc-ivf",
+        "kc-ann-tradeoff"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-ivf-scan",
+      "kcs_new": [
+        "kc-ivf"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-ivf-nprobe",
+      "kcs_new": [
+        "kc-ivf"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-hnsw-ef",
+      "kcs_new": [
+        "kc-hnsw"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-hnsw-local-min",
+      "kcs_new": [
+        "kc-hnsw"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-binary-mem",
+      "kcs_new": [
+        "kc-compression"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-rescore",
+      "kcs_new": [
+        "kc-compression"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-predict-hybrid",
+      "kcs_new": [
+        "kc-hybrid-rerank",
+        "kc-keyword-limits"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-rrf-calc",
+      "kcs_new": [
+        "kc-hybrid-rerank"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-rrf-why-rank",
+      "kcs_new": [
+        "kc-hybrid-rerank"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-filter",
+      "kcs_new": [
+        "kc-production-pitfalls"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-threshold",
+      "kcs_new": [
+        "kc-production-pitfalls"
+      ],
+      "use_new": "check"
+    },
+    {
+      "id": "q-cp1-why",
+      "kcs_new": [
+        "kc-keyword-limits"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp1-cos",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp1-fixed",
+      "kcs_new": [
+        "kc-embedding-def"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp1-same",
+      "kcs_new": [
+        "kc-search-pipeline"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp2-train",
+      "kcs_new": [
+        "kc-training-contrastive"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp2-norm",
+      "kcs_new": [
+        "kc-metrics-normalization"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp2-trunc",
+      "kcs_new": [
+        "kc-pooling-limits",
+        "kc-chunking"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp2-recall",
+      "kcs_new": [
+        "kc-retrieval-eval"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp2-e5",
+      "kcs_new": [
+        "kc-model-choice"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp3-ann",
+      "kcs_new": [
+        "kc-ann-tradeoff"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp3-ivf",
+      "kcs_new": [
+        "kc-ivf"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp3-hnsw",
+      "kcs_new": [
+        "kc-hnsw"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp3-int8",
+      "kcs_new": [
+        "kc-compression"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-cp3-hybrid",
+      "kcs_new": [
+        "kc-hybrid-rerank"
+      ],
+      "use_new": "exit"
+    },
+    {
+      "id": "q-dpp-b1",
+      "kcs_new": [
+        "kc-keyword-limits"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-b2",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-b3",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-b4",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-b5",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-b6",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-b7",
+      "kcs_new": [
+        "kc-embedding-def"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-b8",
+      "kcs_new": [
+        "kc-search-pipeline"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-b9",
+      "kcs_new": [
+        "kc-search-pipeline"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-b10",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-i1",
+      "kcs_new": [
+        "kc-training-contrastive"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-i2",
+      "kcs_new": [
+        "kc-training-contrastive"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-i3",
+      "kcs_new": [
+        "kc-metrics-normalization"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-i4",
+      "kcs_new": [
+        "kc-metrics-normalization"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-i5",
+      "kcs_new": [
+        "kc-pooling-limits"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-i6",
+      "kcs_new": [
+        "kc-chunking"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-i7",
+      "kcs_new": [
+        "kc-retrieval-eval"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-i8",
+      "kcs_new": [
+        "kc-retrieval-eval"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-i9",
+      "kcs_new": [
+        "kc-model-choice"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-i10",
+      "kcs_new": [
+        "kc-model-choice",
+        "kc-metrics-normalization"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-i11",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a1",
+      "kcs_new": [
+        "kc-ann-tradeoff"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a2",
+      "kcs_new": [
+        "kc-ivf"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a3",
+      "kcs_new": [
+        "kc-ivf"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a4",
+      "kcs_new": [
+        "kc-hnsw"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a5",
+      "kcs_new": [
+        "kc-compression"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a6",
+      "kcs_new": [
+        "kc-compression"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a7",
+      "kcs_new": [
+        "kc-hybrid-rerank"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a8",
+      "kcs_new": [
+        "kc-hybrid-rerank"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a9",
+      "kcs_new": [
+        "kc-production-pitfalls"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a10",
+      "kcs_new": [
+        "kc-production-pitfalls"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a11",
+      "kcs_new": [
+        "kc-compression"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-dpp-a12",
+      "kcs_new": [
+        "kc-hybrid-rerank",
+        "kc-keyword-limits"
+      ],
+      "use_new": "set"
+    },
+    {
+      "id": "q-proof1-cos",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof1-same-model",
+      "kcs_new": [
+        "kc-search-pipeline",
+        "kc-embedding-def"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof1-l2",
+      "kcs_new": [
+        "kc-metrics-normalization"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof1-chunk",
+      "kcs_new": [
+        "kc-pooling-limits",
+        "kc-chunking"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof1-recall",
+      "kcs_new": [
+        "kc-retrieval-eval"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof1-ann",
+      "kcs_new": [
+        "kc-hnsw"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof1-ivf",
+      "kcs_new": [
+        "kc-ivf"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof1-rrf",
+      "kcs_new": [
+        "kc-hybrid-rerank"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof2-recs",
+      "kcs_new": [
+        "kc-metrics-normalization",
+        "kc-production-pitfalls"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof2-mem",
+      "kcs_new": [
+        "kc-compression",
+        "kc-ann-tradeoff"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof2-legal",
+      "kcs_new": [
+        "kc-hybrid-rerank"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof2-mrr",
+      "kcs_new": [
+        "kc-retrieval-eval"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof2-multilingual",
+      "kcs_new": [
+        "kc-model-choice"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "q-proof2-filter",
+      "kcs_new": [
+        "kc-production-pitfalls"
+      ],
+      "use_new": "test"
+    },
+    {
+      "id": "ex-cosine-worked",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "lab"
+    },
+    {
+      "id": "ex-cosine-faded",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "lab"
+    },
+    {
+      "id": "ex-topk",
+      "kcs_new": [
+        "kc-search-pipeline",
+        "kc-dot-cosine"
+      ],
+      "use_new": "lab"
+    },
+    {
+      "id": "ex-debug-norm",
+      "kcs_new": [
+        "kc-metrics-normalization"
+      ],
+      "use_new": "lab"
+    },
+    {
+      "id": "ex-engine",
+      "kcs_new": [
+        "kc-search-pipeline",
+        "kc-pooling-limits",
+        "kc-retrieval-eval"
+      ],
+      "use_new": "lab"
+    },
+    {
+      "id": "ex-eval",
+      "kcs_new": [
+        "kc-retrieval-eval"
+      ],
+      "use_new": "lab"
+    },
+    {
+      "id": "ex-rrf",
+      "kcs_new": [
+        "kc-hybrid-rerank"
+      ],
+      "use_new": "lab"
+    },
+    {
+      "id": "iq-what-is-embedding",
+      "kcs_new": [
+        "kc-embedding-def",
+        "kc-vectors-as-features"
+      ],
+      "use_new": "interview"
+    },
+    {
+      "id": "iq-cos-dot-l2",
+      "kcs_new": [
+        "kc-metrics-normalization",
+        "kc-dot-cosine"
+      ],
+      "use_new": "interview"
+    },
+    {
+      "id": "iq-semantic-vs-keyword",
+      "kcs_new": [
+        "kc-keyword-limits",
+        "kc-hybrid-rerank"
+      ],
+      "use_new": "interview"
+    },
+    {
+      "id": "iq-choose-model",
+      "kcs_new": [
+        "kc-model-choice",
+        "kc-retrieval-eval"
+      ],
+      "use_new": "interview"
+    },
+    {
+      "id": "iq-chunking",
+      "kcs_new": [
+        "kc-chunking",
+        "kc-pooling-limits"
+      ],
+      "use_new": "interview"
+    },
+    {
+      "id": "iq-hnsw",
+      "kcs_new": [
+        "kc-hnsw",
+        "kc-ann-tradeoff"
+      ],
+      "use_new": "interview"
+    },
+    {
+      "id": "iq-rerank",
+      "kcs_new": [
+        "kc-hybrid-rerank"
+      ],
+      "use_new": "interview"
+    },
+    {
+      "id": "iq-migration",
+      "kcs_new": [
+        "kc-production-pitfalls",
+        "kc-model-choice"
+      ],
+      "use_new": "interview"
+    },
+    {
+      "id": "iq-design-ticket-search",
+      "kcs_new": [
+        "kc-ann-tradeoff",
+        "kc-hybrid-rerank",
+        "kc-production-pitfalls",
+        "kc-retrieval-eval",
+        "kc-compression"
+      ],
+      "use_new": "interview"
+    },
+    {
+      "id": "v-onehot",
+      "kcs_new": [
+        "kc-vectors-as-features"
+      ],
+      "use_new": "visual"
+    },
+    {
+      "id": "v-cosine-dial",
+      "kcs_new": [
+        "kc-dot-cosine"
+      ],
+      "use_new": "visual"
+    },
+    {
+      "id": "v-meaning-map",
+      "kcs_new": [
+        "kc-embedding-def"
+      ],
+      "use_new": "visual"
+    },
+    {
+      "id": "v-pipeline",
+      "kcs_new": [
+        "kc-search-pipeline"
+      ],
+      "use_new": "visual"
+    },
+    {
+      "id": "v-contrastive",
+      "kcs_new": [
+        "kc-training-contrastive"
+      ],
+      "use_new": "visual"
+    },
+    {
+      "id": "v-cosine-norm",
+      "kcs_new": [
+        "kc-metrics-normalization"
+      ],
+      "use_new": "visual"
+    },
+    {
+      "id": "v-chunker",
+      "kcs_new": [
+        "kc-chunking"
+      ],
+      "use_new": "visual"
+    },
+    {
+      "id": "v-ivf",
+      "kcs_new": [
+        "kc-ivf"
+      ],
+      "use_new": "visual"
+    },
+    {
+      "id": "v-hnsw",
+      "kcs_new": [
+        "kc-hnsw"
+      ],
+      "use_new": "visual"
+    },
+    {
+      "id": "v-memcalc",
+      "kcs_new": [
+        "kc-compression"
+      ],
+      "use_new": "visual"
+    },
+    {
+      "id": "v-rrf",
+      "kcs_new": [
+        "kc-hybrid-rerank"
+      ],
+      "use_new": "visual"
+    }
+  ],
+  "anchors": [
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-why",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-keyword-gap",
+        "block": "blk-emb-keyword-gap-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-why",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-keyword-gap",
+        "block": "blk-emb-keyword-gap-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-why",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-keyword-gap",
+        "block": "blk-emb-keyword-gap-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-why",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-keyword-gap",
+        "block": "blk-emb-keyword-gap-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-why",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-keyword-gap",
+        "block": "blk-emb-keyword-gap-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-features",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-features",
+        "block": "blk-emb-features-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-features",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-features",
+        "block": "blk-emb-features-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-features",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-features",
+        "block": "blk-emb-features-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-features",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-features",
+        "block": "blk-emb-features-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-features",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-features",
+        "block": "blk-emb-features-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-cosine",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-cosine",
+        "block": "blk-emb-cosine-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-cosine",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-cosine",
+        "block": "blk-emb-cosine-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-cosine",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-cosine",
+        "block": "blk-emb-cosine-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-cosine",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-cosine",
+        "block": "blk-emb-cosine-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-cosine",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-cosine",
+        "block": "blk-emb-cosine-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-cosine",
+        "after_block": 5
+      },
+      "new": {
+        "topic": "emb-cosine",
+        "block": "blk-emb-cosine-06"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-cosine",
+        "after_block": 6
+      },
+      "new": {
+        "topic": "emb-cosine",
+        "block": "blk-emb-cosine-07"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-cosine",
+        "after_block": 7
+      },
+      "new": {
+        "topic": "emb-cosine",
+        "block": "blk-emb-cosine-08"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-embedding",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-model",
+        "block": "blk-emb-model-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-embedding",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-model",
+        "block": "blk-emb-model-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-embedding",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-model",
+        "block": "blk-emb-model-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-embedding",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-model",
+        "block": "blk-emb-model-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-embedding",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-model",
+        "block": "blk-emb-model-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-search",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-search",
+        "block": "blk-emb-search-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-search",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-search",
+        "block": "blk-emb-search-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-search",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-search",
+        "block": "blk-emb-search-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-search",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-search",
+        "block": "blk-emb-search-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "basics",
+        "beat": "b-search",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-search",
+        "block": "blk-emb-search-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-training",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-contrastive",
+        "block": "blk-emb-contrastive-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-training",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-contrastive",
+        "block": "blk-emb-contrastive-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-training",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-contrastive",
+        "block": "blk-emb-contrastive-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-training",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-contrastive",
+        "block": "blk-emb-contrastive-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-training",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-contrastive",
+        "block": "blk-emb-contrastive-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-training",
+        "after_block": 5
+      },
+      "new": {
+        "topic": "emb-contrastive",
+        "block": "blk-emb-contrastive-06"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-training",
+        "after_block": 6
+      },
+      "new": {
+        "topic": "emb-contrastive",
+        "block": "blk-emb-contrastive-07"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-pooling",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-pooling",
+        "block": "blk-emb-pooling-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-pooling",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-pooling",
+        "block": "blk-emb-pooling-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-pooling",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-pooling",
+        "block": "blk-emb-pooling-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-pooling",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-pooling",
+        "block": "blk-emb-pooling-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-pooling",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-pooling",
+        "block": "blk-emb-pooling-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-pooling",
+        "after_block": 5
+      },
+      "new": {
+        "topic": "emb-pooling",
+        "block": "blk-emb-pooling-06"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-pooling",
+        "after_block": 6
+      },
+      "new": {
+        "topic": "emb-pooling",
+        "block": "blk-emb-pooling-07"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-metrics",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-metrics",
+        "block": "blk-emb-metrics-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-metrics",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-metrics",
+        "block": "blk-emb-metrics-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-metrics",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-metrics",
+        "block": "blk-emb-metrics-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-metrics",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-metrics",
+        "block": "blk-emb-metrics-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-metrics",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-metrics",
+        "block": "blk-emb-metrics-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-metrics",
+        "after_block": 5
+      },
+      "new": {
+        "topic": "emb-metrics",
+        "block": "blk-emb-metrics-06"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-metrics",
+        "after_block": 6
+      },
+      "new": {
+        "topic": "emb-metrics",
+        "block": "blk-emb-metrics-07"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-metrics",
+        "after_block": 7
+      },
+      "new": {
+        "topic": "emb-metrics",
+        "block": "blk-emb-metrics-08"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-models",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-model-choice",
+        "block": "blk-emb-model-choice-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-models",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-model-choice",
+        "block": "blk-emb-model-choice-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-models",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-model-choice",
+        "block": "blk-emb-model-choice-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-models",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-model-choice",
+        "block": "blk-emb-model-choice-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-models",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-model-choice",
+        "block": "blk-emb-model-choice-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-models",
+        "after_block": 5
+      },
+      "new": {
+        "topic": "emb-model-choice",
+        "block": "blk-emb-model-choice-06"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-chunking",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-chunking",
+        "block": "blk-emb-chunking-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-chunking",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-chunking",
+        "block": "blk-emb-chunking-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-chunking",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-chunking",
+        "block": "blk-emb-chunking-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-eval",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-retrieval-eval",
+        "block": "blk-emb-retrieval-eval-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-eval",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-retrieval-eval",
+        "block": "blk-emb-retrieval-eval-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-eval",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-retrieval-eval",
+        "block": "blk-emb-retrieval-eval-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-eval",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-retrieval-eval",
+        "block": "blk-emb-retrieval-eval-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "intermediate",
+        "beat": "b-eval",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-retrieval-eval",
+        "block": "blk-emb-retrieval-eval-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-brute",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-exact-cost",
+        "block": "blk-emb-exact-cost-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-brute",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-exact-cost",
+        "block": "blk-emb-exact-cost-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-brute",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-exact-cost",
+        "block": "blk-emb-exact-cost-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-brute",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-exact-cost",
+        "block": "blk-emb-exact-cost-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-ivf",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-ivf",
+        "block": "blk-emb-ivf-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-ivf",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-ivf",
+        "block": "blk-emb-ivf-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-ivf",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-ivf",
+        "block": "blk-emb-ivf-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-ivf",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-ivf",
+        "block": "blk-emb-ivf-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-ivf",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-ivf",
+        "block": "blk-emb-ivf-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-ivf",
+        "after_block": 5
+      },
+      "new": {
+        "topic": "emb-ivf",
+        "block": "blk-emb-ivf-06"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hnsw",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-hnsw",
+        "block": "blk-emb-hnsw-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hnsw",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-hnsw",
+        "block": "blk-emb-hnsw-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hnsw",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-hnsw",
+        "block": "blk-emb-hnsw-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hnsw",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-hnsw",
+        "block": "blk-emb-hnsw-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hnsw",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-hnsw",
+        "block": "blk-emb-hnsw-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hnsw",
+        "after_block": 5
+      },
+      "new": {
+        "topic": "emb-hnsw",
+        "block": "blk-emb-hnsw-06"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-compression",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-compression",
+        "block": "blk-emb-compression-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-compression",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-compression",
+        "block": "blk-emb-compression-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-compression",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-compression",
+        "block": "blk-emb-compression-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-compression",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-compression",
+        "block": "blk-emb-compression-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hybrid",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-hybrid",
+        "block": "blk-emb-hybrid-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hybrid",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-hybrid",
+        "block": "blk-emb-hybrid-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hybrid",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-hybrid",
+        "block": "blk-emb-hybrid-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hybrid",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-hybrid",
+        "block": "blk-emb-hybrid-04"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hybrid",
+        "after_block": 4
+      },
+      "new": {
+        "topic": "emb-hybrid",
+        "block": "blk-emb-hybrid-05"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hybrid",
+        "after_block": 5
+      },
+      "new": {
+        "topic": "emb-hybrid",
+        "block": "blk-emb-hybrid-06"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hybrid",
+        "after_block": 6
+      },
+      "new": {
+        "topic": "emb-hybrid",
+        "block": "blk-emb-hybrid-07"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-hybrid",
+        "after_block": 7
+      },
+      "new": {
+        "topic": "emb-hybrid",
+        "block": "blk-emb-hybrid-08"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-pitfalls",
+        "after_block": 0
+      },
+      "new": {
+        "topic": "emb-pitfalls",
+        "block": "blk-emb-pitfalls-01"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-pitfalls",
+        "after_block": 1
+      },
+      "new": {
+        "topic": "emb-pitfalls",
+        "block": "blk-emb-pitfalls-02"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-pitfalls",
+        "after_block": 2
+      },
+      "new": {
+        "topic": "emb-pitfalls",
+        "block": "blk-emb-pitfalls-03"
+      }
+    },
+    {
+      "old": {
+        "topic": "embeddings",
+        "layer": "advanced",
+        "beat": "b-pitfalls",
+        "after_block": 3
+      },
+      "new": {
+        "topic": "emb-pitfalls",
+        "block": "blk-emb-pitfalls-04"
+      }
+    }
+  ],
+  "keys": [
+    {
+      "legacy": "q:q-cp1-why",
+      "new": "quiz:emb-keyword-gap:1"
+    },
+    {
+      "legacy": "q:q-cp1-cos",
+      "new": "quiz:emb-cosine:1"
+    },
+    {
+      "legacy": "q:q-cp1-fixed",
+      "new": "quiz:emb-model:1"
+    },
+    {
+      "legacy": "q:q-cp1-same",
+      "new": "quiz:emb-search:1"
+    },
+    {
+      "legacy": "q:q-cp2-train",
+      "new": "quiz:emb-contrastive:1"
+    },
+    {
+      "legacy": "q:q-cp2-trunc",
+      "new": "quiz:emb-pooling:1"
+    },
+    {
+      "legacy": "q:q-cp2-norm",
+      "new": "quiz:emb-metrics:1"
+    },
+    {
+      "legacy": "q:q-cp2-e5",
+      "new": "quiz:emb-model-choice:1"
+    },
+    {
+      "legacy": "q:q-cp2-recall",
+      "new": "quiz:emb-retrieval-eval:1"
+    },
+    {
+      "legacy": "q:q-cp3-ann",
+      "new": "quiz:emb-exact-cost:1"
+    },
+    {
+      "legacy": "q:q-cp3-ivf",
+      "new": "quiz:emb-ivf:1"
+    },
+    {
+      "legacy": "q:q-cp3-hnsw",
+      "new": "quiz:emb-hnsw:1"
+    },
+    {
+      "legacy": "q:q-cp3-int8",
+      "new": "quiz:emb-compression:1"
+    },
+    {
+      "legacy": "q:q-cp3-hybrid",
+      "new": "quiz:emb-hybrid:1"
+    },
+    {
+      "legacy": "ex:ex-cosine-faded",
+      "new": "first-pass:emb-cosine"
+    },
+    {
+      "legacy": "redeem:ex-cosine-faded",
+      "new": "redeem:emb-cosine"
+    },
+    {
+      "legacy": "ex:ex-eval",
+      "new": "first-pass:emb-retrieval-eval"
+    },
+    {
+      "legacy": "redeem:ex-eval",
+      "new": "redeem:emb-retrieval-eval"
+    }
+  ],
+  "storage": {
+    "from_key": "strata.progress.v1",
+    "from_format": "strata.progress/1",
+    "to_key": "adhy.progress.v1",
+    "to_format": "adhy.progress/1"
+  }
+}

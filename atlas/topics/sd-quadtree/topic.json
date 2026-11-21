@@ -1,0 +1,54 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-quadtree",
+  "version": 1,
+  "title": "Quadtrees: adaptive spatial indexes",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-quadtree-split",
+      "version": 1,
+      "statement": "A quadtree splits a region into four children whenever a node holds more than a set capacity (for example 100 places). Dense cities get deep, small cells and empty areas stay as large cells."
+    },
+    {
+      "id": "kc-quadtree-vs-geohash",
+      "version": 1,
+      "statement": "A quadtree is usually an in-memory structure rebuilt or updated on the server, while geohash strings fit into any database index. Quadtrees suit uneven density and geohash suits simple prefix queries."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-geohash"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-geohash"
+  ],
+  "introduces": [
+    "quadtree"
+  ],
+  "uses": [
+    "geohash",
+    "database index"
+  ],
+  "problem_ideas": [
+    "Insert 500 points into a quadtree with capacity 100 and predict the leaf count for a uniform spread.",
+    "Manhattan has 10,000 restaurants and a rural county has 10. Compare the cell sizes that result.",
+    "Estimate the memory for a quadtree indexing 200M places at 24 bytes each plus node overhead.",
+    "Drivers move every 4 seconds. Argue whether to update a quadtree in place or use geohash buckets.",
+    "Find the k nearest places by expanding to neighbouring quadtree nodes.",
+    "Choose between quadtree and geohash for Yelp (static places) and for Uber (moving drivers)."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "quadtrees/quadtrees"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "quadtrees/why-do-we-need-quadtrees"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,79 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-news-feed",
+  "version": 1,
+  "title": "Case study: news feed / Twitter timeline",
+  "size": "big",
+  "est_min": 40,
+  "kcs": [
+    {
+      "id": "kc-feed-hybrid-fanout",
+      "version": 1,
+      "statement": "A news feed uses fan-out on write for ordinary authors, pushing post ids into followers' cached timelines. Posts from celebrity accounts are merged in at read time, because writing them to millions of timelines is too slow."
+    },
+    {
+      "id": "kc-feed-timeline-cache",
+      "version": 1,
+      "statement": "Each user's home timeline is a capped list of post ids (for example the latest 800) in an in-memory store. Post bodies are fetched separately by id and hydrated from a post cache."
+    },
+    {
+      "id": "kc-feed-storage-split",
+      "version": 1,
+      "statement": "Posts are sharded by post id or author id. The follow graph is stored separately so that 'who follows X' (for fan-out) and 'whom does X follow' (for read-time merge) are both single-key lookups."
+    },
+    {
+      "id": "kc-feed-media-path",
+      "version": 1,
+      "statement": "Images and videos in posts are uploaded to object storage and served through a CDN. The feed service only handles ids and URLs, never media bytes."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-fan-out",
+    "sd-distributed-cache"
+  ],
+  "suggests": [
+    "sd-shard-key"
+  ],
+  "confusable_with": [
+    "sd-case-notification-service"
+  ],
+  "introduces": [
+    "news feed design",
+    "home timeline"
+  ],
+  "uses": [
+    "fan-out on write",
+    "fan-out on read",
+    "hybrid fan-out",
+    "celebrity problem",
+    "distributed cache",
+    "object storage",
+    "cdn",
+    "shard key",
+    "message queue"
+  ],
+  "problem_ideas": [
+    "300M DAU, 2 posts a day, 200 followers on average: compute fan-out writes per second.",
+    "A user with 50M followers posts. Compare the cost of pushing the post to every timeline with merging it at read time.",
+    "Estimate cache memory for 300M timelines × 800 ids × 8 bytes.",
+    "Pick a follower-count threshold for switching a user to fan-out on read and justify it.",
+    "A user unfollows someone. Decide whether to clean timelines eagerly or filter at read time.",
+    "Design pagination for 'load more' on the home timeline using a cursor."
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "system-design-interview-questions-with-s/design-the-twitter-timeline-and-search-o"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-3/newsfeed"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-twitter"
+    }
+  ],
+  "status": "stub"
+}

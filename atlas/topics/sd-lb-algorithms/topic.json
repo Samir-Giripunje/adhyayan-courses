@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-lb-algorithms",
+  "version": 1,
+  "title": "Load balancing algorithms",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-round-robin",
+      "version": 1,
+      "statement": "Round robin sends requests to servers in a fixed rotation; weighted round robin gives a server with weight w a share w/Σweights of requests, useful when servers differ in capacity."
+    },
+    {
+      "id": "kc-least-connections",
+      "version": 1,
+      "statement": "Least-connections routes each new request to the server with the fewest active connections, which balances better than round robin when request durations vary widely."
+    },
+    {
+      "id": "kc-hash-based-routing",
+      "version": 1,
+      "statement": "IP-hash or key-hash routing sends the same client or key to the same server, giving affinity, but with hash-mod-N most keys move to a different server when N changes."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "sd-load-balancers"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "load balancing algorithm",
+    "round robin",
+    "weighted round robin",
+    "least connections",
+    "hash-based routing"
+  ],
+  "uses": [
+    "load balancer",
+    "backend pool",
+    "ip address",
+    "sticky sessions"
+  ],
+  "problem_ideas": [
+    "Implement weighted round robin for weights {A:3, B:1, C:1} and print the first 10 picks",
+    "Implement least-connections over a stream of (start, end) request events and report each server's peak load",
+    "Requests take either 5 ms or 5 s at random: simulate round robin vs least connections and compare the longest queue",
+    "With hash(ip) mod 4, compute what fraction of clients change server when a fifth server is added",
+    "Pick an algorithm for long-lived WebSocket connections and justify it",
+    "Two servers with 8 and 32 cores: choose weights and estimate each one's QPS at 10,000 total"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "load-balancers/load-balancing-algorithms"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "load-balancer/round-robin-or-weighted-round-robin"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "routing-algorithms/routing-algorithms"
+    }
+  ],
+  "status": "stub"
+}

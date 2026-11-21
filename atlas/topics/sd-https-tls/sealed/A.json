@@ -1,0 +1,345 @@
+[
+  {
+    "id": "sd-https-tls/test-a1",
+    "family": "sd-https-tls-form-isp-log-hostname",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "Priya's internet provider (ISP) keeps connection logs. Its record for her evening shows that she visited `www.recipe-hub.example` (IP `192.0.2.44`, port 443) at 21:04 and transferred about 2 MB. It does **not** show which recipe pages she opened. She used HTTPS the whole time, and the ISP does not intercept or break TLS.\n\nWhich explanation is correct?",
+    "options": [
+      {
+        "id": "a",
+        "md": "HTTPS hides everything, including the site's name, so the ISP must have got the name from her browser history",
+        "misconception": "mc-https-hides-everything",
+        "why_md": "HTTPS does not hide which site you visit. The IP and port are always visible, and the name usually leaks through the DNS lookup and the ClientHello. The ISP doesn't need her browser history."
+      },
+      {
+        "id": "b",
+        "md": "The site's name usually leaks through her DNS lookup and the name her browser sends in the ClientHello, while the paths travel inside the encryption",
+        "correct": true,
+        "why_md": "Right. The IP, port 443, the hostname (DNS and ClientHello) and the amount and timing of traffic are outside the encryption. The method, path, headers and body are inside it."
+      },
+      {
+        "id": "c",
+        "md": "The `Host` header is sent unencrypted, but the path is encrypted",
+        "why_md": "Every HTTP header, `Host` included, is encrypted along with the path. The name leaks through DNS and the ClientHello, not through the HTTP headers."
+      },
+      {
+        "id": "d",
+        "md": "The ISP has a copy of the site's public certificate, which lets it decrypt the first request on each connection",
+        "why_md": "The certificate is public, so anyone can have a copy. Having it lets nobody decrypt anything. The session keys are worked out by each side and never travel over the network."
+      }
+    ],
+    "hints": [
+      "Sort what the ISP saw into what is outside TLS's encryption and what is inside it.",
+      "Outside: IP, port, the hostname (through DNS and the ClientHello), and how much traffic flows and when. Inside: method, path, every header, body and status code."
+    ],
+    "solution_md": "1. The ISP saw the IP `192.0.2.44`, port 443, the name `www.recipe-hub.example`, the time and about 2 MB of traffic. All of these are outside the encryption: the name usually leaks through the DNS lookup and the name the browser sends in its ClientHello.\n2. The recipe pages are paths, such as `/recipes/lentil-soup`. Paths travel inside the encrypted HTTP request, just like the headers (including `Host`) and the body.\n3. A public certificate doesn't let anyone decrypt traffic, and HTTPS does not hide which site you visit.\n\n**Answer: b.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  },
+  {
+    "id": "sd-https-tls/test-a2",
+    "family": "sd-https-tls-form-ar-phishing-padlock",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-handshake"
+    ],
+    "prompt_md": "A phishing site copies the look of a bank's login page and runs at `https://secure-n0rthbank.example`.\n\n**Assertion (A):** The browser can show the padlock for this site, with no security warning.\n\n**Reason (R):** A certificate authority signs a certificate after checking that the applicant controls the domain name. It does not check whether the site is honest.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. The phishers control `secure-n0rthbank.example`, so a CA will issue them a valid certificate for that name, and every browser check passes. A valid certificate proves who controls the name, not whether they are honest."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is exactly why A happens: domain control is all the CA checked, so a certificate for the phishing name passes all of the browser's checks."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "misconception": "mc-padlock-trustworthy",
+        "why_md": "R is true. CAs check control of the domain name. They don't vouch that a site is honest or safe."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "misconception": "mc-padlock-trustworthy",
+        "why_md": "A is true. The certificate is valid, names the domain in the URL and is in date, so the browser shows no warning. The padlock doesn't mean the site is honest."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. For A, run the browser's three certificate checks against a certificate the phishers got for their own domain.",
+      "The CA signature is valid, the name matches `secure-n0rthbank.example` and the dates are fine, so there is no warning. The CA only checked domain control, so R is true and explains A."
+    ],
+    "solution_md": "The phishers control `secure-n0rthbank.example`, so they can get a certificate for it. The browser checks that (1) a trusted CA signed it, (2) the name matches the URL and (3) it is in date. All three pass, so it shows the padlock with no warning: **A is true**.\n\nThe CA only checked that the applicant controls the domain name, so **R is true**, and it is exactly why A happens. HTTPS keeps the traffic private on its way to the phishing site. It says nothing about whether the site is honest.\n\n**Answer: a.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  },
+  {
+    "id": "sd-https-tls/test-a3",
+    "family": "sd-https-tls-form-passthrough-to-termination-outcome",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-termination"
+    ],
+    "prompt_md": "A video-streaming company runs 30 API servers behind 3 load balancers, one per region. Today each API server holds its own copy of the `api.streamco.example` certificate and private key and does its own TLS with viewers' apps. The load balancers pass the encrypted bytes through unopened.\n\nThe team switches to **TLS termination at the 3 load balancers**, which will forward **plain HTTP** to the API servers. Which outcome follows?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Traffic is still encrypted all the way to the API servers, because the viewers' apps still use `https://`",
+        "misconception": "mc-termination-is-end-to-end",
+        "why_md": "The apps' TLS connections now end at the load balancers. The hop from the load balancer to the API server is plain HTTP and readable on the internal network."
+      },
+      {
+        "id": "b",
+        "md": "The load balancers can no longer see request paths",
+        "why_md": "It's the other way round. With termination the load balancers decrypt the requests, so they can now read paths and headers. Under passthrough they couldn't."
+      },
+      {
+        "id": "c",
+        "md": "Copies of the private key drop from 30 to 3, and the API servers stop doing TLS handshakes with viewers' apps",
+        "correct": true,
+        "why_md": "Right. Only the 3 terminating load balancers hold the key, and they do every handshake with viewers' apps, which saves CPU on the API servers."
+      },
+      {
+        "id": "d",
+        "md": "Each API server must keep its copy of the certificate so that viewers' apps can still verify it",
+        "why_md": "The apps now finish their handshake with a load balancer and check the load balancer's certificate. They never see an API server's certificate."
+      }
+    ],
+    "hints": [
+      "With termination, which machine is the end of the viewer's TLS connection? Then count who holds the key and who does the handshakes.",
+      "The 3 load balancers hold the key and do the handshakes. The API servers receive plain HTTP."
+    ],
+    "solution_md": "1. With TLS termination, each viewer's TLS connection ends at a load balancer. Only the load balancers need the certificate and private key: copies drop from **30 to 3**, and so do renewals.\n2. The load balancers do every handshake with viewers' apps, so the API servers do **none** and spend their CPU on API work.\n3. The load balancers decrypt the requests, so they **can** now read paths (b is backwards).\n4. The hop to the API servers is plain HTTP, so the traffic is not encrypted end to end (a is wrong). The apps never check an API server's certificate (d is wrong).\n\n**Answer: c.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  },
+  {
+    "id": "sd-https-tls/test-a4",
+    "family": "sd-https-tls-form-multi-news-proxy-facts",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-tls-termination"
+    ],
+    "prompt_md": "A news site, `news.example`, has an edge proxy that **terminates TLS** and forwards **plain HTTP** over its private network to 10 backend servers. Readers send their session cookie with every request.\n\nWhich statements are true? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Each backend server must hold the `news.example` private key to read the requests it receives",
+        "why_md": "False. The backends receive plain HTTP that the proxy has already decrypted. Only the proxy needs the key."
+      },
+      {
+        "id": "b",
+        "md": "The reader's browser's TLS connection ends at the edge proxy",
+        "correct": true,
+        "why_md": "True. With termination, the proxy completes the handshake with the browser and decrypts the request."
+      },
+      {
+        "id": "c",
+        "md": "Someone recording traffic on the private network between the proxy and a backend can read readers' session cookies",
+        "correct": true,
+        "why_md": "True. That hop is plain HTTP, so every header, the cookie included, is readable to anyone who can watch the internal network."
+      },
+      {
+        "id": "d",
+        "md": "Because the URL starts with `https://`, the hop from the proxy to the backends is encrypted too",
+        "misconception": "mc-termination-is-end-to-end",
+        "why_md": "False. `https` in the URL only describes the connection to the first machine that terminates TLS, here the proxy. The inside hop is plain HTTP."
+      },
+      {
+        "id": "e",
+        "md": "The proxy can send `/live/...` requests to one group of backends and `/archive/...` requests to another",
+        "correct": true,
+        "why_md": "True. After decrypting, the proxy can read the path and route by it."
+      }
+    ],
+    "hints": [
+      "Ask where TLS ends, then check each statement against the two hops: browser → proxy (HTTPS) and proxy → backend (plain HTTP).",
+      "TLS ends at the proxy. The proxy can read the request; the inside hop is readable; the backends need no key."
+    ],
+    "solution_md": "- **Browser → proxy:** HTTPS. The proxy holds the key, completes the handshake and decrypts the request, so TLS ends there (**b** true). Having decrypted it, the proxy can read the path and route by it (**e** true).\n- **Proxy → backend:** plain HTTP over the private network. Anyone who can watch that network reads every header, cookies included (**c** true). The `https://` in the URL doesn't cover this hop (**d** false).\n- The backends get already-decrypted HTTP, so they need no private key (**a** false).\n\n**Answer: b, c, e.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  },
+  {
+    "id": "sd-https-tls/test-a5",
+    "family": "sd-https-tls-form-ar-shop-client-identity",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-mtls"
+    ],
+    "prompt_md": "An online garden shop serves `https://www.greenleaf.example` with ordinary HTTPS. Customers use ordinary browsers that hold no certificates of their own.\n\n**Assertion (A):** From the TLS handshake alone, the shop's server knows which customer is connecting.\n\n**Reason (R):** In ordinary TLS, only the server presents a certificate.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "misconception": "mc-tls-authenticates-client",
+        "why_md": "A is false. R actually shows why: if only the server presents a certificate, TLS tells the server nothing about who the client is."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "misconception": "mc-tls-authenticates-client",
+        "why_md": "A is false. Ordinary TLS proves the server's identity only; the shop learns who the customer is when they log in over HTTP."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "misconception": "mc-tls-authenticates-client",
+        "why_md": "Both halves are the other way round. R is true: only the server shows a certificate. So A is false: TLS alone doesn't identify the customer."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "correct": true,
+        "why_md": "Right. Only the server presents a certificate in ordinary TLS, so the handshake proves nothing about the client. Customers identify themselves by logging in. Proving the client too is what mTLS adds."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. In ordinary HTTPS, who sends a certificate during the handshake?",
+      "Only the server does, so R is true. Then TLS cannot tell the server who the client is, so A is false."
+    ],
+    "solution_md": "In ordinary TLS only the server presents a certificate and signs the handshake, so **R is true**. Because the client presents nothing, the handshake gives the shop no identity for the customer: any browser that connects gets an encrypted connection. **A is false.** The shop learns who the customer is when they log in over HTTP. Having the client prove its identity with its own certificate is what mutual TLS adds.\n\n**Answer: d.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  },
+  {
+    "id": "sd-https-tls/test-a6",
+    "family": "sd-https-tls-form-match-ride-mechanisms",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-mtls",
+      "kc-tls-termination"
+    ],
+    "prompt_md": "A ride-hailing company is planning three connections. For each need, choose the mechanism that fits it best. One choice on the right is not used.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "The internal **dispatch** service must accept calls **only** from the internal **pricing** service, and the calls must be encrypted",
+        "why_md": "The server must know who the caller is, inside the system: mTLS, with pricing presenting a certificate from the company's internal CA."
+      },
+      {
+        "id": "l2",
+        "md": "Riders' phones connect to `api.ride.example`. Riders have no certificates and sign in with a password",
+        "why_md": "Only the server needs to prove who it is; riders identify themselves by signing in: ordinary TLS."
+      },
+      {
+        "id": "l3",
+        "md": "One public machine per region should hold the `api.ride.example` certificate and send `/trips` and `/payments` requests to different groups of backends",
+        "why_md": "The machine must decrypt requests to read their paths, and it is the only place holding the certificate: TLS termination at an edge proxy."
+      },
+      {
+        "id": "r1",
+        "md": "Ordinary TLS: only the server presents a certificate",
+        "why_md": "Fits the riders' phones: the server proves its name, and riders sign in over HTTP."
+      },
+      {
+        "id": "r2",
+        "md": "Mutual TLS: both client and server present certificates",
+        "why_md": "Fits dispatch ← pricing: dispatch can accept only certificates that name `pricing`."
+      },
+      {
+        "id": "r3",
+        "md": "TLS termination at an edge proxy",
+        "why_md": "Fits the regional machine: it holds the certificate, decrypts requests and routes them by path."
+      },
+      {
+        "id": "r4",
+        "md": "TLS passthrough: the proxy forwards the encrypted bytes unopened",
+        "why_md": "Fits none of them. A passthrough proxy can't read paths, and it doesn't identify callers."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r2",
+        "l2": "r1",
+        "l3": "r3"
+      }
+    },
+    "hints": [
+      "For each need, ask: must the server know who the client is? Must a middle machine read the path?",
+      "Server must identify the caller → mTLS. Only the server proves itself, users log in → ordinary TLS. A middle machine reads paths and holds the certificate → termination."
+    ],
+    "solution_md": "- **Dispatch ← pricing:** dispatch must reject every caller except pricing, so the client must prove its identity with its own certificate: **mutual TLS** (r2).\n- **Riders' phones:** riders have no certificates and sign in with a password; only the server proves its name: **ordinary TLS** (r1).\n- **Regional machine routing `/trips` vs `/payments`:** it must decrypt to see paths and is the one place holding the certificate: **TLS termination** (r3).\n- Passthrough (r4) fits none: the proxy can't read paths that way, and it doesn't identify callers.\n\n**Answer: l1 → r2, l2 → r1, l3 → r3.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-https-tls",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-https-tls"
+    }
+  }
+]

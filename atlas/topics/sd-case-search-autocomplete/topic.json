@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-search-autocomplete",
+  "version": 1,
+  "title": "Case study: search autocomplete",
+  "size": "big",
+  "est_min": 38,
+  "kcs": [
+    {
+      "id": "kc-autocomplete-trie-topk",
+      "version": 1,
+      "statement": "Autocomplete stores queries in a trie and caches the top-k completions at every prefix node, so each lookup costs O(prefix length) instead of a subtree scan."
+    },
+    {
+      "id": "kc-autocomplete-offline-build",
+      "version": 1,
+      "statement": "Query frequencies are aggregated offline from search logs (for example hourly or daily), and a new trie is built and swapped in. The serving trie is not updated on every keystroke."
+    },
+    {
+      "id": "kc-autocomplete-client-load",
+      "version": 1,
+      "statement": "Clients debounce keystrokes and cache recent prefix results, which cuts autocomplete requests per search severalfold."
+    },
+    {
+      "id": "kc-autocomplete-shard-by-prefix",
+      "version": 1,
+      "statement": "When the trie outgrows one machine it is sharded by prefix range. Ranges are split by observed traffic rather than by alphabet, because letters like 's' carry far more queries than 'x'."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "sd-sharding-strategies"
+  ],
+  "suggests": [
+    "sd-cache-layers"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "search autocomplete design",
+    "trie",
+    "top-k suggestions"
+  ],
+  "uses": [
+    "range-based sharding",
+    "hot shard",
+    "client caching",
+    "qps"
+  ],
+  "problem_ideas": [
+    "Implement a trie with insert(query, count) and top_k(prefix, k) that caches the top k at each node.",
+    "10M DAU, 10 searches a day, 6 keystrokes per search: compute autocomplete QPS with and without debouncing.",
+    "Predict the memory for a trie of 100M unique queries with top-5 lists cached per node.",
+    "A breaking-news term must appear within minutes. Adjust the weekly offline build without rebuilding on every request.",
+    "Split the prefix space across 4 shards given traffic shares per first letter.",
+    "Filter offensive suggestions without rebuilding the trie."
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-autocomplete-for-search-engines"
+    }
+  ],
+  "status": "stub"
+}

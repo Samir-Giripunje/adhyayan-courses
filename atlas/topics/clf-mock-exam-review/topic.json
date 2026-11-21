@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-mock-exam-review",
+  "version": 1,
+  "title": "Reviewing a mock: error log, priorities and readiness",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-clf-error-log-causes",
+      "version": 1,
+      "statement": "After a mock, log every missed question with its domain and its cause (knowledge gap, misread qualifier or distractor trap), because each cause needs a different fix: relearn the topic, slow down on the stem, or practise the comparison."
+    },
+    {
+      "id": "kc-clf-weight-times-miss-rate",
+      "version": 1,
+      "statement": "Prioritise review by domain weight times miss rate: missing 30% of Domain 3 (34%) costs about 10% of the scored exam, while missing 30% of Domain 4 (12%) costs about 4%."
+    },
+    {
+      "id": "kc-clf-readiness-threshold",
+      "version": 1,
+      "statement": "Treat yourself as ready when two timed, full-length mocks each score at least 80% with every domain at or above 70%, which leaves a safety margin above the 700 scaled passing mark."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-exam-format-scoring",
+    "clf-question-keywords-distractors"
+  ],
+  "suggests": [
+    "clf-mock-exam-1",
+    "clf-service-verb-lens",
+    "clf-timed-mock-pacing"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "mock exam review",
+    "error log",
+    "readiness threshold"
+  ],
+  "uses": [
+    "exam domain weighting",
+    "scaled score",
+    "distractor elimination",
+    "keyword cue"
+  ],
+  "problem_ideas": [
+    "Mock 1 domain scores were 85%, 72%, 64% and 90%; compute each domain's weighted loss and pick the revision order.",
+    "Classify eight logged misses (given with your notes) as knowledge gap, misread qualifier or distractor trap and assign a fix to each.",
+    "Two mocks scored 82% and 78% overall; decide whether to book the exam and justify the answer against the readiness threshold.",
+    "Your overall score is 84% but Domain 2 is 66%; explain why you are not yet ready by this course's bar even though the exam itself is compensatory.",
+    "Most misses are misread qualifiers; design a one-week drill for that cause.",
+    "Estimate how many more Domain 3 questions you must get right to lift an overall score of 76% to 80% on 65 questions.",
+    "Turn three error-log entries into flashcards that test the comparison you got wrong, not the fact."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "exam-content/exam-results"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "content-outline/content-outline"
+    }
+  ],
+  "status": "stub"
+}

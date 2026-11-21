@@ -1,0 +1,56 @@
+{
+  "rounds": {
+    "lesson": 2,
+    "review": 3
+  },
+  "reopened": [
+    {
+      "at": "2026-11-18T04:11:05.669Z",
+      "by": "user",
+      "findings": 2,
+      "note": "maintainer: the remaining findings are factual with exact fixes; one more round before the final review"
+    },
+    {
+      "at": "2026-11-18T08:52:50.000Z",
+      "by": "maintainer",
+      "findings": 1,
+      "note": "re-author pass: the last critic finding fixed by hand; one final review"
+    },
+    {
+      "at": "2026-11-18T08:54:54.000Z",
+      "by": "maintainer",
+      "findings": 1,
+      "note": "re-author pass: a new single finding fixed by hand; one last review"
+    },
+    {
+      "at": "2026-11-18T08:56:17.000Z",
+      "by": "maintainer",
+      "findings": 1,
+      "note": "re-author pass: set-10 stem fixed as the critic asked; test-b2 stem tightened the same way; last review"
+    }
+  ],
+  "reauthored": {
+    "at": "2026-11-18T08:36:57.000Z",
+    "note": "answer-first rewrite (author contract v2); previous critic record superseded",
+    "previous_review": {
+      "ok": false,
+      "job": "review-sd-client-server-r4",
+      "blocking": 3
+    }
+  },
+  "novice": {
+    "ok": true,
+    "lesson": "d8e848436dc1c330d8cf3d836637e4740cf907eed98606b4172ecbd365ea98be",
+    "job": "novice-sd-client-server-r7",
+    "minor": 4
+  },
+  "review": {
+    "ok": true,
+    "content": "c4438947fd2e867bfa354af39ec51350a48694d455f9d16bcb612b030b244e29",
+    "job": "review-sd-client-server-r10",
+    "warn": [
+      "sd-client-server: The Answer defines client-server but never explains three-tier architecture, which is half of the topic and a separately assessed KC.",
+      "sd-client-server: Capacity calculations and the risks of direct database access are taught only in collapsed Go deeper sections, yet set-4, set-5 and test-b3 assess them. This presents assessed instruction as optional enrichment."
+    ]
+  }
+}

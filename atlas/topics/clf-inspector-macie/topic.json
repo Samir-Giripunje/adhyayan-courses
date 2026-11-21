@@ -1,0 +1,76 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-inspector-macie",
+  "version": 1,
+  "title": "Inspector vs Macie: vulnerabilities vs sensitive data",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-inspector-vulnerabilities",
+      "version": 1,
+      "statement": "Amazon Inspector automatically scans EC2 instances, container images in ECR and Lambda functions for software vulnerabilities (CVEs) and unintended network exposure, and ranks its findings by risk."
+    },
+    {
+      "id": "kc-macie-sensitive-data",
+      "version": 1,
+      "statement": "Amazon Macie uses machine learning and pattern matching to discover and protect sensitive data, such as personally identifiable information (PII), stored in S3 buckets."
+    },
+    {
+      "id": "kc-inspector-macie-guardduty",
+      "version": 1,
+      "statement": "Inspector finds vulnerabilities in your workloads, Macie finds sensitive data in S3, and GuardDuty finds active threats in your logs."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-guardduty"
+  ],
+  "suggests": [
+    "clf-fargate-ecr",
+    "clf-lambda"
+  ],
+  "confusable_with": [
+    "clf-guardduty"
+  ],
+  "introduces": [
+    "inspector",
+    "macie",
+    "software vulnerability",
+    "pii"
+  ],
+  "uses": [
+    "ec2 instance",
+    "ecr",
+    "lambda",
+    "s3 bucket",
+    "guardduty"
+  ],
+  "problem_ideas": [
+    "A Log4j CVE is announced. Which service tells you which EC2 instances and container images are affected?",
+    "A data lake of 5 million S3 objects may contain passport numbers. Name the service that finds them.",
+    "Match: 'unpatched OpenSSL', 'customer emails in a public bucket', 'port scan from a known bad IP'.",
+    "Can Macie scan an RDS database directly? What does it scan?",
+    "A container image in ECR is pushed. Which service scans it automatically?",
+    "Explain to a manager in one sentence each what Inspector and Macie protect."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/amazon-inspector"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/amazon-inspector"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/amazon-macie"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/amazon-macie"
+    }
+  ],
+  "status": "stub"
+}

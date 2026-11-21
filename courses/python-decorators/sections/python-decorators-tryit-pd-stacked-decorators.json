@@ -1,0 +1,35 @@
+{
+  "schema": "adhy.section/1",
+  "id": "python-decorators-tryit-pd-stacked-decorators",
+  "course": "python-decorators",
+  "kind": "try-it",
+  "title": "Try it: write the code",
+  "blurb": "Uses Decorators with arguments: decorator factories, Building @retry(times=3): loops, except and re-raise and Stacking decorators and the order they apply: write a small program and run its tests.",
+  "after": "topic:pd-stacked-decorators",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "code",
+    "topics": [
+      "pd-decorator-factories",
+      "pd-retry-decorator",
+      "pd-stacked-decorators"
+    ],
+    "kcs": [
+      "kc-factory-three-levels",
+      "kc-factory-desugar",
+      "kc-factory-closure-args",
+      "kc-factory-missing-parens",
+      "kc-retry-loop",
+      "kc-retry-final-raise",
+      "kc-retry-validate-times",
+      "kc-stack-bottom-up",
+      "kc-stack-evaluate-top-down",
+      "kc-stack-call-order",
+      "kc-stack-order-matters"
+    ],
+    "minutes": 11,
+    "why": "Uses Decorators with arguments: decorator factories, Building @retry(times=3): loops, except and re-raise and Stacking decorators and the order they apply: write a small program and run its tests."
+  }
+}

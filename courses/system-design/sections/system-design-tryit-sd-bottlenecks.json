@@ -1,0 +1,28 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-bottlenecks",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: explain it in your own words",
+  "blurb": "Uses Drawing the high-level design and Deep dives, bottlenecks and trade-offs: predict, then explain in your own words.",
+  "after": "topic:sd-bottlenecks",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "written",
+    "topics": [
+      "sd-high-level-design",
+      "sd-bottlenecks"
+    ],
+    "kcs": [
+      "kc-hld-request-path",
+      "kc-hld-simple-first",
+      "kc-bottleneck-from-estimates",
+      "kc-deep-dive-choice",
+      "kc-state-tradeoffs"
+    ],
+    "minutes": 12,
+    "why": "Uses Drawing the high-level design and Deep dives, bottlenecks and trade-offs: predict, then explain in your own words."
+  }
+}

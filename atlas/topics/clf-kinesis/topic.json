@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-kinesis",
+  "version": 1,
+  "title": "Amazon Kinesis: real-time streaming data",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-kinesis-streaming",
+      "version": 1,
+      "statement": "Amazon Kinesis collects and processes streaming data such as clickstreams, IoT telemetry and application logs in real time, making records available to consumers within about a second."
+    },
+    {
+      "id": "kc-kinesis-streams-firehose",
+      "version": 1,
+      "statement": "Kinesis Data Streams keeps ordered records for custom consumer applications to read and replay; Amazon Data Firehose (formerly Kinesis Data Firehose) delivers a stream into destinations such as S3, Redshift or OpenSearch with no code."
+    },
+    {
+      "id": "kc-kinesis-vs-sqs",
+      "version": 1,
+      "statement": "With Kinesis several consumers can read the same records and replay them within the retention window, whereas an SQS message is deleted once one consumer processes it."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-sqs"
+  ],
+  "confusable_with": [
+    "clf-sqs",
+    "clf-athena-glue"
+  ],
+  "introduces": [
+    "kinesis",
+    "streaming data",
+    "kinesis data streams",
+    "amazon data firehose"
+  ],
+  "uses": [
+    "sqs",
+    "s3"
+  ],
+  "problem_ideas": [
+    "A game sends 50,000 player events per second for a live leaderboard: Kinesis or SQS?",
+    "Stream web logs straight into S3 every minute with no code: which Kinesis option?",
+    "Two teams need to read the same click events independently and replay yesterday's: which service supports it?",
+    "Classify six data sources as batch or streaming.",
+    "Spot the outdated name 'Kinesis Data Firehose' and give the current one.",
+    "Fraud detection must flag card swipes within seconds: place Kinesis in the design."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "analytics/amazon-kinesis"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "cloud-integration/amazon-kinesis"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,24 @@
+{
+  "rounds": {
+    "lesson": 0,
+    "review": 2
+  },
+  "reauthored": {
+    "at": "2026-11-18T08:36:57.000Z",
+    "note": "new topic from the DNS split (author contract v2)"
+  },
+  "novice": {
+    "ok": true,
+    "lesson": "9a2b000b4204d422cd42c26a8014969595963f7bc385cf8cf4d8ff41527938c9",
+    "job": "novice-sd-dns-records",
+    "minor": 5
+  },
+  "review": {
+    "ok": true,
+    "content": "2a468a819dc66e9e8d1efaec41e37c0b4db02b4a019d96571b3ded6164521e3f",
+    "job": "review-sd-dns-records-r2",
+    "warn": [
+      "sd-dns-records/set-6: This item requires the apex CNAME restriction and ALIAS behavior, both taught only in collapsed Go deeper content and outside the stated KC. A learner following the main lesson has not been taught how to choose between options a and c."
+    ]
+  }
+}

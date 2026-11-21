@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-elasticity-agility",
+  "version": 1,
+  "title": "Elasticity and agility",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-elasticity",
+      "version": 1,
+      "statement": "Elasticity is automatically adding and removing resources as demand changes, so a workload pays only for the capacity it needs at that moment."
+    },
+    {
+      "id": "kc-scalability-vs-elasticity",
+      "version": 1,
+      "statement": "Scalability is the ability to handle more load by adding resources; elasticity adds automation in both directions, scaling out when demand rises and back in when it falls."
+    },
+    {
+      "id": "kc-agility",
+      "version": 1,
+      "statement": "In AWS terms, agility is how fast new IT resources become available (minutes instead of weeks), which lowers the cost and time of experimenting and innovating."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-vertical-horizontal-scaling"
+  ],
+  "suggests": [
+    "clf-six-advantages"
+  ],
+  "confusable_with": [
+    "clf-vertical-horizontal-scaling",
+    "clf-high-availability"
+  ],
+  "introduces": [
+    "elasticity",
+    "agility"
+  ],
+  "uses": [
+    "scalability",
+    "horizontal scaling",
+    "pay-as-you-go pricing"
+  ],
+  "problem_ideas": [
+    "A ticket site's traffic jumps 10x for 2 hours then drops: which benefit lets it avoid paying for peak all day?",
+    "A data team spins up a 50-node test cluster in 5 minutes and deletes it after lunch: elasticity or agility?",
+    "Classify six statements as scalability, elasticity or agility.",
+    "A retailer adds servers by hand each December and never removes them: what is missing for elasticity?",
+    "Rewrite a wrong exam option, 'Agility means the system resizes itself automatically', so it is correct.",
+    "Estimate the idle server-hours saved when 40 servers are needed 4 hours a day but 10 servers the rest of the time."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-1-define-the-benefits-o/understanding-the-advantages-of-high-ava"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "elastic-load-balancing-auto-scaling-grou/scalability-vs-elasticity-vs-agility"
+    }
+  ],
+  "status": "stub"
+}

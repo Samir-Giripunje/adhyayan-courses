@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u25-social-realtime",
+  "title": "Social feeds, media sharing and chat",
+  "topics": [
+    {
+      "id": "sd-case-news-feed",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-case-photo-sharing",
+      "tier": "optional",
+      "order": 2
+    },
+    {
+      "id": "sd-case-chat",
+      "tier": "must",
+      "order": 3
+    }
+  ],
+  "halfway_after": null,
+  "status": "stub"
+}

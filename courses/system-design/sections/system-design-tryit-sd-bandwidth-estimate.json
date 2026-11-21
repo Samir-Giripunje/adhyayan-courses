@@ -1,0 +1,31 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-bandwidth-estimate",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: design it",
+  "blurb": "Uses Estimating QPS and peak QPS, Estimating storage per year and Estimating ingress and egress bandwidth: estimate the numbers and weigh the trade-offs.",
+  "after": "topic:sd-bandwidth-estimate",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "design",
+    "topics": [
+      "sd-qps-estimate",
+      "sd-storage-estimate",
+      "sd-bandwidth-estimate"
+    ],
+    "kcs": [
+      "kc-average-qps",
+      "kc-peak-qps",
+      "kc-read-write-qps",
+      "kc-storage-formula",
+      "kc-storage-retention",
+      "kc-bandwidth-formula",
+      "kc-bandwidth-egress-dominates"
+    ],
+    "minutes": 21,
+    "why": "Uses Estimating QPS and peak QPS, Estimating storage per year and Estimating ingress and egress bandwidth: estimate the numbers and weigh the trade-offs."
+  }
+}

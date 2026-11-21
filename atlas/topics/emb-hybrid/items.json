@@ -1,0 +1,170 @@
+[
+  {
+    "id": "q-cp3-hybrid",
+    "version": 1,
+    "family": "q-cp3-hybrid",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-hybrid",
+    "kcs": [
+      "kc-hybrid-rerank"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Users search exact part numbers like `X-4410-B` and vector search returns similar-looking but wrong parts. Best fix?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Add BM25 and fuse the two result lists (hybrid search)",
+        "correct": true,
+        "why_md": "Right. Exact tokens are BM25's strength."
+      },
+      {
+        "id": "b",
+        "md": "Use a bigger embedding model",
+        "why_md": "Exact identifiers stay hard for dense vectors at any size.",
+        "misconception": "mc-semantic-replaces-keyword"
+      },
+      {
+        "id": "c",
+        "md": "Lower the similarity threshold",
+        "why_md": "That returns more wrong parts, not the right one."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Hybrid search fuses BM25 and vector results by rank.",
+      "Right."
+    ],
+    "solution_md": "Right. Exact tokens are BM25's strength.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-a7",
+    "version": 1,
+    "family": "q-dpp-a7",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-hybrid",
+    "kcs": [
+      "kc-hybrid-rerank"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "RRF with k = 60: a doc is **2nd** in one list and absent from the other. Score? (4 decimals)",
+    "answer": {
+      "value": 0.0161,
+      "tolerance": 0.0002
+    },
+    "hints": [
+      "Which idea applies? Hybrid search fuses BM25 and vector results by rank.",
+      "$1/(60+2) = 1/62 \\approx 0.0161$."
+    ],
+    "solution_md": "$1/(60+2) = 1/62 \\approx 0.0161$. The missing list contributes 0.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-a8",
+    "version": 1,
+    "family": "q-dpp-a8",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-hybrid",
+    "kcs": [
+      "kc-hybrid-rerank"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Why can a cross-encoder **not** be used to build the index?",
+    "options": [
+      {
+        "id": "a",
+        "md": "It scores (query, doc) pairs, so there's no per-document vector to pre-compute",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "It's less accurate",
+        "why_md": "It's *more* accurate. It's just per-pair."
+      },
+      {
+        "id": "c",
+        "md": "It only works on short texts",
+        "why_md": "Length isn't the blocker."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Hybrid search fuses BM25 and vector results by rank.",
+      "Indexing needs a query-independent representation."
+    ],
+    "solution_md": "Indexing needs a query-independent representation. Cross-encoders don't produce one.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-a12",
+    "version": 1,
+    "family": "q-dpp-a12",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-hybrid",
+    "kcs": [
+      "kc-hybrid-rerank",
+      "kc-keyword-limits"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Which query most needs the **BM25** half of a hybrid search?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`invoice INV-2024-00817 missing`",
+        "correct": true,
+        "why_md": "Right. An exact identifier."
+      },
+      {
+        "id": "b",
+        "md": "`how do I get my money back`",
+        "why_md": "This paraphrase-heavy query is vector search territory."
+      },
+      {
+        "id": "c",
+        "md": "`the app feels slow lately`",
+        "why_md": "Vague natural language is where vectors shine."
+      }
+    ],
+    "hints": [
+      "Which idea applies? Hybrid search fuses BM25 and vector results by rank.",
+      "Identifiers need exact token matching."
+    ],
+    "solution_md": "Identifiers need exact token matching.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

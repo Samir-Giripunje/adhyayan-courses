@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-iam-policies",
+  "version": 1,
+  "title": "IAM policies: JSON permissions and evaluation",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-policy-json",
+      "version": 1,
+      "statement": "An IAM policy is a JSON document whose statements each give an Effect (Allow or Deny), the Actions, the Resources, and optional Conditions."
+    },
+    {
+      "id": "kc-policy-types",
+      "version": 1,
+      "statement": "Identity-based policies attach to users, groups or roles, while resource-based policies attach to a resource such as an S3 bucket and name which principals may access it."
+    },
+    {
+      "id": "kc-policy-evaluation",
+      "version": 1,
+      "statement": "IAM denies every request by default, an explicit Allow grants access, and an explicit Deny in any applicable policy overrides any Allow."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-iam-users-groups"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "iam policy",
+    "identity-based policy",
+    "resource-based policy",
+    "explicit deny"
+  ],
+  "uses": [
+    "iam",
+    "iam user",
+    "iam group"
+  ],
+  "problem_ideas": [
+    "A user's group allows s3:* and their own policy denies s3:DeleteObject: can they delete an object?",
+    "Read a six-line policy and predict which of four API calls succeed",
+    "No policy mentions dynamodb:PutItem: allowed or denied?",
+    "Which policy type is a bucket policy, and how does it name who gets access?",
+    "Rewrite 'Action: *, Resource: *' to allow only reading one bucket",
+    "A Condition limits access to one IP range: predict the result from home and from the office"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "iam/policies"
+    }
+  ],
+  "status": "stub"
+}

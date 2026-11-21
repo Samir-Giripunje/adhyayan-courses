@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-single-points-of-failure",
+  "version": 1,
+  "title": "Finding and removing single points of failure",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-spof-definition",
+      "version": 1,
+      "statement": "A single point of failure is any component whose failure alone takes the whole system down; find them by tracing the request path and asking what happens if each component dies."
+    },
+    {
+      "id": "kc-spof-redundancy",
+      "version": 1,
+      "statement": "Remove a single point of failure by adding redundancy, such as a second load balancer sharing a floating IP, database replicas or several app servers, including often-forgotten ones such as DNS, a single region or one config service."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-availability-series-parallel"
+  ],
+  "suggests": [
+    "sd-load-balancers"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "single point of failure",
+    "redundancy"
+  ],
+  "uses": [
+    "availability in series",
+    "availability in parallel",
+    "load balancer",
+    "replication"
+  ],
+  "problem_ideas": [
+    "List every SPOF in: one LB → 3 app servers → one Postgres primary",
+    "A key generation service in a URL shortener: is it a SPOF and how do you fix it?",
+    "The whole system runs in one region; what fails if that region goes down?",
+    "A single Redis instance holds sessions: what breaks when it restarts?",
+    "Spot the hidden SPOF: a shared config file loaded from one NFS server",
+    "Order four SPOF fixes by cost-effectiveness for a startup with a 99.9% target"
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "core-concepts/spof"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "redundant-load-balancers/redundant-load-balancers"
+    }
+  ],
+  "status": "stub"
+}

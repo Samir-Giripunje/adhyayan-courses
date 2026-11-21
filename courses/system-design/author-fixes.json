@@ -1,0 +1,114 @@
+{
+  "schema": "adhy.author-fixes/1",
+  "findings": "findings/2.json",
+  "fixes": [
+    {
+      "finding": "f5",
+      "severity": "blocking",
+      "topic": "sd-choose-cache-strategy",
+      "kc": "kc-strategy-by-ratio",
+      "claim": "The proposed read-your-writes mechanism, 'invalidating the key before acknowledging the write', is insufficient. A concurrent reader can fetch the old database value before the write commits and refill the cache after invalidation, allowing the writer's next read to return stale data.",
+      "fix": "Replace the invalidation example with: 'Read-your-writes requires an authoritative read path that has applied the user's write, or version-aware cache reads and fills that reject older versions; cache deletion alone does not guarantee it.'",
+      "applied": true,
+      "job": "kcfix-sd-choose-cache-strategy",
+      "statement": "For a read-heavy workload (for example 100 reads per write), cache-aside or read-through with a TTL is the default. If a user must see their own write immediately, the design needs an explicit read-your-writes mechanism: either the user's reads go to an authoritative source that has already applied the write, or cache reads and fills check versions and reject older ones. Deleting the cache key alone does not guarantee read-your-writes.",
+      "version": 2
+    },
+    {
+      "finding": "f6",
+      "severity": "blocking",
+      "topic": "sd-message-queues",
+      "kc": "kc-competing-consumers",
+      "claim": "'Each message in a queue is delivered to exactly one of the consumers' incorrectly implies that a message cannot reach another consumer on redelivery. This conflicts with the later at-least-once delivery lesson.",
+      "fix": "Replace the statement with: 'Competing consumers share the work rather than each receiving a broadcast copy. An unacknowledged message may be redelivered, possibly to another consumer, so processing must tolerate duplicates.'",
+      "applied": true,
+      "job": "kcfix-sd-message-queues",
+      "statement": "Competing consumers on one queue split its messages between them instead of each getting a copy of every message, but a message that is not acknowledged may be redelivered, possibly to a different consumer.",
+      "version": 2
+    },
+    {
+      "finding": "f7",
+      "severity": "blocking",
+      "topic": "sd-sync-async-replication",
+      "kc": "kc-sync-replication",
+      "claim": "'No acknowledged write is lost if the leader dies' requires more than acknowledgment from an arbitrary follower. The acknowledged copy must survive durably, and failover must preserve it rather than promoting a lagging replica.",
+      "fix": "State: 'Synchronous replication waits for the configured replica acknowledgments before acknowledging the client. Acknowledged writes survive leader failure when a durable acknowledged copy survives and failover preserves that copy; latency and write availability depend on the required acknowledgment set.'",
+      "applied": true,
+      "job": "kcfix-sd-sync-async-replication",
+      "statement": "With synchronous replication the leader acknowledges a client's write only after the configured set of replicas has acknowledged it. An acknowledged write survives leader failure as long as one of those replicas still holds a durable copy and failover promotes a replica that has it. The cost is that every write waits for the slowest required acknowledgment and stalls when a required replica is unavailable.",
+      "version": 2
+    },
+    {
+      "finding": "f10",
+      "severity": "blocking",
+      "topic": "sd-case-url-shortener",
+      "kc": "kc-url-key-generation-service",
+      "claim": "The mock requires 'non-guessable codes', but the taught generator only guarantees uniqueness and explicitly permits counter ranges. Unique sequential codes remain predictable, so the learner has no taught mechanism for satisfying this requirement.",
+      "fix": "Add a URL-shortener KC distinguishing uniqueness from unpredictability and teaching sufficiently long cryptographically random codes with atomic collision handling. Require the mock's generator choice to explain how it meets the non-guessability requirement.",
+      "applied": true,
+      "job": "kcfix-sd-case-url-shortener",
+      "statement": "A key generation service guarantees that short codes are unique, not that they are unpredictable: codes from counter ranges come out in sequence, so anyone can guess them. When codes must be non-guessable, the service pre-generates codes from a cryptographically secure random source. Each code must be long enough that guessing a valid one is impractical. Each code is stored under a uniqueness constraint (an atomic insert-if-absent that retries on a collision), and then the code is handed out exactly once.",
+      "version": 2
+    },
+    {
+      "finding": "f10",
+      "severity": "blocking",
+      "topic": "sd-mock-url-shortener",
+      "kc": "kc-mock-url-requirements",
+      "claim": "The mock requires 'non-guessable codes', but the taught generator only guarantees uniqueness and explicitly permits counter ranges. Unique sequential codes remain predictable, so the learner has no taught mechanism for satisfying this requirement.",
+      "fix": "Add a URL-shortener KC distinguishing uniqueness from unpredictability and teaching sufficiently long cryptographically random codes with atomic collision handling. Require the mock's generator choice to explain how it meets the non-guessability requirement.",
+      "applied": true,
+      "job": "kcfix-sd-mock-url-shortener",
+      "statement": "In the URL shortener mock, the requirement of non-guessable codes is separate from uniqueness: codes from a counter or sequential key ranges are unique but predictable, so they do not meet it. Codes meet it when they come from a cryptographically secure random generator, are long enough that the codes in use fill only a tiny fraction of all possible codes, and are stored with an atomic insert-if-absent that retries when a code is already taken.",
+      "version": 2
+    },
+    {
+      "finding": "f11",
+      "severity": "warn",
+      "topic": "sd-cache-invalidation-ttl",
+      "kc": "kc-ttl",
+      "claim": "'A cached value is never more than one TTL older than the write that produced it' conflates cache residence time with source-data freshness. TTL does not establish a freshness bound when a stale replica or delayed concurrent read supplies the cached value.",
+      "fix": "Replace it with: 'A fixed TTL limits an entry's residence time since insertion or refresh. Bounding staleness relative to source writes additionally requires assumptions about source freshness and concurrent cache fills.'",
+      "applied": true,
+      "job": "kcfix-sd-cache-invalidation-ttl",
+      "statement": "A fixed TTL limits how long an entry stays in the cache: at most one TTL after it was inserted or last refreshed. It bounds how far the value lags behind source writes only if the value was current when it was cached. A read from a stale replica, or a slow read whose result is written to the cache after a newer write, can break that assumption.",
+      "version": 2
+    },
+    {
+      "finding": "review-sd-ip-addresses-r2:f1",
+      "severity": "blocking",
+      "topic": "sd-ip-addresses",
+      "kc": "kc-ipv4-ipv6",
+      "claim": "The lesson reverses the chronology by saying IPv6 was created after IPv4 addresses ran out. IPv6 was designed in anticipation of IPv4 address exhaustion.",
+      "fix": "Replace “It was created because IPv4 addresses ran out” with “It was created because IPv4's limited address space was expected to run out.” Make the same correction in kc-ipv4-ipv6.",
+      "applied": true,
+      "job": "kcfix-sd-ip-addresses",
+      "statement": "An IPv4 address is 32 bits (2^32, about 4.3 billion addresses, written as four decimal numbers like 203.0.113.7), and an IPv6 address is 128 bits (written as eight groups of hexadecimal digits). IPv6 was designed because IPv4's limited address space was expected to run out.",
+      "version": 2
+    },
+    {
+      "finding": "review-sd-ip-addresses:f3",
+      "severity": "blocking",
+      "topic": "sd-ip-addresses",
+      "kc": "kc-public-private-ip",
+      "claim": "The recap states \"Private machines reach the internet only through NAT,\" and the lesson says a private address \"is only reachable from inside that network.\" These absolutes exclude application proxies, VPN-connected private networks and configured inbound translation.",
+      "fix": "Replace these statements with: \"RFC 1918 addresses are not globally routed on the public internet. In our examples, private hosts initiate internet connections through outbound NAT; application proxies are another option. Connected private networks or VPN clients may also reach private hosts when routing and access rules allow it.\" Qualify test-b3's solution to the stated direct public-internet attempt and an outbound-only NAT configuration.",
+      "applied": true,
+      "job": "kcfix-sd-ip-addresses",
+      "statement": "Public IP addresses are routed on the global internet. The RFC 1918 private ranges (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) are not, so a private host usually reaches the internet through a device that has a public address, typically outbound NAT (sometimes an application proxy).",
+      "version": 2
+    },
+    {
+      "finding": "review-sd-tcp-udp-r5:exit-3",
+      "severity": "blocking",
+      "topic": "sd-tcp-udp",
+      "kc": "kc-osi-l4-l7",
+      "claim": "A layer-4 component reads more than addresses and ports: TCP flags, sequence and acknowledgment numbers are transport-layer information too; 'sees only IP addresses and ports' is too restrictive.",
+      "fix": "A layer-4 load balancer routes using IP addresses, transport protocol and ports, and may inspect other transport-header fields. Routing by HTTP paths, headers or cookies requires application-layer inspection.",
+      "applied": true,
+      "job": "reauthor-sd-u0",
+      "statement": "In the OSI model TCP and UDP are layer 4 (transport) and HTTP is layer 7 (application); a component working at layer 4 routes using IP addresses, ports and other transport-level fields but cannot read the HTTP request, while one at layer 7 can read URLs, headers and cookies.",
+      "version": 2
+    }
+  ]
+}

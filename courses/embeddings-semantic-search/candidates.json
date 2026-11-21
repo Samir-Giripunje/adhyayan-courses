@@ -1,0 +1,345 @@
+{
+  "items": [
+    {
+      "id": "emb-keyword-gap",
+      "title": "Why keyword search misses meaning",
+      "aliases": [],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-ai-engineer",
+          "section": "embeddings",
+          "entry": "what-are-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "section": "basics",
+          "entry": "basics/b-why"
+        }
+      ]
+    },
+    {
+      "id": "emb-features",
+      "title": "Describing things with numbers",
+      "aliases": [],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-ai-engineer",
+          "section": "embeddings",
+          "entry": "what-are-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "section": "basics",
+          "entry": "basics/b-features"
+        }
+      ]
+    },
+    {
+      "id": "emb-cosine",
+      "title": "Dot product and cosine",
+      "aliases": [],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-ai-engineer",
+          "section": "vector-databases",
+          "entry": "performing-similarity-search"
+        },
+        {
+          "source": "strata-pack",
+          "section": "basics",
+          "entry": "basics/b-cosine"
+        },
+        {
+          "source": "sentence-transformers",
+          "section": "usage",
+          "entry": "semantic-textual-similarity"
+        }
+      ]
+    },
+    {
+      "id": "emb-model",
+      "title": "What an embedding model is",
+      "aliases": [],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-ai-engineer",
+          "section": "embeddings",
+          "entry": "what-are-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "section": "basics",
+          "entry": "basics/b-embedding"
+        },
+        {
+          "source": "sentence-transformers",
+          "section": "usage",
+          "entry": "semantic-textual-similarity"
+        }
+      ]
+    },
+    {
+      "id": "emb-search",
+      "title": "Semantic search in four moves",
+      "aliases": [],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-ai-engineer",
+          "section": "embeddings",
+          "entry": "semantic-search"
+        },
+        {
+          "source": "strata-pack",
+          "section": "basics",
+          "entry": "basics/b-search"
+        },
+        {
+          "source": "sentence-transformers",
+          "section": "usage",
+          "entry": "semantic-search"
+        }
+      ]
+    },
+    {
+      "id": "emb-contrastive",
+      "title": "Learning by contrast",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "strata-pack",
+          "section": "intermediate",
+          "entry": "intermediate/b-training"
+        },
+        {
+          "source": "sentence-transformers",
+          "section": "usage",
+          "entry": "training-overview"
+        }
+      ]
+    },
+    {
+      "id": "emb-pooling",
+      "title": "Pooling and token limits",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "strata-pack",
+          "section": "intermediate",
+          "entry": "intermediate/b-pooling"
+        },
+        {
+          "source": "sentence-transformers",
+          "section": "usage",
+          "entry": "max-seq-length"
+        }
+      ]
+    },
+    {
+      "id": "emb-metrics",
+      "title": "Metrics and normalisation",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "strata-pack",
+          "section": "intermediate",
+          "entry": "intermediate/b-metrics"
+        },
+        {
+          "source": "faiss-docs",
+          "section": "indexes",
+          "entry": "flat"
+        }
+      ]
+    },
+    {
+      "id": "emb-model-choice",
+      "title": "Choosing a model",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "strata-pack",
+          "section": "intermediate",
+          "entry": "intermediate/b-models"
+        },
+        {
+          "source": "sentence-transformers",
+          "section": "usage",
+          "entry": "semantic-search"
+        }
+      ]
+    },
+    {
+      "id": "emb-chunking",
+      "title": "Chunking",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "strata-pack",
+          "section": "intermediate",
+          "entry": "intermediate/b-chunking"
+        },
+        {
+          "source": "roadmap-ai-engineer",
+          "section": "embeddings",
+          "entry": "use-cases"
+        }
+      ]
+    },
+    {
+      "id": "emb-retrieval-eval",
+      "title": "Measuring retrieval: recall@k, MRR, nDCG",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "strata-pack",
+          "section": "intermediate",
+          "entry": "intermediate/b-eval"
+        },
+        {
+          "source": "sentence-transformers",
+          "section": "usage",
+          "entry": "semantic-search"
+        }
+      ]
+    },
+    {
+      "id": "emb-exact-cost",
+      "title": "Why exact search stops scaling",
+      "aliases": [],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-ai-engineer",
+          "section": "vector-databases",
+          "entry": "indexing-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "section": "advanced",
+          "entry": "advanced/b-brute"
+        },
+        {
+          "source": "faiss-docs",
+          "section": "indexes",
+          "entry": "flat"
+        }
+      ]
+    },
+    {
+      "id": "emb-ivf",
+      "title": "IVF: partition, then probe",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-ai-engineer",
+          "section": "vector-databases",
+          "entry": "indexing-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "section": "advanced",
+          "entry": "advanced/b-ivf"
+        },
+        {
+          "source": "faiss-docs",
+          "section": "indexes",
+          "entry": "ivf"
+        }
+      ]
+    },
+    {
+      "id": "emb-hnsw",
+      "title": "HNSW",
+      "aliases": [],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-ai-engineer",
+          "section": "vector-databases",
+          "entry": "indexing-embeddings"
+        },
+        {
+          "source": "strata-pack",
+          "section": "advanced",
+          "entry": "advanced/b-hnsw"
+        },
+        {
+          "source": "faiss-docs",
+          "section": "indexes",
+          "entry": "hnsw"
+        }
+      ]
+    },
+    {
+      "id": "emb-compression",
+      "title": "Quantisation and shorter embeddings",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "strata-pack",
+          "section": "advanced",
+          "entry": "advanced/b-compression"
+        },
+        {
+          "source": "faiss-docs",
+          "section": "indexes",
+          "entry": "pq"
+        }
+      ]
+    },
+    {
+      "id": "emb-hybrid",
+      "title": "Hybrid search, RRF and reranking",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "strata-pack",
+          "section": "advanced",
+          "entry": "advanced/b-hybrid"
+        },
+        {
+          "source": "sentence-transformers",
+          "section": "usage",
+          "entry": "semantic-search"
+        },
+        {
+          "source": "roadmap-ai-engineer",
+          "section": "embeddings",
+          "entry": "semantic-search"
+        }
+      ]
+    },
+    {
+      "id": "emb-pitfalls",
+      "title": "Production pitfalls",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "strata-pack",
+          "section": "advanced",
+          "entry": "advanced/b-pitfalls"
+        },
+        {
+          "source": "faiss-docs",
+          "section": "indexes",
+          "entry": "hnsw"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-sql-vs-nosql",
+  "version": 1,
+  "title": "Choosing SQL or NoSQL for a workload",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-choose-sql",
+      "version": 1,
+      "statement": "Choose a relational database when the data is relational and you need joins, multi-row transactions or strict constraints, as with orders and payments; relational databases can also scale out with read replicas and sharding."
+    },
+    {
+      "id": "kc-choose-nosql",
+      "version": 1,
+      "statement": "Choose a specific NoSQL store by comparing it on access pattern (lookup by a known key, whole-aggregate reads, partition-plus-range reads), schema flexibility, transaction scope, consistency options and built-in partitioning, not on the belief that only NoSQL scales."
+    },
+    {
+      "id": "kc-polyglot-persistence",
+      "version": 1,
+      "statement": "A design may use several stores, each matched to one access pattern, for example SQL for orders, a key-value store for sessions and object storage for images."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-relational-acid",
+    "sd-nosql-base"
+  ],
+  "suggests": [
+    "sd-key-value-store",
+    "sd-wide-column-store",
+    "sd-document-store"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "polyglot persistence"
+  ],
+  "uses": [
+    "relational database",
+    "nosql",
+    "key-value store",
+    "document store",
+    "wide-column store",
+    "object storage",
+    "transaction",
+    "access pattern"
+  ],
+  "problem_ideas": [
+    "Pick a store for each of: URL mappings, chat messages, payment ledger, product catalog, user sessions, uploaded videos",
+    "A startup with 10k users wants Cassandra 'for scale': give the counter-argument with numbers",
+    "Write a one-sentence justification and one accepted trade-off for using SQL in a hotel booking system",
+    "Ride hailing needs trips (transactional) and driver location pings (200k writes/s): split the storage and compare a sharded SQL option with a wide-column one",
+    "Review a design using one MongoDB for everything including wallet balances: identify what to verify about its transaction scope and consistency settings",
+    "Rank three store choices for a news feed timeline by read latency and write cost"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "databases/sql-vs-nosql"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "database/sql-or-nosql"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "reasons/reasons"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "database-fundamentals/sql-vs-nosql"
+    }
+  ],
+  "status": "stub"
+}

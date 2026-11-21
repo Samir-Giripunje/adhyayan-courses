@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-choosing-storage",
+  "version": 1,
+  "title": "Choosing a storage service for a requirement",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-choose-block-volume",
+      "version": 1,
+      "statement": "A boot or database volume for one EC2 instance calls for EBS. Temporary, very fast scratch space that can be lost calls for instance store."
+    },
+    {
+      "id": "kc-choose-shared-files",
+      "version": 1,
+      "statement": "Shared file access from many Linux instances calls for EFS. Windows SMB shares or Lustre high-performance computing call for FSx."
+    },
+    {
+      "id": "kc-choose-object-hybrid-backup",
+      "version": 1,
+      "statement": "Unlimited storage for files, backups or static web content reachable over HTTP calls for S3. Low-latency on-premises access to cloud storage calls for Storage Gateway. Centrally scheduled backups across services call for AWS Backup."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-instance-store",
+    "clf-efs-fsx",
+    "clf-storage-gateway"
+  ],
+  "suggests": [
+    "clf-aws-backup",
+    "clf-s3-storage-classes"
+  ],
+  "confusable_with": [
+    "clf-storage-types",
+    "clf-choosing-compute"
+  ],
+  "introduces": [
+    "storage selection"
+  ],
+  "uses": [
+    "ebs",
+    "instance store",
+    "efs",
+    "fsx",
+    "s3",
+    "storage gateway",
+    "aws backup"
+  ],
+  "problem_ideas": [
+    "Twelve one-line requirements: name the storage service and the distractor you ruled out.",
+    "A WordPress fleet behind a load balancer needs a shared uploads folder: EBS, EFS or S3, and why?",
+    "A SQL Server database on EC2 needs a fast persistent data volume: which service and volume family?",
+    "A media company serves 50 TB of videos to browsers worldwide: which storage, and which words in the stem point there?",
+    "A branch office needs SMB shares with a local cache of cloud data: which service?",
+    "Spot the trap: 'use instance store for the only copy of customer orders.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/task-statement-3-6-identify-aws-storage-"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/aws-storage-services"
+    }
+  ],
+  "status": "stub"
+}

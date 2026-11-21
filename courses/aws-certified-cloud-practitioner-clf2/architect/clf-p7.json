@@ -1,0 +1,1987 @@
+{
+  "stage": {
+    "id": "clf-p7",
+    "title": "Integration, analytics, AI/ML and migration services",
+    "outcome": [
+      "o1",
+      "o4",
+      "o6"
+    ],
+    "assumes": [
+      "s3",
+      "lambda",
+      "ec2 instance",
+      "rds",
+      "dynamodb",
+      "migration strategies",
+      "hybrid cloud",
+      "serverless",
+      "cloudwatch"
+    ],
+    "provides": [
+      "loose coupling",
+      "sqs",
+      "sns",
+      "eventbridge",
+      "step functions",
+      "amazon mq",
+      "ses",
+      "kinesis",
+      "athena",
+      "glue",
+      "emr",
+      "redshift",
+      "quicksight",
+      "opensearch",
+      "sagemaker",
+      "managed ai services",
+      "amazon q",
+      "database migration service",
+      "schema conversion tool",
+      "application migration service",
+      "snow family",
+      "datasync",
+      "migration hub",
+      "workspaces",
+      "appstream",
+      "amazon connect",
+      "amplify",
+      "iot core"
+    ]
+  },
+  "sections": [
+    {
+      "id": "integration",
+      "title": "Application integration: queues, topics, events and email",
+      "rank": 1,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "application-integration"
+      }
+    },
+    {
+      "id": "analytics",
+      "title": "Analytics: streaming, querying, warehousing and dashboards",
+      "rank": 2,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "analytics"
+      }
+    },
+    {
+      "id": "ai-ml",
+      "title": "AI and machine learning services",
+      "rank": 3,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-3-7-identify-aws-artifici"
+      }
+    },
+    {
+      "id": "migration",
+      "title": "Migration and data transfer services",
+      "rank": 4,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "migration-and-transfer"
+      }
+    },
+    {
+      "id": "end-user-apps",
+      "title": "Business, end-user, frontend and IoT services",
+      "rank": 5,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-3-8-identify-services-fro"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "clf-loose-coupling",
+      "title": "Loose coupling: why components talk through messages",
+      "size": "standard",
+      "est_min": 8,
+      "section": "integration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-loose-coupling-definition",
+          "statement": "In a loosely coupled architecture, components communicate through intermediaries such as queues or event buses, so one component can fail, slow down or scale without breaking the others."
+        },
+        {
+          "id": "kc-sync-vs-async",
+          "statement": "A synchronous call makes the caller wait for a response; asynchronous messaging lets the sender continue immediately, which absorbs traffic spikes and isolates failures."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "clf-sqs",
+        "clf-sns"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "loose coupling",
+        "tight coupling",
+        "asynchronous messaging"
+      ],
+      "uses": [
+        "ec2 instance",
+        "high availability"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "application-integration/application-integration"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "cloud-integration/cloud-integration"
+        }
+      ],
+      "problem_ideas": [
+        "An order web tier calls the payment service directly; payment goes down for 10 minutes. Predict what customers see, then redesign with a queue.",
+        "Classify six architecture sketches as tightly or loosely coupled and name the intermediary in each loosely coupled one.",
+        "A Black Friday spike sends 20x normal orders; explain which design keeps accepting orders and why.",
+        "Pick the Well-Architected design principle that loose coupling supports from four options.",
+        "A video upload site makes users wait while transcoding finishes; identify the synchronous step and propose an asynchronous alternative.",
+        "Spot the distractor: 'loose coupling means all components run on one larger EC2 instance' and explain why it is wrong."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Back-pressure: how a buffer protects a slow consumer"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Microservices and loose coupling in the reliability pillar"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Exam questions about SQS, SNS and EventBridge usually begin with 'decouple'; this is the idea behind them."
+      }
+    },
+    {
+      "id": "clf-sqs",
+      "title": "Amazon SQS: a managed message queue",
+      "size": "standard",
+      "est_min": 10,
+      "section": "integration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-sqs-pull-queue",
+          "statement": "Amazon SQS is a fully managed message queue: producers send messages, consumers poll for them and delete each message after processing, so a slow or failed consumer does not lose work."
+        },
+        {
+          "id": "kc-sqs-standard-fifo",
+          "statement": "SQS standard queues offer nearly unlimited throughput with at-least-once delivery and best-effort ordering; FIFO queues keep first-in-first-out order within each message group and deduplicate repeated sends, but a message whose processing is not finished and deleted in time is delivered again, so consumers must handle retries safely."
+        },
+        {
+          "id": "kc-sqs-buffer-scale",
+          "statement": "An SQS queue buffers traffic spikes between tiers, letting an Auto Scaling group of consumers scale on the number of waiting messages instead of the front end failing."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "SQS is the default answer to any 'decouple components / buffer requests' requirement on the exam."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-loose-coupling",
+          "reason": "SQS is introduced as the queue that delivers loose coupling; the lesson relies on that idea."
+        }
+      ],
+      "suggests": [
+        "clf-auto-scaling-groups"
+      ],
+      "confusable_with": [
+        "clf-sns",
+        "clf-kinesis"
+      ],
+      "introduces": [
+        "sqs",
+        "message queue",
+        "fifo queue"
+      ],
+      "uses": [
+        "loose coupling",
+        "auto scaling group",
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "application-integration/amazon-simple-queue-service-amazon-sqs"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "cloud-integration/amazon-sqs-simple-queue-service"
+        }
+      ],
+      "problem_ideas": [
+        "A bank must process payment instructions in exactly the order received: standard or FIFO queue?",
+        "Workers crash mid-job; explain why the message reappears in the queue instead of being lost.",
+        "Queue depth climbs from 100 to 50,000 messages in 5 minutes; name the metric to scale the worker group on.",
+        "An image-resize app receives 10x uploads at noon; place SQS in the design and say what it protects.",
+        "Spot the error: 'SQS pushes each message to every subscriber at once.'",
+        "A message is still unprocessed after its retention period expires (default 4 days, max 14): what happens to it?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Visibility timeout and dead-letter queues"
+        },
+        {
+          "kind": "edge",
+          "title": "Duplicate delivery and idempotent consumers"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "SQS appears in almost every CLF-C02 form, usually as the 'decouple' answer."
+      }
+    },
+    {
+      "id": "clf-sns",
+      "title": "Amazon SNS: publish once, notify many",
+      "size": "standard",
+      "est_min": 10,
+      "section": "integration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-sns-pubsub",
+          "statement": "Amazon SNS is a publish/subscribe service: a publisher sends one message to a topic and SNS immediately pushes a copy to every subscriber; messages are not kept for later polling."
+        },
+        {
+          "id": "kc-sns-subscribers",
+          "statement": "SNS topic subscribers can be SQS queues, Lambda functions, HTTP/S endpoints, email addresses, SMS phone numbers and mobile push endpoints."
+        },
+        {
+          "id": "kc-sns-fanout",
+          "statement": "Fan-out pairs one SNS topic with several SQS queues so a single event is processed independently and durably by several services."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "SNS is the exam's answer for alerts, notifications and one-to-many delivery."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-loose-coupling",
+          "reason": "SNS is presented as the push-based way to decouple publishers from subscribers."
+        },
+        {
+          "topic": "clf-sqs",
+          "reason": "The fan-out KC combines SNS with SQS queues and contrasts push with polling."
+        }
+      ],
+      "suggests": [
+        "clf-cloudwatch-alarms"
+      ],
+      "confusable_with": [
+        "clf-sqs",
+        "clf-ses",
+        "clf-eventbridge"
+      ],
+      "introduces": [
+        "sns",
+        "sns topic",
+        "publish/subscribe",
+        "fan-out"
+      ],
+      "uses": [
+        "loose coupling",
+        "sqs",
+        "lambda"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "application-integration/amazon-simple-notification-service-amazo"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "cloud-integration/amazon-sns"
+        }
+      ],
+      "problem_ideas": [
+        "A new order must trigger billing, shipping and analytics independently; sketch the SNS-plus-SQS fan-out.",
+        "Send an SMS to an on-call engineer when a server fails: which service and which subscriber type?",
+        "A subscriber endpoint is down when SNS publishes; compare what happens with and without an SQS queue subscribed.",
+        "Match five subscriber types (email, SQS, Lambda, HTTPS, SMS) to five scenarios.",
+        "Spot the distractor: 'SNS stores messages until a consumer polls for them.'",
+        "A team wants each of three microservices to receive every price-change event; SQS alone or SNS topic?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Message filtering policies on subscriptions"
+        },
+        {
+          "kind": "edge",
+          "title": "FIFO topics for ordered fan-out"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "SNS vs SQS is one of the most frequent distractor pairs on the exam."
+      }
+    },
+    {
+      "id": "clf-eventbridge",
+      "title": "Amazon EventBridge: routing events and schedules",
+      "size": "standard",
+      "est_min": 8,
+      "section": "integration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-eventbridge-bus-rules",
+          "statement": "Amazon EventBridge is a serverless event bus: rules match events from AWS services, your own applications or SaaS partners and route them to targets such as Lambda, SQS or Step Functions."
+        },
+        {
+          "id": "kc-eventbridge-schedule",
+          "statement": "EventBridge can invoke targets on a schedule (cron or rate expressions), for example running a Lambda function every night at 02:00; it evolved from CloudWatch Events."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "EventBridge is the in-scope answer for event routing and scheduled triggers."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-loose-coupling",
+          "reason": "Event-bus routing is taught as another decoupling pattern."
+        }
+      ],
+      "suggests": [
+        "clf-sns"
+      ],
+      "confusable_with": [
+        "clf-sns",
+        "clf-cloudwatch-alarms"
+      ],
+      "introduces": [
+        "eventbridge",
+        "event bus",
+        "event rule"
+      ],
+      "uses": [
+        "event-driven",
+        "lambda",
+        "sqs",
+        "serverless"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "application-integration/amazon-eventbridge"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "lambda/event-bridge-scheduled-execution"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "cloudwatch/events"
+        }
+      ],
+      "problem_ideas": [
+        "Stop all development EC2 instances every weekday at 19:00: which service triggers the Lambda function?",
+        "React whenever any EC2 instance changes to the 'stopped' state: write the rule in plain words.",
+        "A SaaS help-desk tool emits ticket events; how do they reach your Lambda function without polling?",
+        "EventBridge vs SNS: a scenario needs content-based filtering across events from 20 AWS services. Choose and justify.",
+        "Spot the outdated term: an answer option says 'CloudWatch Events'. What is it called now?",
+        "Route the same event to two different targets based on a field value: one rule or two?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "EventBridge Scheduler vs scheduled rules"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Event-driven architectures and SaaS partner event sources"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Shows up in scheduling and event-routing questions; easily confused with SNS."
+      }
+    },
+    {
+      "id": "clf-step-functions-mq",
+      "title": "Step Functions workflows and Amazon MQ brokers",
+      "size": "standard",
+      "est_min": 10,
+      "section": "integration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-step-functions-workflow",
+          "statement": "AWS Step Functions orchestrates multi-step workflows as a visual state machine, with built-in retries, branching, parallel steps and waits, coordinating Lambda functions and other AWS services."
+        },
+        {
+          "id": "kc-step-functions-vs-queue",
+          "statement": "Choose Step Functions when the order and outcome of several steps must be coordinated and tracked; choose a queue when one component only needs to hand work to another."
+        },
+        {
+          "id": "kc-amazon-mq",
+          "statement": "Amazon MQ is a managed message broker for Apache ActiveMQ and RabbitMQ, used when migrating applications that already use open protocols such as AMQP, MQTT or JMS instead of rewriting them for SQS and SNS."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Step Functions is in scope as the workflow-orchestration answer; MQ is its common migration distractor."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-sqs",
+          "reason": "Both KCs contrast workflows and brokers with the SQS queue."
+        }
+      ],
+      "suggests": [
+        "clf-lambda",
+        "clf-migration-strategies"
+      ],
+      "confusable_with": [
+        "clf-sqs",
+        "clf-eventbridge"
+      ],
+      "introduces": [
+        "step functions",
+        "state machine",
+        "amazon mq",
+        "message broker"
+      ],
+      "uses": [
+        "lambda",
+        "sqs",
+        "sns",
+        "lift and shift"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "application-integration/aws-step-functions"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-aws-services/aws-step-functions"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "cloud-integration/amazon-mq"
+        }
+      ],
+      "problem_ideas": [
+        "A loan approval needs credit check, fraud check in parallel, then a human approval wait: which service coordinates it?",
+        "A company moves an on-prem app that uses RabbitMQ and wants no code changes: SQS or Amazon MQ?",
+        "One step of a five-step order workflow fails intermittently; which Step Functions feature handles it without custom code?",
+        "Classify scenarios as 'orchestration' (Step Functions) or 'hand-off' (SQS).",
+        "Spot the distractor: 'Amazon MQ is the serverless, cloud-native replacement for SQS.'",
+        "An image pipeline runs resize, watermark and publish Lambda functions in order; draw the state machine."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Standard vs Express workflows"
+        },
+        {
+          "kind": "edge",
+          "title": "Why MQ is not on the CLF-C02 in-scope list but still appears as a distractor"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Step Functions is tested occasionally; MQ appears mainly as a wrong option you must rule out."
+      }
+    },
+    {
+      "id": "clf-ses",
+      "title": "Amazon SES: sending email at scale",
+      "size": "standard",
+      "est_min": 8,
+      "section": "integration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-ses-email",
+          "statement": "Amazon SES sends transactional, marketing and bulk email at scale (and can receive email), with deliverability features such as DKIM signing and sender-reputation tracking."
+        },
+        {
+          "id": "kc-ses-vs-sns",
+          "statement": "For customised email to customers, such as HTML receipts or newsletters, choose SES; for simple alert notifications to subscribed endpoints, including email, choose SNS."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "SES is a named in-scope business application service for sending email."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-sns",
+          "reason": "The second KC distinguishes SES from SNS email notifications."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-sns",
+        "clf-amazon-connect"
+      ],
+      "introduces": [
+        "ses",
+        "transactional email"
+      ],
+      "uses": [
+        "sns"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "business-applications/amazon-simple-email-service-amazon-ses"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "ses/ses"
+        },
+        {
+          "source": "roadmap-aws",
+          "entry": "ses/sandbox-sending-limits"
+        }
+      ],
+      "problem_ideas": [
+        "An online shop must send 200,000 personalised HTML order confirmations a day: SES or SNS?",
+        "A new SES account cannot email customers: explain the sandbox and verified-identity restriction.",
+        "Ops wants an email when CPU passes 90%: which service sends it?",
+        "Rank three bounce/complaint scenarios by their effect on sender reputation.",
+        "Spot the distractor: 'Amazon Connect sends marketing email campaigns.'",
+        "A newsletter goes to spam folders; name the SES feature that proves the domain sent it."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "SPF, DKIM and DMARC in plain words"
+        },
+        {
+          "kind": "implementation",
+          "title": "Dedicated IPs and configuration sets"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Exam guide names SES explicitly; the trap is choosing SNS for customer email."
+      }
+    },
+    {
+      "id": "clf-choosing-messaging",
+      "title": "Choosing a messaging or notification service",
+      "size": "standard",
+      "est_min": 10,
+      "section": "integration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-choose-queue-vs-topic",
+          "statement": "Use SQS to queue work for competing consumers that pull it when they are ready; use SNS to push a notification to multiple subscribers at the same moment."
+        },
+        {
+          "id": "kc-choose-events-workflow",
+          "statement": "Routing events from many AWS services or SaaS apps with filtering rules points to EventBridge; coordinating an ordered multi-step process with retries points to Step Functions."
+        },
+        {
+          "id": "kc-choose-alerts-email",
+          "statement": "A CloudWatch alarm notifies operators by publishing to an SNS topic, while customer-facing email at scale is sent with SES."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Task 3.8 asks directly for choosing the service that delivers messages, alerts and notifications."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-sqs",
+          "reason": "Selection rules compare SQS against the alternatives."
+        },
+        {
+          "topic": "clf-sns",
+          "reason": "Selection rules compare SNS against the alternatives."
+        },
+        {
+          "topic": "clf-eventbridge",
+          "reason": "Selection rules include EventBridge routing."
+        }
+      ],
+      "suggests": [
+        "clf-step-functions-mq",
+        "clf-ses"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "integration service selection"
+      ],
+      "uses": [
+        "sqs",
+        "sns",
+        "eventbridge",
+        "step functions",
+        "ses",
+        "cloudwatch alarm"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-8-identify-services-fro/choosing-the-appropriate-service-to-deli"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "application-integration/application-integration"
+        }
+      ],
+      "problem_ideas": [
+        "Ten one-paragraph requirements, each answered by SQS, SNS, EventBridge, Step Functions or SES; name the closest distractor for each.",
+        "A billing alarm must text the finance lead: trace the path from CloudWatch to the phone.",
+        "An order system needs both buffering and fan-out: combine two services and justify.",
+        "Rank three designs for 'notify 5 microservices of each signup' by coupling.",
+        "A requirement says 'nightly at 01:00 trigger a report': which integration service and why not SNS?",
+        "Spot the wrong answer in a sample exam item where SES is offered for server alerts."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Keyword cues exam writers use for each integration service"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Turns five similar services into fast exam decisions; this is how the domain is tested."
+      }
+    },
+    {
+      "id": "clf-kinesis",
+      "title": "Amazon Kinesis: real-time streaming data",
+      "size": "standard",
+      "est_min": 10,
+      "section": "analytics",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-kinesis-streaming",
+          "statement": "Amazon Kinesis collects and processes streaming data such as clickstreams, IoT telemetry and application logs in real time, making records available to consumers within about a second."
+        },
+        {
+          "id": "kc-kinesis-streams-firehose",
+          "statement": "Kinesis Data Streams keeps ordered records for custom consumer applications to read and replay; Amazon Data Firehose (formerly Kinesis Data Firehose) delivers a stream into destinations such as S3, Redshift or OpenSearch with no code."
+        },
+        {
+          "id": "kc-kinesis-vs-sqs",
+          "statement": "With Kinesis several consumers can read the same records and replay them within the retention window, whereas an SQS message is deleted once one consumer processes it."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Kinesis is the in-scope answer for real-time streaming ingestion."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-sqs"
+      ],
+      "confusable_with": [
+        "clf-sqs",
+        "clf-athena-glue"
+      ],
+      "introduces": [
+        "kinesis",
+        "streaming data",
+        "kinesis data streams",
+        "amazon data firehose"
+      ],
+      "uses": [
+        "sqs",
+        "s3"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "analytics/amazon-kinesis"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "cloud-integration/amazon-kinesis"
+        }
+      ],
+      "problem_ideas": [
+        "A game sends 50,000 player events per second for a live leaderboard: Kinesis or SQS?",
+        "Stream web logs straight into S3 every minute with no code: which Kinesis option?",
+        "Two teams need to read the same click events independently and replay yesterday's: which service supports it?",
+        "Classify six data sources as batch or streaming.",
+        "Spot the outdated name 'Kinesis Data Firehose' and give the current one.",
+        "Fraud detection must flag card swipes within seconds: place Kinesis in the design."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Shards, partition keys and ordering"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Managed Service for Apache Flink for stream analytics"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "'Real-time' in a question stem almost always points to Kinesis."
+      }
+    },
+    {
+      "id": "clf-athena-glue",
+      "title": "Athena and Glue: querying a data lake in S3",
+      "size": "standard",
+      "est_min": 10,
+      "section": "analytics",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-athena-serverless-sql",
+          "statement": "Amazon Athena runs standard SQL queries directly on data stored in S3, with no servers to manage, and charges by the amount of data each query scans."
+        },
+        {
+          "id": "kc-glue-etl",
+          "statement": "AWS Glue is a serverless ETL service: crawlers discover data and record its schema in the Glue Data Catalog, and Glue jobs extract, transform and load data between stores."
+        },
+        {
+          "id": "kc-data-lake",
+          "statement": "A data lake keeps raw data of any format centrally in S3; Glue catalogues it and Athena queries it in place without loading it into a database."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Athena and Glue are named in-scope analytics services, tested as 'query S3 with SQL' and 'ETL'."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-s3-basics",
+        "clf-relational-vs-nosql"
+      ],
+      "confusable_with": [
+        "clf-redshift-emr"
+      ],
+      "introduces": [
+        "athena",
+        "glue",
+        "etl",
+        "glue data catalog",
+        "data lake"
+      ],
+      "uses": [
+        "s3",
+        "sql",
+        "serverless"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "analytics/amazon-athena"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "analytics/aws-glue"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/amazon-athena"
+        }
+      ],
+      "problem_ideas": [
+        "Analysts want to run SQL on 3 years of CSV logs in S3 once a month without a database: which service?",
+        "A query scans 2 TB at about $5 per TB; estimate the cost, then estimate it after converting to compressed columnar files that scan 200 GB.",
+        "Which Glue component tells Athena what columns a set of S3 files has?",
+        "Spot the distractor: 'Glue is a dashboard tool for business users.'",
+        "A team must clean and reformat JSON from three sources nightly before analysis: name the service.",
+        "Order the steps of a minimal data lake: land in S3, crawl, catalogue, query."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Columnar formats and partitioning cut Athena costs"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Lake Formation for data lake permissions"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "'SQL directly on S3' and 'ETL' are reliable cues for Athena and Glue on the exam."
+      }
+    },
+    {
+      "id": "clf-redshift-emr",
+      "title": "Redshift and EMR: warehousing and big data",
+      "size": "standard",
+      "est_min": 10,
+      "section": "analytics",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-redshift-warehouse",
+          "statement": "Amazon Redshift is a petabyte-scale, columnar data warehouse for fast SQL analytics on large volumes of structured data."
+        },
+        {
+          "id": "kc-emr-big-data",
+          "statement": "Amazon EMR runs managed big data frameworks such as Apache Spark, Hadoop and Hive on clusters of EC2 instances (or serverless) to process very large datasets."
+        },
+        {
+          "id": "kc-oltp-vs-olap",
+          "statement": "RDS and Aurora serve transactional (OLTP) workloads with many small reads and writes; Redshift serves analytical (OLAP) queries that aggregate large historical datasets."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Redshift and EMR are in-scope analytics services and frequent distractors for each other and for RDS."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-athena-glue",
+        "clf-rds"
+      ],
+      "confusable_with": [
+        "clf-athena-glue",
+        "clf-rds"
+      ],
+      "introduces": [
+        "redshift",
+        "data warehouse",
+        "emr",
+        "oltp",
+        "olap"
+      ],
+      "uses": [
+        "sql",
+        "rds",
+        "aurora",
+        "ec2 instance",
+        "data lake"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "analytics/amazon-redshift"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "analytics/amazon-emr"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/redshift-overview"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/amazon-emr"
+        }
+      ],
+      "problem_ideas": [
+        "A retailer wants daily sales reports over 5 years of transactions from many systems: RDS or Redshift?",
+        "A data science team already has Spark jobs on-prem and wants a managed cluster: which service?",
+        "Classify ten queries as OLTP or OLAP.",
+        "Spot the distractor: 'Use Redshift as the database behind a shopping cart.'",
+        "A genomics lab processes 500 TB with Hadoop once a week: EMR or Athena, and why?",
+        "Explain in one sentence why a columnar store speeds 'sum of revenue by month'."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Columnar storage and massively parallel processing"
+        },
+        {
+          "kind": "implementation",
+          "title": "Redshift Serverless and Redshift Spectrum"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "'Data warehouse' means Redshift and 'Hadoop/Spark' means EMR in nearly every exam item."
+      }
+    },
+    {
+      "id": "clf-quicksight-opensearch",
+      "title": "QuickSight dashboards and OpenSearch search",
+      "size": "standard",
+      "est_min": 8,
+      "section": "analytics",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-quicksight-bi",
+          "statement": "Amazon QuickSight (Quick Sight in the Amazon Quick suite) is a serverless business intelligence service for interactive dashboards and visualisations built from sources such as Athena, Redshift and S3."
+        },
+        {
+          "id": "kc-opensearch-search",
+          "statement": "Amazon OpenSearch Service runs managed OpenSearch clusters for full-text search and log analytics with near-real-time querying."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Both are in-scope analytics services, tested as 'dashboards' and 'search/log analytics'."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-redshift-emr"
+      ],
+      "confusable_with": [
+        "clf-athena-glue"
+      ],
+      "introduces": [
+        "quicksight",
+        "business intelligence",
+        "opensearch",
+        "log analytics"
+      ],
+      "uses": [
+        "athena",
+        "redshift",
+        "s3",
+        "serverless"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "analytics/amazon-quick"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "analytics/amazon-opensearch-service"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "databases-analytics/amazon-quicksight"
+        }
+      ],
+      "problem_ideas": [
+        "Executives want a sales dashboard on top of Redshift with no servers: which service?",
+        "A website needs a search box with typo tolerance over 2 million product descriptions: which service?",
+        "Ops wants to search and visualise application logs from the last hour: OpenSearch or Athena?",
+        "Spot the distractor: 'QuickSight runs SQL ETL jobs.'",
+        "Match four user roles (analyst, executive, SRE, developer) to the analytics service they would open.",
+        "The exam guide lists 'Amazon Quick': explain what an answer option naming QuickSight refers to."
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "From Elasticsearch to OpenSearch, and QuickSight to Amazon Quick"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Generative BI: natural-language questions on dashboards"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Usually one question each; the keywords 'dashboard' and 'search' make them quick points."
+      }
+    },
+    {
+      "id": "clf-choosing-analytics",
+      "title": "Choosing an analytics service for a requirement",
+      "size": "standard",
+      "est_min": 10,
+      "section": "analytics",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-choose-analytics-query",
+          "statement": "Ad hoc SQL on files already in S3 points to Athena; repeated complex SQL over large structured history points to Redshift; custom Spark or Hadoop processing points to EMR."
+        },
+        {
+          "id": "kc-choose-analytics-pipeline",
+          "statement": "Real-time ingestion points to Kinesis, cataloguing and transforming data to Glue, dashboards for business users to QuickSight, and search or log exploration to OpenSearch."
+        },
+        {
+          "id": "kc-choose-analytics-db-trap",
+          "statement": "A requirement for transactions or millisecond key lookups points to RDS or DynamoDB, not to an analytics service."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Task 3.7 tests picking the right analytics service from a requirement and ruling out neighbours."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-kinesis",
+          "reason": "The selection rules include Kinesis."
+        },
+        {
+          "topic": "clf-athena-glue",
+          "reason": "The selection rules include Athena and Glue."
+        },
+        {
+          "topic": "clf-redshift-emr",
+          "reason": "The selection rules include Redshift and EMR."
+        }
+      ],
+      "suggests": [
+        "clf-quicksight-opensearch",
+        "clf-choosing-database"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "analytics service selection"
+      ],
+      "uses": [
+        "kinesis",
+        "athena",
+        "glue",
+        "redshift",
+        "emr",
+        "quicksight",
+        "opensearch",
+        "rds",
+        "dynamodb"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-7-identify-aws-artifici/aws-analytics-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "analytics/analytics"
+        }
+      ],
+      "problem_ideas": [
+        "Twelve one-line requirements across the analytics pipeline; name the service and the closest distractor.",
+        "Draw an end-to-end pipeline for IoT telemetry: ingest, store, catalogue, query, visualise.",
+        "A requirement mixes 'real-time' and 'SQL dashboards': which two services together?",
+        "Spot the trap: a question about storing user sessions offers Redshift.",
+        "Rank Athena vs Redshift for a query run once a quarter vs every five minutes.",
+        "A startup with no data engineers wants SQL over S3 tomorrow: pick the lowest-effort option."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Keyword cues: 'ad hoc', 'warehouse', 'Hadoop', 'real-time', 'dashboard'"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Exam analytics questions are almost all 'which service fits'; this drills that decision."
+      }
+    },
+    {
+      "id": "clf-ai-language-speech",
+      "title": "Managed AI services for language and speech",
+      "size": "big",
+      "est_min": 14,
+      "section": "ai-ml",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-managed-ai-pretrained",
+          "statement": "AWS managed AI services expose pre-trained models through simple APIs, so you can add vision, speech or language features without ML expertise or training your own model."
+        },
+        {
+          "id": "kc-transcribe-polly",
+          "statement": "Amazon Transcribe converts speech to text (call transcripts, subtitles); Amazon Polly converts text to lifelike speech."
+        },
+        {
+          "id": "kc-comprehend-translate",
+          "statement": "Amazon Comprehend uses natural language processing to find sentiment, key phrases, entities and language in text; Amazon Translate translates text between languages."
+        },
+        {
+          "id": "kc-lex",
+          "statement": "Amazon Lex builds conversational chatbots and voice bots with speech recognition and natural-language understanding, the technology behind Alexa."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Task 3.7 tests matching AI services to tasks; language and speech services are the most frequent ones."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-sagemaker"
+      ],
+      "confusable_with": [
+        "clf-ai-vision-documents"
+      ],
+      "introduces": [
+        "managed ai services",
+        "transcribe",
+        "polly",
+        "comprehend",
+        "translate",
+        "lex"
+      ],
+      "uses": [
+        "aws sdk"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-7-identify-aws-artifici/aws-ai-ml-services"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-7-identify-aws-artifici/task-statement-3-7-identify-aws-artifici"
+        }
+      ],
+      "problem_ideas": [
+        "A call centre wants text transcripts of every call and the customer's mood in each: name the two services in order.",
+        "An e-learning site needs audio narration of 500 articles: which service?",
+        "Product reviews in 12 languages must be scored positive or negative in English: chain two services.",
+        "A bank wants a chatbot that understands 'what's my balance?': which service?",
+        "Spot the swap: 'Polly converts speech into text.'",
+        "Match six tasks to Transcribe, Polly, Comprehend, Translate or Lex, naming the distractor each time."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How Comprehend detects entities and sentiment"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Comprehend Medical and Transcribe Medical"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "AI service-matching questions are common and easy points once the name-to-task mapping is fixed."
+      }
+    },
+    {
+      "id": "clf-ai-vision-documents",
+      "title": "Rekognition, Textract, Kendra and Personalize",
+      "size": "standard",
+      "est_min": 10,
+      "section": "ai-ml",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-rekognition",
+          "statement": "Amazon Rekognition analyses images and video to detect objects, people, text and unsafe content, and to compare faces."
+        },
+        {
+          "id": "kc-textract",
+          "statement": "Amazon Textract extracts printed and handwritten text, forms and tables from scanned documents; Comprehend can then analyse the meaning of that text."
+        },
+        {
+          "id": "kc-kendra-personalize",
+          "statement": "Amazon Kendra is ML-powered intelligent search over an organisation's documents; Amazon Personalize generates real-time recommendations from user behaviour."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Vision, document and recommendation services are standard AI service-matching items."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-ai-language-speech",
+          "reason": "Builds on the managed AI services idea and contrasts Textract with Comprehend."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-ai-language-speech",
+        "clf-quicksight-opensearch"
+      ],
+      "introduces": [
+        "rekognition",
+        "textract",
+        "kendra",
+        "personalize"
+      ],
+      "uses": [
+        "managed ai services",
+        "comprehend"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-7-identify-aws-artifici/aws-ai-ml-services"
+        }
+      ],
+      "problem_ideas": [
+        "An insurer scans 10,000 claim forms a day and needs the field values: which service?",
+        "A social app must flag inappropriate uploaded images: which service?",
+        "Staff need to ask 'what is our parental leave policy?' over 40,000 HR documents: Kendra or OpenSearch?",
+        "An online shop wants 'customers like you also bought': which service?",
+        "Spot the distractor: 'Rekognition reads the meaning of a contract.'",
+        "Order a pipeline: scanned letters to extracted text to detected sentiment."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Responsible use of face analysis"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Amazon Fraud Detector and other niche AI services"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "Rekognition and Textract appear regularly; Kendra and Personalize are occasional but quick to learn."
+      }
+    },
+    {
+      "id": "clf-sagemaker",
+      "title": "Amazon SageMaker AI: building your own models",
+      "size": "standard",
+      "est_min": 8,
+      "section": "ai-ml",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-sagemaker-platform",
+          "statement": "Amazon SageMaker AI is a fully managed platform for data scientists to build, train and deploy custom machine learning models at scale."
+        },
+        {
+          "id": "kc-sagemaker-vs-ai-services",
+          "statement": "Choose SageMaker AI when you need a custom model trained on your own data for a unique problem; choose a managed AI service when a pre-trained API already does the task."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "SageMaker is the exam's answer to 'build, train and deploy ML models'."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-ai-language-speech",
+          "reason": "The second KC contrasts SageMaker with managed AI services."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-ai-language-speech",
+        "clf-generative-ai-q-bedrock"
+      ],
+      "introduces": [
+        "sagemaker",
+        "machine learning model"
+      ],
+      "uses": [
+        "managed ai services"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "machine-learning/amazon-sagemaker-ai"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-7-identify-aws-artifici/aws-ai-ml-services"
+        }
+      ],
+      "problem_ideas": [
+        "Predict machine failure from a factory's own sensor history: SageMaker or a managed AI service?",
+        "Translate support tickets: should the team train a model in SageMaker? Explain.",
+        "Order the ML lifecycle: prepare data, train, evaluate, deploy, monitor.",
+        "Spot the distractor: 'SageMaker is a chatbot for end users.'",
+        "A data science team wants managed Jupyter notebooks and one-click deployment: which service?",
+        "Classify five requirements as 'custom model' or 'pre-trained API'."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "SageMaker Studio, Canvas and endpoints"
+        },
+        {
+          "kind": "history",
+          "title": "SageMaker renamed SageMaker AI (2024)"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "Appears whenever a question mentions training or deploying ML models."
+      }
+    },
+    {
+      "id": "clf-generative-ai-q-bedrock",
+      "title": "Generative AI on AWS: Amazon Q and Bedrock",
+      "size": "standard",
+      "est_min": 10,
+      "section": "ai-ml",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-bedrock-foundation-models",
+          "statement": "Amazon Bedrock is a fully managed, serverless service that gives API access to foundation models from Amazon and third-party providers to build generative AI applications without managing infrastructure."
+        },
+        {
+          "id": "kc-amazon-q",
+          "statement": "Amazon Q is a generative AI assistant: Amazon Q Business answers questions and creates content from a company's own data, and Amazon Q Developer helps write code and work with AWS resources."
+        },
+        {
+          "id": "kc-genai-choice",
+          "statement": "To embed a foundation model in your own application use Bedrock; to give employees or developers a ready-made AI assistant use Amazon Q; to train your own model use SageMaker AI."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Amazon Q is in the stage's provides and appears in current AI/ML service-matching questions."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-sagemaker",
+          "reason": "The choice KC contrasts Bedrock and Q with SageMaker AI."
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-sagemaker"
+      ],
+      "introduces": [
+        "generative ai",
+        "foundation model",
+        "bedrock",
+        "amazon q"
+      ],
+      "uses": [
+        "sagemaker",
+        "managed ai services",
+        "serverless"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-7-identify-aws-artifici/aws-ai-ml-services"
+        }
+      ],
+      "problem_ideas": [
+        "A developer wants help writing a Lambda function and explaining an AWS error: which service?",
+        "A product team wants to add text summarisation to their app using a third-party model via API: Bedrock or SageMaker AI?",
+        "Employees want to ask questions of internal wikis and tickets in plain language: which Amazon Q offering?",
+        "Spot the distractor: 'Bedrock requires you to provision GPU EC2 instances.'",
+        "Classify four scenarios as Bedrock, Amazon Q, SageMaker AI or a managed AI service.",
+        "Explain in one sentence what a foundation model is to a non-technical manager."
+      ],
+      "depth_threads": [
+        {
+          "kind": "frontier",
+          "title": "Agents, knowledge bases and guardrails in Bedrock"
+        },
+        {
+          "kind": "adjacent",
+          "title": "AWS Certified AI Practitioner: where generative AI goes deeper"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Newer exam forms include generative AI items; a small topic secures them."
+      }
+    },
+    {
+      "id": "clf-dms-sct",
+      "title": "Database migration: DMS and the Schema Conversion Tool",
+      "size": "standard",
+      "est_min": 10,
+      "section": "migration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-dms-minimal-downtime",
+          "statement": "AWS Database Migration Service (DMS) migrates databases to AWS while the source stays fully operational, and can continuously replicate changes to keep downtime minimal."
+        },
+        {
+          "id": "kc-homogeneous-heterogeneous",
+          "statement": "A homogeneous migration (for example Oracle to Oracle on RDS) needs only DMS; a heterogeneous migration (for example Oracle to Aurora PostgreSQL) also needs the schema converted first."
+        },
+        {
+          "id": "kc-sct",
+          "statement": "The AWS Schema Conversion Tool (SCT) converts a source database's schema and code, such as stored procedures, to a different target engine and flags what it cannot convert automatically."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Task 3.4 names database migration; DMS and SCT are the in-scope answers."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-relational-vs-nosql",
+        "clf-aurora"
+      ],
+      "confusable_with": [
+        "clf-migration-discovery-mgn"
+      ],
+      "introduces": [
+        "database migration service",
+        "schema conversion tool",
+        "homogeneous migration",
+        "heterogeneous migration"
+      ],
+      "uses": [
+        "relational database",
+        "rds",
+        "aurora",
+        "database schema"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "migration-and-transfer/aws-database-migration-service-aws-dms"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "migration-and-transfer/aws-schema-conversion-tool-aws-sct"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-4-identify-aws-database/database-migration"
+        }
+      ],
+      "problem_ideas": [
+        "Move a MySQL database to RDS for MySQL with under 5 minutes of downtime: which services?",
+        "Move SQL Server to Aurora PostgreSQL: list the two tools in order.",
+        "Classify six source-target pairs as homogeneous or heterogeneous.",
+        "Spot the distractor: 'Application Migration Service converts stored procedures.'",
+        "The source database must keep taking orders throughout migration: which DMS capability allows it?",
+        "A team wants to consolidate an on-prem Oracle warehouse into Redshift: which tools apply?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Change data capture (CDC) in DMS"
+        },
+        {
+          "kind": "implementation",
+          "title": "DMS Schema Conversion inside the console"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "DMS vs SCT is a well-known exam pair; 'different engine' is the cue for SCT."
+      }
+    },
+    {
+      "id": "clf-migration-discovery-mgn",
+      "title": "Planning and rehosting: Discovery, Evaluator, MGN, Hub",
+      "size": "big",
+      "est_min": 14,
+      "section": "migration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-mgn-rehost",
+          "statement": "AWS Application Migration Service (MGN) automates lift-and-shift (rehost) migration by continuously replicating source servers to AWS and launching them as EC2 instances at cutover."
+        },
+        {
+          "id": "kc-application-discovery",
+          "statement": "AWS Application Discovery Service collects on-premises server configuration, utilisation and dependency data to plan a migration."
+        },
+        {
+          "id": "kc-migration-evaluator",
+          "statement": "Migration Evaluator builds a data-driven business case by projecting what the current on-premises estate would cost to run on AWS."
+        },
+        {
+          "id": "kc-migration-hub",
+          "statement": "AWS Migration Hub is a single place to discover, plan and track the progress of migrations across AWS and partner tools."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "These are the in-scope migration services the exam asks you to pick from a migration phase."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-migration-strategies",
+          "reason": "MGN is defined as the tool for the rehost strategy among the 7 Rs."
+        }
+      ],
+      "suggests": [
+        "clf-tco-on-premises-costs"
+      ],
+      "confusable_with": [
+        "clf-dms-sct",
+        "clf-datasync-transfer-choice"
+      ],
+      "introduces": [
+        "application migration service",
+        "application discovery service",
+        "migration evaluator",
+        "migration hub"
+      ],
+      "uses": [
+        "migration strategies",
+        "lift and shift",
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "migration-and-transfer/aws-application-migration-service"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "migration-and-transfer/aws-application-discovery-service"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "migration-and-transfer/migration-evaluator"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "migration-and-transfer/aws-migration-hub"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-aws-services/aws-application-migration-service-mgn"
+        }
+      ],
+      "problem_ideas": [
+        "A CFO asks 'what will our 400 servers cost on AWS?' before approving: which service builds the case?",
+        "Map which on-prem servers talk to each other before moving them: which service?",
+        "Rehost 60 VMware servers with minimal changes and a short cutover: which service?",
+        "A programme manager wants one view of progress across 12 migration waves: which service?",
+        "Order four services by migration phase: assess, plan, migrate, track.",
+        "Spot the distractor: 'MGN refactors applications into Lambda functions.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Continuous block-level replication and test launches in MGN"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Elastic Disaster Recovery: the same replication for DR"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "Migration-phase questions are regular; knowing which tool belongs to which phase settles them."
+      }
+    },
+    {
+      "id": "clf-snow-family",
+      "title": "AWS Snow Family: moving data offline and at the edge",
+      "size": "standard",
+      "est_min": 10,
+      "section": "migration",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-snow-offline",
+          "statement": "AWS Snow Family devices are rugged physical devices that AWS ships to you to move terabytes to petabytes of data offline into S3 when network transfer would be too slow or costly."
+        },
+        {
+          "id": "kc-snow-edge-compute",
+          "statement": "Snowball Edge devices also provide edge computing: they can run EC2 instances locally at sites with limited or no connectivity, such as ships, mines or field sites."
+        },
+        {
+          "id": "kc-snow-rule-of-thumb",
+          "statement": "AWS guidance: if moving the data over the network would take more than about a week, consider Snow Family devices instead."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Snow Family is the exam answer whenever data volume or connectivity rules out network transfer."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-storage-gateway"
+      ],
+      "confusable_with": [
+        "clf-datasync-transfer-choice",
+        "clf-storage-gateway"
+      ],
+      "introduces": [
+        "snow family",
+        "snowball edge",
+        "edge computing",
+        "offline data transfer"
+      ],
+      "uses": [
+        "s3",
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "amazon-s3/aws-snow-family"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "amazon-s3/snow-family-edge-computing"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "amazon-s3/what-is-edge-computing"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "amazon-s3/aws-opshub"
+        }
+      ],
+      "problem_ideas": [
+        "A film studio must move 400 TB to S3 over a 100 Mbps line: estimate the network time and choose a method.",
+        "A research ship needs to process sensor data at sea for weeks without internet: which device and why?",
+        "Spot the distractor: 'Snowball Edge is a faster internet connection to AWS.'",
+        "Order the steps: request device, load data, ship back, data imported into S3.",
+        "A mining site wants local processing with intermittent connectivity: Snowball Edge or Outposts?",
+        "Explain why encryption on the device matters when data travels by courier."
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "Snowmobile and Snowcone retired: what remains in the family"
+        },
+        {
+          "kind": "implementation",
+          "title": "AWS OpsHub for managing Snow devices"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "'Petabytes' or 'limited bandwidth' in a stem usually means Snow Family."
+      }
+    },
+    {
+      "id": "clf-datasync-transfer-choice",
+      "title": "DataSync and choosing a data transfer method",
+      "size": "standard",
+      "est_min": 10,
+      "section": "migration",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-datasync",
+          "statement": "AWS DataSync is an online service that automates and accelerates copying large amounts of data between on-premises storage (NFS, SMB, HDFS, object stores) or other clouds and S3, EFS or FSx, with scheduling and integrity checks."
+        },
+        {
+          "id": "kc-transfer-time-calc",
+          "statement": "Network transfer time is roughly data size divided by usable bandwidth: 100 TB over a fully used 1 Gbps link takes about 9 to 10 days."
+        },
+        {
+          "id": "kc-transfer-choice",
+          "statement": "A one-time or scheduled online bulk copy points to DataSync, ongoing on-premises access to cloud storage to Storage Gateway, too much data for the link to Snow Family, and dedicated private bandwidth to Direct Connect."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Choosing among DataSync, Storage Gateway, Snow and Direct Connect is a standard migration-and-transfer item."
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-snow-family",
+          "reason": "The choice KC compares DataSync with Snow devices and uses the one-week rule."
+        },
+        {
+          "topic": "clf-storage-gateway",
+          "reason": "The choice KC contrasts one-time copy with ongoing hybrid access through Storage Gateway."
+        }
+      ],
+      "suggests": [
+        "clf-direct-connect"
+      ],
+      "confusable_with": [
+        "clf-snow-family",
+        "clf-storage-gateway",
+        "clf-direct-connect"
+      ],
+      "introduces": [
+        "datasync",
+        "data transfer selection"
+      ],
+      "uses": [
+        "snow family",
+        "storage gateway",
+        "direct connect",
+        "s3",
+        "efs",
+        "fsx",
+        "hybrid cloud"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "other-aws-services/aws-datasync"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "amazon-s3/hybrid-cloud-for-storage"
+        }
+      ],
+      "problem_ideas": [
+        "Compute the transfer time for 20 TB over a 500 Mbps link at 80% utilisation, then choose DataSync or Snow.",
+        "Compute days for 1 PB over 10 Gbps and decide whether to order Snowball Edge devices.",
+        "A NAS share must copy new files to S3 every night: which service?",
+        "On-prem apps need to keep reading files that now live in S3: DataSync or Storage Gateway?",
+        "Spot the distractor: 'Direct Connect copies files from NFS to EFS.'",
+        "A team must migrate 50 TB from another cloud's object storage to S3: which online service?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "math",
+          "title": "Bits vs bytes and real-world link utilisation"
+        },
+        {
+          "kind": "adjacent",
+          "title": "AWS Transfer Family for SFTP into S3"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "Transfer-method questions hinge on a quick size-versus-bandwidth estimate."
+      }
+    },
+    {
+      "id": "clf-amazon-connect",
+      "title": "Amazon Connect: a cloud contact center",
+      "size": "micro",
+      "est_min": 6,
+      "section": "end-user-apps",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-amazon-connect",
+          "statement": "Amazon Connect is a cloud contact center service for setting up customer-service phone and chat channels in minutes, paid per use with no telephony hardware."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Task 3.8 names Amazon Connect as the business application for customer contact centers."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-ai-language-speech"
+      ],
+      "confusable_with": [
+        "clf-ses"
+      ],
+      "introduces": [
+        "amazon connect",
+        "contact center"
+      ],
+      "uses": [],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "business-applications/amazon-connect"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-8-identify-services-fro/choosing-the-appropriate-service-to-meet"
+        }
+      ],
+      "problem_ideas": [
+        "A retailer needs a customer-service phone line with 50 agents working from home next week: which service?",
+        "Spot the distractor: 'Use SES to route inbound customer calls.'",
+        "A contact centre wants call transcripts and sentiment: which AI services pair with Connect?",
+        "Seasonal call volume triples in December: explain why pay-per-use suits it.",
+        "Match three business needs (email campaigns, phone support, internal chat) to services, ruling out Connect where wrong.",
+        "A company wants an IVR menu with self-service balance checks: which service hosts the flow?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Contact Lens: analytics on Connect calls"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "One-keyword item ('contact center'); cheap to learn, usually one question."
+      }
+    },
+    {
+      "id": "clf-workspaces-appstream",
+      "title": "WorkSpaces, AppStream 2.0 and Secure Browser",
+      "size": "standard",
+      "est_min": 10,
+      "section": "end-user-apps",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-workspaces-vdi",
+          "statement": "Amazon WorkSpaces provides managed, persistent virtual desktops (Windows or Linux) that users reach from almost any device, replacing on-premises virtual desktop infrastructure."
+        },
+        {
+          "id": "kc-appstream",
+          "statement": "Amazon AppStream 2.0 streams individual desktop applications to a web browser without giving each user a full desktop."
+        },
+        {
+          "id": "kc-secure-browser",
+          "statement": "Amazon WorkSpaces Secure Browser gives workers access to internal websites and SaaS apps through a secure browser session, without data being stored on their devices."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Task 3.8 names these three end-user computing services."
+        }
+      ],
+      "requires": [],
+      "suggests": [],
+      "confusable_with": [
+        "clf-amplify-iot"
+      ],
+      "introduces": [
+        "workspaces",
+        "appstream",
+        "virtual desktop",
+        "workspaces secure browser"
+      ],
+      "uses": [],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-8-identify-services-fro/end-user-computing-services-of-amazon-ap"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "end-user-computing/amazon-workspaces-secure-browser"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-aws-services/amazon-workspaces"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-aws-services/amazon-appstream-2-0"
+        }
+      ],
+      "problem_ideas": [
+        "200 contractors need a full Windows desktop for 3 months from their own laptops: which service?",
+        "Students need one CAD application in a browser, not a desktop: which service?",
+        "Call-centre staff should reach an internal web portal with no files left on their devices: which service?",
+        "Spot the distractor: 'AppStream 2.0 provides persistent desktops with a user's own files.'",
+        "A company is closing an office and wants desktops without shipping hardware: justify WorkSpaces.",
+        "Classify five end-user needs as WorkSpaces, AppStream 2.0 or Secure Browser."
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "WorkSpaces Web renamed WorkSpaces Secure Browser"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Full desktop vs single app vs browser-only is a clean, regularly tested distinction."
+      }
+    },
+    {
+      "id": "clf-amplify-iot",
+      "title": "Amplify for web and mobile apps, IoT Core for devices",
+      "size": "standard",
+      "est_min": 8,
+      "section": "end-user-apps",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-amplify",
+          "statement": "AWS Amplify provides tools and hosting to build, deploy and host full-stack web and mobile applications quickly, wiring in back-end features such as authentication, storage and APIs."
+        },
+        {
+          "id": "kc-iot-core",
+          "statement": "AWS IoT Core securely connects IoT devices to the cloud and routes their messages (over MQTT or HTTPS) to AWS services such as Lambda, Kinesis or DynamoDB."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o4",
+          "reason": "Task 3.8 names Amplify for frontend/mobile and IoT Core for managing IoT devices."
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-kinesis",
+        "clf-elastic-beanstalk"
+      ],
+      "confusable_with": [
+        "clf-elastic-beanstalk"
+      ],
+      "introduces": [
+        "amplify",
+        "iot core"
+      ],
+      "uses": [
+        "lambda",
+        "dynamodb",
+        "kinesis"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-3-8-identify-services-fro/frontend-web-and-mobile-services-of-aws-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "internet-of-things-iot/aws-iot-core"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-aws-services/aws-amplify"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "other-aws-services/aws-iot-core"
+        }
+      ],
+      "problem_ideas": [
+        "A two-person startup wants to ship a React web app with sign-in and hosting this week: which service?",
+        "10,000 smart thermostats must send readings every minute to AWS: which service receives them?",
+        "Spot the distractor: 'Amplify connects factory sensors to AWS.'",
+        "Amplify vs Elastic Beanstalk: a frontend-and-mobile requirement vs deploying a Java web app. Choose each.",
+        "Route device telemetry from IoT Core into a real-time stream for analysis: name the downstream service.",
+        "A mobile app needs offline data sync and user sign-up: which service family covers it?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "MQTT and the IoT Core rules engine"
+        },
+        {
+          "kind": "adjacent",
+          "title": "AWS AppSync and GraphQL APIs behind Amplify"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "Each is one keyword away ('frontend/mobile', 'IoT devices'); low effort, steady points."
+      }
+    }
+  ],
+  "groups": {}
+}

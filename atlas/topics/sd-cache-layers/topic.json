@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-cache-layers",
+  "version": 1,
+  "title": "Where to cache: client, CDN, server, database, app",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-cache-layers-order",
+      "version": 1,
+      "statement": "Caches can sit at the client, the CDN, the web server or reverse proxy, the database and the application; the closer to the user, the more latency saved but the less control over invalidation."
+    },
+    {
+      "id": "kc-object-vs-query-cache",
+      "version": 1,
+      "statement": "Caching assembled objects keyed by id is easier to invalidate than caching database query results keyed by query text, because one changed row can affect many cached queries."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-cache-basics"
+  ],
+  "suggests": [
+    "sd-cdn",
+    "sd-reverse-proxy"
+  ],
+  "confusable_with": [
+    "sd-cdn"
+  ],
+  "introduces": [
+    "client caching",
+    "application cache",
+    "query cache",
+    "object cache"
+  ],
+  "uses": [
+    "cdn",
+    "reverse proxy",
+    "http header",
+    "cache hit"
+  ],
+  "problem_ideas": [
+    "For a news site, assign article HTML, user profile and trending list to a cache layer each",
+    "A price changes but users still see the old price for an hour: which layer is the likely culprit?",
+    "Query cache keyed by SQL text: one product row updates; list which cached queries go stale",
+    "Explain why personalised dashboards rarely cache well at the CDN",
+    "Choose between object and query caching for a user profile assembled from four tables",
+    "Rank the five layers by latency saved for a mobile client in another continent"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "cache/client-caching"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "cache/application-caching"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "cache/caching-at-the-object-level"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "idempotent-operations/web-server-caching"
+    }
+  ],
+  "status": "stub"
+}

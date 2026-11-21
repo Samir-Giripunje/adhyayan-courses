@@ -1,0 +1,1898 @@
+{
+  "stage": {
+    "id": "clf-p5",
+    "title": "Security, governance and compliance services",
+    "outcome": [
+      "o3",
+      "o6"
+    ],
+    "assumes": [
+      "shared responsibility model",
+      "root user",
+      "iam user",
+      "iam policy",
+      "iam role",
+      "least privilege",
+      "mfa",
+      "vpc",
+      "security group",
+      "network acl",
+      "cloudfront",
+      "s3",
+      "ec2 instance",
+      "rds"
+    ],
+    "provides": [
+      "aws organizations",
+      "service control policy",
+      "iam identity center",
+      "identity federation",
+      "cognito",
+      "directory service",
+      "encryption at rest",
+      "encryption in transit",
+      "kms",
+      "cloudhsm",
+      "acm",
+      "secrets manager",
+      "shield",
+      "waf",
+      "firewall manager",
+      "guardduty",
+      "inspector",
+      "macie",
+      "security hub",
+      "detective",
+      "cloudtrail",
+      "aws config",
+      "aws artifact",
+      "compliance program"
+    ]
+  },
+  "sections": [
+    {
+      "id": "identity-governance",
+      "title": "Multi-account governance and identity",
+      "rank": 1,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-2-3-identify-aws-access-m"
+      }
+    },
+    {
+      "id": "data-protection",
+      "title": "Protecting data: encryption, keys and secrets",
+      "rank": 2,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-2-2-understand-aws-cloud-"
+      }
+    },
+    {
+      "id": "edge-protection",
+      "title": "Protecting the front door: DDoS and web attacks",
+      "rank": 3,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "security-identity-and-compliance"
+      }
+    },
+    {
+      "id": "detection-audit",
+      "title": "Logging, auditing and threat detection",
+      "rank": 4,
+      "source_ref": {
+        "source": "clf-notes",
+        "section": "security-compliance"
+      }
+    },
+    {
+      "id": "compliance-resources",
+      "title": "Compliance, security resources and choosing a service",
+      "rank": 5,
+      "source_ref": {
+        "source": "clf-c02-guide",
+        "section": "task-statement-2-4-identify-components-a"
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "clf-organizations",
+      "title": "AWS Organizations and multi-account strategy",
+      "size": "big",
+      "est_min": 14,
+      "section": "identity-governance",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-org-management-member",
+          "statement": "An AWS Organizations organization has one management account that creates it and pays its bills, plus member accounts. Each account stays a separate boundary for security and resources."
+        },
+        {
+          "id": "kc-org-organizational-units",
+          "statement": "Organizational units (OUs) group accounts in a hierarchy under the organization root, and a policy attached to an OU applies to every account inside it."
+        },
+        {
+          "id": "kc-org-multi-account-why",
+          "statement": "A multi-account strategy puts environments, teams or workloads (for example production and development) in separate accounts. This limits the blast radius of mistakes and breaches and keeps access and costs separate."
+        },
+        {
+          "id": "kc-ram-share-resources",
+          "statement": "AWS Resource Access Manager (RAM) shares resources such as subnets, transit gateways and License Manager configurations with other accounts or the whole organization, so they don't have to be duplicated."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Organizations and OUs come up in the governance questions of Domain 2 and the billing questions of Domain 4, and SCPs build on them"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-aws-account-root-user",
+          "reason": "An organization is a collection of AWS accounts, so the learner must already know what an account is"
+        }
+      ],
+      "suggests": [
+        "clf-service-control-policies"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "aws organizations",
+        "management account",
+        "member account",
+        "organizational unit",
+        "multi-account strategy",
+        "resource access manager"
+      ],
+      "uses": [
+        "aws account",
+        "subnet",
+        "transit gateway"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/aws-organizations"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/multi-account-strategies"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-resource-access-manager-aws-ram"
+        }
+      ],
+      "problem_ideas": [
+        "A startup has 40 engineers sharing one AWS account, and an intern deleted a production database while testing. Propose an account layout using OUs.",
+        "Draw an OU tree for a company with prod, dev and sandbox accounts in two business units, then say which OU a new data-science sandbox account belongs in.",
+        "A shared VPC subnet must be used by 5 member accounts. Choose between VPC peering, copying the subnet, and RAM.",
+        "Which account receives the invoice when 12 member accounts each spend $2,000 this month?",
+        "True or false: moving an account into a different OU changes which policies apply to it.",
+        "A team wants its prod account's spending tracked separately from dev. Explain how separate accounts help, compared with tagging one shared account."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Landing zones and the recommended OU structure"
+        },
+        {
+          "kind": "edge",
+          "title": "What happens when a member account leaves an organization"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Organizations shows up across governance and billing questions, and the exam often names it as the multi-account answer."
+      }
+    },
+    {
+      "id": "clf-service-control-policies",
+      "title": "Service control policies: guardrails for accounts",
+      "size": "standard",
+      "est_min": 10,
+      "section": "identity-governance",
+      "mode_hint": "prediction",
+      "kcs": [
+        {
+          "id": "kc-scp-max-permissions",
+          "statement": "A service control policy (SCP) sets the maximum permissions available in the accounts it is attached to. It grants nothing by itself, so a user still needs an IAM policy that allows the action."
+        },
+        {
+          "id": "kc-scp-effective-permission",
+          "statement": "An action in a member account is allowed only if both the SCPs and the IAM policies allow it. An explicit deny in either one blocks the action."
+        },
+        {
+          "id": "kc-scp-scope",
+          "statement": "SCPs restrict every IAM user and role in a member account, including that account's root user. They never restrict the management account."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Exam questions about restricting what whole accounts may do have SCPs as the answer, and learners often confuse SCPs with IAM policies"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-organizations",
+          "reason": "SCPs are attached to the organization root, OUs or accounts, so the learner must know that hierarchy"
+        },
+        {
+          "topic": "clf-iam-policies",
+          "reason": "Working out effective permissions combines an SCP with IAM policies and explicit deny"
+        }
+      ],
+      "suggests": [
+        "clf-least-privilege"
+      ],
+      "confusable_with": [
+        "clf-iam-policies"
+      ],
+      "introduces": [
+        "service control policy"
+      ],
+      "uses": [
+        "aws organizations",
+        "organizational unit",
+        "iam policy",
+        "explicit deny",
+        "root user",
+        "management account",
+        "member account"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "account-management-billing-support/service-control-policies-scp"
+        }
+      ],
+      "problem_ideas": [
+        "An SCP allows only EC2 and S3. A user's IAM policy allows DynamoDB:*. Can the user create a DynamoDB table? Predict the result.",
+        "An SCP denies the use of every Region except eu-west-1. A developer with AdministratorAccess tries to launch EC2 in us-east-1. Predict the outcome.",
+        "The root user of a member account tries to disable CloudTrail, and an SCP denies cloudtrail:StopLogging. Does it work?",
+        "The same SCP is attached to the management account. Does it stop the management account's admin?",
+        "A company wants no account in the Sandbox OU to buy Reserved Instances. Which policy type, and where is it attached?",
+        "An SCP allows s3:* and the IAM policy is empty. List exactly what the user can do."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Allow-list vs deny-list SCP strategies"
+        },
+        {
+          "kind": "edge",
+          "title": "Why service-linked roles are not affected by SCPs"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "The exam often asks how to stop entire accounts from using a service or Region, and the answer is an SCP."
+      }
+    },
+    {
+      "id": "clf-identity-federation",
+      "title": "Identity federation: sign in with an existing identity",
+      "size": "standard",
+      "est_min": 8,
+      "section": "identity-governance",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-federation-definition",
+          "statement": "Identity federation lets users sign in through an external identity provider (a corporate directory, a SAML 2.0 or OIDC provider, or a social login) and receive temporary AWS credentials, so no long-term IAM user is created for each person."
+        },
+        {
+          "id": "kc-federation-why",
+          "statement": "Federation suits large or changing user populations: access is managed in one directory, nobody has long-term AWS keys to rotate, and disabling someone in the directory removes their AWS access."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task Statement 2.3 explicitly asks learners to recognise types of identity management such as federation"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-iam-roles",
+          "reason": "Federated users get their AWS access by assuming roles with temporary credentials"
+        }
+      ],
+      "suggests": [
+        "clf-iam-users-groups"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "identity federation",
+        "identity provider",
+        "saml",
+        "single sign-on"
+      ],
+      "uses": [
+        "iam user",
+        "iam role",
+        "temporary credentials",
+        "sts"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-3-identify-aws-access-m/understanding-the-types-of-identity-mana"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "advanced-identity/advanced-identity"
+        }
+      ],
+      "problem_ideas": [
+        "A company with 3,000 employees in its corporate directory wants them to reach AWS without new passwords. Pick federation or IAM users and justify the choice.",
+        "An employee leaves on Friday. Compare the offboarding steps with 3,000 IAM users and with federation.",
+        "Which kind of credential does a federated user receive: an access key pair, temporary credentials or a root password?",
+        "Match each identity source (Google login, a SAML 2.0 corporate IdP, an OIDC provider) to the federation it supports.",
+        "Spot the anti-pattern: a team creates one shared IAM user and gives its keys to 20 contractors.",
+        "Explain what single sign-on means for a user who needs 5 AWS accounts and 3 SaaS apps."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "How a SAML assertion becomes an AssumeRole call"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "The exam guide names federated identity directly, and it underlies the Identity Center and Cognito questions."
+      }
+    },
+    {
+      "id": "clf-iam-identity-center",
+      "title": "IAM Identity Center: one sign-in for many accounts",
+      "size": "standard",
+      "est_min": 10,
+      "section": "identity-governance",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-idc-single-portal",
+          "statement": "IAM Identity Center (formerly AWS Single Sign-On) gives workforce users one sign-in portal for all the AWS accounts in an organization and for supported business applications."
+        },
+        {
+          "id": "kc-idc-permission-sets",
+          "statement": "IAM Identity Center grants access by assigning a user or group a permission set in a chosen account. The permission set becomes an IAM role in that account."
+        },
+        {
+          "id": "kc-idc-identity-sources",
+          "statement": "IAM Identity Center can use its own built-in directory, an external identity provider such as Okta or Microsoft Entra ID, or a Microsoft Active Directory as its source of identities."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "The o3 product requires naming the IAM feature that meets an access need, and access across many accounts is answered by Identity Center"
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task Statement 2.3 lists AWS IAM Identity Center by name"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-identity-federation",
+          "reason": "Identity Center is AWS's managed federation and single sign-on service for workforce users"
+        },
+        {
+          "topic": "clf-organizations",
+          "reason": "Permission sets are assigned per account across an organization"
+        }
+      ],
+      "suggests": [
+        "clf-iam-roles"
+      ],
+      "confusable_with": [
+        "clf-cognito-directory-service",
+        "clf-iam-users-groups"
+      ],
+      "introduces": [
+        "iam identity center",
+        "permission set",
+        "workforce identity"
+      ],
+      "uses": [
+        "aws organizations",
+        "identity federation",
+        "identity provider",
+        "single sign-on",
+        "iam role",
+        "iam group"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-3-identify-aws-access-m/aws-iam-identity-center"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-iam-identity-center"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "advanced-identity/aws-iam-identity-center"
+        }
+      ],
+      "problem_ideas": [
+        "Auditors need read-only access to 25 accounts. Design the permission set and group assignment.",
+        "A company already uses Okta for 800 staff. Which identity source should Identity Center use?",
+        "Choose between IAM Identity Center and creating IAM users in each of 15 accounts for the same 50 engineers, and count the credentials each option creates.",
+        "What does a developer see after signing in to the Identity Center access portal?",
+        "A permission set is changed from ReadOnly to PowerUser. Which accounts' roles are updated?",
+        "Scenario: a question says 'centrally manage workforce access to multiple AWS accounts'. Name the service and the closest distractor."
+      ],
+      "depth_threads": [
+        {
+          "kind": "history",
+          "title": "From AWS SSO to IAM Identity Center"
+        },
+        {
+          "kind": "adjacent",
+          "title": "Attribute-based access control with Identity Center"
+        }
+      ],
+      "lens": {
+        "score": 0.75,
+        "reason": "Identity Center is named in the exam guide and is the default answer for workforce access across many accounts."
+      }
+    },
+    {
+      "id": "clf-cognito-directory-service",
+      "title": "Cognito and Directory Service: app users and AD",
+      "size": "standard",
+      "est_min": 10,
+      "section": "identity-governance",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cognito-app-users",
+          "statement": "Amazon Cognito adds sign-up, sign-in and access control for the end users of your web and mobile apps (customer identity). It scales to millions of users and supports social and SAML logins."
+        },
+        {
+          "id": "kc-cognito-vs-iam",
+          "statement": "Cognito user pools hold an application's customers, while IAM and IAM Identity Center hold the people who operate AWS. So 'users of our mobile app' points to Cognito, not to IAM users."
+        },
+        {
+          "id": "kc-directory-service",
+          "statement": "AWS Directory Service runs a managed Microsoft Active Directory in AWS (AWS Managed Microsoft AD) or connects to an existing on-premises AD (AD Connector), so workloads and users that depend on AD can work with AWS."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "clf-identity-federation",
+          "reason": "Cognito and Directory Service are both explained as identity sources for federation"
+        }
+      ],
+      "suggests": [
+        "clf-iam-identity-center"
+      ],
+      "confusable_with": [
+        "clf-iam-identity-center"
+      ],
+      "introduces": [
+        "cognito",
+        "user pool",
+        "customer identity",
+        "directory service",
+        "active directory"
+      ],
+      "uses": [
+        "identity federation",
+        "identity provider",
+        "iam user",
+        "iam identity center",
+        "hybrid cloud"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/amazon-cognito"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "advanced-identity/amazon-cognito-simplified"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-directory-service"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "advanced-identity/what-is-microsoft-active-directory-ad"
+        }
+      ],
+      "problem_ideas": [
+        "A fitness app expects 2 million users who sign in with Google or Apple. Name the service and explain why IAM users would be wrong.",
+        "A Windows file server moving to EC2 needs domain join with no new directory to run. Choose between AD Connector and AWS Managed Microsoft AD.",
+        "Sort these into workforce or customer identity: call-centre agents, online shoppers, DevOps engineers, partner API clients.",
+        "A question mentions 'user pools'. Which service is it about?",
+        "Map each requirement to Cognito, IAM Identity Center or Directory Service: employees accessing 10 accounts, game players signing in, SharePoint needing AD.",
+        "Explain why a hybrid company with an on-premises AD might use AD Connector instead of copying users."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "User pools vs identity pools in Cognito"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "These appear as distractors and in occasional 'app users' or 'Active Directory' questions."
+      }
+    },
+    {
+      "id": "clf-encryption-rest-transit",
+      "title": "Encryption at rest and in transit",
+      "size": "standard",
+      "est_min": 10,
+      "section": "data-protection",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-enc-at-rest",
+          "statement": "Encryption at rest protects stored data, such as EBS volumes, S3 objects and RDS databases, so a copied disk, snapshot or backup can't be read without the key."
+        },
+        {
+          "id": "kc-enc-in-transit",
+          "statement": "Encryption in transit protects data moving across a network, usually with TLS (HTTPS) for client traffic or IPsec for VPN tunnels."
+        },
+        {
+          "id": "kc-enc-customer-responsibility",
+          "statement": "Under the shared responsibility model, AWS provides the encryption features and some services encrypt by default (S3 has encrypted every new object since January 2023). The customer remains responsible for deciding how data is encrypted and who may use the keys."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Sorting security tasks between AWS and the customer and choosing KMS or ACM both depend on telling the two kinds of encryption apart"
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task Statement 2.2 asks directly about encryption options at rest and in transit"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-shared-responsibility-by-service"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "encryption at rest",
+        "encryption in transit",
+        "tls"
+      ],
+      "uses": [
+        "ebs",
+        "s3",
+        "rds",
+        "ipsec",
+        "shared responsibility model"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-2-understand-aws-cloud-/benefits-of-cloud-security-for-example-e"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-2-understand-aws-cloud-/identifying-encryption-options-for-examp"
+        }
+      ],
+      "problem_ideas": [
+        "Label each as at rest or in transit: an HTTPS checkout page, an encrypted EBS snapshot, a Site-to-Site VPN tunnel, an S3 object with SSE-KMS.",
+        "A laptop on hotel Wi-Fi uploads files to S3 over HTTP. Which kind of encryption is missing?",
+        "Who is responsible for turning on encryption for an RDS database: AWS or the customer?",
+        "An attacker steals an unencrypted EBS snapshot shared publicly by mistake. Which control would have made it useless?",
+        "Identify the false statement: 'Because AWS encrypts S3 by default, customers have no encryption responsibilities.'",
+        "A healthcare app must encrypt data both in the database and between the browser and the load balancer. List the two controls."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Envelope encryption: data keys wrapped by a master key"
+        },
+        {
+          "kind": "edge",
+          "title": "Client-side vs server-side encryption"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Encryption choices appear across security questions and are named in the exam guide."
+      }
+    },
+    {
+      "id": "clf-kms",
+      "title": "AWS KMS: managed encryption keys",
+      "size": "standard",
+      "est_min": 10,
+      "section": "data-protection",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-kms-managed-keys",
+          "statement": "AWS KMS creates, stores and controls encryption keys and integrates with services such as S3, EBS and RDS, so those services can encrypt data with a KMS key without you ever handling the key material."
+        },
+        {
+          "id": "kc-kms-key-types",
+          "statement": "AWS managed keys are created and managed by AWS for a single service. Customer managed keys are created by you and give you control of the key policy, rotation and disabling or deleting the key."
+        },
+        {
+          "id": "kc-kms-shared-hsm",
+          "statement": "KMS is a shared (multi-tenant) managed service: AWS runs the underlying hardware security modules, and access to each key is controlled by its key policy together with IAM policies."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "KMS is one of the services the o3 product requires learners to match to a stated need"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-encryption-rest-transit",
+          "reason": "KMS keys exist to encrypt data at rest, so learners need that concept first"
+        }
+      ],
+      "suggests": [
+        "clf-iam-policies"
+      ],
+      "confusable_with": [
+        "clf-cloudhsm",
+        "clf-secrets-manager"
+      ],
+      "introduces": [
+        "kms",
+        "kms key",
+        "aws managed key",
+        "customer managed key",
+        "key policy",
+        "hardware security module"
+      ],
+      "uses": [
+        "encryption at rest",
+        "iam policy",
+        "s3",
+        "ebs",
+        "rds"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-key-management-service-aws-kms"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/aws-kms-key-management-service"
+        }
+      ],
+      "problem_ideas": [
+        "A compliance team must be able to disable a key immediately and control who uses it. Choose between an AWS managed key and a customer managed key.",
+        "An S3 bucket must be encrypted with keys the company controls but does not want to run hardware for. Name the service.",
+        "An IAM policy allows kms:Decrypt but the key policy does not allow the account. Can the user decrypt?",
+        "Which of these does KMS manage: encryption keys, database passwords, TLS certificates?",
+        "A security officer asks who manages the HSMs behind KMS. Answer in one sentence.",
+        "Rank KMS, CloudHSM and an AWS managed key by how much key control the customer has."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Envelope encryption and data keys in KMS"
+        },
+        {
+          "kind": "edge",
+          "title": "Key deletion waiting periods and why they exist"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "KMS is the most-tested data-protection service, with frequent 'managed encryption keys' questions."
+      }
+    },
+    {
+      "id": "clf-cloudhsm",
+      "title": "CloudHSM: your own dedicated key hardware",
+      "size": "micro",
+      "est_min": 6,
+      "section": "data-protection",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cloudhsm-dedicated",
+          "statement": "AWS CloudHSM provides dedicated, single-tenant hardware security modules in your VPC, validated at FIPS 140 Level 3, where only you manage the keys and HSM users (AWS cannot access the keys). Use it when a regulation requires customer-controlled HSMs."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "clf-kms",
+          "reason": "CloudHSM is taught as the dedicated alternative to the shared KMS"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-kms"
+      ],
+      "introduces": [
+        "cloudhsm"
+      ],
+      "uses": [
+        "kms",
+        "hardware security module",
+        "vpc"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-cloudhsm"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/cloudhsm"
+        }
+      ],
+      "problem_ideas": [
+        "A bank's regulator says no cloud provider staff may be able to access its keys. Choose between KMS and CloudHSM.",
+        "Identify the keyword in this question that points to CloudHSM: 'single-tenant, FIPS 140 Level 3 HSM'.",
+        "Who manages HSM users and keys in CloudHSM? Who manages them in KMS?",
+        "A team wants automatic integration with 100+ AWS services and the least operational work. Pick KMS or CloudHSM.",
+        "True or false: if you lose your CloudHSM credentials, AWS can recover your keys.",
+        "Where does a CloudHSM cluster run: in your VPC, at an edge location or in AWS's shared fleet?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "KMS custom key stores backed by CloudHSM"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "A typical distractor next to KMS. The words 'dedicated' and 'single-tenant' point to it."
+      }
+    },
+    {
+      "id": "clf-acm",
+      "title": "AWS Certificate Manager: free TLS certificates",
+      "size": "micro",
+      "est_min": 6,
+      "section": "data-protection",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-acm-certificates",
+          "statement": "AWS Certificate Manager (ACM) provisions, manages and automatically renews public SSL/TLS certificates at no extra cost, for use with integrated services such as Elastic Load Balancing, CloudFront and API Gateway. This is how those services serve HTTPS (encryption in transit)."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "clf-encryption-rest-transit",
+          "reason": "Certificates enable TLS, which is how data is encrypted in transit"
+        }
+      ],
+      "suggests": [
+        "clf-cloudfront"
+      ],
+      "confusable_with": [
+        "clf-kms"
+      ],
+      "introduces": [
+        "acm",
+        "ssl/tls certificate"
+      ],
+      "uses": [
+        "encryption in transit",
+        "tls",
+        "elastic load balancing",
+        "cloudfront",
+        "api gateway"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-certificate-manager-acm"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/aws-certificate-manager-acm"
+        }
+      ],
+      "problem_ideas": [
+        "A site behind an Application Load Balancer must move from HTTP to HTTPS without manual renewals. Name the service.",
+        "A certificate expired last year and caused an outage. Which ACM feature prevents a repeat?",
+        "Pick the service for each need: manage encryption keys, issue TLS certificates, store database passwords.",
+        "Can a public ACM certificate be installed directly on an EC2 instance's web server? Explain why exam questions pair ACM with ELB and CloudFront instead.",
+        "How much does a public certificate from ACM cost?",
+        "Which type of encryption does ACM help with: at rest or in transit?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Private certificate authorities with AWS Private CA"
+        }
+      ],
+      "lens": {
+        "score": 0.5,
+        "reason": "A short service-matching item: 'SSL/TLS certificate' points to ACM."
+      }
+    },
+    {
+      "id": "clf-secrets-manager",
+      "title": "Secrets Manager: storing and rotating credentials",
+      "size": "standard",
+      "est_min": 8,
+      "section": "data-protection",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-secrets-store",
+          "statement": "AWS Secrets Manager stores credentials such as database passwords and API keys, encrypted with KMS. Applications retrieve them at runtime instead of having them hard-coded in source code or config files."
+        },
+        {
+          "id": "kc-secrets-rotation",
+          "statement": "Secrets Manager can rotate secrets automatically on a schedule (with built-in support for RDS databases). Automatic rotation is the feature that sets it apart from Systems Manager Parameter Store in exam questions."
+        }
+      ],
+      "serves": [],
+      "requires": [],
+      "suggests": [
+        "clf-kms"
+      ],
+      "confusable_with": [
+        "clf-kms"
+      ],
+      "introduces": [
+        "secrets manager",
+        "secret rotation"
+      ],
+      "uses": [
+        "kms",
+        "rds"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-secrets-manager"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/aws-secrets-manager"
+        }
+      ],
+      "problem_ideas": [
+        "A developer committed an RDS password to a public Git repository. Which service prevents this, and how?",
+        "A policy says database passwords must change every 30 days without downtime. Name the feature.",
+        "Pick Secrets Manager, KMS or ACM for: rotating a MySQL password, encrypting an EBS volume, serving HTTPS.",
+        "Who encrypts the secrets that Secrets Manager stores?",
+        "A Lambda function needs a third-party API key. Describe how it gets the key safely.",
+        "Spot the distractor: 'Use IAM access keys to store the database password.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Secrets Manager vs Systems Manager Parameter Store"
+        }
+      ],
+      "lens": {
+        "score": 0.55,
+        "reason": "Questions about storing or rotating credentials point to Secrets Manager."
+      }
+    },
+    {
+      "id": "clf-shield-ddos",
+      "title": "AWS Shield: DDoS protection, Standard vs Advanced",
+      "size": "standard",
+      "est_min": 10,
+      "section": "edge-protection",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-ddos-attack",
+          "statement": "A DDoS (distributed denial-of-service) attack floods a target with traffic from many sources to exhaust its capacity. Edge services such as CloudFront and Route 53, together with Auto Scaling, absorb much of it."
+        },
+        {
+          "id": "kc-shield-standard",
+          "statement": "Shield Standard is turned on automatically for every AWS customer at no extra cost and protects against common network-layer and transport-layer (layer 3 and 4) DDoS attacks."
+        },
+        {
+          "id": "kc-shield-advanced",
+          "statement": "Shield Advanced is a paid subscription (about $3,000 a month per organization). It adds enhanced attack detection, 24/7 access to the Shield Response Team and cost protection for scaling charges caused by a DDoS attack."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Shield is one of the services the o3 product requires learners to match to a stated need"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-cloudfront",
+        "clf-auto-scaling-groups"
+      ],
+      "confusable_with": [
+        "clf-waf"
+      ],
+      "introduces": [
+        "ddos attack",
+        "shield",
+        "shield standard",
+        "shield advanced"
+      ],
+      "uses": [
+        "cloudfront",
+        "route 53",
+        "auto scaling group"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-shield"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/ddos-protection-on-aws"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/aws-shield"
+        }
+      ],
+      "problem_ideas": [
+        "A gaming company was hit by a 2 Tbps SYN flood and wants 24/7 expert help during attacks. Choose between Shield Standard and Shield Advanced.",
+        "A DDoS attack doubled an Auto Scaling group from 10 to 40 instances for 6 hours. Which Shield feature covers the extra bill?",
+        "What does a brand-new AWS account get for DDoS protection without doing anything?",
+        "Rank CloudFront, Route 53 and a single EC2 instance by how well each absorbs a volumetric attack.",
+        "A question asks for SQL injection protection. Is Shield the answer? Explain.",
+        "Estimate the yearly cost of Shield Advanced for one organization."
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Layer 3/4 vs layer 7 DDoS attacks"
+        },
+        {
+          "kind": "implementation",
+          "title": "DDoS-resilient reference architecture on AWS"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Shield Standard vs Advanced is a classic exam question, and DDoS questions appear often."
+      }
+    },
+    {
+      "id": "clf-waf",
+      "title": "AWS WAF: filtering web requests at layer 7",
+      "size": "standard",
+      "est_min": 8,
+      "section": "edge-protection",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-waf-layer7",
+          "statement": "AWS WAF is a layer 7 web application firewall. Rules in a web ACL filter HTTP(S) requests, for example to block SQL injection or cross-site scripting, block specific IP addresses or countries, or rate-limit clients."
+        },
+        {
+          "id": "kc-waf-attach-points",
+          "statement": "WAF protects web front doors such as CloudFront distributions, Application Load Balancers and API Gateway APIs. It cannot be attached to a Network Load Balancer or directly to an EC2 instance."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "WAF is one of the services the o3 product requires learners to match to a stated need"
+        }
+      ],
+      "requires": [],
+      "suggests": [
+        "clf-shield-ddos",
+        "clf-elastic-load-balancing"
+      ],
+      "confusable_with": [
+        "clf-shield-ddos",
+        "clf-security-groups-nacls"
+      ],
+      "introduces": [
+        "waf",
+        "web acl",
+        "sql injection"
+      ],
+      "uses": [
+        "cloudfront",
+        "application load balancer",
+        "network load balancer",
+        "api gateway",
+        "ec2 instance"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-waf"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/aws-waf-web-application-firewall"
+        }
+      ],
+      "problem_ideas": [
+        "An online shop sees requests with ' OR 1=1 -- in the login form. Name the service and the rule type.",
+        "Block all traffic from one country to a CloudFront site. Choose between WAF, a security group and a network ACL.",
+        "A bot sends 10,000 requests a minute from a single IP. Which WAF feature limits it?",
+        "A team tries to attach WAF to a Network Load Balancer. What goes wrong, and what should they put in front instead?",
+        "Sort the threats: SYN flood → ?, cross-site scripting → ?, port scan on SSH → ?",
+        "Explain why a security group can't block a SQL injection attack."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "AWS Managed Rules for WAF"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "WAF vs Shield vs security groups is one of the most frequent comparisons in security questions."
+      }
+    },
+    {
+      "id": "clf-firewall-manager",
+      "title": "Firewall Manager: firewall rules across accounts",
+      "size": "micro",
+      "est_min": 6,
+      "section": "edge-protection",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-fms-central-rules",
+          "statement": "AWS Firewall Manager centrally configures and enforces WAF rules, Shield Advanced protections, security groups and Network Firewall policies across all accounts in an AWS Organizations organization, including accounts and resources added later."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "clf-waf",
+          "reason": "Firewall Manager deploys WAF rules, so the learner must know what they are"
+        },
+        {
+          "topic": "clf-organizations",
+          "reason": "Firewall Manager works across the accounts of an organization"
+        },
+        {
+          "topic": "clf-shield-ddos",
+          "reason": "Firewall Manager applies Shield Advanced protections"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-waf",
+        "clf-security-hub-detective"
+      ],
+      "introduces": [
+        "firewall manager"
+      ],
+      "uses": [
+        "waf",
+        "shield advanced",
+        "security group",
+        "aws organizations"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-firewall-manager"
+        }
+      ],
+      "problem_ideas": [
+        "A company with 60 accounts wants the same WAF rules on every new ALB automatically. Name the service.",
+        "Choose between WAF and Firewall Manager for one website versus 60 accounts.",
+        "What prerequisite service must be in place before Firewall Manager can be used?",
+        "A new member account joins the organization. What does Firewall Manager do with it?",
+        "Spot the keyword in 'centrally manage firewall rules across accounts' and name the service.",
+        "List three kinds of protection Firewall Manager can apply."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "AWS Network Firewall for VPC traffic inspection"
+        }
+      ],
+      "lens": {
+        "score": 0.45,
+        "reason": "A niche service-matching item whose keyword is 'across accounts'."
+      }
+    },
+    {
+      "id": "clf-cloudtrail",
+      "title": "AWS CloudTrail: who did what, when",
+      "size": "standard",
+      "est_min": 10,
+      "section": "detection-audit",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-cloudtrail-api-log",
+          "statement": "AWS CloudTrail records API calls and account activity made through the console, CLI, SDKs or other AWS services: who made the call, what it was, when, and from which IP address. This record is used for auditing and investigations."
+        },
+        {
+          "id": "kc-cloudtrail-retention",
+          "statement": "CloudTrail event history shows the last 90 days of management events at no charge. Keeping logs longer requires a trail that delivers log files to an S3 bucket."
+        },
+        {
+          "id": "kc-cloudtrail-vs-logs",
+          "statement": "CloudTrail answers 'who did what in the account' (API activity). VPC Flow Logs record network traffic, and CloudWatch records performance metrics and application logs."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "CloudTrail is one of the services the o3 product requires learners to match to a stated need"
+        },
+        {
+          "outcome": "o6",
+          "reason": "Task Statement 2.2 asks where security-related logs are captured"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-access-methods",
+          "reason": "CloudTrail logs the calls made through the console, CLI and SDKs, so the learner must know these access methods"
+        }
+      ],
+      "suggests": [
+        "clf-vpc-flow-logs"
+      ],
+      "confusable_with": [
+        "clf-aws-config",
+        "clf-vpc-flow-logs"
+      ],
+      "introduces": [
+        "cloudtrail",
+        "trail",
+        "api activity log"
+      ],
+      "uses": [
+        "management console",
+        "aws cli",
+        "aws sdk",
+        "aws api",
+        "s3 bucket",
+        "vpc flow logs"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-2-understand-aws-cloud-/where-to-capture-and-locate-logs-that-ar"
+        }
+      ],
+      "problem_ideas": [
+        "An EC2 instance was terminated overnight and nobody admits doing it. Which service shows who did it?",
+        "An auditor needs 7 years of API activity. What must be configured beyond the default event history?",
+        "Sort each log need into CloudTrail, VPC Flow Logs or CloudWatch: rejected SSH packets, a DeleteBucket call, high CPU.",
+        "Someone changed a security group from the CLI at 03:12. List the fields CloudTrail would show.",
+        "How many days of management events can you see for free without creating a trail?",
+        "A root user login happened from an unknown country. Which service recorded it?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "Management events vs data events"
+        },
+        {
+          "kind": "implementation",
+          "title": "Organization trails and log file integrity validation"
+        }
+      ],
+      "lens": {
+        "score": 0.9,
+        "reason": "'Who made this API call?' is one of the most common security questions, and the answer is CloudTrail."
+      }
+    },
+    {
+      "id": "clf-aws-config",
+      "title": "AWS Config: resource history and compliance rules",
+      "size": "standard",
+      "est_min": 10,
+      "section": "detection-audit",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-config-history",
+          "statement": "AWS Config records the configuration of your resources over time, so you can see what a resource looked like at any point in time and what changed."
+        },
+        {
+          "id": "kc-config-rules",
+          "statement": "AWS Config rules check resources against desired settings (for example 'S3 buckets must not be public' or 'EBS volumes must be encrypted') and flag non-compliant resources. Remediation can be automated."
+        },
+        {
+          "id": "kc-config-vs-cloudtrail",
+          "statement": "AWS Config answers 'what does this resource look like, and is it compliant?' CloudTrail answers 'who made the API call that changed it?'"
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Config is one of the services the o3 product requires learners to match to a stated need"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-cloudtrail",
+          "reason": "The KC that separates Config from CloudTrail can only be checked once CloudTrail is known"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-cloudtrail",
+        "clf-aws-artifact"
+      ],
+      "introduces": [
+        "aws config",
+        "config rule",
+        "configuration history"
+      ],
+      "uses": [
+        "cloudtrail",
+        "s3 bucket",
+        "ebs",
+        "encryption at rest"
+      ],
+      "sources": [
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/aws-config"
+        }
+      ],
+      "problem_ideas": [
+        "A security group allowed port 22 from 0.0.0.0/0 last Tuesday but not today. Which service shows the change in the security group's configuration?",
+        "Compliance requires every EBS volume to be encrypted. Which feature flags unencrypted ones continuously?",
+        "Pick CloudTrail or Config: 'who opened the bucket to the public?' and 'which buckets are public right now?'",
+        "A non-compliant S3 bucket should be made private automatically. Describe the Config pieces involved.",
+        "An auditor asks what a database looked like 45 days ago. Name the service.",
+        "Explain the difference between AWS Config compliance and AWS Artifact compliance reports."
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Conformance packs and aggregators"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Config vs CloudTrail is a staple comparison, and Config is named in the outcome's service list."
+      }
+    },
+    {
+      "id": "clf-guardduty",
+      "title": "Amazon GuardDuty: intelligent threat detection",
+      "size": "standard",
+      "est_min": 8,
+      "section": "detection-audit",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-guardduty-threat-detection",
+          "statement": "Amazon GuardDuty is an intelligent threat detection service. It continuously analyzes CloudTrail events, VPC Flow Logs and DNS logs with machine learning and threat intelligence to find threats such as crypto-mining, compromised credentials or contact with known malicious IP addresses."
+        },
+        {
+          "id": "kc-guardduty-no-agents",
+          "statement": "GuardDuty needs no agents and no log setup from you. Once enabled for an account (or a whole organization), it reads the log sources itself and produces security findings."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "GuardDuty is one of the services the o3 product requires learners to match to a stated need"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-cloudtrail",
+          "reason": "GuardDuty is defined by the logs it analyzes, and CloudTrail is the main one"
+        }
+      ],
+      "suggests": [
+        "clf-vpc-flow-logs"
+      ],
+      "confusable_with": [
+        "clf-inspector-macie",
+        "clf-security-hub-detective"
+      ],
+      "introduces": [
+        "guardduty",
+        "threat detection",
+        "security finding"
+      ],
+      "uses": [
+        "cloudtrail",
+        "vpc flow logs",
+        "aws organizations"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/amazon-guardduty"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/amazon-guardduty"
+        }
+      ],
+      "problem_ideas": [
+        "An EC2 instance suddenly talks to a known Bitcoin mining pool. Which service raises a finding?",
+        "Access keys are used from an unusual country at 3 a.m. Name the detecting service.",
+        "Does GuardDuty require installing an agent on EC2? Explain what it reads instead.",
+        "Sort these: 'detect malicious activity', 'scan for CVEs', 'find credit card numbers in S3' → GuardDuty, Inspector, Macie.",
+        "A company wants threat detection across 30 accounts with minimal setup. Describe the approach.",
+        "Which three log sources does GuardDuty analyze by default?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "mechanism",
+          "title": "GuardDuty protection plans: S3, EKS, malware and runtime monitoring"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "GuardDuty is the expected answer whenever a question says 'threat detection' or 'malicious activity'."
+      }
+    },
+    {
+      "id": "clf-inspector-macie",
+      "title": "Inspector vs Macie: vulnerabilities vs sensitive data",
+      "size": "standard",
+      "est_min": 10,
+      "section": "detection-audit",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-inspector-vulnerabilities",
+          "statement": "Amazon Inspector automatically scans EC2 instances, container images in ECR and Lambda functions for software vulnerabilities (CVEs) and unintended network exposure, and ranks its findings by risk."
+        },
+        {
+          "id": "kc-macie-sensitive-data",
+          "statement": "Amazon Macie uses machine learning and pattern matching to discover and protect sensitive data, such as personally identifiable information (PII), stored in S3 buckets."
+        },
+        {
+          "id": "kc-inspector-macie-guardduty",
+          "statement": "Inspector finds vulnerabilities in your workloads, Macie finds sensitive data in S3, and GuardDuty finds active threats in your logs."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Inspector and Macie are both in the list of services the o3 product requires learners to match"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-guardduty",
+          "reason": "The three-way KC separating Inspector, Macie and GuardDuty needs GuardDuty first"
+        }
+      ],
+      "suggests": [
+        "clf-fargate-ecr",
+        "clf-lambda"
+      ],
+      "confusable_with": [
+        "clf-guardduty"
+      ],
+      "introduces": [
+        "inspector",
+        "macie",
+        "software vulnerability",
+        "pii"
+      ],
+      "uses": [
+        "ec2 instance",
+        "ecr",
+        "lambda",
+        "s3 bucket",
+        "guardduty"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/amazon-inspector"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/amazon-inspector"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/amazon-macie"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/amazon-macie"
+        }
+      ],
+      "problem_ideas": [
+        "A Log4j CVE is announced. Which service tells you which EC2 instances and container images are affected?",
+        "A data lake of 5 million S3 objects may contain passport numbers. Name the service that finds them.",
+        "Match: 'unpatched OpenSSL', 'customer emails in a public bucket', 'port scan from a known bad IP'.",
+        "Can Macie scan an RDS database directly? What does it scan?",
+        "A container image in ECR is pushed. Which service scans it automatically?",
+        "Explain to a manager in one sentence each what Inspector and Macie protect."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "Inspector's network reachability findings"
+        }
+      ],
+      "lens": {
+        "score": 0.8,
+        "reason": "Telling Inspector, Macie and GuardDuty apart is a very common exam trap."
+      }
+    },
+    {
+      "id": "clf-security-hub-detective",
+      "title": "Security Hub and Detective: one view and root cause",
+      "size": "standard",
+      "est_min": 10,
+      "section": "detection-audit",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-security-hub-aggregate",
+          "statement": "AWS Security Hub collects findings from GuardDuty, Inspector, Macie and partner tools into a single view across accounts. It also runs automated checks against standards such as the CIS AWS Foundations Benchmark and AWS Foundational Security Best Practices."
+        },
+        {
+          "id": "kc-detective-investigate",
+          "statement": "Amazon Detective analyzes and visualizes log data such as CloudTrail events, VPC Flow Logs and GuardDuty findings, so you can investigate the root cause and scope of a security issue."
+        },
+        {
+          "id": "kc-hub-detective-guardduty-roles",
+          "statement": "GuardDuty detects threats, Security Hub gives one prioritized view of security posture across accounts, and Detective investigates a specific finding in depth."
+        }
+      ],
+      "serves": [],
+      "requires": [
+        {
+          "topic": "clf-guardduty",
+          "reason": "Both services consume GuardDuty findings"
+        },
+        {
+          "topic": "clf-inspector-macie",
+          "reason": "Security Hub aggregates Inspector and Macie findings"
+        }
+      ],
+      "suggests": [
+        "clf-cloudtrail"
+      ],
+      "confusable_with": [
+        "clf-guardduty",
+        "clf-firewall-manager"
+      ],
+      "introduces": [
+        "security hub",
+        "detective",
+        "security posture"
+      ],
+      "uses": [
+        "guardduty",
+        "inspector",
+        "macie",
+        "security finding",
+        "cloudtrail",
+        "vpc flow logs"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-security-hub"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/aws-security-hub"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/amazon-detective"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/amazon-detective"
+        }
+      ],
+      "problem_ideas": [
+        "A CISO wants one dashboard of findings from GuardDuty, Inspector and Macie across 20 accounts. Name the service.",
+        "GuardDuty flagged an IAM role. The team needs to see every related API call and IP address over the past week. Which service?",
+        "Order the workflow: detect → aggregate → investigate, and place GuardDuty, Security Hub and Detective in it.",
+        "Which service scores your accounts against the CIS AWS Foundations Benchmark?",
+        "Does Detective block attacks? Explain what it actually does.",
+        "Spot the distractor: 'Use Security Hub to scan EC2 instances for CVEs.'"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "Security Hub automated response with EventBridge"
+        }
+      ],
+      "lens": {
+        "score": 0.65,
+        "reason": "'Single pane of glass' and 'root cause' questions point to these two services."
+      }
+    },
+    {
+      "id": "clf-compliance-programs",
+      "title": "Compliance programs and regional requirements",
+      "size": "standard",
+      "est_min": 10,
+      "section": "compliance-resources",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-compliance-programs-scope",
+          "statement": "AWS takes part in compliance programs and certifications such as ISO 27001, SOC 1/2/3, PCI DSS, FedRAMP and HIPAA eligibility. These cover AWS's infrastructure, not the customer's workload, which the customer must still make compliant."
+        },
+        {
+          "id": "kc-compliance-geo-industry",
+          "statement": "Compliance needs depend on geography and industry (GDPR for EU personal data, HIPAA for US health data, PCI DSS for card payments), and data-residency rules decide which Regions a workload may use."
+        },
+        {
+          "id": "kc-compliance-by-service",
+          "statement": "Not every AWS service is in scope for every compliance program. Before using a service for a regulated workload, check AWS's 'Services in Scope by Compliance Program' list."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task Statement 2.2 asks about compliance needs by geography or industry and about requirements that vary by service"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-shared-controls",
+          "reason": "The KC that AWS certifications cover AWS's part only builds on inherited and shared controls"
+        }
+      ],
+      "suggests": [
+        "clf-regions"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "compliance program",
+        "hipaa",
+        "pci dss",
+        "gdpr"
+      ],
+      "uses": [
+        "shared responsibility model",
+        "inherited controls",
+        "data residency",
+        "region"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-2-understand-aws-cloud-/aws-compliance-and-governance-concepts"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-2-understand-aws-cloud-/understanding-compliance-needs-among-geo"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-2-understand-aws-cloud-/recognizing-compliance-requirements-that"
+        }
+      ],
+      "problem_ideas": [
+        "A US clinic stores patient records on EC2. AWS is HIPAA eligible. Is the clinic automatically compliant? Explain.",
+        "An EU retailer must keep customer data inside the EU. Which infrastructure choice satisfies this?",
+        "Match each regulation to its industry or region: PCI DSS, HIPAA, GDPR, FedRAMP.",
+        "A team wants to use a brand-new AWS service for card payments. What should they check first?",
+        "Sort these duties for a PCI workload into AWS or customer: physical data-centre security, application code, network segmentation inside the VPC.",
+        "A German bank asks whether AWS is ISO 27001 certified. Where does that certification apply?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "AWS Audit Manager for collecting audit evidence"
+        }
+      ],
+      "lens": {
+        "score": 0.7,
+        "reason": "Compliance-by-region and compliance-by-industry questions appear regularly in Domain 2."
+      }
+    },
+    {
+      "id": "clf-aws-artifact",
+      "title": "AWS Artifact: compliance reports and agreements",
+      "size": "standard",
+      "est_min": 8,
+      "section": "compliance-resources",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-artifact-reports",
+          "statement": "AWS Artifact is a self-service portal where customers download AWS's compliance reports on demand, such as SOC, ISO and PCI attestations, to give to their auditors."
+        },
+        {
+          "id": "kc-artifact-agreements",
+          "statement": "AWS Artifact Agreements let a customer review, accept and manage agreements with AWS, such as the Business Associate Addendum (BAA) needed for HIPAA, for one account or a whole organization."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "Artifact is one of the services the o3 product requires learners to match to a stated compliance need"
+        },
+        {
+          "outcome": "o6",
+          "reason": "The exam guide names AWS Artifact as where compliance information is found"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-compliance-programs",
+          "reason": "Artifact provides the reports produced by AWS's compliance programs"
+        }
+      ],
+      "suggests": [],
+      "confusable_with": [
+        "clf-aws-config"
+      ],
+      "introduces": [
+        "aws artifact",
+        "compliance report",
+        "business associate addendum"
+      ],
+      "uses": [
+        "compliance program",
+        "hipaa",
+        "aws organizations"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-2-understand-aws-cloud-/identifying-where-to-find-aws-compliance"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/aws-artifact"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/aws-artifact-not-really-a-service"
+        }
+      ],
+      "problem_ideas": [
+        "An external auditor asks for AWS's SOC 2 Type II report by Friday. Where do you get it?",
+        "A health-tech startup must sign a BAA with AWS before storing PHI. Which part of Artifact handles this?",
+        "Pick Artifact or Config: 'prove AWS's data centres are PCI certified' and 'prove our S3 buckets are encrypted'.",
+        "Does Artifact scan your resources for compliance? Explain.",
+        "A company with 40 accounts wants to accept the BAA once for all of them. Is that possible?",
+        "Name the keyword pattern in exam questions that points to Artifact."
+      ],
+      "depth_threads": [
+        {
+          "kind": "edge",
+          "title": "NDA-gated reports and Artifact notifications"
+        }
+      ],
+      "lens": {
+        "score": 0.85,
+        "reason": "Artifact is a near-certain question: 'where do I get AWS compliance reports?'"
+      }
+    },
+    {
+      "id": "clf-security-resources",
+      "title": "Security help: docs, Marketplace, abuse, Access Analyzer",
+      "size": "big",
+      "est_min": 14,
+      "section": "compliance-resources",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-security-documentation",
+          "statement": "AWS publishes security guidance in the AWS Security Center, the AWS Security Blog, the AWS Knowledge Center, security best-practice whitepapers and the security chapter of each service's documentation. The Well-Architected security pillar sets out the design principles."
+        },
+        {
+          "id": "kc-third-party-security-products",
+          "statement": "Third-party security products such as firewalls, endpoint protection and SIEM tools can be bought and deployed from AWS Marketplace and billed through the AWS account."
+        },
+        {
+          "id": "kc-aws-abuse-reporting",
+          "statement": "Suspected abuse coming from AWS resources (spam, port scanning, DDoS, malware hosting) is reported to the AWS Trust & Safety team through the abuse report form or abuse@amazonaws.com."
+        },
+        {
+          "id": "kc-iam-access-analyzer",
+          "statement": "IAM Access Analyzer finds resources, such as S3 buckets, IAM roles and KMS keys, that are shared with principals outside your account or organization, and helps tighten permissions toward least privilege."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o6",
+          "reason": "Task Statement 2.4 asks for AWS security documentation and third-party products from AWS Marketplace"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-least-privilege",
+          "reason": "Access Analyzer is presented as a tool for enforcing least privilege"
+        }
+      ],
+      "suggests": [
+        "clf-wa-pillars-ops-security-reliability"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "security documentation",
+        "third-party security products",
+        "aws abuse reporting",
+        "iam access analyzer"
+      ],
+      "uses": [
+        "security pillar",
+        "least privilege",
+        "s3 bucket",
+        "kms",
+        "aws organizations"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-4-identify-components-a/security-capabilities-that-aws-provides"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-4-identify-components-a/security-related-documentation-that-aws-"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-4-identify-components-a/understanding-that-third-party-security-"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/aws-abuse"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/iam-access-analyzer"
+        }
+      ],
+      "problem_ideas": [
+        "A company wants to run the same Palo Alto firewall it uses on premises. Where does it find and buy it?",
+        "Your web server is receiving spam from an IP address owned by AWS. Who do you report it to, and how?",
+        "An S3 bucket policy grants access to an unknown external account ID. Which tool surfaces this?",
+        "A new cloud engineer asks where to read AWS security best practices. List three AWS-provided sources.",
+        "Pick the right resource: 'buy a third-party SIEM', 'read about encrypting RDS', 'report a phishing site hosted on EC2'.",
+        "An IAM role trusts an account outside the organization. Which tool flags it as external access?"
+      ],
+      "depth_threads": [
+        {
+          "kind": "implementation",
+          "title": "Access Analyzer policy validation and unused-access findings"
+        }
+      ],
+      "lens": {
+        "score": 0.6,
+        "reason": "These are short recall items in Domain 2: where to find help, where to buy tools and where to report abuse."
+      }
+    },
+    {
+      "id": "clf-choosing-security-service",
+      "title": "Choosing a security service for a requirement",
+      "size": "big",
+      "est_min": 14,
+      "section": "compliance-resources",
+      "mode_hint": "quiz",
+      "kcs": [
+        {
+          "id": "kc-choose-identity-service",
+          "statement": "For access needs: workforce users across many accounts → IAM Identity Center; end users of an app → Cognito; existing Microsoft AD → Directory Service; limit what whole accounts can do → service control policies."
+        },
+        {
+          "id": "kc-choose-data-service",
+          "statement": "For data protection: manage encryption keys → KMS; dedicated single-tenant HSM → CloudHSM; SSL/TLS certificates → ACM; store and rotate credentials → Secrets Manager; find PII in S3 → Macie."
+        },
+        {
+          "id": "kc-choose-threat-service",
+          "statement": "For threats: DDoS → Shield; SQL injection, XSS or IP and geo blocking → WAF; firewall rules across accounts → Firewall Manager; threats in logs → GuardDuty; software vulnerabilities → Inspector; one view of findings → Security Hub; root-cause investigation → Detective."
+        },
+        {
+          "id": "kc-choose-audit-service",
+          "statement": "For audit and compliance: who made an API call → CloudTrail; resource configuration history and compliance rules → AWS Config; AWS's own compliance reports and the BAA → AWS Artifact."
+        }
+      ],
+      "serves": [
+        {
+          "outcome": "o3",
+          "reason": "This topic is the o3 product itself: naming the security service that meets a stated need and ruling out the nearest distractor"
+        },
+        {
+          "outcome": "o6",
+          "reason": "Security service selection questions make up a large share of Domain 2 (30% of the exam)"
+        }
+      ],
+      "requires": [
+        {
+          "topic": "clf-security-hub-detective",
+          "reason": "Telling threat services apart needs the full detection set: GuardDuty, Inspector, Macie, Security Hub and Detective"
+        },
+        {
+          "topic": "clf-aws-config",
+          "reason": "Telling audit services apart needs Config and CloudTrail"
+        },
+        {
+          "topic": "clf-aws-artifact",
+          "reason": "The compliance KC needs Artifact"
+        }
+      ],
+      "suggests": [
+        "clf-iam-identity-center",
+        "clf-kms",
+        "clf-waf"
+      ],
+      "confusable_with": [],
+      "introduces": [
+        "security service selection"
+      ],
+      "uses": [
+        "iam identity center",
+        "cognito",
+        "directory service",
+        "service control policy",
+        "kms",
+        "cloudhsm",
+        "acm",
+        "secrets manager",
+        "macie",
+        "shield",
+        "waf",
+        "firewall manager",
+        "guardduty",
+        "inspector",
+        "security hub",
+        "detective",
+        "cloudtrail",
+        "aws config",
+        "aws artifact"
+      ],
+      "sources": [
+        {
+          "source": "clf-c02-guide",
+          "entry": "security-identity-and-compliance/security-identity-and-compliance"
+        },
+        {
+          "source": "clf-c02-guide",
+          "entry": "task-statement-2-4-identify-components-a/task-statement-2-4-identify-components-a"
+        },
+        {
+          "source": "clf-notes",
+          "entry": "security-compliance/security-compliance"
+        }
+      ],
+      "problem_ideas": [
+        "Rapid-fire: 12 one-line requirements, name the service for each in under 30 seconds.",
+        "For each scenario, name the right service and explain why the nearest distractor is wrong (WAF vs Shield, Config vs CloudTrail, KMS vs CloudHSM).",
+        "A breach timeline: suspicious login → data exfiltration → audit. Assign a service to each phase.",
+        "A fintech's checklist: encrypt data, rotate DB passwords, block SQL injection, prove PCI to auditors. Map each item.",
+        "Find the one wrong answer in a list of 8 requirement → service pairs.",
+        "A mock exam item has four plausible security services. Eliminate three using keywords."
+      ],
+      "depth_threads": [
+        {
+          "kind": "adjacent",
+          "title": "How the security services work together in a detect-respond loop"
+        }
+      ],
+      "lens": {
+        "score": 0.95,
+        "reason": "This is the skill Domain 2 tests most: reading a requirement and naming the security service."
+      }
+    }
+  ],
+  "groups": {}
+}

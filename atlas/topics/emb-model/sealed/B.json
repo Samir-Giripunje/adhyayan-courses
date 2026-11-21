@@ -1,0 +1,318 @@
+[
+  {
+    "id": "emb-model/test-b1",
+    "version": 1,
+    "family": "emb-model-test-define-embedding",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-def"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "What is an *embedding*?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The fixed-length vector a model outputs for one input",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "The model that turns text into vectors",
+        "why_md": "That's the embedding *model*. The embedding is its output."
+      },
+      {
+        "id": "c",
+        "md": "The list of keywords found in a text",
+        "why_md": "Embeddings capture meaning as numbers, not a list of keywords.",
+        "misconception": "mc-keyword-is-enough"
+      },
+      {
+        "id": "d",
+        "md": "A vector with one number for each word of the text",
+        "why_md": "Its length is fixed by the model, whatever the text's length."
+      }
+    ],
+    "hints": [
+      "Separate the output from the thing that produces it.",
+      "The embedding model is the function; the embedding is the fixed-length vector it outputs."
+    ],
+    "solution_md": "An embedding is the fixed-length vector an embedding model outputs for one input. The model is the function; the embedding is its output.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/test-b2",
+    "version": 1,
+    "family": "emb-model-test-expect-match",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-def"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "A 12-word question and a 300-word guide that answers it are embedded with one well-trained model. What do you expect?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both vectors have the same number of dimensions, and their cosine is high compared with unrelated articles",
+        "correct": true,
+        "why_md": "Right. Fixed length, and similar meaning lands close."
+      },
+      {
+        "id": "b",
+        "md": "The guide's vector has more dimensions, so it can hold more of the answer",
+        "why_md": "Output length is fixed by the model, not by the text."
+      },
+      {
+        "id": "c",
+        "md": "Their cosine is exactly 1, because they are about the same thing",
+        "why_md": "Similar isn't identical. Expect a high score, not a perfect one."
+      },
+      {
+        "id": "d",
+        "md": "Their cosine is low, because the texts share few words",
+        "why_md": "Embeddings compare meaning, not shared words.",
+        "misconception": "mc-keyword-is-enough"
+      }
+    ],
+    "hints": [
+      "Two facts: what decides the vectors' length, and what training does with similar meanings.",
+      "Same length (fixed by the model), and a cosine that is high compared with unrelated articles."
+    ],
+    "solution_md": "Both vectors have the model's fixed number of dimensions, and because the guide answers the question, their cosine should be high compared with unrelated articles. Similar meaning, nearby vectors; not identical texts, so not exactly 1.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/test-b3",
+    "version": 1,
+    "family": "emb-model-test-diagnose-scores",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "A question, *reset my password*, is embedded with model Q. The stored articles were embedded with model D. Both models output 768 numbers. The cosines come out as: billing article 0.93, password article −0.12, shipping article 0.40. What is the best explanation?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The question and articles were embedded by different models, so the scores carry no meaning",
+        "correct": true,
+        "why_md": "Right. A cross-model cosine is a number without meaning."
+      },
+      {
+        "id": "b",
+        "md": "The billing article really is the best match for the question",
+        "why_md": "0.93 looks convincing, but it compares two unrelated coordinate systems.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "c",
+        "md": "The question is too short to embed well",
+        "why_md": "Short questions embed fine. The scores are broken because two models are mixed."
+      },
+      {
+        "id": "d",
+        "md": "The negative score proves the password article means the opposite of the question",
+        "why_md": "No score here means anything: the two vectors come from different models."
+      }
+    ],
+    "hints": [
+      "Before trusting any score, check which model produced each side.",
+      "Q and D have unrelated coordinate systems, so these cosines say nothing about meaning."
+    ],
+    "solution_md": "The question and the articles come from different models, so the cosines carry no meaning: the billing article's 0.93 is an accident of two unrelated coordinate systems. Embed both sides with one model.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/test-b4",
+    "version": 1,
+    "family": "emb-model-test-finetuned-query-side",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-same-model"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "To save money, a team fine-tunes its embedding model on support tickets and uses the fine-tuned copy only for incoming questions. The articles keep their vectors from the original model. Both output the same number of dimensions. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Rankings become unreliable without any error: the fine-tuned copy has its own coordinate system, so using it means re-embedding the articles with it",
+        "correct": true,
+        "why_md": "Right. Fine-tuning makes a new model, and mixing models fails silently."
+      },
+      {
+        "id": "b",
+        "md": "Results improve, because the question side now understands support tickets",
+        "why_md": "Any improvement is wasted when questions and articles sit in different coordinate systems.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "c",
+        "md": "Nothing changes, because the architecture and the dimensions are the same",
+        "why_md": "Same shape, different numbers: further training moved the coordinate system.",
+        "misconception": "mc-mix-models"
+      },
+      {
+        "id": "d",
+        "md": "Search fails with an error at query time",
+        "why_md": "The lengths match, so nothing errors. That's what makes this mistake dangerous."
+      }
+    ],
+    "hints": [
+      "Does further training keep the original coordinate system?",
+      "A fine-tuned copy is a new model with its own coordinate system, so questions and articles are now mixed."
+    ],
+    "solution_md": "Search quality breaks silently. Further training changes the coordinate system, so fine-tuned questions no longer line up with the original article vectors. Either re-embed the articles with the fine-tuned copy or keep the original model for questions.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/test-b5",
+    "version": 1,
+    "family": "emb-model-test-find-billing",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-dims-opaque"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "Your model outputs 384 numbers per text. Which is a sound way to find the help-centre articles about billing?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Embed a few example billing questions and rank the articles by cosine against them",
+        "correct": true,
+        "why_md": "Right. Whole-vector comparison is where the meaning lives."
+      },
+      {
+        "id": "b",
+        "md": "Find the model's billing dimension and sort the articles by it",
+        "why_md": "There's no billing dimension. Single coordinates have no readable meaning.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "c",
+        "md": "Sort the articles by the sum of their 384 numbers",
+        "why_md": "The sum of the coordinates says nothing about topic."
+      },
+      {
+        "id": "d",
+        "md": "Look up which dimension covers billing in the model's documentation",
+        "why_md": "No documentation can list it: training never assigns concepts to dimensions.",
+        "misconception": "mc-dims-are-meaningful"
+      }
+    ],
+    "hints": [
+      "Which methods rely on a single coordinate meaning something?",
+      "Only whole-vector comparison uses what the model was trained to get right."
+    ],
+    "solution_md": "Compare whole vectors: embed a few example billing questions and rank the articles by cosine against them. No dimension is a billing feature, and summing coordinates measures nothing about topic.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  },
+  {
+    "id": "emb-model/test-b6",
+    "version": 1,
+    "family": "emb-model-test-ar-fixed-meaning",
+    "kind": "assert_reason",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-model",
+    "kcs": [
+      "kc-embedding-dims-opaque"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "**Assertion (A):** Dimension 17 of a text embedding has a fixed human-readable meaning, such as *sport*, that holds for every text.\n\n**Reason (R):** Training only rewards similar texts getting nearby whole vectors; it never assigns a human concept to a single dimension.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "A is false: no single dimension has a fixed, readable meaning.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "A is false, so 'both true' can't be right.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "Reversed: A is false and R is true.",
+        "misconception": "mc-dims-are-meaningful"
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "correct": true,
+        "why_md": "Right. R is true, and it's why A is false."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately before linking them.",
+      "R describes what training actually rewards. Given R, nothing gives dimension 17 a fixed meaning, so A is false."
+    ],
+    "solution_md": "**d.** R is true: training rewards relationships between whole vectors and never names a dimension. A is false: a spun model would give identical results with a completely different dimension 17, so no fixed meaning can live there.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-model"
+    }
+  }
+]

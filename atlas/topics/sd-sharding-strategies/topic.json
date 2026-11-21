@@ -1,0 +1,72 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-sharding-strategies",
+  "version": 1,
+  "title": "Sharding strategies: range, hash and directory",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-sharding-def",
+      "version": 1,
+      "statement": "Sharding is horizontal partitioning across separate database servers, where each shard owns the rows whose shard key maps to it."
+    },
+    {
+      "id": "kc-range-vs-hash",
+      "version": 1,
+      "statement": "Range sharding keeps adjacent keys together so range scans hit one shard, but sequential keys like timestamps all land on the newest shard; hash sharding spreads keys evenly but sends range scans to every shard."
+    },
+    {
+      "id": "kc-directory-sharding",
+      "version": 1,
+      "statement": "Directory-based sharding keeps a lookup table from key to shard, which lets individual keys move but adds a lookup per query and a component that must stay available."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-partitioning-basics"
+  ],
+  "suggests": [
+    "sd-lb-algorithms"
+  ],
+  "confusable_with": [
+    "sd-partitioning-basics"
+  ],
+  "introduces": [
+    "sharding",
+    "shard key",
+    "range-based sharding",
+    "hash-based sharding",
+    "directory-based sharding"
+  ],
+  "uses": [
+    "horizontal partitioning"
+  ],
+  "problem_ideas": [
+    "Shard orders by created_at range across 8 shards and predict the load on each during today's traffic",
+    "Shard the same orders by hash(order_id) and count shards touched by 'orders from last hour'",
+    "Choose range or hash sharding for a time-series metrics store queried by time window",
+    "A tenant must move to a dedicated shard: show why directory sharding makes it easy",
+    "Assign 10 sample user_ids to 4 shards with hash mod 4",
+    "List what breaks if the shard directory service is down"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "databases/sharding"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "database/sharding"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "partitioning-criteria/hash-based"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "partitioning-criteria/range-based"
+    }
+  ],
+  "status": "stub"
+}

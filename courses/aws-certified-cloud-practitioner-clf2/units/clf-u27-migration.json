@@ -1,0 +1,29 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u27-migration",
+  "title": "Migration and data transfer services",
+  "topics": [
+    {
+      "id": "clf-dms-sct",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-migration-discovery-mgn",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-snow-family",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-datasync-transfer-choice",
+      "tier": "must",
+      "order": 4
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

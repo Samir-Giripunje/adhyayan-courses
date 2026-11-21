@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-mock-exam-2",
+  "version": 1,
+  "title": "Mock exam 2: a fresh set to confirm readiness",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-clf-second-mock-fresh-set",
+      "version": 1,
+      "statement": "The second mock must use a different 65-question set from the first and be taken after the error-log fixes are done, because retaking seen questions measures memory of answers rather than readiness."
+    },
+    {
+      "id": "kc-clf-below-bar-retest-loop",
+      "version": 1,
+      "statement": "If the second mock misses the bar (below 80% overall or any domain under 70%), go back to the weakest domain's practice set and then take a third, fresh mock rather than retaking either earlier one."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-mock-exam-1",
+    "clf-mock-exam-review"
+  ],
+  "suggests": [
+    "clf-domain1-practice",
+    "clf-domain4-practice"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "fresh question set",
+    "retest loop"
+  ],
+  "uses": [
+    "full-length mock",
+    "domain score",
+    "error log",
+    "readiness threshold",
+    "domain practice set"
+  ],
+  "problem_ideas": [
+    "Take mock 2 on a fresh 65-question set in 90 minutes and fill in the same score sheet as mock 1.",
+    "Mock 1 was 74% and mock 2 is 83% with Domain 1 at 68%; decide the next step using the retest loop.",
+    "A learner retakes mock 1 and scores 92%; explain why that result does not count toward readiness.",
+    "Compare the two score sheets and compute which domain improved most in weighted terms.",
+    "Mock 2 meets every target; list what to do in the days before the real exam and what not to do.",
+    "With four study days a week, schedule practice set, review and mock 2 so that at least three days separate the mocks.",
+    "Predict your mock 2 domain scores from your error-log fixes, then compare with actual results."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "exam-content/exam-content"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "exam-content/exam-results"
+    }
+  ],
+  "status": "stub"
+}

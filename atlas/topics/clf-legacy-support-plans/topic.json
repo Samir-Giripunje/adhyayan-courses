@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-legacy-support-plans",
+  "version": 1,
+  "title": "Legacy plans: Developer, Business, Enterprise On-Ramp",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-developer-support",
+      "version": 1,
+      "statement": "Legacy Developer Support gives business-hours email access to technical support, with responses in under 24 business hours for general guidance and under 12 business hours for an impaired system, suited to testing and early development."
+    },
+    {
+      "id": "kc-business-support",
+      "version": 1,
+      "statement": "Legacy Business Support gives 24/7 phone, chat and email technical support and all Trusted Advisor checks, with responses in under 4 hours for an impaired production system and under 1 hour for a production system that is down."
+    },
+    {
+      "id": "kc-enterprise-on-ramp",
+      "version": 1,
+      "statement": "Legacy Enterprise On-Ramp targets under 30 minutes for a business-critical system down and gives access to a pool of technical account managers rather than a designated one."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-support-plans"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-support-plans"
+  ],
+  "introduces": [
+    "legacy support plans",
+    "developer support",
+    "business support",
+    "enterprise on-ramp support"
+  ],
+  "uses": [
+    "support plans",
+    "trusted advisor",
+    "business support plus",
+    "enterprise support",
+    "support response time"
+  ],
+  "problem_ideas": [
+    "An exam item lists Developer, Business, Enterprise On-Ramp and Enterprise: which is cheapest for a 1-hour response when production is down?",
+    "Map each legacy plan to the closest current plan by response target.",
+    "A test-only team wants email help next business day under the legacy lineup: which plan and what response target?",
+    "Under the legacy lineup, which is the lowest plan with all Trusted Advisor checks?",
+    "Spot the false statement: 'Enterprise On-Ramp gives a designated TAM.'",
+    "A question says 'business-critical system down, 30 minutes, legacy plans only': name the plan, then name the current-plan answer."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-3-identify-aws-technica/aws-support-plans"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-8-identify-services-fro/customer-enablement-services-for-example"
+    }
+  ],
+  "status": "stub"
+}

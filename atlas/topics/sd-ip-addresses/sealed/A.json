@@ -1,0 +1,212 @@
+[
+  {
+    "id": "sd-ip-addresses/test-a1",
+    "family": "sd-ip-addresses-ip-ipv4-size-recall",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "A smart thermostat on a farm's network reports its IPv4 address as `198.18.4.77`. How long is an IPv4 address, and roughly how many different IPv4 addresses can exist?",
+    "options": [
+      {
+        "id": "a",
+        "md": "128 bits, about 4.3 billion addresses",
+        "why_md": "128 bits is the length of an IPv6 address. IPv4 is 32 bits, and 2^32 is about 4.3 billion."
+      },
+      {
+        "id": "b",
+        "md": "32 bits, about 4.3 billion addresses",
+        "correct": true,
+        "why_md": "Right. Four octets × 8 bits = 32 bits, and 2^32 = 4,294,967,296, about 4.3 billion."
+      },
+      {
+        "id": "c",
+        "md": "32 bits, about 1,000 addresses (four numbers up to 255, so about 4 × 255)",
+        "why_md": "The four octets combine by multiplying, not adding: 256 × 256 × 256 × 256 = 2^32, about 4.3 billion."
+      },
+      {
+        "id": "d",
+        "md": "8 bits, 256 addresses",
+        "why_md": "8 bits is one octet, which holds 0–255. An IPv4 address has four octets, so 32 bits."
+      }
+    ],
+    "hints": [
+      "Count the octets in dotted decimal, multiply by 8 bits each, then use n bits → 2^n addresses.",
+      "4 octets × 8 bits = 32 bits; 2^32 = 256 × 256 × 256 × 256 ≈ 4.3 billion."
+    ],
+    "solution_md": "1. `198.18.4.77` has 4 octets, each 8 bits: 4 × 8 = **32 bits**.\n2. With n bits there are 2^n patterns: 2^32 = 4,294,967,296 ≈ **4.3 billion**.\n\nAnswer: 32 bits, about 4.3 billion addresses (b).",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/test-a2",
+    "family": "sd-ip-addresses-ip-ipv6-4x-assert",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "**Assertion (A):** IPv6 provides about 4 times as many addresses as IPv4.\n\n**Reason (R):** An IPv6 address is 128 bits long, which is 4 times the 32 bits of an IPv4 address.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "A is false. Being 4 times longer does not give 4 times the addresses: each extra bit doubles the count, so IPv6 has 2^96 times as many.",
+        "misconception": "mc-ipv6-4x"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "A is false, not just unexplained: 2^128 ÷ 2^32 = 2^96, far more than 4.",
+        "misconception": "mc-ipv6-4x"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "The reverse. R is true (128 = 4 × 32), and A is the false statement."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "correct": true,
+        "why_md": "Right. R is true: 128 bits is 4 × 32 bits. A is false: the space is 2^128 ÷ 2^32 = 2^96 ≈ 7.9 × 10^28 times bigger, not 4 times."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. For A, remember that n bits give 2^n addresses.",
+      "R: 128 = 4 × 32, true. A: 2^128 ÷ 2^32 = 2^96, so A is false."
+    ],
+    "solution_md": "R: IPv6 is 128 bits and IPv4 is 32 bits, and 128 = 4 × 32, so R is **true**.\n\nA: the address counts are 2^128 and 2^32. Their ratio is 2^(128−32) = 2^96 ≈ 7.9 × 10^28. Every extra bit doubles the count, so 4 times the bits is not 4 times the addresses. A is **false**.\n\nAnswer: A false; R true (d).",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/test-a3",
+    "family": "sd-ip-addresses-ip-classify-multi-mixed",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "A school's IT log lists these IPv4 addresses. Which of them are **private** addresses? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "172.31.250.9",
+        "correct": true,
+        "why_md": "Private. The second octet is 31, and 172.16.0.0/12 covers 172.16.x.x to 172.31.x.x."
+      },
+      {
+        "id": "b",
+        "md": "192.169.0.4",
+        "why_md": "Public. The private range is 192.168.0.0/16; 192.169 is outside it."
+      },
+      {
+        "id": "c",
+        "md": "10.200.5.1",
+        "correct": true,
+        "why_md": "Private. Anything starting with 10 is inside 10.0.0.0/8."
+      },
+      {
+        "id": "d",
+        "md": "172.15.8.8",
+        "why_md": "Public. Not every 172 address is private: the second octet must be 16–31, and 15 is below that.",
+        "misconception": "mc-172-all-private"
+      },
+      {
+        "id": "e",
+        "md": "192.168.40.2",
+        "correct": true,
+        "why_md": "Private. It starts with 192.168, so it is inside 192.168.0.0/16."
+      }
+    ],
+    "hints": [
+      "Check each address against the three private ranges: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16.",
+      "Starts with 10 → private. 172.x with x from 16 to 31 → private. Starts with 192.168 → private. Anything else → public."
+    ],
+    "solution_md": "Apply the classification steps:\n- 172.31.250.9: 172 with second octet 31, and 16 ≤ 31 ≤ 31 → **private**.\n- 192.169.0.4: starts with 192.169, not 192.168 → public.\n- 10.200.5.1: starts with 10 → **private**.\n- 172.15.8.8: second octet 15 < 16 → public.\n- 192.168.40.2: starts with 192.168 → **private**.\n\nAnswer: a, c, e.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/test-a4",
+    "family": "sd-ip-addresses-ip-same-private-two-sites",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "Two coffee shops in different cities each have their own Wi-Fi with a router that does NAT. In both shops, a customer's laptop is given the address `192.168.0.12`, and both customers open the same news website at the same time. What happens?",
+    "options": [
+      {
+        "id": "a",
+        "md": "There is a conflict: two devices on the internet have the same address, so one laptop's traffic fails",
+        "why_md": "192.168.0.12 is private. It only has to be unique inside each shop's own network, and the same private address is reused in millions of networks.",
+        "misconception": "mc-private-unique"
+      },
+      {
+        "id": "b",
+        "md": "Both work, and the news website sees both requests arriving from 192.168.0.12",
+        "why_md": "The private address never reaches the website. Each shop's NAT router replaces it with the router's own public address before the packet leaves."
+      },
+      {
+        "id": "c",
+        "md": "Both work: each address only has to be unique inside its own shop's network, and each router translates it to the shop's own public address",
+        "correct": true,
+        "why_md": "Right. Private addresses are unique only within their network, and NAT swaps them for each shop's distinct public address on the way out."
+      }
+    ],
+    "hints": [
+      "Ask where a private address has to be unique, and what the NAT router does to the source address of a packet leaving the shop.",
+      "192.168.0.12 is private, so it only needs to be unique inside each shop. Each router rewrites it to its own public address, so the website sees two different public addresses."
+    ],
+    "solution_md": "1. `192.168.0.12` is inside 192.168.0.0/16, so it is a **private** address.\n2. A private address only has to be unique inside its own network, so the two shops can both use it without conflict.\n3. When each laptop's packet leaves, that shop's NAT router replaces the private source address with the shop's public address and records the swap. The website sees two different public addresses and replies to each; each router then puts 192.168.0.12 back.\n\nAnswer: c.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "A",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-ip-addresses"
+    }
+  }
+]

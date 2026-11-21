@@ -1,0 +1,78 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-ci-cd-pipeline",
+  "version": 1,
+  "title": "CI/CD on AWS: CodePipeline, CodeBuild, CodeDeploy",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-ci-cd-definition",
+      "version": 1,
+      "statement": "A CI/CD pipeline automatically builds, tests and releases every code change, so small changes reach production quickly with fewer manual errors."
+    },
+    {
+      "id": "kc-codebuild-role",
+      "version": 1,
+      "statement": "AWS CodeBuild is a fully managed build service that compiles source code, runs tests and produces deployable artifacts, billed by build minute with no build servers to manage."
+    },
+    {
+      "id": "kc-codedeploy-role",
+      "version": 1,
+      "statement": "AWS CodeDeploy automates deploying new application versions to EC2 instances, on-premises servers, Lambda functions and ECS services."
+    },
+    {
+      "id": "kc-codepipeline-role",
+      "version": 1,
+      "statement": "AWS CodePipeline orchestrates the release workflow, moving each change through source, build, test and deploy stages and calling services such as CodeBuild and CodeDeploy."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-one-time-vs-repeatable"
+  ],
+  "confusable_with": [
+    "clf-cloudformation",
+    "clf-elastic-beanstalk"
+  ],
+  "introduces": [
+    "ci/cd pipeline",
+    "codebuild",
+    "codedeploy",
+    "codepipeline"
+  ],
+  "uses": [
+    "ec2 instance",
+    "lambda",
+    "ecs",
+    "automation"
+  ],
+  "problem_ideas": [
+    "A team runs unit tests on a laptop before each release and forgets half the time: which service runs tests automatically on every commit?",
+    "Rolling out a new version to 200 EC2 instances and 30 on-premises servers: which Code* service?",
+    "Put the stages a change passes through in CodePipeline in order, and name the service called at the build stage.",
+    "A company pays for a Jenkins server that sits idle 22 hours a day: which managed build service bills only while building?",
+    "Match four verbs (orchestrate, compile, deploy, trace) to CodePipeline, CodeBuild, CodeDeploy, or 'not a Code* service'.",
+    "Distractor drill: 'automate the end-to-end release process' with options CodeBuild, CodeDeploy, CodePipeline, CloudFormation."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-8-identify-services-fro/developer-tool-services-and-capabilities"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "deploying-and-managing-infrastructure-at/aws-codepipeline"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "deploying-and-managing-infrastructure-at/aws-codebuild"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "deploying-and-managing-infrastructure-at/aws-codedeploy"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,1211 @@
+[
+  {
+    "id": "sd-ip-addresses/set-1",
+    "family": "sd-ip-addresses-ip-valid-ipv4-pick",
+    "kind": "single",
+    "scaffold": "worked",
+    "level": 1,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "Which of these is a valid **IPv4** address in dotted decimal?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`203.0.113.256`",
+        "why_md": "It has four octets, but one octet is 256. An octet is 8 bits, so it can only go from 0 to 255."
+      },
+      {
+        "id": "b",
+        "md": "`10.0.1`",
+        "why_md": "This has only three octets, which is 24 bits. An IPv4 address has four octets (32 bits)."
+      },
+      {
+        "id": "c",
+        "md": "`198.51.100.20`",
+        "correct": true,
+        "why_md": "Correct. It has four octets, and each one is between 0 and 255. 4 × 8 = 32 bits."
+      },
+      {
+        "id": "d",
+        "md": "`2001:db8::10`",
+        "why_md": "This is a valid address, but it is IPv6: hex groups separated by colons. It is not IPv4."
+      }
+    ],
+    "hints": [
+      "An IPv4 address is 32 bits, written as four octets. Each octet is a number from 0 to 255.",
+      "Check each option for two things: are there exactly four dot-separated numbers, and is each one 255 or less?"
+    ],
+    "solution_md": "1. A valid IPv4 address has 4 octets × 8 bits = 32 bits, and each octet is a number from 0 to 255.\n2. `203.0.113.256`: the last octet is 256, which is more than 255. Invalid.\n3. `10.0.1`: only 3 octets. Invalid.\n4. `2001:db8::10`: colons and hex groups, so this is IPv6, not IPv4.\n5. `198.51.100.20`: 4 octets, all from 0 to 255. **Valid.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/set-2",
+    "family": "sd-ip-addresses-ip-match-private-ranges",
+    "kind": "match",
+    "scaffold": "worked",
+    "level": 1,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "Match each private CIDR block to the range of addresses it covers, from first address to last address.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "`10.0.0.0/8`",
+        "why_md": "/8 fixes the first octet (10). The other three octets can be anything, so the range is 10.0.0.0 to 10.255.255.255."
+      },
+      {
+        "id": "l2",
+        "md": "`172.16.0.0/12`",
+        "why_md": "/12 fixes the first octet plus the top 4 bits of the second octet, so the second octet runs from 16 to 31. The range is 172.16.0.0 to 172.31.255.255."
+      },
+      {
+        "id": "l3",
+        "md": "`192.168.0.0/16`",
+        "why_md": "/16 fixes the first two octets (192.168), so the range is 192.168.0.0 to 192.168.255.255."
+      },
+      {
+        "id": "r1",
+        "md": "10.0.0.0 – 10.255.255.255",
+        "why_md": "Fits 10.0.0.0/8."
+      },
+      {
+        "id": "r2",
+        "md": "172.16.0.0 – 172.31.255.255",
+        "why_md": "Fits 172.16.0.0/12."
+      },
+      {
+        "id": "r3",
+        "md": "192.168.0.0 – 192.168.255.255",
+        "why_md": "Fits 192.168.0.0/16."
+      },
+      {
+        "id": "r4",
+        "md": "172.0.0.0 – 172.255.255.255",
+        "why_md": "This range fits none of the blocks. It would be 172.0.0.0/8. The private block is /12, so it stops at 172.31.255.255.",
+        "misconception": "mc-172-all-private"
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r1",
+        "l2": "r2",
+        "l3": "r3"
+      }
+    },
+    "hints": [
+      "The number after the slash is how many leading bits are fixed. /8 fixes one octet and /16 fixes two.",
+      "/12 fixes the first octet plus 4 bits of the second, which leaves the second octet free to run from 16 to 31."
+    ],
+    "solution_md": "1. `10.0.0.0/8`: the first octet is fixed, so the range is 10.0.0.0 to 10.255.255.255 (r1).\n2. `172.16.0.0/12`: the first octet is fixed, and the top 4 bits of the second octet are fixed too. The second octet therefore runs from 16 to 31, so the range is 172.16.0.0 to 172.31.255.255 (r2).\n3. `192.168.0.0/16`: the first two octets are fixed, so the range is 192.168.0.0 to 192.168.255.255 (r3).\n4. r4 (every 172 address) matches no block. The private 172 block ends at 172.31.255.255.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/set-3",
+    "family": "sd-ip-addresses-ip-order-nat-roundtrip",
+    "kind": "order",
+    "scaffold": "faded",
+    "level": 1,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "A laptop on home Wi-Fi has the private address `192.168.1.23`. It loads a page from a news website's server on the public internet. The home router does NAT for every device in the home. Put the steps in order, from the first packet leaving the laptop to the reply arriving back at the laptop.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The home router looks up its NAT table and puts `192.168.1.23` back as the reply's destination",
+        "why_md": "Fourth. The reply has to reach the router before the router can translate it back."
+      },
+      {
+        "id": "b",
+        "md": "The laptop sends a packet with source address `192.168.1.23`",
+        "why_md": "First. The packet starts out carrying the laptop's private address."
+      },
+      {
+        "id": "c",
+        "md": "The website's server receives the packet and replies to the router's public address",
+        "why_md": "Third. The server only ever sees the router's public address, so it sends the reply there."
+      },
+      {
+        "id": "d",
+        "md": "The laptop receives the reply",
+        "why_md": "Last. This happens after the router has put the private address back."
+      },
+      {
+        "id": "e",
+        "md": "The home router replaces the source with its own public address and records the swap in its table",
+        "why_md": "Second. Internet routers don't deliver to private addresses, so NAT swaps the private source out before the packet leaves the home."
+      }
+    ],
+    "answer": {
+      "sequence": [
+        "b",
+        "e",
+        "c",
+        "a",
+        "d"
+      ]
+    },
+    "hints": [
+      "NAT translates twice: once when the packet goes out and once when the reply comes back.",
+      "The order is: laptop sends → router swaps private for public → server replies to the public address → router swaps back → laptop receives."
+    ],
+    "solution_md": "1. (b) The laptop sends the packet from 192.168.1.23.\n2. (e) The home router replaces that private source with its own public address and records the swap in its table.\n3. (c) The website's server sees only the router's public address and replies to it.\n4. (a) The router looks up the swap in its table and sets the destination back to 192.168.1.23.\n5. (d) The laptop receives the reply.\n\nAnswer: b, e, c, a, d.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-ip-addresses-r3"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/set-4",
+    "family": "sd-ip-addresses-ip-bits-ratio-numeric",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "Imagine an address scheme that used **40-bit** addresses instead of IPv4's 32 bits. How many times as many addresses would it allow as IPv4? Give a whole number.",
+    "answer": {
+      "value": 256,
+      "tolerance": 0
+    },
+    "common_wrong": [
+      {
+        "value": 1.25,
+        "kind": "misconception",
+        "tag": "mc-ipv6-4x",
+        "why_md": "40 ÷ 32 = 1.25 compares the lengths of the addresses, not how many addresses there are. Each extra bit doubles the count."
+      },
+      {
+        "value": 8,
+        "kind": "slip",
+        "why_md": "8 is the number of extra bits. Each extra bit doubles the count, so the answer is 2⁸, not 8."
+      },
+      {
+        "value": 1099511627776,
+        "kind": "slip",
+        "why_md": "That is 2⁴⁰, the total number of 40-bit addresses. The question asks for the ratio to IPv4's 2³²."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "answer = 2**40 // 2**32\n"
+    },
+    "hints": [
+      "n bits give 2ⁿ addresses. Divide the two counts.",
+      "2⁴⁰ ÷ 2³² = 2⁴⁰⁻³² = 2⁸."
+    ],
+    "solution_md": "1. 40-bit addresses: 2⁴⁰ possible addresses. IPv4: 2³².\n2. Ratio: 2⁴⁰ ÷ 2³² = 2⁸ = **256**.\n\nEvery extra bit doubles the count, so 8 extra bits give 2 × 2 × … × 2 (8 times) = 256 times as many addresses. The ratio is not 40/32 = 1.25.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/set-5",
+    "family": "sd-ip-addresses-ip-multi-select-private",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "A network log lists these IPv4 addresses. Select **all** the private addresses. Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "`172.15.4.4`",
+        "why_md": "Public. The private 172 block is 172.16.x.x to 172.31.x.x, and 15 is below 16.",
+        "misconception": "mc-172-all-private"
+      },
+      {
+        "id": "b",
+        "md": "`10.200.5.1`",
+        "correct": true,
+        "why_md": "Private. It starts with 10, so it is inside 10.0.0.0/8."
+      },
+      {
+        "id": "c",
+        "md": "`192.169.1.1`",
+        "why_md": "Public. The private block is 192.168.x.x only, and here the second octet is 169."
+      },
+      {
+        "id": "d",
+        "md": "`172.31.250.9`",
+        "correct": true,
+        "why_md": "Private. The second octet is 31, and 16 ≤ 31 ≤ 31, so it is the top edge of 172.16.0.0/12."
+      },
+      {
+        "id": "e",
+        "md": "`192.168.77.1`",
+        "correct": true,
+        "why_md": "Private. It starts with 192.168, so it is inside 192.168.0.0/16."
+      }
+    ],
+    "hints": [
+      "Run the lesson's checklist on each address: does it start with 10? Is it 172.x with x from 16 to 31? Does it start with 192.168?",
+      "For each address, the second octet decides: 172.15 and 192.169 are just outside the private blocks, and 172.31 is just inside."
+    ],
+    "solution_md": "1. `172.15.4.4`: 15 is not in 16–31, so it is **public**.\n2. `10.200.5.1`: it starts with 10, so it is **private**.\n3. `192.169.1.1`: it is not 192.168, so it is **public**.\n4. `172.31.250.9`: 31 is in 16–31, so it is **private**.\n5. `192.168.77.1`: it starts with 192.168, so it is **private**.\n\nAnswer: b, d, e.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/set-6",
+    "family": "sd-ip-addresses-ip-ar-ipv6-four-times",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "**Assertion (A):** IPv6 provides 4 times as many addresses as IPv4.\n\n**Reason (R):** An IPv6 address is 4 times as long as an IPv4 address (128 bits compared with 32 bits).",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "A is false. Making the address 4 times longer does not multiply the count by 4. Each extra bit doubles it.",
+        "misconception": "mc-ipv6-4x"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "A is not true: IPv6 has 2⁹⁶ times as many addresses, not 4 times as many.",
+        "misconception": "mc-ipv6-4x"
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "The two are the other way round. R is true, since 128 = 4 × 32. A is the false one."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "correct": true,
+        "why_md": "Correct. R is true: 128 bits is 4 × 32 bits. A is false: 2¹²⁸ ÷ 2³² = 2⁹⁶, so IPv6 has about 7.9 × 10²⁸ times as many addresses."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. For R, compare the bit lengths. For A, compare 2¹²⁸ with 2³².",
+      "128 = 4 × 32, so R holds. 2¹²⁸ ÷ 2³² = 2⁹⁶, which is far more than 4, so A fails."
+    ],
+    "solution_md": "1. R: 128 ÷ 32 = 4, so an IPv6 address really is 4 times as long. **R is true.**\n2. A: IPv6 allows 2¹²⁸ addresses and IPv4 allows 2³². The ratio is 2¹²⁸⁻³² = 2⁹⁶ ≈ 7.9 × 10²⁸, not 4. **A is false.**\n3. The length grows 4 times, but each extra bit doubles the count. Answer: **d**, A false and R true.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/set-7",
+    "family": "sd-ip-addresses-ip-trace-ipv6-expand",
+    "kind": "trace",
+    "scaffold": "faded",
+    "level": 2,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "Expand the IPv6 address `2001:db8:5::a:1` to its full form of eight groups with four hex digits each. Fill every `?` cell. Write numbers in decimal, and write hex groups as exactly 4 lowercase hex digits (for example `0db8`).",
+    "context_md": "| Item | Value |\n|---|---|\n| Groups written in the short form | ? |\n| Zero groups that `::` stands for | ? |\n| Group 3 | ? |\n| Group 4 | ? |\n| Group 7 | ? |\n| Group 8 | ? |",
+    "answer": {
+      "cells": {
+        "0,1": "5",
+        "1,1": "3",
+        "2,1": "0005",
+        "3,1": "0000",
+        "4,1": "000a",
+        "5,1": "0001"
+      }
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import ipaddress\nshort = '2001:db8:5::a:1'\nwritten = [g for g in short.replace('::', ':').split(':') if g != '']\nfull = ipaddress.IPv6Address(short).exploded.split(':')\nanswer = {\n    '0,1': str(len(written)),\n    '1,1': str(8 - len(written)),\n    '2,1': full[2],\n    '3,1': full[3],\n    '4,1': full[6],\n    '5,1': full[7],\n}\n"
+    },
+    "hints": [
+      "Count the groups written in the short form. `::` stands for however many all-zero groups are needed to make 8 in total. Then pad every group to 4 hex digits with leading zeros.",
+      "The written groups are 2001, db8, 5, a and 1, which makes 5, so `::` stands for 3 zero groups. The full form is 2001:0db8:0005:0000:0000:0000:000a:0001."
+    ],
+    "solution_md": "1. The written groups are `2001`, `db8`, `5`, `a` and `1`, which makes **5**.\n2. A full IPv6 address has 8 groups, so `::` stands for 8 − 5 = **3** zero groups.\n3. Put the groups in order: 2001, db8, 5, then three zero groups, then a, 1.\n4. Pad each group to 4 hex digits: `2001:0db8:0005:0000:0000:0000:000a:0001`.\n5. Group 3 = **0005**, group 4 = **0000**, group 7 = **000a** and group 8 = **0001**.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/set-8",
+    "family": "sd-ip-addresses-ip-case-cache-addressing",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "An online shop runs its servers in one data centre. Its internal network uses addresses from `10.0.0.0/8`: the app servers are `10.0.1.11`–`10.0.1.14` and the database is `10.0.2.5`, and every machine on this internal network can reach every other one directly. The shop is adding a cache server that only the app servers will talk to. The requirements:\n\n1. The app servers must reach it directly inside the shop's internal network.\n2. Nobody on the internet should be able to send packets to it.\n3. The cache must **not** have a publicly routable address, even if a firewall could block internet traffic to it. The shop keeps its scarce public IPv4 addresses for machines the internet must reach, such as its public web servers.\n\nWhich address plan meets all three requirements?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Give it a public IPv4 address and add a firewall rule that drops all traffic not coming from the shop's own servers",
+        "why_md": "Viable, but second-best. If the firewall rule is correct, it meets requirements 1 and 2. But it breaks requirement 3: the cache would have a publicly routable address, so one firewall mistake would expose it. It also uses a scarce public IPv4 address for a machine that never needs one."
+      },
+      {
+        "id": "b",
+        "md": "Give it `172.40.0.5`, an address in the private 172 range",
+        "why_md": "Trap. 172.40.0.5 is **not** private, because the private block only covers 172.16.x.x to 172.31.x.x. Outside a reserved range like that, it is a publicly routable address, which breaks requirements 2 and 3.",
+        "misconception": "mc-172-all-private"
+      },
+      {
+        "id": "c",
+        "md": "Give it a private address such as `10.0.2.6` on the shop's internal network, next to the database",
+        "correct": true,
+        "why_md": "Best. 10.0.2.6 is inside 10.0.0.0/8, so it is private. Internet routers don't deliver packets to private addresses, so outsiders can't reach the cache (requirement 2). The address is not publicly routable (requirement 3), and the app servers reach it directly on the internal network (requirement 1). The database at 10.0.2.5 is private for the same reason."
+      }
+    ],
+    "hints": [
+      "Check each plan against all three requirements, and check whether each address really is private.",
+      "Requirement 3 rules out any publicly routable address, even one behind a firewall. Then check the second number of 172.40.0.5: is it between 16 and 31?"
+    ],
+    "solution_md": "1. Requirement 3 says the cache must not have a publicly routable address, so it needs a private address.\n2. Option (a): a public IPv4 address is publicly routable, so it breaks requirement 3, even though a correct firewall rule would meet requirements 1 and 2. Second-best.\n3. Option (b): 172.40.0.5 has 40 as its second number, which is above 31. The private block 172.16.0.0/12 only covers 172.16.x.x to 172.31.x.x, so this address is **not private**. It breaks requirements 2 and 3.\n4. Option (c): 10.0.2.6 is inside 10.0.0.0/8, so it is private. Internet routers don't deliver packets to it (requirements 2 and 3), and the app servers on the same internal network reach it directly (requirement 1). **All three requirements are met.**\n\nAnswer: **c**.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-ip-addresses-r3"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/set-9",
+    "family": "sd-ip-addresses-ip-region-duplicate-private",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "A video-streaming company runs two data centres, one in Virginia and one in Frankfurt. Each data centre **numbers** its app servers `10.0.1.11`–`10.0.1.14`. The two data centres' private networks are separate: neither is connected to the other. In each data centre, viewers' requests arrive at a web proxy with a public address, which forwards them to that data centre's own app servers, and the app servers all share one NAT gateway for outbound traffic. A new engineer says the repeated addresses are a conflict. Which statement is correct?",
+    "options": [
+      {
+        "id": "a",
+        "md": "It is a conflict: every IP address must be unique worldwide, so the Frankfurt data centre has to renumber",
+        "why_md": "Only public addresses must be unique worldwide. A private address only has to be unique inside its own network.",
+        "misconception": "mc-private-unique"
+      },
+      {
+        "id": "b",
+        "md": "It is a conflict: a viewer in Berlin could be sent to the wrong data centre's `10.0.1.12`",
+        "why_md": "Viewers can't send packets to any 10.x address, because internet routers don't deliver to private addresses. Viewers reach a data centre's public web proxy, and that proxy forwards to its own app servers.",
+        "misconception": "mc-private-unique"
+      },
+      {
+        "id": "c",
+        "md": "There is no conflict: a private address only has to be unique inside its own network, and these are two separate networks",
+        "correct": true,
+        "why_md": "Correct. Each data centre's 10.0.1.12 is unique inside its own network. This reuse is exactly what private ranges allow."
+      },
+      {
+        "id": "d",
+        "md": "There is no conflict, because the NAT gateway gives each app server its own public address",
+        "why_md": "The conclusion is right but the reason is wrong. The stem says the app servers share one NAT gateway, and NAT lets many private devices share one public address. Uniqueness inside each network is what removes the conflict, not NAT."
+      }
+    ],
+    "hints": [
+      "Who needs to tell two devices apart? Ask whether a packet could ever have to choose between the two 10.0.1.12 machines.",
+      "Private addresses only have to be unique inside their own network. Packets from the internet never carry a private destination address."
+    ],
+    "solution_md": "1. 10.0.1.11–14 is inside 10.0.0.0/8, so these are private addresses.\n2. A private address only has to be unique inside its own network. The two data centres' networks are separate, so each 10.0.1.12 is unique where it lives.\n3. Internet routers don't deliver to private addresses. A viewer's packet goes to a data centre's public web proxy, and that proxy forwards to its own app servers, so no packet ever has to pick between the two data centres' 10.0.1.12.\n4. NAT lets many devices share one public address, and here all the app servers share one gateway. It does not give each server its own public address, so (d) gives the wrong reason.\n\nAnswer: **c**.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-ip-addresses-r3"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/set-10",
+    "family": "sd-ip-addresses-ip-ipv6-shorten-edge",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "Which option is a valid shortened form of exactly this IPv6 address?\n\n`2001:0db8:0000:0000:0001:0000:0000:0010`",
+    "options": [
+      {
+        "id": "a",
+        "md": "`2001:db8::1::10`",
+        "why_md": "Invalid: `::` may appear only once. With two `::`, nobody can tell how many zero groups each one stands for."
+      },
+      {
+        "id": "b",
+        "md": "`2001:db8::1:10`",
+        "why_md": "There are 4 written groups, so `::` stands for 4 zero groups. That gives 2001:db8:0:0:0:0:1:10, which is a different address."
+      },
+      {
+        "id": "c",
+        "md": "`21:db8::1:0:0:10`",
+        "why_md": "Only leading zeros may be dropped. `2001` → `21` removes zeros from the middle of the group, which changes the value."
+      },
+      {
+        "id": "d",
+        "md": "`2001:db8::1:0:0:10`",
+        "correct": true,
+        "why_md": "Correct. There are 6 written groups, so `::` stands for 2 zero groups. That gives 2001:0db8:0000:0000:0001:0000:0000:0010."
+      },
+      {
+        "id": "e",
+        "md": "`2001:db8:0:0:1:10`",
+        "why_md": "Invalid: this has only 6 groups and no `::` to stand for the missing zero groups. A full address has 8 groups."
+      }
+    ],
+    "hints": [
+      "Expand each option back to 8 groups: count the written groups, then let `::` fill in the rest with zeros. Also check that only leading zeros were dropped and `::` appears at most once.",
+      "For (d): 6 written groups, so `::` stands for 2 zero groups, which gives 2001, db8, 0, 0, 1, 0, 0, 10. Compare that with the target address."
+    ],
+    "solution_md": "Target groups: 2001, db8, 0, 0, 1, 0, 0, 10.\n\n1. (a) uses `::` twice, which is invalid.\n2. (b) has 4 written groups, so `::` = 4 zero groups → 2001:db8:0:0:0:0:1:10. That is the wrong address.\n3. (c) turns 2001 into 21 by dropping non-leading zeros, which changes the value.\n4. (d) has 6 written groups, so `::` = 2 zero groups → 2001:db8:0:0:1:0:0:10. **This matches.**\n5. (e) has 6 groups and no `::`, so it is not a complete address.\n\nAnswer: **d**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/exit-1",
+    "family": "sd-ip-addresses-ip-exit-ipv6-bits",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "An IPv6 address is written as 8 groups of 4 hex digits. Each hex digit stands for 4 bits. How many bits long is an IPv6 address?",
+    "answer": {
+      "value": 128,
+      "tolerance": 0,
+      "unit": "bits"
+    },
+    "common_wrong": [
+      {
+        "value": 32,
+        "kind": "slip",
+        "why_md": "8 × 4 = 32 counts the hex digits, not the bits. Each hex digit is 4 bits, so multiply by 4 again. (32 bits is the length of IPv4.)"
+      },
+      {
+        "value": 64,
+        "kind": "slip",
+        "why_md": "That is only half the address. 8 groups × 4 digits × 4 bits = 128."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "groups = 8\nhex_digits_per_group = 4\nbits_per_hex_digit = 4\nanswer = groups * hex_digits_per_group * bits_per_hex_digit\n"
+    },
+    "hints": [
+      "Multiply groups × hex digits per group × bits per hex digit.",
+      "8 × 4 = 32 hex digits, and 32 × 4 bits = 128."
+    ],
+    "solution_md": "1. 8 groups × 4 hex digits = 32 hex digits.\n2. Each hex digit is 4 bits (2⁴ = 16), so 32 × 4 = **128 bits**.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-ip-addresses",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/exit-2",
+    "family": "sd-ip-addresses-ip-exit-172-edge",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "Is `172.32.10.4` a public or a private IPv4 address?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Public, because it is outside the private 172.16–172.31 block and outside the special-use ranges",
+        "correct": true,
+        "why_md": "Correct. 172.16.0.0/12 ends at 172.31.255.255, and 172.32.10.4 is in no special-use range either, so internet routers carry it."
+      },
+      {
+        "id": "b",
+        "md": "Private, because every address that starts with 172 is private",
+        "why_md": "Only 172.16.x.x to 172.31.x.x is private. 172.32 is just past the end of that block.",
+        "misconception": "mc-172-all-private"
+      },
+      {
+        "id": "c",
+        "md": "Private, because it is inside 172.16.0.0/12",
+        "why_md": "172.16.0.0/12 runs from 172.16.0.0 to 172.31.255.255. A second octet of 32 is outside that range."
+      }
+    ],
+    "hints": [
+      "Look at the private block for 172 and check the range of its second octet.",
+      "172.16.0.0/12 covers second octets 16 to 31 only."
+    ],
+    "solution_md": "1. The first octet is 172, so check the second octet against the private block 172.16.0.0/12, which covers 172.16 to 172.31.\n2. The second octet is 32, which is greater than 31, so the address is not private.\n3. This particular address is also outside the special-use ranges (such as loopback, link-local and documentation), so it is a **public** address. Being outside the private ranges alone is not enough. Answer: **a**.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/exit-3",
+    "family": "sd-ip-addresses-ip-exit-nat-source",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "A customer at home, on a laptop with the private address `192.168.1.23`, places an order on an online shop. The shop's web proxy, which has a publicly routable address, receives customers' requests and passes them to the shop's app servers. To charge the card, the app server `10.0.1.13` calls an external payment API on the internet. That call goes out through the shop's NAT gateway, which does outbound NAT. What source address does the payment API see on the incoming packets?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`10.0.1.13`, the app server's own address",
+        "why_md": "Internet routers don't deliver to private addresses, so a private source can't be used on the internet. The NAT gateway replaces it before the packet leaves the shop's network.",
+        "misconception": "mc-private-unique"
+      },
+      {
+        "id": "b",
+        "md": "The NAT gateway's public address",
+        "correct": true,
+        "why_md": "Correct. NAT swaps the private source for its own public address and records the swap, so it can translate the reply back."
+      },
+      {
+        "id": "c",
+        "md": "The web proxy's public address",
+        "why_md": "The web proxy handles incoming customer traffic. The stem says this outbound call leaves through the NAT gateway."
+      },
+      {
+        "id": "d",
+        "md": "`192.168.1.23`, the customer's laptop address",
+        "why_md": "That is the customer's private address on their home network. It plays no part in the app server's call to the payment API."
+      }
+    ],
+    "hints": [
+      "What does a NAT device do to the source address of a packet that is leaving the private network?",
+      "NAT replaces the private source with its own public address. This call goes through the NAT gateway, not the web proxy."
+    ],
+    "solution_md": "1. 10.0.1.13 is private (it is inside 10.0.0.0/8), so it can't be used as an address on the public internet.\n2. The call leaves through the shop's NAT gateway. The gateway replaces the source with its own public address and records the swap in its table.\n3. The payment API therefore sees **the NAT gateway's public address**. When the reply comes back, the gateway restores 10.0.1.13. Answer: **b**.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-ip-addresses-r3"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/forge-1",
+    "family": "sd-ip-addresses-forge-ipv6-valid-syntax",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "Exactly one of these is a correctly written IPv6 address. Which one?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`2001:db8::1::5`",
+        "why_md": "Not valid. `::` may appear only once in an address. With two of them, you can't tell how many zero groups each one stands for."
+      },
+      {
+        "id": "b",
+        "md": "`2001:db8:0:0:0:0:0:0:1`",
+        "why_md": "Not valid. Count the groups: 2001, db8, then seven more, so nine in all. An IPv6 address has exactly eight groups (8 × 16 bits = 128 bits)."
+      },
+      {
+        "id": "c",
+        "md": "`2001:db8:a:b::c:d`",
+        "correct": true,
+        "why_md": "Valid. Six groups are written, so `::` stands for 8 − 6 = 2 zero groups. Every group uses hex digits only and has at most four of them. Full form: `2001:0db8:000a:000b:0000:0000:000c:000d`."
+      },
+      {
+        "id": "d",
+        "md": "`2001:db8::g1`",
+        "why_md": "Not valid. Hex digits run 0–9 and a–f only. `g` is not a hex digit."
+      },
+      {
+        "id": "e",
+        "md": "`2001:0db8:00001::1`",
+        "why_md": "Not valid. A group holds at most four hex digits (16 bits). `00001` has five. You may drop leading zeros, but you can't add extra digits."
+      }
+    ],
+    "hints": [
+      "Check each option against the rules: exactly eight groups once `::` is expanded, at most four hex digits (0–9, a–f) per group, and `::` used no more than once.",
+      "(a) uses `::` twice. (b) has nine groups. (d) contains `g`. (e) has a five-digit group. Check that the one left expands to exactly eight groups."
+    ],
+    "solution_md": "Apply the rules one at a time.\n\n1. `::` at most once: (a) fails.\n2. Exactly eight groups: (b) writes out nine groups, so it fails.\n3. Hex digits only: (d) contains `g`, so it fails.\n4. At most four digits per group: (e) has `00001`, so it fails.\n5. (c) writes six groups, so `::` fills in 8 − 6 = 2 zero groups: `2001:0db8:000a:000b:0000:0000:000c:000d`. That is eight groups × 16 bits = 128 bits.\n\nAnswer: (c).",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forge-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/forge-2",
+    "family": "sd-ip-addresses-forge-which-one-private",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "A firewall log shows four source addresses. Which **one** of them is in an RFC 1918 private range?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`172.15.200.1`",
+        "why_md": "Not private. The 172 private range is 172.16.0.0/12, which covers only 172.16.x.x to 172.31.x.x. A second octet of 15 is below 16.",
+        "misconception": "mc-172-all-private"
+      },
+      {
+        "id": "b",
+        "md": "`192.169.0.1`",
+        "why_md": "Not private. The private block is 192.168.0.0/16, so the first two octets must be exactly 192.168. Here the second octet is 169."
+      },
+      {
+        "id": "c",
+        "md": "`172.31.250.9`",
+        "correct": true,
+        "why_md": "Private. The first octet is 172 and the second is 31, and 16 ≤ 31 ≤ 31. That puts it inside 172.16.0.0/12, at the top end of the range."
+      },
+      {
+        "id": "d",
+        "md": "`11.0.0.1`",
+        "why_md": "Not private. Only addresses whose first octet is exactly 10 fall in 10.0.0.0/8. A first octet of 11 is outside it."
+      }
+    ],
+    "hints": [
+      "Use the classification steps: does it start with 10? Is it 172.x with x from 16 to 31? Does it start with 192.168?",
+      "Check the second octet of each 172 address against 16–31, and check that the 192 address continues with exactly .168."
+    ],
+    "solution_md": "Go through the private-range checks for each address.\n\n- `172.15.200.1`: second octet 15 < 16, so it is outside 172.16.0.0/12.\n- `192.169.0.1`: begins 192.169, not 192.168, so it is outside 192.168.0.0/16.\n- `172.31.250.9`: second octet 31 falls in 16–31, so it is **inside** 172.16.0.0/12.\n- `11.0.0.1`: first octet 11, not 10, so it is outside 10.0.0.0/8.\n\nAnswer: (c) `172.31.250.9`.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forge-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/forge-3",
+    "family": "sd-ip-addresses-forge-multi-routable",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "Which of these addresses are public addresses that the internet's routers would carry packets to? Besides the three private ranges, internet routers also don't carry these special-use ranges: `127.0.0.0/8` (loopback: this device itself), `169.254.0.0/16` (link-local: one local network only) and `192.0.2.0/24` (documentation). Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "`169.254.10.20`",
+        "why_md": "Not carried. 169.254.0.0/16 is link-local: a device gives itself one of these addresses when nothing assigns it one, and it only works on the local network segment. It is outside the private ranges and still not routed.",
+        "misconception": "mc-outside-private-is-public"
+      },
+      {
+        "id": "b",
+        "md": "`172.32.5.5`",
+        "correct": true,
+        "why_md": "Carried. A second octet of 32 is above 31, so this is outside 172.16.0.0/12. It also isn't loopback, link-local or documentation, so it is public."
+      },
+      {
+        "id": "c",
+        "md": "`192.0.2.44`",
+        "why_md": "Not carried. 192.0.2.0/24 is reserved for documentation (RFC 5737). It isn't private, but real routers don't carry it.",
+        "misconception": "mc-outside-private-is-public"
+      },
+      {
+        "id": "d",
+        "md": "`8.8.4.4`",
+        "correct": true,
+        "why_md": "Carried. It is in no private range and no special-use range from the lesson, so it is a public address."
+      },
+      {
+        "id": "e",
+        "md": "`172.16.0.9`",
+        "why_md": "Not carried. 172.16.x.x is the bottom of the private 172.16.0.0/12 range. Internet routers do not carry private addresses."
+      },
+      {
+        "id": "f",
+        "md": "`127.0.0.53`",
+        "why_md": "Not carried. Every address in 127.0.0.0/8 is loopback: it means \"this machine\" and never leaves the host.",
+        "misconception": "mc-outside-private-is-public"
+      }
+    ],
+    "hints": [
+      "Two checks for each address: is it in one of the three private ranges? If not, is it in a special-use range (loopback 127.x, link-local 169.254.x, documentation 192.0.2.x / 198.51.100.x / 203.0.113.x)?",
+      "172.16.0.9 is private. 169.254.x, 192.0.2.x and 127.x are special-use. That leaves two addresses that are public."
+    ],
+    "solution_md": "Check each address.\n\n- `169.254.10.20`: link-local, not routed.\n- `172.32.5.5`: 32 > 31, so not private and not special-use. **Public.**\n- `192.0.2.44`: documentation range, not routed.\n- `8.8.4.4`: not private and not special-use. **Public.**\n- `172.16.0.9`: inside 172.16.0.0/12, so private.\n- `127.0.0.53`: loopback, never leaves the host.\n\nNot private does not automatically mean routable. Answer: b, d.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forge-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/forge-4",
+    "family": "sd-ip-addresses-forge-ar-nat-two-homes",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "Two homes in different cities each give a laptop the private address `10.0.0.7`. Each home's router does NAT and has its own public address. Both laptops load the same news website at the same moment.\n\n**Assertion (A):** The website's server can send each reply back to the right laptop, with no address conflict.\n\n**Reason (R):** Each home router uses NAT to replace the laptop's private source address with that home's own public address, so the two requests reach the website with different source addresses.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "correct": true,
+        "why_md": "Right. A private address only has to be unique inside its own network. NAT rewrites each laptop's source address to its home's public address, so the website replies to two different public addresses, and each home router translates its reply back to 10.0.0.7."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is exactly the mechanism behind A. The website never sees 10.0.0.7. It sees two different public addresses, which is why the replies don't collide."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true. NAT on a home router swaps the private source address for the router's public address, as the lesson describes."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true. Private addresses don't need to be unique worldwide, so the two homes can reuse 10.0.0.7 without any conflict.",
+        "misconception": "mc-private-unique"
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. Does a private address have to be unique worldwide? What source address does the website actually see?",
+      "A private address only has to be unique inside its own network. Each home router's NAT puts its own public address on the outgoing packets, so the website sees two different sources."
+    ],
+    "solution_md": "A is true. 10.0.0.7 is a private address, and private addresses only have to be unique inside their own network, so reusing it in two homes causes no conflict.\n\nR is true. Each home router does NAT: it replaces 10.0.0.7 with its own public address and records the swap.\n\nR explains A. The website's server receives requests from two different public addresses and replies to each one. Each home router then looks up its table and delivers the reply to its own 10.0.0.7. Answer: (a).",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-ip-addresses-r3"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/forge-5",
+    "family": "sd-ip-addresses-forge-cidr-block-ratio",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "How many times as many addresses does the private block `10.0.0.0/8` hold as the private block `172.16.0.0/12`?",
+    "answer": {
+      "value": 16,
+      "tolerance": 0
+    },
+    "common_wrong": [
+      {
+        "value": 4,
+        "kind": "slip",
+        "why_md": "4 is the difference between the prefixes (12 − 8). Each of those 4 bits doubles the count, so the ratio is 2⁴ = 16."
+      },
+      {
+        "value": 1.5,
+        "kind": "slip",
+        "why_md": "That divides the prefix lengths (12 ÷ 8). Block size is 2^(32 − prefix), so compare powers of two instead."
+      },
+      {
+        "value": 0.0625,
+        "kind": "slip",
+        "why_md": "That is the inverse. A shorter prefix means a bigger block, so /8 is the larger one."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "size_8 = 2 ** (32 - 8)\nsize_12 = 2 ** (32 - 12)\nanswer = size_8 // size_12\n"
+    },
+    "hints": [
+      "A /p block holds 2^(32 − p) addresses. Work out both sizes, then divide.",
+      "/8 holds 2²⁴ and /12 holds 2²⁰. Their ratio is 2^(24 − 20)."
+    ],
+    "solution_md": "1. `10.0.0.0/8` holds $2^{32-8} = 2^{24} = 16{,}777{,}216$ addresses.\n2. `172.16.0.0/12` holds $2^{32-12} = 2^{20} = 1{,}048{,}576$ addresses.\n3. Ratio: $2^{24} \\div 2^{20} = 2^{4} = $ **16**.\n\nEvery bit of prefix you give up doubles the block, and /8 gives up 4 more bits than /12.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forge-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/forge-6",
+    "family": "sd-ip-addresses-forge-case-export-worker",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "An accounting company is adding a report-export worker to its private network at `10.0.3.7`. Its requirements:\n\n1. It must download exchange rates from an external API on the public internet.\n2. Nothing on the public internet should have a direct path to open a connection to it.\n3. It keeps its private address `10.0.3.7` and uses the existing gateway: no public address is added.\n\nThe company already runs a NAT gateway that does outbound NAT only (no port forwarding). What's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Give the worker a public address and add a firewall rule that blocks every inbound connection",
+        "why_md": "Fails requirement 3: it adds a public address. It could meet requirements 1 and 2 while the firewall rule holds, but one misconfigured rule would expose the worker."
+      },
+      {
+        "id": "b",
+        "md": "Renumber the worker to `172.32.0.7`, which keeps it in a private 172 range so no NAT is needed",
+        "why_md": "Trap. 172.32.0.7 is outside 172.16.0.0/12 (it ends at 172.31.255.255), so it is not private at all: it is a publicly routable address. That breaks requirement 2, and the claim that no NAT is needed rests on the misconception.",
+        "misconception": "mc-172-all-private"
+      },
+      {
+        "id": "c",
+        "md": "Keep `10.0.3.7` and send the worker's outbound traffic through the NAT gateway",
+        "correct": true,
+        "why_md": "Best. The worker opens the connection, and the NAT gateway swaps its private source address for the gateway's public address, then translates replies back, so requirement 1 is met. Internet routers don't deliver to private addresses and the gateway does outbound NAT only, so nobody outside can start a connection to the worker. That meets requirement 2."
+      }
+    ],
+    "hints": [
+      "Test every option against both requirements. Is the worker's address private? Who starts the connection?",
+      "Outbound NAT lets a private host start connections to the internet without giving the internet a path in. Also check whether 172.32 really is private."
+    ],
+    "solution_md": "Requirement 1 needs an outbound path to the internet. Requirement 2 needs no inbound path from it. Requirement 3 rules out adding a public address.\n\n- Keeping `10.0.3.7` behind the outbound-only NAT gateway gives both. The worker starts the connection, and the gateway rewrites the source address and translates the replies back. Internet routers don't deliver to private addresses, so nobody outside has a direct path to the worker. **Best.**\n- A public address plus a block-all-inbound firewall rule breaks requirement 3, and its protection would depend on one rule staying correct.\n- `172.32.0.7` is not private, because 172.16.0.0/12 stops at 172.31.255.255. **Trap.**\n\nAnswer: (c).",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "patch-sd-ip-addresses-r3"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/forge-7",
+    "family": "sd-ip-addresses-forge-trace-rfc1918-table",
+    "kind": "trace",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "For each address, decide whether it lies in one of the three RFC 1918 private ranges (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16). Fill every `?` cell with `yes` or `no`.",
+    "context_md": "| # | address | in an RFC 1918 range? |\n|---|---|---|\n| 1 | 172.30.4.4 | ? |\n| 2 | 172.33.0.1 | ? |\n| 3 | 192.168.200.9 | ? |\n| 4 | 192.10.168.1 | ? |\n| 5 | 169.254.3.3 | ? |\n| 6 | 10.200.0.1 | ? |",
+    "answer": {
+      "cells": {
+        "0,2": "yes",
+        "1,2": "no",
+        "2,2": "yes",
+        "3,2": "no",
+        "4,2": "no",
+        "5,2": "yes"
+      }
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "import ipaddress\nnets = [ipaddress.ip_network(n) for n in (\"10.0.0.0/8\", \"172.16.0.0/12\", \"192.168.0.0/16\")]\naddrs = [\"172.30.4.4\", \"172.33.0.1\", \"192.168.200.9\", \"192.10.168.1\", \"169.254.3.3\", \"10.200.0.1\"]\nanswer = {}\nfor i, a in enumerate(addrs):\n    ip = ipaddress.ip_address(a)\n    answer[f\"{i},2\"] = \"yes\" if any(ip in n for n in nets) else \"no\"\n"
+    },
+    "hints": [
+      "Check the first octet first (10, 172 or 192), then the second: 16–31 for 172, and exactly 168 for 192.",
+      "172.30 is in range and 172.33 is not. 192.168 is in range, but 192.10 is not (the 168 sits in the wrong position). 169.254 is link-local, which is not RFC 1918. Any 10.x address is in range."
+    ],
+    "solution_md": "1. `172.30.4.4`: 16 ≤ 30 ≤ 31, so **yes**.\n2. `172.33.0.1`: 33 > 31, so **no**.\n3. `192.168.200.9`: begins 192.168, so **yes**.\n4. `192.10.168.1`: the second octet is 10, not 168, so **no**. Only the first two octets matter for 192.168.0.0/16.\n5. `169.254.3.3`: link-local. It isn't routed on the internet either, but it is not an RFC 1918 range, so **no**.\n6. `10.200.0.1`: first octet 10, so **yes**.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forge-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/forge-8",
+    "family": "sd-ip-addresses-forge-order-block-sizes",
+    "kind": "order",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "Put these CIDR blocks in order from the **most** addresses to the **fewest**.",
+    "options": [
+      {
+        "id": "a",
+        "md": "`192.168.0.0/16`",
+        "why_md": "2^(32−16) = 65,536 addresses: third."
+      },
+      {
+        "id": "b",
+        "md": "`203.0.113.0/24`",
+        "why_md": "2^(32−24) = 256 addresses: last."
+      },
+      {
+        "id": "c",
+        "md": "`10.0.0.0/8`",
+        "why_md": "2^(32−8) = 16,777,216 addresses: first."
+      },
+      {
+        "id": "d",
+        "md": "`10.0.0.0/20`",
+        "why_md": "2^(32−20) = 4,096 addresses: fourth. It starts with 10, but a longer prefix makes it a much smaller block than 10.0.0.0/8."
+      },
+      {
+        "id": "e",
+        "md": "`172.16.0.0/12`",
+        "why_md": "2^(32−12) = 1,048,576 addresses: second."
+      }
+    ],
+    "answer": {
+      "sequence": [
+        "c",
+        "e",
+        "a",
+        "d",
+        "b"
+      ]
+    },
+    "hints": [
+      "A block's size depends only on its prefix length: 2^(32 − prefix). The starting address doesn't matter.",
+      "Shorter prefix means a bigger block. Sort by prefix: /8, /12, /16, /20, /24."
+    ],
+    "solution_md": "Size = $2^{32-p}$.\n\n1. `10.0.0.0/8`: $2^{24}$ = 16,777,216\n2. `172.16.0.0/12`: $2^{20}$ = 1,048,576\n3. `192.168.0.0/16`: $2^{16}$ = 65,536\n4. `10.0.0.0/20`: $2^{12}$ = 4,096\n5. `203.0.113.0/24`: $2^{8}$ = 256\n\nThe two blocks that start with 10 sit at opposite ends of the list, because the prefix sets the size, not the first octet.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forge-sd-ip-addresses"
+    }
+  },
+  {
+    "id": "sd-ip-addresses/forge-9",
+    "family": "sd-ip-addresses-forge-predict-private-count",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-public-private-ip"
+    ],
+    "prompt_md": "How many of these addresses lie in one of the three RFC 1918 private ranges (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`)?\n\n`172.15.0.1`, `172.31.255.255`, `192.169.1.1`, `10.0.0.1`, `172.32.0.1`, `192.168.0.0`, `169.254.1.1`",
+    "answer": {
+      "value": 3,
+      "tolerance": 0,
+      "unit": "addresses"
+    },
+    "derivation": {
+      "lang": "python",
+      "code": "def is_private(a):\n    o = [int(x) for x in a.split(\".\")]\n    return o[0] == 10 or (o[0] == 172 and 16 <= o[1] <= 31) or (o[0] == 192 and o[1] == 168)\n\naddrs = [\"172.15.0.1\", \"172.31.255.255\", \"192.169.1.1\", \"10.0.0.1\", \"172.32.0.1\", \"192.168.0.0\", \"169.254.1.1\"]\nanswer = sum(is_private(a) for a in addrs)\n"
+    },
+    "hints": [
+      "Check each address against the three ranges: 10.x.x.x, 172.16–172.31.x.x and 192.168.x.x.",
+      "172.15 and 172.32 fall outside 16–31, 192.169 is not 192.168, and 169.254 is in none of the ranges. Count the rest."
+    ],
+    "solution_md": "Check each address:\n\n- `172.15.0.1`: 15 < 16: not private\n- `172.31.255.255`: 31 is in 16–31: private\n- `192.169.1.1`: 169 ≠ 168: not private\n- `10.0.0.1`: first octet 10: private\n- `172.32.0.1`: 32 > 31: not private\n- `192.168.0.0`: 192.168: private\n- `169.254.1.1`: no rule matches: not private (link-local is special-use, but not RFC 1918)\n\nThree addresses are private: **3**.",
+    "version": 2,
+    "class": "predict",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forge-sd-ip-addresses"
+    },
+    "common_wrong": [
+      {
+        "value": 4,
+        "kind": "misconception",
+        "why_md": "That counts `172.32.0.1` (or `172.15.0.1`) as private. Only 172.16 to 172.31 are private."
+      },
+      {
+        "value": 5,
+        "kind": "slip",
+        "why_md": "That treats every address starting with 172 as private. Only 172.16 to 172.31 are."
+      }
+    ]
+  },
+  {
+    "id": "sd-ip-addresses/forge-10",
+    "family": "sd-ip-addresses-forge-ipv4-per-person",
+    "kind": "estimate",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-ipv4-ipv6"
+    ],
+    "prompt_md": "Suppose all 2³² IPv4 addresses could be handed out (ignore reserved ranges and NAT) and there are 8 billion people. Estimate how many IPv4 addresses there would be **per person**.",
+    "answer": {
+      "value": 0.54,
+      "tolerance": 0.1,
+      "unit": "addresses per person"
+    },
+    "common_wrong": [
+      {
+        "value": 1.86,
+        "kind": "slip",
+        "why_md": "That is people per address (8 billion ÷ 4.3 billion). Divide addresses by people instead."
+      },
+      {
+        "value": 4,
+        "kind": "misconception",
+        "tag": "mc-ipv6-4x",
+        "why_md": "That treats 32 bits as about 32 billion addresses, as if the count grew with the number of bits rather than as 2 to that power. 2³² is only about 4.3 billion."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "addresses = 2 ** 32\npeople = 8e9\nanswer = round(addresses / people, 2)\n"
+    },
+    "hints": [
+      "Work out 2³² (about 4.3 billion), then divide by the number of people.",
+      "4,294,967,296 ÷ 8,000,000,000 ≈ 0.54. That is fewer than one address per person."
+    ],
+    "solution_md": "1. IPv4 has $2^{32} = 4{,}294{,}967{,}296 \\approx 4.3$ billion addresses.\n2. Divide by 8 billion people: $4.29 \\times 10^9 \\div 8 \\times 10^9 \\approx 0.54$.\n\nThat is about half an address per person, before counting reserved ranges or the many devices each person owns. This is why IPv4 was expected to run out, and why NAT and IPv6 exist.\n\nAccepted range: 0.44–0.64 addresses per person.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-ip-addresses",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "forge-sd-ip-addresses"
+    }
+  }
+]

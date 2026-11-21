@@ -1,0 +1,446 @@
+[
+  {
+    "id": "sd-dns-records/set-1",
+    "family": "sd-dns-records-dns-match-record-types",
+    "kind": "match",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "prompt_md": "Gigpass needs four DNS records. Match each one (name → value) to the record type that holds it.",
+    "options": [
+      {
+        "id": "l1",
+        "md": "`api.gigpass.example` → `203.0.113.55` (an IPv4 address)",
+        "why_md": "Name → IPv4 address is an A record."
+      },
+      {
+        "id": "l2",
+        "md": "`api.gigpass.example` → `2001:db8::55` (an IPv6 address)",
+        "why_md": "Name → IPv6 address is an AAAA record."
+      },
+      {
+        "id": "l3",
+        "md": "`img.gigpass.example` → `gigpass.edgecdn.example` (an alias for another name)",
+        "why_md": "Name → another name, as an alias, is a CNAME record."
+      },
+      {
+        "id": "l4",
+        "md": "`gigpass.example` → `ns1.gigpass.example` (the domain's authoritative server)",
+        "why_md": "Domain → the names of its authoritative servers is an NS record."
+      },
+      {
+        "id": "r1",
+        "md": "CNAME",
+        "why_md": "Fits the alias `img.gigpass.example` → `gigpass.edgecdn.example`."
+      },
+      {
+        "id": "r2",
+        "md": "A",
+        "why_md": "Fits `api.gigpass.example` → `203.0.113.55` (IPv4)."
+      },
+      {
+        "id": "r3",
+        "md": "NS",
+        "why_md": "Fits `gigpass.example` → `ns1.gigpass.example`, its authoritative server."
+      },
+      {
+        "id": "r4",
+        "md": "AAAA",
+        "why_md": "Fits `api.gigpass.example` → `2001:db8::55` (IPv6)."
+      }
+    ],
+    "answer": {
+      "rows": {
+        "l1": "r2",
+        "l2": "r4",
+        "l3": "r1",
+        "l4": "r3"
+      }
+    },
+    "hints": [
+      "Look at the kind of value in each row: an IPv4 address, an IPv6 address, an alias name, or an authoritative server's name.",
+      "IPv4 → A, IPv6 → AAAA, alias name → CNAME, authoritative server → NS."
+    ],
+    "solution_md": "1. `203.0.113.55` is IPv4 (four numbers with dots): **A**.\n2. `2001:db8::55` is IPv6 (hex groups with colons): **AAAA**.\n3. `gigpass.edgecdn.example` is another name used as an alias: **CNAME**.\n4. `ns1.gigpass.example` names the domain's authoritative server: **NS**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-records/set-2",
+    "family": "sd-dns-records-dns-valid-record-values",
+    "kind": "multi",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "prompt_md": "Each record below is written as *name  type  value*. Select every record whose value is the right kind of value for its type. Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "`shop.example.com  A  203.0.113.7`",
+        "correct": true,
+        "why_md": "Correct. An A record holds an IPv4 address, and `203.0.113.7` is IPv4."
+      },
+      {
+        "id": "b",
+        "md": "`shop.example.com  AAAA  203.0.113.7`",
+        "why_md": "Wrong. AAAA holds an IPv6 address; `203.0.113.7` is IPv4, so it belongs in an A record."
+      },
+      {
+        "id": "c",
+        "md": "`media.example.com  CNAME  example.cdnhost.net`",
+        "correct": true,
+        "why_md": "Correct. A CNAME's value is another name, here the CDN's hostname."
+      },
+      {
+        "id": "d",
+        "md": "`media.example.com  CNAME  192.0.2.9`",
+        "why_md": "Wrong. A CNAME's value is always another name, never an IP address. Use an A record for an address.",
+        "misconception": "mc-cname-to-ip"
+      },
+      {
+        "id": "e",
+        "md": "`example.com  NS  ns1.example.com`",
+        "correct": true,
+        "why_md": "Correct. An NS record names one of the domain's authoritative servers."
+      },
+      {
+        "id": "f",
+        "md": "`www.example.com  A  2001:db8::7`",
+        "why_md": "Wrong. `2001:db8::7` is IPv6, which goes in an AAAA record. An A record holds IPv4."
+      }
+    ],
+    "hints": [
+      "For each type, ask what kind of value it holds: IPv4 address, IPv6 address, or a name.",
+      "A → IPv4, AAAA → IPv6, CNAME → another name, NS → an authoritative server's name. Check every row against that."
+    ],
+    "solution_md": "1. (a) A with IPv4: valid.\n2. (b) AAAA with IPv4: invalid (should be A).\n3. (c) CNAME with a name: valid.\n4. (d) CNAME with an IP address: invalid. A CNAME never holds an address.\n5. (e) NS with a server name: valid.\n6. (f) A with IPv6: invalid (should be AAAA).\n\nAnswer: **a, c, e**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-records/set-3",
+    "family": "sd-dns-records-dns-fix-cname-ip",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "prompt_md": "Gigpass wants `img.gigpass.example` served by a CDN. An engineer adds:\n\n`img.gigpass.example  CNAME  192.0.2.44`\n\nThe CDN says: \"Use our hostname `gigpass.edgecdn.example`. Our IP addresses change without notice.\" Which record should Gigpass publish instead?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`img.gigpass.example  AAAA  192.0.2.44`",
+        "why_md": "AAAA holds an IPv6 address, and `192.0.2.44` is IPv4. It would also break when the CDN changes its addresses."
+      },
+      {
+        "id": "b",
+        "md": "`img.gigpass.example  CNAME  gigpass.edgecdn.example`",
+        "correct": true,
+        "why_md": "Right. A CNAME's value is another name. The CDN's own DNS then supplies the current IP address, so its changes need no edit at Gigpass."
+      },
+      {
+        "id": "c",
+        "md": "Keep `img.gigpass.example  CNAME  192.0.2.44`: a CNAME can point at an IP address",
+        "why_md": "A CNAME's value is always another name, never an IP address.",
+        "misconception": "mc-cname-to-ip"
+      },
+      {
+        "id": "d",
+        "md": "`img.gigpass.example  A  192.0.2.44`",
+        "why_md": "A valid record, but it pins today's address. The CDN changes its IP addresses without notice, so images would break."
+      },
+      {
+        "id": "e",
+        "md": "`img.gigpass.example  NS  gigpass.edgecdn.example`",
+        "why_md": "NS names a domain's authoritative servers. It does not make one name an alias of another."
+      }
+    ],
+    "hints": [
+      "Two problems to solve: a CNAME's value must be a name, and the CDN's addresses keep changing.",
+      "Which record type lets the CDN's own DNS supply the current address?"
+    ],
+    "solution_md": "1. The engineer's record is invalid: a CNAME's value must be **another name**, not an IP address.\n2. An A record for `192.0.2.44` is valid but would break when the CDN moves its servers.\n3. AAAA is for IPv6 and NS names authoritative servers, so neither fits.\n4. Publish `img.gigpass.example CNAME gigpass.edgecdn.example`. The resolver follows the alias and the CDN's authoritative server returns the current address. Answer: **b**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-records/exit-1",
+    "family": "sd-dns-records-dns-ipv6-record-type",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "prompt_md": "Which record type maps `api.ticketbay.org` to the address `2001:db8::42`?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A",
+        "why_md": "An A record holds an IPv4 address. `2001:db8::42` is IPv6."
+      },
+      {
+        "id": "b",
+        "md": "CNAME",
+        "why_md": "A CNAME maps a name to another name, never to an address.",
+        "misconception": "mc-cname-to-ip"
+      },
+      {
+        "id": "c",
+        "md": "NS",
+        "why_md": "NS names a domain's authoritative servers. It doesn't hold an address."
+      },
+      {
+        "id": "d",
+        "md": "AAAA",
+        "correct": true,
+        "why_md": "Right. AAAA (\"quad-A\") maps a name to an IPv6 address."
+      }
+    ],
+    "hints": [
+      "Is `2001:db8::42` an IPv4 or an IPv6 address?",
+      "Hex groups with colons mean IPv6. Which record type holds IPv6?"
+    ],
+    "solution_md": "1. `2001:db8::42` uses hex groups and colons, so it is an **IPv6** address.\n2. A holds IPv4; AAAA holds IPv6.\n3. Answer: **AAAA**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-records/set-4",
+    "family": "sd-dns-records-alias-type",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "use": "set",
+    "prompt_md": "You want `blog.example.com` to be an alias of `example.hosting.example`, so that whatever address the hosting company publishes is used. Which record type does that?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A",
+        "why_md": "An A record holds a fixed IPv4 address, not another name."
+      },
+      {
+        "id": "b",
+        "md": "CNAME",
+        "correct": true,
+        "why_md": "Right. A CNAME makes one name an alias of another name."
+      },
+      {
+        "id": "c",
+        "md": "NS",
+        "why_md": "NS names the authoritative servers for a whole domain; it doesn't alias one name."
+      },
+      {
+        "id": "d",
+        "md": "AAAA",
+        "why_md": "AAAA holds a fixed IPv6 address."
+      }
+    ],
+    "hints": [
+      "Which record type's value is another name?",
+      "CNAME = canonical name: \"look up that other name instead\"."
+    ],
+    "solution_md": "An alias from one name to another is a **CNAME**: `blog.example.com CNAME example.hosting.example`. A resolver follows the alias to get the target's A or AAAA records, so it picks up the hosting company's published address; cached records may stay in use until their TTLs expire. Answer: **b**.",
+    "version": 2,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  },
+  {
+    "id": "sd-dns-records/set-5",
+    "family": "sd-dns-records-ar-aaaa-value",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "use": "set",
+    "prompt_md": "**Assertion (A):** The record `app.example.com AAAA 203.0.113.7` is valid.\n\n**Reason (R):** An AAAA record holds an IPv6 address.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "A is false: `203.0.113.7` is an IPv4 address, which can't go in an AAAA record."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "A is false, so this can't be right."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "R is true: AAAA is the IPv6 record type."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "correct": true,
+        "why_md": "Right. AAAA holds IPv6 addresses, so an IPv4 value like `203.0.113.7` belongs in an A record instead."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. What kind of address is `203.0.113.7`?",
+      "Four decimal numbers with dots = IPv4, which goes in an A record."
+    ],
+    "solution_md": "1. `203.0.113.7` is an IPv4 address (four numbers from 0 to 255).\n2. An AAAA record must hold an IPv6 address, so the record in A is not valid: A is false.\n3. R is a correct statement of what AAAA holds.\n4. Answer: **d**. The valid record would be `app.example.com A 203.0.113.7`.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  },
+  {
+    "id": "sd-dns-records/set-6",
+    "family": "sd-dns-records-case-apex-platform",
+    "kind": "case",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "use": "set",
+    "prompt_md": "A shop moves its online store to a hosted store platform. The platform says: \"Point your names at `stores.platform.example`. Our IP addresses change without notice.\" The shop wants both `shop.example.com` and the bare domain `example.com` to reach the store. Its DNS provider supports ALIAS records at the bare domain. What's your call?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`shop.example.com CNAME stores.platform.example`, and an ALIAS record at `example.com` pointing to `stores.platform.example`.",
+        "correct": true,
+        "why_md": "Best. The CNAME follows the platform's own records, and the ALIAS does the same for the bare domain, which can't hold a CNAME."
+      },
+      {
+        "id": "b",
+        "md": "A records for both names with the platform's current IP addresses.",
+        "why_md": "Trap. The platform changes its addresses without notice, so these records go stale and users reach the wrong place."
+      },
+      {
+        "id": "c",
+        "md": "CNAME records for both names, including `example.com CNAME stores.platform.example`.",
+        "why_md": "Trap. The bare domain must keep its NS and SOA records, and a name with a CNAME may have no other records, so a CNAME there isn't allowed."
+      },
+      {
+        "id": "d",
+        "md": "NS records that hand the whole `example.com` domain to the platform's DNS servers.",
+        "why_md": "Viable only if the platform runs DNS for the shop, and it gives up control of every other name in the domain, such as mail. Far more than the shop needs."
+      }
+    ],
+    "hints": [
+      "Which record type follows a name whose addresses change?",
+      "A CNAME can't sit at the bare domain; providers offer an ALIAS-style record there."
+    ],
+    "solution_md": "1. The platform's addresses change, so copying them into A records goes stale (b fails).\n2. `shop.example.com` can be a CNAME to `stores.platform.example`.\n3. `example.com` must keep its NS and SOA records, and a CNAME can't coexist with other records, so (c) fails.\n4. The provider's ALIAS record follows the target on the server side and publishes ordinary A/AAAA records at the bare domain.\n5. Handing over the whole domain with NS (d) is unnecessary. Answer: **a**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  },
+  {
+    "id": "sd-dns-records/exit-2",
+    "family": "sd-dns-records-cname-valid-value",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-records"
+    ],
+    "use": "exit",
+    "prompt_md": "Which value can a CNAME record for `img.example.com` have?",
+    "options": [
+      {
+        "id": "a",
+        "md": "`media.cdn.example`",
+        "correct": true,
+        "why_md": "Right. A CNAME's value is always another name."
+      },
+      {
+        "id": "b",
+        "md": "`198.51.100.9`",
+        "why_md": "An IPv4 address goes in an A record, not a CNAME.",
+        "misconception": "mc-cname-to-ip"
+      },
+      {
+        "id": "c",
+        "md": "`2001:db8::9`",
+        "why_md": "An IPv6 address goes in an AAAA record, not a CNAME.",
+        "misconception": "mc-cname-to-ip"
+      }
+    ],
+    "hints": [
+      "What does a CNAME point to: an address or a name?",
+      "CNAME = alias of another name."
+    ],
+    "solution_md": "A CNAME makes a name an alias of **another name**, so its value must be a name such as `media.cdn.example`. Addresses go in A (IPv4) or AAAA (IPv6) records. Answer: **a**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-records",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  }
+]

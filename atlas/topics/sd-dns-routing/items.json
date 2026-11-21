@@ -1,0 +1,417 @@
+[
+  {
+    "id": "sd-dns-routing/set-1",
+    "family": "sd-dns-routing-dns-weighted-three-regions",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "prompt_md": "Gigpass runs three regions and uses weighted round robin with weights **us-east 5 : eu-west 3 : ap-south 2**. Out of **40,000** DNS lookups, how many are expected to be answered with the **eu-west** address?",
+    "answer": {
+      "value": 12000,
+      "tolerance": 0,
+      "unit": "lookups"
+    },
+    "common_wrong": [
+      {
+        "value": 15000,
+        "kind": "slip",
+        "why_md": "That is 3/8: it leaves out ap-south's weight. The total weight is 5 + 3 + 2 = 10."
+      },
+      {
+        "value": 24000,
+        "kind": "slip",
+        "why_md": "That uses 3/5, eu-west's weight over us-east's. Divide by the total weight of all three, 10."
+      },
+      {
+        "value": 13333,
+        "kind": "slip",
+        "why_md": "That splits the lookups equally three ways. Weighted round robin hands out answers in proportion to the weights."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "weights = {'us-east': 5, 'eu-west': 3, 'ap-south': 2}\nlookups = 40000\nanswer = lookups * weights['eu-west'] / sum(weights.values())\n"
+    },
+    "hints": [
+      "Each address's share is its weight divided by the sum of all weights.",
+      "Total weight = 5 + 3 + 2 = 10, so eu-west gets 3/10 of the lookups."
+    ],
+    "solution_md": "1. Total weight = 5 + 3 + 2 = 10.\n2. eu-west's share = 3 / 10.\n3. 3/10 × 40,000 = **12,000 lookups**.\n\n(Check: us-east 20,000, ap-south 8,000; 20,000 + 12,000 + 8,000 = 40,000.)",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-dns-routing",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-routing/set-2",
+    "family": "sd-dns-routing-dns-pick-policy-canary",
+    "kind": "pattern_id",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "prompt_md": "Gigpass opens a new ap-south region. For the first week it wants only about **5%** of DNS answers, picked without regard to where users are, to return the ap-south address, then a larger share each week. Which DNS routing policy fits?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Latency-based routing",
+        "why_md": "Latency-based routing answers with whichever region is fastest from the asker's network. It can't hold ap-south to a chosen 5% share."
+      },
+      {
+        "id": "b",
+        "md": "Weighted round robin, e.g. ap-south weight 1 and the other regions weight 19 in total",
+        "correct": true,
+        "why_md": "Right. Answers are handed out in proportion to the weights: 1 / (1 + 19) = 5%. Raising ap-south's weight shifts traffic gradually."
+      },
+      {
+        "id": "c",
+        "md": "Geolocation-based routing",
+        "why_md": "Geolocation picks the region by the asker's location, so ap-south would get everyone in its assigned places, not a chosen 5% of all answers."
+      },
+      {
+        "id": "d",
+        "md": "A CNAME from `www` to an ap-south hostname",
+        "why_md": "A CNAME is a record type, not a routing policy. It would send every lookup to ap-south, not 5%."
+      }
+    ],
+    "hints": [
+      "Which policy hands out answers in fixed proportions you choose?",
+      "Location and speed decide the region in the other two policies. Only one policy is about shares."
+    ],
+    "solution_md": "1. The goal is a chosen **share** of answers (5%), regardless of location, rising over time.\n2. Weighted round robin returns each address in a fraction $w_i / \\sum_j w_j$ of answers. Weight 1 out of a total of 20 gives 5%.\n3. Latency-based and geolocation routing pick by the asker's network or location, not by a share. A CNAME is an alias, not a policy.\n\nAnswer: **weighted round robin**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-routing",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 45,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-routing/set-3",
+    "family": "sd-dns-routing-dns-failover-window",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "prompt_md": "Gigpass uses latency-based DNS routing across regions, with a **TTL of 120 s**. The ap-south region fails at 09:00:00. The DNS provider's health checks notice **45 s** later and stop returning the ap-south address. Assume all caches honour the TTL. At most, how many **seconds after the failure** can some clients still be sent to ap-south?",
+    "answer": {
+      "value": 165,
+      "tolerance": 0,
+      "unit": "s"
+    },
+    "common_wrong": [
+      {
+        "value": 120,
+        "kind": "slip",
+        "why_md": "That counts only the TTL. For the first 45 s DNS was still handing out ap-south, and a copy fetched at 09:00:44 lives another 120 s."
+      },
+      {
+        "value": 45,
+        "kind": "slip",
+        "why_md": "That counts only the detection time. Copies already cached keep sending clients to ap-south for up to one TTL afterwards."
+      },
+      {
+        "value": 75,
+        "kind": "slip",
+        "why_md": "The delays add up rather than overlap: detection time + TTL = 45 + 120."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "detect = 45\nttl = 120\nanswer = detect + ttl\n"
+    },
+    "hints": [
+      "Failover delay ≤ detection time + TTL.",
+      "DNS stops returning ap-south at 09:00:45. A copy fetched just before that may be reused for 120 s more."
+    ],
+    "solution_md": "1. Until 09:00:45, DNS still returns ap-south (45 s detection).\n2. A copy fetched just before 09:00:45 may be reused for 120 s, until about 09:02:45.\n3. 09:02:45 − 09:00:00 = 45 + 120 = **165 s**.",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-dns-routing",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-routing/set-4",
+    "family": "sd-dns-routing-dns-geo-sees-resolver",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 3,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "prompt_md": "Gigpass uses geolocation DNS routing: Europe → eu-west, everywhere else → us-east. A fan in Madrid has set the laptop to use a public resolver. The resolver server that handles the fan's queries is in Virginia, USA, and it does **not** attach any part of the user's address to its queries. The fan keeps getting the us-east address. What is the most likely explanation?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The geolocation database places the fan's own IP address in the USA",
+        "why_md": "The authoritative server never sees the fan's IP address here. It is queried by the resolver, so it locates the resolver.",
+        "misconception": "mc-geo-user-ip"
+      },
+      {
+        "id": "b",
+        "md": "The root server picked us-east for the fan",
+        "why_md": "Root servers only send referrals to TLD servers. They don't choose regions or return Gigpass's addresses.",
+        "misconception": "mc-root-knows-ip"
+      },
+      {
+        "id": "c",
+        "md": "The authoritative server is queried by the resolver, which is in the USA, so geolocation routes to us-east",
+        "correct": true,
+        "why_md": "Right. By default the authoritative server sees only the resolver's IP address. The resolver is in Virginia, which is outside Europe, so the answer is us-east."
+      },
+      {
+        "id": "d",
+        "md": "Weighted round robin sent the fan to us-east by chance",
+        "why_md": "Gigpass uses geolocation, not weighted round robin, and the fan gets us-east every time, not by chance."
+      }
+    ],
+    "hints": [
+      "Who actually sends the query to Gigpass's authoritative server: the laptop or the resolver?",
+      "The authoritative server locates whoever asks it. Here that is a resolver in Virginia."
+    ],
+    "solution_md": "1. The laptop asks the resolver; the **resolver** asks Gigpass's authoritative server.\n2. The resolver attaches nothing about the user, so the authoritative server sees only the resolver's IP address, located in Virginia.\n3. Virginia is outside Europe, so the geolocation rule answers us-east.\n4. DNS routing picks a region per resolver, not per person. Answer: **c**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-routing",
+    "use": "set",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-routing/exit-1",
+    "family": "sd-dns-routing-dns-weighted-two-regions",
+    "kind": "numeric",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "prompt_md": "Weighted round robin is set to **us-east 1 : eu-west 3**. Out of **8,000** DNS lookups, how many are expected to be answered with the **us-east** address?",
+    "answer": {
+      "value": 2000,
+      "tolerance": 0,
+      "unit": "lookups"
+    },
+    "common_wrong": [
+      {
+        "value": 2667,
+        "kind": "slip",
+        "why_md": "That uses 1/3, the ratio of the weights. Divide by the total weight: 1 / (1 + 3) = 1/4."
+      },
+      {
+        "value": 6000,
+        "kind": "slip",
+        "why_md": "That is eu-west's share (3/4). The question asks for us-east."
+      },
+      {
+        "value": 4000,
+        "kind": "slip",
+        "why_md": "That splits equally. Weighted round robin hands out answers in proportion to the weights."
+      }
+    ],
+    "derivation": {
+      "lang": "python",
+      "code": "w_us, w_eu = 1, 3\nlookups = 8000\nanswer = lookups * w_us / (w_us + w_eu)\n"
+    },
+    "hints": [
+      "share = weight / sum of all weights.",
+      "us-east share = 1 / (1 + 3) = 1/4."
+    ],
+    "solution_md": "1. Total weight = 1 + 3 = 4.\n2. us-east share = 1/4.\n3. 1/4 × 8,000 = **2,000 lookups** (and eu-west gets 6,000).",
+    "version": 1,
+    "class": "predict",
+    "topic": "sd-dns-routing",
+    "use": "exit",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 75,
+    "provenance": {
+      "origin": "generated",
+      "job": "stock-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns-routing/set-5",
+    "family": "sd-dns-routing-pick-geo",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "use": "set",
+    "prompt_md": "A site wants its DNS to answer each query with the region **where the user appears to be**: users in Europe get the Frankfurt servers, users in Asia the Mumbai servers. Which routing policy is that?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Weighted round robin",
+        "why_md": "Weights split answers by share, regardless of where users are."
+      },
+      {
+        "id": "b",
+        "md": "Geolocation-based routing",
+        "correct": true,
+        "why_md": "Right. It answers by where the query appears to come from."
+      },
+      {
+        "id": "c",
+        "md": "Latency-based routing",
+        "why_md": "Latency-based routing picks the region with the lowest measured delay, which is often but not always the one in the user's area."
+      }
+    ],
+    "hints": [
+      "Which policy looks at the user's apparent location?",
+      "Location → geolocation; measured delay → latency; shares → weights."
+    ],
+    "solution_md": "Answering by the user's apparent location is **geolocation-based routing**. Weighted round robin splits answers by share, and latency-based routing picks the lowest measured delay. Answer: **b**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-routing",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  },
+  {
+    "id": "sd-dns-routing/set-6",
+    "family": "sd-dns-routing-order-failover",
+    "kind": "order",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "use": "set",
+    "prompt_md": "A site uses DNS routing across two regions. Health checks withdraw a region's address from DNS answers when it fails; the other region stays healthy. Assume every cache honours the TTL. A resolver fetches and caches the failed region's address just before the DNS server withdraws it, so that cached answer expires after the withdrawal. One region fails. Put the events in the order they happen.",
+    "options": [
+      {
+        "id": "a",
+        "md": "The last cached answer that points to the failed region expires",
+        "why_md": "Fourth: the DNS server kept handing out the failed address until (c), so the last copy expires up to one TTL after that."
+      },
+      {
+        "id": "b",
+        "md": "The region's servers stop responding",
+        "why_md": "First: the failure itself."
+      },
+      {
+        "id": "c",
+        "md": "The DNS server stops handing out the failed region's address",
+        "why_md": "Third: once the health check fails, new answers name only the healthy region."
+      },
+      {
+        "id": "d",
+        "md": "Health checks notice the failure",
+        "why_md": "Second: detection takes some time after the failure."
+      },
+      {
+        "id": "e",
+        "md": "Every lookup now returns only the healthy region's address",
+        "why_md": "Last: once no cached copy of the failed address is left, every answer users get names the healthy region."
+      }
+    ],
+    "answer": {
+      "sequence": [
+        "b",
+        "d",
+        "c",
+        "a",
+        "e"
+      ]
+    },
+    "hints": [
+      "Detection comes before the DNS server can change its answers.",
+      "Failure → detection → DNS stops answering with it → caches expire → everyone moved."
+    ],
+    "solution_md": "1. (b) The region fails.\n2. (d) Health checks notice, after a delay.\n3. (c) The DNS server stops handing out that region's address.\n4. (a) The last cached answer pointing there expires, within one TTL of (c).\n5. (e) Every lookup now returns only the healthy region's address.\n\nOrder: **b, d, c, a, e**. The worst-case window is the detection time plus the TTL.",
+    "version": 3,
+    "class": "mcq",
+    "topic": "sd-dns-routing",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  },
+  {
+    "id": "sd-dns-routing/exit-2",
+    "family": "sd-dns-routing-geo-sees-resolver",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-routing"
+    ],
+    "use": "exit",
+    "prompt_md": "A site uses geolocation DNS routing. A user's resolver is in another country and sends nothing about the user's own network with its queries. Whose location does the routing decision use?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The resolver's",
+        "correct": true,
+        "why_md": "Right. The authoritative server only sees the query, which comes from the resolver."
+      },
+      {
+        "id": "b",
+        "md": "The user's",
+        "why_md": "The authoritative server never talks to the user, and here it gets no hint of the user's network.",
+        "misconception": "mc-geo-user-ip"
+      },
+      {
+        "id": "c",
+        "md": "The site's own servers'",
+        "why_md": "Routing is about where the query comes from, not where the site is."
+      }
+    ],
+    "hints": [
+      "Who actually sends the query to the authoritative server?",
+      "The resolver does, and no hint about the user is attached."
+    ],
+    "solution_md": "The authoritative server sees queries from the **resolver**, not from the user. With no hint of the user's network attached, geolocation routing judges by the resolver's location. Answer: **a**.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns-routing",
+    "origin": "generated",
+    "seal": "public",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "reauthor-sd-u0"
+    }
+  }
+]

@@ -1,0 +1,66 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-cloud-adoption-framework",
+  "version": 1,
+  "title": "AWS Cloud Adoption Framework (CAF)",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-caf-purpose",
+      "version": 1,
+      "statement": "The AWS Cloud Adoption Framework (CAF) organises guidance for a cloud transformation into six perspectives, helping an organisation find gaps in skills and processes before and during adoption."
+    },
+    {
+      "id": "kc-caf-perspectives",
+      "version": 1,
+      "statement": "The CAF's business-focused perspectives are Business, People and Governance; its technical perspectives are Platform, Security and Operations."
+    },
+    {
+      "id": "kc-caf-benefits",
+      "version": 1,
+      "statement": "AWS lists four business outcomes of using the CAF: reduced business risk, improved environmental, social and governance (ESG) performance, increased revenue and increased operational efficiency."
+    },
+    {
+      "id": "kc-caf-domains-phases",
+      "version": 1,
+      "statement": "The CAF's transformation domains are Technology, Process, Organization and Product, and the adoption journey runs through four phases: Envision, Align, Launch and Scale."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-migration-strategies",
+    "clf-well-architected-framework"
+  ],
+  "confusable_with": [
+    "clf-well-architected-framework",
+    "clf-migration-strategies"
+  ],
+  "introduces": [
+    "cloud adoption framework",
+    "caf perspectives"
+  ],
+  "uses": [
+    "cloud computing"
+  ],
+  "problem_ideas": [
+    "Retraining staff and changing job roles for the cloud: which CAF perspective?",
+    "Managing cloud budgets, portfolio and risk: Governance or Business perspective?",
+    "Monitoring, incident response and service-level management: which perspective?",
+    "Sort the six perspectives into business capabilities and technical capabilities.",
+    "Name the CAF phase where a company runs its first pilot projects.",
+    "Spot the distractor: 'The CAF has a Cost Optimization perspective.' Which framework is it mixing up?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-3-understand-the-benefi/cloud-adoption-strategies"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-3-understand-the-benefi/resources-to-support-the-cloud-migration"
+    }
+  ],
+  "status": "stub"
+}

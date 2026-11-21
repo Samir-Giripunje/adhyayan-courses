@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-domain1-practice",
+  "version": 1,
+  "title": "Domain 1 practice: cloud concepts (24%)",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-clf-d1-task-statements",
+      "version": 1,
+      "statement": "Domain 1 (Cloud Concepts, 24%) has four task statements: benefits of the AWS Cloud, design principles of the Well-Architected Framework, benefits of and strategies for migration, and concepts of cloud economics, so a Domain 1 practice set samples all four."
+    },
+    {
+      "id": "kc-clf-d1-pillar-vs-caf-trap",
+      "version": 1,
+      "statement": "The six Well-Architected pillars (operational excellence, security, reliability, performance efficiency, cost optimization, sustainability) assess a workload, while the six CAF perspectives (business, people, governance, platform, security, operations) organise an organisation's adoption; security is in both lists, so the stem's subject (a workload or an organisation) decides which framework answers it."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-exam-format-scoring",
+    "clf-wa-pillars-performance-cost-sustainability",
+    "clf-cloud-adoption-framework"
+  ],
+  "suggests": [
+    "clf-migration-strategies",
+    "clf-six-advantages"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "task statement",
+    "domain practice set"
+  ],
+  "uses": [
+    "exam domain weighting",
+    "well-architected pillars",
+    "cloud adoption framework",
+    "caf perspectives",
+    "migration strategies"
+  ],
+  "problem_ideas": [
+    "A 12-question Domain 1 set with three items per task statement; score each task statement and name the weakest.",
+    "A stem says 'a company wants to train staff and redesign roles before moving to AWS'; decide pillar or CAF perspective, then name it.",
+    "A stem says 'reduce the energy footprint of a running workload'; pick the pillar and rule out the CAF platform perspective.",
+    "A retailer moves a legacy app to EC2 unchanged to exit a data centre in 60 days; name the migration strategy and the closest wrong R.",
+    "A CFO wants to stop buying servers three years ahead; name the economics concept and the cloud benefit it maps to.",
+    "Domain 1 is about 12 scored items; compute how many you can miss and still stay at or above 70%.",
+    "Classify each miss from the set by task statement and choose which earlier lesson to replay."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "content-outline/content-domain-1-cloud-concepts-24-of-sc"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-1-define-the-benefits-o/task-statement-1-1-define-the-benefits-o"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-3-understand-the-benefi/task-statement-1-3-understand-the-benefi"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-4-understand-concepts-o/task-statement-1-4-understand-concepts-o"
+    }
+  ],
+  "status": "stub"
+}

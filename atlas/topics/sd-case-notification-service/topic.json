@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-case-notification-service",
+  "version": 1,
+  "title": "Case study: notification service",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-notif-channel-queues",
+      "version": 1,
+      "statement": "A notification service accepts requests, checks user preferences and rate limits, and puts each message on a separate queue per channel (push, SMS, email). One slow provider then cannot block the others."
+    },
+    {
+      "id": "kc-notif-retry-dedupe",
+      "version": 1,
+      "statement": "Channel workers retry provider failures with exponential backoff and move exhausted messages to a dead-letter queue. An idempotency key per notification stops retries from sending duplicates."
+    },
+    {
+      "id": "kc-notif-templates-batching",
+      "version": 1,
+      "statement": "Templates are rendered at send time from stored templates and user locale. Bulk campaigns are throttled to protect providers' rate limits and transactional notifications."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-dead-letter-queues",
+    "sd-idempotency-keys"
+  ],
+  "suggests": [
+    "sd-bulkhead"
+  ],
+  "confusable_with": [
+    "sd-case-news-feed",
+    "sd-case-chat"
+  ],
+  "introduces": [
+    "notification service design",
+    "notification channel"
+  ],
+  "uses": [
+    "message queue",
+    "worker",
+    "retry with backoff",
+    "dead-letter queue",
+    "idempotency key",
+    "rate limiting",
+    "push notification",
+    "bulkhead"
+  ],
+  "problem_ideas": [
+    "The SMS provider is down for 20 minutes. Trace what happens to push and email notifications.",
+    "A worker sends an email and crashes before the ack. Explain how duplicates are prevented.",
+    "A marketing blast of 50M emails collides with password-reset emails. Design priority handling.",
+    "Estimate the queue depth if the email provider accepts 1,000/s and the campaign enqueues 10,000/s.",
+    "Store user opt-out preferences and check them without a database read per message.",
+    "Design delivery status tracking (sent, delivered, opened) for analytics."
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-interview-problems/design-notification-service"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "high-level-design-2/notifications"
+    }
+  ],
+  "status": "stub"
+}

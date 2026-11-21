@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-aws-artifact",
+  "version": 1,
+  "title": "AWS Artifact: compliance reports and agreements",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-artifact-reports",
+      "version": 1,
+      "statement": "AWS Artifact is a self-service portal where customers download AWS's compliance reports on demand, such as SOC, ISO and PCI attestations, to give to their auditors."
+    },
+    {
+      "id": "kc-artifact-agreements",
+      "version": 1,
+      "statement": "AWS Artifact Agreements let a customer review, accept and manage agreements with AWS, such as the Business Associate Addendum (BAA) needed for HIPAA, for one account or a whole organization."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-compliance-programs"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-aws-config"
+  ],
+  "introduces": [
+    "aws artifact",
+    "compliance report",
+    "business associate addendum"
+  ],
+  "uses": [
+    "compliance program",
+    "hipaa",
+    "aws organizations"
+  ],
+  "problem_ideas": [
+    "An external auditor asks for AWS's SOC 2 Type II report by Friday. Where do you get it?",
+    "A health-tech startup must sign a BAA with AWS before storing PHI. Which part of Artifact handles this?",
+    "Pick Artifact or Config: 'prove AWS's data centres are PCI certified' and 'prove our S3 buckets are encrypted'.",
+    "Does Artifact scan your resources for compliance? Explain.",
+    "A company with 40 accounts wants to accept the BAA once for all of them. Is that possible?",
+    "Name the keyword pattern in exam questions that points to Artifact."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-2-understand-aws-cloud-/identifying-where-to-find-aws-compliance"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-artifact"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/aws-artifact-not-really-a-service"
+    }
+  ],
+  "status": "stub"
+}

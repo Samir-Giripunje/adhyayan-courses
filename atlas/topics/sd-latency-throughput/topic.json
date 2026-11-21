@@ -1,0 +1,644 @@
+{
+  "answer": "**Latency** is the time one request takes, such as 50 ms. **Throughput** is how many requests finish per second, and **bandwidth** is the most data per second a link can carry.",
+  "example": "Open google.com in a browser. If the reply arrives 50 ms after the browser sends the request, the latency is 50 ms. Google's servers finish many thousands of requests every second; that count is their throughput. Your home link may be rated 100 Mbps (megabits per second): that is its bandwidth, the ceiling. A download running at 80 Mbps is throughput, and it can never pass 100 Mbps.",
+  "how": {
+    "md": "**Little's law** links the numbers: requests in flight (started but not yet finished) = throughput × latency.\n\n1. A server finishes 200 requests per second.\n2. Each request spends 50 ms, which is 0.05 s, inside it.\n3. Multiply: 200 × 0.05 = 10. About 10 requests are in progress at any moment.\n\nTurn it around to size a server. If it can work on 50 requests at once and each takes 100 ms, its top throughput is 50 ÷ 0.1 = 500 requests per second.\n\nLower latency and higher throughput are different goals. Batching (grouping many requests into one job) can raise throughput while each request waits longer. A design aims for the most throughput at a latency users accept.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-littles-law",
+      "kind": "chart",
+      "title": "Little's law: in flight = throughput × latency",
+      "alt": "A line chart of requests in flight against throughput from 0 to 500 requests per second. At 50 ms per request the line reaches 25 in flight at 500 per second; at 100 ms it reaches 50. A marked point shows 200 requests per second at 50 ms gives 10 in flight.",
+      "caption_md": "Each line is one latency. The slower the request, the more requests are in flight at the same throughput.",
+      "spec": {
+        "type": "line",
+        "x": {
+          "label": "Throughput",
+          "unit": "requests/s",
+          "min": 0,
+          "max": 500
+        },
+        "y": {
+          "label": "In flight",
+          "unit": "requests",
+          "min": 0,
+          "max": 50
+        },
+        "series": [
+          {
+            "label": "100 ms each",
+            "points": [
+              [
+                0,
+                0
+              ],
+              [
+                100,
+                10
+              ],
+              [
+                200,
+                20
+              ],
+              [
+                300,
+                30
+              ],
+              [
+                400,
+                40
+              ],
+              [
+                500,
+                50
+              ]
+            ]
+          },
+          {
+            "label": "50 ms each",
+            "points": [
+              [
+                0,
+                0
+              ],
+              [
+                100,
+                5
+              ],
+              [
+                200,
+                10
+              ],
+              [
+                300,
+                15
+              ],
+              [
+                400,
+                20
+              ],
+              [
+                500,
+                25
+              ]
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "x": 200,
+            "y": 10,
+            "label": "200/s × 0.05 s = 10 in flight",
+            "step": 3
+          },
+          {
+            "x": 500,
+            "y": 50,
+            "label": "50 at once, 100 ms: 500/s"
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-littles-law-in-flight",
+    "kind": "mcq",
+    "difficulty": 2,
+    "kcs": [
+      "kc-littles-law",
+      "kc-latency-vs-throughput"
+    ],
+    "prompt_md": "A service handles 3,000 requests per second, and each takes 20 ms. About how many requests are in progress at once?",
+    "options": [
+      {
+        "id": "a",
+        "md": "60",
+        "correct": true,
+        "why_md": "Right. 20 ms is 0.02 s, and 3,000 × 0.02 = 60 requests in flight."
+      },
+      {
+        "id": "b",
+        "md": "150",
+        "correct": false,
+        "why_md": "That is 3,000 ÷ 20. Little's law multiplies throughput by latency; it does not divide.",
+        "misconception": "mc-littles-law-units"
+      },
+      {
+        "id": "c",
+        "md": "60,000",
+        "correct": false,
+        "why_md": "That multiplies by 20 without turning milliseconds into seconds. Requests per second needs latency in seconds: 0.02 s.",
+        "misconception": "mc-littles-law-units"
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "Tail latency: why the average hides slow requests",
+      "md": "**Tail latency** is the latency of the slowest requests. It is often reported as p99: the time that 99% of requests beat.\n\nA service can average 30 ms and still have a p99 of 2 s. Then 1 request in 100 takes 2 s or more, and those users complain.\n\nIt gets worse when one page makes many calls. With 100 calls, the chance that all of them are fast is 0.99^100 ≈ 0.37. So about 63% of page loads hit at least one slow call. This is why designs set targets on p99, not on the average."
+    },
+    {
+      "title": "Why throughput stays below bandwidth",
+      "md": "Bandwidth is a ceiling. Time for a transfer at full bandwidth is size ÷ bandwidth. A 1 GB file is 8,000 megabits, so over a 100 Mbps link it takes at least 8,000 ÷ 100 = 80 s. Watch the units: Mbps is bits, and MB is bytes, 8 bits each.\n\nReal transfers run slower for several reasons:\n\n- Headers from TCP, IP and HTTP use part of every packet.\n- Other users or apps share the same link.\n- The far server or its disk is slower than the link.\n- TCP sends only a limited amount before waiting for a reply. With 64 KB in flight and a 100 ms round trip, one connection gets at most 524,288 bits ÷ 0.1 s ≈ 5.2 Mbps, whatever the link's bandwidth."
+    },
+    {
+      "title": "Interview angle: sizing and trade-offs",
+      "md": "Interviewers use these ideas to check that your numbers hang together.\n\n- **Sizing with Little's law.** If a service must take 3,000 requests per second at 20 ms, it must hold 60 requests at once. Size connection pools and worker counts from that number, plus headroom.\n- **Throughput versus latency.** Batching writes might raise throughput from 1,000 to 10,000 per second while p99 rises from 5 ms to 40 ms. That suits background work such as logging or analytics. It is a poor deal for a request a user is waiting on.\n- **Say which latency you mean.** State whether a target is an average or a p99, and in what unit."
+    }
+  ],
+  "visual_fit": {
+    "kind": "chart",
+    "why": "Little's law relates changing quantities; a chart shows in-flight requests growing with throughput, faster at higher latency."
+  },
+  "glossary": [
+    {
+      "term": "latency",
+      "md": "The time one operation takes from start to finish, for example 50 ms for one request."
+    },
+    {
+      "term": "throughput",
+      "md": "The number of operations completed per unit of time, for example 2,000 requests per second, or the data rate a transfer actually achieves."
+    },
+    {
+      "term": "bandwidth",
+      "md": "The maximum data rate a link can carry, for example 1 Gbps. Throughput over the link is at most this."
+    },
+    {
+      "term": "little's law",
+      "md": "Requests in flight = throughput × latency. At 200 requests per second and 0.05 s each, about 10 requests are in progress at once."
+    },
+    {
+      "term": "tail latency",
+      "md": "The latency of the slowest requests, usually reported as a high percentile such as p99: the time 99% of requests beat."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-latency-throughput-same",
+      "statement": "Lower latency and higher throughput are the same thing, so improving one always improves the other.",
+      "tags": [
+        "kc-latency-vs-throughput"
+      ]
+    },
+    {
+      "id": "mc-throughput-equals-bandwidth",
+      "statement": "A link rated at 1 Gbps means every transfer over it runs at 1 Gbps.",
+      "tags": [
+        "kc-bandwidth"
+      ]
+    },
+    {
+      "id": "mc-littles-law-units",
+      "statement": "In Little's law you can multiply requests per second by latency in milliseconds, or divide throughput by latency.",
+      "tags": [
+        "kc-littles-law"
+      ]
+    },
+    {
+      "id": "mc-average-latency-enough",
+      "statement": "If the average latency is low, nearly all users get fast responses.",
+      "tags": [
+        "kc-latency-vs-throughput"
+      ]
+    }
+  ],
+  "recap": {
+    "formula": "requests in flight = throughput × latency (latency in seconds)",
+    "pitfall": "Don't treat latency, throughput and bandwidth as one number: a fast link or a high request rate says nothing about how long one request takes."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-latency-throughput-same",
+      "beat": "b-lesson",
+      "question": "Isn't high throughput just another way of saying low latency?",
+      "match": [
+        "same thing",
+        "low latency means high throughput",
+        "isn't throughput just",
+        "difference between latency and throughput"
+      ],
+      "answer_md": "No. Latency is how long one request takes; throughput is how many finish per second. A server working on many requests at once can have high throughput even if each request is slow. Batching raises throughput while making each request wait longer.",
+      "deeper_md": "A highway has the same idea: the trip takes 1 hour whether 10 cars or 1,000 cars an hour use it. More lanes raise cars per hour without shortening anyone's trip. The analogy breaks when traffic jams form, because then crowding also slows each car.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Same latency, different throughput",
+        "md": "Server A works on 1 request at a time, 100 ms each: 1 ÷ 0.1 = 10 requests per second. Server B works on 50 at once, still 100 ms each: 50 ÷ 0.1 = 500 requests per second. Same latency, 50 times the throughput.",
+        "verify": {
+          "id": "q-br-latency-throughput-same",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-latency-vs-throughput"
+          ],
+          "prompt_md": "A server can work on 20 requests at once, and each takes 200 ms. What is its top throughput?",
+          "options": [
+            {
+              "id": "a",
+              "md": "100 requests per second",
+              "correct": true,
+              "why_md": "Right. 20 ÷ 0.2 s = 100 requests per second."
+            },
+            {
+              "id": "b",
+              "md": "5 requests per second",
+              "correct": false,
+              "why_md": "That is one request at a time (1 ÷ 0.2). The server works on 20 at once.",
+              "misconception": "mc-latency-throughput-same"
+            },
+            {
+              "id": "c",
+              "md": "4,000 requests per second",
+              "correct": false,
+              "why_md": "That multiplies 20 by 200. Divide the requests in progress by the latency in seconds."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-bandwidth-vs-throughput",
+      "beat": "b-lesson",
+      "question": "My plan says 1 Gbps, so why do my uploads only reach 200 Mbps?",
+      "match": [
+        "slower than my plan",
+        "why is my download slow",
+        "below bandwidth",
+        "only reach"
+      ],
+      "answer_md": "1 Gbps is the link's bandwidth: the ceiling. What you measure is throughput, the rate actually achieved. Headers use part of each packet, other devices share the link, and the server at the other end may be slower than your link.",
+      "deeper_md": "TCP also waits for replies before sending more. With a long round trip, one connection can't fill a fast link, which is why big downloads often open several connections.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Time at full bandwidth",
+        "md": "A 1 GB file is 8,000 megabits. At the full 100 Mbps it takes 8,000 ÷ 100 = 80 s. If throughput is only 50 Mbps, it takes 8,000 ÷ 50 = 160 s.",
+        "verify": {
+          "id": "q-br-bandwidth-time",
+          "kind": "numeric",
+          "difficulty": 2,
+          "kcs": [
+            "kc-bandwidth"
+          ],
+          "prompt_md": "A 500 MB file is sent over a 200 Mbps link at full bandwidth. How many seconds does it take? (1 MB = 8 megabits.)",
+          "answer": {
+            "value": 20,
+            "tolerance": 0,
+            "unit": "s"
+          },
+          "options": []
+        }
+      }
+    },
+    {
+      "id": "d-littles-law-units",
+      "beat": "b-lesson",
+      "question": "Why do I have to turn milliseconds into seconds in Little's law?",
+      "match": [
+        "milliseconds",
+        "convert ms",
+        "units in little's law",
+        "why seconds"
+      ],
+      "answer_md": "Throughput is counted per second, so latency must be in seconds too. Then the seconds cancel and you get a plain count of requests. 200 per second × 0.05 s = 10 requests. Using 50 instead of 0.05 gives 10,000, which is 1,000 times too big.",
+      "deeper_md": "Any matching units work. 200 per second is 0.2 per millisecond, and 0.2 × 50 ms = 10, the same answer.",
+      "bridge": {
+        "kind": "rewind",
+        "title": "Make the units match",
+        "md": "Write the units out: (requests ÷ s) × s = requests. 3,000 requests/s × 0.02 s = 60 requests in flight.",
+        "verify": {
+          "id": "q-br-littles-law-units",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-littles-law"
+          ],
+          "prompt_md": "A service handles 1,000 requests per second at 5 ms each. How many requests are in flight?",
+          "options": [
+            {
+              "id": "a",
+              "md": "5",
+              "correct": true,
+              "why_md": "Right. 5 ms is 0.005 s, and 1,000 × 0.005 = 5."
+            },
+            {
+              "id": "b",
+              "md": "5,000",
+              "correct": false,
+              "why_md": "That uses 5 ms as if it were 5 s. Convert to 0.005 s first.",
+              "misconception": "mc-littles-law-units"
+            },
+            {
+              "id": "c",
+              "md": "200",
+              "correct": false,
+              "why_md": "That is 1,000 ÷ 5. Little's law multiplies throughput by latency.",
+              "misconception": "mc-littles-law-units"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-tail-latency-percentiles",
+      "kind": "mechanism",
+      "title": "Percentiles and tail latency: measuring p50, p99 and p99.9",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-bandwidth-delay-product",
+      "kind": "math",
+      "title": "The bandwidth-delay product: why one TCP connection can't fill a long, fast link",
+      "level": 3,
+      "status": "stub"
+    },
+    {
+      "id": "dt-queueing-load",
+      "kind": "adjacent",
+      "title": "Queueing: why latency climbs sharply as a server nears full load",
+      "level": 3,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "sd-latency-throughput",
+  "version": 1,
+  "title": "Latency, throughput and bandwidth",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-latency-vs-throughput",
+      "version": 1,
+      "statement": "Latency is the time one operation takes (e.g. 50 ms per request) and throughput is the number of operations completed per unit time (e.g. 2,000 requests per second); a system should maximise throughput while keeping latency acceptable."
+    },
+    {
+      "id": "kc-bandwidth",
+      "version": 1,
+      "statement": "Bandwidth is the maximum data rate a link can carry (e.g. 1 Gbps); throughput is the rate actually achieved, which is at most the bandwidth."
+    },
+    {
+      "id": "kc-littles-law",
+      "version": 1,
+      "statement": "Little's law: requests in flight = throughput × latency, so a server handling 200 requests per second at 50 ms average latency has about 10 requests in progress at once."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "sd-client-server"
+  ],
+  "confusable_with": [
+    "sd-latency-numbers"
+  ],
+  "introduces": [
+    "latency",
+    "throughput",
+    "bandwidth",
+    "little's law",
+    "tail latency"
+  ],
+  "uses": [
+    "client",
+    "server"
+  ],
+  "problem_ideas": [
+    "A worker pool of 50 threads, each request takes 100 ms: what is the maximum throughput?",
+    "Batching writes raises throughput from 1k to 10k/s but p99 latency from 5 ms to 40 ms; when is that acceptable?",
+    "How long does a 1 GB file take over a 100 Mbps link at full bandwidth?",
+    "A service gets 3,000 req/s at 20 ms; how many concurrent requests must it hold?",
+    "Average latency is 30 ms but p99 is 2 s; explain why users still complain.",
+    "A link is 1 Gbps but uploads reach 200 Mbps; name two reasons throughput is below bandwidth."
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "latency-vs-throughput/latency-vs-throughput"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "core-concepts/latency-vs-throughput-vs-bandwidth"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "latency-vs-throughput/latency-vs-throughput"
+    }
+  ],
+  "mode": "prediction",
+  "exit_ticket": [
+    "sd-latency-throughput/exit-1",
+    "sd-latency-throughput/exit-2",
+    "sd-latency-throughput/exit-3"
+  ],
+  "status": "drafted",
+  "provenance": {
+    "origin": "generated",
+    "job": "lesson-sd-latency-throughput"
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "title": "Latency, throughput and bandwidth",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "Latency, throughput and bandwidth",
+          "kcs": [
+            "kc-latency-vs-throughput",
+            "kc-bandwidth",
+            "kc-littles-law"
+          ],
+          "est_minutes": 25,
+          "blocks": [
+            {
+              "id": "blk-sd-latency-throughput-01",
+              "block": {
+                "type": "prose",
+                "md": "**Latency** is the time one request takes, such as 50 ms. **Throughput** is how many requests finish per second, and **bandwidth** is the most data per second a link can carry."
+              }
+            },
+            {
+              "id": "blk-sd-latency-throughput-02",
+              "block": {
+                "type": "prose",
+                "md": "Open google.com in a browser. If the reply arrives 50 ms after the browser sends the request, the latency is 50 ms. Google's servers finish many thousands of requests every second; that count is their throughput. Your home link may be rated 100 Mbps (megabits per second): that is its bandwidth, the ceiling. A download running at 80 Mbps is throughput, and it can never pass 100 Mbps."
+              }
+            },
+            {
+              "id": "blk-sd-latency-throughput-03",
+              "block": {
+                "type": "prose",
+                "md": "**Little's law** links the numbers: requests in flight (started but not yet finished) = throughput × latency.\n\n1. A server finishes 200 requests per second.\n2. Each request spends 50 ms, which is 0.05 s, inside it.\n3. Multiply: 200 × 0.05 = 10. About 10 requests are in progress at any moment.\n\nTurn it around to size a server. If it can work on 50 requests at once and each takes 100 ms, its top throughput is 50 ÷ 0.1 = 500 requests per second.\n\nLower latency and higher throughput are different goals. Batching (grouping many requests into one job) can raise throughput while each request waits longer. A design aims for the most throughput at a latency users accept."
+              }
+            },
+            {
+              "id": "blk-sd-latency-throughput-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-littles-law-in-flight",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-littles-law",
+                    "kc-latency-vs-throughput"
+                  ],
+                  "prompt_md": "A service handles 3,000 requests per second, and each takes 20 ms. About how many requests are in progress at once?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "60",
+                      "correct": true,
+                      "why_md": "Right. 20 ms is 0.02 s, and 3,000 × 0.02 = 60 requests in flight."
+                    },
+                    {
+                      "id": "b",
+                      "md": "150",
+                      "correct": false,
+                      "why_md": "That is 3,000 ÷ 20. Little's law multiplies throughput by latency; it does not divide.",
+                      "misconception": "mc-littles-law-units"
+                    },
+                    {
+                      "id": "c",
+                      "md": "60,000",
+                      "correct": false,
+                      "why_md": "That multiplies by 20 without turning milliseconds into seconds. Requests per second needs latency in seconds: 0.02 s.",
+                      "misconception": "mc-littles-law-units"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-sd-latency-throughput-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Tail latency: why the average hides slow requests",
+                "md": "**Tail latency** is the latency of the slowest requests. It is often reported as p99: the time that 99% of requests beat.\n\nA service can average 30 ms and still have a p99 of 2 s. Then 1 request in 100 takes 2 s or more, and those users complain.\n\nIt gets worse when one page makes many calls. With 100 calls, the chance that all of them are fast is 0.99^100 ≈ 0.37. So about 63% of page loads hit at least one slow call. This is why designs set targets on p99, not on the average."
+              }
+            },
+            {
+              "id": "blk-sd-latency-throughput-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Why throughput stays below bandwidth",
+                "md": "Bandwidth is a ceiling. Time for a transfer at full bandwidth is size ÷ bandwidth. A 1 GB file is 8,000 megabits, so over a 100 Mbps link it takes at least 8,000 ÷ 100 = 80 s. Watch the units: Mbps is bits, and MB is bytes, 8 bits each.\n\nReal transfers run slower for several reasons:\n\n- Headers from TCP, IP and HTTP use part of every packet.\n- Other users or apps share the same link.\n- The far server or its disk is slower than the link.\n- TCP sends only a limited amount before waiting for a reply. With 64 KB in flight and a 100 ms round trip, one connection gets at most 524,288 bits ÷ 0.1 s ≈ 5.2 Mbps, whatever the link's bandwidth."
+              }
+            },
+            {
+              "id": "blk-sd-latency-throughput-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Interview angle: sizing and trade-offs",
+                "md": "Interviewers use these ideas to check that your numbers hang together.\n\n- **Sizing with Little's law.** If a service must take 3,000 requests per second at 20 ms, it must hold 60 requests at once. Size connection pools and worker counts from that number, plus headroom.\n- **Throughput versus latency.** Batching writes might raise throughput from 1,000 to 10,000 per second while p99 rises from 5 ms to 40 ms. That suits background work such as logging or analytics. It is a poor deal for a request a user is waiting on.\n- **Say which latency you mean.** State whether a target is an average or a p99, and in what unit."
+              }
+            },
+            {
+              "id": "blk-sd-latency-throughput-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-littles-law",
+                "kind": "chart",
+                "title": "Little's law: in flight = throughput × latency",
+                "alt": "A line chart of requests in flight against throughput from 0 to 500 requests per second. At 50 ms per request the line reaches 25 in flight at 500 per second; at 100 ms it reaches 50. A marked point shows 200 requests per second at 50 ms gives 10 in flight.",
+                "caption_md": "Each line is one latency. The slower the request, the more requests are in flight at the same throughput.",
+                "spec": {
+                  "type": "line",
+                  "x": {
+                    "label": "Throughput",
+                    "unit": "requests/s",
+                    "min": 0,
+                    "max": 500
+                  },
+                  "y": {
+                    "label": "In flight",
+                    "unit": "requests",
+                    "min": 0,
+                    "max": 50
+                  },
+                  "series": [
+                    {
+                      "label": "100 ms each",
+                      "points": [
+                        [
+                          0,
+                          0
+                        ],
+                        [
+                          100,
+                          10
+                        ],
+                        [
+                          200,
+                          20
+                        ],
+                        [
+                          300,
+                          30
+                        ],
+                        [
+                          400,
+                          40
+                        ],
+                        [
+                          500,
+                          50
+                        ]
+                      ]
+                    },
+                    {
+                      "label": "50 ms each",
+                      "points": [
+                        [
+                          0,
+                          0
+                        ],
+                        [
+                          100,
+                          5
+                        ],
+                        [
+                          200,
+                          10
+                        ],
+                        [
+                          300,
+                          15
+                        ],
+                        [
+                          400,
+                          20
+                        ],
+                        [
+                          500,
+                          25
+                        ]
+                      ]
+                    }
+                  ],
+                  "annotations": [
+                    {
+                      "x": 200,
+                      "y": 10,
+                      "label": "200/s × 0.05 s = 10 in flight",
+                      "step": 3
+                    },
+                    {
+                      "x": 500,
+                      "y": 50,
+                      "label": "50 at once, 100 ms: 500/s"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

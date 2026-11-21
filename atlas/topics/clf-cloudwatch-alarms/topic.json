@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-cloudwatch-alarms",
+  "version": 1,
+  "title": "CloudWatch alarms and billing alarms",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-alarm-states",
+      "version": 1,
+      "statement": "A CloudWatch alarm watches one metric against a threshold over a set number of evaluation periods and moves between the OK, ALARM and INSUFFICIENT_DATA states."
+    },
+    {
+      "id": "kc-alarm-actions-billing",
+      "version": 1,
+      "statement": "An alarm action can send a notification, scale an Auto Scaling group, or stop, terminate, reboot or recover an EC2 instance; a billing alarm on estimated charges warns when spending passes a set amount."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-cloudwatch-metrics-logs"
+  ],
+  "suggests": [
+    "clf-auto-scaling-groups"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "cloudwatch alarm",
+    "alarm state",
+    "billing alarm"
+  ],
+  "uses": [
+    "cloudwatch",
+    "cloudwatch metrics",
+    "auto scaling group",
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "Alarm: CPU > 80% for 3 consecutive 5-minute periods. Given readings 85, 90, 70, 88, 92, 95, predict the state after each period.",
+    "An alarm was just created and the instance is stopped: which state will it show?",
+    "A student wants an email if their AWS bill passes $10: which alarm type and which metric?",
+    "Scale out when average CPU stays above 70% for 10 minutes: which two services work together?",
+    "An instance fails a system status check at 3 a.m.: which alarm action brings it back without a human?",
+    "How soon can an alarm fire with 2 evaluation periods under basic monitoring, compared with detailed monitoring?"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "cloud-monitoring/amazon-cloudwatch"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "cloudwatch/metrics"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,69 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-delivery-guarantees",
+  "version": 1,
+  "title": "At-most-once, at-least-once, exactly-once",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-at-most-once",
+      "version": 1,
+      "statement": "With at-most-once delivery the consumer acknowledges before processing, so a crash during processing loses the message but never duplicates it."
+    },
+    {
+      "id": "kc-at-least-once",
+      "version": 1,
+      "statement": "With at-least-once delivery the consumer acknowledges after processing, so a crash after processing but before the acknowledgement causes redelivery and therefore duplicates."
+    },
+    {
+      "id": "kc-exactly-once-processing",
+      "version": 1,
+      "statement": "Exactly-once delivery over an unreliable network is not achievable in general; systems get exactly-once processing only by combining at-least-once delivery with deduplication that commits atomically with the side effect, or with a destination that itself enforces idempotency."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-message-queues"
+  ],
+  "suggests": [
+    "sd-event-streaming"
+  ],
+  "confusable_with": [
+    "sd-idempotency"
+  ],
+  "introduces": [
+    "at-most-once delivery",
+    "at-least-once delivery",
+    "exactly-once processing",
+    "acknowledgement"
+  ],
+  "uses": [
+    "message queue",
+    "consumer",
+    "offset"
+  ],
+  "problem_ideas": [
+    "Trace a timeline: consumer charges a card, crashes before ack—what happens under each guarantee?",
+    "Pick a guarantee for metrics sampling, payment capture, push notifications and inventory decrement",
+    "A consumer commits its offset every 1,000 messages and crashes after 700: how many messages are reprocessed?",
+    "Why can't the broker alone guarantee exactly-once if the consumer writes to an external database?",
+    "Failure story: customers received the same SMS three times—diagnose",
+    "Interviewer: 'your queue is at-least-once; how do you avoid double-charging?'"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "features-2/at-least-once-delivery"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "features-2/exactly-once-delivery"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "features-2/features"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,56 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-health-dashboard",
+  "version": 1,
+  "title": "AWS Health Dashboard: AWS-side issues",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-health-service-view",
+      "version": 1,
+      "statement": "The service health view of the AWS Health Dashboard shows the public status of every AWS service in every Region, without signing in."
+    },
+    {
+      "id": "kc-health-account-view",
+      "version": 1,
+      "statement": "The account health view (formerly the Personal Health Dashboard) shows AWS events that affect your own resources, such as scheduled EC2 maintenance or a service issue in a Region you use, with remediation guidance."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-regions"
+  ],
+  "confusable_with": [
+    "clf-cloudwatch-metrics-logs",
+    "clf-trusted-advisor"
+  ],
+  "introduces": [
+    "health dashboard",
+    "aws health"
+  ],
+  "uses": [
+    "region",
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "An EC2 host is scheduled for retirement next week: where would you be told about it?",
+    "Users report errors and you want to know whether S3 in eu-west-1 has a general outage: which view?",
+    "Tell apart 'is AWS broken everywhere?' and 'is AWS broken for my resources?'",
+    "An exam option says 'use CloudWatch to see AWS-scheduled maintenance': right or wrong?",
+    "Old name, new name: match Service Health Dashboard and Personal Health Dashboard to today's views.",
+    "A company wants an automatic alert whenever AWS raises an event affecting its account: which service is the source?"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "cloud-monitoring/aws-status-service-health-dashboard"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "cloud-monitoring/aws-personal-health-dashboard"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-waf",
+  "version": 1,
+  "title": "AWS WAF: filtering web requests at layer 7",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-waf-layer7",
+      "version": 1,
+      "statement": "AWS WAF is a layer 7 web application firewall. Rules in a web ACL filter HTTP(S) requests, for example to block SQL injection or cross-site scripting, block specific IP addresses or countries, or rate-limit clients."
+    },
+    {
+      "id": "kc-waf-attach-points",
+      "version": 1,
+      "statement": "WAF protects web front doors such as CloudFront distributions, Application Load Balancers and API Gateway APIs. It cannot be attached to a Network Load Balancer or directly to an EC2 instance."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-shield-ddos",
+    "clf-elastic-load-balancing"
+  ],
+  "confusable_with": [
+    "clf-shield-ddos",
+    "clf-security-groups-nacls"
+  ],
+  "introduces": [
+    "waf",
+    "web acl",
+    "sql injection"
+  ],
+  "uses": [
+    "cloudfront",
+    "application load balancer",
+    "network load balancer",
+    "api gateway",
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "An online shop sees requests with ' OR 1=1 -- in the login form. Name the service and the rule type.",
+    "Block all traffic from one country to a CloudFront site. Choose between WAF, a security group and a network ACL.",
+    "A bot sends 10,000 requests a minute from a single IP. Which WAF feature limits it?",
+    "A team tries to attach WAF to a Network Load Balancer. What goes wrong, and what should they put in front instead?",
+    "Sort the threats: SYN flood → ?, cross-site scripting → ?, port scan on SSH → ?",
+    "Explain why a security group can't block a SQL injection attack."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-waf"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/aws-waf-web-application-firewall"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-sla-slo-sli",
+  "version": 1,
+  "title": "SLAs, SLOs, SLIs and error budgets",
+  "size": "standard",
+  "est_min": 25,
+  "kcs": [
+    {
+      "id": "kc-sli-slo-sla",
+      "version": 1,
+      "statement": "An SLI is a measured indicator (for example the share of requests served under 300 ms), an SLO is the internal target for it (99.9%), and an SLA is the external contract with penalties, usually set looser than the SLO."
+    },
+    {
+      "id": "kc-error-budget",
+      "version": 1,
+      "statement": "The error budget is 1 − SLO: at a 99.9% monthly SLO, about 43 minutes of downtime or 0.1% of requests may fail before releases should slow down."
+    },
+    {
+      "id": "kc-sli-from-nfr",
+      "version": 1,
+      "statement": "SLIs should be chosen from the user's view of the stated non-functional requirements, such as availability, latency or freshness, so each SLO maps to one requirement."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-availability-nines"
+  ],
+  "suggests": [
+    "sd-requirements"
+  ],
+  "confusable_with": [
+    "sd-availability-nines"
+  ],
+  "introduces": [
+    "sla",
+    "slo",
+    "sli",
+    "error budget"
+  ],
+  "uses": [
+    "availability nines",
+    "downtime budget",
+    "latency",
+    "tail latency",
+    "non-functional requirements"
+  ],
+  "problem_ideas": [
+    "10 million requests this month, SLO 99.95%: how many failures are allowed?",
+    "Label: '99.9% uptime or 10% credit', 'p99 < 200 ms target', 'fraction of 2xx responses'",
+    "Half the monthly error budget was spent in week one: what should the team do?",
+    "Write two SLIs and SLOs for a chat app's message delivery",
+    "Why set the SLA looser than the SLO?",
+    "A dependency's SLA is 99.9%; can your service promise 99.99%?"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "sla/sla"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "slo/slo"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "sli/sli"
+    }
+  ],
+  "status": "stub"
+}

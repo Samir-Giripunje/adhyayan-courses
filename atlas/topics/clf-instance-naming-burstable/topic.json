@@ -1,0 +1,53 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-instance-naming-burstable",
+  "version": 1,
+  "title": "Instance type names and burstable T instances",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-instance-type-naming",
+      "version": 1,
+      "statement": "An instance type name such as m5.2xlarge encodes the family (m), the generation (5) and the size (2xlarge); moving to a larger size is vertical scaling. T-family burstable instances earn CPU credits while idle and spend them on bursts."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-ec2-instance-types"
+  ],
+  "suggests": [
+    "clf-vertical-horizontal-scaling"
+  ],
+  "confusable_with": [
+    "clf-ec2-instance-types"
+  ],
+  "introduces": [
+    "burstable instance"
+  ],
+  "uses": [
+    "ec2 instance",
+    "instance type",
+    "instance family",
+    "vertical scaling"
+  ],
+  "problem_ideas": [
+    "Decode c6g.4xlarge and r5.large: family, generation and relative size.",
+    "A T3 web server slows down every afternoon after a quiet morning: explain what ran out.",
+    "A database outgrows an m5.large: name the scaling direction if you switch to m5.4xlarge and the downtime it implies.",
+    "Order t3.micro, t3.large and t3.2xlarge by size and explain what changes between them.",
+    "A low-traffic internal tool idles 95% of the day: why is a burstable instance a good fit?",
+    "Which part of 'm7i.xlarge' tells you it is a newer generation than 'm5.xlarge'?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "ec2/cpu-credits"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "ec2/instance-types"
+    }
+  ],
+  "status": "stub"
+}

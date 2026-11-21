@@ -1,0 +1,72 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-cap-theorem",
+  "version": 1,
+  "title": "CAP theorem: what you give up during a partition",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-cap-statement",
+      "version": 1,
+      "statement": "During a network partition, a replicated store cannot guarantee both linearizable consistency and availability: preserving consistency can require refusing or delaying requests, and preserving availability can require returning responses that may be stale or otherwise violate consistency."
+    },
+    {
+      "id": "kc-cp-vs-ap",
+      "version": 1,
+      "statement": "A CP system, such as a bank ledger, rejects requests it cannot confirm during a partition; an AP system, such as a shopping cart or like counter, keeps serving and reconciles afterwards."
+    },
+    {
+      "id": "kc-cap-misread",
+      "version": 1,
+      "statement": "A networked store cannot opt out of partitions, so 'CA' is not a real choice for it; when there is no partition the remaining trade-off is latency against consistency."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-consistency-models"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-consistency-models",
+    "sd-relational-acid"
+  ],
+  "introduces": [
+    "cap theorem",
+    "network partition",
+    "cp system",
+    "ap system"
+  ],
+  "uses": [
+    "strong consistency",
+    "eventual consistency",
+    "replication"
+  ],
+  "problem_ideas": [
+    "The link between two data centres drops for 90 s: walk through what a CP and an AP store do for a write",
+    "Classify ticket booking, social likes, DNS, a payment ledger and a product catalog as CP or AP",
+    "An interviewer asks 'is your design CA?': give the correct answer in two sentences",
+    "Explain why the C in CAP is not the C in ACID",
+    "Choose CP or AP for a ride-hailing driver location store and defend it",
+    "A shopping cart chose AP: describe how two divergent carts are merged after the partition heals"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "availability-vs-consistency/cap-theorem"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "availability-vs-consistency/cap-theorem"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "consistency-availability-tradeoff/consistency-availability-tradeoff"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "core-concepts/cap-theorem"
+    }
+  ],
+  "status": "stub"
+}

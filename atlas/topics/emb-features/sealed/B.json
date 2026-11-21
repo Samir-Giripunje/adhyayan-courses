@@ -1,0 +1,208 @@
+[
+  {
+    "id": "emb-features/test-b1",
+    "version": 1,
+    "family": "emb-features-onehot-facts",
+    "kind": "multi",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "A search prototype gives each of its 300 vocabulary words a one-hot vector. Which statements are true? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Each vector has 300 dimensions.",
+        "correct": true,
+        "why_md": "Right. One slot per vocabulary word."
+      },
+      {
+        "id": "b",
+        "md": "Each vector contains exactly one 1.",
+        "correct": true,
+        "why_md": "Right. The 1 sits in the word's own slot; every other slot is 0."
+      },
+      {
+        "id": "c",
+        "md": "*parcel* and *package* share one feature, because they mean the same thing.",
+        "why_md": "One-hot vectors hold no meaning. Each word's 1 is in its own slot, so the two share 0 features.",
+        "misconception": "mc-onehot-relatedness"
+      },
+      {
+        "id": "d",
+        "md": "Any two different words share 0 features.",
+        "correct": true,
+        "why_md": "Right. Their single 1s are in different slots."
+      },
+      {
+        "id": "e",
+        "md": "Words in neighbouring slots, say 41 and 42, are more alike than words far apart.",
+        "why_md": "Slot numbers are just IDs. Slot 41 shares 0 features with slot 42 and with slot 290 alike."
+      }
+    ],
+    "hints": [
+      "Recall the definition: one slot per word, a single 1 in the word's own slot.",
+      "From the definition: 300 slots, one 1 each, and two different words never share a 1. Neither meaning nor slot number changes that."
+    ],
+    "solution_md": "True: **a** (300 words → 300 slots), **b** (a single 1 per vector) and **d** (different words have their 1s in different slots, so they share 0 features). False: c (one-hot ignores meaning) and e (slot numbers are IDs, not positions on a scale).",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/test-b2",
+    "version": 1,
+    "family": "emb-features-order-mismatch",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-vectors-as-features"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "Two teams describe help articles with the same two yes/no features but in different orders. Team X uses `[money, delivery]`; Team Y uses `[delivery, money]`. Team X writes *Change your billing card* as `[1, 0]`. Team Y writes *Where is my parcel?* as `[1, 0]`. A script compares the two vectors directly and reports them as identical. What is going on?",
+    "options": [
+      {
+        "id": "a",
+        "md": "The vectors look identical but mean different things: position 1 is *money* for X and *delivery* for Y. Put both in one order before comparing.",
+        "correct": true,
+        "why_md": "Right. In X's order the parcel article is `[0, 1]`, which shares nothing with the billing card `[1, 0]`."
+      },
+      {
+        "id": "b",
+        "md": "The articles really are identical, since equal vectors mean equal articles",
+        "why_md": "Equal numbers mean equal articles only when every position means the same feature in both vectors. Here position 1 means different things.",
+        "misconception": "mc-vector-order-free"
+      },
+      {
+        "id": "c",
+        "md": "The articles are similar but not identical, since each has one feature set to 1",
+        "why_md": "They don't share a single feature: once both are in X's order, the billing card is `[1, 0]` and the parcel `[0, 1]`."
+      }
+    ],
+    "hints": [
+      "Before comparing two vectors, check that position 1 means the same feature in both.",
+      "Rewrite Team Y's parcel vector in Team X's order `[money, delivery]`, then compare it with `[1, 0]`."
+    ],
+    "solution_md": "Team Y's `[1, 0]` means delivery = 1, money = 0. In Team X's order `[money, delivery]` that is `[0, 1]`. Compared with the billing card `[1, 0]`, it shares **0** features. The script compared numbers whose positions meant different features: vectors are only comparable in one shared order. **a**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/test-b3",
+    "version": 1,
+    "family": "emb-features-relative-assert",
+    "kind": "assert_reason",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "**Assertion (A):** *Change your billing card* and *Why was I charged twice?* can share a feature under one feature list and share none under another.\n\n**Reason (R):** Similarity is fixed by an article's content, so only one of those feature lists can be correct.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "R is false. Both lists give correct arithmetic about different questions: what an article is about, and what kind of help it gives.",
+        "misconception": "mc-similarity-built-in"
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "R is false, not merely unconnected. Topic and task lists are both valid; they measure different things."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "correct": true,
+        "why_md": "Right. A is true: topic `[money, sign-in, delivery]` gives both `[1, 0, 0]` (1 shared), task `[how-to steps, fixing a problem]` gives `[1, 0]` and `[0, 1]` (0 shared). R is false: similarity depends on the features, and each list is right for its own question."
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "why_md": "A is true, as the two lists show. R is the false one: it is the belief that similarity lives in the articles themselves.",
+        "misconception": "mc-similarity-built-in"
+      }
+    ],
+    "hints": [
+      "Test A with the topic list and the task list from the lesson.",
+      "Topic: both `[1, 0, 0]`, 1 shared. Task: `[1, 0]` and `[0, 1]`, 0 shared. So A holds. Does that make one list wrong?"
+    ],
+    "solution_md": "A is true: under `[money, sign-in, delivery]` both are `[1, 0, 0]` (1 shared); under `[how-to steps, fixing a problem]` they are `[1, 0]` and `[0, 1]` (0 shared). R is false: neither list is wrong; each measures a different kind of similarity. **c**: A true, R false.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  },
+  {
+    "id": "emb-features/test-b4",
+    "version": 1,
+    "family": "emb-features-drop-feature-tie",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-features",
+    "kcs": [
+      "kc-features-define-similarity"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "To route queries by hand, the team describes a query and each article with `[money, sign-in, delivery, fixing a problem]`. The query *I was billed twice* is `[1, 0, 0, 1]`.\n\n| article | vector |\n|---|---|\n| *Change your billing card* | `[1, 0, 0, 0]` |\n| *Why was I charged twice?* | `[1, 0, 0, 1]` |\n| *Where is my parcel?* | `[0, 0, 1, 1]` |\n\nRight now *Why was I charged twice?* wins with 2 shared features. The team drops `fixing a problem` to save effort. What happens to this query's ranking?",
+    "options": [
+      {
+        "id": "a",
+        "md": "*Why was I charged twice?* and *Change your billing card* now tie at 1: the features can no longer tell a complaint from a guide",
+        "correct": true,
+        "why_md": "Right. With `[money, sign-in, delivery]` the query is `[1, 0, 0]`, and both payment articles are `[1, 0, 0]` too: 1 shared feature each."
+      },
+      {
+        "id": "b",
+        "md": "*Why was I charged twice?* still wins, because it is the right article",
+        "why_md": "The score only sees the features. Without `fixing a problem`, the complaint and the guide are both `[1, 0, 0]`, so they tie.",
+        "misconception": "mc-similarity-built-in"
+      },
+      {
+        "id": "c",
+        "md": "*Where is my parcel?* rises to first",
+        "why_md": "It shared only *fixing a problem* with the query. Without that feature it drops to 0."
+      }
+    ],
+    "hints": [
+      "Delete the last position from every vector, then count positions where the query and each article are both 1.",
+      "Query `[1, 0, 0]`. Billing card `[1, 0, 0]` → 1. Charged twice `[1, 0, 0]` → 1. Parcel `[0, 0, 1]` → 0."
+    ],
+    "solution_md": "Without `fixing a problem`: query `[1, 0, 0]`, billing card `[1, 0, 0]` (1 shared), charged twice `[1, 0, 0]` (1 shared), parcel `[0, 0, 1]` (0 shared). The right article now ties with a how-to guide, because the only feature that separated them is gone. **a**.",
+    "provenance": {
+      "origin": "static",
+      "job": "u1-emb-features"
+    }
+  }
+]

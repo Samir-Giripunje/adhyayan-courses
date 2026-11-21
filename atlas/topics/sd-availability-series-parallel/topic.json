@@ -1,0 +1,60 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-availability-series-parallel",
+  "version": 1,
+  "title": "Availability in series and in parallel",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-avail-series",
+      "version": 1,
+      "statement": "Components in series (all must work) have availability equal to the probability that all of them are up at once; only when their failures are independent is this the product of their availabilities, so two independent 99.9% components give about 99.8%."
+    },
+    {
+      "id": "kc-avail-parallel",
+      "version": 1,
+      "statement": "Redundant components in parallel (any one suffices) have availability 1 − (1 − A)^n when their failures are independent: two independent 99.9% replicas give 99.9999%."
+    },
+    {
+      "id": "kc-avail-independence",
+      "version": 1,
+      "statement": "Both the series product and the parallel formula assume independent failures; a shared dependency such as one power feed, one region or one config push correlates failures, so replicas fail together and the parallel figure overstates availability, and the shared dependency must be counted as its own component in series."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-availability-nines"
+  ],
+  "suggests": [
+    "sd-single-points-of-failure"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "availability in series",
+    "availability in parallel"
+  ],
+  "uses": [
+    "availability nines",
+    "load balancer"
+  ],
+  "problem_ideas": [
+    "LB (99.99%) → app (99.9%) → DB (99.95%) in series, failures independent: compute end-to-end availability",
+    "Three app servers at 99% each in parallel: what is the tier's availability?",
+    "How many 99% replicas do you need to reach five nines for one tier?",
+    "Adding a cache in series at 99.9% to a 99.95% path: what happens to availability?",
+    "Two replicas in the same rack fail together 50% of the time; why does the parallel formula overstate availability?",
+    "Two 99.99% replicas in parallel both depend on one 99.9% region: model the region in series and compute the result"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "availability-patterns/availability-in-parallel-vs-in-sequence"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "availability-in-sequence-vs-parallel/availability-in-sequence-vs-parallel"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u21-deploy",
+  "title": "Provisioning and deploying: from console clicks to pipelines",
+  "topics": [
+    {
+      "id": "clf-one-time-vs-repeatable",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-cloudformation",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-cdk",
+      "tier": "optional",
+      "order": 3
+    },
+    {
+      "id": "clf-elastic-beanstalk",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-ci-cd-pipeline",
+      "tier": "must",
+      "order": 5
+    },
+    {
+      "id": "clf-choosing-deployment-method",
+      "tier": "must",
+      "order": 6
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

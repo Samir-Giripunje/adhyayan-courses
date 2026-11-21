@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-mock-chat",
+  "version": 1,
+  "title": "Timed mock: chat system",
+  "size": "big",
+  "est_min": 40,
+  "kcs": [
+    {
+      "id": "kc-mock-chat-scope",
+      "version": 1,
+      "statement": "In the chat mock, requirements pin down 1:1 vs group chat, online/offline delivery, read receipts and history retention before any design is drawn."
+    },
+    {
+      "id": "kc-mock-chat-estimates",
+      "version": 1,
+      "statement": "In the chat mock, the estimate derives concurrent connections, messages per second and storage per year, and uses connections to size the connection server fleet."
+    },
+    {
+      "id": "kc-mock-chat-delivery",
+      "version": 1,
+      "statement": "In the chat mock, the delivery path is narrated end to end: sender socket, persist, sequence number, registry lookup, recipient socket or push notification, acknowledgement."
+    },
+    {
+      "id": "kc-mock-chat-failures",
+      "version": 1,
+      "statement": "In the chat mock, the failure review covers connection server crashes, message store partitions and duplicate delivery after retries, with a fix for each."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-case-chat",
+    "sd-mock-method"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [],
+  "uses": [
+    "mock interview",
+    "mock rubric",
+    "chat system design",
+    "message sequence number",
+    "push notification",
+    "connection server",
+    "session registry",
+    "idempotent consumer",
+    "failure mode analysis"
+  ],
+  "problem_ideas": [
+    "Core activity: in one uninterrupted 45-minute attempt, submit a complete answer for 1B users, 100M concurrent, covering all seven rubric areas; then score each area in a separate review.",
+    "Variant: add 'last seen' presence for 1B users. Estimate the heartbeat load.",
+    "Interviewer pushback: 'Why not long polling?' Answer it in 60 seconds.",
+    "Variant: groups of 1,000 members. Rework the fan-out.",
+    "Spend 5 minutes on the deep dive: message ordering across devices.",
+    "Write the bottleneck list from your diagram in 3 minutes."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "requirements-2/requirements"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "identify-and-resolve-bottlenecks-3/identify-and-resolve-bottlenecks"
+    }
+  ],
+  "status": "stub"
+}

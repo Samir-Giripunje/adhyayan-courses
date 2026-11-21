@@ -1,0 +1,51 @@
+{
+  "artifact": {
+    "path": "courses/python-decorators/architect",
+    "sha256": "de95c1cd6c9cb2ef2ea3ca41550709b60c35fb43c6f179cf1ad145dff5cf5eec"
+  },
+  "reviewer": {
+    "role": "adhy-critic",
+    "vendor": "codex"
+  },
+  "items": [
+    {
+      "id": "f1",
+      "severity": "blocking",
+      "target": "o4",
+      "claim": "The serves links from pd-attribute-tagging and pd-lru-cache are not justified by o4's observable. Building a registry and a class decorator, and explaining their execution time, requires neither tagging nor caching, although both appear in the outcome text.",
+      "fix": "Remove the o4 serves link from pd-attribute-tagging and pd-lru-cache, then recompute their tiers."
+    },
+    {
+      "id": "f2",
+      "severity": "blocking",
+      "target": "pd-attribute-tagging",
+      "claim": "kc-tagging-lost-without-wraps depends on bottom-up decorator application, but pd-stacked-decorators is absent from requires. The existing prerequisite path through functools.wraps does not teach stacking order.",
+      "fix": "Add requires: 'pd-stacked-decorators: Determining whether the wrapper receives the tagged function requires bottom-up decorator application.'"
+    },
+    {
+      "id": "f3",
+      "severity": "blocking",
+      "target": "pd-stacked-decorators",
+      "claim": "The KCs teach bottom-up application but omit top-down evaluation of decorator expressions. Without this distinction, learners cannot reliably predict printed output for stacked factories, as o1 requires.",
+      "fix": "Add a KC stating that decorator expressions are evaluated top-down before the function object is created, then their results are applied bottom-up. Include desugaring @make('a') above @make('b') using temporary decorator variables evaluated before the definition, followed by f = dec_a(dec_b(f)); extend the same rule to class decorators, whose expressions are evaluated before the class body executes."
+    },
+    {
+      "id": "f4",
+      "severity": "blocking",
+      "target": "pd-decorator-factories",
+      "claim": "o3 requires implementing @retry(times=3), but no KC teaches retry control flow or exception handling, and exceptions are not assumed. Teaching factory structure alone does not enable that observable.",
+      "fix": "Add KCs teaching the required try/except and raise behavior, plus a bounded retry loop: define times as total attempts, require times >= 1, return immediately on success, catch the designated exception, and re-raise on the final failed attempt. Split this into a required retry topic if necessary for sizing."
+    },
+    {
+      "id": "f5",
+      "severity": "blocking",
+      "target": "pd-descriptor-protocol",
+      "claim": "'A data descriptor on the type wins over obj.__dict__' omits the requirement for __get__ on reads. 'Assigning obj.x = v calls __set__(obj, v) when x is a data descriptor' is also false for a descriptor defining only __delete__: assignment raises AttributeError.",
+      "evidence": {
+        "source": "-python-data-model-invoking-descriptors-https-docs-python-org-3-reference-datamodel-html-invoking-descriptors-",
+        "quote": "If it does not define __get__(), then accessing the attribute will return the descriptor object itself"
+      },
+      "fix": "Replace kc-lookup-precedence with: 'Under default instance lookup, a data descriptor defining __get__ takes precedence over the instance dictionary; a descriptor without __get__ does not override an instance value on reads.' Replace kc-set-data-descriptor with: 'Under default assignment, a descriptor defining __set__ handles assignment; a data descriptor defining only __delete__ rejects assignment with AttributeError. Otherwise, assignment stores in the instance dictionary when one is available.'"
+    }
+  ]
+}

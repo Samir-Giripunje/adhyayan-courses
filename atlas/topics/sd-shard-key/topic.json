@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-shard-key",
+  "version": 1,
+  "title": "Choosing a shard key and avoiding hot shards",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-shard-key-criteria",
+      "version": 1,
+      "statement": "A good shard key has high cardinality, spreads load evenly and matches the dominant access pattern so most queries touch a single shard."
+    },
+    {
+      "id": "kc-hot-shard",
+      "version": 1,
+      "statement": "A skewed shard key, such as a celebrity's user_id or the current date, sends most traffic to one shard; fixes include salting the key with a suffix or splitting that key's data across shards."
+    },
+    {
+      "id": "kc-cross-shard-cost",
+      "version": 1,
+      "statement": "Queries that do not filter on the shard key must scatter to every shard and gather the results, and joins or transactions across shards need application logic."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-sharding-strategies"
+  ],
+  "suggests": [
+    "sd-hot-keys-thundering-herd"
+  ],
+  "confusable_with": [
+    "sd-hot-keys-thundering-herd"
+  ],
+  "introduces": [
+    "hot shard",
+    "scatter-gather query",
+    "key salting"
+  ],
+  "uses": [
+    "shard key",
+    "sharding",
+    "access pattern",
+    "hot key",
+    "qps"
+  ],
+  "problem_ideas": [
+    "Pick a shard key for chat messages, tweets, URL mappings and ride trips, with one sentence each",
+    "A celebrity with 50M followers posts; with 16 shards keyed by user_id, predict the share of feed reads hitting one shard",
+    "Salt a hot key into 8 sub-keys and compute the new per-shard load",
+    "Sharding orders by country: predict the load on the US shard if 40% of users are American",
+    "Count shards queried by 'find user by email' when users are sharded by user_id, and add a fix",
+    "Explain why shard key = status (pending/done) is a bad choice"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "disadvantages-3/disadvantages"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "when-to-use-sharding/when-to-use-sharding"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "database-fundamentals/database-sharding"
+    }
+  ],
+  "status": "stub"
+}

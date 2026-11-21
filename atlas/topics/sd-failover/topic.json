@@ -1,0 +1,78 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-failover",
+  "version": 1,
+  "title": "Failover: active-passive and active-active",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-active-passive",
+      "version": 1,
+      "statement": "In active-passive failover a standby takes over the active node's role (often its IP) when heartbeats stop; downtime is detection time plus promotion time, and a hot standby recovers faster than a cold one."
+    },
+    {
+      "id": "kc-active-active",
+      "version": 1,
+      "statement": "In active-active, all nodes serve traffic and a failed node's load is redistributed, so each node must keep enough headroom to absorb its share."
+    },
+    {
+      "id": "kc-failover-data-loss",
+      "version": 1,
+      "statement": "Failing over to an asynchronously replicated database replica can lose the writes that had not yet replicated when the primary died."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-health-checks-heartbeats",
+    "sd-single-points-of-failure"
+  ],
+  "suggests": [
+    "sd-sync-async-replication",
+    "sd-disaster-recovery"
+  ],
+  "confusable_with": [
+    "sd-reliability-fault-tolerance"
+  ],
+  "introduces": [
+    "failover",
+    "active-passive",
+    "active-active",
+    "hot standby"
+  ],
+  "uses": [
+    "single point of failure",
+    "health check",
+    "heartbeat",
+    "leader-follower replication",
+    "asynchronous replication",
+    "dns"
+  ],
+  "problem_ideas": [
+    "Two active-active servers each at 70% CPU: what happens when one fails?",
+    "Detection 15 s + promotion 30 s + DNS TTL 60 s: estimate user-visible downtime",
+    "Primary dies with 2 s of replication lag at 5,000 writes/s: how many writes may be lost?",
+    "Choose active-passive or active-active for a payment ledger database and justify",
+    "Cold vs warm vs hot standby: rank by cost and recovery time",
+    "How should clients find the new primary after failover: floating IP, DNS or service discovery?"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "availability-patterns/fail-over"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "availability-patterns/active-passive"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "availability-patterns/active-active"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "configurations/configurations"
+    }
+  ],
+  "status": "stub"
+}

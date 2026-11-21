@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-transit-gateway",
+  "version": 1,
+  "title": "Transit Gateway: one hub for many networks",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-transit-gateway-hub",
+      "version": 1,
+      "statement": "AWS Transit Gateway is a regional hub that connects many VPCs and on-premises networks (through VPN or Direct Connect) via one gateway, in a hub-and-spoke design."
+    },
+    {
+      "id": "kc-tgw-vs-peering-count",
+      "version": 1,
+      "statement": "Fully meshing n VPCs with peering needs n(n−1)/2 connections because peering is not transitive, so Transit Gateway is the choice when many VPCs must all reach each other."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "clf-vpc-peering-endpoints",
+    "clf-direct-connect"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-vpc-peering-endpoints"
+  ],
+  "introduces": [
+    "transit gateway",
+    "hub-and-spoke"
+  ],
+  "uses": [
+    "vpc",
+    "vpc peering",
+    "site-to-site vpn",
+    "direct connect"
+  ],
+  "problem_ideas": [
+    "How many peering connections fully mesh 10 VPCs? And 20?",
+    "A company has 3 VPCs that only need to talk in pairs: is Transit Gateway worth it?",
+    "50 VPCs plus two data centers must reach each other: pick the design",
+    "Adding an 11th VPC to a full peering mesh: how many new connections vs with Transit Gateway?",
+    "Draw the hub-and-spoke for 4 VPCs and one VPN and count attachments",
+    "Spot the error: 'peering A-B and B-C lets A talk to C'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "networking-and-content-delivery/aws-transit-gateway"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "vpc/transit-gateway"
+    }
+  ],
+  "status": "stub"
+}

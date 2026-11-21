@@ -1,0 +1,18 @@
+{
+  "id": "system-design-critic-f1",
+  "origin": "critic",
+  "created": "2026-11-18",
+  "status": "proposed",
+  "changes": [
+    {
+      "op": "retier",
+      "topic": "sd-dns",
+      "from": "must",
+      "to": "must",
+      "minutes_delta": 0,
+      "why": "No tier changes: sd-dns stays must through another outcome or a requires-closure (critic f1)"
+    }
+  ],
+  "route_version_after": 2,
+  "forecast_delta_weeks": 0
+}

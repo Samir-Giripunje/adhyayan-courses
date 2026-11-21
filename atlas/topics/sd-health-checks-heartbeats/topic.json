@@ -1,0 +1,56 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-health-checks-heartbeats",
+  "version": 1,
+  "title": "Health checks and heartbeats",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-health-check-lb",
+      "version": 1,
+      "statement": "A load balancer sends periodic health checks to each backend, removes a backend from the pool after N consecutive failures and adds it back after it passes again."
+    },
+    {
+      "id": "kc-heartbeat-timeout",
+      "version": 1,
+      "statement": "With heartbeats, a node is declared dead after its heartbeats are missing for a timeout; a short timeout detects failures faster but causes false positives during slow networks or GC pauses."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-load-balancers"
+  ],
+  "confusable_with": [
+    "sd-monitoring-observability"
+  ],
+  "introduces": [
+    "health check",
+    "heartbeat",
+    "failure detection"
+  ],
+  "uses": [
+    "load balancer",
+    "backend pool"
+  ],
+  "problem_ideas": [
+    "Checks every 5 s with 3 failures to evict: worst-case seconds of traffic sent to a dead server",
+    "A health endpoint that checks the database: what happens to the pool when the DB blips?",
+    "Shallow vs deep health checks: pick one for a stateless API and justify",
+    "A JVM GC pause of 8 s with a 5 s heartbeat timeout: what goes wrong?",
+    "Design heartbeat intervals for 10,000 WebSocket servers reporting to a registry",
+    "Why should a node be added back only after several consecutive passing checks?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "high-availability/health-endpoint-monitoring"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "distributed-system-and-microservices/heartbeats"
+    }
+  ],
+  "status": "stub"
+}

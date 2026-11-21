@@ -1,0 +1,114 @@
+{
+  "course": "python-decorators",
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Desugar any decorated definition, stacked or with arguments, into plain calls",
+      "observable": "Rewrite a given @-decorated function or class as explicit assignments and predict its printed output and call order"
+    },
+    {
+      "id": "o2",
+      "text": "Write a correct function decorator with functools.wraps that preserves metadata and handles any signature",
+      "observable": "Implement a timing or logging decorator that passes *args/**kwargs through and keeps __name__ and __doc__"
+    },
+    {
+      "id": "o3",
+      "text": "Write a decorator factory that takes arguments, including the optional-argument form",
+      "observable": "Implement @retry(times=3) and a decorator usable both as @dec and @dec(...)"
+    },
+    {
+      "id": "o4",
+      "text": "Apply common decorator patterns: registration, caching, attribute tagging and class decorators",
+      "observable": "Build a plugin registry decorator and a class decorator that adds a method, and explain when each runs"
+    },
+    {
+      "id": "o5",
+      "text": "Explain how @property, @classmethod and @staticmethod work via the descriptor protocol and decorate methods correctly",
+      "observable": "Predict what obj.attr returns for a given descriptor and write a reusable validator descriptor"
+    }
+  ],
+  "stages": [
+    {
+      "id": "pd-p1",
+      "title": "Python decorators: functions, factories, classes and descriptors",
+      "provisional": false,
+      "units": [
+        {
+          "id": "pd-u1-foundations",
+          "title": "Functions, closures and your first decorator",
+          "topics": 7
+        },
+        {
+          "id": "pd-u2-factories",
+          "title": "Decorators with arguments and stacking",
+          "topics": 6
+        },
+        {
+          "id": "pd-u3-patterns",
+          "title": "Decorator patterns and class decorators",
+          "topics": 5
+        },
+        {
+          "id": "pd-u4-descriptors",
+          "title": "Descriptors: how property and methods really work",
+          "topics": 7
+        }
+      ]
+    }
+  ],
+  "tiers": {
+    "must": 23,
+    "recommended": 0,
+    "optional": 2,
+    "dropped": 0
+  },
+  "out_of_scope": [
+    {
+      "title": "Metaclasses and __init_subclass__",
+      "why": "Alternative class-customisation tools, a separate topic beyond decorators"
+    },
+    {
+      "title": "Static typing of decorators (ParamSpec, Concatenate)",
+      "why": "Type-checker detail not needed to write or understand working decorators"
+    },
+    {
+      "title": "Async and generator-specific decorators, contextlib.contextmanager internals",
+      "why": "Builds on coroutines and generators, which this course does not teach"
+    },
+    {
+      "title": "Framework decorators (Flask routes, pytest fixtures, dataclasses internals)",
+      "why": "Library-specific APIs; the course teaches the mechanism they all share"
+    },
+    {
+      "title": "Third-party wrapper libraries such as wrapt",
+      "why": "Optional tooling; functools covers what a working learner needs"
+    }
+  ],
+  "sources": [
+    {
+      "id": "pep-318",
+      "badge": "docs"
+    },
+    {
+      "id": "pep-3129",
+      "badge": "docs"
+    },
+    {
+      "id": "functools-docs",
+      "badge": "docs"
+    },
+    {
+      "id": "descriptor-howto",
+      "badge": "docs"
+    }
+  ],
+  "forecast": {
+    "source": "estimate",
+    "median_weeks": 10.35,
+    "p90_weeks": 13.46,
+    "binding": "tests",
+    "by_month": []
+  },
+  "diffs": [],
+  "lints": []
+}

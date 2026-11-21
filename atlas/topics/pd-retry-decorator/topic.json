@@ -1,0 +1,57 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-retry-decorator",
+  "version": 1,
+  "title": "Building @retry(times=3): loops, except and re-raise",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-retry-loop",
+      "version": 1,
+      "statement": "A retry wrapper loops over its attempts, returns func(*args, **kwargs) immediately on the first success, and catches only the designated exception types in its except clause."
+    },
+    {
+      "id": "kc-retry-final-raise",
+      "version": 1,
+      "statement": "On the final failed attempt the wrapper re-raises with a bare raise inside the except block, which propagates the original exception and traceback instead of falling through and returning None."
+    },
+    {
+      "id": "kc-retry-validate-times",
+      "version": 1,
+      "statement": "times counts total attempts, not extra retries; the factory should raise ValueError for times < 1 when it is called, because a zero-attempt loop never calls func and silently returns None."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "pd-decorator-factories"
+  ],
+  "suggests": [
+    "pd-optional-argument-decorators"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "retry decorator",
+    "bare raise"
+  ],
+  "uses": [
+    "decorator factory",
+    "wrapper function",
+    "try/except and raise"
+  ],
+  "problem_ideas": [
+    "Implement @retry(times=3) and trace attempts against a function that fails twice then succeeds",
+    "Predict the call count and the exception seen when the function fails all 3 attempts",
+    "Fix a retry wrapper that swallows the final exception and returns None",
+    "Add exceptions=(ConnectionError,) and predict which errors propagate on the first attempt",
+    "Decide what @retry(times=0) should do and make it raise ValueError at decoration time",
+    "Add delay=0.5 between attempts and compute the worst-case added latency for times=4"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "current-syntax/current-syntax"
+    }
+  ],
+  "status": "stub"
+}

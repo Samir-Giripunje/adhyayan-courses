@@ -1,0 +1,29 @@
+{
+  "rounds": {
+    "lesson": 2,
+    "review": 3
+  },
+  "reauthored": {
+    "at": "2026-11-18T08:36:57.000Z",
+    "note": "answer-first rewrite (author contract v2); previous critic record superseded",
+    "previous_review": {
+      "ok": true,
+      "job": "review-sd-dns-r3",
+      "blocking": 0
+    }
+  },
+  "novice": {
+    "ok": true,
+    "lesson": "f6b58f47cfe445e813be4b1cdaf4053621979c64cbab137e4f837c8ddbce575a",
+    "job": "novice-sd-dns-r6",
+    "minor": 5
+  },
+  "review": {
+    "ok": true,
+    "content": "6b86b1498a9b762b6c97b6c4d49840146609f82607af408452bfd7724b53b472",
+    "job": "review-sd-dns-r6",
+    "warn": [
+      "sd-dns: Essential caching instruction appears only in collapsed Go deeper sections: existing copies retain their original expiry, downstream caches receive the remaining TTL, and TTL must be lowered ahead of an address change. Multiple assessed items require these rules."
+    ]
+  }
+}

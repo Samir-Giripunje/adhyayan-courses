@@ -1,0 +1,71 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-storage-pricing",
+  "version": 1,
+  "title": "Storage pricing: S3 classes, EBS and EFS",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-s3-cost-components",
+      "version": 1,
+      "statement": "S3 cost has four parts: gigabyte-months stored (priced by storage class), requests, data retrieval for infrequent-access and Glacier classes, and data transferred out."
+    },
+    {
+      "id": "kc-ia-retrieval-min-duration",
+      "version": 1,
+      "statement": "Infrequent-access and Glacier classes cost less to store but charge per-GB retrieval fees and have minimum storage durations: 30 days for Standard-IA, 90 days for Glacier Flexible Retrieval and 180 days for Glacier Deep Archive."
+    },
+    {
+      "id": "kc-ebs-provisioned-vs-used",
+      "version": 1,
+      "statement": "EBS bills for the gigabytes you provision whether or not you fill them, while EFS and S3 bill only for the gigabytes actually stored."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "clf-s3-storage-classes",
+    "clf-s3-lifecycle"
+  ],
+  "confusable_with": [
+    "clf-data-transfer-costs"
+  ],
+  "introduces": [
+    "retrieval fee",
+    "minimum storage duration",
+    "storage pricing"
+  ],
+  "uses": [
+    "s3",
+    "s3 storage class",
+    "s3 glacier",
+    "s3 standard-ia",
+    "ebs",
+    "efs",
+    "s3 lifecycle policy"
+  ],
+  "problem_ideas": [
+    "A 500 GB EBS volume holds 50 GB of data: predict how many GB are billed, and compare with the same data on EFS.",
+    "An object moved to Glacier Deep Archive is deleted after 60 days: predict how many days of storage are charged.",
+    "Logs are read daily for a week, then almost never: which S3 classes over time and why?",
+    "A team moved hot images to Standard-IA and its bill went up: explain the retrieval-fee trap.",
+    "List the four line items an S3 bill can contain for a public download bucket.",
+    "A backup archive must be kept 7 years and is restored perhaps once: choose the class and name the cost trade-off."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-1-compare-aws-pricing-m/storage-options-and-tiers"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-1-compare-aws-pricing-m/understanding-pricing-options-for-variou"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "account-management-billing-support/storage-pricing"
+    }
+  ],
+  "status": "stub"
+}

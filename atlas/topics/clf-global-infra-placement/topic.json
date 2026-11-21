@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-global-infra-placement",
+  "version": 1,
+  "title": "Choosing where to run: a placement guide",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-placement-latency",
+      "version": 1,
+      "statement": "For a latency requirement, choose the Region closest to users, add edge locations for cacheable content, and use Local Zones or Wavelength only when single-digit-millisecond latency is required."
+    },
+    {
+      "id": "kc-placement-availability",
+      "version": 1,
+      "statement": "For an availability requirement, spread resources across Availability Zones; add a second Region only when the requirement names a regional disaster or global users."
+    },
+    {
+      "id": "kc-speed-of-deployment",
+      "version": 1,
+      "statement": "Global infrastructure lets a company launch in a new country in minutes by choosing an existing Region instead of building a data center, which is the speed-of-deployment and global-reach benefit."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-multi-az-multi-region",
+    "clf-local-zones-wavelength-outposts",
+    "clf-edge-locations"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "speed of deployment"
+  ],
+  "uses": [
+    "region",
+    "availability zone",
+    "edge location",
+    "local zone",
+    "wavelength zone",
+    "outposts",
+    "data residency",
+    "multi-az deployment",
+    "disaster recovery",
+    "global reach"
+  ],
+  "problem_ideas": [
+    "Ten one-line requirements: for each, name the placement (Region, multi-AZ, multi-Region, edge, Local Zone, Wavelength, Outposts) and the reason",
+    "A retailer wants to open in Japan next week: which cloud benefit does choosing ap-northeast-1 show?",
+    "Spot the overkill: a design uses Wavelength for a back-office reporting tool",
+    "A requirement combines EU residency and 99.99% availability: give the cheapest placement that meets both",
+    "Rule out the closest distractor in four exam-style stems (edge location vs Local Zone, AZ vs Region)",
+    "A company asks for 'disaster recovery if a whole geographic area fails': which keyword maps to which component?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-1-define-the-benefits-o/understanding-the-benefits-of-global-inf"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-2-define-the-aws-global/task-statement-3-2-define-the-aws-global"
+    }
+  ],
+  "status": "stub"
+}

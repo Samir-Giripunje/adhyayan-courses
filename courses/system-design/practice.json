@@ -1,0 +1,759 @@
+{
+  "schema": "adhy.practice/1",
+  "course": "system-design",
+  "profile": "mixed",
+  "why": "Interview practice: design questions with numbers, trade-offs explained in writing, and a few small programs where code teaches the idea.",
+  "by": "learner",
+  "fits": {
+    "sd-ip-addresses": {
+      "fit": "none",
+      "why": "address sizes and private ranges are recall; the DNS task uses them",
+      "by": "judged"
+    },
+    "sd-dns": {
+      "fit": "written",
+      "why": "why a changed record still sends some users to the old server is a behaviour to explain",
+      "by": "judged"
+    },
+    "sd-dns-records": {
+      "fit": "none",
+      "why": "a short list of record types; the DNS routing design uses them",
+      "by": "judged"
+    },
+    "sd-dns-routing": {
+      "fit": "design",
+      "why": "routing policy, health checks and TTL are chosen with numbers for a scenario",
+      "by": "judged"
+    },
+    "sd-http": {
+      "fit": "written",
+      "why": "choosing methods and status codes, and which calls are safe to repeat, is reasoning, not recall",
+      "by": "judged"
+    },
+    "sd-latency-throughput": {
+      "fit": "design",
+      "why": "Little's law and the latency/throughput split are numbers to work out",
+      "by": "judged"
+    },
+    "sd-rest": {
+      "fit": "design",
+      "why": "shaping resources, statelessness and pagination for a concrete API is a design exercise",
+      "by": "judged"
+    },
+    "sd-rpc": {
+      "fit": "written",
+      "why": "REST versus RPC is a trade-off interviewers ask you to explain",
+      "by": "judged"
+    },
+    "sd-interview-framework": {
+      "fit": "none",
+      "why": "the order of the interview steps is recall; the requirements and API tasks exercise it",
+      "by": "judged"
+    },
+    "sd-requirements": {
+      "fit": "design",
+      "why": "turning a vague prompt into requirements and a read/write ratio is the opening move of a design answer",
+      "by": "judged"
+    },
+    "sd-api-design": {
+      "fit": "design",
+      "why": "sketching endpoints, pagination and auth for a prompt is a design exercise",
+      "by": "judged"
+    },
+    "sd-data-model": {
+      "fit": "design",
+      "why": "entities, keys and access patterns are designed for a prompt, with sizes",
+      "by": "judged"
+    },
+    "sd-estimation-method": {
+      "fit": "design",
+      "why": "seconds per day and powers of two are used in estimates, not memorised",
+      "by": "judged"
+    },
+    "sd-qps-estimate": {
+      "fit": "design",
+      "why": "average and peak QPS are numbers to estimate from a scenario",
+      "by": "judged"
+    },
+    "sd-storage-estimate": {
+      "fit": "design",
+      "why": "storage per year with retention is a number to estimate",
+      "by": "judged"
+    },
+    "sd-bandwidth-estimate": {
+      "fit": "design",
+      "why": "ingress and egress bandwidth are numbers that drive a design decision",
+      "by": "judged"
+    },
+    "sd-high-level-design": {
+      "fit": "design",
+      "why": "drawing the simplest design that meets the requirements is a design exercise",
+      "by": "judged"
+    },
+    "sd-bottlenecks": {
+      "fit": "written",
+      "why": "naming the bottleneck from estimates and stating the trade-off is a written answer",
+      "by": "judged"
+    },
+    "sd-timed-walkthrough": {
+      "fit": "none",
+      "why": "a time budget to follow; the mocks practise it",
+      "by": "judged"
+    },
+    "sd-performance-vs-scalability": {
+      "fit": "written",
+      "why": "telling a performance problem from a scalability one is explained from symptoms",
+      "by": "judged"
+    },
+    "sd-vertical-horizontal-scaling": {
+      "fit": "written",
+      "why": "scale up versus scale out is a trade-off to argue",
+      "by": "judged"
+    },
+    "sd-stateless-services": {
+      "fit": "written",
+      "why": "where session state goes and why sticky sessions hurt is a trade-off to explain",
+      "by": "judged"
+    },
+    "sd-load-balancers": {
+      "fit": "design",
+      "why": "health checks, TLS termination and a redundant pair are placed in a design",
+      "by": "judged"
+    },
+    "sd-lb-algorithms": {
+      "fit": "code",
+      "why": "weighted round robin and least-connections are small algorithms to implement and compare",
+      "by": "judged"
+    },
+    "sd-l4-vs-l7": {
+      "fit": "written",
+      "why": "choosing layer 4 or layer 7 routing for given needs is a trade-off to explain",
+      "by": "judged"
+    },
+    "sd-reverse-proxy": {
+      "fit": "none",
+      "why": "forward versus reverse proxy is a definition; the load balancer tasks use it",
+      "by": "judged"
+    },
+    "sd-cdn": {
+      "fit": "design",
+      "why": "origin offload from the hit ratio is a number that shapes the design",
+      "by": "judged"
+    },
+    "sd-push-pull-cdn": {
+      "fit": "written",
+      "why": "push or pull for a given content set is a trade-off to argue",
+      "by": "judged"
+    },
+    "sd-api-gateway": {
+      "fit": "written",
+      "why": "gateway versus load balancer, and aggregation for mobile, is a trade-off to explain",
+      "by": "judged"
+    },
+    "sd-rate-limiting": {
+      "fit": "code",
+      "why": "a small per-key rate limiter that answers 429 with Retry-After teaches what limiting means",
+      "by": "judged"
+    },
+    "sd-scale-to-millions": {
+      "fit": "design",
+      "why": "sizing each tier from the traffic that reaches it is a numbers-first design",
+      "by": "judged"
+    },
+    "sd-cache-basics": {
+      "fit": "design",
+      "why": "hit ratio and effective latency are numbers to work out",
+      "by": "judged"
+    },
+    "sd-cache-layers": {
+      "fit": "none",
+      "why": "mostly a map of where caches sit; the cache-aside task uses it",
+      "by": "judged"
+    },
+    "sd-cache-aside": {
+      "fit": "code",
+      "why": "a cache-aside read path is a small program to write and test",
+      "by": "judged"
+    },
+    "sd-cache-invalidation-ttl": {
+      "fit": "code",
+      "why": "a TTL cache with delete-on-write shows staleness bounds in tests",
+      "by": "judged"
+    },
+    "sd-read-write-through": {
+      "fit": "written",
+      "why": "read-through and write-through costs are trade-offs to explain",
+      "by": "judged"
+    },
+    "sd-choose-cache-strategy": {
+      "fit": "design",
+      "why": "choosing a pattern and TTL from the read/write ratio is a design decision",
+      "by": "judged"
+    },
+    "sd-distributed-cache": {
+      "fit": "design",
+      "why": "local versus global cache and the remap burst are weighed with numbers",
+      "by": "judged"
+    },
+    "sd-relational-acid": {
+      "fit": "written",
+      "why": "what a transaction protects in a transfer is a behaviour to explain",
+      "by": "judged"
+    },
+    "sd-denormalization": {
+      "fit": "written",
+      "why": "denormalising for reads versus keeping copies in sync is a trade-off to explain",
+      "by": "judged"
+    },
+    "sd-nosql-base": {
+      "fit": "none",
+      "why": "definitions of NoSQL families and BASE; the store choice task uses them",
+      "by": "judged"
+    },
+    "sd-key-value-store": {
+      "fit": "none",
+      "why": "what a key-value store suits is recall; the store choice task uses it",
+      "by": "judged"
+    },
+    "sd-document-store": {
+      "fit": "none",
+      "why": "what a document store suits is recall; the store choice task uses it",
+      "by": "judged"
+    },
+    "sd-wide-column-store": {
+      "fit": "design",
+      "why": "partition and clustering keys are designed for a query shape",
+      "by": "judged"
+    },
+    "sd-object-storage": {
+      "fit": "design",
+      "why": "where media bytes and their metadata live is a design decision",
+      "by": "judged"
+    },
+    "sd-sql-vs-nosql": {
+      "fit": "design",
+      "why": "matching each entity to a store from its access pattern is a design exercise",
+      "by": "judged"
+    },
+    "sd-replication-leader-follower": {
+      "fit": "written",
+      "why": "what happens to reads and writes when the leader dies is a behaviour to explain",
+      "by": "judged"
+    },
+    "sd-sync-async-replication": {
+      "fit": "written",
+      "why": "sync versus async replication is a durability-latency trade-off to explain",
+      "by": "judged"
+    },
+    "sd-replication-lag": {
+      "fit": "written",
+      "why": "why a user cannot see their own write, and the fix, is a predict-and-explain answer",
+      "by": "judged"
+    },
+    "sd-consistency-models": {
+      "fit": "written",
+      "why": "which consistency each feature needs is a trade-off to argue",
+      "by": "judged"
+    },
+    "sd-cap-theorem": {
+      "fit": "written",
+      "why": "what a store gives up during a partition is explained per feature",
+      "by": "judged"
+    },
+    "sd-quorum": {
+      "fit": "design",
+      "why": "choosing N, W and R is arithmetic plus a trade-off",
+      "by": "judged"
+    },
+    "sd-partitioning-basics": {
+      "fit": "none",
+      "why": "definitions of partitioning kinds; the shard key task uses them",
+      "by": "judged"
+    },
+    "sd-sharding-strategies": {
+      "fit": "written",
+      "why": "range versus hash versus directory sharding is a trade-off to explain",
+      "by": "judged"
+    },
+    "sd-shard-key": {
+      "fit": "design",
+      "why": "picking a shard key and handling a hot key is a design decision",
+      "by": "judged"
+    },
+    "sd-consistent-hashing": {
+      "fit": "code",
+      "why": "a hash ring with binary-search lookup is a small program, and remap counts are testable",
+      "by": "judged"
+    },
+    "sd-storage-design-choice": {
+      "fit": "design",
+      "why": "store, replication, shard key and consistency are chosen together for a prompt",
+      "by": "judged"
+    },
+    "sd-sync-vs-async": {
+      "fit": "written",
+      "why": "what a caller gains and loses by going async is a trade-off to explain",
+      "by": "judged"
+    },
+    "sd-message-queues": {
+      "fit": "design",
+      "why": "backlog growth and drain time are numbers to work out",
+      "by": "judged"
+    },
+    "sd-task-queues-background-jobs": {
+      "fit": "written",
+      "why": "moving work off the request path, and job retries, are explained for a case",
+      "by": "judged"
+    },
+    "sd-back-pressure": {
+      "fit": "design",
+      "why": "wait time from backlog and where to reject are worked out with numbers",
+      "by": "judged"
+    },
+    "sd-pub-sub": {
+      "fit": "written",
+      "why": "queue versus topic for a new consumer is a choice to explain",
+      "by": "judged"
+    },
+    "sd-delivery-guarantees": {
+      "fit": "code",
+      "why": "acknowledging before or after processing, with a crash, is simulated in a few lines",
+      "by": "judged"
+    },
+    "sd-idempotency": {
+      "fit": "none",
+      "why": "one definition; the idempotency key task exercises it",
+      "by": "judged"
+    },
+    "sd-idempotency-keys": {
+      "fit": "code",
+      "why": "an idempotency-key store and an idempotent consumer are small programs to test",
+      "by": "judged"
+    },
+    "sd-polling-long-polling": {
+      "fit": "design",
+      "why": "request rate and delay of polling are numbers to compare",
+      "by": "judged"
+    },
+    "sd-websockets": {
+      "fit": "design",
+      "why": "sizing connection servers by open connections is a numbers question",
+      "by": "judged"
+    },
+    "sd-realtime-at-scale": {
+      "fit": "design",
+      "why": "routing a message to the right connection server is designed end to end",
+      "by": "judged"
+    },
+    "sd-fan-out": {
+      "fit": "design",
+      "why": "fan-out writes per second decide write versus read fan-out",
+      "by": "judged"
+    },
+    "sd-availability-nines": {
+      "fit": "design",
+      "why": "downtime budgets are numbers to work out",
+      "by": "judged"
+    },
+    "sd-availability-series-parallel": {
+      "fit": "design",
+      "why": "series and parallel availability are computed for a design",
+      "by": "judged"
+    },
+    "sd-single-points-of-failure": {
+      "fit": "design",
+      "why": "finding and removing single points of failure is done on a concrete design",
+      "by": "judged"
+    },
+    "sd-health-checks-heartbeats": {
+      "fit": "design",
+      "why": "detection time against false alarms is tuned with numbers",
+      "by": "judged"
+    },
+    "sd-failover": {
+      "fit": "written",
+      "why": "active-passive versus active-active and the data lost on failover are explained",
+      "by": "judged"
+    },
+    "sd-timeouts": {
+      "fit": "design",
+      "why": "a timeout is set from the dependency's p99 and the caller's deadline: numbers",
+      "by": "judged"
+    },
+    "sd-retry-backoff-jitter": {
+      "fit": "code",
+      "why": "a retry loop with capped exponential backoff and jitter is a small program to test",
+      "by": "judged"
+    },
+    "sd-circuit-breaker": {
+      "fit": "code",
+      "why": "a breaker's closed, open and half-open states are a small state machine to implement",
+      "by": "judged"
+    },
+    "sd-sagas": {
+      "fit": "written",
+      "why": "compensating steps and orchestration versus choreography are explained for a flow",
+      "by": "judged"
+    },
+    "sd-monitoring-observability": {
+      "fit": "none",
+      "why": "the signals and golden signals are recall; the failure review uses them",
+      "by": "judged"
+    },
+    "sd-security-overview": {
+      "fit": "written",
+      "why": "where authentication and authorization are checked is explained for a request",
+      "by": "judged"
+    },
+    "sd-reliability-review": {
+      "fit": "design",
+      "why": "walking a design's failure modes with an availability figure is a design exercise",
+      "by": "judged"
+    },
+    "sd-case-url-shortener": {
+      "fit": "design",
+      "why": "the classic case: code length, cache and redirect choices with numbers",
+      "by": "judged"
+    },
+    "sd-case-news-feed": {
+      "fit": "design",
+      "why": "fan-out, timeline cache and storage split are designed with numbers",
+      "by": "judged"
+    },
+    "sd-case-chat": {
+      "fit": "design",
+      "why": "connection routing, ordering and offline delivery are designed end to end",
+      "by": "judged"
+    },
+    "sd-geohash": {
+      "fit": "code",
+      "why": "encoding a location as a geohash is a small program with checkable output",
+      "by": "judged"
+    },
+    "sd-case-ride-hailing": {
+      "fit": "design",
+      "why": "location write load, matching and double dispatch are designed with numbers",
+      "by": "judged"
+    },
+    "sd-mock-method": {
+      "fit": "none",
+      "why": "how to run and score a mock; the mocks themselves are the practice",
+      "by": "judged"
+    },
+    "sd-mock-url-shortener": {
+      "fit": "design",
+      "why": "a timed mock is itself a design answer",
+      "by": "judged"
+    },
+    "sd-mock-news-feed": {
+      "fit": "design",
+      "why": "a timed mock is itself a design answer",
+      "by": "judged"
+    },
+    "sd-mock-chat": {
+      "fit": "design",
+      "why": "a timed mock is itself a design answer",
+      "by": "judged"
+    },
+    "sd-mock-ride-hailing": {
+      "fit": "design",
+      "why": "a timed mock is itself a design answer",
+      "by": "judged"
+    },
+    "sd-mock-unseen-prompt": {
+      "fit": "design",
+      "why": "an unseen prompt is the final design answer",
+      "by": "judged"
+    }
+  },
+  "tasks": [
+    {
+      "id": "system-design-tryit-sd-dns-routing",
+      "topic": "sd-dns-routing",
+      "format": "design",
+      "topics": [
+        "sd-dns",
+        "sd-dns-records",
+        "sd-dns-routing"
+      ],
+      "minutes": 20,
+      "written": true
+    },
+    {
+      "id": "system-design-tryit-sd-rpc",
+      "topic": "sd-rpc",
+      "format": "written",
+      "topics": [
+        "sd-latency-throughput",
+        "sd-rest",
+        "sd-rpc"
+      ],
+      "minutes": 20,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-data-model",
+      "topic": "sd-data-model",
+      "format": "design",
+      "topics": [
+        "sd-requirements",
+        "sd-api-design",
+        "sd-data-model"
+      ],
+      "minutes": 21,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-bandwidth-estimate",
+      "topic": "sd-bandwidth-estimate",
+      "format": "design",
+      "topics": [
+        "sd-qps-estimate",
+        "sd-storage-estimate",
+        "sd-bandwidth-estimate"
+      ],
+      "minutes": 21,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-bottlenecks",
+      "topic": "sd-bottlenecks",
+      "format": "written",
+      "topics": [
+        "sd-high-level-design",
+        "sd-bottlenecks"
+      ],
+      "minutes": 12,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-load-balancers",
+      "topic": "sd-load-balancers",
+      "format": "written",
+      "topics": [
+        "sd-vertical-horizontal-scaling",
+        "sd-stateless-services",
+        "sd-load-balancers"
+      ],
+      "minutes": 18,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-api-gateway",
+      "topic": "sd-api-gateway",
+      "format": "written",
+      "topics": [
+        "sd-cdn",
+        "sd-push-pull-cdn",
+        "sd-api-gateway"
+      ],
+      "minutes": 18,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-scale-to-millions",
+      "topic": "sd-scale-to-millions",
+      "format": "code",
+      "topics": [
+        "sd-rate-limiting",
+        "sd-scale-to-millions"
+      ],
+      "minutes": 20,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-cache-invalidation-ttl",
+      "topic": "sd-cache-invalidation-ttl",
+      "format": "code",
+      "topics": [
+        "sd-cache-layers",
+        "sd-cache-aside",
+        "sd-cache-invalidation-ttl"
+      ],
+      "minutes": 21,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-choose-cache-strategy",
+      "topic": "sd-choose-cache-strategy",
+      "format": "written",
+      "topics": [
+        "sd-read-write-through",
+        "sd-choose-cache-strategy"
+      ],
+      "minutes": 12,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-denormalization",
+      "topic": "sd-denormalization",
+      "format": "written",
+      "topics": [
+        "sd-relational-acid",
+        "sd-denormalization"
+      ],
+      "minutes": 14,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-sql-vs-nosql",
+      "topic": "sd-sql-vs-nosql",
+      "format": "design",
+      "topics": [
+        "sd-wide-column-store",
+        "sd-object-storage",
+        "sd-sql-vs-nosql"
+      ],
+      "minutes": 21,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-replication-lag",
+      "topic": "sd-replication-lag",
+      "format": "written",
+      "topics": [
+        "sd-replication-leader-follower",
+        "sd-sync-async-replication",
+        "sd-replication-lag"
+      ],
+      "minutes": 16,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-quorum",
+      "topic": "sd-quorum",
+      "format": "written",
+      "topics": [
+        "sd-consistency-models",
+        "sd-cap-theorem",
+        "sd-quorum"
+      ],
+      "minutes": 20,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-shard-key",
+      "topic": "sd-shard-key",
+      "format": "written",
+      "topics": [
+        "sd-partitioning-basics",
+        "sd-sharding-strategies",
+        "sd-shard-key"
+      ],
+      "minutes": 20,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-task-queues-background-jobs",
+      "topic": "sd-task-queues-background-jobs",
+      "format": "written",
+      "topics": [
+        "sd-sync-vs-async",
+        "sd-message-queues",
+        "sd-task-queues-background-jobs"
+      ],
+      "minutes": 16,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-idempotency-keys",
+      "topic": "sd-idempotency-keys",
+      "format": "code",
+      "topics": [
+        "sd-delivery-guarantees",
+        "sd-idempotency",
+        "sd-idempotency-keys"
+      ],
+      "minutes": 21,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-realtime-at-scale",
+      "topic": "sd-realtime-at-scale",
+      "format": "design",
+      "topics": [
+        "sd-polling-long-polling",
+        "sd-websockets",
+        "sd-realtime-at-scale"
+      ],
+      "minutes": 21,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-single-points-of-failure",
+      "topic": "sd-single-points-of-failure",
+      "format": "design",
+      "topics": [
+        "sd-availability-nines",
+        "sd-availability-series-parallel",
+        "sd-single-points-of-failure"
+      ],
+      "minutes": 21,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-circuit-breaker",
+      "topic": "sd-circuit-breaker",
+      "format": "code",
+      "topics": [
+        "sd-timeouts",
+        "sd-retry-backoff-jitter",
+        "sd-circuit-breaker"
+      ],
+      "minutes": 21,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-reliability-review",
+      "topic": "sd-reliability-review",
+      "format": "written",
+      "topics": [
+        "sd-monitoring-observability",
+        "sd-security-overview",
+        "sd-reliability-review"
+      ],
+      "minutes": 20,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-case-chat",
+      "topic": "sd-case-chat",
+      "format": "design",
+      "topics": [
+        "sd-case-news-feed",
+        "sd-case-chat"
+      ],
+      "minutes": 21,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-case-ride-hailing",
+      "topic": "sd-case-ride-hailing",
+      "format": "code",
+      "topics": [
+        "sd-geohash",
+        "sd-case-ride-hailing"
+      ],
+      "minutes": 21,
+      "written": false
+    },
+    {
+      "id": "system-design-tryit-sd-mock-unseen-prompt",
+      "topic": "sd-mock-unseen-prompt",
+      "format": "design",
+      "topics": [
+        "sd-mock-chat",
+        "sd-mock-ride-hailing",
+        "sd-mock-unseen-prompt"
+      ],
+      "minutes": 21,
+      "written": false
+    }
+  ],
+  "minutes": {
+    "course": 3141,
+    "cap": 471,
+    "used": 457
+  },
+  "updated": "2026-11-20"
+}

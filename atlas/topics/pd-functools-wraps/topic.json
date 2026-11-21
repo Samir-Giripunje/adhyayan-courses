@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-functools-wraps",
+  "version": 1,
+  "title": "Preserving metadata with functools.wraps",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-wrapper-hides-metadata",
+      "version": 1,
+      "statement": "Without functools.wraps, the decorated name's __name__ and __doc__ are those of the wrapper, not of the original function."
+    },
+    {
+      "id": "kc-wraps-copies",
+      "version": 1,
+      "statement": "Applying @functools.wraps(func) to the wrapper copies __module__, __name__, __qualname__, __doc__ and __annotations__ from func and merges func's __dict__ into the wrapper's."
+    },
+    {
+      "id": "kc-wrapped-attribute",
+      "version": 1,
+      "statement": "functools.wraps sets wrapper.__wrapped__ to func, so inspect.signature reports the original signature and the undecorated function stays reachable."
+    }
+  ],
+  "mode_hint": "code",
+  "requires": [
+    "pd-wrapper-functions"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "functools.wraps",
+    "__wrapped__"
+  ],
+  "uses": [
+    "wrapper function",
+    "decorator"
+  ],
+  "problem_ideas": [
+    "Predict help(f) output for a decorated function with and without wraps",
+    "Add wraps to a @log_calls decorator and check __name__ and __doc__",
+    "Call f.__wrapped__ to bypass a slow decorator in a test",
+    "Compare inspect.signature(f) before and after adding wraps",
+    "Explain why two decorated functions both show up as 'wrapper' in a stack trace",
+    "Write a decorator that copies metadata by hand, then replace it with wraps"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "examples/examples"
+    },
+    {
+      "source": "functools-docs",
+      "entry": "class-partial-objects/class-partial-objects"
+    }
+  ],
+  "status": "stub"
+}

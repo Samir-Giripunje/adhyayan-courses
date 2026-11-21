@@ -1,0 +1,34 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u3-estimation",
+  "title": "Back-of-the-envelope estimation",
+  "topics": [
+    {
+      "id": "sd-estimation-method",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-qps-estimate",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-storage-estimate",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "sd-bandwidth-estimate",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "sd-server-memory-estimate",
+      "tier": "optional",
+      "order": 5
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

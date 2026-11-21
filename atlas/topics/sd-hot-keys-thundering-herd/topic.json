@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-hot-keys-thundering-herd",
+  "version": 1,
+  "title": "Hot keys and the thundering herd",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-hot-key",
+      "version": 1,
+      "statement": "A hot key is a single key receiving a disproportionate share of traffic; because it lives on one cache node, adding nodes does not spread its load, so it is replicated or cached locally on each server."
+    },
+    {
+      "id": "kc-thundering-herd",
+      "version": 1,
+      "statement": "A thundering herd (cache stampede) happens when a popular entry expires or is evicted and many concurrent misses all query the database at once to rebuild it."
+    },
+    {
+      "id": "kc-stampede-fixes",
+      "version": 1,
+      "statement": "Request coalescing (one rebuild per key while others wait), TTL jitter (randomised expiry times) and refresh-ahead each prevent stampedes on popular keys."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-distributed-cache",
+    "sd-cache-invalidation-ttl"
+  ],
+  "suggests": [
+    "sd-refresh-ahead"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "hot key",
+    "thundering herd",
+    "request coalescing",
+    "ttl jitter"
+  ],
+  "uses": [
+    "distributed cache",
+    "cache node",
+    "ttl",
+    "refresh-ahead",
+    "cache miss",
+    "qps"
+  ],
+  "problem_ideas": [
+    "A celebrity profile gets 500,000 reads/s and a cache node handles 100,000: propose a fix",
+    "10,000 requests/s hit an expired key with a 200 ms rebuild: how many DB queries without coalescing?",
+    "All product keys were loaded at startup with TTL 3600 s: predict what happens an hour later",
+    "Add ±10% jitter to a 300 s TTL and describe the resulting expiry window",
+    "Choose between key replication and local caching for a viral post",
+    "Write the steps of request coalescing for one key"
+  ],
+  "sources": [
+    {
+      "source": "awesome-sd",
+      "entry": "caching-fundamentals/distributed-caching"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "cache/cache"
+    }
+  ],
+  "status": "stub"
+}

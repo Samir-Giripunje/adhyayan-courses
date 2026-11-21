@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-aws-budgets",
+  "version": 1,
+  "title": "AWS Budgets: alerts before you overspend",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-budget-types",
+      "version": 1,
+      "statement": "AWS Budgets tracks custom cost budgets, usage budgets, and Reserved Instance or Savings Plans utilization and coverage budgets against thresholds you set."
+    },
+    {
+      "id": "kc-budget-forecast-alerts",
+      "version": 1,
+      "statement": "AWS Budgets sends alerts by email or SNS when actual or forecasted spend crosses a threshold, unlike a CloudWatch billing alarm, which fires only on actual estimated charges."
+    },
+    {
+      "id": "kc-budget-actions",
+      "version": 1,
+      "statement": "Budget actions can respond automatically to a breached budget by applying an IAM policy or SCP, or by stopping specific EC2 or RDS instances."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-cloudwatch-alarms"
+  ],
+  "confusable_with": [
+    "clf-cloudwatch-alarms",
+    "clf-cost-explorer-cur"
+  ],
+  "introduces": [
+    "aws budgets",
+    "budget alert",
+    "budget action"
+  ],
+  "uses": [
+    "billing alarm",
+    "cloudwatch alarm",
+    "sns",
+    "iam policy",
+    "service control policy",
+    "reserved instances",
+    "savings plans"
+  ],
+  "problem_ideas": [
+    "A startup wants an email when the month is forecast to exceed $500, before it actually does: Budgets or a billing alarm?",
+    "A sandbox account must automatically stop its EC2 instances at $200 of spend: which feature?",
+    "A company bought RIs and wants an alert if utilization drops below 80%: which budget type?",
+    "A billing alarm and a budget are both set at $1,000: which one can fire on the 10th of the month while spend is $400?",
+    "Route budget alerts to a Slack channel: which messaging service sits in between?",
+    "Spot the false statement: 'AWS Budgets shows a 12-month cost history chart by service.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-2-understand-resources-/understanding-the-appropriate-uses-and-c"
+    }
+  ],
+  "status": "stub"
+}

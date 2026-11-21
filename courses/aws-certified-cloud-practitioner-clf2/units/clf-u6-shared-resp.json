@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u6-shared-resp",
+  "title": "The shared responsibility model",
+  "topics": [
+    {
+      "id": "clf-shared-responsibility-model",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-shared-responsibility-by-service",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-shared-controls",
+      "tier": "must",
+      "order": 3
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

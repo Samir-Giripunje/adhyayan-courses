@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-leader-election",
+  "version": 1,
+  "title": "Leader election, split brain and fencing",
+  "size": "standard",
+  "est_min": 25,
+  "kcs": [
+    {
+      "id": "kc-leader-election-why",
+      "version": 1,
+      "statement": "Leader election picks exactly one node to perform a role, such as accepting writes or running a scheduler, and picks a new one when heartbeats show the leader is gone."
+    },
+    {
+      "id": "kc-split-brain",
+      "version": 1,
+      "statement": "Split brain happens when a network partition lets two nodes both believe they are leader; requiring votes from a majority prevents it because only one side of a partition can hold a majority."
+    },
+    {
+      "id": "kc-fencing-token",
+      "version": 1,
+      "statement": "A leader holds a time-limited lease, and a fencing token (a number that increases with each new leader) lets storage reject writes from a stale former leader whose lease has expired."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-health-checks-heartbeats"
+  ],
+  "suggests": [
+    "sd-failover",
+    "sd-consensus"
+  ],
+  "confusable_with": [
+    "sd-consensus"
+  ],
+  "introduces": [
+    "leader election",
+    "split brain",
+    "lease",
+    "fencing token"
+  ],
+  "uses": [
+    "heartbeat",
+    "leader-follower replication",
+    "failover",
+    "network partition"
+  ],
+  "problem_ideas": [
+    "A cron scheduler runs on 3 nodes: how do you make each job run once?",
+    "A 5-node cluster splits 3/2: which side may elect a leader, and why?",
+    "An old leader wakes from a 40 s GC pause and writes: how does a fencing token stop it?",
+    "Lease 10 s, heartbeat 3 s: worst-case time with no leader after a crash",
+    "Two database primaries accepted writes for 30 s: list the consequences",
+    "Why is an even number of voting nodes a poor choice?"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "design-implementation/leader-election"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "security/leader-election"
+    }
+  ],
+  "status": "stub"
+}

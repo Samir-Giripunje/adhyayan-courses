@@ -1,0 +1,570 @@
+{
+  "answer": "A **cloud deployment model** says where an application's parts run: all in the cloud, all in your own data center (**on-premises**, or **private cloud**), or split across both and connected (**hybrid cloud**).",
+  "example": "Take a bank's mobile app and the account records behind it. **Cloud:** the app and the records both run in AWS. **Hybrid:** the records stay on the bank's mainframe (a large central computer) in its own data center. The app runs in AWS and reads them over a private network link. **On-premises:** the app and the records both run on servers the bank owns, in its own building.",
+  "how": {
+    "md": "Ask two questions about each part of the application.\n\n1. **Where does it run?** In the provider's data centers (the cloud) or in the organisation's own data center (on premises)?\n2. **If parts sit in both places, are they connected?** A hybrid deployment links them, so cloud resources and on-premises systems work as one application.\n\nThen classify:\n\n- Everything in the cloud → **cloud (all-in)**, whether the app was built there or migrated (moved) from on premises.\n- Everything on premises → **on-premises (private cloud)**. Virtualisation software (it splits one physical server into many virtual ones) and resource management tools give teams self-service servers. You keep full control, but you buy the hardware upfront, so you lose pay-as-you-go pricing.\n- Some in each, connected → **hybrid**.\n\nHybrid is about *where* things run, not about mixing IaaS and SaaS.",
+    "visual": {
+      "type": "diagram",
+      "id": "dg-hybrid-bank",
+      "kind": "architecture",
+      "title": "Hybrid: the bank's app in AWS, records at home",
+      "alt": "A hybrid deployment. Customers use the mobile app, which runs in AWS. The app reads account records from the mainframe in the bank's own data center over a private network link. Moving both into AWS would make it cloud; keeping both in the data center would make it on-premises.",
+      "caption_md": "Move the records into AWS too and it is **cloud (all-in)**; keep the app in the data center too and it is **on-premises**.",
+      "spec": {
+        "nodes": [
+          {
+            "id": "user",
+            "type": "user",
+            "label": "Customers",
+            "sub": "phones"
+          },
+          {
+            "id": "app",
+            "type": "service",
+            "label": "App backend",
+            "sub": "runs in AWS"
+          },
+          {
+            "id": "rec",
+            "type": "db",
+            "label": "Account records",
+            "sub": "on the mainframe"
+          }
+        ],
+        "edges": [
+          {
+            "from": "user",
+            "to": "app",
+            "label": "use the app"
+          },
+          {
+            "from": "app",
+            "to": "rec",
+            "label": "private link",
+            "dir": "both"
+          }
+        ],
+        "zones": [
+          {
+            "label": "Cloud (AWS)",
+            "nodes": [
+              "app"
+            ]
+          },
+          {
+            "label": "Bank's data center",
+            "nodes": [
+              "rec"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "check": {
+    "id": "q-deploy-hospital",
+    "kind": "mcq",
+    "difficulty": 1,
+    "kcs": [
+      "kc-hybrid-deployment",
+      "kc-cloud-deployment-all-in",
+      "kc-on-premises-private-cloud"
+    ],
+    "prompt_md": "A hospital keeps its patient-records system in its own data center. Its new appointment website runs in AWS and reads from that system. Which deployment model is this?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Hybrid",
+        "correct": true,
+        "why_md": "Right. One part runs on premises, one part runs in AWS, and the two are connected."
+      },
+      {
+        "id": "b",
+        "md": "Cloud (all-in)",
+        "correct": false,
+        "why_md": "All-in means every part runs in the cloud. The patient-records system still runs in the hospital's own data center.",
+        "misconception": "mc-any-cloud-is-all-in"
+      },
+      {
+        "id": "c",
+        "md": "On-premises (private cloud)",
+        "correct": false,
+        "why_md": "On-premises means every part runs in the hospital's own data center. The website runs in AWS."
+      }
+    ]
+  },
+  "deeper": [
+    {
+      "title": "Hybrid is about place, not service model",
+      "md": "IaaS, PaaS and SaaS say who manages what. Deployment models say where the application runs. A company that uses Amazon EC2 (IaaS) and Gmail (SaaS), with nothing on its own servers, is all-in cloud, not hybrid. Hybrid needs at least one part running on premises, connected to resources in the cloud."
+    },
+    {
+      "title": "Why some organisations keep a private cloud",
+      "md": "Common reasons are strict rules on where data may be stored, old systems that are hard to move, and servers the company has already paid for. The trade-off: the company buys servers for its busiest day, pays for them even when they sit idle, and runs the building, power and repairs itself.\n\nThe **public cloud** is capacity rented from a provider such as AWS and shared among many customers. It avoids those upfront costs. Outside the AWS exam's wording, \"private cloud\" can also mean dedicated hardware hosted by a third party."
+    },
+    {
+      "title": "Exam angle: spot the clue words",
+      "md": "CLF-C02 questions describe a company and ask for the model.\n\n- \"Built entirely in AWS\" or \"migrated everything to AWS\" → cloud (all-in).\n- \"Keep the legacy system on site and connect it to AWS\" → hybrid.\n- \"Virtualisation in our own data center\" or \"full control of the hardware\" → on-premises (private cloud).\n\nAWS Outposts, which puts AWS-managed hardware in your own data center, is one AWS service used for hybrid setups."
+    }
+  ],
+  "visual_fit": {
+    "kind": "architecture",
+    "why": "A deployment model is about where each part runs and whether the places are linked: spatial structure."
+  },
+  "glossary": [
+    {
+      "term": "cloud deployment model",
+      "md": "Where an application's parts run: all in the cloud, all in the organisation's own data center, or split across both and connected."
+    },
+    {
+      "term": "hybrid cloud",
+      "md": "A deployment that connects cloud resources to on-premises systems, for example a legacy system in the company data center serving a new app in AWS."
+    },
+    {
+      "term": "on-premises deployment",
+      "md": "A deployment where every part of the application runs on servers the organisation owns, in its own data center, managed with virtualisation and resource management tools."
+    },
+    {
+      "term": "private cloud",
+      "md": "Another name for an on-premises deployment: cloud-style self-service servers in the organisation's own data center. Full control, but no pay-as-you-go savings."
+    }
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-hybrid-means-mixed-services",
+      "statement": "Hybrid means using both IaaS and SaaS (or several cloud services together).",
+      "tags": [
+        "kc-hybrid-deployment"
+      ]
+    },
+    {
+      "id": "mc-any-cloud-is-all-in",
+      "statement": "If any part of the application runs in AWS, the deployment is all-in cloud.",
+      "tags": [
+        "kc-cloud-deployment-all-in",
+        "kc-hybrid-deployment"
+      ]
+    },
+    {
+      "id": "mc-migrated-not-all-in",
+      "statement": "An application moved from on premises to the cloud cannot count as an all-in cloud deployment.",
+      "tags": [
+        "kc-cloud-deployment-all-in"
+      ]
+    },
+    {
+      "id": "mc-private-cloud-saves-money",
+      "statement": "A private cloud gives the same cost benefits as the public cloud because it uses virtualisation.",
+      "tags": [
+        "kc-on-premises-private-cloud"
+      ]
+    }
+  ],
+  "recap": {
+    "pitfall": "Hybrid means some parts on premises and some in the cloud, connected; it does not mean mixing IaaS and SaaS."
+  },
+  "anticipated_doubts": [
+    {
+      "id": "d-hybrid-iaas-saas",
+      "beat": "b-lesson",
+      "question": "If my company uses IaaS and SaaS together, isn't that hybrid?",
+      "match": [
+        "iaas and saas",
+        "both iaas",
+        "mixing services",
+        "hybrid means both"
+      ],
+      "answer_md": "No. IaaS and SaaS describe who manages what. Hybrid describes where things run. If every service you use runs in the cloud, you are all-in cloud, however many service types you mix.",
+      "deeper_md": "Hybrid needs one more ingredient: something still running in your own data center, connected to the cloud part.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Service model vs place",
+        "md": "Company A uses Amazon EC2 and Gmail, and owns no servers: all-in cloud. Company B uses only EC2, but its EC2 app reads from a database in its own building: hybrid. The service types do not decide the model; the location does.",
+        "verify": {
+          "id": "q-br-hybrid-iaas-saas",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-hybrid-deployment"
+          ],
+          "prompt_md": "A startup runs its app on Amazon EC2 and uses a SaaS email tool. It has no servers of its own. Which model is this?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Cloud (all-in)",
+              "correct": true,
+              "why_md": "Right. Every part runs in the cloud, so it is all-in, whatever service types it uses."
+            },
+            {
+              "id": "b",
+              "md": "Hybrid",
+              "correct": false,
+              "why_md": "Hybrid needs something on premises. Mixing IaaS and SaaS is not hybrid.",
+              "misconception": "mc-hybrid-means-mixed-services"
+            },
+            {
+              "id": "c",
+              "md": "On-premises",
+              "correct": false,
+              "why_md": "The startup owns no servers, so nothing runs on premises."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-private-cloud-cost",
+      "beat": "b-lesson",
+      "question": "If a private cloud uses virtualisation like AWS does, why doesn't it save money the same way?",
+      "match": [
+        "private cloud cost",
+        "save money",
+        "why not cheaper",
+        "cost benefits"
+      ],
+      "answer_md": "Virtualisation shares your own servers well, but you still buy them upfront, sized for your busiest day. You pay for them when they sit idle, plus the building, power and repairs. Pay-as-you-go needs someone else to own the hardware.",
+      "deeper_md": "The public cloud spreads hardware across many customers, so you rent only what you use and hand back the rest.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Paying for the peak",
+        "md": "Say an app needs 10 servers on its busiest day and 2 on a normal day. On premises you buy all 10 and pay for them every day. In the cloud you rent 2 most days and 10 only on the busy day.",
+        "verify": {
+          "id": "q-br-private-cloud-cost",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-on-premises-private-cloud"
+          ],
+          "prompt_md": "What does a private cloud give up compared with the public cloud?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Pay-as-you-go cost benefits",
+              "correct": true,
+              "why_md": "Right. The organisation buys and runs its own hardware upfront."
+            },
+            {
+              "id": "b",
+              "md": "Control over the hardware",
+              "correct": false,
+              "why_md": "The opposite: a private cloud gives full control, because the organisation owns the hardware."
+            },
+            {
+              "id": "c",
+              "md": "Virtualisation",
+              "correct": false,
+              "why_md": "A private cloud uses virtualisation and resource management tools in its own data center.",
+              "misconception": "mc-private-cloud-saves-money"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d-migrated-all-in",
+      "beat": "b-lesson",
+      "question": "If we moved our app from our own servers into AWS, is that still all-in cloud?",
+      "match": [
+        "migrated app",
+        "moved to aws",
+        "still all-in",
+        "built from scratch"
+      ],
+      "answer_md": "Yes. All-in cloud means every part runs in the cloud now. It does not matter whether the app was built there or migrated from on premises.",
+      "deeper_md": "What matters is what is left behind. If one piece still runs in your data center and connects to the cloud, the deployment is hybrid.",
+      "bridge": {
+        "kind": "rewind",
+        "title": "Look at where it runs today",
+        "md": "Ignore the app's history. List each part and where it runs now. All in the cloud: all-in. All in your data center: on-premises. Some in each, connected: hybrid.",
+        "verify": {
+          "id": "q-br-migrated-all-in",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-cloud-deployment-all-in"
+          ],
+          "prompt_md": "A company moves every part of its online shop from its own servers to AWS and shuts the servers down. Which model is it now?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Cloud (all-in)",
+              "correct": true,
+              "why_md": "Right. Every part now runs in the cloud; being migrated does not change that."
+            },
+            {
+              "id": "b",
+              "md": "Hybrid",
+              "correct": false,
+              "why_md": "Nothing still runs on premises, so there is nothing to connect.",
+              "misconception": "mc-migrated-not-all-in"
+            },
+            {
+              "id": "c",
+              "md": "On-premises",
+              "correct": false,
+              "why_md": "The company's own servers are shut down; nothing runs in its data center."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "depth_threads": [
+    {
+      "id": "dt-hybrid-connectivity",
+      "kind": "implementation",
+      "title": "How hybrid links are built: VPN, Direct Connect and Outposts",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-private-vs-public-cost",
+      "kind": "math",
+      "title": "Owning for the peak vs renting by the hour",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "schema": "adhy.topic/2",
+  "id": "clf-deployment-models",
+  "version": 1,
+  "title": "Cloud, hybrid and on-premises deployment",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-cloud-deployment-all-in",
+      "version": 1,
+      "statement": "In a cloud (all-in) deployment, every part of the application runs in the cloud, whether it was built there or migrated from on premises."
+    },
+    {
+      "id": "kc-hybrid-deployment",
+      "version": 1,
+      "statement": "A hybrid deployment connects cloud resources to on-premises infrastructure, for example keeping a legacy system in the company data center while new features run in AWS."
+    },
+    {
+      "id": "kc-on-premises-private-cloud",
+      "version": 1,
+      "statement": "An on-premises deployment, also called a private cloud, uses virtualisation and resource management tools in the organisation's own data center; it gives full control but not the cost benefits of the public cloud."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-what-is-cloud-computing"
+  ],
+  "suggests": [
+    "clf-migration-strategies"
+  ],
+  "confusable_with": [
+    "clf-service-models"
+  ],
+  "introduces": [
+    "cloud deployment model",
+    "hybrid cloud",
+    "on-premises deployment",
+    "private cloud"
+  ],
+  "uses": [
+    "cloud computing",
+    "data center"
+  ],
+  "problem_ideas": [
+    "A bank must keep its mainframe on site but wants to run a new mobile app in AWS: name the deployment model.",
+    "A new startup builds everything in AWS from day one: which deployment model is this?",
+    "A government agency runs VMware in its own building with self-service provisioning: classify it.",
+    "Match four company descriptions to cloud, hybrid or on-premises.",
+    "List one benefit and one drawback of keeping a private cloud versus going all-in.",
+    "Spot the confusion: 'Hybrid means using both IaaS and SaaS.' Explain why it is wrong."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-1-define-methods-of-dep/types-of-cloud-deployment-models"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-1-define-methods-of-dep/identifying-deployment-models-for-exampl"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "dynamodb/public-vs-private-vs-hybrid-cloud"
+    }
+  ],
+  "mode": "quiz",
+  "exit_ticket": [
+    "clf-deployment-models/exit-1",
+    "clf-deployment-models/exit-2",
+    "clf-deployment-models/exit-3"
+  ],
+  "status": "drafted",
+  "provenance": {
+    "origin": "generated",
+    "job": "lesson-clf-deployment-models"
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "title": "Cloud, hybrid and on-premises deployment",
+      "beats": [
+        {
+          "id": "b-lesson",
+          "title": "Cloud, hybrid and on-premises deployment",
+          "kcs": [
+            "kc-cloud-deployment-all-in",
+            "kc-hybrid-deployment",
+            "kc-on-premises-private-cloud"
+          ],
+          "est_minutes": 7,
+          "blocks": [
+            {
+              "id": "blk-clf-deployment-models-01",
+              "block": {
+                "type": "prose",
+                "md": "A **cloud deployment model** says where an application's parts run: all in the cloud, all in your own data center (**on-premises**, or **private cloud**), or split across both and connected (**hybrid cloud**)."
+              }
+            },
+            {
+              "id": "blk-clf-deployment-models-02",
+              "block": {
+                "type": "prose",
+                "md": "Take a bank's mobile app and the account records behind it. **Cloud:** the app and the records both run in AWS. **Hybrid:** the records stay on the bank's mainframe (a large central computer) in its own data center. The app runs in AWS and reads them over a private network link. **On-premises:** the app and the records both run on servers the bank owns, in its own building."
+              }
+            },
+            {
+              "id": "blk-clf-deployment-models-03",
+              "block": {
+                "type": "prose",
+                "md": "Ask two questions about each part of the application.\n\n1. **Where does it run?** In the provider's data centers (the cloud) or in the organisation's own data center (on premises)?\n2. **If parts sit in both places, are they connected?** A hybrid deployment links them, so cloud resources and on-premises systems work as one application.\n\nThen classify:\n\n- Everything in the cloud → **cloud (all-in)**, whether the app was built there or migrated (moved) from on premises.\n- Everything on premises → **on-premises (private cloud)**. Virtualisation software (it splits one physical server into many virtual ones) and resource management tools give teams self-service servers. You keep full control, but you buy the hardware upfront, so you lose pay-as-you-go pricing.\n- Some in each, connected → **hybrid**.\n\nHybrid is about *where* things run, not about mixing IaaS and SaaS."
+              }
+            },
+            {
+              "id": "blk-clf-deployment-models-04",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-deploy-hospital",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-hybrid-deployment",
+                    "kc-cloud-deployment-all-in",
+                    "kc-on-premises-private-cloud"
+                  ],
+                  "prompt_md": "A hospital keeps its patient-records system in its own data center. Its new appointment website runs in AWS and reads from that system. Which deployment model is this?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "Hybrid",
+                      "correct": true,
+                      "why_md": "Right. One part runs on premises, one part runs in AWS, and the two are connected."
+                    },
+                    {
+                      "id": "b",
+                      "md": "Cloud (all-in)",
+                      "correct": false,
+                      "why_md": "All-in means every part runs in the cloud. The patient-records system still runs in the hospital's own data center.",
+                      "misconception": "mc-any-cloud-is-all-in"
+                    },
+                    {
+                      "id": "c",
+                      "md": "On-premises (private cloud)",
+                      "correct": false,
+                      "why_md": "On-premises means every part runs in the hospital's own data center. The website runs in AWS."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "blk-clf-deployment-models-05",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Hybrid is about place, not service model",
+                "md": "IaaS, PaaS and SaaS say who manages what. Deployment models say where the application runs. A company that uses Amazon EC2 (IaaS) and Gmail (SaaS), with nothing on its own servers, is all-in cloud, not hybrid. Hybrid needs at least one part running on premises, connected to resources in the cloud."
+              }
+            },
+            {
+              "id": "blk-clf-deployment-models-06",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Why some organisations keep a private cloud",
+                "md": "Common reasons are strict rules on where data may be stored, old systems that are hard to move, and servers the company has already paid for. The trade-off: the company buys servers for its busiest day, pays for them even when they sit idle, and runs the building, power and repairs itself.\n\nThe **public cloud** is capacity rented from a provider such as AWS and shared among many customers. It avoids those upfront costs. Outside the AWS exam's wording, \"private cloud\" can also mean dedicated hardware hosted by a third party."
+              }
+            },
+            {
+              "id": "blk-clf-deployment-models-07",
+              "block": {
+                "type": "callout",
+                "kind": "tip",
+                "title": "Exam angle: spot the clue words",
+                "md": "CLF-C02 questions describe a company and ask for the model.\n\n- \"Built entirely in AWS\" or \"migrated everything to AWS\" → cloud (all-in).\n- \"Keep the legacy system on site and connect it to AWS\" → hybrid.\n- \"Virtualisation in our own data center\" or \"full control of the hardware\" → on-premises (private cloud).\n\nAWS Outposts, which puts AWS-managed hardware in your own data center, is one AWS service used for hybrid setups."
+              }
+            },
+            {
+              "id": "blk-clf-deployment-models-08",
+              "block": {
+                "type": "diagram",
+                "id": "dg-hybrid-bank",
+                "kind": "architecture",
+                "title": "Hybrid: the bank's app in AWS, records at home",
+                "alt": "A hybrid deployment. Customers use the mobile app, which runs in AWS. The app reads account records from the mainframe in the bank's own data center over a private network link. Moving both into AWS would make it cloud; keeping both in the data center would make it on-premises.",
+                "caption_md": "Move the records into AWS too and it is **cloud (all-in)**; keep the app in the data center too and it is **on-premises**.",
+                "spec": {
+                  "nodes": [
+                    {
+                      "id": "user",
+                      "type": "user",
+                      "label": "Customers",
+                      "sub": "phones"
+                    },
+                    {
+                      "id": "app",
+                      "type": "service",
+                      "label": "App backend",
+                      "sub": "runs in AWS"
+                    },
+                    {
+                      "id": "rec",
+                      "type": "db",
+                      "label": "Account records",
+                      "sub": "on the mainframe"
+                    }
+                  ],
+                  "edges": [
+                    {
+                      "from": "user",
+                      "to": "app",
+                      "label": "use the app"
+                    },
+                    {
+                      "from": "app",
+                      "to": "rec",
+                      "label": "private link",
+                      "dir": "both"
+                    }
+                  ],
+                  "zones": [
+                    {
+                      "label": "Cloud (AWS)",
+                      "nodes": [
+                        "app"
+                      ]
+                    },
+                    {
+                      "label": "Bank's data center",
+                      "nodes": [
+                        "rec"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

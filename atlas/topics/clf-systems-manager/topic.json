@@ -1,0 +1,64 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-systems-manager",
+  "version": 1,
+  "title": "AWS Systems Manager: operating fleets of servers",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-ssm-fleet-ops",
+      "version": 1,
+      "statement": "AWS Systems Manager gives one place to view and operate fleets of EC2 instances and on-premises servers, such as running commands and patching at scale, through the SSM Agent installed on each machine."
+    },
+    {
+      "id": "kc-ssm-session-manager",
+      "version": 1,
+      "statement": "Session Manager opens a secure shell to an instance without opening inbound port 22, running bastion hosts or managing SSH keys, and can log every session."
+    },
+    {
+      "id": "kc-ssm-patch-parameter",
+      "version": 1,
+      "statement": "Patch Manager automates operating-system patching across instances, and Parameter Store keeps configuration values and secrets, optionally encrypted with KMS."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-ec2-basics",
+    "clf-security-groups-nacls",
+    "clf-secrets-manager"
+  ],
+  "confusable_with": [
+    "clf-secrets-manager",
+    "clf-cloudformation"
+  ],
+  "introduces": [
+    "systems manager",
+    "ssm agent",
+    "session manager",
+    "patch manager",
+    "parameter store"
+  ],
+  "uses": [
+    "ec2 instance",
+    "hybrid cloud",
+    "kms",
+    "security group"
+  ],
+  "problem_ideas": [
+    "Patch 500 Windows and Linux servers, 100 of them on-premises, every month: which service and which feature?",
+    "Security forbids opening SSH to the internet, but admins need shell access: which feature?",
+    "A config value (a database endpoint) must be shared by 40 instances without hard-coding it: where should it live?",
+    "An instance doesn't appear in Systems Manager: what is the most likely missing piece?",
+    "Parameter Store vs Secrets Manager for a database password that must rotate automatically: pick and justify.",
+    "Run the same shell command on 200 instances and collect the output: which service?"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "deploying-and-managing-infrastructure-at/aws-systems-manager-ssm"
+    }
+  ],
+  "status": "stub"
+}

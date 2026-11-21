@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u2-cloud-benefits",
+  "title": "Scaling, elasticity, agility and high availability",
+  "topics": [
+    {
+      "id": "clf-vertical-horizontal-scaling",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-elasticity-agility",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-high-availability",
+      "tier": "must",
+      "order": 3
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

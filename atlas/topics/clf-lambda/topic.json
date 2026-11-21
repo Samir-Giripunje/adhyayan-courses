@@ -1,0 +1,87 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-lambda",
+  "version": 1,
+  "title": "Serverless computing with AWS Lambda",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-serverless-definition",
+      "version": 1,
+      "statement": "Serverless means AWS provisions, scales, patches and runs the servers: the customer manages only code or configuration, pays for actual use and never manages an instance."
+    },
+    {
+      "id": "kc-lambda-model",
+      "version": 1,
+      "statement": "AWS Lambda runs a function in response to an event such as a file upload, an API call or a schedule. It scales automatically with the number of requests, and each invocation can run for at most 15 minutes."
+    },
+    {
+      "id": "kc-lambda-pricing",
+      "version": 1,
+      "statement": "Lambda is billed per request and per GB-second of duration (allocated memory × run time, metered in milliseconds), so a function that is never invoked costs nothing."
+    },
+    {
+      "id": "kc-api-gateway",
+      "version": 1,
+      "statement": "Amazon API Gateway is a managed service for creating, publishing and securing REST, HTTP and WebSocket APIs. It is commonly placed in front of Lambda to build a serverless backend."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "clf-ec2-basics",
+    "clf-shared-responsibility-by-service"
+  ],
+  "confusable_with": [
+    "clf-fargate-ecr",
+    "clf-batch-lightsail"
+  ],
+  "introduces": [
+    "serverless",
+    "lambda",
+    "lambda function",
+    "event-driven",
+    "api gateway"
+  ],
+  "uses": [
+    "elasticity",
+    "managed service",
+    "pay-as-you-go pricing"
+  ],
+  "problem_ideas": [
+    "A function with 512 MB of memory runs 200 ms per call, 1 million calls a month: compute the GB-seconds billed.",
+    "Compare the cost of a function invoked 50 times a day with a t3.micro running all month: which is cheaper, and why?",
+    "A nightly job needs 40 minutes: can Lambda run it in one invocation? Name an alternative.",
+    "An image must be resized whenever a photo is uploaded: name the trigger and the compute service.",
+    "A mobile app needs a public HTTPS API with no servers: which two services together?",
+    "Sort these tasks for Lambda into AWS versus customer: OS patching, function code, runtime scaling, IAM permissions on the function."
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "lambda/lambda"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-compute-section/what-s-serverless"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-compute-section/why-aws-lambda"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "lambda/cold-start-and-limitations"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-compute-section/amazon-api-gateway"
+    },
+    {
+      "source": "roadmap-aws",
+      "entry": "lambda/api-gateway"
+    }
+  ],
+  "status": "stub"
+}

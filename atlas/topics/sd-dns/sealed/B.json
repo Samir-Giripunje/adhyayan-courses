@@ -1,0 +1,210 @@
+[
+  {
+    "id": "sd-dns/test-b1",
+    "family": "sd-dns-dns-forms-who-returns-ip",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 1,
+    "kcs": [
+      "kc-dns-resolution"
+    ],
+    "prompt_md": "A resolver with an empty cache looks up `api.ferrolabs.io`. Which server returns the final IP address?",
+    "options": [
+      {
+        "id": "a",
+        "md": "A root server",
+        "why_md": "A root server only knows which servers handle each TLD, such as `.io`. It replies with a referral.",
+        "misconception": "mc-root-knows-ip"
+      },
+      {
+        "id": "b",
+        "md": "An `.io` TLD server",
+        "why_md": "The `.io` server only knows which servers are authoritative for `ferrolabs.io`. It replies with a referral.",
+        "misconception": "mc-root-knows-ip"
+      },
+      {
+        "id": "c",
+        "md": "The authoritative server for `ferrolabs.io`",
+        "correct": true,
+        "why_md": "Right. The domain's authoritative server holds its records and returns the address."
+      },
+      {
+        "id": "d",
+        "md": "A single central DNS server that stores every name's address",
+        "why_md": "No such server exists. Each level knows only the next level down, so no one server stores every name.",
+        "misconception": "mc-dns-one-server"
+      }
+    ],
+    "hints": [
+      "Root and TLD servers answer with referrals. Which server holds the domain's own records?",
+      "Only the domain's authoritative server knows the address."
+    ],
+    "solution_md": "The resolver asks a root server (referral to `.io`), then an `.io` TLD server (referral to `ferrolabs.io`'s authoritative servers), then the authoritative server, which returns the IP address. Answer: c.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/test-b2",
+    "family": "sd-dns-dns-forms-count-warm-tld",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-resolution"
+    ],
+    "prompt_md": "A resolver already remembers which servers handle `.io` (from an earlier lookup of a different `.io` domain), but it has nothing cached about `ferrolabs.io`. A laptop with an empty cache asks it for `api.ferrolabs.io`. How many queries are sent in total, counting the laptop's query to the resolver?",
+    "options": [
+      {
+        "id": "a",
+        "md": "1",
+        "why_md": "That counts only the laptop's query. The resolver still has to find `ferrolabs.io`'s servers and ask one of them."
+      },
+      {
+        "id": "b",
+        "md": "2",
+        "why_md": "That skips the `.io` TLD server. The resolver doesn't yet know `ferrolabs.io`'s authoritative servers, so it needs that referral first."
+      },
+      {
+        "id": "c",
+        "md": "3",
+        "correct": true,
+        "why_md": "Right. Laptop → resolver, resolver → `.io` TLD server (referral), resolver → `ferrolabs.io` authoritative (answer)."
+      },
+      {
+        "id": "d",
+        "md": "4",
+        "why_md": "That is the cold lookup. The resolver already knows the `.io` servers, so it skips the root."
+      }
+    ],
+    "hints": [
+      "The resolver skips any level whose referral it already remembers.",
+      "It knows the `.io` servers, so it starts at the TLD: laptop → resolver, then TLD, then authoritative."
+    ],
+    "solution_md": "1. Laptop → resolver.\n2. The resolver already knows the `.io` servers, so it skips the root and asks an `.io` TLD server, which refers it to `ferrolabs.io`'s authoritative servers.\n3. Resolver → authoritative server, which returns the address.\n\nTotal: 1 + 2 = **3 queries**. Answer: c.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/test-b5",
+    "family": "sd-dns-dns-forms-ar-ttl-same-moment",
+    "kind": "assert_reason",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "prompt_md": "**Assertion (A):** If you lower a record's TTL from 3600 s to 60 s in the same edit that changes its IP address, every cached copy of the old address is gone within 60 s.\n\n**Reason (R):** Copies already cached keep the TTL they were handed out with until they expire.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Both true; R explains A",
+        "why_md": "A is false. Copies cached before the edit still carry TTL 3600, so the old address can linger for up to an hour."
+      },
+      {
+        "id": "b",
+        "md": "Both true; R does not explain A",
+        "why_md": "A is false, and R is the reason it is false: old copies keep their 3600 s TTL."
+      },
+      {
+        "id": "c",
+        "md": "A true; R false",
+        "why_md": "Both halves are reversed. R is true (cached copies keep their TTL), and that is why A is false.",
+        "misconception": "mc-dns-instant"
+      },
+      {
+        "id": "d",
+        "md": "A false; R true",
+        "correct": true,
+        "why_md": "Right. R is true, and because of it A is false: copies fetched before the edit can serve the old address for up to 3600 s."
+      }
+    ],
+    "hints": [
+      "Judge A and R separately. What TTL do copies cached before the edit carry?",
+      "They keep the old 3600 s TTL, so the stale window is up to an hour, not 60 s. Lower the TTL one old TTL ahead instead."
+    ],
+    "solution_md": "R is true: a cached copy keeps the TTL it was handed out with. So copies fetched just before the edit carry TTL 3600 and can serve the old address for up to 3600 s after the change; A is false. The fix is to lower the TTL at least 3600 s before changing the IP. Answer: d.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  },
+  {
+    "id": "sd-dns/test-b6",
+    "family": "sd-dns-dns-forms-remaining-ttl",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-dns-caching"
+    ],
+    "prompt_md": "A resolver caches a record with TTL **300 s** at 09:00:00. At 09:03:20 a laptop asks the resolver for that name and gets the cached answer. For how many seconds may the laptop's operating system keep its copy?",
+    "options": [
+      {
+        "id": "a",
+        "md": "300 s",
+        "why_md": "The resolver hands out the **remaining** TTL, not a fresh 300 s. Its copy has already aged 200 s."
+      },
+      {
+        "id": "b",
+        "md": "200 s",
+        "why_md": "200 s is how long the resolver's copy has already been cached. The laptop gets what is left."
+      },
+      {
+        "id": "c",
+        "md": "100 s",
+        "correct": true,
+        "why_md": "Right. 09:03:20 − 09:00:00 = 200 s have passed, so 300 − 200 = 100 s remain, and that is the TTL the laptop receives."
+      },
+      {
+        "id": "d",
+        "md": "0 s: an answer from a cache can't be cached again",
+        "why_md": "The OS does cache it, for the remaining TTL. Browsers, operating systems and resolvers all keep copies."
+      }
+    ],
+    "hints": [
+      "The resolver passes on the TTL its copy has left, not the original TTL.",
+      "Elapsed = 09:03:20 − 09:00:00 = 200 s. Remaining = 300 − 200."
+    ],
+    "solution_md": "The resolver's copy was fetched at 09:00:00 and expires at 09:05:00. At 09:03:20, 200 s have passed, so it hands out the remaining **100 s**. The laptop's copy therefore expires at 09:05:00 as well. Answer: c.",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-dns",
+    "use": "test",
+    "origin": "generated",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "forms-sd-dns"
+    }
+  }
+]

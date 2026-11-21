@@ -1,0 +1,55 @@
+[
+  {
+    "id": "q-dpp-i6",
+    "version": 1,
+    "family": "q-dpp-i6",
+    "kind": "multi",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-chunking",
+    "kcs": [
+      "kc-chunking"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 60,
+    "prompt_md": "Which of these improve chunking for retrieval? Select all that apply.",
+    "options": [
+      {
+        "id": "a",
+        "md": "Split on headings and paragraphs instead of fixed character counts",
+        "correct": true,
+        "why_md": "Yes. Structure-aware boundaries keep ideas whole."
+      },
+      {
+        "id": "b",
+        "md": "Add overlap between neighbouring chunks",
+        "correct": true,
+        "why_md": "Yes. Boundary facts survive."
+      },
+      {
+        "id": "c",
+        "md": "Prepend the document title and section heading to each chunk",
+        "correct": true,
+        "why_md": "Yes. Each chunk carries its context."
+      },
+      {
+        "id": "d",
+        "md": "Embed each whole document as a single chunk",
+        "why_md": "No. That causes truncation and dilution.",
+        "misconception": "mc-embed-whole-doc"
+      }
+    ],
+    "hints": [
+      "Which idea applies? Chunks that are too big dilute meaning; chunks that are too small lose context.",
+      "Structure, overlap and contextual headers all help."
+    ],
+    "solution_md": "Structure, overlap and contextual headers all help. Whole-document embedding hurts.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

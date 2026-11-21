@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-cost-explorer-cur",
+  "version": 1,
+  "title": "Cost Explorer vs the Cost and Usage Report",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-cost-explorer-purpose",
+      "version": 1,
+      "statement": "Cost Explorer visualizes historical spend and usage in charts filterable by service, account, Region or tag, and forecasts future spend from past usage."
+    },
+    {
+      "id": "kc-cost-explorer-recommendations",
+      "version": 1,
+      "statement": "Cost Explorer also provides Reserved Instance and Savings Plans purchase recommendations and reports on their utilization and coverage."
+    },
+    {
+      "id": "kc-cur-detail",
+      "version": 1,
+      "statement": "The Cost and Usage Report is AWS's most detailed billing data, with hourly line items including resource IDs and tags, delivered to an S3 bucket for analysis with Athena, QuickSight or Redshift."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-cost-allocation-tags",
+    "clf-athena-glue"
+  ],
+  "confusable_with": [
+    "clf-pricing-calculator",
+    "clf-aws-budgets"
+  ],
+  "introduces": [
+    "cost explorer",
+    "cost and usage report",
+    "cost forecast"
+  ],
+  "uses": [
+    "cost allocation tags",
+    "s3",
+    "athena",
+    "quicksight",
+    "redshift",
+    "reserved instances",
+    "savings plans"
+  ],
+  "problem_ideas": [
+    "A manager wants a chart of last 6 months' EC2 spend by account: Cost Explorer or CUR?",
+    "A data team wants hourly per-resource billing rows to query with SQL: which tool, and where does the data land?",
+    "Which tool suggests how much Savings Plan commitment to buy based on past usage?",
+    "Spend jumped 30% last month: which tool do you open first to find the service responsible?",
+    "A finance BI dashboard in QuickSight needs line-item cost data: name the source.",
+    "Spot the false statement: 'The Cost and Usage Report is an interactive chart in the console.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-2-understand-resources-/understanding-the-appropriate-uses-and-c"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "cloud-financial-management/aws-cost-and-usage-reports"
+    }
+  ],
+  "status": "stub"
+}

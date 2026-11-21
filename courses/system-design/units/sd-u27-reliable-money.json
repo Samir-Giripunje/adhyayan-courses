@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u27-reliable-money",
+  "title": "Reliable delivery, payments and bookings",
+  "topics": [
+    {
+      "id": "sd-case-notification-service",
+      "tier": "optional",
+      "order": 1
+    },
+    {
+      "id": "sd-case-payment-system",
+      "tier": "optional",
+      "order": 2
+    },
+    {
+      "id": "sd-case-ticket-booking",
+      "tier": "optional",
+      "order": 3
+    }
+  ],
+  "halfway_after": null,
+  "status": "stub"
+}

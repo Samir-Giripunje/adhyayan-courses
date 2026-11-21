@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-sqs",
+  "version": 1,
+  "title": "Amazon SQS: a managed message queue",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-sqs-pull-queue",
+      "version": 1,
+      "statement": "Amazon SQS is a fully managed message queue: producers send messages, consumers poll for them and delete each message after processing, so a slow or failed consumer does not lose work."
+    },
+    {
+      "id": "kc-sqs-standard-fifo",
+      "version": 1,
+      "statement": "SQS standard queues offer nearly unlimited throughput with at-least-once delivery and best-effort ordering; FIFO queues keep first-in-first-out order within each message group and deduplicate repeated sends, but a message whose processing is not finished and deleted in time is delivered again, so consumers must handle retries safely."
+    },
+    {
+      "id": "kc-sqs-buffer-scale",
+      "version": 1,
+      "statement": "An SQS queue buffers traffic spikes between tiers, letting an Auto Scaling group of consumers scale on the number of waiting messages instead of the front end failing."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-loose-coupling"
+  ],
+  "suggests": [
+    "clf-auto-scaling-groups"
+  ],
+  "confusable_with": [
+    "clf-sns",
+    "clf-kinesis"
+  ],
+  "introduces": [
+    "sqs",
+    "message queue",
+    "fifo queue"
+  ],
+  "uses": [
+    "loose coupling",
+    "auto scaling group",
+    "ec2 instance"
+  ],
+  "problem_ideas": [
+    "A bank must process payment instructions in exactly the order received: standard or FIFO queue?",
+    "Workers crash mid-job; explain why the message reappears in the queue instead of being lost.",
+    "Queue depth climbs from 100 to 50,000 messages in 5 minutes; name the metric to scale the worker group on.",
+    "An image-resize app receives 10x uploads at noon; place SQS in the design and say what it protects.",
+    "Spot the error: 'SQS pushes each message to every subscriber at once.'",
+    "A message is still unprocessed after its retention period expires (default 4 days, max 14): what happens to it?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "application-integration/amazon-simple-queue-service-amazon-sqs"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "cloud-integration/amazon-sqs-simple-queue-service"
+    }
+  ],
+  "status": "stub"
+}

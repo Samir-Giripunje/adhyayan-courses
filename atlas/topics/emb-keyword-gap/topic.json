@@ -1,0 +1,457 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-keyword-gap",
+  "version": 1,
+  "title": "Why keyword search misses meaning",
+  "size": "micro",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-keyword-limits",
+      "version": 1,
+      "statement": "Keyword matching compares strings, so it misses paraphrases and is fooled by shared words with a different intent."
+    }
+  ],
+  "mode_hint": "quiz",
+  "mode": "quiz",
+  "requires": [],
+  "suggests": [],
+  "confusable_with": [],
+  "visual_fit": {
+    "kind": "none",
+    "why": "One idea about strings versus meaning; the worked example and the comparison table carry it, and the next lessons draw the meaning map."
+  },
+  "introduces": [
+    "keyword search",
+    "paraphrase"
+  ],
+  "uses": [],
+  "misconceptions": [
+    {
+      "id": "mc-keyword-is-enough",
+      "statement": "If the words match, the meaning matches (and vice versa).",
+      "tags": [
+        "kc-keyword-limits"
+      ]
+    },
+    {
+      "id": "mc-synonym-list-closes-gap",
+      "statement": "A long enough synonym list (or stemming) lets keyword search match any wording of a need.",
+      "tags": [
+        "kc-keyword-limits"
+      ]
+    },
+    {
+      "id": "mc-meaning-search-handles-codes",
+      "statement": "Meaning-based search handles exact codes, IDs and names at least as well as keyword search, so keyword search is no longer needed.",
+      "tags": [
+        "kc-keyword-limits"
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "keyword search",
+      "md": "Search that ranks documents by the words they share with the query, compared as exact strings. To it, *log* and *login* are different words, and so are *cheap* and *low-cost*."
+    },
+    {
+      "term": "paraphrase",
+      "md": "A rewording that keeps the meaning: *cheap flights* ↔ *low-cost airfare*, *my parcel never showed up* ↔ *delivery not received*."
+    },
+    {
+      "term": "vocabulary mismatch problem",
+      "md": "Users and documents use different words for the same thing, so a search that matches words misses the document."
+    },
+    {
+      "term": "semantic search",
+      "md": "Search by meaning: documents are ranked by how close their meaning is to the query's, even when they share no words. The rest of this unit builds it."
+    },
+    {
+      "term": "hybrid search",
+      "md": "Running keyword search and semantic search on the same query and merging their result lists, so exact strings and reworded needs are both covered."
+    }
+  ],
+  "parts": [
+    {
+      "id": "emb-keyword-gap-p1",
+      "title": "The problem: computers compare strings, not meaning",
+      "beats": [
+        {
+          "id": "b-why",
+          "title": "The problem: computers compare strings, not meaning",
+          "kcs": [
+            "kc-keyword-limits"
+          ],
+          "est_minutes": 6,
+          "blocks": [
+            {
+              "id": "blk-emb-keyword-gap-01",
+              "block": {
+                "type": "predict",
+                "question": {
+                  "id": "q-predict-goa",
+                  "kind": "mcq",
+                  "difficulty": 1,
+                  "kcs": [
+                    "kc-keyword-limits"
+                  ],
+                  "prompt_md": "A travel site's search uses plain **keyword matching**: it ranks articles by how many query words they contain. A user types **cheap flights to Goa**. Which article ranks first?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "“Low-cost airfare deals for Goa”",
+                      "why_md": "It shares only one word with the query: *Goa*. *Cheap* and *low-cost* are different strings, and so are *flights* and *airfare*.",
+                      "misconception": "mc-keyword-is-enough"
+                    },
+                    {
+                      "id": "b",
+                      "md": "“Cheap hotels in Goa”",
+                      "why_md": "Right. It shares two words (*cheap*, *Goa*), so it beats the article the user actually wanted. Keyword search counts matching strings. It has no idea that flights ≠ hotels or that cheap ≈ low-cost.",
+                      "correct": true
+                    },
+                    {
+                      "id": "c",
+                      "md": "They tie",
+                      "why_md": "They don't tie: *Cheap hotels in Goa* matches two query words and the airfare article matches one."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            },
+            {
+              "id": "blk-emb-keyword-gap-02",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "A computer compares text the way you would compare two passwords: character by character. *cheap* and *low-cost* share no characters, so to a keyword search they are as unrelated as *cheap* and *volcano*.",
+                  "This is called the **vocabulary mismatch problem**. In a classic study (Furnas et al., 1987), two people picked the same main word for the same object less than 20% of the time. Your users will describe the same need in words your documents don't contain."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-keyword-gap-03",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "What we actually want is a way to place pieces of text somewhere, so that **text with similar meaning sits close together**: *cheap flights* next to *low-cost airfare*, *cheap hotels* a little further away, and *volcano eruption* far off.",
+                  "If we can turn each piece of text into a **position**, then “find similar meaning” becomes “find the nearest positions”. Computers are very good at that. The rest of this topic builds that idea from zero."
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-keyword-gap-04",
+              "block": {
+                "type": "callout",
+                "kind": "misconception",
+                "md": "Matching words is not matching meaning. Keyword search fails in **both** directions: it misses paraphrases (*low-cost airfare*), and it is fooled by shared words with a different intent (*cheap hotels*).",
+                "title": "“If the words match, the meaning matches”",
+                "misconception": "mc-keyword-is-enough"
+              }
+            },
+            {
+              "id": "blk-emb-keyword-gap-05",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-why-keyword-strength",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-keyword-limits"
+                  ],
+                  "prompt_md": "Keyword search is still the best tool for one of these queries. Which one?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "`how do I stop my account being charged every month`",
+                      "why_md": "This is a paraphrase-heavy question. The docs probably say *cancel subscription*, so meaning-based search wins here."
+                    },
+                    {
+                      "id": "b",
+                      "md": "`E1234`, an error code copied from a log",
+                      "why_md": "Right. An exact identifier has no synonyms, and you want the documents containing exactly that string. Meaning-based search can blur `E1234` with `E1243`. That's why production systems often combine both (the Advanced layer covers hybrid search).",
+                      "correct": true
+                    },
+                    {
+                      "id": "c",
+                      "md": "`laptop won't turn on after it got wet`",
+                      "why_md": "This is a natural-language description. The docs may say *liquid damage* and *power issues*, which a keyword match would miss."
+                    }
+                  ],
+                  "hint_md": "Which query has no synonyms?",
+                  "est_seconds": 70
+                }
+              }
+            },
+            {
+              "id": "blk-emb-keyword-gap-06",
+              "block": {
+                "type": "worked_example",
+                "title": "Ranking help articles by shared words, by hand",
+                "problem_md": [
+                  "Our help centre has 25 articles. Here are four of their titles:",
+                  "1. *Reset your password*\n2. *Account locked after too many login attempts*\n3. *Can't add a card to your account*\n4. *Track your package*",
+                  "A user types **can't log in to my account**. Rank the four titles the way plain [[keyword search]] does: give each title one point for every query word that appears in it as the exact same word. Skip little words such as *my*, *to* and *in*: they appear almost everywhere, so real keyword engines drop them or give them very little weight."
+                ],
+                "steps": [
+                  {
+                    "md": "**Query words.** *can't log in to my account* → skip *to*, *in*, *my* → **can't**, **log**, **account**.",
+                    "why_md": "Only the words that carry the request get counted."
+                  },
+                  {
+                    "md": "**Score each title.**\n\n| Title | Shared words | Score |\n|---|---|---|\n| Reset your password | none | 0 |\n| Account locked after too many login attempts | account | 1 |\n| Can't add a card to your account | can't, account | 2 |\n| Track your package | none | 0 |",
+                    "why_md": "*Account* counts as *account*: keyword engines usually ignore capital letters. But *login* does not count as *log*: it is a different word, and only the exact same word scores."
+                  },
+                  {
+                    "md": "**Rank.** *Can't add a card to your account* (2) → *Account locked after too many login attempts* (1) → *Reset your password* (0), tied with *Track your package* (0)."
+                  },
+                  {
+                    "md": "**Read the result.** The winner is about adding a payment card: a different need that happens to share *can't* and *account*. *Reset your password*, a likely fix for someone who can't log in, scores exactly the same as a parcel-tracking article: zero. The locked-account article comes second, but only because it contains *account*, not because the search understood *log in*.",
+                    "why_md": "Both failures from the callout show up on one query: fooled by shared words (the card article) and blind to different wording (the password article)."
+                  },
+                  {
+                    "md": "**Why a smarter count can't fix this.** However you weigh shared words, an article that shares none of them scores nothing. Scoring the whole article instead of its title helps only if the writer happened to use the user's words. To find *Reset your password* for *can't log in*, the search has to compare what the texts *mean*."
+                  }
+                ],
+                "answer_md": "Keyword ranking: **Can't add a card to your account (2)** → Account locked after too many login attempts (1) → Reset your password (0) = Track your package (0). The top result answers a different need, and a likely answer scores zero. Shared strings decided the order; meaning never entered the calculation."
+              }
+            },
+            {
+              "id": "blk-emb-keyword-gap-07",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-check-subscription",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-keyword-limits"
+                  ],
+                  "prompt_md": "Same rule: one point for each query word that appears in a title, skipping little words such as *my*, *your*, *an* and *for*. A user types **stop my subscription**. Which title ranks first?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "*Cancel your plan anytime*",
+                      "why_md": "It's the article the user needs, but it shares no words with the query: *stop* ≠ *cancel*, *subscription* ≠ *plan*. Score 0.",
+                      "misconception": "mc-keyword-is-enough"
+                    },
+                    {
+                      "id": "b",
+                      "md": "*Download an invoice for your subscription*",
+                      "why_md": "Right. It shares *subscription* (score 1) and wins, though downloading an invoice is a different need. The article that answers the question scores 0.",
+                      "correct": true
+                    },
+                    {
+                      "id": "c",
+                      "md": "They tie at zero",
+                      "why_md": "The invoice article contains *subscription*, so it scores 1. Only the plan article scores 0."
+                    }
+                  ],
+                  "hint_md": "The query has two real words, *stop* and *subscription*. Look for each one, exactly, in both titles.",
+                  "est_seconds": 50
+                }
+              }
+            },
+            {
+              "id": "blk-emb-keyword-gap-08",
+              "block": {
+                "type": "compare",
+                "title": "Three ways to search, and when to pick each",
+                "columns": [
+                  "",
+                  "Keyword search",
+                  "Semantic (meaning-based) search",
+                  "Hybrid search"
+                ],
+                "rows": [
+                  [
+                    "Compares",
+                    "Exact words: a shared string counts, a synonym doesn't",
+                    "Meaning: texts that mean similar things count as close, even with no shared words",
+                    "Both: runs the two searches and merges their result lists"
+                  ],
+                  [
+                    "Reworded need: *can't log in* → *Reset your password*",
+                    "Misses it, unless the words happen to overlap",
+                    "Usually finds it: this is what it's for",
+                    "Covered by its semantic side"
+                  ],
+                  [
+                    "Exact code or name: `E1234`, `ORD-58213`",
+                    "Strong: matches the exact string",
+                    "Weaker: can rank look-alike codes as close",
+                    "Covered by its keyword side"
+                  ],
+                  [
+                    "Pick it when",
+                    "Queries are exact codes, IDs or names",
+                    "People describe needs in their own words",
+                    "You get both kinds of query"
+                  ],
+                  [
+                    "Where you learn it",
+                    "This topic",
+                    "The rest of this unit",
+                    "A later topic"
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp1-why",
+    "emb-keyword-gap/exit-1"
+  ],
+  "recap": {
+    "pitfall": "Synonym lists only cover the pairs someone wrote down; matching meaning needs a representation, not a longer list.",
+    "template": "For any query, ask two questions. Does the right article share its words? If not, keyword search misses it. Does a wrong article share more words? If so, keyword search ranks it first. Exact codes and names → keyword; reworded needs → semantic; both kinds → hybrid."
+  },
+  "depth_threads": [
+    {
+      "id": "dt-keyword-weighting",
+      "kind": "mechanism",
+      "title": "How real keyword engines weigh words: rare words count more (TF-IDF and BM25)",
+      "level": 2,
+      "status": "stub"
+    },
+    {
+      "id": "dt-vocabulary-problem",
+      "kind": "history",
+      "title": "The vocabulary problem: Furnas et al. (1987) on why people name the same thing differently",
+      "level": 2,
+      "status": "stub"
+    }
+  ],
+  "anticipated_doubts": [
+    {
+      "id": "d-synonym-list",
+      "beat": "b-why",
+      "question": "Why not just add a synonym list to keyword search?",
+      "match": [
+        "synonym",
+        "thesaurus",
+        "why not just",
+        "keyword search",
+        "stemming"
+      ],
+      "answer_md": "Teams do. Synonym lists and stemming are real, useful tools. But they only cover the pairs someone thought to write down, they ignore context (*bank* the river vs *bank* the lender), and they can't handle paraphrases where no single word maps to another (*my parcel never showed up* ↔ *delivery not received*). Embeddings learn these relationships from billions of examples instead of a hand-maintained list.",
+      "deeper_md": "Try writing the synonym list for *“I can't get into my account”*. You'd need *log in*, *sign in*, *access*, *locked out*, *password*, *credentials*, *2FA*… and every phrasing people invent tomorrow. A synonym list is a lookup table, so it can only match what's already in the table. An embedding model has *learned a space* where new phrasings land near old ones even though nobody listed them.",
+      "bridge": {
+        "kind": "contrast",
+        "title": "Synonym list vs learned meaning",
+        "md": [
+          "| | Synonym list | Embedding |\n|---|---|---|\n| Built by | people, by hand | a model, from data |\n| Covers | pairs someone wrote down | phrasings never seen before |\n| Context | none (*bank* = *bank*) | some (contextual models) |\n| Exact codes, names | perfect | blurry |",
+          "That last row is why production systems keep keyword search *and* add embeddings. The Advanced layer calls this **hybrid search**."
+        ],
+        "verify": {
+          "id": "q-br-synonyms",
+          "kind": "mcq",
+          "difficulty": 1,
+          "kcs": [
+            "kc-keyword-limits"
+          ],
+          "prompt_md": "A user types *“my parcel never showed up”*. The help article is titled *“Delivery not received”*. Which approach can connect them without anyone having anticipated this exact phrasing?",
+          "options": [
+            {
+              "id": "a",
+              "md": "A hand-written synonym list",
+              "why_md": "Only if someone listed *showed up ↔ received*, and the next user will phrase it differently again."
+            },
+            {
+              "id": "b",
+              "md": "Embedding-based semantic search",
+              "why_md": "Right. A learned space places new phrasings near related ones without a hand-written list.",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "md": "Stemming (*parcels → parcel*)",
+              "why_md": "Stemming only normalizes word endings. *showed up* and *received* share no stem."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    },
+    {
+      "id": "d-why-keep-keyword",
+      "beat": "b-why",
+      "question": "If keyword search misses meaning, why does anyone still use it?",
+      "match": [
+        "still use keyword",
+        "why keep keyword",
+        "keyword search obsolete",
+        "keyword search outdated",
+        "why not only semantic",
+        "replace keyword search"
+      ],
+      "answer_md": "Because for some queries the exact string is exactly what you want. Product codes, order numbers, error codes and names have no synonyms: the user wants the documents that contain that string, and keyword search finds them precisely and cheaply. It is also easy to explain: an article matched because it contains these words. Meaning-based search is strong on reworded needs and weaker on exact strings, so many real systems run both. That combination is called **hybrid search**.",
+      "deeper_md": "Picture an agent pasting `ORD-58213` into an internal search. To keyword search it is one exact string: a document either contains it or it doesn't. A meaning-based search places the query by what it means, and `ORD-58213` doesn't *mean* much, so it can land near `ORD-58231` or near any page about orders. Keyword search isn't the wrong tool. It's the wrong tool for reworded needs.",
+      "bridge": {
+        "kind": "worked-example",
+        "title": "Two queries, two winners",
+        "md": [
+          "Same help centre, two queries:",
+          "| Query | Keyword search | Meaning-based search |\n|---|---|---|\n| `ORD-58213` | finds the page containing exactly that order number | may also rank look-alike order numbers as close |\n| *my order never came* | misses *Missing parcel? Start a claim*: no shared words | can find it: the meanings are close |",
+          "Each search wins one row. That's why many production systems keep keyword search and add meaning-based search alongside it."
+        ],
+        "verify": {
+          "id": "q-br-keep-keyword",
+          "kind": "mcq",
+          "difficulty": 2,
+          "kcs": [
+            "kc-keyword-limits"
+          ],
+          "prompt_md": "A team switches off keyword search and keeps only meaning-based search. Which kind of query is most likely to get **worse**?",
+          "options": [
+            {
+              "id": "a",
+              "md": "Exact product codes such as `KB-204X`",
+              "why_md": "Right. A code has no synonyms and little meaning; exact-string matching was what found it, and meaning-based search can blur it with look-alike codes.",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "md": "Reworded questions such as *how do I stop being charged*",
+              "why_md": "These are what meaning-based search is for. They are likely to get better, not worse.",
+              "misconception": "mc-keyword-is-enough"
+            },
+            {
+              "id": "c",
+              "md": "Long, chatty descriptions of a problem",
+              "why_md": "Long descriptions in the user's own words also suit meaning-based search. They depend on meaning, not on one exact string."
+            }
+          ],
+          "est_seconds": 40
+        }
+      }
+    }
+  ],
+  "problem_ideas": [
+    "Find two help-centre queries that share no words with the article that answers them",
+    "Explain why “car insurance quote” misses “auto insurance quote”",
+    "Rank three articles for “cheap flights to Goa” by shared words and spot the wrong winner",
+    "Show a shared word that fools keyword ranking into the wrong intent",
+    "List three paraphrases a synonym list would miss",
+    "Decide when exact keyword match beats meaning (error codes, SKUs)"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-ai-engineer",
+      "entry": "what-are-embeddings"
+    },
+    {
+      "source": "strata-pack",
+      "entry": "basics/b-why"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "stocked"
+}

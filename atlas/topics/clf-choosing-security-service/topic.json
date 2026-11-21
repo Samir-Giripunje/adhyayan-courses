@@ -1,0 +1,89 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-choosing-security-service",
+  "version": 1,
+  "title": "Choosing a security service for a requirement",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-choose-identity-service",
+      "version": 1,
+      "statement": "For access needs: workforce users across many accounts → IAM Identity Center; end users of an app → Cognito; existing Microsoft AD → Directory Service; limit what whole accounts can do → service control policies."
+    },
+    {
+      "id": "kc-choose-data-service",
+      "version": 1,
+      "statement": "For data protection: manage encryption keys → KMS; dedicated single-tenant HSM → CloudHSM; SSL/TLS certificates → ACM; store and rotate credentials → Secrets Manager; find PII in S3 → Macie."
+    },
+    {
+      "id": "kc-choose-threat-service",
+      "version": 1,
+      "statement": "For threats: DDoS → Shield; SQL injection, XSS or IP and geo blocking → WAF; firewall rules across accounts → Firewall Manager; threats in logs → GuardDuty; software vulnerabilities → Inspector; one view of findings → Security Hub; root-cause investigation → Detective."
+    },
+    {
+      "id": "kc-choose-audit-service",
+      "version": 1,
+      "statement": "For audit and compliance: who made an API call → CloudTrail; resource configuration history and compliance rules → AWS Config; AWS's own compliance reports and the BAA → AWS Artifact."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-security-hub-detective",
+    "clf-aws-config",
+    "clf-aws-artifact"
+  ],
+  "suggests": [
+    "clf-iam-identity-center",
+    "clf-kms",
+    "clf-waf"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "security service selection"
+  ],
+  "uses": [
+    "iam identity center",
+    "cognito",
+    "directory service",
+    "service control policy",
+    "kms",
+    "cloudhsm",
+    "acm",
+    "secrets manager",
+    "macie",
+    "shield",
+    "waf",
+    "firewall manager",
+    "guardduty",
+    "inspector",
+    "security hub",
+    "detective",
+    "cloudtrail",
+    "aws config",
+    "aws artifact"
+  ],
+  "problem_ideas": [
+    "Rapid-fire: 12 one-line requirements, name the service for each in under 30 seconds.",
+    "For each scenario, name the right service and explain why the nearest distractor is wrong (WAF vs Shield, Config vs CloudTrail, KMS vs CloudHSM).",
+    "A breach timeline: suspicious login → data exfiltration → audit. Assign a service to each phase.",
+    "A fintech's checklist: encrypt data, rotate DB passwords, block SQL injection, prove PCI to auditors. Map each item.",
+    "Find the one wrong answer in a list of 8 requirement → service pairs.",
+    "A mock exam item has four plausible security services. Eliminate three using keywords."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/security-identity-and-compliance"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-4-identify-components-a/task-statement-2-4-identify-components-a"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/security-compliance"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-lru-cache",
+  "version": 1,
+  "title": "Memoization with functools.lru_cache",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-lru-cache-memoizes",
+      "version": 1,
+      "statement": "@functools.lru_cache(maxsize=N) stores results keyed by the call's arguments and returns the stored result on repeat calls; maxsize=None, or functools.cache, makes it unbounded."
+    },
+    {
+      "id": "kc-lru-cache-hashable",
+      "version": 1,
+      "statement": "lru_cache requires every argument to be hashable; calling a cached function with a list argument raises TypeError."
+    },
+    {
+      "id": "kc-lru-cache-info",
+      "version": 1,
+      "statement": "A cached function's cache_info() reports hits, misses, maxsize and currsize, and cache_clear() empties the cache."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "pd-decorator-syntax"
+  ],
+  "suggests": [
+    "pd-optional-argument-decorators",
+    "pd-stacked-decorators"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "functools.lru_cache",
+    "memoization"
+  ],
+  "uses": [
+    "decorator syntax",
+    "decorator factory"
+  ],
+  "problem_ideas": [
+    "Predict the number of calls for naive fib(20) versus cached fib(20)",
+    "Predict cache_info() after fib(10) with lru_cache(maxsize=None)",
+    "Explain the TypeError from a cached function called with a list and fix it with a tuple",
+    "Predict evictions for maxsize=2 after calls f(1), f(2), f(1), f(3), f(2)",
+    "Spot why f(1) and f(1.0) share a cache entry but f(1, typed=True) settings differ",
+    "Write a minimal dict-based @memoize and compare it to lru_cache"
+  ],
+  "sources": [
+    {
+      "source": "pep-318",
+      "entry": "examples/examples"
+    },
+    {
+      "source": "functools-docs",
+      "entry": "class-partial-objects/class-partial-objects"
+    }
+  ],
+  "status": "stub"
+}

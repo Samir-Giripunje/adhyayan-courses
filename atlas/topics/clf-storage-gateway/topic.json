@@ -1,0 +1,68 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-storage-gateway",
+  "version": 1,
+  "title": "Storage Gateway: on-premises access to AWS storage",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-storage-gateway-hybrid",
+      "version": 1,
+      "statement": "AWS Storage Gateway is a hybrid cloud storage service that gives on-premises applications access to virtually unlimited AWS storage, keeping frequently used data in a local cache for low-latency access."
+    },
+    {
+      "id": "kc-gateway-types",
+      "version": 1,
+      "statement": "S3 File Gateway exposes S3 as NFS/SMB file shares. Volume Gateway presents iSCSI block volumes backed by S3 with EBS snapshots. Tape Gateway replaces physical backup tapes with a virtual tape library stored in S3 and Glacier."
+    },
+    {
+      "id": "kc-storage-gateway-ongoing",
+      "version": 1,
+      "statement": "Storage Gateway is for ongoing hybrid access to cloud storage from on-premises applications, not for a one-time bulk transfer of data into AWS."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-s3-basics",
+    "clf-storage-types"
+  ],
+  "suggests": [
+    "clf-deployment-models",
+    "clf-ebs"
+  ],
+  "confusable_with": [
+    "clf-efs-fsx",
+    "clf-aws-backup"
+  ],
+  "introduces": [
+    "storage gateway",
+    "file gateway",
+    "volume gateway",
+    "tape gateway"
+  ],
+  "uses": [
+    "hybrid cloud",
+    "on-premises deployment",
+    "s3",
+    "s3 glacier",
+    "ebs snapshot",
+    "file storage",
+    "block storage"
+  ],
+  "problem_ideas": [
+    "A company's backup software writes to tape libraries it wants to retire: which gateway type?",
+    "Office file servers run out of disk, but users need fast access to recent files: which gateway type?",
+    "An on-premises app needs iSCSI disks with cloud-backed snapshots: which gateway type?",
+    "A distractor offers Storage Gateway for a one-time 500 TB move: why is it the wrong tool?",
+    "Explain what the local cache gives on-premises users.",
+    "Classify each scenario as hybrid cloud or a pure cloud deployment, and say whether Storage Gateway fits."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/identifying-cached-file-systems-for-exam"
+    }
+  ],
+  "status": "stub"
+}

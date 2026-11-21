@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u14-consistency",
+  "title": "Consistency, CAP and quorums",
+  "topics": [
+    {
+      "id": "sd-consistency-models",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-cap-theorem",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-quorum",
+      "tier": "must",
+      "order": 3
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

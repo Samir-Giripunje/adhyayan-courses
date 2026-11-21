@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-shared-responsibility-by-service",
+  "version": 1,
+  "title": "Shared responsibility for EC2, RDS and Lambda",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-srm-ec2",
+      "version": 1,
+      "statement": "With EC2, an IaaS service, the customer patches the guest operating system and applications and configures security groups, while AWS secures the physical host and hypervisor."
+    },
+    {
+      "id": "kc-srm-rds",
+      "version": 1,
+      "statement": "With Amazon RDS, a managed database, AWS patches the database engine and underlying operating system, while the customer manages database users and permissions, network access rules, encryption settings and public accessibility."
+    },
+    {
+      "id": "kc-srm-lambda",
+      "version": 1,
+      "statement": "With AWS Lambda, AWS manages the servers, operating system and runtime patching, while the customer is responsible for function code, its dependencies, its IAM permissions and its data."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-shared-responsibility-model"
+  ],
+  "suggests": [
+    "clf-service-models"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "managed service"
+  ],
+  "uses": [
+    "shared responsibility model",
+    "security of the cloud",
+    "security in the cloud",
+    "iaas",
+    "paas"
+  ],
+  "problem_ideas": [
+    "Three-column sort: 'patch the OS' for EC2, RDS and Lambda; who does it in each?",
+    "A company moves a self-run MySQL on EC2 to RDS: list two tasks that move to AWS and two that stay",
+    "A Lambda function uses an npm package with a known vulnerability: whose job is to update it?",
+    "True/false: on RDS, the customer must apply minor engine patches by logging into the OS",
+    "Rank EC2, RDS, Lambda by how much of the stack the customer manages",
+    "An RDS instance is reachable from the internet by mistake: which customer setting caused it?"
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/databases-shared-responsibility-on-aws"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-2-1-understand-the-aws-sh/recognizing-the-components-of-the-aws-sh"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,38 @@
+{
+  "rounds": {
+    "lesson": 0,
+    "review": 3
+  },
+  "reopened": [
+    {
+      "at": "2026-11-18T04:11:05.753Z",
+      "by": "user",
+      "findings": 1,
+      "note": "maintainer: the remaining findings are factual with exact fixes; one more round before the final review"
+    }
+  ],
+  "reauthored": {
+    "at": "2026-11-18T08:36:57.000Z",
+    "note": "answer-first rewrite (author contract v2); previous critic record superseded",
+    "previous_review": {
+      "ok": true,
+      "job": "review-sd-https-tls-r4",
+      "blocking": 0
+    }
+  },
+  "novice": {
+    "ok": true,
+    "lesson": "6123c93ddc8f504245cc4923af2fd4c0649520573b896541104be5838b901ecf",
+    "job": "novice-sd-https-tls-r6",
+    "minor": 7
+  },
+  "review": {
+    "ok": true,
+    "content": "c480db6bca75fe6b546684b200e63dfc102523b661992c5cdd372caab222869b",
+    "job": "review-sd-https-tls-r7",
+    "warn": [
+      "sd-https-tls/set-7: The solution says, \"The ClientHello carries at most the site's name.\" ClientHello also carries TLS versions, algorithms and other handshake fields, as the lesson itself explains.",
+      "sd-https-tls/test-a3: The solution says certificate copies drop from 30 to 3, \"and so do renewals.\" Thirty deployments of the same certificate do not necessarily require thirty separate certificate renewals; renewal and deployment are different operations."
+    ]
+  }
+}

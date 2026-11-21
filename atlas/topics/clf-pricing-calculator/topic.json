@@ -1,0 +1,52 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-pricing-calculator",
+  "version": 1,
+  "title": "AWS Pricing Calculator: estimate before you build",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-pricing-calculator-purpose",
+      "version": 1,
+      "statement": "AWS Pricing Calculator estimates the monthly cost of an architecture before anything is deployed; it is free, needs no AWS account and can export or share the estimate."
+    },
+    {
+      "id": "kc-calculator-planned-not-actual",
+      "version": 1,
+      "statement": "Pricing Calculator models planned costs and compares options such as On-Demand versus a Savings Plan, but it cannot report what an account has actually spent."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [],
+  "suggests": [
+    "clf-tco-on-premises-costs"
+  ],
+  "confusable_with": [
+    "clf-cost-explorer-cur"
+  ],
+  "introduces": [
+    "pricing calculator",
+    "cost estimate"
+  ],
+  "uses": [
+    "on-demand pricing",
+    "savings plans",
+    "total cost of ownership"
+  ],
+  "problem_ideas": [
+    "A consultant must quote a client's monthly AWS cost before the account exists: which tool?",
+    "An estimate shows 3 EC2 instances at $70/month each plus 1 TB of S3 at $23: predict the monthly total.",
+    "A manager asks 'how much did we spend last month?' and gets a Pricing Calculator link: what is wrong?",
+    "Use the calculator to compare On-Demand with a 1-year Savings Plan for the same instance: what output tells you the saving?",
+    "A sales engineer needs to send an estimate to a CFO: which calculator feature?",
+    "Spot the false statement: 'Pricing Calculator requires an AWS account and billing access.'"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-4-2-understand-resources-/understanding-the-appropriate-uses-and-c-2"
+    }
+  ],
+  "status": "stub"
+}

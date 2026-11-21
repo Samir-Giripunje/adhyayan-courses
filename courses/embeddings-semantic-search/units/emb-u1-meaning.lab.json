@@ -1,0 +1,173 @@
+{
+  "schema": "adhy.lab/1",
+  "exercises": [
+    {
+      "id": "ex-cosine-worked",
+      "title": "Read, run, tweak: cosine by hand",
+      "stage": "worked",
+      "difficulty": 1,
+      "kcs": [
+        "kc-dot-cosine"
+      ],
+      "est_minutes": 4,
+      "brief_md": [
+        "This code is complete. **Read it line by line and press Run.** Check that the printed numbers match what you computed in the Basics layer.",
+        "Then make one change: edit `b` so the script prints a cosine of **−1.0**, and press **Submit**."
+      ],
+      "starter": "import math\n\ndef dot(a, b):\n    return sum(x * y for x, y in zip(a, b))   # multiply position by position, then add\n\ndef norm(a):\n    return math.sqrt(dot(a, a))               # length = sqrt(a . a)\n\ndef cosine(a, b):\n    return dot(a, b) / (norm(a) * norm(b))\n\na = [1, 2]\nb = [2, 1]\nprint(\"dot   =\", dot(a, b))\nprint(\"norms =\", round(norm(a), 3), round(norm(b), 3))\nprint(\"cos   =\", round(cosine(a, b), 3))\n",
+      "solution": "import math\n\ndef dot(a, b):\n    return sum(x * y for x, y in zip(a, b))\n\ndef norm(a):\n    return math.sqrt(dot(a, a))\n\ndef cosine(a, b):\n    return dot(a, b) / (norm(a) * norm(b))\n\na = [1, 2]\nb = [-2, -4]\nprint(\"dot   =\", dot(a, b))\nprint(\"norms =\", round(norm(a), 3), round(norm(b), 3))\nprint(\"cos   =\", round(cosine(a, b), 3))\n",
+      "solution_walkthrough_md": "Any `b` that is a **negative multiple** of `a` works: `[-1, -2]`, `[-2, -4]`, `[-10, -20]`. Opposite direction gives cosine −1, whatever the length. If you tried `[-2, -1]`, you got −0.8: opposite *quadrant* isn't the same as opposite *direction*.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "cosine([1,2],[2,1]) is 0.8",
+          "code": "assert abs(cosine([1, 2], [2, 1]) - 0.8) < 1e-9, 'cosine([1,2],[2,1]) should be 0.8'",
+          "fail_md": "The helper functions changed behaviour. Undo your edits to `dot`, `norm` or `cosine`; only `b` should change."
+        },
+        {
+          "id": "t2",
+          "name": "your a and b have cosine −1",
+          "code": "assert abs(cosine(a, b) + 1) < 1e-9, f'cosine(a, b) is {cosine(a, b):.3f}, not -1'",
+          "fail_md": "Cosine −1 needs **exactly opposite direction**: `b` must be a negative multiple of `a`. `[-2, -1]` gives −0.8, because it's in the opposite quadrant but not the opposite direction.",
+          "misconception": "mc-cosine-uses-length"
+        },
+        {
+          "id": "t3",
+          "name": "scale doesn't matter (hidden)",
+          "hidden": true,
+          "code": "assert abs(cosine([3, 4], [30, 40]) - 1) < 1e-9",
+          "fail_md": "Scaling a vector shouldn't change cosine. Check that `norm` divides out the length."
+        }
+      ],
+      "hints": [
+        "Cosine is −1 when the arrows point in exactly opposite directions.",
+        "Opposite direction = multiply every number in `a` by the same **negative** number."
+      ]
+    },
+    {
+      "id": "ex-cosine-faded",
+      "title": "Fill the blanks: a safe cosine_similarity",
+      "stage": "faded",
+      "difficulty": 1,
+      "kcs": [
+        "kc-dot-cosine"
+      ],
+      "est_minutes": 6,
+      "brief_md": [
+        "Complete the three `____` blanks. Your function must:",
+        "- return the cosine similarity of two equal-length lists;\n- raise `ValueError` if either vector is all zeros (cosine is undefined: you would be dividing by zero);\n- raise `ValueError` if the lengths differ.",
+        "**Run** checks the visible tests. **Submit** also runs hidden edge cases."
+      ],
+      "starter": "import math\n\ndef dot(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"vectors must have the same length\")\n    return sum(x * y for x, y in zip(a, b))\n\ndef norm(a):\n    return math.sqrt(____)            # the length of a\n\ndef cosine_similarity(a, b):\n    na, nb = norm(a), norm(b)\n    if ____:                          # when is cosine undefined?\n        raise ValueError(\"cosine is undefined for a zero vector\")\n    return ____                       # put it together\n",
+      "solution": "import math\n\ndef dot(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"vectors must have the same length\")\n    return sum(x * y for x, y in zip(a, b))\n\ndef norm(a):\n    return math.sqrt(dot(a, a))\n\ndef cosine_similarity(a, b):\n    na, nb = norm(a), norm(b)\n    if na == 0 or nb == 0:\n        raise ValueError(\"cosine is undefined for a zero vector\")\n    return dot(a, b) / (na * nb)\n",
+      "solution_walkthrough_md": "`norm(a) = sqrt(dot(a, a))`, because the dot product of a vector with itself is the sum of its squares. Guard with `na == 0 or nb == 0` **before** dividing. The return value is the definition: `dot(a, b) / (na * nb)`.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "identical vectors → 1",
+          "code": "assert abs(cosine_similarity([1, 2, 3], [1, 2, 3]) - 1) < 1e-9",
+          "fail_md": "A vector compared with itself must give exactly 1. Check that you divide by **both** lengths."
+        },
+        {
+          "id": "t2",
+          "name": "perpendicular → 0",
+          "code": "assert abs(cosine_similarity([1, 0], [0, 5])) < 1e-9",
+          "fail_md": "`[1,0]` and `[0,5]` are perpendicular, so their dot product is 0, and so is the cosine."
+        },
+        {
+          "id": "t3",
+          "name": "opposite → −1",
+          "code": "assert abs(cosine_similarity([1, 2], [-2, -4]) + 1) < 1e-9",
+          "fail_md": "Opposite directions must give −1. Did you take an absolute value somewhere? Cosine can be negative.",
+          "misconception": "mc-cosine-range-01"
+        },
+        {
+          "id": "t4",
+          "name": "scale invariance",
+          "code": "assert abs(cosine_similarity([1, 2], [10, 20]) - 1) < 1e-9",
+          "fail_md": "Scaling must not change cosine. If you got 0.1 or 50, you are measuring length.",
+          "misconception": "mc-cosine-uses-length"
+        },
+        {
+          "id": "t5",
+          "name": "zero vector raises ValueError (hidden)",
+          "hidden": true,
+          "code": "try:\n    cosine_similarity([0, 0], [1, 2])\n    raise AssertionError('expected ValueError for a zero vector')\nexcept ValueError:\n    pass",
+          "fail_md": "A zero vector has no direction, and `0/0` is undefined. Raise `ValueError` **before** dividing (a `ZeroDivisionError` doesn't count)."
+        },
+        {
+          "id": "t6",
+          "name": "length mismatch raises ValueError (hidden)",
+          "hidden": true,
+          "code": "try:\n    cosine_similarity([1, 2, 3], [1, 2])\n    raise AssertionError('expected ValueError for different lengths')\nexcept ValueError:\n    pass",
+          "fail_md": "Vectors of different lengths can't be compared. `zip` would silently drop the extra numbers, so make sure the length check in `dot` still runs."
+        }
+      ],
+      "hints": [
+        "The dot product of a vector with itself is the sum of its squares.",
+        "Cosine is undefined when either length is 0.",
+        "Final line: dot product divided by the product of the two lengths."
+      ]
+    },
+    {
+      "id": "ex-topk",
+      "title": "Write top_k from scratch",
+      "stage": "scratch",
+      "difficulty": 2,
+      "kcs": [
+        "kc-search-pipeline",
+        "kc-dot-cosine"
+      ],
+      "est_minutes": 8,
+      "brief_md": [
+        "Write `top_k(query, docs, k)`:",
+        "- `query`: a vector (list of floats)\n- `docs`: a dict `{doc_id: vector}`\n- returns a list of `(doc_id, score)` tuples: the **k** highest cosine scores, best first\n- **ties** are broken by `doc_id`, alphabetically\n- if `k` is larger than the number of docs, return them all",
+        "`cosine_similarity` is already provided. This is the scoring and ranking core of every semantic search engine."
+      ],
+      "starter": "import math\n\ndef cosine_similarity(a, b):\n    dot = sum(x * y for x, y in zip(a, b))\n    na = math.sqrt(sum(x * x for x in a))\n    nb = math.sqrt(sum(y * y for y in b))\n    if na == 0 or nb == 0:\n        raise ValueError(\"zero vector\")\n    return dot / (na * nb)\n\ndef top_k(query, docs, k):\n    # your code here\n    pass\n\n\ndocs = {\"reset\": [0.9, 0.1, 0.0], \"parcel\": [0.0, 0.2, 0.95], \"billing\": [0.1, 0.95, 0.1]}\nprint(top_k([0.8, 0.0, 0.1], docs, 2))\n",
+      "solution": "import math\n\ndef cosine_similarity(a, b):\n    dot = sum(x * y for x, y in zip(a, b))\n    na = math.sqrt(sum(x * x for x in a))\n    nb = math.sqrt(sum(y * y for y in b))\n    if na == 0 or nb == 0:\n        raise ValueError(\"zero vector\")\n    return dot / (na * nb)\n\ndef top_k(query, docs, k):\n    scored = [(doc_id, cosine_similarity(query, vec)) for doc_id, vec in docs.items()]\n    scored.sort(key=lambda pair: (-pair[1], pair[0]))\n    return scored[:k]\n\n\ndocs = {\"reset\": [0.9, 0.1, 0.0], \"parcel\": [0.0, 0.2, 0.95], \"billing\": [0.1, 0.95, 0.1]}\nprint(top_k([0.8, 0.0, 0.1], docs, 2))\n",
+      "solution_walkthrough_md": "Score everything, then sort by `(-score, doc_id)`: negating the score gives descending order, and `doc_id` breaks ties alphabetically. Slicing `[:k]` handles a `k` larger than the list. For millions of docs you'd use `heapq.nlargest` or, better, an ANN index (Advanced layer).",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "returns the best match first",
+          "code": "res = top_k([0.8, 0.0, 0.1], {'reset': [0.9, 0.1, 0.0], 'parcel': [0.0, 0.2, 0.95], 'billing': [0.1, 0.95, 0.1]}, 2)\nassert res and res[0][0] == 'reset', f'got {res}'",
+          "fail_md": "The top result should be `reset`. Are you sorting in **descending** order of score?"
+        },
+        {
+          "id": "t2",
+          "name": "returns (id, score) tuples, length k",
+          "code": "res = top_k([1, 0], {'a': [1, 0], 'b': [0, 1], 'c': [1, 1]}, 2)\nassert isinstance(res, list) and len(res) == 2, f'expected 2 results, got {res}'\nassert all(isinstance(p, tuple) and len(p) == 2 for p in res), 'each item must be a (doc_id, score) tuple'\nassert [p[0] for p in res] == ['a', 'c'], f'got order {[p[0] for p in res]}'",
+          "fail_md": "Return a list of `(doc_id, score)` tuples, best first, cut to `k`."
+        },
+        {
+          "id": "t3",
+          "name": "ties broken alphabetically (hidden)",
+          "hidden": true,
+          "code": "res = top_k([1, 0], {'zeta': [2, 0], 'alpha': [5, 0], 'mid': [0, 1]}, 3)\nassert [p[0] for p in res] == ['alpha', 'zeta', 'mid'], f'got {[p[0] for p in res]}'",
+          "fail_md": "`zeta` and `alpha` both have cosine 1 (same direction, different lengths), so the tie must be broken by id: `alpha` first. Sort by `(-score, doc_id)`."
+        },
+        {
+          "id": "t4",
+          "name": "k larger than corpus (hidden)",
+          "hidden": true,
+          "code": "res = top_k([1, 0], {'a': [1, 0]}, 5)\nassert len(res) == 1",
+          "fail_md": "When `k` exceeds the number of docs, return all of them, without crashing or padding."
+        },
+        {
+          "id": "t5",
+          "name": "uses cosine, not raw dot (hidden)",
+          "hidden": true,
+          "code": "res = top_k([1, 0], {'long': [10, 10], 'aligned': [1, 0.05]}, 1)\nassert res[0][0] == 'aligned', f'got {res}'",
+          "fail_md": "`long` has a bigger **dot product**, but `aligned` points the same way as the query. Rank by cosine.",
+          "misconception": "mc-dot-equals-cosine-always"
+        }
+      ],
+      "hints": [
+        "Build a list of `(doc_id, score)` for every doc first.",
+        "`list.sort(key=...)` can sort by a tuple: `(-score, doc_id)`.",
+        "Slicing never fails: `[1,2][:5] == [1,2]`."
+      ]
+    }
+  ]
+}

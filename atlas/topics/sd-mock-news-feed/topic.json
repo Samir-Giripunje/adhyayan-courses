@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-mock-news-feed",
+  "version": 1,
+  "title": "Timed mock: news feed",
+  "size": "big",
+  "est_min": 40,
+  "kcs": [
+    {
+      "id": "kc-mock-feed-scope",
+      "version": 1,
+      "statement": "In the news feed mock, scope is limited to post, follow and read timeline. Ranking, search and ads are named as out of scope within the first 5 minutes."
+    },
+    {
+      "id": "kc-mock-feed-fanout-justify",
+      "version": 1,
+      "statement": "In the news feed mock, the hybrid fan-out choice is justified from the computed fan-out writes per second and a stated follower threshold for celebrity accounts."
+    },
+    {
+      "id": "kc-mock-feed-data-model",
+      "version": 1,
+      "statement": "In the news feed mock, the data model names posts, the follow graph and timeline caches separately, each with its shard key and store type."
+    },
+    {
+      "id": "kc-mock-feed-bottlenecks",
+      "version": 1,
+      "statement": "In the news feed mock, the bottleneck review covers celebrity posts, hot timeline keys and fan-out queue lag, with a mitigation for each."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-case-news-feed",
+    "sd-mock-method"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [],
+  "uses": [
+    "mock interview",
+    "mock rubric",
+    "news feed design",
+    "home timeline",
+    "hybrid fan-out",
+    "celebrity problem",
+    "shard key",
+    "hot key"
+  ],
+  "problem_ideas": [
+    "Core activity: in one uninterrupted 45-minute attempt, submit a complete answer for 500M DAU covering all seven rubric areas; then score each area in a separate review.",
+    "Variant: the feed must include posts from groups as well as people. Adjust the fan-out.",
+    "Interviewer pushback: 'Fan-out on write wastes work for inactive users.' Respond.",
+    "Re-estimate if the average follower count rises from 200 to 2,000.",
+    "Spend 5 minutes on the deep dive: timeline cache eviction.",
+    "Score a peer's answer that never mentioned media storage."
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "requirements-3/requirements"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "identify-and-resolve-bottlenecks-4/identify-and-resolve-bottlenecks"
+    }
+  ],
+  "status": "stub"
+}

@@ -1,0 +1,20 @@
+{
+  "novice": {
+    "ok": true,
+    "lesson": "5942b11e053972804ec2603ca62d6110a89373def954f78f0e3172bca2449326",
+    "job": "novice-clf-service-models",
+    "minor": 4
+  },
+  "rounds": {
+    "review": 1
+  },
+  "review": {
+    "ok": false,
+    "content": "35d3d3d9119c380b411fdfc1b44b717b07598362656966d35179106343b72cf4",
+    "job": "review-clf-service-models",
+    "blocking": [
+      "clf-service-models/exit-2: The unconditional key “AWS” omits Elastic Beanstalk's configurable update responsibilities: customers who disable managed updates must apply platform updates themselves. The same omission affects set-5, set-9, test-a3 and test-b3; see [AWS's platform-maintenance responsibilities](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-shared-responsibility.html). Fix: Replace the stem with: “An Elastic Beanstalk environment uses a supported AWS-provided platform with managed platform updates enabled. Who automatically applies an eligible OS patch through a successful managed platform update?” Keep key a. Teach that AWS supplies platform updates, while customers must ensure supported versions, resolve failed updates, and apply updates themselves when managed updates are disabled. Qualify the other affected items accordingly.",
+      "clf-service-models/set-6: The reason “the provider runs only the hardware” is false as written: AWS also manages the host operating system and virtualization software, so marking that reason true teaches an incorrect boundary. See [AWS's shared responsibility explanation](https://docs.aws.amazon.com/wellarchitected/latest/framework/shared-responsibility.html). Fix: Replace R with: “For EC2, AWS manages the physical infrastructure and virtualization layer; the customer is responsible for the guest operating system, including its security patches.” Keep key a. Replace “only the hardware” throughout the lesson and solutions with “the underlying infrastructure, including host software and virtualization,” and label the five-layer diagram as simplified."
+    ]
+  }
+}

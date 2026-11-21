@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-bandwidth-estimate",
+  "version": 1,
+  "title": "Estimating ingress and egress bandwidth",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-bandwidth-formula",
+      "version": 1,
+      "statement": "Bandwidth = QPS × payload size per request, computed separately for ingress (writes/uploads) and egress (reads/downloads)."
+    },
+    {
+      "id": "kc-bandwidth-egress-dominates",
+      "version": 1,
+      "statement": "In read-heavy media systems egress bandwidth dwarfs ingress, which is the number that justifies serving content from edge locations."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-qps-estimate"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-qps-estimate",
+    "sd-storage-estimate"
+  ],
+  "introduces": [
+    "bandwidth estimate",
+    "ingress",
+    "egress"
+  ],
+  "uses": [
+    "qps",
+    "bandwidth",
+    "read-to-write ratio"
+  ],
+  "problem_ideas": [
+    "40 writes/s of 500-byte URLs and 4,000 reads/s: ingress and egress in KB/s",
+    "Video service: 1M concurrent viewers at 5 Mbps: egress in Gbps",
+    "Convert 2 GB/s to Gbps and say whether one 10 Gbps NIC is enough",
+    "Photo app: 1,000 uploads/s at 2 MB: ingress per second and per day",
+    "A candidate multiplies bandwidth by storage size instead of request size: find the error",
+    "Compare egress for serving thumbnails vs originals in a feed"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "estimation-and-constraints-2/bandwidth"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "core-concepts/latency-vs-throughput-vs-bandwidth"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "estimation-and-constraints-5/bandwidth"
+    }
+  ],
+  "status": "stub"
+}

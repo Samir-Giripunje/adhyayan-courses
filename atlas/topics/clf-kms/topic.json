@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-kms",
+  "version": 1,
+  "title": "AWS KMS: managed encryption keys",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-kms-managed-keys",
+      "version": 1,
+      "statement": "AWS KMS creates, stores and controls encryption keys and integrates with services such as S3, EBS and RDS, so those services can encrypt data with a KMS key without you ever handling the key material."
+    },
+    {
+      "id": "kc-kms-key-types",
+      "version": 1,
+      "statement": "AWS managed keys are created and managed by AWS for a single service. Customer managed keys are created by you and give you control of the key policy, rotation and disabling or deleting the key."
+    },
+    {
+      "id": "kc-kms-shared-hsm",
+      "version": 1,
+      "statement": "KMS is a shared (multi-tenant) managed service: AWS runs the underlying hardware security modules, and access to each key is controlled by its key policy together with IAM policies."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-encryption-rest-transit"
+  ],
+  "suggests": [
+    "clf-iam-policies"
+  ],
+  "confusable_with": [
+    "clf-cloudhsm",
+    "clf-secrets-manager"
+  ],
+  "introduces": [
+    "kms",
+    "kms key",
+    "aws managed key",
+    "customer managed key",
+    "key policy",
+    "hardware security module"
+  ],
+  "uses": [
+    "encryption at rest",
+    "iam policy",
+    "s3",
+    "ebs",
+    "rds"
+  ],
+  "problem_ideas": [
+    "A compliance team must be able to disable a key immediately and control who uses it. Choose between an AWS managed key and a customer managed key.",
+    "An S3 bucket must be encrypted with keys the company controls but does not want to run hardware for. Name the service.",
+    "An IAM policy allows kms:Decrypt but the key policy does not allow the account. Can the user decrypt?",
+    "Which of these does KMS manage: encryption keys, database passwords, TLS certificates?",
+    "A security officer asks who manages the HSMs behind KMS. Answer in one sentence.",
+    "Rank KMS, CloudHSM and an AWS managed key by how much key control the customer has."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-key-management-service-aws-kms"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/aws-kms-key-management-service"
+    }
+  ],
+  "status": "stub"
+}

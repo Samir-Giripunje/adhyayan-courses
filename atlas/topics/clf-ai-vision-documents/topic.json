@@ -1,0 +1,59 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-ai-vision-documents",
+  "version": 1,
+  "title": "Rekognition, Textract, Kendra and Personalize",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-rekognition",
+      "version": 1,
+      "statement": "Amazon Rekognition analyses images and video to detect objects, people, text and unsafe content, and to compare faces."
+    },
+    {
+      "id": "kc-textract",
+      "version": 1,
+      "statement": "Amazon Textract extracts printed and handwritten text, forms and tables from scanned documents; Comprehend can then analyse the meaning of that text."
+    },
+    {
+      "id": "kc-kendra-personalize",
+      "version": 1,
+      "statement": "Amazon Kendra is ML-powered intelligent search over an organisation's documents; Amazon Personalize generates real-time recommendations from user behaviour."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-ai-language-speech"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-ai-language-speech",
+    "clf-quicksight-opensearch"
+  ],
+  "introduces": [
+    "rekognition",
+    "textract",
+    "kendra",
+    "personalize"
+  ],
+  "uses": [
+    "managed ai services",
+    "comprehend"
+  ],
+  "problem_ideas": [
+    "An insurer scans 10,000 claim forms a day and needs the field values: which service?",
+    "A social app must flag inappropriate uploaded images: which service?",
+    "Staff need to ask 'what is our parental leave policy?' over 40,000 HR documents: Kendra or OpenSearch?",
+    "An online shop wants 'customers like you also bought': which service?",
+    "Spot the distractor: 'Rekognition reads the meaning of a contract.'",
+    "Order a pipeline: scanned letters to extracted text to detected sentiment."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-7-identify-aws-artifici/aws-ai-ml-services"
+    }
+  ],
+  "status": "stub"
+}

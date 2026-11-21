@@ -1,0 +1,639 @@
+{
+  "schema": "adhy.course/1",
+  "id": "python-decorators",
+  "version": 1,
+  "title": "Python Decorators: From @ Syntax to Descriptors",
+  "archetype": "concept",
+  "scope_class": "chapter",
+  "goal": {
+    "text": "Python decorators",
+    "target": "curious",
+    "level": "some",
+    "depth": "working"
+  },
+  "budget": {
+    "daily_min": 60,
+    "days": [
+      "mon",
+      "tue",
+      "thu",
+      "sat"
+    ],
+    "review_min": 15,
+    "test_share": 0.4,
+    "weekly_slot": "sat"
+  },
+  "outcomes": [
+    {
+      "id": "o1",
+      "text": "Desugar any decorated definition, stacked or with arguments, into plain calls",
+      "observable": "Rewrite a given @-decorated function or class as explicit assignments and predict its printed output and call order"
+    },
+    {
+      "id": "o2",
+      "text": "Write a correct function decorator with functools.wraps that preserves metadata and handles any signature",
+      "observable": "Implement a timing or logging decorator that passes *args/**kwargs through and keeps __name__ and __doc__"
+    },
+    {
+      "id": "o3",
+      "text": "Write a decorator factory that takes arguments, including the optional-argument form",
+      "observable": "Implement @retry(times=3) and a decorator usable both as @dec and @dec(...)"
+    },
+    {
+      "id": "o4",
+      "text": "Apply common decorator patterns: registration, caching, attribute tagging and class decorators",
+      "observable": "Build a plugin registry decorator and a class decorator that adds a method, and explain when each runs"
+    },
+    {
+      "id": "o5",
+      "text": "Explain how @property, @classmethod and @staticmethod work via the descriptor protocol and decorate methods correctly",
+      "observable": "Predict what obj.attr returns for a given descriptor and write a reusable validator descriptor"
+    }
+  ],
+  "exclusions": [
+    {
+      "text": "Metaclasses and __init_subclass__",
+      "why": "Alternative class-customisation tools, a separate topic beyond decorators"
+    },
+    {
+      "text": "Static typing of decorators (ParamSpec, Concatenate)",
+      "why": "Type-checker detail not needed to write or understand working decorators"
+    },
+    {
+      "text": "Async and generator-specific decorators, contextlib.contextmanager internals",
+      "why": "Builds on coroutines and generators, which this course does not teach"
+    },
+    {
+      "text": "Framework decorators (Flask routes, pytest fixtures, dataclasses internals)",
+      "why": "Library-specific APIs; the course teaches the mechanism they all share"
+    },
+    {
+      "text": "Third-party wrapper libraries such as wrapt",
+      "why": "Optional tooling; functools covers what a working learner needs"
+    }
+  ],
+  "committed_route": {
+    "version": 1,
+    "topics": [
+      "pd-first-class-functions",
+      "pd-closures",
+      "pd-what-is-a-decorator",
+      "pd-decorator-syntax",
+      "pd-wrapper-functions",
+      "pd-decoration-time",
+      "pd-functools-wraps",
+      "pd-decorator-factories",
+      "pd-retry-decorator",
+      "pd-stacked-decorators",
+      "pd-functools-partial",
+      "pd-optional-argument-decorators",
+      "pd-registration-decorators",
+      "pd-attribute-tagging",
+      "pd-lru-cache",
+      "pd-class-decorators",
+      "pd-descriptor-basics",
+      "pd-descriptor-protocol",
+      "pd-set-name",
+      "pd-property",
+      "pd-bound-methods",
+      "pd-classmethod-staticmethod",
+      "pd-validator-descriptors"
+    ],
+    "from": {
+      "depth": "working",
+      "picks": {},
+      "kept_threads": [],
+      "diffs": []
+    }
+  },
+  "completion": {
+    "rule": "full-proof-or-kept",
+    "final": "final-test"
+  },
+  "sources": [
+    {
+      "id": "pep-318",
+      "kind": "docs",
+      "ref": "https://raw.githubusercontent.com/python/peps/main/peps/pep-0318.rst",
+      "fetched": "2026-11-18",
+      "hash": "54fc00fe487090714d7bb9f8103fa84889503585457be400183bbb9d25072433"
+    },
+    {
+      "id": "pep-3129",
+      "kind": "docs",
+      "ref": "https://raw.githubusercontent.com/python/peps/main/peps/pep-3129.rst",
+      "fetched": "2026-11-18",
+      "hash": "3ff23fa591640fa733da8090903f7f26e28d72890699a3cbe94407147c40cc8b"
+    },
+    {
+      "id": "functools-docs",
+      "kind": "docs",
+      "ref": "https://raw.githubusercontent.com/python/cpython/main/Doc/library/functools.rst",
+      "fetched": "2026-11-18",
+      "hash": "e57ec899b9282cc7e1ec2a3dde06250e2847ff6af10cf6d701cc6178e74d45aa"
+    },
+    {
+      "id": "descriptor-howto",
+      "kind": "docs",
+      "ref": "https://raw.githubusercontent.com/python/cpython/main/Doc/howto/descriptor.rst",
+      "fetched": "2026-11-18",
+      "hash": "6a3c11c56dc43c2fa17255e8c82a78f267599cfc5d963b7c4e13a734adff1e39"
+    }
+  ],
+  "stages": [
+    {
+      "id": "pd-p1",
+      "title": "Python decorators: functions, factories, classes and descriptors",
+      "outcome": [
+        "o1",
+        "o2",
+        "o3",
+        "o4",
+        "o5"
+      ],
+      "units": [
+        "pd-u1-foundations",
+        "pd-u2-factories",
+        "pd-u3-patterns",
+        "pd-u4-descriptors"
+      ],
+      "exam": null,
+      "provisional": false
+    }
+  ],
+  "placements": {
+    "pd-first-class-functions": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "via": [
+          "pd-what-is-a-decorator"
+        ],
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u1-foundations",
+      "order": 1,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-closures": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "via": [
+          "pd-wrapper-functions"
+        ],
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u1-foundations",
+      "order": 2,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-what-is-a-decorator": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u1-foundations",
+      "order": 3,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-decorator-syntax": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u1-foundations",
+      "order": 4,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-wrapper-functions": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u1-foundations",
+      "order": 5,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-decoration-time": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u1-foundations",
+      "order": 6,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-functools-wraps": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o2",
+        "sources": [
+          "pep-318",
+          "functools-docs"
+        ]
+      },
+      "unit": "pd-u1-foundations",
+      "order": 7,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-decorator-factories": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u2-factories",
+      "order": 8,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-retry-decorator": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u2-factories",
+      "order": 9,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-stacked-decorators": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o1",
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u2-factories",
+      "order": 10,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-functools-partial": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "via": [
+          "pd-optional-argument-decorators"
+        ],
+        "sources": [
+          "functools-docs"
+        ]
+      },
+      "unit": "pd-u2-factories",
+      "order": 11,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-optional-argument-decorators": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o3",
+        "sources": [
+          "functools-docs",
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u2-factories",
+      "order": 12,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-decorator-history": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1225,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.3,
+          "lens_reason": "Fun context for a curious learner; not needed to write decorators."
+        },
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u2-factories",
+      "order": 13,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-registration-decorators": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u3-patterns",
+      "order": 14,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-attribute-tagging": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u3-patterns",
+      "order": 15,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-lru-cache": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "pep-318",
+          "functools-docs"
+        ]
+      },
+      "unit": "pd-u3-patterns",
+      "order": 16,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-class-decorators": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o4",
+        "sources": [
+          "pep-3129"
+        ]
+      },
+      "unit": "pd-u3-patterns",
+      "order": 17,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-singleton-decorator": {
+      "topic_version": 1,
+      "tier": "optional",
+      "why": {
+        "rule": "score",
+        "score": 0.1425,
+        "terms": {
+          "spine": 0,
+          "support": 0.25,
+          "fanout": 0,
+          "lens": 0.4,
+          "lens_reason": "A cautionary example of a decorator that changes what a name means."
+        },
+        "sources": [
+          "pep-318"
+        ]
+      },
+      "unit": "pd-u3-patterns",
+      "order": 18,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-descriptor-basics": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "descriptor-howto"
+        ]
+      },
+      "unit": "pd-u4-descriptors",
+      "order": 19,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-descriptor-protocol": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "descriptor-howto"
+        ]
+      },
+      "unit": "pd-u4-descriptors",
+      "order": 20,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-set-name": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "descriptor-howto"
+        ]
+      },
+      "unit": "pd-u4-descriptors",
+      "order": 21,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-property": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "descriptor-howto"
+        ]
+      },
+      "unit": "pd-u4-descriptors",
+      "order": 22,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-bound-methods": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "descriptor-howto"
+        ]
+      },
+      "unit": "pd-u4-descriptors",
+      "order": 23,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-classmethod-staticmethod": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "descriptor-howto"
+        ]
+      },
+      "unit": "pd-u4-descriptors",
+      "order": 24,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    },
+    "pd-validator-descriptors": {
+      "topic_version": 1,
+      "tier": "must",
+      "why": {
+        "rule": "outcome-closure",
+        "outcome": "o5",
+        "sources": [
+          "descriptor-howto"
+        ]
+      },
+      "unit": "pd-u4-descriptors",
+      "order": 25,
+      "status": "planned",
+      "badges": [
+        "docs"
+      ]
+    }
+  },
+  "groups": {},
+  "cadence": {
+    "recall_thresholds": [
+      10,
+      15,
+      20,
+      30
+    ],
+    "recall_repeat": 30,
+    "small_course": false,
+    "mocks": "none",
+    "interview_rounds": false
+  },
+  "resolution": {
+    "units_cut_for": [
+      "pd-p1"
+    ],
+    "written": [
+      "pd-u1-foundations"
+    ]
+  },
+  "overrides": []
+}

@@ -1,0 +1,45 @@
+{
+  "rounds": {
+    "lesson": 1,
+    "review": 3
+  },
+  "reauthored": {
+    "at": "2026-11-18T08:36:57.000Z",
+    "note": "answer-first rewrite (author contract v2); previous critic record superseded",
+    "previous_review": {
+      "ok": true,
+      "job": "review-sd-ip-addresses-r3",
+      "blocking": 0
+    }
+  },
+  "novice": {
+    "ok": true,
+    "lesson": "c2ea7dad0f5d18d3d5209bc8aa3cfbf473f4c557a9f4dc033d5e50684339630f",
+    "job": "novice-sd-ip-addresses-r5",
+    "minor": 6
+  },
+  "review": {
+    "ok": true,
+    "content": "3041e15326174c4220a05ed1f62765b6d0e516940f14e8bf6f4a6bb683d5c6d4",
+    "job": "review-sd-ip-addresses-r8",
+    "warn": [
+      "sd-ip-addresses: IPv6 compression, address-count ratios, and CIDR block sizing are taught only in collapsed Go deeper sections, but multiple assessed items require them.",
+      "sd-ip-addresses/forge-8: The solution says the two blocks starting with 10 sit at opposite ends of the list, but they rank first and fourth; the /24 block ranks last.",
+      "sd-ip-addresses/forge-10: The division expression lacks parentheses around the denominator. As written, multiplication and division evaluated left to right do not yield 0.54."
+    ]
+  },
+  "reopened": [
+    {
+      "at": "2026-11-18T08:52:50.000Z",
+      "by": "maintainer",
+      "findings": 1,
+      "note": "re-author pass: the last critic finding fixed by hand; one final review"
+    },
+    {
+      "at": "2026-11-18T08:54:54.000Z",
+      "by": "maintainer",
+      "findings": 1,
+      "note": "re-author pass: a new single finding fixed by hand; one last review"
+    }
+  ]
+}

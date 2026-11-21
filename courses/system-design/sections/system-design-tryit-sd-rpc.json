@@ -1,0 +1,55 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-rpc",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Fix a shop's order API, then pick REST or gRPC",
+  "blurb": "Uses Latency, throughput and bandwidth, REST APIs: resources, statelessness, pagination and RPC, gRPC and choosing REST vs RPC: predict, then explain in your own words.",
+  "after": "topic:sd-rpc",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "ready",
+  "brief": {
+    "format": "written",
+    "topics": [
+      "sd-latency-throughput",
+      "sd-rest",
+      "sd-rpc"
+    ],
+    "kcs": [
+      "kc-rest-pagination",
+      "kc-rest-stateless",
+      "kc-rest-vs-rpc-choice",
+      "kc-littles-law"
+    ],
+    "minutes": 20,
+    "why": "Uses Latency, throughput and bandwidth, REST APIs: resources, statelessness, pagination and RPC, gRPC and choosing REST vs RPC: predict, then explain in your own words."
+  },
+  "tryit": {
+    "format": "written",
+    "question_md": "A small online shop's order service has two callers:\n\n```text\nPartner shops (outside companies):\n  POST /getOrders {\"customer\": 42}\n  -> all the customer's orders (some have 30,000)\n  The server keeps each partner's last page in memory.\n\nCheckout service (inside the shop):\n  POST /reserveStock, about 1.2 KB of JSON per call\n  (300 bytes in Protocol Buffers)\n  20,000 calls per second, 40 ms each\n```\n\n1. Rewrite the partner call in REST style with small responses. The service now runs on several servers and a request may reach any of them: what breaks, and how does your design avoid it?\n2. REST or gRPC for each caller? One reason each, with a number for checkout.\n3. **Predict:** in a sale, stock calls take 200 ms at the same 20,000 per second. How many calls are in flight before and during the sale?",
+    "model_md": "1. `GET /customers/42/orders?limit=50&cursor=...`: customers and orders are nouns, and reading is a GET, not a verb in the path. Each response holds one page of up to 50 orders plus a `next_cursor` the partner sends back for the next page, so it stays small however many orders exist. A page kept in one server's memory breaks statelessness: the next request may reach another server, which knows nothing about it. With the cursor carried in the request, any server can answer.\n\n2. REST for the partners: outside companies can call uniform, cacheable HTTP with any tool. gRPC for checkout to stock: an internal, high-volume call where compact, typed Protocol Buffers messages cut overhead. JSON is 20,000 × 1.2 KB ≈ 24 MB/s (about 190 Mbps); Protocol Buffers is 20,000 × 300 B ≈ 6 MB/s (about 48 Mbps).\n\n3. Little's law: in flight = throughput × latency = 20,000/s × 0.04 s = 800 calls. At 0.2 s: 20,000 × 0.2 = 4,000. Same throughput, five times the latency, so five times as many calls are open at once: checkout needs five times the connections or its calls queue.",
+    "rubric": [
+      {
+        "id": "c1",
+        "text": "Rewrites the partner call as a GET on a noun resource such as /customers/42/orders, paged with a limit and a cursor."
+      },
+      {
+        "id": "c2",
+        "text": "Explains that a page kept in one server's memory breaks when the next request reaches another server, and carries the cursor in the request so any server can answer."
+      },
+      {
+        "id": "c3",
+        "text": "Chooses REST for the outside partners because uniform, cacheable HTTP works for any caller."
+      },
+      {
+        "id": "c4",
+        "text": "Chooses gRPC for the internal stock call and backs it with the payload numbers: about 24 MB/s of JSON against about 6 MB/s of Protocol Buffers."
+      },
+      {
+        "id": "c5",
+        "text": "Uses Little's law to predict 800 calls in flight at 40 ms and 4,000 at 200 ms, with throughput unchanged."
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "adhy.section/1",
+  "id": "system-design-tryit-sd-scale-to-millions",
+  "course": "system-design",
+  "kind": "try-it",
+  "title": "Try it: write the code",
+  "blurb": "Uses Rate limiting: why and where and Assembling the request path for millions of users: write a small program and run its tests.",
+  "after": "topic:sd-scale-to-millions",
+  "origin": "default",
+  "created": "2026-11-20",
+  "status": "writing",
+  "brief": {
+    "format": "code",
+    "topics": [
+      "sd-rate-limiting",
+      "sd-scale-to-millions"
+    ],
+    "kcs": [
+      "kc-rate-limiting-purpose",
+      "kc-rate-limit-response",
+      "kc-scaling-path",
+      "kc-request-path-order",
+      "kc-tier-load"
+    ],
+    "minutes": 20,
+    "why": "Uses Rate limiting: why and where and Assembling the request path for millions of users: write a small program and run its tests."
+  }
+}

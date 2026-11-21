@@ -1,0 +1,62 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-high-availability",
+  "version": 1,
+  "title": "High availability: surviving a failure",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-high-availability",
+      "version": 1,
+      "statement": "High availability means designing a workload to minimise downtime so it keeps meeting its availability target when components fail; a common technique is running redundant copies in independent locations, which in AWS means multiple Availability Zones."
+    },
+    {
+      "id": "kc-ha-vs-scalability",
+      "version": 1,
+      "statement": "Redundancy only gives high availability when traffic fails over automatically, the data is available in the surviving location and the remaining capacity can carry the load; horizontal scaling within one location adds capacity for more load but does not by itself make a workload highly available."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-vertical-horizontal-scaling"
+  ],
+  "suggests": [
+    "clf-well-architected-framework"
+  ],
+  "confusable_with": [
+    "clf-elasticity-agility"
+  ],
+  "introduces": [
+    "high availability",
+    "single point of failure"
+  ],
+  "uses": [
+    "horizontal scaling",
+    "data center",
+    "server"
+  ],
+  "problem_ideas": [
+    "An app runs on 4 servers in one data center that loses power: is it highly available? What change fixes it?",
+    "Find the single point of failure in a diagram: web servers in two locations, but one database in only one of them.",
+    "A company scales from 2 to 8 servers in the same room: did availability, scalability or both improve?",
+    "Choose between 'bigger server' and 'second server in another location' for a requirement to survive a building outage.",
+    "Compute the uptime gain when two independent locations each have 99% availability (1 - 0.01^2), then say what failover must work for that figure to hold.",
+    "Two locations each run at 80% load: explain why losing one still causes an outage despite the redundancy."
+  ],
+  "sources": [
+    {
+      "source": "clf-notes",
+      "entry": "elastic-load-balancing-auto-scaling-grou/high-availability"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "elastic-load-balancing-auto-scaling-grou/high-availability-scalability-for-ec2"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-1-1-define-the-benefits-o/understanding-the-advantages-of-high-ava"
+    }
+  ],
+  "status": "stub"
+}

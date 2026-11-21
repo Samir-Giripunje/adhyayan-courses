@@ -1,0 +1,191 @@
+{
+  "schema": "adhy.practice/1",
+  "course": "python-decorators",
+  "profile": "code",
+  "why": "Mostly code: most tasks are small programs to write and test.",
+  "by": "auto",
+  "fits": {
+    "pd-first-class-functions": {
+      "fit": "code",
+      "why": "passing, storing and returning functions is best learned by writing a small dispatcher",
+      "by": "judged"
+    },
+    "pd-closures": {
+      "fit": "written",
+      "why": "late binding is a behaviour to predict and explain, then fix two ways",
+      "by": "judged"
+    },
+    "pd-what-is-a-decorator": {
+      "fit": "none",
+      "why": "a definition; the tasks on syntax and wrappers exercise it",
+      "by": "judged"
+    },
+    "pd-decorator-syntax": {
+      "fit": "code",
+      "why": "rewriting @dec as f = dec(f) and back is checkable in code",
+      "by": "judged"
+    },
+    "pd-wrapper-functions": {
+      "fit": "code",
+      "why": "a wrapper that passes any arguments through and returns the result is a test-shaped skill",
+      "by": "judged"
+    },
+    "pd-decoration-time": {
+      "fit": "code",
+      "why": "which lines run at decoration and which per call shows up directly in tests",
+      "by": "judged"
+    },
+    "pd-functools-wraps": {
+      "fit": "code",
+      "why": "lost __name__, __doc__ and __wrapped__ are directly testable",
+      "by": "judged"
+    },
+    "pd-decorator-factories": {
+      "fit": "code",
+      "why": "the three levels of a factory are learned by building one",
+      "by": "judged"
+    },
+    "pd-retry-decorator": {
+      "fit": "code",
+      "why": "a retry loop with a bare re-raise and argument checks is a classic implement-and-test task",
+      "by": "judged"
+    },
+    "pd-stacked-decorators": {
+      "fit": "written",
+      "why": "the order of evaluation, application and calls is a behaviour to predict and explain",
+      "by": "judged"
+    },
+    "pd-functools-partial": {
+      "fit": "code",
+      "why": "frozen and call-time arguments combine in ways tests pin down",
+      "by": "judged"
+    },
+    "pd-optional-argument-decorators": {
+      "fit": "code",
+      "why": "a decorator that works with and without parentheses has to be built and tested",
+      "by": "judged"
+    },
+    "pd-registration-decorators": {
+      "fit": "code",
+      "why": "a plugin registry keyed by name is a small program to write",
+      "by": "judged"
+    },
+    "pd-attribute-tagging": {
+      "fit": "written",
+      "why": "why a tag disappears under a wrapper without wraps is worth explaining",
+      "by": "judged"
+    },
+    "pd-lru-cache": {
+      "fit": "code",
+      "why": "memoization, hashable arguments and cache_info are checkable in code",
+      "by": "judged"
+    },
+    "pd-class-decorators": {
+      "fit": "code",
+      "why": "a class decorator that adds a method is a short program with clear tests",
+      "by": "judged"
+    },
+    "pd-descriptor-basics": {
+      "fit": "code",
+      "why": "a first __get__ and the class-versus-instance lookup are testable",
+      "by": "judged"
+    },
+    "pd-descriptor-protocol": {
+      "fit": "written",
+      "why": "the lookup order between data descriptors, the instance dict and non-data descriptors is explained, not memorised",
+      "by": "judged"
+    },
+    "pd-set-name": {
+      "fit": "code",
+      "why": "a descriptor that stores per-instance values under its own name is built and tested",
+      "by": "judged"
+    },
+    "pd-property": {
+      "fit": "code",
+      "why": "properties with and without setters are quick to write and test",
+      "by": "judged"
+    },
+    "pd-bound-methods": {
+      "fit": "written",
+      "why": "why a class-based decorator loses self on a method is a behaviour to predict and explain",
+      "by": "judged"
+    },
+    "pd-classmethod-staticmethod": {
+      "fit": "written",
+      "why": "what each __get__ returns and why classmethod goes on top are explained, then predicted",
+      "by": "judged"
+    },
+    "pd-validator-descriptors": {
+      "fit": "code",
+      "why": "a reusable validator descriptor is the unit's capstone program",
+      "by": "judged"
+    }
+  },
+  "tasks": [
+    {
+      "id": "python-decorators-tryit-pd-closures",
+      "topic": "pd-closures",
+      "format": "written",
+      "topics": [
+        "pd-first-class-functions",
+        "pd-closures"
+      ],
+      "minutes": 12,
+      "written": true
+    },
+    {
+      "id": "python-decorators-tryit-pd-decoration-time",
+      "topic": "pd-decoration-time",
+      "format": "code",
+      "topics": [
+        "pd-decorator-syntax",
+        "pd-wrapper-functions",
+        "pd-decoration-time"
+      ],
+      "minutes": 18,
+      "written": true
+    },
+    {
+      "id": "python-decorators-tryit-pd-stacked-decorators",
+      "topic": "pd-stacked-decorators",
+      "format": "code",
+      "topics": [
+        "pd-decorator-factories",
+        "pd-retry-decorator",
+        "pd-stacked-decorators"
+      ],
+      "minutes": 11,
+      "written": false
+    },
+    {
+      "id": "python-decorators-tryit-pd-class-decorators",
+      "topic": "pd-class-decorators",
+      "format": "code",
+      "topics": [
+        "pd-attribute-tagging",
+        "pd-lru-cache",
+        "pd-class-decorators"
+      ],
+      "minutes": 11,
+      "written": false
+    },
+    {
+      "id": "python-decorators-tryit-pd-validator-descriptors",
+      "topic": "pd-validator-descriptors",
+      "format": "code",
+      "topics": [
+        "pd-bound-methods",
+        "pd-classmethod-staticmethod",
+        "pd-validator-descriptors"
+      ],
+      "minutes": 11,
+      "written": false
+    }
+  ],
+  "minutes": {
+    "course": 437,
+    "cap": 65,
+    "used": 63
+  },
+  "updated": "2026-11-20"
+}

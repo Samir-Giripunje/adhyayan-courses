@@ -1,0 +1,63 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-requirements",
+  "version": 1,
+  "title": "Functional and non-functional requirements",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-functional-requirements",
+      "version": 1,
+      "statement": "Functional requirements state what the system does for users (e.g. 'a user can shorten a URL'), each as a verb on an entity that later maps to an API endpoint."
+    },
+    {
+      "id": "kc-non-functional-requirements",
+      "version": 1,
+      "statement": "Non-functional requirements state how well the system must behave (availability, latency target, consistency, durability, scale), and they drive architecture choices more than functional ones."
+    },
+    {
+      "id": "kc-read-write-ratio",
+      "version": 1,
+      "statement": "Asking for the read-to-write ratio early tells you whether the design is read-heavy (favour replicas and caches) or write-heavy (favour partitioned writes and queues)."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "sd-interview-framework"
+  ],
+  "confusable_with": [],
+  "introduces": [
+    "functional requirements",
+    "non-functional requirements",
+    "read-to-write ratio"
+  ],
+  "uses": [
+    "latency",
+    "system design interview framework"
+  ],
+  "problem_ideas": [
+    "Sort 12 statements about a chat app into functional vs non-functional",
+    "Write five clarifying questions for 'design a URL shortener' and the default you'd assume for each",
+    "A URL shortener has 100:1 reads to writes; say which side of the design gets more attention",
+    "Convert 'it should be fast' into a measurable non-functional requirement with a p99 target",
+    "Spot the out-of-scope requirement in a list for 'design Twitter' and justify cutting it",
+    "Given a news feed prompt, decide whether eventual or strong consistency should be a stated requirement"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "how-to-approach-a-system-design-intervie/step-1-outline-use-cases-constraints-and"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "requirements-clarifications/functional-requirements"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "requirements-clarifications/non-functional-requirements"
+    }
+  ],
+  "status": "stub"
+}

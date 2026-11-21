@@ -1,0 +1,61 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-aws-backup",
+  "version": 1,
+  "title": "AWS Backup: central backup management",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-aws-backup-central",
+      "version": 1,
+      "statement": "AWS Backup centrally automates backups across services such as EC2, EBS, EFS, FSx, RDS, DynamoDB and S3, using backup plans that set the schedule and retention."
+    },
+    {
+      "id": "kc-aws-backup-cross",
+      "version": 1,
+      "statement": "AWS Backup can copy backups to another Region or to another account in the same organization for disaster recovery and compliance, and Vault Lock can make backups immutable."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-ebs",
+    "clf-multi-az-multi-region"
+  ],
+  "confusable_with": [
+    "clf-storage-gateway",
+    "clf-s3-lifecycle"
+  ],
+  "introduces": [
+    "aws backup",
+    "backup plan"
+  ],
+  "uses": [
+    "ebs",
+    "efs",
+    "fsx",
+    "s3",
+    "region",
+    "disaster recovery"
+  ],
+  "problem_ideas": [
+    "A company scripts snapshots separately for EBS, RDS and EFS and keeps missing some: which service unifies them?",
+    "Auditors require daily backups kept for 35 days and monthly backups kept for 7 years: what do you configure?",
+    "Backups must survive the loss of an entire Region: which AWS Backup feature?",
+    "Ransomware could delete backups using stolen admin credentials: which feature prevents it?",
+    "Distinguish AWS Backup from an S3 lifecycle policy in one sentence each.",
+    "Choose between AWS Backup and Storage Gateway for each of three scenarios."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/understanding-use-cases-for-aws-backup"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "other-aws-services/aws-backup"
+    }
+  ],
+  "status": "stub"
+}

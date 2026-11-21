@@ -1,0 +1,49 @@
+[
+  {
+    "id": "q-proof2-legal",
+    "version": 1,
+    "family": "q-proof2-legal",
+    "kind": "single",
+    "class": "mcq",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-hybrid",
+    "kcs": [
+      "kc-hybrid-rerank"
+    ],
+    "use": "test",
+    "origin": "static",
+    "seal": "sealed",
+    "form": "B",
+    "est_seconds": 60,
+    "prompt_md": "**Transfer:** legal search users paste exact clause numbers (*“§ 4.2(b)”*) and get neighbouring clauses. Best fix?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Hybrid search: add BM25 or exact-match on clause identifiers, then fuse with RRF",
+        "correct": true,
+        "why_md": "Right."
+      },
+      {
+        "id": "b",
+        "md": "Fine-tune the embedding model on legal text",
+        "why_md": "That might help topical matching. Exact identifiers stay a lexical problem."
+      },
+      {
+        "id": "c",
+        "md": "Increase the embedding dimensions",
+        "why_md": "This isn't a capacity problem.",
+        "misconception": "mc-bigger-dims-better"
+      }
+    ],
+    "hints": [
+      "Which idea applies? Hybrid search fuses BM25 and vector results by rank.",
+      "Right."
+    ],
+    "solution_md": "Right.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

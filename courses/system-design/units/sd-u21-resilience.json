@@ -1,0 +1,29 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u21-resilience",
+  "title": "Resilience patterns between services",
+  "topics": [
+    {
+      "id": "sd-timeouts",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "sd-retry-backoff-jitter",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-circuit-breaker",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "sd-bulkhead",
+      "tier": "optional",
+      "order": 4
+    }
+  ],
+  "halfway_after": 2,
+  "status": "stub"
+}

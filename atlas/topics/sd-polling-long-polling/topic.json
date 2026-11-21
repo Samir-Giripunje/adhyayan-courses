@@ -1,0 +1,67 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-polling-long-polling",
+  "version": 1,
+  "title": "Short polling vs long polling",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-short-polling-cost",
+      "version": 1,
+      "statement": "With short polling every T seconds, an update waits T/2 on average to be seen and the server receives clients/T requests per second, most of which return nothing."
+    },
+    {
+      "id": "kc-long-polling-hold",
+      "version": 1,
+      "statement": "With long polling the server holds each request open until data arrives or a timeout fires and the client immediately reissues it, cutting empty responses and delay at the cost of one held connection per waiting client."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "sd-http"
+  ],
+  "suggests": [
+    "sd-qps-estimate"
+  ],
+  "confusable_with": [
+    "sd-websockets",
+    "sd-server-sent-events"
+  ],
+  "introduces": [
+    "short polling",
+    "long polling"
+  ],
+  "uses": [
+    "http",
+    "qps",
+    "latency"
+  ],
+  "problem_ideas": [
+    "2M online clients poll every 5 s: compute QPS and the average notification delay",
+    "Same clients with long polling at a 30 s timeout and 1 update per client per minute: compute requests per second",
+    "How many concurrently open connections does long polling need for 2M clients?",
+    "A message arrives just after a long-poll response returns: what is the worst-case delay?",
+    "Why does long polling survive corporate proxies that block WebSockets?",
+    "Choose a polling interval for a dashboard updated once per minute vs a chat app"
+  ],
+  "sources": [
+    {
+      "source": "karan-sd",
+      "entry": "long-polling/long-polling"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "long-polling/working"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "long-polling/advantages"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "long-polling/disadvantages"
+    }
+  ],
+  "status": "stub"
+}

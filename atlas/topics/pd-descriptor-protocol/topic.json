@@ -1,0 +1,74 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "pd-descriptor-protocol",
+  "version": 1,
+  "title": "Data vs non-data descriptors and lookup order",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-data-vs-nondata",
+      "version": 1,
+      "statement": "A data descriptor defines __set__ or __delete__; a non-data descriptor defines only __get__."
+    },
+    {
+      "id": "kc-lookup-precedence",
+      "version": 1,
+      "statement": "Under default instance lookup, a data descriptor defining __get__ takes precedence over the instance dictionary, which in turn takes precedence over non-data descriptors and plain class attributes; a descriptor without __get__ does not override an instance value on reads."
+    },
+    {
+      "id": "kc-set-data-descriptor",
+      "version": 1,
+      "statement": "Under default assignment, a descriptor on the type that defines __set__ handles obj.x = v; a data descriptor defining only __delete__ rejects assignment with AttributeError; otherwise v is stored in the instance dictionary when one is available, shadowing any non-data descriptor."
+    },
+    {
+      "id": "kc-getattr-last",
+      "version": 1,
+      "statement": "__getattr__ is called only after normal lookup, including descriptors and the instance dictionary, raises AttributeError."
+    }
+  ],
+  "mode_hint": "prediction",
+  "requires": [
+    "pd-descriptor-basics"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "pd-descriptor-basics"
+  ],
+  "introduces": [
+    "descriptor protocol",
+    "data descriptor",
+    "non-data descriptor"
+  ],
+  "uses": [
+    "descriptor",
+    "__get__"
+  ],
+  "problem_ideas": [
+    "Predict obj.x when x is a non-data descriptor and obj.__dict__['x'] exists",
+    "Same scenario with a data descriptor: predict the result",
+    "Predict what obj.method = 5 does to later obj.method lookups",
+    "Add __set__ to a descriptor and predict how assignment behaviour changes",
+    "Predict obj.x = 1 and a later obj.x read for a descriptor defining only __set__ and __delete__",
+    "Classify property, function, classmethod and staticmethod as data or non-data"
+  ],
+  "sources": [
+    {
+      "source": "descriptor-howto",
+      "entry": "technical-tutorial/descriptor-protocol"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "technical-tutorial/overview-of-descriptor-invocation"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "technical-tutorial/invocation-from-an-instance"
+    },
+    {
+      "source": "descriptor-howto",
+      "entry": "technical-tutorial/summary-of-invocation-logic"
+    }
+  ],
+  "status": "stub"
+}

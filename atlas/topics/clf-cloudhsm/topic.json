@@ -1,0 +1,50 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-cloudhsm",
+  "version": 1,
+  "title": "CloudHSM: your own dedicated key hardware",
+  "size": "micro",
+  "est_min": 6,
+  "kcs": [
+    {
+      "id": "kc-cloudhsm-dedicated",
+      "version": 1,
+      "statement": "AWS CloudHSM provides dedicated, single-tenant hardware security modules in your VPC, validated at FIPS 140 Level 3, where only you manage the keys and HSM users (AWS cannot access the keys). Use it when a regulation requires customer-controlled HSMs."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-kms"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "clf-kms"
+  ],
+  "introduces": [
+    "cloudhsm"
+  ],
+  "uses": [
+    "kms",
+    "hardware security module",
+    "vpc"
+  ],
+  "problem_ideas": [
+    "A bank's regulator says no cloud provider staff may be able to access its keys. Choose between KMS and CloudHSM.",
+    "Identify the keyword in this question that points to CloudHSM: 'single-tenant, FIPS 140 Level 3 HSM'.",
+    "Who manages HSM users and keys in CloudHSM? Who manages them in KMS?",
+    "A team wants automatic integration with 100+ AWS services and the least operational work. Pick KMS or CloudHSM.",
+    "True or false: if you lose your CloudHSM credentials, AWS can recover your keys.",
+    "Where does a CloudHSM cluster run: in your VPC, at an edge location or in AWS's shared fleet?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "security-identity-and-compliance/aws-cloudhsm"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "security-compliance/cloudhsm"
+    }
+  ],
+  "status": "stub"
+}

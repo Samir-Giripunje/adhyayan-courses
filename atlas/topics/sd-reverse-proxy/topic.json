@@ -1,0 +1,65 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-reverse-proxy",
+  "version": 1,
+  "title": "Forward and reverse proxies",
+  "size": "standard",
+  "est_min": 20,
+  "kcs": [
+    {
+      "id": "kc-forward-vs-reverse-proxy",
+      "version": 1,
+      "statement": "A forward proxy acts on behalf of clients and hides them from servers; a reverse proxy sits in front of servers and hides them from clients."
+    },
+    {
+      "id": "kc-reverse-proxy-uses",
+      "version": 1,
+      "statement": "A reverse proxy is useful even with one backend (TLS termination, compression, serving static files, hiding internal addresses), whereas a load balancer only adds value when there are several backends."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-load-balancers"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-load-balancers",
+    "sd-api-gateway"
+  ],
+  "introduces": [
+    "reverse proxy",
+    "forward proxy"
+  ],
+  "uses": [
+    "load balancer",
+    "tls termination",
+    "ip address"
+  ],
+  "problem_ideas": [
+    "A corporate network forces all outbound web traffic through one box: forward or reverse proxy?",
+    "A single-server blog wants HTTPS and gzip without touching app code: what do you add?",
+    "List three things a reverse proxy hides from the internet",
+    "Is a CDN edge a forward or a reverse proxy? Justify",
+    "An attacker scans backend IPs directly and bypasses the proxy: what configuration mistake allowed it?",
+    "Sort these into forward proxy, reverse proxy or both: VPN egress, TLS terminator, content filter, static file server"
+  ],
+  "sources": [
+    {
+      "source": "sd-primer",
+      "entry": "reverse-proxy-web-server/reverse-proxy-web-server"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "reverse-proxy-web-server/load-balancer-vs-reverse-proxy"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "types-5/reverse-proxy"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "networking-fundamentals/proxy-vs-reverse-proxy"
+    }
+  ],
+  "status": "stub"
+}

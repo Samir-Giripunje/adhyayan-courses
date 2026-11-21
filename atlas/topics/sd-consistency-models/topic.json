@@ -1,0 +1,69 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-consistency-models",
+  "version": 1,
+  "title": "Strong, eventual and weak consistency",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-strong-consistency",
+      "version": 1,
+      "statement": "Under strong consistency every read returns the most recent acknowledged write, which typically requires reading from the leader or waiting for replicas to agree."
+    },
+    {
+      "id": "kc-eventual-consistency",
+      "version": 1,
+      "statement": "Under eventual consistency replicas may return stale values for a while but converge to the same value once new writes stop."
+    },
+    {
+      "id": "kc-weak-consistency",
+      "version": 1,
+      "statement": "Under weak consistency a read may never see a given write, which is acceptable for data such as live video frames or game positions where only the latest value matters."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-replication-lag"
+  ],
+  "suggests": [],
+  "confusable_with": [
+    "sd-cap-theorem"
+  ],
+  "introduces": [
+    "strong consistency",
+    "eventual consistency",
+    "weak consistency"
+  ],
+  "uses": [
+    "replication",
+    "replication lag"
+  ],
+  "problem_ideas": [
+    "Assign a consistency model to: bank balance, follower count, VoIP audio, seat inventory, profile bio, DNS record",
+    "A tweet's like count differs across two phones for 3 seconds: name the model and say if it is acceptable",
+    "Explain what an interviewer means by 'eventually' when no bound is given",
+    "Describe what a strongly consistent read costs in latency when the leader is in another region",
+    "A booking system shows a seat free that was just sold: identify the model failure and fix",
+    "Write the consistency line for a URL shortener's redirect lookup"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "consistency-patterns/consistency-patterns"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "consistency-patterns/strong-consistency"
+    },
+    {
+      "source": "sd-primer",
+      "entry": "consistency-patterns/eventual-consistency"
+    },
+    {
+      "source": "awesome-sd",
+      "entry": "system-design-tradeoffs/strong-vs-eventual-consistency"
+    }
+  ],
+  "status": "stub"
+}

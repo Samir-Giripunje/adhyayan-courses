@@ -1,0 +1,34 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u4-design-and-migration",
+  "title": "Well-Architected, Cloud Adoption Framework and migration",
+  "topics": [
+    {
+      "id": "clf-well-architected-framework",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-wa-pillars-ops-security-reliability",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-wa-pillars-performance-cost-sustainability",
+      "tier": "must",
+      "order": 3
+    },
+    {
+      "id": "clf-cloud-adoption-framework",
+      "tier": "must",
+      "order": 4
+    },
+    {
+      "id": "clf-migration-strategies",
+      "tier": "must",
+      "order": 5
+    }
+  ],
+  "halfway_after": 3,
+  "status": "stub"
+}

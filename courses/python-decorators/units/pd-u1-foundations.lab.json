@@ -1,0 +1,248 @@
+{
+  "schema": "adhy.lab/1",
+  "exercises": [
+    {
+      "id": "ex-worked-announce",
+      "title": "Worked: one decorator, two ways to apply it",
+      "stage": "worked",
+      "difficulty": 1,
+      "kcs": [
+        "kc-functions-are-objects",
+        "kc-function-name-vs-call",
+        "kc-decorator-definition",
+        "kc-at-desugar",
+        "kc-wrapper-pattern"
+      ],
+      "est_minutes": 5,
+      "brief_md": "Shopkit's `pricing.py` has a small working decorator, `announce`. Every time a decorated function is called, `announce` adds that function's name to the list `CALL_LOG`. It then calls the original function and returns its result.\n\nRead the code first:\n\n- `announce(func)` takes a **function object** and returns a new function, `wrapper`.\n- `wrapper` remembers `func` in its closure. It records the call, then returns `func(*args, **kwargs)`.\n- `@announce` above `def shipping` is already applied. Calling `shipping(1.5)` logs `\"shipping\"` and still returns `8.0`.\n\n**Your one change:** decorate `unit_price` with `announce` **without using `@`**. Write the single assignment line that `@announce` would perform for you. Pass the function object itself, not the result of calling it.",
+      "starter": "CALL_LOG = []\n\nPRICES = {\"TEA\": 4.50, \"MUG\": 12.00, \"PEN\": 1.25, \"BAG\": 30.00}\n\n\ndef announce(func):\n    def wrapper(*args, **kwargs):\n        CALL_LOG.append(func.__name__)\n        return func(*args, **kwargs)\n    return wrapper\n\n\n@announce\ndef shipping(weight_kg, express=False):\n    \"\"\"Return the shipping cost for a parcel weight.\"\"\"\n    cost = 5.00 + 2.00 * weight_kg\n    return cost * 2 if express else cost\n\n\ndef unit_price(sku):\n    \"\"\"Return the unit price for a SKU.\"\"\"\n    return PRICES[sku]\n\n\n# YOUR CHANGE: decorate unit_price WITHOUT using @.\n# Write one assignment line below that does exactly what @announce would do.\n",
+      "solution": "CALL_LOG = []\n\nPRICES = {\"TEA\": 4.50, \"MUG\": 12.00, \"PEN\": 1.25, \"BAG\": 30.00}\n\n\ndef announce(func):\n    def wrapper(*args, **kwargs):\n        CALL_LOG.append(func.__name__)\n        return func(*args, **kwargs)\n    return wrapper\n\n\n@announce\ndef shipping(weight_kg, express=False):\n    \"\"\"Return the shipping cost for a parcel weight.\"\"\"\n    cost = 5.00 + 2.00 * weight_kg\n    return cost * 2 if express else cost\n\n\ndef unit_price(sku):\n    \"\"\"Return the unit price for a SKU.\"\"\"\n    return PRICES[sku]\n\n\nunit_price = announce(unit_price)\n",
+      "solution_walkthrough_md": "1. `@announce` above `def f` means: define `f`, then run `f = announce(f)`. The `@` form just never binds the undecorated function to the name.\n2. For `unit_price`, write the assignment yourself: `unit_price = announce(unit_price)`.\n3. On the right-hand side, `unit_price` without parentheses is the **function object**. `announce` receives it and returns `wrapper`, and the name `unit_price` now points to that wrapper.\n4. Calling `unit_price(\"PEN\")` now runs `wrapper(\"PEN\")`. The wrapper appends `\"unit_price\"` to `CALL_LOG`, calls the original function captured in its closure and returns `1.25`.\n5. A common slip is `announce(unit_price(\"PEN\"))`. That passes the number `1.25` instead of the function, so the name ends up bound to a wrapper around a float.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "shipping is still decorated and still returns its result",
+          "code": "CALL_LOG.clear()\nassert shipping(1.5) == 8.0\nassert CALL_LOG == [\"shipping\"], CALL_LOG",
+          "fail_md": "`shipping(1.5)` should return `8.0` and log `\"shipping\"` exactly once. Did you change `announce` or the `@announce` line? The task only asks you to add one line."
+        },
+        {
+          "id": "t2",
+          "name": "unit_price is decorated and returns the price",
+          "code": "CALL_LOG.clear()\nassert unit_price(\"PEN\") == 1.25\nassert CALL_LOG == [\"unit_price\"], CALL_LOG",
+          "fail_md": "Calling `unit_price(\"PEN\")` logged nothing, so `unit_price` is still the plain function. Rebind the name to what `announce` returns: `unit_price = announce(unit_price)`."
+        },
+        {
+          "id": "t3",
+          "name": "every call is logged, once each",
+          "code": "CALL_LOG.clear()\nassert unit_price(\"TEA\") == 4.5\nassert unit_price(\"MUG\") == 12.0\nassert CALL_LOG == [\"unit_price\", \"unit_price\"], CALL_LOG",
+          "fail_md": "Each call should add exactly one `\"unit_price\"` entry. If you see two entries per call, you applied `announce` twice. If calls fail, check that you passed the function `unit_price`, not a call such as `unit_price(\"PEN\")`.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "The decorator line `@announce` means `name = announce(name)` after the `def`. Write that assignment for `unit_price`.",
+        "Add `unit_price = announce(unit_price)` at the bottom, with no parentheses after the inner `unit_price`."
+      ]
+    },
+    {
+      "id": "ex-faded-count-calls",
+      "title": "Faded: a call counter that lives in a closure",
+      "stage": "faded",
+      "difficulty": 2,
+      "kcs": [
+        "kc-closure-captures-variable",
+        "kc-nonlocal",
+        "kc-wrapper-pattern",
+        "kc-wrapper-return-value"
+      ],
+      "est_minutes": 8,
+      "brief_md": "The team wants to know how often `unit_price` runs. `count_calls` is almost finished: it keeps `count` in the enclosing function and copies it to `wrapper.calls` after each call. Two lines are missing.\n\n- **GAP 1:** `count += 1` assigns to `count`, so Python treats `count` as a *local* variable of `wrapper`. Reading it before it is assigned raises `UnboundLocalError`. Add the one declaration that makes `count` refer to the enclosing function's variable.\n- **GAP 2:** the wrapper never calls `func`, so every call returns `None`. Call `func` with the same arguments and **return** its result.\n\n`line_total` calls `unit_price` through the global name. After decoration, that name is the counting wrapper, so these indirect calls are counted too.",
+      "starter": "PRICES = {\"TEA\": 4.50, \"MUG\": 12.00, \"PEN\": 1.25, \"BAG\": 30.00}\n\n\ndef count_calls(func):\n    count = 0\n\n    def wrapper(*args, **kwargs):\n        # GAP 1: one line so the next line updates count_calls's `count`\n        count += 1\n        wrapper.calls = count\n        # GAP 2: call func with the same arguments and return its result\n\n    wrapper.calls = 0\n    return wrapper\n\n\n@count_calls\ndef unit_price(sku):\n    \"\"\"Return the unit price for a SKU.\"\"\"\n    return PRICES[sku]\n\n\ndef line_total(sku, qty=1, *, discount_pct=0):\n    \"\"\"Return the price of qty units after a percentage discount.\"\"\"\n    return unit_price(sku) * qty * (1 - discount_pct / 100)\n",
+      "solution": "PRICES = {\"TEA\": 4.50, \"MUG\": 12.00, \"PEN\": 1.25, \"BAG\": 30.00}\n\n\ndef count_calls(func):\n    count = 0\n\n    def wrapper(*args, **kwargs):\n        nonlocal count\n        count += 1\n        wrapper.calls = count\n        return func(*args, **kwargs)\n\n    wrapper.calls = 0\n    return wrapper\n\n\n@count_calls\ndef unit_price(sku):\n    \"\"\"Return the unit price for a SKU.\"\"\"\n    return PRICES[sku]\n\n\ndef line_total(sku, qty=1, *, discount_pct=0):\n    \"\"\"Return the price of qty units after a percentage discount.\"\"\"\n    return unit_price(sku) * qty * (1 - discount_pct / 100)\n",
+      "solution_walkthrough_md": "1. **GAP 1: `nonlocal count`.** Python decides at compile time which names are local to a function. Any name assigned inside the function is local unless it is declared otherwise. `count += 1` reads and then assigns `count`, so without a declaration the read fails with `UnboundLocalError`. `nonlocal count` binds the name to `count_calls`'s variable.\n2. **The closure.** `count_calls` has already returned by the time anyone calls `wrapper`, but `wrapper` still reaches `count` through its closure. Each decorated function gets its own `count` because each call to `count_calls` creates a fresh one.\n3. **GAP 2: `return func(*args, **kwargs)`.** Without `return`, the wrapper falls off the end and returns `None`, so `unit_price(\"PEN\")` would give `None` instead of `1.25`.\n4. **Indirect calls.** `line_total(\"TEA\", 3)` looks up the global `unit_price`, which is the wrapper, so the count goes up by 1. Two `line_total` calls add 2.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "counter starts at 0 and counts each call",
+          "code": "@count_calls\ndef double(x):\n    return x * 2\n\nassert double.calls == 0\nassert double(3) == 6\nassert double(5) == 10\nassert double.calls == 2, double.calls",
+          "fail_md": "If you got `UnboundLocalError`, `count` is being treated as local to `wrapper`; add `nonlocal count` as the first line of the wrapper. If the calls return `None`, add `return func(*args, **kwargs)`."
+        },
+        {
+          "id": "t2",
+          "name": "unit_price still returns the price",
+          "code": "assert unit_price(\"PEN\") == 1.25",
+          "fail_md": "`unit_price(\"PEN\")` should return `1.25`. A wrapper that calls `func` but does not `return` its result makes every call return `None`."
+        },
+        {
+          "id": "t3",
+          "name": "calls made through line_total are counted",
+          "code": "before = unit_price.calls\nassert line_total(\"TEA\", 3) == 13.5\nassert line_total(\"MUG\", 2, discount_pct=25) == 18.0\nassert unit_price.calls - before == 2, unit_price.calls - before",
+          "fail_md": "Each `line_total` call makes one call to the decorated `unit_price`, so two `line_total` calls should add 2 to `unit_price.calls`. Check that the wrapper updates `wrapper.calls` and returns the price."
+        },
+        {
+          "id": "t4",
+          "name": "each decorated function has its own counter",
+          "code": "@count_calls\ndef a():\n    return \"a\"\n\n@count_calls\ndef b():\n    return \"b\"\n\na(); a(); b()\nassert (a.calls, b.calls) == (2, 1), (a.calls, b.calls)",
+          "fail_md": "Two decorated functions should keep separate counts. Keep `count` inside `count_calls` and do not move it to a global, so that each decoration creates a new variable.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "Assigning to a name inside a nested function makes it local unless you declare it `nonlocal`. Separately, the wrapper must hand back what `func` returns.",
+        "GAP 1 is `nonlocal count`. GAP 2 is `return func(*args, **kwargs)`."
+      ]
+    },
+    {
+      "id": "ex-scratch-log-calls",
+      "title": "Scratch: write log_calls yourself",
+      "stage": "scratch",
+      "difficulty": 2,
+      "kcs": [
+        "kc-wrapper-pattern",
+        "kc-pass-through-args",
+        "kc-decorator-may-return-same",
+        "kc-decorators-run-at-definition",
+        "kc-wrapper-runs-per-call"
+      ],
+      "est_minutes": 12,
+      "brief_md": "Replace the placeholder `log_calls` with a real decorator. The placeholder returns `func` unchanged. That is a legal decorator, but it adds no logging.\n\nYour decorator must:\n\n1. Print `decorating <name>` **once**, when it is applied. Put `print(\"decorating\", func.__name__)` in the decorator's own body, **outside** the wrapper.\n2. Return a wrapper that accepts `*args, **kwargs`. On **every call** the wrapper:\n   - prints `f\"-> {func.__name__}({args}, {kwargs})\"`\n   - calls `func(*args, **kwargs)`\n   - prints `f\"<- {func.__name__} = {result}\"`\n   - **returns** the result.\n\nFor example, `shipping(2, express=True)` should print exactly:\n\n```\n-> shipping((2,), {'express': True})\n<- shipping = 18.0\n```\n\nand return `18.0`. The wrapper must work for both `line_total`, which has a keyword-only `discount_pct`, and `shipping`.",
+      "starter": "PRICES = {\"TEA\": 4.50, \"MUG\": 12.00, \"PEN\": 1.25, \"BAG\": 30.00}\n\n\ndef log_calls(func):\n    # Write this decorator from scratch.\n    # 1. Outside the wrapper: print(\"decorating\", func.__name__)\n    # 2. Inside a wrapper(*args, **kwargs): print the \"->\" line, call func,\n    #    print the \"<-\" line, and return the result.\n    return func  # placeholder: returns the function unchanged\n\n\ndef unit_price(sku):\n    \"\"\"Return the unit price for a SKU.\"\"\"\n    return PRICES[sku]\n\n\n@log_calls\ndef line_total(sku, qty=1, *, discount_pct=0):\n    \"\"\"Return the price of qty units after a percentage discount.\"\"\"\n    return unit_price(sku) * qty * (1 - discount_pct / 100)\n\n\n@log_calls\ndef shipping(weight_kg, express=False):\n    \"\"\"Return the shipping cost for a parcel weight.\"\"\"\n    cost = 5.00 + 2.00 * weight_kg\n    return cost * 2 if express else cost\n",
+      "solution": "PRICES = {\"TEA\": 4.50, \"MUG\": 12.00, \"PEN\": 1.25, \"BAG\": 30.00}\n\n\ndef log_calls(func):\n    print(\"decorating\", func.__name__)\n\n    def wrapper(*args, **kwargs):\n        print(f\"-> {func.__name__}({args}, {kwargs})\")\n        result = func(*args, **kwargs)\n        print(f\"<- {func.__name__} = {result}\")\n        return result\n\n    return wrapper\n\n\ndef unit_price(sku):\n    \"\"\"Return the unit price for a SKU.\"\"\"\n    return PRICES[sku]\n\n\n@log_calls\ndef line_total(sku, qty=1, *, discount_pct=0):\n    \"\"\"Return the price of qty units after a percentage discount.\"\"\"\n    return unit_price(sku) * qty * (1 - discount_pct / 100)\n\n\n@log_calls\ndef shipping(weight_kg, express=False):\n    \"\"\"Return the shipping cost for a parcel weight.\"\"\"\n    cost = 5.00 + 2.00 * weight_kg\n    return cost * 2 if express else cost\n",
+      "solution_walkthrough_md": "1. **Decoration time.** `print(\"decorating\", func.__name__)` sits in `log_calls`'s body, which runs once for each `@log_calls` line, when the `def` executes. Running this module prints `decorating line_total` and then `decorating shipping`, before any call is made.\n2. **Call time.** Everything inside `wrapper` runs on each call of the decorated name.\n3. **Any signature.** `wrapper(*args, **kwargs)` collects positional arguments into a tuple and keyword arguments into a dict. `func(*args, **kwargs)` unpacks them again, so `discount_pct=25` reaches `line_total` as a keyword, which it must be because the parameter is keyword-only.\n4. **Return the result.** Store `result = func(...)`, print it, then `return result`. Without the return, `shipping(2, express=True)` would print `<- shipping = 18.0` but give the caller `None`.\n5. Check: `line_total(\"MUG\", 2, discount_pct=25)` prints `-> line_total(('MUG', 2), {'discount_pct': 25})` and `<- line_total = 18.0`, because 12.00 × 2 × 0.75 = 18.0.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "shipping logs both lines and returns 18.0",
+          "code": "import io, contextlib\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    result = shipping(2, express=True)\nassert result == 18.0, result\nassert buf.getvalue() == \"-> shipping((2,), {'express': True})\\n<- shipping = 18.0\\n\", buf.getvalue()",
+          "fail_md": "Expected exactly `-> shipping((2,), {'express': True})` then `<- shipping = 18.0`, and a return value of `18.0`. Use `f\"-> {func.__name__}({args}, {kwargs})\"` and `f\"<- {func.__name__} = {result}\"`, and return `result`."
+        },
+        {
+          "id": "t2",
+          "name": "keyword-only discount passes through",
+          "code": "import io, contextlib\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    result = line_total(\"MUG\", 2, discount_pct=25)\nassert result == 18.0, result\nassert buf.getvalue() == \"-> line_total(('MUG', 2), {'discount_pct': 25})\\n<- line_total = 18.0\\n\", buf.getvalue()",
+          "fail_md": "`line_total(\"MUG\", 2, discount_pct=25)` should still return `18.0`. The wrapper must take `*args, **kwargs` and call `func(*args, **kwargs)` so that `discount_pct` stays a keyword argument."
+        },
+        {
+          "id": "t3",
+          "name": "\"decorating\" prints once at definition, never on calls",
+          "code": "import io, contextlib\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    @log_calls\n    def ping():\n        return \"pong\"\nassert buf.getvalue() == \"decorating ping\\n\", buf.getvalue()\nbuf2 = io.StringIO()\nwith contextlib.redirect_stdout(buf2):\n    ping()\n    ping()\nassert \"decorating\" not in buf2.getvalue(), buf2.getvalue()\nassert buf2.getvalue().count(\"-> ping\") == 2, buf2.getvalue()",
+          "fail_md": "Applying `@log_calls` should print `decorating ping` once, and calling `ping()` should not print it again. Put the `decorating` print in `log_calls`'s body, outside `wrapper`, and put the arrow prints inside `wrapper`."
+        },
+        {
+          "id": "t4",
+          "name": "no-discount call returns 30.0 with empty kwargs",
+          "code": "import io, contextlib\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    result = line_total(\"BAG\")\nassert result == 30.0, result\nassert buf.getvalue() == \"-> line_total(('BAG',), {})\\n<- line_total = 30.0\\n\", buf.getvalue()",
+          "fail_md": "`line_total(\"BAG\")` should print `-> line_total(('BAG',), {})` and `<- line_total = 30.0`, and return `30.0`. Print the `args` tuple and the `kwargs` dict directly, as they are.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "Use the wrapper pattern: code outside `wrapper` runs once at decoration, code inside runs on each call. Capture `func`'s result in a variable so you can print it and return it.",
+        "Write `print(\"decorating\", func.__name__)`, then `def wrapper(*args, **kwargs):` containing the `->` print, `result = func(*args, **kwargs)`, the `<-` print and `return result`. End with `return wrapper`."
+      ]
+    },
+    {
+      "id": "ex-debug-audit",
+      "title": "Debug: the audit decorator that broke checkout",
+      "stage": "debug",
+      "difficulty": 3,
+      "kcs": [
+        "kc-pass-through-args",
+        "kc-wrapper-return-value",
+        "kc-wrapper-hides-metadata",
+        "kc-wraps-copies",
+        "kc-wrapped-attribute"
+      ],
+      "est_minutes": 12,
+      "brief_md": "A teammate added an `audit` decorator that appends each called function's name to `AUDIT`. Since then, checkout has stopped working:\n\n- `unit_price(\"PEN\")` returns `None` instead of `1.25`.\n- `shipping(2, express=True)` raises `TypeError`.\n- `shipping.__name__` reports `'wrapper'`, its docstring is gone, and `inspect.signature(shipping)` shows the wrong parameters.\n\nFix `audit` so that the decorated functions behave exactly like the originals: the same return values, `__name__`, `__doc__` and `inspect.signature`. Every call must still be recorded in `AUDIT`. The undecorated function must also stay reachable as `shipping.__wrapped__`. Change only the `audit` function.",
+      "starter": "import functools\nimport inspect\n\nAUDIT = []\n\nPRICES = {\"TEA\": 4.50, \"MUG\": 12.00, \"PEN\": 1.25, \"BAG\": 30.00}\n\n\ndef audit(func):\n    def wrapper(sku):\n        AUDIT.append(func.__name__)\n        func(sku)\n    return wrapper\n\n\n@audit\ndef unit_price(sku):\n    \"\"\"Return the unit price for a SKU.\"\"\"\n    return PRICES[sku]\n\n\n@audit\ndef shipping(weight_kg, express=False):\n    \"\"\"Return the shipping cost for a parcel weight.\"\"\"\n    cost = 5.00 + 2.00 * weight_kg\n    return cost * 2 if express else cost\n",
+      "solution": "import functools\nimport inspect\n\nAUDIT = []\n\nPRICES = {\"TEA\": 4.50, \"MUG\": 12.00, \"PEN\": 1.25, \"BAG\": 30.00}\n\n\ndef audit(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        AUDIT.append(func.__name__)\n        return func(*args, **kwargs)\n    return wrapper\n\n\n@audit\ndef unit_price(sku):\n    \"\"\"Return the unit price for a SKU.\"\"\"\n    return PRICES[sku]\n\n\n@audit\ndef shipping(weight_kg, express=False):\n    \"\"\"Return the shipping cost for a parcel weight.\"\"\"\n    cost = 5.00 + 2.00 * weight_kg\n    return cost * 2 if express else cost\n",
+      "solution_walkthrough_md": "There are three bugs, one per symptom.\n\n1. **Missing `return`, so the result is `None`.** `func(sku)` computes the price and throws it away, and the wrapper then returns `None`. Fix: `return func(...)`.\n2. **Fixed signature, so `TypeError`.** `wrapper(sku)` accepts exactly one positional argument. `shipping(2, express=True)` passes a keyword the wrapper does not accept. Fix: `def wrapper(*args, **kwargs)` and `func(*args, **kwargs)`, which works for any signature.\n3. **No `functools.wraps`, so the metadata is lost.** The name `shipping` is bound to `wrapper`, so `__name__` is `'wrapper'` and `__doc__` is `None`. Fix: put `@functools.wraps(func)` on the wrapper. It copies `__module__`, `__name__`, `__qualname__`, `__doc__` and `__annotations__` from `func` and sets `wrapper.__wrapped__ = func`.\n4. Because `__wrapped__` is set, `inspect.signature(shipping)` follows it and reports `(weight_kg, express=False)`. Calling `shipping.__wrapped__(2, express=True)` runs the original directly, so it returns `18.0` without adding anything to `AUDIT`.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "decorated calls return the original results",
+          "code": "AUDIT.clear()\nassert unit_price(\"PEN\") == 1.25, unit_price(\"PEN\")\nassert shipping(1.5) == 8.0\nassert AUDIT[:1] == [\"unit_price\"], AUDIT",
+          "fail_md": "The wrapper calls `func` but returns nothing, so every decorated call gives `None`. Return the original result: `return func(...)`."
+        },
+        {
+          "id": "t2",
+          "name": "keyword arguments pass through",
+          "code": "assert shipping(2, express=True) == 18.0",
+          "fail_md": "`wrapper(sku)` only accepts one positional argument, so `express=True` raises `TypeError`. Define the wrapper as `wrapper(*args, **kwargs)` and call `func(*args, **kwargs)`."
+        },
+        {
+          "id": "t3",
+          "name": "name, docstring and signature match the original",
+          "code": "import inspect\nassert shipping.__name__ == \"shipping\", shipping.__name__\nassert shipping.__doc__ == \"Return the shipping cost for a parcel weight.\", shipping.__doc__\nassert str(inspect.signature(shipping)) == \"(weight_kg, express=False)\", str(inspect.signature(shipping))\nassert unit_price.__name__ == \"unit_price\"",
+          "fail_md": "Without `functools.wraps`, the decorated name shows the wrapper's metadata. Add `@functools.wraps(func)` directly above `def wrapper`."
+        },
+        {
+          "id": "t4",
+          "name": "__wrapped__ bypasses the audit",
+          "code": "AUDIT.clear()\nassert shipping.__wrapped__(2, express=True) == 18.0\nassert AUDIT == [], AUDIT\nassert shipping(1.5) == 8.0\nassert AUDIT == [\"shipping\"], AUDIT",
+          "fail_md": "`functools.wraps` sets `shipping.__wrapped__` to the original function. Calling it should return `18.0` without auditing, while a normal `shipping(...)` call is still audited.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "There are three separate bugs: what the wrapper returns, what arguments it accepts, and which metadata it carries. `functools` is already imported for the last one.",
+        "Rewrite `audit` as: `@functools.wraps(func)` above `def wrapper(*args, **kwargs):`, with a body that appends to `AUDIT` and then does `return func(*args, **kwargs)`."
+      ]
+    },
+    {
+      "id": "ex-build-instrument",
+      "title": "Build: instrument Shopkit's pricing module",
+      "stage": "build",
+      "difficulty": 4,
+      "kcs": [
+        "kc-closure-captures-variable",
+        "kc-nonlocal",
+        "kc-at-desugar",
+        "kc-wrapper-pattern",
+        "kc-pass-through-args",
+        "kc-wrapper-return-value",
+        "kc-decorators-run-at-definition",
+        "kc-wrapper-runs-per-call",
+        "kc-wraps-copies",
+        "kc-wrapped-attribute"
+      ],
+      "est_minutes": 20,
+      "brief_md": "This is the capstone in one function. Write `instrument(func)`, a decorator that logs **and** counts calls, then apply it to all three pricing functions without touching their bodies.\n\n`instrument(func)` must:\n\n1. Print `decorating <name>` once, outside the wrapper: `print(\"decorating\", func.__name__)`.\n2. Return a wrapper, decorated with `@functools.wraps(func)`, that accepts `*args, **kwargs`. On each call the wrapper:\n   - adds 1 to a counter held in the closure (use `nonlocal`) and exposes it as `wrapper.calls`, which starts at `0`\n   - prints `f\"-> {func.__name__}({args}, {kwargs})\"`\n   - calls `func(*args, **kwargs)`\n   - prints `f\"<- {func.__name__} = {result}\"`\n   - **returns** the result.\n\nThen, at the bottom, apply it **without `@`**: write one assignment per function, `unit_price = instrument(unit_price)` and so on for `line_total` and `shipping`.\n\n**Predict before you run:** how many `decorating` lines print? For the 6 checkout calls `line_total(\"TEA\", 3)`, `line_total(\"MUG\", 2, discount_pct=25)`, `line_total(\"BAG\")`, `shipping(1.5)`, `shipping(2, express=True)` and `unit_price(\"PEN\")`, how much does `unit_price.calls` go up? Remember that `line_total` calls `unit_price`.",
+      "starter": "import functools\nimport inspect\n\nPRICES = {\"TEA\": 4.50, \"MUG\": 12.00, \"PEN\": 1.25, \"BAG\": 30.00}\n\n\ndef instrument(func):\n    \"\"\"Log and count every call to func. Write this.\"\"\"\n    return func  # placeholder\n\n\ndef unit_price(sku):\n    \"\"\"Return the unit price for a SKU.\"\"\"\n    return PRICES[sku]\n\n\ndef line_total(sku, qty=1, *, discount_pct=0):\n    \"\"\"Return the price of qty units after a percentage discount.\"\"\"\n    return unit_price(sku) * qty * (1 - discount_pct / 100)\n\n\ndef shipping(weight_kg, express=False):\n    \"\"\"Return the shipping cost for a parcel weight.\"\"\"\n    cost = 5.00 + 2.00 * weight_kg\n    return cost * 2 if express else cost\n\n\n# Apply instrument WITHOUT @: one assignment per function below.\n",
+      "solution": "import functools\nimport inspect\n\nPRICES = {\"TEA\": 4.50, \"MUG\": 12.00, \"PEN\": 1.25, \"BAG\": 30.00}\n\n\ndef instrument(func):\n    \"\"\"Log and count every call to func.\"\"\"\n    print(\"decorating\", func.__name__)\n    calls = 0\n\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        nonlocal calls\n        calls += 1\n        wrapper.calls = calls\n        print(f\"-> {func.__name__}({args}, {kwargs})\")\n        result = func(*args, **kwargs)\n        print(f\"<- {func.__name__} = {result}\")\n        return result\n\n    wrapper.calls = 0\n    return wrapper\n\n\ndef unit_price(sku):\n    \"\"\"Return the unit price for a SKU.\"\"\"\n    return PRICES[sku]\n\n\ndef line_total(sku, qty=1, *, discount_pct=0):\n    \"\"\"Return the price of qty units after a percentage discount.\"\"\"\n    return unit_price(sku) * qty * (1 - discount_pct / 100)\n\n\ndef shipping(weight_kg, express=False):\n    \"\"\"Return the shipping cost for a parcel weight.\"\"\"\n    cost = 5.00 + 2.00 * weight_kg\n    return cost * 2 if express else cost\n\n\nunit_price = instrument(unit_price)\nline_total = instrument(line_total)\nshipping = instrument(shipping)\n",
+      "solution_walkthrough_md": "1. **Decoration time.** Each `name = instrument(name)` line runs `instrument`'s body once, so the module prints 3 `decorating` lines (`unit_price`, `line_total`, `shipping`) before any checkout call.\n2. **Counter in the closure.** `calls = 0` lives in `instrument`. The wrapper declares `nonlocal calls` so that `calls += 1` updates that variable, then copies it to `wrapper.calls`. Setting `wrapper.calls = 0` before returning makes the count readable before the first call.\n3. **Pass-through and return.** `*args, **kwargs` in, `func(*args, **kwargs)` out, and `return result`. Return values stay 13.5, 18.0, 30.0, 8.0, 18.0 and 1.25.\n4. **Nested logging.** `line_total` looks up the global `unit_price`, which is now the instrumented wrapper. So `line_total(\"TEA\", 3)` prints four lines:\n```\n-> line_total(('TEA', 3), {})\n-> unit_price(('TEA',), {})\n<- unit_price = 4.5\n<- line_total = 13.5\n```\n5. **Counting.** The three `line_total` calls each call `unit_price` once, and the final call adds one more, so `unit_price.calls` goes up by **4**.\n6. **Metadata.** `functools.wraps` keeps `__name__`, `__doc__` and the signature, which `inspect.signature` reports by following `__wrapped__`. `shipping.__wrapped__(2, express=True)` returns `18.0` and prints nothing.",
+      "tests": [
+        {
+          "id": "t1",
+          "name": "instrument: decorates once, logs, counts, keeps metadata",
+          "code": "import io, contextlib\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    def area(w, h=1):\n        \"\"\"Return w times h.\"\"\"\n        return w * h\n    area = instrument(area)\nassert buf.getvalue() == \"decorating area\\n\", buf.getvalue()\nassert area.calls == 0, area.calls\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    r = area(3, h=4)\nassert r == 12, r\nassert buf.getvalue() == \"-> area((3,), {'h': 4})\\n<- area = 12\\n\", buf.getvalue()\nassert area.calls == 1, area.calls\nassert area.__name__ == \"area\" and area.__doc__ == \"Return w times h.\"",
+          "fail_md": "`instrument(area)` should print `decorating area` once. Each call should print the `->` and `<-` lines, return the result and add 1 to `area.calls`, which starts at 0. The decorated function should keep `__name__` and `__doc__` through `@functools.wraps(func)`."
+        },
+        {
+          "id": "t2",
+          "name": "checkout: 6 calls give the right results and log",
+          "code": "import io, contextlib\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    results = [line_total(\"TEA\", 3), line_total(\"MUG\", 2, discount_pct=25), line_total(\"BAG\"), shipping(1.5), shipping(2, express=True), unit_price(\"PEN\")]\nassert results == [13.5, 18.0, 30.0, 8.0, 18.0, 1.25], results\nexpected = [\n    \"-> line_total(('TEA', 3), {})\",\n    \"-> unit_price(('TEA',), {})\",\n    \"<- unit_price = 4.5\",\n    \"<- line_total = 13.5\",\n    \"-> line_total(('MUG', 2), {'discount_pct': 25})\",\n    \"-> unit_price(('MUG',), {})\",\n    \"<- unit_price = 12.0\",\n    \"<- line_total = 18.0\",\n    \"-> line_total(('BAG',), {})\",\n    \"-> unit_price(('BAG',), {})\",\n    \"<- unit_price = 30.0\",\n    \"<- line_total = 30.0\",\n    \"-> shipping((1.5,), {})\",\n    \"<- shipping = 8.0\",\n    \"-> shipping((2,), {'express': True})\",\n    \"<- shipping = 18.0\",\n    \"-> unit_price(('PEN',), {})\",\n    \"<- unit_price = 1.25\",\n]\nassert buf.getvalue().splitlines() == expected, buf.getvalue()",
+          "fail_md": "Each of the 6 calls should return its original value and log in nested order. Calls to `unit_price` made inside `line_total` are logged too. Check that you rebound all three names with `name = instrument(name)` and that the wrapper returns `result`."
+        },
+        {
+          "id": "t3",
+          "name": "unit_price.calls rises by 4 over checkout",
+          "code": "import io, contextlib\nbefore = unit_price.calls\nwith contextlib.redirect_stdout(io.StringIO()):\n    line_total(\"TEA\", 3); line_total(\"MUG\", 2, discount_pct=25); line_total(\"BAG\")\n    shipping(1.5); shipping(2, express=True); unit_price(\"PEN\")\nassert unit_price.calls - before == 4, unit_price.calls - before",
+          "fail_md": "`line_total` calls `unit_price` through the global name, so three `line_total` calls plus one direct call add 4. If you got 1, `unit_price` was probably not instrumented when `line_total` looked it up. If calls crashed, check `nonlocal`."
+        },
+        {
+          "id": "t4",
+          "name": "signature preserved and __wrapped__ is silent",
+          "code": "import io, contextlib, inspect\nassert str(inspect.signature(shipping)) == \"(weight_kg, express=False)\", str(inspect.signature(shipping))\nassert str(inspect.signature(line_total)) == \"(sku, qty=1, *, discount_pct=0)\", str(inspect.signature(line_total))\nassert shipping.__name__ == \"shipping\"\nassert shipping.__doc__ == \"Return the shipping cost for a parcel weight.\"\nbuf = io.StringIO()\nwith contextlib.redirect_stdout(buf):\n    r = shipping.__wrapped__(2, express=True)\nassert r == 18.0, r\nassert buf.getvalue() == \"\", buf.getvalue()",
+          "fail_md": "With `@functools.wraps(func)` on the wrapper, `inspect.signature` reports the original parameters, and `shipping.__wrapped__` is the undecorated function. Calling it returns `18.0` and prints nothing.",
+          "hidden": true
+        }
+      ],
+      "hints": [
+        "Combine the earlier exercises: the `decorating` print outside the wrapper, a `nonlocal` counter, `*args, **kwargs` pass-through, the two log prints, `return result` and `@functools.wraps(func)`.",
+        "Inside `instrument`: print, set `calls = 0`, define `@functools.wraps(func) def wrapper(*args, **kwargs):` with `nonlocal calls; calls += 1; wrapper.calls = calls`, then the `->` print, `result = func(*args, **kwargs)`, the `<-` print and `return result`. After the def, set `wrapper.calls = 0` and `return wrapper`. Finish with three assignment lines."
+      ]
+    }
+  ]
+}

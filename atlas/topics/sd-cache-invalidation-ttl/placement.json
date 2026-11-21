@@ -1,0 +1,103 @@
+[
+  {
+    "id": "sd-cache-invalidation-ttl/placement-1",
+    "family": "sd-cache-invalidation-ttl-probe-inval-concurrent-set",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-delete-not-set"
+    ],
+    "prompt_md": "Two writers update the price of the same product. On every write, each writer updates the database and then **sets** the new value in the cache. The steps happen in this order:\n\n1. Writer A writes price = 10 to the database.\n2. Writer B writes price = 12 to the database.\n3. Writer B sets the cache to 12.\n4. Writer A sets the cache to 10.\n\nWhat state are things left in, and what change to the write path does the standard guidance recommend?",
+    "options": [
+      {
+        "id": "a",
+        "md": "Database 12, cache 12; everything is consistent and no change is needed",
+        "why_md": "Writer A's cache set happens last, so the cache ends at 10, not 12."
+      },
+      {
+        "id": "b",
+        "md": "Database 12, cache 10; on a write, **delete** the cache key instead of setting the value",
+        "correct": true,
+        "why_md": "Right. The cache updates landed in the opposite order from the database writes. Deleting the key means the next read reloads 12 from the database."
+      },
+      {
+        "id": "c",
+        "md": "Database 12, cache 10; on a write, set the cache **before** writing the database",
+        "why_md": "Concurrent writers can still interleave and leave the cache and database disagreeing. Changing the order of the two steps does not stop the race."
+      },
+      {
+        "id": "d",
+        "md": "Database 10, cache 12; on a write, delete the cache key instead of setting it",
+        "why_md": "The database got 10 first and then 12, so it ends at 12. The cache ends at 10 because A's set came last."
+      }
+    ],
+    "hints": [
+      "Follow the final value in each store. The last write to each store wins.",
+      "Database: 10 then 12, so 12. Cache: 12 then 10, so 10. Which write strategy avoids this race?"
+    ],
+    "solution_md": "1. Database: A writes 10, then B writes 12, so it ends at **12**.\n2. Cache: B sets 12, then A sets 10, so it ends at **10**, which is stale.\n3. The race happened because both writers **set** the cache value. If each writer **deletes** the key instead, the cache becomes empty and the next read loads the current value (12) from the database.\n\nAnswer: **DB 12, cache 10; delete the key on write.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-cache-invalidation-ttl",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  },
+  {
+    "id": "sd-cache-invalidation-ttl/placement-2",
+    "family": "sd-cache-invalidation-ttl-probe-inval-lost-message-ttl",
+    "kind": "single",
+    "scaffold": "independent",
+    "level": 2,
+    "kcs": [
+      "kc-invalidation-on-write",
+      "kc-ttl"
+    ],
+    "prompt_md": "A service deletes a cache entry whenever the source row changes, and every entry also has a **5-minute TTL**. One day an invalidation message for a user's profile is **lost**. The cached profile was current when it was cached.\n\nWhat happens to reads of that profile?",
+    "options": [
+      {
+        "id": "a",
+        "md": "They return the old profile forever, until someone deletes the key by hand",
+        "why_md": "That would be true without a TTL. The TTL acts as a backstop, so the entry expires by itself."
+      },
+      {
+        "id": "b",
+        "md": "The cache notices the database changed and refreshes the entry by itself",
+        "why_md": "The cache does not watch the database. That is why explicit invalidation is needed in the first place."
+      },
+      {
+        "id": "c",
+        "md": "They may return the old profile until the entry expires, at most 5 minutes after it was cached; the next read then loads the new profile",
+        "correct": true,
+        "why_md": "Right. Keeping a TTL alongside invalidation bounds staleness when an invalidation message is lost."
+      },
+      {
+        "id": "d",
+        "md": "They return an error, because the entry and the database disagree",
+        "why_md": "The cache has no way to detect the disagreement. It simply serves the stale value until the entry expires."
+      }
+    ],
+    "hints": [
+      "Why keep a TTL when you already invalidate on write?",
+      "The TTL limits how long the entry stays in the cache, so a lost invalidation causes staleness for at most one TTL."
+    ],
+    "solution_md": "1. The lost message means the entry is not deleted when the row changes.\n2. The entry still has its 5-minute TTL, so it expires at most 5 minutes after it was cached.\n3. Because the value was current when it was cached, the old profile can be served for at most that long. After it expires, the next read misses and loads the new profile.\n\nAnswer: **stale for at most one TTL (5 minutes), then corrected.**",
+    "version": 1,
+    "class": "mcq",
+    "topic": "sd-cache-invalidation-ttl",
+    "use": "placement",
+    "origin": "generated",
+    "seal": "sealed",
+    "est_seconds": 60,
+    "provenance": {
+      "origin": "generated",
+      "job": "probe-system-design"
+    }
+  }
+]

@@ -1,0 +1,79 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "sd-cqrs-event-sourcing",
+  "version": 1,
+  "title": "CQRS and event sourcing",
+  "size": "standard",
+  "est_min": 28,
+  "kcs": [
+    {
+      "id": "kc-cqrs-separate-models",
+      "version": 1,
+      "statement": "CQRS separates the write model from one or more read models shaped for queries and updated asynchronously from the write side, so read models are eventually consistent with writes."
+    },
+    {
+      "id": "kc-event-sourcing-replay",
+      "version": 1,
+      "statement": "Event sourcing stores state as an append-only sequence of events and rebuilds current state by replaying them, using periodic snapshots to keep replay time bounded."
+    },
+    {
+      "id": "kc-cqrs-when",
+      "version": 1,
+      "statement": "CQRS does not require event sourcing, and both add complexity worth paying only when read and write workloads differ greatly in shape or scale, or a full audit history is required."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "sd-denormalization",
+    "sd-event-streaming"
+  ],
+  "suggests": [
+    "sd-change-data-capture"
+  ],
+  "confusable_with": [
+    "sd-change-data-capture"
+  ],
+  "introduces": [
+    "cqrs",
+    "event sourcing",
+    "read model",
+    "snapshot"
+  ],
+  "uses": [
+    "materialized view",
+    "eventual consistency",
+    "event streaming",
+    "append-only log"
+  ],
+  "problem_ideas": [
+    "A bank account has 2M events: with a snapshot every 10,000 events, how many are replayed to load it?",
+    "Design a write model and two read models for an e-commerce order system",
+    "A user updates their address and immediately reloads: why might they see the old one, and how do you mask it?",
+    "Should a URL shortener use CQRS? Argue no with reasons",
+    "A bug in a projection corrupted a read model: how does event sourcing let you rebuild it?",
+    "Interviewer: 'how do you delete a user's data under event sourcing?'"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-system-design",
+      "entry": "data-management/cqrs"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "patterns/command-and-query-responsibility-segrega"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "cqrs-with-event-sourcing/cqrs-with-event-sourcing"
+    },
+    {
+      "source": "roadmap-system-design",
+      "entry": "data-management/event-sourcing"
+    },
+    {
+      "source": "karan-sd",
+      "entry": "patterns/event-sourcing"
+    }
+  ],
+  "status": "stub"
+}

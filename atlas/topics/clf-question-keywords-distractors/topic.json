@@ -1,0 +1,66 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-question-keywords-distractors",
+  "version": 1,
+  "title": "Reading stems: keyword cues and eliminating distractors",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-clf-qualifier-keyword-cues",
+      "version": 1,
+      "statement": "Qualifier phrases decide the answer: 'least operational overhead' points to a managed or serverless service, and 'most cost-effective' points to the cheapest option that still meets every stated requirement."
+    },
+    {
+      "id": "kc-clf-eliminate-wrong-job-options",
+      "version": 1,
+      "statement": "Distractors are usually real AWS services that do a different job or belong to a different category, so eliminating them first typically leaves two options to compare against the stem's exact requirement."
+    },
+    {
+      "id": "kc-clf-multiple-response-items",
+      "version": 1,
+      "statement": "A multiple-response item states how many options to select (two or more out of five or more) and earns credit only when every option you choose is correct."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [],
+  "suggests": [
+    "clf-exam-format-scoring"
+  ],
+  "confusable_with": [
+    "clf-service-verb-lens"
+  ],
+  "introduces": [
+    "distractor elimination",
+    "keyword cue",
+    "multiple-response question"
+  ],
+  "uses": [
+    "managed service",
+    "serverless"
+  ],
+  "problem_ideas": [
+    "A stem asks for a relational database with the least operational overhead; options are MySQL on EC2, RDS, DynamoDB and Redshift; eliminate two and pick one.",
+    "Underline the qualifier in five stems ('most cost-effective', 'highly available', 'least effort', 'without managing servers', 'global users') and name the service family each points to.",
+    "A 'Select TWO' question about increasing availability: choose the two correct options out of five and explain why the attractive third one is wrong.",
+    "Rewrite a distractor so that it would become the correct answer, showing which requirement it fails today.",
+    "A stem asks for the cheapest storage for data read once a year with 12-hour retrieval allowed; eliminate S3 Standard and EFS and justify the choice.",
+    "Spot the trap: the stem says 'without provisioning servers' and the options include EC2 Auto Scaling and Lambda.",
+    "Classify three wrong options in a missed question as 'wrong category', 'wrong job' or 'fails a qualifier'."
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "exam-content/exam-content"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-3-identify-aws-compute-/recognizing-the-appropriate-use-of-vario"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-4-identify-aws-database/deciding-when-to-use-ec2-hosted-database"
+    }
+  ],
+  "status": "stub"
+}

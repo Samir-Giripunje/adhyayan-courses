@@ -1,0 +1,70 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-route53-routing-policies",
+  "version": 1,
+  "title": "Route 53 routing policies",
+  "size": "big",
+  "est_min": 14,
+  "kcs": [
+    {
+      "id": "kc-r53-simple-weighted",
+      "version": 1,
+      "statement": "Simple routing returns one record for a name, while weighted routing splits traffic between records by assigned weights, for example 90/10 to test a new version."
+    },
+    {
+      "id": "kc-r53-latency-routing",
+      "version": 1,
+      "statement": "Latency-based routing sends each user to the AWS Region that gives that user the lowest network latency."
+    },
+    {
+      "id": "kc-r53-failover-routing",
+      "version": 1,
+      "statement": "Failover routing sends traffic to a primary resource while its health check passes and to a secondary resource when it fails, supporting active-passive disaster recovery."
+    },
+    {
+      "id": "kc-r53-geolocation-routing",
+      "version": 1,
+      "statement": "Geolocation routing picks the record by the user's country or continent, for localized content or legal restrictions, regardless of which Region would be fastest."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-route53"
+  ],
+  "suggests": [
+    "clf-multi-az-multi-region"
+  ],
+  "confusable_with": [
+    "clf-global-accelerator"
+  ],
+  "introduces": [
+    "routing policy",
+    "weighted routing",
+    "latency-based routing",
+    "failover routing",
+    "geolocation routing"
+  ],
+  "uses": [
+    "route 53",
+    "dns record",
+    "health check",
+    "region",
+    "disaster recovery",
+    "data residency"
+  ],
+  "problem_ideas": [
+    "Send 5% of users to a new app version for a week: which policy and what weights?",
+    "Users in Germany must be served only from the Frankfurt deployment: latency or geolocation?",
+    "A Tokyo user is sent to Singapore rather than Tokyo under latency routing; is that a bug?",
+    "Design active-passive DR between us-east-1 and us-west-2 with DNS",
+    "Weights 3 and 1 on two records: what share of DNS answers does each get?",
+    "Match five business needs to simple, weighted, latency, failover or geolocation"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "route53/routing-policies"
+    }
+  ],
+  "status": "stub"
+}

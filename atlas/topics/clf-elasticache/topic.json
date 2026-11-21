@@ -1,0 +1,75 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-elasticache",
+  "version": 1,
+  "title": "Amazon ElastiCache: in-memory caching",
+  "size": "standard",
+  "est_min": 10,
+  "kcs": [
+    {
+      "id": "kc-elasticache-in-memory",
+      "version": 1,
+      "statement": "Amazon ElastiCache is a managed in-memory data store compatible with Redis OSS, Valkey and Memcached, giving sub-millisecond reads and offloading repeated queries from a database."
+    },
+    {
+      "id": "kc-elasticache-use-cases",
+      "version": 1,
+      "statement": "Typical ElastiCache uses are caching frequent database query results and storing user session data; adding a cache usually requires application code changes."
+    },
+    {
+      "id": "kc-elasticache-vs-dax",
+      "version": 1,
+      "statement": "DAX caches only DynamoDB tables, so a cache in front of RDS, Aurora or another data source calls for ElastiCache rather than DAX."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-relational-vs-nosql",
+    "clf-dynamodb"
+  ],
+  "suggests": [
+    "clf-rds"
+  ],
+  "confusable_with": [
+    "clf-dynamodb"
+  ],
+  "introduces": [
+    "elasticache",
+    "in-memory cache",
+    "session store"
+  ],
+  "uses": [
+    "rds",
+    "managed database",
+    "nosql database",
+    "dynamodb",
+    "dynamodb accelerator"
+  ],
+  "problem_ideas": [
+    "The same leaderboard query hits RDS 10,000 times a minute: which service cuts the load?",
+    "Session data is lost when an Auto Scaling group removes an instance: where should sessions live?",
+    "DAX or ElastiCache: the database is RDS for PostgreSQL",
+    "Name the engines ElastiCache is compatible with",
+    "Spot the misconception: 'adding ElastiCache needs no application changes'",
+    "Rank RDS, DynamoDB and ElastiCache by typical read latency"
+  ],
+  "sources": [
+    {
+      "source": "roadmap-aws",
+      "entry": "elasticache/elasticache"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-4-identify-aws-database/identifying-memory-based-databases-for-e"
+    },
+    {
+      "source": "clf-c02-guide",
+      "entry": "database/amazon-elasticache"
+    },
+    {
+      "source": "clf-notes",
+      "entry": "databases-analytics/amazon-elasticache-overview"
+    }
+  ],
+  "status": "stub"
+}

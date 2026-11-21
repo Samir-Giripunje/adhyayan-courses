@@ -1,0 +1,134 @@
+[
+  {
+    "id": "q-cp3-int8",
+    "version": 1,
+    "family": "q-cp3-int8",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 2,
+    "topic": "emb-compression",
+    "kcs": [
+      "kc-compression"
+    ],
+    "use": "exit",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "10M vectors × 768 dims in int8. Raw GB (10⁹ bytes)?",
+    "answer": {
+      "value": 7.68,
+      "tolerance": 0.05,
+      "unit": "GB"
+    },
+    "hints": [
+      "Which idea applies? float16, int8, binary and product quantisation shrink memory at some recall cost.",
+      "$10^7 \\times 768 \\times 1$ byte $= 7.68$ GB."
+    ],
+    "solution_md": "$10^7 \\times 768 \\times 1$ byte $= 7.68$ GB.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-a5",
+    "version": 1,
+    "family": "q-dpp-a5",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-compression",
+    "kcs": [
+      "kc-compression"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Product quantization: a 768-d vector is split into **96** sub-vectors, each stored as 1 byte. Compression ratio versus float32?",
+    "answer": {
+      "value": 32,
+      "tolerance": 0
+    },
+    "hints": [
+      "Which idea applies? float16, int8, binary and product quantisation shrink memory at some recall cost.",
+      "float32: $768 \\times 4 = 3072$ bytes."
+    ],
+    "solution_md": "float32: $768 \\times 4 = 3072$ bytes. PQ: 96 bytes. $3072 / 96 = 32\\times$.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-a6",
+    "version": 1,
+    "family": "q-dpp-a6",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 1,
+    "topic": "emb-compression",
+    "kcs": [
+      "kc-compression"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "int8 vs float32: how many times smaller?",
+    "answer": {
+      "value": 4,
+      "tolerance": 0
+    },
+    "hints": [
+      "Which idea applies? float16, int8, binary and product quantisation shrink memory at some recall cost.",
+      "4 bytes → 1 byte = 4×."
+    ],
+    "solution_md": "4 bytes → 1 byte = 4×.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  },
+  {
+    "id": "q-dpp-a11",
+    "version": 1,
+    "family": "q-dpp-a11",
+    "kind": "numeric",
+    "class": "predict",
+    "scaffold": "independent",
+    "level": 3,
+    "topic": "emb-compression",
+    "kcs": [
+      "kc-compression"
+    ],
+    "use": "set",
+    "origin": "static",
+    "seal": "public",
+    "est_seconds": 75,
+    "prompt_md": "Binary quantization of **20M** × **1,536**-d vectors. Raw size in GB (10⁹ bytes)? (2 decimals)",
+    "answer": {
+      "value": 3.84,
+      "tolerance": 0.01
+    },
+    "common_wrong": [
+      {
+        "value": 30.72,
+        "kind": "slip",
+        "why_md": "That's int8 (1 byte per dimension). Binary is 1 bit: divide by 8."
+      }
+    ],
+    "hints": [
+      "Which idea applies? float16, int8, binary and product quantisation shrink memory at some recall cost.",
+      "$2\\times10^7 \\times 1536 / 8 = 3.84 \\times 10^9$ bytes."
+    ],
+    "solution_md": "$2\\times10^7 \\times 1536 / 8 = 3.84 \\times 10^9$ bytes.",
+    "provenance": {
+      "origin": "migrated",
+      "from": "embeddings@strata"
+    }
+  }
+]

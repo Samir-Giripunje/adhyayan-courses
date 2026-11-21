@@ -1,0 +1,6481 @@
+{
+  "items": [
+    {
+      "id": "sd-interview-framework",
+      "title": "System design interview framework",
+      "aliases": [
+        "how to approach system design",
+        "interview steps",
+        "core tradeoffs"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "introduction",
+          "entry": "introduction"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "introduction",
+          "entry": "what-is-system-design"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "introduction",
+          "entry": "how-to-approach-system-design"
+        },
+        {
+          "source": "sd-primer",
+          "section": "how-to-approach-a-system-design-intervie",
+          "entry": "how-to-approach-a-system-design-intervie"
+        },
+        {
+          "source": "sd-primer",
+          "section": "how-to-approach-a-system-design-intervie",
+          "entry": "step-2-create-a-high-level-design"
+        },
+        {
+          "source": "sd-primer",
+          "section": "how-to-approach-a-system-design-intervie",
+          "entry": "step-3-design-core-components"
+        },
+        {
+          "source": "sd-primer",
+          "section": "how-to-approach-a-system-design-intervie",
+          "entry": "step-4-scale-the-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "why-is-system-design-so-important",
+          "entry": "why-is-system-design-so-important"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-component-design",
+          "entry": "high-level-component-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design",
+          "entry": "detailed-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "identify-and-resolve-bottlenecks",
+          "entry": "identify-and-resolve-bottlenecks"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "how-to-answer-a-system-design-interview-",
+          "entry": "how-to-answer-a-system-design-interview-"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "core-concepts",
+          "entry": "core-concepts"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "system-design-tradeoffs"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "top-15-tradeoffs"
+        }
+      ]
+    },
+    {
+      "id": "requirements-clarification",
+      "title": "Requirements clarification (functional and non-functional)",
+      "aliases": [
+        "use cases and constraints",
+        "NFRs"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "how-to-approach-a-system-design-intervie",
+          "entry": "step-1-outline-use-cases-constraints-and"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-clarifications",
+          "entry": "requirements-clarifications"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-clarifications",
+          "entry": "functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-clarifications",
+          "entry": "non-functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-clarifications",
+          "entry": "extended-requirements"
+        }
+      ]
+    },
+    {
+      "id": "back-of-envelope-estimation",
+      "title": "Back-of-the-envelope estimation",
+      "aliases": [
+        "capacity estimation",
+        "powers of two"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "how-to-approach-a-system-design-intervie",
+          "entry": "back-of-the-envelope-calculations"
+        },
+        {
+          "source": "sd-primer",
+          "section": "how-to-approach-a-system-design-intervie",
+          "entry": "use-back-of-the-envelope-calculations"
+        },
+        {
+          "source": "sd-primer",
+          "section": "appendix",
+          "entry": "powers-of-two-table"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints",
+          "entry": "estimation-and-constraints"
+        }
+      ]
+    },
+    {
+      "id": "latency-numbers",
+      "title": "Latency numbers every programmer should know",
+      "aliases": [
+        "latency cheat sheet"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "appendix",
+          "entry": "latency-numbers-every-programmer-should-"
+        },
+        {
+          "source": "sd-primer",
+          "section": "appendix",
+          "entry": "latency-numbers-visualized"
+        }
+      ]
+    },
+    {
+      "id": "data-model-design",
+      "title": "Data model design",
+      "aliases": [
+        "schema design"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "data-model-design",
+          "entry": "data-model-design"
+        }
+      ]
+    },
+    {
+      "id": "api-design",
+      "title": "API design",
+      "aliases": [
+        "APIs",
+        "interface design"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "api-design",
+          "entry": "api-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "what-s-an-api",
+          "entry": "what-s-an-api"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "api-fundamentals",
+          "entry": "api-fundamentals"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "api-fundamentals",
+          "entry": "apis"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "api-fundamentals",
+          "entry": "api-design"
+        }
+      ]
+    },
+    {
+      "id": "performance-vs-scalability",
+      "title": "Performance vs scalability",
+      "aliases": [
+        "scalability"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-vs-scalability",
+          "entry": "performance-vs-scalability"
+        },
+        {
+          "source": "sd-primer",
+          "section": "performance-vs-scalability",
+          "entry": "performance-vs-scalability"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "core-concepts",
+          "entry": "scalability"
+        }
+      ]
+    },
+    {
+      "id": "latency-vs-throughput",
+      "title": "Latency vs throughput",
+      "aliases": [
+        "bandwidth"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "latency-vs-throughput",
+          "entry": "latency-vs-throughput"
+        },
+        {
+          "source": "sd-primer",
+          "section": "latency-vs-throughput",
+          "entry": "latency-vs-throughput"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "core-concepts",
+          "entry": "latency-vs-throughput-vs-bandwidth"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "latency-vs-throughput"
+        }
+      ]
+    },
+    {
+      "id": "cap-theorem",
+      "title": "CAP theorem (availability vs consistency)",
+      "aliases": [
+        "CP vs AP",
+        "consistency-availability tradeoff"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "availability-vs-consistency",
+          "entry": "availability-vs-consistency"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "availability-vs-consistency",
+          "entry": "cap-theorem"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-vs-consistency",
+          "entry": "availability-vs-consistency"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-vs-consistency",
+          "entry": "cap-theorem"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-vs-consistency",
+          "entry": "cp-consistency-and-partition-tolerance"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-vs-consistency",
+          "entry": "ap-availability-and-partition-tolerance"
+        },
+        {
+          "source": "karan-sd",
+          "section": "consistency-availability-tradeoff",
+          "entry": "consistency-availability-tradeoff"
+        },
+        {
+          "source": "karan-sd",
+          "section": "consistency-availability-tradeoff",
+          "entry": "ca-database"
+        },
+        {
+          "source": "karan-sd",
+          "section": "consistency-availability-tradeoff",
+          "entry": "cp-database"
+        },
+        {
+          "source": "karan-sd",
+          "section": "consistency-availability-tradeoff",
+          "entry": "ap-database"
+        },
+        {
+          "source": "karan-sd",
+          "section": "acid-vs-base-trade-offs",
+          "entry": "consistency"
+        },
+        {
+          "source": "karan-sd",
+          "section": "acid-vs-base-trade-offs",
+          "entry": "availability"
+        },
+        {
+          "source": "karan-sd",
+          "section": "acid-vs-base-trade-offs",
+          "entry": "partition-tolerance"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "core-concepts",
+          "entry": "cap-theorem"
+        }
+      ]
+    },
+    {
+      "id": "consistency-patterns",
+      "title": "Consistency patterns (weak, eventual, strong)",
+      "aliases": [
+        "consistency models",
+        "strong vs eventual consistency"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "consistency-patterns",
+          "entry": "consistency-patterns"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "consistency-patterns",
+          "entry": "weak-consistency"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "consistency-patterns",
+          "entry": "eventual-consistency"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "consistency-patterns",
+          "entry": "strong-consistency"
+        },
+        {
+          "source": "sd-primer",
+          "section": "consistency-patterns",
+          "entry": "consistency-patterns"
+        },
+        {
+          "source": "sd-primer",
+          "section": "consistency-patterns",
+          "entry": "weak-consistency"
+        },
+        {
+          "source": "sd-primer",
+          "section": "consistency-patterns",
+          "entry": "eventual-consistency"
+        },
+        {
+          "source": "sd-primer",
+          "section": "consistency-patterns",
+          "entry": "strong-consistency"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "strong-vs-eventual-consistency"
+        }
+      ]
+    },
+    {
+      "id": "failover",
+      "title": "Fail-over (active-passive, active-active)",
+      "aliases": [
+        "availability patterns",
+        "hot standby"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "availability-patterns",
+          "entry": "availability-patterns"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "background-jobs",
+          "entry": "fail-over"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "availability-patterns"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "fail-over"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "active-passive"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "active-active"
+        },
+        {
+          "source": "karan-sd",
+          "section": "configurations",
+          "entry": "configurations"
+        },
+        {
+          "source": "karan-sd",
+          "section": "configurations",
+          "entry": "active-active"
+        },
+        {
+          "source": "karan-sd",
+          "section": "configurations",
+          "entry": "active-passive"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "core-concepts",
+          "entry": "failover"
+        }
+      ]
+    },
+    {
+      "id": "replication",
+      "title": "Database replication (leader-follower, multi-leader)",
+      "aliases": [
+        "master-slave",
+        "master-master",
+        "primary-replica"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "background-jobs",
+          "entry": "replication"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "databases",
+          "entry": "replication"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "replication"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "master-slave-and-master-master"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "master-slave-replication"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "master-master-replication"
+        },
+        {
+          "source": "karan-sd",
+          "section": "master-slave-replication",
+          "entry": "master-slave-replication"
+        },
+        {
+          "source": "karan-sd",
+          "section": "master-slave-replication",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "master-slave-replication",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "master-master-replication",
+          "entry": "master-master-replication"
+        },
+        {
+          "source": "karan-sd",
+          "section": "master-master-replication",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "master-master-replication",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "database-fundamentals",
+          "entry": "database-replication"
+        }
+      ]
+    },
+    {
+      "id": "sync-vs-async-replication",
+      "title": "Synchronous vs asynchronous replication",
+      "aliases": [
+        "replication lag"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "synchronous-vs-asynchronous-replication",
+          "entry": "synchronous-vs-asynchronous-replication"
+        }
+      ]
+    },
+    {
+      "id": "availability-numbers",
+      "title": "Availability in numbers (nines, sequence vs parallel)",
+      "aliases": [
+        "three nines",
+        "four nines",
+        "uptime"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "content-delivery-networks",
+          "entry": "availability-in-numbers"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "availability",
+          "entry": "availability"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "availability-in-numbers"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "99-9-availability-three-9s"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "99-99-availability-four-9s"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "availability-in-parallel-vs-in-sequence"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "in-sequence"
+        },
+        {
+          "source": "sd-primer",
+          "section": "availability-patterns",
+          "entry": "in-parallel"
+        },
+        {
+          "source": "karan-sd",
+          "section": "the-nine-s-of-availability",
+          "entry": "the-nine-s-of-availability"
+        },
+        {
+          "source": "karan-sd",
+          "section": "availability-in-sequence-vs-parallel",
+          "entry": "availability-in-sequence-vs-parallel"
+        },
+        {
+          "source": "karan-sd",
+          "section": "availability-in-sequence-vs-parallel",
+          "entry": "sequence"
+        },
+        {
+          "source": "karan-sd",
+          "section": "availability-in-sequence-vs-parallel",
+          "entry": "parallel"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "core-concepts",
+          "entry": "availability"
+        }
+      ]
+    },
+    {
+      "id": "reliability-fault-tolerance",
+      "title": "Reliability, high availability and fault tolerance",
+      "aliases": [
+        "SPOF",
+        "single point of failure",
+        "resiliency"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "reliability-patterns",
+          "entry": "reliability-patterns"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "high-availability",
+          "entry": "high-availability"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "resiliency",
+          "entry": "resiliency"
+        },
+        {
+          "source": "karan-sd",
+          "section": "availability-vs-reliability",
+          "entry": "availability-vs-reliability"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-availability-vs-fault-tolerance",
+          "entry": "high-availability-vs-fault-tolerance"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "core-concepts",
+          "entry": "reliability"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "core-concepts",
+          "entry": "spof"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "core-concepts",
+          "entry": "fault-tolerance"
+        }
+      ]
+    },
+    {
+      "id": "dns",
+      "title": "Domain Name System",
+      "aliases": [
+        "DNS resolution",
+        "DNS routing"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "domain-name-system",
+          "entry": "domain-name-system"
+        },
+        {
+          "source": "sd-primer",
+          "section": "domain-name-system",
+          "entry": "domain-name-system"
+        },
+        {
+          "source": "sd-primer",
+          "section": "domain-name-system",
+          "entry": "weighted-round-robin"
+        },
+        {
+          "source": "sd-primer",
+          "section": "domain-name-system",
+          "entry": "latency-based"
+        },
+        {
+          "source": "sd-primer",
+          "section": "domain-name-system",
+          "entry": "geolocation-based"
+        },
+        {
+          "source": "karan-sd",
+          "section": "how-dns-works",
+          "entry": "how-dns-works"
+        },
+        {
+          "source": "karan-sd",
+          "section": "server-types",
+          "entry": "server-types"
+        },
+        {
+          "source": "karan-sd",
+          "section": "server-types",
+          "entry": "dns-resolver"
+        },
+        {
+          "source": "karan-sd",
+          "section": "server-types",
+          "entry": "dns-root-server"
+        },
+        {
+          "source": "karan-sd",
+          "section": "server-types",
+          "entry": "tld-nameserver"
+        },
+        {
+          "source": "karan-sd",
+          "section": "server-types",
+          "entry": "authoritative-dns-server"
+        },
+        {
+          "source": "karan-sd",
+          "section": "query-types",
+          "entry": "query-types"
+        },
+        {
+          "source": "karan-sd",
+          "section": "query-types",
+          "entry": "recursive"
+        },
+        {
+          "source": "karan-sd",
+          "section": "query-types",
+          "entry": "iterative"
+        },
+        {
+          "source": "karan-sd",
+          "section": "query-types",
+          "entry": "non-recursive"
+        },
+        {
+          "source": "karan-sd",
+          "section": "record-types",
+          "entry": "record-types"
+        },
+        {
+          "source": "karan-sd",
+          "section": "subdomains",
+          "entry": "subdomains"
+        },
+        {
+          "source": "karan-sd",
+          "section": "dns-zones",
+          "entry": "dns-zones"
+        },
+        {
+          "source": "karan-sd",
+          "section": "dns-caching",
+          "entry": "dns-caching"
+        },
+        {
+          "source": "karan-sd",
+          "section": "reverse-dns",
+          "entry": "reverse-dns"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "networking-fundamentals",
+          "entry": "domain-name-system-dns"
+        }
+      ]
+    },
+    {
+      "id": "cdn",
+      "title": "Content delivery networks",
+      "aliases": [
+        "CDN",
+        "edge caching"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "content-delivery-networks",
+          "entry": "content-delivery-networks"
+        },
+        {
+          "source": "sd-primer",
+          "section": "content-delivery-network",
+          "entry": "content-delivery-network"
+        },
+        {
+          "source": "karan-sd",
+          "section": "why-use-a-cdn",
+          "entry": "why-use-a-cdn"
+        },
+        {
+          "source": "karan-sd",
+          "section": "how-does-a-cdn-work",
+          "entry": "how-does-a-cdn-work"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-4",
+          "entry": "types"
+        },
+        {
+          "source": "karan-sd",
+          "section": "disadvantages",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "caching-fundamentals",
+          "entry": "content-delivery-network-cdn"
+        }
+      ]
+    },
+    {
+      "id": "push-vs-pull-cdn",
+      "title": "Push vs pull CDNs",
+      "aliases": [
+        "origin pull"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "content-delivery-networks",
+          "entry": "pull-cdns"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "content-delivery-networks",
+          "entry": "push-cdns"
+        },
+        {
+          "source": "sd-primer",
+          "section": "content-delivery-network",
+          "entry": "push-cdns"
+        },
+        {
+          "source": "sd-primer",
+          "section": "content-delivery-network",
+          "entry": "pull-cdns"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-4",
+          "entry": "push-cdns"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-4",
+          "entry": "pull-cdns"
+        }
+      ]
+    },
+    {
+      "id": "load-balancer",
+      "title": "Load balancers",
+      "aliases": [
+        "LB",
+        "redundant load balancers",
+        "DNS load balancing"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "load-balancers",
+          "entry": "load-balancers"
+        },
+        {
+          "source": "sd-primer",
+          "section": "load-balancer",
+          "entry": "load-balancer"
+        },
+        {
+          "source": "karan-sd",
+          "section": "but-why",
+          "entry": "but-why"
+        },
+        {
+          "source": "karan-sd",
+          "section": "workload-distribution",
+          "entry": "workload-distribution"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-2",
+          "entry": "types"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-2",
+          "entry": "software"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-2",
+          "entry": "hardware"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-2",
+          "entry": "dns"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "redundant-load-balancers",
+          "entry": "redundant-load-balancers"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features",
+          "entry": "features"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "networking-fundamentals",
+          "entry": "load-balancing"
+        }
+      ]
+    },
+    {
+      "id": "lb-algorithms",
+      "title": "Load balancing algorithms",
+      "aliases": [
+        "round robin",
+        "weighted round robin",
+        "least connections"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "load-balancers",
+          "entry": "load-balancing-algorithms"
+        },
+        {
+          "source": "sd-primer",
+          "section": "load-balancer",
+          "entry": "round-robin-or-weighted-round-robin"
+        },
+        {
+          "source": "karan-sd",
+          "section": "routing-algorithms",
+          "entry": "routing-algorithms"
+        }
+      ]
+    },
+    {
+      "id": "l4-vs-l7-lb",
+      "title": "Layer 4 vs layer 7 load balancing",
+      "aliases": [
+        "transport vs application load balancing"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "load-balancers",
+          "entry": "layer-7-load-balancing"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "load-balancers",
+          "entry": "layer-4-load-balancing"
+        },
+        {
+          "source": "sd-primer",
+          "section": "load-balancer",
+          "entry": "layer-4-load-balancing"
+        },
+        {
+          "source": "sd-primer",
+          "section": "load-balancer",
+          "entry": "layer-7-load-balancing"
+        },
+        {
+          "source": "karan-sd",
+          "section": "layers-2",
+          "entry": "layers"
+        },
+        {
+          "source": "karan-sd",
+          "section": "layers-2",
+          "entry": "network-layer"
+        },
+        {
+          "source": "karan-sd",
+          "section": "layers-2",
+          "entry": "application-layer"
+        }
+      ]
+    },
+    {
+      "id": "horizontal-vs-vertical-scaling",
+      "title": "Horizontal vs vertical scaling",
+      "aliases": [
+        "scale out",
+        "scale up"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "load-balancers",
+          "entry": "horizontal-scaling"
+        },
+        {
+          "source": "sd-primer",
+          "section": "load-balancer",
+          "entry": "horizontal-scaling"
+        },
+        {
+          "source": "karan-sd",
+          "section": "vertical-scaling",
+          "entry": "vertical-scaling"
+        },
+        {
+          "source": "karan-sd",
+          "section": "vertical-scaling",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "vertical-scaling",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "horizontal-scaling",
+          "entry": "horizontal-scaling"
+        },
+        {
+          "source": "karan-sd",
+          "section": "horizontal-scaling",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "horizontal-scaling",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "vertical-vs-horizontal-scaling"
+        }
+      ]
+    },
+    {
+      "id": "clustering",
+      "title": "Clustering",
+      "aliases": [
+        "server clusters",
+        "load balancing vs clustering"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "types-3",
+          "entry": "types"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-2",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "load-balancing-vs-clustering",
+          "entry": "load-balancing-vs-clustering"
+        },
+        {
+          "source": "karan-sd",
+          "section": "challenges",
+          "entry": "challenges"
+        }
+      ]
+    },
+    {
+      "id": "proxies",
+      "title": "Forward and reverse proxies",
+      "aliases": [
+        "reverse proxy",
+        "load balancer vs reverse proxy",
+        "web server"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "load-balancers",
+          "entry": "lb-vs-reverse-proxy"
+        },
+        {
+          "source": "sd-primer",
+          "section": "reverse-proxy-web-server",
+          "entry": "reverse-proxy-web-server"
+        },
+        {
+          "source": "sd-primer",
+          "section": "reverse-proxy-web-server",
+          "entry": "load-balancer-vs-reverse-proxy"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-5",
+          "entry": "types"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-5",
+          "entry": "forward-proxy"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-5",
+          "entry": "reverse-proxy"
+        },
+        {
+          "source": "karan-sd",
+          "section": "load-balancer-vs-reverse-proxy",
+          "entry": "load-balancer-vs-reverse-proxy"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "networking-fundamentals",
+          "entry": "proxy-vs-reverse-proxy"
+        }
+      ]
+    },
+    {
+      "id": "caching-basics",
+      "title": "Caching fundamentals (hits, misses, use cases)",
+      "aliases": [
+        "cache",
+        "cache hit ratio"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "caching",
+          "entry": "caching"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "cache"
+        },
+        {
+          "source": "karan-sd",
+          "section": "caching-and-memory",
+          "entry": "caching-and-memory"
+        },
+        {
+          "source": "karan-sd",
+          "section": "cache-hit-and-cache-miss",
+          "entry": "cache-hit-and-cache-miss"
+        },
+        {
+          "source": "karan-sd",
+          "section": "cache-hit-and-cache-miss",
+          "entry": "cache-hit"
+        },
+        {
+          "source": "karan-sd",
+          "section": "cache-hit-and-cache-miss",
+          "entry": "cache-miss"
+        },
+        {
+          "source": "karan-sd",
+          "section": "use-cases",
+          "entry": "use-cases"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-3",
+          "entry": "advantages"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "caching-fundamentals",
+          "entry": "caching-fundamentals"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "caching-fundamentals",
+          "entry": "caching-101"
+        }
+      ]
+    },
+    {
+      "id": "cache-layers",
+      "title": "Where to cache (client, CDN, web server, database, application)",
+      "aliases": [
+        "caching layers",
+        "query-level vs object-level caching"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "idempotent-operations",
+          "entry": "client-caching"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "idempotent-operations",
+          "entry": "cdn-caching"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "idempotent-operations",
+          "entry": "web-server-caching"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "idempotent-operations",
+          "entry": "database-caching"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "idempotent-operations",
+          "entry": "application-caching"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "client-caching"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "cdn-caching"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "web-server-caching"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "database-caching"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "application-caching"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "caching-at-the-database-query-level"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "caching-at-the-object-level"
+        }
+      ]
+    },
+    {
+      "id": "cache-aside",
+      "title": "Cache-aside",
+      "aliases": [
+        "lazy loading",
+        "lazy population"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "idempotent-operations",
+          "entry": "cache-aside"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "data-management",
+          "entry": "cache-aside"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "cache-aside"
+        }
+      ]
+    },
+    {
+      "id": "write-through",
+      "title": "Write-through and read-through caching",
+      "aliases": [
+        "read-through cache"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "idempotent-operations",
+          "entry": "write-through"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "write-through"
+        },
+        {
+          "source": "karan-sd",
+          "section": "cache-invalidation",
+          "entry": "write-through-cache"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "read-through-vs-write-through-cache"
+        }
+      ]
+    },
+    {
+      "id": "write-behind",
+      "title": "Write-behind (write-back) caching",
+      "aliases": [
+        "write-back"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "idempotent-operations",
+          "entry": "write-behind"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "write-behind-write-back"
+        },
+        {
+          "source": "karan-sd",
+          "section": "cache-invalidation",
+          "entry": "write-back-cache"
+        }
+      ]
+    },
+    {
+      "id": "write-around",
+      "title": "Write-around caching",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "cache-invalidation",
+          "entry": "write-around-cache"
+        }
+      ]
+    },
+    {
+      "id": "refresh-ahead",
+      "title": "Refresh-ahead caching",
+      "aliases": [
+        "proactive refresh"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "idempotent-operations",
+          "entry": "refresh-ahead"
+        },
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "refresh-ahead"
+        }
+      ]
+    },
+    {
+      "id": "cache-invalidation",
+      "title": "Cache invalidation and update strategies",
+      "aliases": [
+        "caching strategies",
+        "when to update the cache"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "cache",
+          "entry": "when-to-update-the-cache"
+        },
+        {
+          "source": "karan-sd",
+          "section": "cache-invalidation",
+          "entry": "cache-invalidation"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "caching-fundamentals",
+          "entry": "caching-strategies"
+        }
+      ]
+    },
+    {
+      "id": "cache-eviction",
+      "title": "Cache eviction policies",
+      "aliases": [
+        "LRU",
+        "LFU",
+        "FIFO eviction"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "eviction-policies",
+          "entry": "eviction-policies"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "caching-fundamentals",
+          "entry": "cache-eviction-policies"
+        }
+      ]
+    },
+    {
+      "id": "distributed-cache",
+      "title": "Distributed and global caches",
+      "aliases": [
+        "Redis",
+        "Memcached"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "distributed-cache",
+          "entry": "distributed-cache"
+        },
+        {
+          "source": "karan-sd",
+          "section": "global-cache",
+          "entry": "global-cache"
+        },
+        {
+          "source": "karan-sd",
+          "section": "examples-4",
+          "entry": "redis"
+        },
+        {
+          "source": "karan-sd",
+          "section": "examples-4",
+          "entry": "memcached"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "caching-fundamentals",
+          "entry": "distributed-caching"
+        }
+      ]
+    },
+    {
+      "id": "database-basics",
+      "title": "Databases and DBMS fundamentals",
+      "aliases": [
+        "DBMS",
+        "schema, tables, rows"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "databases",
+          "entry": "databases"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "database"
+        },
+        {
+          "source": "karan-sd",
+          "section": "what-is-a-database",
+          "entry": "what-is-a-database"
+        },
+        {
+          "source": "karan-sd",
+          "section": "what-is-dbms",
+          "entry": "what-is-dbms"
+        },
+        {
+          "source": "karan-sd",
+          "section": "components",
+          "entry": "components"
+        },
+        {
+          "source": "karan-sd",
+          "section": "components",
+          "entry": "schema"
+        },
+        {
+          "source": "karan-sd",
+          "section": "components",
+          "entry": "table"
+        },
+        {
+          "source": "karan-sd",
+          "section": "components",
+          "entry": "column"
+        },
+        {
+          "source": "karan-sd",
+          "section": "components",
+          "entry": "row"
+        },
+        {
+          "source": "karan-sd",
+          "section": "challenges-2",
+          "entry": "challenges"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "database-fundamentals",
+          "entry": "database-fundamentals"
+        }
+      ]
+    },
+    {
+      "id": "rdbms-acid",
+      "title": "Relational databases, ACID and transactions",
+      "aliases": [
+        "SQL databases",
+        "RDBMS",
+        "transaction states"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "relational-database-management-system-rd"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-4",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "disadvantages-2",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "acid",
+          "entry": "acid"
+        },
+        {
+          "source": "karan-sd",
+          "section": "acid",
+          "entry": "atomic"
+        },
+        {
+          "source": "karan-sd",
+          "section": "acid",
+          "entry": "consistent"
+        },
+        {
+          "source": "karan-sd",
+          "section": "acid",
+          "entry": "isolated"
+        },
+        {
+          "source": "karan-sd",
+          "section": "acid",
+          "entry": "durable"
+        },
+        {
+          "source": "karan-sd",
+          "section": "states",
+          "entry": "states"
+        },
+        {
+          "source": "karan-sd",
+          "section": "states",
+          "entry": "active"
+        },
+        {
+          "source": "karan-sd",
+          "section": "states",
+          "entry": "partially-committed"
+        },
+        {
+          "source": "karan-sd",
+          "section": "states",
+          "entry": "committed"
+        },
+        {
+          "source": "karan-sd",
+          "section": "states",
+          "entry": "failed"
+        },
+        {
+          "source": "karan-sd",
+          "section": "states",
+          "entry": "aborted"
+        },
+        {
+          "source": "karan-sd",
+          "section": "states",
+          "entry": "terminated"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "database-fundamentals",
+          "entry": "acid-transactions"
+        }
+      ]
+    },
+    {
+      "id": "base",
+      "title": "BASE and ACID vs BASE",
+      "aliases": [
+        "basically available soft state eventual consistency"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "base",
+          "entry": "base"
+        },
+        {
+          "source": "karan-sd",
+          "section": "base",
+          "entry": "basic-availability"
+        },
+        {
+          "source": "karan-sd",
+          "section": "base",
+          "entry": "soft-state"
+        },
+        {
+          "source": "karan-sd",
+          "section": "base",
+          "entry": "eventual-consistency"
+        },
+        {
+          "source": "karan-sd",
+          "section": "acid-vs-base-trade-offs",
+          "entry": "acid-vs-base-trade-offs"
+        }
+      ]
+    },
+    {
+      "id": "nosql-overview",
+      "title": "NoSQL database types",
+      "aliases": [
+        "NoSQL",
+        "multi-model databases"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "nosql"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-6",
+          "entry": "types"
+        },
+        {
+          "source": "karan-sd",
+          "section": "examples-7",
+          "entry": "multi-model"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "database-fundamentals",
+          "entry": "databases-types"
+        }
+      ]
+    },
+    {
+      "id": "key-value-store",
+      "title": "Key-value stores",
+      "aliases": [
+        "KV store"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "application-layer",
+          "entry": "key-value-store"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "key-value-store"
+        },
+        {
+          "source": "karan-sd",
+          "section": "examples-7",
+          "entry": "key-value"
+        }
+      ]
+    },
+    {
+      "id": "document-store",
+      "title": "Document stores",
+      "aliases": [
+        "document database"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "application-layer",
+          "entry": "document-store"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "document-store"
+        },
+        {
+          "source": "karan-sd",
+          "section": "examples-7",
+          "entry": "document"
+        }
+      ]
+    },
+    {
+      "id": "wide-column-store",
+      "title": "Wide-column stores",
+      "aliases": [
+        "column-family database",
+        "Cassandra/BigTable model"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "application-layer",
+          "entry": "wide-column-store"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "wide-column-store"
+        },
+        {
+          "source": "karan-sd",
+          "section": "examples-7",
+          "entry": "wide-column"
+        }
+      ]
+    },
+    {
+      "id": "graph-database",
+      "title": "Graph databases",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "application-layer",
+          "entry": "graph-databases"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "graph-database"
+        },
+        {
+          "source": "karan-sd",
+          "section": "examples-7",
+          "entry": "graph"
+        }
+      ]
+    },
+    {
+      "id": "time-series-database",
+      "title": "Time-series databases",
+      "aliases": [
+        "TSDB"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "examples-7",
+          "entry": "time-series"
+        }
+      ]
+    },
+    {
+      "id": "sql-vs-nosql",
+      "title": "SQL vs NoSQL",
+      "aliases": [
+        "choosing a database"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "databases",
+          "entry": "sql-vs-nosql"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "sql-or-nosql"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-differences",
+          "entry": "high-level-differences"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-differences",
+          "entry": "storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-differences",
+          "entry": "schema"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-differences",
+          "entry": "querying"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-differences",
+          "entry": "scalability"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-differences",
+          "entry": "reliability"
+        },
+        {
+          "source": "karan-sd",
+          "section": "reasons",
+          "entry": "reasons"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "database-fundamentals",
+          "entry": "sql-vs-nosql"
+        }
+      ]
+    },
+    {
+      "id": "federation",
+      "title": "Database federation",
+      "aliases": [
+        "functional partitioning"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "databases",
+          "entry": "federation"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "federation"
+        },
+        {
+          "source": "karan-sd",
+          "section": "characteristics",
+          "entry": "characteristics"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-7",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "disadvantages-5",
+          "entry": "disadvantages"
+        }
+      ]
+    },
+    {
+      "id": "data-partitioning",
+      "title": "Data partitioning (horizontal and vertical)",
+      "aliases": [
+        "table partitioning"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "partition-tables"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-partitioning",
+          "entry": "data-partitioning"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-partitioning",
+          "entry": "methods"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "database-fundamentals",
+          "entry": "database-partitioning"
+        }
+      ]
+    },
+    {
+      "id": "sharding",
+      "title": "Sharding and partitioning strategies",
+      "aliases": [
+        "hash-based sharding",
+        "range-based sharding",
+        "database scaling"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "databases",
+          "entry": "sharding"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "data-management",
+          "entry": "sharding"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "sharding"
+        },
+        {
+          "source": "karan-sd",
+          "section": "what-is-sharding",
+          "entry": "what-is-sharding"
+        },
+        {
+          "source": "karan-sd",
+          "section": "partitioning-criteria",
+          "entry": "partitioning-criteria"
+        },
+        {
+          "source": "karan-sd",
+          "section": "partitioning-criteria",
+          "entry": "hash-based"
+        },
+        {
+          "source": "karan-sd",
+          "section": "partitioning-criteria",
+          "entry": "list-based"
+        },
+        {
+          "source": "karan-sd",
+          "section": "partitioning-criteria",
+          "entry": "range-based"
+        },
+        {
+          "source": "karan-sd",
+          "section": "partitioning-criteria",
+          "entry": "composite"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-5",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "disadvantages-3",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "when-to-use-sharding",
+          "entry": "when-to-use-sharding"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "database-fundamentals",
+          "entry": "database-sharding"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "database-fundamentals",
+          "entry": "database-scaling"
+        }
+      ]
+    },
+    {
+      "id": "consistent-hashing",
+      "title": "Consistent hashing",
+      "aliases": [
+        "hash ring",
+        "virtual nodes"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "why-do-we-need-this",
+          "entry": "why-do-we-need-this"
+        },
+        {
+          "source": "karan-sd",
+          "section": "how-does-it-work",
+          "entry": "how-does-it-work"
+        },
+        {
+          "source": "karan-sd",
+          "section": "virtual-nodes",
+          "entry": "virtual-nodes"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-replication",
+          "entry": "data-replication"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-6",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "disadvantages-4",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "examples-8",
+          "entry": "examples"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "core-concepts",
+          "entry": "consistent-hashing"
+        }
+      ]
+    },
+    {
+      "id": "denormalization",
+      "title": "Denormalization",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "databases",
+          "entry": "denormalization"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "denormalization"
+        },
+        {
+          "source": "karan-sd",
+          "section": "denormalization",
+          "entry": "denormalization"
+        },
+        {
+          "source": "karan-sd",
+          "section": "denormalization",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "denormalization",
+          "entry": "disadvantages"
+        }
+      ]
+    },
+    {
+      "id": "normalization",
+      "title": "Normalization and normal forms",
+      "aliases": [
+        "keys, dependencies, anomalies"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "terms",
+          "entry": "terms"
+        },
+        {
+          "source": "karan-sd",
+          "section": "terms",
+          "entry": "keys"
+        },
+        {
+          "source": "karan-sd",
+          "section": "terms",
+          "entry": "dependencies"
+        },
+        {
+          "source": "karan-sd",
+          "section": "terms",
+          "entry": "anomalies"
+        },
+        {
+          "source": "karan-sd",
+          "section": "normalization",
+          "entry": "normalization"
+        },
+        {
+          "source": "karan-sd",
+          "section": "normalization",
+          "entry": "why-do-we-need-normalization"
+        },
+        {
+          "source": "karan-sd",
+          "section": "normalization",
+          "entry": "normal-forms"
+        },
+        {
+          "source": "karan-sd",
+          "section": "normalization",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "normalization",
+          "entry": "disadvantages"
+        }
+      ]
+    },
+    {
+      "id": "sql-tuning",
+      "title": "SQL tuning",
+      "aliases": [
+        "query optimization",
+        "avoid expensive joins"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "databases",
+          "entry": "sql-tuning"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "sql-tuning"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "tighten-up-the-schema"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "avoid-expensive-joins"
+        },
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "tune-the-query-cache"
+        }
+      ]
+    },
+    {
+      "id": "database-indexes",
+      "title": "Database indexes",
+      "aliases": [
+        "dense vs sparse index",
+        "secondary index",
+        "index table"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "database",
+          "entry": "use-good-indices"
+        },
+        {
+          "source": "karan-sd",
+          "section": "dense-index",
+          "entry": "dense-index"
+        },
+        {
+          "source": "karan-sd",
+          "section": "sparse-index",
+          "entry": "sparse-index"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "data-management",
+          "entry": "index-table"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "database-fundamentals",
+          "entry": "database-indexes"
+        }
+      ]
+    },
+    {
+      "id": "materialized-view",
+      "title": "Materialized views",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "data-management",
+          "entry": "materialized-view"
+        },
+        {
+          "source": "karan-sd",
+          "section": "materialized-views",
+          "entry": "materialized-views"
+        }
+      ]
+    },
+    {
+      "id": "distributed-transactions-2pc",
+      "title": "Distributed transactions and two-phase commit",
+      "aliases": [
+        "2PC"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "why-do-we-need-distributed-transactions",
+          "entry": "why-do-we-need-distributed-transactions"
+        },
+        {
+          "source": "karan-sd",
+          "section": "two-phase-commit",
+          "entry": "two-phase-commit"
+        },
+        {
+          "source": "karan-sd",
+          "section": "two-phase-commit",
+          "entry": "phases"
+        },
+        {
+          "source": "karan-sd",
+          "section": "two-phase-commit",
+          "entry": "problems"
+        }
+      ]
+    },
+    {
+      "id": "three-phase-commit",
+      "title": "Three-phase commit",
+      "aliases": [
+        "3PC"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "three-phase-commit",
+          "entry": "three-phase-commit"
+        },
+        {
+          "source": "karan-sd",
+          "section": "three-phase-commit",
+          "entry": "phases"
+        },
+        {
+          "source": "karan-sd",
+          "section": "three-phase-commit",
+          "entry": "why-is-the-pre-commit-phase-helpful"
+        }
+      ]
+    },
+    {
+      "id": "sagas",
+      "title": "Sagas and compensating transactions",
+      "aliases": [
+        "saga pattern",
+        "compensating transaction"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "sagas",
+          "entry": "sagas"
+        },
+        {
+          "source": "karan-sd",
+          "section": "sagas",
+          "entry": "coordination"
+        },
+        {
+          "source": "karan-sd",
+          "section": "sagas",
+          "entry": "problems"
+        },
+        {
+          "source": "karan-sd",
+          "section": "patterns",
+          "entry": "sagas"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "compensating-transaction"
+        }
+      ]
+    },
+    {
+      "id": "raid",
+      "title": "RAID",
+      "aliases": [
+        "disk redundancy"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "raid",
+          "entry": "raid"
+        },
+        {
+          "source": "karan-sd",
+          "section": "raid",
+          "entry": "comparison"
+        }
+      ]
+    },
+    {
+      "id": "storage-types",
+      "title": "File, block and object storage",
+      "aliases": [
+        "volumes",
+        "NAS",
+        "blob storage",
+        "S3"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "volumes",
+          "entry": "volumes"
+        },
+        {
+          "source": "karan-sd",
+          "section": "file-storage",
+          "entry": "file-storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "block-storage",
+          "entry": "block-storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "object-storage",
+          "entry": "object-storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "nas",
+          "entry": "nas"
+        }
+      ]
+    },
+    {
+      "id": "hdfs",
+      "title": "Distributed file systems (HDFS)",
+      "aliases": [
+        "HDFS"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "hdfs",
+          "entry": "hdfs"
+        }
+      ]
+    },
+    {
+      "id": "ip-addresses",
+      "title": "IP addresses",
+      "aliases": [
+        "IPv4",
+        "IPv6",
+        "public vs private IP"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "versions",
+          "entry": "versions"
+        },
+        {
+          "source": "karan-sd",
+          "section": "versions",
+          "entry": "ipv4"
+        },
+        {
+          "source": "karan-sd",
+          "section": "versions",
+          "entry": "ipv6"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types",
+          "entry": "types"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types",
+          "entry": "public"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types",
+          "entry": "private"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types",
+          "entry": "static"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types",
+          "entry": "dynamic"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "networking-fundamentals",
+          "entry": "ip-addresses"
+        }
+      ]
+    },
+    {
+      "id": "osi-model",
+      "title": "OSI model",
+      "aliases": [
+        "network layers"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "why-does-the-osi-model-matter",
+          "entry": "why-does-the-osi-model-matter"
+        },
+        {
+          "source": "karan-sd",
+          "section": "layers",
+          "entry": "layers"
+        },
+        {
+          "source": "karan-sd",
+          "section": "layers",
+          "entry": "application"
+        },
+        {
+          "source": "karan-sd",
+          "section": "layers",
+          "entry": "presentation"
+        },
+        {
+          "source": "karan-sd",
+          "section": "layers",
+          "entry": "session"
+        },
+        {
+          "source": "karan-sd",
+          "section": "layers",
+          "entry": "transport"
+        },
+        {
+          "source": "karan-sd",
+          "section": "layers",
+          "entry": "network"
+        },
+        {
+          "source": "karan-sd",
+          "section": "layers",
+          "entry": "data-link"
+        },
+        {
+          "source": "karan-sd",
+          "section": "layers",
+          "entry": "physical"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "networking-fundamentals",
+          "entry": "networking-fundamentals"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "networking-fundamentals",
+          "entry": "osi-model"
+        }
+      ]
+    },
+    {
+      "id": "tcp-udp",
+      "title": "TCP and UDP",
+      "aliases": [
+        "TCP vs UDP",
+        "transport protocols"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "tcp"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "communication",
+          "entry": "udp"
+        },
+        {
+          "source": "sd-primer",
+          "section": "communication",
+          "entry": "transmission-control-protocol-tcp"
+        },
+        {
+          "source": "sd-primer",
+          "section": "communication",
+          "entry": "acknowledgement"
+        },
+        {
+          "source": "sd-primer",
+          "section": "communication",
+          "entry": "user-datagram-protocol-udp"
+        },
+        {
+          "source": "karan-sd",
+          "section": "tcp",
+          "entry": "tcp"
+        },
+        {
+          "source": "karan-sd",
+          "section": "udp",
+          "entry": "udp"
+        },
+        {
+          "source": "karan-sd",
+          "section": "tcp-vs-udp",
+          "entry": "tcp-vs-udp"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "networking-fundamentals",
+          "entry": "tcp-vs-udp"
+        }
+      ]
+    },
+    {
+      "id": "http",
+      "title": "HTTP and HTTPS",
+      "aliases": [
+        "communication protocols"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "communication",
+          "entry": "communication"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "background-jobs",
+          "entry": "http"
+        },
+        {
+          "source": "sd-primer",
+          "section": "communication",
+          "entry": "communication"
+        },
+        {
+          "source": "sd-primer",
+          "section": "communication",
+          "entry": "hypertext-transfer-protocol-http"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "networking-fundamentals",
+          "entry": "http-https"
+        }
+      ]
+    },
+    {
+      "id": "tls",
+      "title": "SSL, TLS and mTLS",
+      "aliases": [
+        "mutual TLS",
+        "certificates"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "ssl",
+          "entry": "ssl"
+        },
+        {
+          "source": "karan-sd",
+          "section": "ssl",
+          "entry": "why-is-it-called-an-ssl-certificate-if-i"
+        },
+        {
+          "source": "karan-sd",
+          "section": "ssl",
+          "entry": "why-was-ssl-so-important"
+        },
+        {
+          "source": "karan-sd",
+          "section": "tls",
+          "entry": "tls"
+        },
+        {
+          "source": "karan-sd",
+          "section": "mtls",
+          "entry": "mtls"
+        },
+        {
+          "source": "karan-sd",
+          "section": "mtls",
+          "entry": "why-use-mtls"
+        }
+      ]
+    },
+    {
+      "id": "rpc",
+      "title": "RPC and RPC vs REST",
+      "aliases": [
+        "remote procedure call"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "rpc"
+        },
+        {
+          "source": "sd-primer",
+          "section": "communication",
+          "entry": "remote-procedure-call-rpc"
+        },
+        {
+          "source": "sd-primer",
+          "section": "communication",
+          "entry": "rpc-and-rest-calls-comparison"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "rest-vs-rpc"
+        }
+      ]
+    },
+    {
+      "id": "rest",
+      "title": "REST",
+      "aliases": [
+        "RESTful APIs"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "rest"
+        },
+        {
+          "source": "sd-primer",
+          "section": "communication",
+          "entry": "representational-state-transfer-rest"
+        },
+        {
+          "source": "karan-sd",
+          "section": "rest",
+          "entry": "rest"
+        },
+        {
+          "source": "karan-sd",
+          "section": "rest",
+          "entry": "concepts"
+        },
+        {
+          "source": "karan-sd",
+          "section": "rest",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "rest",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "rest",
+          "entry": "use-cases"
+        },
+        {
+          "source": "karan-sd",
+          "section": "rest",
+          "entry": "example"
+        }
+      ]
+    },
+    {
+      "id": "grpc",
+      "title": "gRPC",
+      "aliases": [
+        "protocol buffers"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "grpc"
+        },
+        {
+          "source": "karan-sd",
+          "section": "grpc",
+          "entry": "grpc"
+        },
+        {
+          "source": "karan-sd",
+          "section": "grpc",
+          "entry": "concepts"
+        },
+        {
+          "source": "karan-sd",
+          "section": "grpc",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "grpc",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "grpc",
+          "entry": "use-cases"
+        },
+        {
+          "source": "karan-sd",
+          "section": "grpc",
+          "entry": "example"
+        }
+      ]
+    },
+    {
+      "id": "graphql",
+      "title": "GraphQL",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "graphql"
+        },
+        {
+          "source": "karan-sd",
+          "section": "graphql",
+          "entry": "graphql"
+        },
+        {
+          "source": "karan-sd",
+          "section": "graphql",
+          "entry": "concepts"
+        },
+        {
+          "source": "karan-sd",
+          "section": "graphql",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "graphql",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "graphql",
+          "entry": "use-cases"
+        },
+        {
+          "source": "karan-sd",
+          "section": "graphql",
+          "entry": "example"
+        }
+      ]
+    },
+    {
+      "id": "api-style-comparison",
+      "title": "Choosing an API style (REST vs GraphQL vs gRPC)",
+      "aliases": [
+        "REST vs GraphQL"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "rest-vs-graphql-vs-grpc",
+          "entry": "rest-vs-graphql-vs-grpc"
+        },
+        {
+          "source": "karan-sd",
+          "section": "rest-vs-graphql-vs-grpc",
+          "entry": "which-api-technology-is-better"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "api-fundamentals",
+          "entry": "rest-vs-graphql"
+        }
+      ]
+    },
+    {
+      "id": "long-polling",
+      "title": "Long polling",
+      "aliases": [
+        "long polling vs websockets"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "long-polling",
+          "entry": "long-polling"
+        },
+        {
+          "source": "karan-sd",
+          "section": "long-polling",
+          "entry": "working"
+        },
+        {
+          "source": "karan-sd",
+          "section": "long-polling",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "long-polling",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "long-polling-vs-websockets"
+        }
+      ]
+    },
+    {
+      "id": "websockets",
+      "title": "WebSockets",
+      "aliases": [
+        "full-duplex connections"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "websockets",
+          "entry": "websockets"
+        },
+        {
+          "source": "karan-sd",
+          "section": "websockets",
+          "entry": "working"
+        },
+        {
+          "source": "karan-sd",
+          "section": "websockets",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "websockets",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "api-fundamentals",
+          "entry": "websockets"
+        }
+      ]
+    },
+    {
+      "id": "sse",
+      "title": "Server-Sent Events",
+      "aliases": [
+        "SSE"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "server-sent-events-sse",
+          "entry": "server-sent-events-sse"
+        },
+        {
+          "source": "karan-sd",
+          "section": "server-sent-events-sse",
+          "entry": "working"
+        },
+        {
+          "source": "karan-sd",
+          "section": "server-sent-events-sse",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "server-sent-events-sse",
+          "entry": "disadvantages"
+        }
+      ]
+    },
+    {
+      "id": "webhooks",
+      "title": "Webhooks",
+      "aliases": [
+        "HTTP callbacks"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "api-fundamentals",
+          "entry": "webhooks"
+        }
+      ]
+    },
+    {
+      "id": "api-gateway",
+      "title": "API gateway",
+      "aliases": [
+        "gateway routing",
+        "gateway offloading",
+        "gateway aggregation"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "gateway-routing"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "gateway-offloading"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "gateway-aggregation"
+        },
+        {
+          "source": "karan-sd",
+          "section": "why-do-we-need-an-api-gateway",
+          "entry": "why-do-we-need-an-api-gateway"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-4",
+          "entry": "features"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-4",
+          "entry": "service-discovery"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-4",
+          "entry": "reverse-proxy"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-4",
+          "entry": "caching"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-4",
+          "entry": "load-balancing"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-4",
+          "entry": "rate-limiting"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-15",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "disadvantages-10",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "api-fundamentals",
+          "entry": "api-gateway"
+        }
+      ]
+    },
+    {
+      "id": "bff",
+      "title": "Backends for frontends",
+      "aliases": [
+        "BFF"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "backends-for-frontend"
+        },
+        {
+          "source": "karan-sd",
+          "section": "backend-for-frontend-bff-pattern",
+          "entry": "backend-for-frontend-bff-pattern"
+        },
+        {
+          "source": "karan-sd",
+          "section": "backend-for-frontend-bff-pattern",
+          "entry": "when-to-use-this-pattern"
+        }
+      ]
+    },
+    {
+      "id": "rate-limiting",
+      "title": "Rate limiting and throttling",
+      "aliases": [
+        "throttling",
+        "distributed rate limiting"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "availability",
+          "entry": "throttling"
+        },
+        {
+          "source": "karan-sd",
+          "section": "why-do-we-need-rate-limiting",
+          "entry": "why-do-we-need-rate-limiting"
+        },
+        {
+          "source": "karan-sd",
+          "section": "rate-limiting-in-distributed-systems",
+          "entry": "rate-limiting-in-distributed-systems"
+        },
+        {
+          "source": "karan-sd",
+          "section": "rate-limiting-in-distributed-systems",
+          "entry": "inconsistencies"
+        },
+        {
+          "source": "karan-sd",
+          "section": "rate-limiting-in-distributed-systems",
+          "entry": "race-conditions"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "api-fundamentals",
+          "entry": "rate-limiting"
+        }
+      ]
+    },
+    {
+      "id": "rate-limiting-algorithms",
+      "title": "Rate limiting algorithms",
+      "aliases": [
+        "token bucket",
+        "leaky bucket",
+        "sliding window"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "algorithms",
+          "entry": "algorithms"
+        },
+        {
+          "source": "karan-sd",
+          "section": "algorithms",
+          "entry": "leaky-bucket"
+        },
+        {
+          "source": "karan-sd",
+          "section": "algorithms",
+          "entry": "token-bucket"
+        },
+        {
+          "source": "karan-sd",
+          "section": "algorithms",
+          "entry": "fixed-window"
+        },
+        {
+          "source": "karan-sd",
+          "section": "algorithms",
+          "entry": "sliding-log"
+        },
+        {
+          "source": "karan-sd",
+          "section": "algorithms",
+          "entry": "sliding-window"
+        }
+      ]
+    },
+    {
+      "id": "idempotency",
+      "title": "Idempotency",
+      "aliases": [
+        "idempotency keys",
+        "idempotent consumers",
+        "idempotent operations"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "idempotent-operations",
+          "entry": "idempotent-operations"
+        },
+        {
+          "source": "karan-sd",
+          "section": "why-do-we-need-idempotency",
+          "entry": "why-do-we-need-idempotency"
+        },
+        {
+          "source": "karan-sd",
+          "section": "idempotency-in-http",
+          "entry": "idempotency-in-http"
+        },
+        {
+          "source": "karan-sd",
+          "section": "idempotency-keys",
+          "entry": "idempotency-keys"
+        },
+        {
+          "source": "karan-sd",
+          "section": "idempotent-consumers",
+          "entry": "idempotent-consumers"
+        },
+        {
+          "source": "karan-sd",
+          "section": "tradeoffs",
+          "entry": "tradeoffs"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "api-fundamentals",
+          "entry": "idempotency"
+        }
+      ]
+    },
+    {
+      "id": "application-layer-stateless",
+      "title": "Application layer and stateless services",
+      "aliases": [
+        "stateful vs stateless design",
+        "separating web and app tiers"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "application-layer",
+          "entry": "application-layer"
+        },
+        {
+          "source": "sd-primer",
+          "section": "application-layer",
+          "entry": "application-layer"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "stateful-vs-stateless-design"
+        }
+      ]
+    },
+    {
+      "id": "monoliths",
+      "title": "Monoliths and modular monoliths",
+      "aliases": [
+        "monolithic architecture"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "monoliths",
+          "entry": "monoliths"
+        },
+        {
+          "source": "karan-sd",
+          "section": "monoliths",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "monoliths",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "modular-monoliths",
+          "entry": "modular-monoliths"
+        }
+      ]
+    },
+    {
+      "id": "microservices",
+      "title": "Microservices",
+      "aliases": [
+        "distributed monolith",
+        "microservices vs SOA"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "asynchronism",
+          "entry": "microservices"
+        },
+        {
+          "source": "sd-primer",
+          "section": "application-layer",
+          "entry": "microservices"
+        },
+        {
+          "source": "karan-sd",
+          "section": "microservices",
+          "entry": "microservices"
+        },
+        {
+          "source": "karan-sd",
+          "section": "microservices",
+          "entry": "characteristics"
+        },
+        {
+          "source": "karan-sd",
+          "section": "microservices",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "microservices",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "microservices",
+          "entry": "best-practices"
+        },
+        {
+          "source": "karan-sd",
+          "section": "microservices",
+          "entry": "pitfalls"
+        },
+        {
+          "source": "karan-sd",
+          "section": "beware-of-the-distributed-monolith",
+          "entry": "beware-of-the-distributed-monolith"
+        },
+        {
+          "source": "karan-sd",
+          "section": "microservices-vs-service-oriented-archit",
+          "entry": "microservices-vs-service-oriented-archit"
+        },
+        {
+          "source": "karan-sd",
+          "section": "why-you-don-t-need-microservices",
+          "entry": "why-you-don-t-need-microservices"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "distributed-system-and-microservices",
+          "entry": "distributed-system-and-microservices"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "architectural-patterns",
+          "entry": "microservices-architecture"
+        }
+      ]
+    },
+    {
+      "id": "client-server-n-tier",
+      "title": "Client-server and N-tier architecture",
+      "aliases": [
+        "3-tier architecture"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "architectural-patterns",
+          "entry": "architectural-patterns"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "architectural-patterns",
+          "entry": "client-server-architecture"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-of-n-tier-architectures",
+          "entry": "types-of-n-tier-architectures"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-of-n-tier-architectures",
+          "entry": "3-tier-architecture"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-of-n-tier-architectures",
+          "entry": "2-tier-architecture"
+        },
+        {
+          "source": "karan-sd",
+          "section": "types-of-n-tier-architectures",
+          "entry": "single-tier-or-1-tier-architecture"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-8",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "disadvantages-6",
+          "entry": "disadvantages"
+        }
+      ]
+    },
+    {
+      "id": "p2p",
+      "title": "Peer-to-peer architecture",
+      "aliases": [
+        "P2P"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "architectural-patterns",
+          "entry": "peer-to-peer-p2p-architecture"
+        }
+      ]
+    },
+    {
+      "id": "serverless",
+      "title": "Serverless architecture",
+      "aliases": [
+        "FaaS"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "architectural-patterns",
+          "entry": "serverless-architecture"
+        }
+      ]
+    },
+    {
+      "id": "asynchronism",
+      "title": "Asynchronism and synchronous vs asynchronous communication",
+      "aliases": [
+        "async processing",
+        "messaging"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "asynchronism",
+          "entry": "asynchronism"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "messaging",
+          "entry": "messaging"
+        },
+        {
+          "source": "sd-primer",
+          "section": "asynchronism",
+          "entry": "asynchronism"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "asynchronous-communication",
+          "entry": "asynchronous-communication"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "synchronous-vs-asynchronous-communicatio"
+        }
+      ]
+    },
+    {
+      "id": "message-queues",
+      "title": "Message queues",
+      "aliases": [
+        "FIFO queues",
+        "point-to-point messaging"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "asynchronism",
+          "entry": "message-queues"
+        },
+        {
+          "source": "sd-primer",
+          "section": "asynchronism",
+          "entry": "message-queues"
+        },
+        {
+          "source": "karan-sd",
+          "section": "working",
+          "entry": "working"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-9",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-2",
+          "entry": "features"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-2",
+          "entry": "push-or-pull-delivery"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-2",
+          "entry": "fifo-first-in-first-out-queues"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-2",
+          "entry": "schedule-or-delay-delivery"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-2",
+          "entry": "ordering"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-2",
+          "entry": "security"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "asynchronous-communication",
+          "entry": "message-queues"
+        }
+      ]
+    },
+    {
+      "id": "delivery-guarantees",
+      "title": "Message delivery guarantees",
+      "aliases": [
+        "at-least-once",
+        "exactly-once",
+        "at-most-once"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "features-2",
+          "entry": "at-least-once-delivery"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-2",
+          "entry": "exactly-once-delivery"
+        }
+      ]
+    },
+    {
+      "id": "dead-letter-queues",
+      "title": "Dead-letter queues and poison messages",
+      "aliases": [
+        "DLQ",
+        "poison pill"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "features-2",
+          "entry": "dead-letter-queues"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-2",
+          "entry": "poison-pill-messages"
+        }
+      ]
+    },
+    {
+      "id": "task-queues",
+      "title": "Task queues",
+      "aliases": [
+        "job queues",
+        "worker queues"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "asynchronism",
+          "entry": "task-queues"
+        },
+        {
+          "source": "sd-primer",
+          "section": "asynchronism",
+          "entry": "task-queues"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-2",
+          "entry": "task-queues"
+        }
+      ]
+    },
+    {
+      "id": "back-pressure",
+      "title": "Back pressure",
+      "aliases": [
+        "backpressure",
+        "load shedding"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "asynchronism",
+          "entry": "back-pressure"
+        },
+        {
+          "source": "sd-primer",
+          "section": "asynchronism",
+          "entry": "back-pressure"
+        },
+        {
+          "source": "karan-sd",
+          "section": "backpressure",
+          "entry": "backpressure"
+        }
+      ]
+    },
+    {
+      "id": "message-brokers",
+      "title": "Message brokers",
+      "aliases": [
+        "RabbitMQ",
+        "broker models"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "models",
+          "entry": "models"
+        },
+        {
+          "source": "karan-sd",
+          "section": "examples-9",
+          "entry": "rabbitmq"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "asynchronous-communication",
+          "entry": "message-brokers"
+        }
+      ]
+    },
+    {
+      "id": "event-streaming",
+      "title": "Event streaming (log-based messaging)",
+      "aliases": [
+        "Kafka",
+        "message brokers vs event streaming"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "message-brokers-vs-event-streaming",
+          "entry": "message-brokers-vs-event-streaming"
+        },
+        {
+          "source": "karan-sd",
+          "section": "examples-9",
+          "entry": "apache-kafka"
+        }
+      ]
+    },
+    {
+      "id": "batch-vs-stream",
+      "title": "Batch vs stream processing",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "batch-vs-stream-processing"
+        }
+      ]
+    },
+    {
+      "id": "pub-sub",
+      "title": "Publish/subscribe",
+      "aliases": [
+        "pub/sub",
+        "fanout messaging"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "messaging",
+          "entry": "publisher-subscriber"
+        },
+        {
+          "source": "karan-sd",
+          "section": "working-2",
+          "entry": "working"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-10",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-3",
+          "entry": "features"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-3",
+          "entry": "push-delivery"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-3",
+          "entry": "multiple-delivery-protocols"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-3",
+          "entry": "fanout"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-3",
+          "entry": "filtering"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-3",
+          "entry": "durability"
+        },
+        {
+          "source": "karan-sd",
+          "section": "features-3",
+          "entry": "security"
+        },
+        {
+          "source": "karan-sd",
+          "section": "patterns",
+          "entry": "publish-subscribe"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "asynchronous-communication",
+          "entry": "pub-sub"
+        }
+      ]
+    },
+    {
+      "id": "esb",
+      "title": "Enterprise service bus",
+      "aliases": [
+        "ESB",
+        "message brokers vs ESB"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "message-brokers-vs-enterprise-service-bu",
+          "entry": "message-brokers-vs-enterprise-service-bu"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-11",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "disadvantages-7",
+          "entry": "disadvantages"
+        }
+      ]
+    },
+    {
+      "id": "event-driven-architecture",
+      "title": "Event-driven architecture",
+      "aliases": [
+        "EDA",
+        "events"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "what-is-an-event",
+          "entry": "what-is-an-event"
+        },
+        {
+          "source": "karan-sd",
+          "section": "components-2",
+          "entry": "components"
+        },
+        {
+          "source": "karan-sd",
+          "section": "patterns",
+          "entry": "patterns"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-12",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "challenges-3",
+          "entry": "challenges"
+        },
+        {
+          "source": "karan-sd",
+          "section": "use-cases-2",
+          "entry": "use-cases"
+        },
+        {
+          "source": "karan-sd",
+          "section": "event-sourcing-vs-event-driven-architect",
+          "entry": "event-sourcing-vs-event-driven-architect"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "architectural-patterns",
+          "entry": "event-driven-architecture"
+        }
+      ]
+    },
+    {
+      "id": "event-sourcing",
+      "title": "Event sourcing",
+      "aliases": [
+        "append-only event log"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "data-management",
+          "entry": "event-sourcing"
+        },
+        {
+          "source": "karan-sd",
+          "section": "patterns",
+          "entry": "event-sourcing"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-13",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "disadvantages-8",
+          "entry": "disadvantages"
+        }
+      ]
+    },
+    {
+      "id": "cqrs",
+      "title": "CQRS",
+      "aliases": [
+        "command query responsibility segregation"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "cqrs"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "data-management",
+          "entry": "cqrs"
+        },
+        {
+          "source": "karan-sd",
+          "section": "patterns",
+          "entry": "command-and-query-responsibility-segrega"
+        },
+        {
+          "source": "karan-sd",
+          "section": "cqrs-with-event-sourcing",
+          "entry": "cqrs-with-event-sourcing"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-14",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "disadvantages-9",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "use-cases-3",
+          "entry": "use-cases"
+        }
+      ]
+    },
+    {
+      "id": "cdc",
+      "title": "Change data capture",
+      "aliases": [
+        "CDC",
+        "transactional outbox feed"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "asynchronous-communication",
+          "entry": "change-data-capture-cdc"
+        }
+      ]
+    },
+    {
+      "id": "choreography",
+      "title": "Choreography vs orchestration",
+      "aliases": [
+        "service choreography"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "messaging",
+          "entry": "choreography"
+        }
+      ]
+    },
+    {
+      "id": "background-jobs",
+      "title": "Background jobs",
+      "aliases": [
+        "event-driven and schedule-driven jobs",
+        "cron jobs"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "background-jobs",
+          "entry": "background-jobs"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "background-jobs",
+          "entry": "event-driven"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "background-jobs",
+          "entry": "schedule-driven"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "domain-name-system",
+          "entry": "returning-results"
+        }
+      ]
+    },
+    {
+      "id": "service-discovery",
+      "title": "Service discovery",
+      "aliases": [
+        "service registry",
+        "client-side vs server-side discovery"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "asynchronism",
+          "entry": "service-discovery"
+        },
+        {
+          "source": "sd-primer",
+          "section": "application-layer",
+          "entry": "service-discovery"
+        },
+        {
+          "source": "karan-sd",
+          "section": "why-do-we-need-service-discovery",
+          "entry": "why-do-we-need-service-discovery"
+        },
+        {
+          "source": "karan-sd",
+          "section": "implementations",
+          "entry": "implementations"
+        },
+        {
+          "source": "karan-sd",
+          "section": "implementations",
+          "entry": "client-side-discovery"
+        },
+        {
+          "source": "karan-sd",
+          "section": "implementations",
+          "entry": "server-side-discovery"
+        },
+        {
+          "source": "karan-sd",
+          "section": "service-registry",
+          "entry": "service-registry"
+        },
+        {
+          "source": "karan-sd",
+          "section": "service-registration",
+          "entry": "service-registration"
+        },
+        {
+          "source": "karan-sd",
+          "section": "service-registration",
+          "entry": "self-registration"
+        },
+        {
+          "source": "karan-sd",
+          "section": "service-registration",
+          "entry": "third-party-registration"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "distributed-system-and-microservices",
+          "entry": "service-discovery"
+        }
+      ]
+    },
+    {
+      "id": "service-mesh",
+      "title": "Service mesh",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "service-mesh",
+          "entry": "service-mesh"
+        }
+      ]
+    },
+    {
+      "id": "sidecar-ambassador",
+      "title": "Sidecar and ambassador patterns",
+      "aliases": [
+        "sidecar proxy"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "sidecar"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "ambassador"
+        }
+      ]
+    },
+    {
+      "id": "circuit-breaker",
+      "title": "Circuit breaker",
+      "aliases": [
+        "closed/open/half-open"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "high-availability",
+          "entry": "circuit-breaker"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "circuit-breaker"
+        },
+        {
+          "source": "karan-sd",
+          "section": "why-do-we-need-circuit-breaking",
+          "entry": "why-do-we-need-circuit-breaking"
+        },
+        {
+          "source": "karan-sd",
+          "section": "states-2",
+          "entry": "states"
+        },
+        {
+          "source": "karan-sd",
+          "section": "states-2",
+          "entry": "closed"
+        },
+        {
+          "source": "karan-sd",
+          "section": "states-2",
+          "entry": "open"
+        },
+        {
+          "source": "karan-sd",
+          "section": "states-2",
+          "entry": "half-open"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "distributed-system-and-microservices",
+          "entry": "circuit-breaker"
+        }
+      ]
+    },
+    {
+      "id": "retry",
+      "title": "Retries, backoff and retry storms",
+      "aliases": [
+        "exponential backoff",
+        "jitter"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "retry"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "retry-storm"
+        }
+      ]
+    },
+    {
+      "id": "bulkhead",
+      "title": "Bulkhead",
+      "aliases": [
+        "failure isolation"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "high-availability",
+          "entry": "bulkhead"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "bulkhead"
+        }
+      ]
+    },
+    {
+      "id": "health-endpoint-monitoring",
+      "title": "Health endpoint monitoring",
+      "aliases": [
+        "health checks"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "availability",
+          "entry": "health-endpoint-monitoring"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "high-availability",
+          "entry": "health-endpoint-monitoring"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "health-endpoint-monitoring"
+        }
+      ]
+    },
+    {
+      "id": "heartbeats",
+      "title": "Heartbeats",
+      "aliases": [
+        "failure detection"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "distributed-system-and-microservices",
+          "entry": "heartbeats"
+        }
+      ]
+    },
+    {
+      "id": "leader-election",
+      "title": "Leader election",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "leader-election"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "leader-election"
+        }
+      ]
+    },
+    {
+      "id": "consensus",
+      "title": "Consensus algorithms",
+      "aliases": [
+        "Raft",
+        "Paxos"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "distributed-system-and-microservices",
+          "entry": "consensus-algorithms"
+        }
+      ]
+    },
+    {
+      "id": "gossip-protocol",
+      "title": "Gossip protocol",
+      "aliases": [
+        "epidemic protocol"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "distributed-system-and-microservices",
+          "entry": "gossip-protocol"
+        }
+      ]
+    },
+    {
+      "id": "distributed-locking",
+      "title": "Distributed locking",
+      "aliases": [
+        "distributed locks"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "distributed-system-and-microservices",
+          "entry": "distributed-locking"
+        }
+      ]
+    },
+    {
+      "id": "queue-based-load-leveling",
+      "title": "Queue-based load leveling",
+      "aliases": [
+        "buffering spikes with queues"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "messaging",
+          "entry": "queue-based-load-leveling"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "availability",
+          "entry": "queue-based-load-leveling"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "queue-based-load-leveling"
+        }
+      ]
+    },
+    {
+      "id": "competing-consumers",
+      "title": "Competing consumers",
+      "aliases": [
+        "worker pool"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "messaging",
+          "entry": "competing-consumers"
+        }
+      ]
+    },
+    {
+      "id": "priority-queue",
+      "title": "Priority queue pattern",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "messaging",
+          "entry": "priority-queue"
+        }
+      ]
+    },
+    {
+      "id": "sequential-convoy",
+      "title": "Sequential convoy",
+      "aliases": [
+        "ordered message processing"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "messaging",
+          "entry": "sequential-convoy"
+        }
+      ]
+    },
+    {
+      "id": "scheduler-agent-supervisor",
+      "title": "Scheduler agent supervisor",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "messaging",
+          "entry": "scheduling-agent-supervisor"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "scheduler-agent-supervisor"
+        }
+      ]
+    },
+    {
+      "id": "claim-check",
+      "title": "Claim check",
+      "aliases": [
+        "large payload offloading"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "messaging",
+          "entry": "claim-check"
+        }
+      ]
+    },
+    {
+      "id": "async-request-reply",
+      "title": "Asynchronous request-reply",
+      "aliases": [
+        "polling for long-running operations"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "messaging",
+          "entry": "async-request-reply"
+        }
+      ]
+    },
+    {
+      "id": "pipes-and-filters",
+      "title": "Pipes and filters",
+      "aliases": [
+        "processing pipeline"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "pipes-filters"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "messaging",
+          "entry": "pipes-and-filters"
+        }
+      ]
+    },
+    {
+      "id": "deployment-stamps",
+      "title": "Deployment stamps",
+      "aliases": [
+        "cells",
+        "scale units"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "availability",
+          "entry": "deployment-stamps"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "high-availability",
+          "entry": "deployment-stamps"
+        }
+      ]
+    },
+    {
+      "id": "geodes",
+      "title": "Geodes (multi-region active deployment)",
+      "aliases": [
+        "geographical nodes",
+        "multi-region"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "availability",
+          "entry": "geodes"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "high-availability",
+          "entry": "geodes"
+        }
+      ]
+    },
+    {
+      "id": "static-content-hosting",
+      "title": "Static content hosting",
+      "aliases": [
+        "serving static assets from storage"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "static-content-hosting"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "data-management",
+          "entry": "static-content-hosting"
+        }
+      ]
+    },
+    {
+      "id": "valet-key",
+      "title": "Valet key",
+      "aliases": [
+        "pre-signed URLs"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "data-management",
+          "entry": "valet-key"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "valet-key"
+        }
+      ]
+    },
+    {
+      "id": "strangler-fig",
+      "title": "Strangler fig",
+      "aliases": [
+        "incremental migration"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "strangler-fig"
+        }
+      ]
+    },
+    {
+      "id": "external-config-store",
+      "title": "External configuration store",
+      "aliases": [
+        "centralized config"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "external-config-store"
+        }
+      ]
+    },
+    {
+      "id": "compute-resource-consolidation",
+      "title": "Compute resource consolidation",
+      "aliases": [],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "compute-resource-consolidation"
+        }
+      ]
+    },
+    {
+      "id": "anti-corruption-layer",
+      "title": "Anti-corruption layer",
+      "aliases": [
+        "ACL"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "anti-corruption-layer"
+        }
+      ]
+    },
+    {
+      "id": "gatekeeper",
+      "title": "Gatekeeper",
+      "aliases": [
+        "security broker"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "gatekeeper"
+        }
+      ]
+    },
+    {
+      "id": "cloud-design-patterns-overview",
+      "title": "Cloud design patterns overview",
+      "aliases": [
+        "design and implementation patterns",
+        "data management patterns"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "cloud-design-patterns",
+          "entry": "cloud-design-patterns"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "design-implementation",
+          "entry": "design-implementation"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "data-management",
+          "entry": "data-management"
+        }
+      ]
+    },
+    {
+      "id": "performance-antipatterns",
+      "title": "Performance antipatterns",
+      "aliases": [
+        "busy database",
+        "noisy neighbor",
+        "extraneous fetching",
+        "synchronous I/O"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "performance-antipatterns"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "busy-database"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "improper-instantiation"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "busy-frontend"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "monolithic-persistence"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "noisy-neighbor"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "synchronous-i-o"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "no-caching"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "extraneous-fetching"
+        }
+      ]
+    },
+    {
+      "id": "chatty-io-n-plus-1",
+      "title": "Chatty I/O and the N+1 query problem",
+      "aliases": [
+        "N+1 queries"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "performance-antipatterns",
+          "entry": "chatty-i-o"
+        },
+        {
+          "source": "karan-sd",
+          "section": "n-1-query-problem",
+          "entry": "n-1-query-problem"
+        }
+      ]
+    },
+    {
+      "id": "monitoring",
+      "title": "Monitoring and observability",
+      "aliases": [
+        "instrumentation",
+        "alerting",
+        "metrics"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "monitoring",
+          "entry": "monitoring"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "monitoring",
+          "entry": "health-monitoring"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "monitoring",
+          "entry": "availability-monitoring"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "monitoring",
+          "entry": "performance-monitoring"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "monitoring",
+          "entry": "security-monitoring"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "monitoring",
+          "entry": "usage-monitoring"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "monitoring",
+          "entry": "instrumentation"
+        },
+        {
+          "source": "roadmap-system-design",
+          "section": "monitoring",
+          "entry": "visualization-alerts"
+        }
+      ]
+    },
+    {
+      "id": "distributed-tracing",
+      "title": "Distributed tracing",
+      "aliases": [
+        "request tracing"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "distributed-system-and-microservices",
+          "entry": "distributed-tracing"
+        }
+      ]
+    },
+    {
+      "id": "sla-slo-sli",
+      "title": "SLA, SLO and SLI",
+      "aliases": [
+        "service level objectives"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "why-are-they-important",
+          "entry": "why-are-they-important"
+        },
+        {
+          "source": "karan-sd",
+          "section": "sla",
+          "entry": "sla"
+        },
+        {
+          "source": "karan-sd",
+          "section": "slo",
+          "entry": "slo"
+        },
+        {
+          "source": "karan-sd",
+          "section": "sli",
+          "entry": "sli"
+        }
+      ]
+    },
+    {
+      "id": "disaster-recovery",
+      "title": "Disaster recovery",
+      "aliases": [
+        "RTO",
+        "RPO",
+        "hot/cold site"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "why-is-disaster-recovery-important",
+          "entry": "why-is-disaster-recovery-important"
+        },
+        {
+          "source": "karan-sd",
+          "section": "terms-2",
+          "entry": "terms"
+        },
+        {
+          "source": "karan-sd",
+          "section": "terms-2",
+          "entry": "rto"
+        },
+        {
+          "source": "karan-sd",
+          "section": "terms-2",
+          "entry": "rpo"
+        },
+        {
+          "source": "karan-sd",
+          "section": "strategies",
+          "entry": "strategies"
+        },
+        {
+          "source": "karan-sd",
+          "section": "strategies",
+          "entry": "back-up"
+        },
+        {
+          "source": "karan-sd",
+          "section": "strategies",
+          "entry": "cold-site"
+        },
+        {
+          "source": "karan-sd",
+          "section": "strategies",
+          "entry": "hot-site"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "distributed-system-and-microservices",
+          "entry": "disaster-recovery"
+        }
+      ]
+    },
+    {
+      "id": "virtualization-containers",
+      "title": "Virtual machines and containers",
+      "aliases": [
+        "hypervisor",
+        "containerization"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "virtual-machines-vm",
+          "entry": "virtual-machines-vm"
+        },
+        {
+          "source": "karan-sd",
+          "section": "virtual-machines-vm",
+          "entry": "what-is-a-hypervisor"
+        },
+        {
+          "source": "karan-sd",
+          "section": "virtual-machines-vm",
+          "entry": "why-use-a-virtual-machine"
+        },
+        {
+          "source": "karan-sd",
+          "section": "containers",
+          "entry": "containers"
+        },
+        {
+          "source": "karan-sd",
+          "section": "containers",
+          "entry": "why-do-we-need-containers"
+        },
+        {
+          "source": "karan-sd",
+          "section": "virtualization-vs-containerization",
+          "entry": "virtualization-vs-containerization"
+        }
+      ]
+    },
+    {
+      "id": "oauth-oidc",
+      "title": "OAuth 2.0 and OpenID Connect",
+      "aliases": [
+        "OIDC",
+        "delegated authorization"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "oauth-2-0",
+          "entry": "oauth-2-0"
+        },
+        {
+          "source": "karan-sd",
+          "section": "oauth-2-0",
+          "entry": "concepts"
+        },
+        {
+          "source": "karan-sd",
+          "section": "oauth-2-0",
+          "entry": "how-does-oauth-2-0-work"
+        },
+        {
+          "source": "karan-sd",
+          "section": "oauth-2-0",
+          "entry": "disadvantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "openid-connect",
+          "entry": "openid-connect"
+        },
+        {
+          "source": "karan-sd",
+          "section": "openid-connect",
+          "entry": "concepts"
+        },
+        {
+          "source": "karan-sd",
+          "section": "saml-vs-oauth-2-0-and-openid-connect-oid",
+          "entry": "saml-vs-oauth-2-0-and-openid-connect-oid"
+        }
+      ]
+    },
+    {
+      "id": "sso-federated-identity",
+      "title": "Single sign-on, SAML and federated identity",
+      "aliases": [
+        "SSO",
+        "identity provider"
+      ],
+      "spine": 0.4,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "federated-identity"
+        },
+        {
+          "source": "karan-sd",
+          "section": "components-3",
+          "entry": "components"
+        },
+        {
+          "source": "karan-sd",
+          "section": "components-3",
+          "entry": "identity-provider-idp"
+        },
+        {
+          "source": "karan-sd",
+          "section": "components-3",
+          "entry": "service-provider"
+        },
+        {
+          "source": "karan-sd",
+          "section": "components-3",
+          "entry": "identity-broker"
+        },
+        {
+          "source": "karan-sd",
+          "section": "saml",
+          "entry": "saml"
+        },
+        {
+          "source": "karan-sd",
+          "section": "how-does-sso-work",
+          "entry": "how-does-sso-work"
+        },
+        {
+          "source": "karan-sd",
+          "section": "advantages-16",
+          "entry": "advantages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "disadvantages-11",
+          "entry": "disadvantages"
+        }
+      ]
+    },
+    {
+      "id": "security-fundamentals",
+      "title": "Security fundamentals for system design",
+      "aliases": [
+        "security patterns"
+      ],
+      "spine": 1,
+      "refs": [
+        {
+          "source": "roadmap-system-design",
+          "section": "security",
+          "entry": "security"
+        },
+        {
+          "source": "sd-primer",
+          "section": "security",
+          "entry": "security"
+        }
+      ]
+    },
+    {
+      "id": "concurrency-vs-parallelism",
+      "title": "Concurrency vs parallelism",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "concurrency-vs-parallelism"
+        }
+      ]
+    },
+    {
+      "id": "push-vs-pull-architecture",
+      "title": "Push vs pull architecture",
+      "aliases": [
+        "fan-out on write vs fan-out on read"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-tradeoffs",
+          "entry": "push-vs-pull-architecture"
+        }
+      ]
+    },
+    {
+      "id": "bloom-filters",
+      "title": "Bloom filters",
+      "aliases": [
+        "probabilistic membership"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "database-fundamentals",
+          "entry": "bloom-filters"
+        }
+      ]
+    },
+    {
+      "id": "checksums",
+      "title": "Checksums",
+      "aliases": [
+        "data integrity"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "networking-fundamentals",
+          "entry": "checksums"
+        }
+      ]
+    },
+    {
+      "id": "geohashing",
+      "title": "Geohashing",
+      "aliases": [
+        "geospatial indexing"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "geohashing",
+          "entry": "geohashing"
+        },
+        {
+          "source": "karan-sd",
+          "section": "geohashing",
+          "entry": "how-does-geohashing-work"
+        },
+        {
+          "source": "karan-sd",
+          "section": "geohashing",
+          "entry": "use-cases"
+        },
+        {
+          "source": "karan-sd",
+          "section": "geohashing",
+          "entry": "examples"
+        }
+      ]
+    },
+    {
+      "id": "quadtrees",
+      "title": "Quadtrees",
+      "aliases": [
+        "spatial index"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "karan-sd",
+          "section": "quadtrees",
+          "entry": "quadtrees"
+        },
+        {
+          "source": "karan-sd",
+          "section": "quadtrees",
+          "entry": "types-of-quadtrees"
+        },
+        {
+          "source": "karan-sd",
+          "section": "quadtrees",
+          "entry": "why-do-we-need-quadtrees"
+        },
+        {
+          "source": "karan-sd",
+          "section": "quadtrees",
+          "entry": "use-cases"
+        }
+      ]
+    },
+    {
+      "id": "case-url-shortener",
+      "title": "Case study: URL shortener / Pastebin",
+      "aliases": [
+        "TinyURL",
+        "Bit.ly",
+        "key generation service"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "system-design-interview-questions-with-s",
+          "entry": "design-pastebin-com-or-bit-ly"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-url-shortener-like-tinyurl"
+        },
+        {
+          "source": "karan-sd",
+          "section": "what-is-a-url-shortener",
+          "entry": "what-is-a-url-shortener"
+        },
+        {
+          "source": "karan-sd",
+          "section": "why-do-we-need-a-url-shortener",
+          "entry": "why-do-we-need-a-url-shortener"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements",
+          "entry": "requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements",
+          "entry": "functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements",
+          "entry": "non-functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements",
+          "entry": "extended-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-2",
+          "entry": "estimation-and-constraints"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-2",
+          "entry": "traffic"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-2",
+          "entry": "bandwidth"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-2",
+          "entry": "storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-2",
+          "entry": "cache"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-2",
+          "entry": "high-level-estimate"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-model-design-2",
+          "entry": "data-model-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-model-design-2",
+          "entry": "what-kind-of-database-should-we-use"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-2",
+          "entry": "api-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-2",
+          "entry": "create-url"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-2",
+          "entry": "get-url"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-2",
+          "entry": "delete-url"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-2",
+          "entry": "why-do-we-need-an-api-key"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design",
+          "entry": "high-level-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design",
+          "entry": "url-encoding"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design",
+          "entry": "key-generation-service-kgs"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design",
+          "entry": "caching"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design",
+          "entry": "design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-2",
+          "entry": "detailed-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-2",
+          "entry": "data-partitioning"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-2",
+          "entry": "database-cleanup"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-2",
+          "entry": "cache"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-2",
+          "entry": "metrics-and-analytics"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-2",
+          "entry": "security"
+        },
+        {
+          "source": "karan-sd",
+          "section": "identify-and-resolve-bottlenecks-2",
+          "entry": "identify-and-resolve-bottlenecks"
+        }
+      ]
+    },
+    {
+      "id": "case-whatsapp",
+      "title": "Case study: chat app (WhatsApp)",
+      "aliases": [
+        "messenger",
+        "real-time messaging"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-whatsapp"
+        },
+        {
+          "source": "karan-sd",
+          "section": "what-is-whatsapp",
+          "entry": "what-is-whatsapp"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-2",
+          "entry": "requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-2",
+          "entry": "functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-2",
+          "entry": "non-functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-2",
+          "entry": "extended-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-3",
+          "entry": "estimation-and-constraints"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-3",
+          "entry": "traffic"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-3",
+          "entry": "storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-3",
+          "entry": "bandwidth"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-3",
+          "entry": "high-level-estimate"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-model-design-3",
+          "entry": "data-model-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-model-design-3",
+          "entry": "what-kind-of-database-should-we-use"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-3",
+          "entry": "api-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-3",
+          "entry": "get-all-chats-or-groups"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-3",
+          "entry": "get-messages"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-3",
+          "entry": "send-message"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-3",
+          "entry": "join-or-leave-a-channel"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-2",
+          "entry": "high-level-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-2",
+          "entry": "architecture"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-2",
+          "entry": "real-time-messaging"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-2",
+          "entry": "last-seen"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-2",
+          "entry": "notifications"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-2",
+          "entry": "read-receipts"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-2",
+          "entry": "design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-3",
+          "entry": "detailed-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-3",
+          "entry": "data-partitioning"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-3",
+          "entry": "caching"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-3",
+          "entry": "media-access-and-storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-3",
+          "entry": "content-delivery-network-cdn"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-3",
+          "entry": "api-gateway"
+        },
+        {
+          "source": "karan-sd",
+          "section": "identify-and-resolve-bottlenecks-3",
+          "entry": "identify-and-resolve-bottlenecks"
+        }
+      ]
+    },
+    {
+      "id": "case-twitter",
+      "title": "Case study: Twitter timeline / news feed",
+      "aliases": [
+        "Facebook feed",
+        "news feed",
+        "timeline and search"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "system-design-interview-questions-with-s",
+          "entry": "design-the-twitter-timeline-and-search-o"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-twitter"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-facebook"
+        },
+        {
+          "source": "karan-sd",
+          "section": "what-is-twitter",
+          "entry": "what-is-twitter"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-3",
+          "entry": "requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-3",
+          "entry": "functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-3",
+          "entry": "non-functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-3",
+          "entry": "extended-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-4",
+          "entry": "estimation-and-constraints"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-4",
+          "entry": "traffic"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-4",
+          "entry": "storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-4",
+          "entry": "bandwidth"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-4",
+          "entry": "high-level-estimate"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-model-design-4",
+          "entry": "data-model-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-model-design-4",
+          "entry": "what-kind-of-database-should-we-use"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-4",
+          "entry": "api-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-4",
+          "entry": "post-a-tweet"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-4",
+          "entry": "follow-or-unfollow-a-user"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-4",
+          "entry": "get-newsfeed"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-3",
+          "entry": "high-level-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-3",
+          "entry": "architecture"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-3",
+          "entry": "newsfeed"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-3",
+          "entry": "ranking-algorithm"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-3",
+          "entry": "retweets"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-3",
+          "entry": "search"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-3",
+          "entry": "notifications"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-4",
+          "entry": "detailed-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-4",
+          "entry": "data-partitioning"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-4",
+          "entry": "mutual-friends"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-4",
+          "entry": "metrics-and-analytics"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-4",
+          "entry": "caching"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-4",
+          "entry": "media-access-and-storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-4",
+          "entry": "content-delivery-network-cdn"
+        },
+        {
+          "source": "karan-sd",
+          "section": "identify-and-resolve-bottlenecks-4",
+          "entry": "identify-and-resolve-bottlenecks"
+        }
+      ]
+    },
+    {
+      "id": "case-netflix",
+      "title": "Case study: video streaming (Netflix / YouTube)",
+      "aliases": [
+        "video platform"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-netflix"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-youtube"
+        },
+        {
+          "source": "karan-sd",
+          "section": "what-is-netflix",
+          "entry": "what-is-netflix"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-4",
+          "entry": "requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-4",
+          "entry": "functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-4",
+          "entry": "non-functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-4",
+          "entry": "extended-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-5",
+          "entry": "estimation-and-constraints"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-5",
+          "entry": "traffic"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-5",
+          "entry": "storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-5",
+          "entry": "bandwidth"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-5",
+          "entry": "high-level-estimate"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-model-design-5",
+          "entry": "data-model-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-model-design-5",
+          "entry": "what-kind-of-database-should-we-use"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-5",
+          "entry": "api-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-5",
+          "entry": "upload-a-video"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-5",
+          "entry": "streaming-a-video"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-5",
+          "entry": "search-for-a-video"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-5",
+          "entry": "add-a-comment"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-4",
+          "entry": "high-level-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-4",
+          "entry": "architecture"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-4",
+          "entry": "video-processing"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-4",
+          "entry": "video-streaming"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-4",
+          "entry": "searching"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-4",
+          "entry": "sharing"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-5",
+          "entry": "detailed-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-5",
+          "entry": "data-partitioning"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-5",
+          "entry": "geo-blocking"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-5",
+          "entry": "recommendations"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-5",
+          "entry": "metrics-and-analytics"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-5",
+          "entry": "caching"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-5",
+          "entry": "media-streaming-and-storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-5",
+          "entry": "content-delivery-network-cdn"
+        },
+        {
+          "source": "karan-sd",
+          "section": "identify-and-resolve-bottlenecks-5",
+          "entry": "identify-and-resolve-bottlenecks"
+        }
+      ]
+    },
+    {
+      "id": "case-uber",
+      "title": "Case study: ride hailing (Uber)",
+      "aliases": [
+        "location tracking",
+        "ride matching"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-uber"
+        },
+        {
+          "source": "karan-sd",
+          "section": "what-is-uber",
+          "entry": "what-is-uber"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-5",
+          "entry": "requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-5",
+          "entry": "functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-5",
+          "entry": "non-functional-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "requirements-5",
+          "entry": "extended-requirements"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-6",
+          "entry": "estimation-and-constraints"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-6",
+          "entry": "traffic"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-6",
+          "entry": "storage"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-6",
+          "entry": "bandwidth"
+        },
+        {
+          "source": "karan-sd",
+          "section": "estimation-and-constraints-6",
+          "entry": "high-level-estimate"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-model-design-6",
+          "entry": "data-model-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "data-model-design-6",
+          "entry": "what-kind-of-database-should-we-use"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-6",
+          "entry": "api-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-6",
+          "entry": "request-a-ride"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-6",
+          "entry": "cancel-the-ride"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-6",
+          "entry": "accept-or-deny-the-ride"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-6",
+          "entry": "start-or-end-the-trip"
+        },
+        {
+          "source": "karan-sd",
+          "section": "api-design-6",
+          "entry": "rate-the-trip"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-5",
+          "entry": "high-level-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-5",
+          "entry": "architecture"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-5",
+          "entry": "how-is-the-service-expected-to-work"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-5",
+          "entry": "location-tracking"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-5",
+          "entry": "ride-matching"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-5",
+          "entry": "payments"
+        },
+        {
+          "source": "karan-sd",
+          "section": "high-level-design-5",
+          "entry": "notifications"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-6",
+          "entry": "detailed-design"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-6",
+          "entry": "data-partitioning"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-6",
+          "entry": "metrics-and-analytics"
+        },
+        {
+          "source": "karan-sd",
+          "section": "detailed-design-6",
+          "entry": "caching"
+        },
+        {
+          "source": "karan-sd",
+          "section": "identify-and-resolve-bottlenecks-6",
+          "entry": "identify-and-resolve-bottlenecks"
+        }
+      ]
+    },
+    {
+      "id": "case-web-crawler",
+      "title": "Case study: web crawler",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "system-design-interview-questions-with-s",
+          "entry": "design-a-web-crawler"
+        }
+      ]
+    },
+    {
+      "id": "case-mint",
+      "title": "Case study: personal finance aggregator (Mint.com)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "system-design-interview-questions-with-s",
+          "entry": "design-mint-com"
+        }
+      ]
+    },
+    {
+      "id": "case-social-graph",
+      "title": "Case study: social network data structures",
+      "aliases": [
+        "social graph"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "system-design-interview-questions-with-s",
+          "entry": "design-the-data-structures-for-a-social-"
+        }
+      ]
+    },
+    {
+      "id": "case-distributed-cache",
+      "title": "Case study: distributed cache / query cache",
+      "aliases": [
+        "key-value cache for a search engine"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "system-design-interview-questions-with-s",
+          "entry": "design-a-key-value-store-for-a-search-en"
+        },
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-distributed-cache"
+        }
+      ]
+    },
+    {
+      "id": "case-kv-store",
+      "title": "Case study: distributed key-value store",
+      "aliases": [
+        "Dynamo-style store"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-distributed-key-value-store"
+        }
+      ]
+    },
+    {
+      "id": "case-sales-ranking",
+      "title": "Case study: sales ranking by category (Amazon)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "system-design-interview-questions-with-s",
+          "entry": "design-amazon-s-sales-ranking-by-categor"
+        }
+      ]
+    },
+    {
+      "id": "case-scale-to-millions",
+      "title": "Case study: scaling a system to millions of users",
+      "aliases": [
+        "scaling on AWS"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "sd-primer",
+          "section": "system-design-interview-questions-with-s",
+          "entry": "design-a-system-that-scales-to-millions-"
+        }
+      ]
+    },
+    {
+      "id": "case-autocomplete",
+      "title": "Case study: search autocomplete",
+      "aliases": [
+        "typeahead"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-autocomplete-for-search-engines"
+        }
+      ]
+    },
+    {
+      "id": "case-load-balancer",
+      "title": "Case study: design a load balancer",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-load-balancer"
+        }
+      ]
+    },
+    {
+      "id": "case-cdn",
+      "title": "Case study: design a CDN",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-content-delivery-network-cdn"
+        }
+      ]
+    },
+    {
+      "id": "case-auth-system",
+      "title": "Case study: authentication system",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-authentication-system"
+        }
+      ]
+    },
+    {
+      "id": "case-upi",
+      "title": "Case study: Unified Payments Interface (UPI)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-unified-payments-interface-upi"
+        }
+      ]
+    },
+    {
+      "id": "case-spotify",
+      "title": "Case study: music streaming (Spotify)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-spotify"
+        }
+      ]
+    },
+    {
+      "id": "case-instagram",
+      "title": "Case study: photo sharing (Instagram)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-instagram"
+        }
+      ]
+    },
+    {
+      "id": "case-notification-service",
+      "title": "Case study: notification service",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-notification-service"
+        }
+      ]
+    },
+    {
+      "id": "case-job-scheduler",
+      "title": "Case study: distributed job scheduler",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-distributed-job-scheduler"
+        }
+      ]
+    },
+    {
+      "id": "case-tinder",
+      "title": "Case study: dating app (Tinder)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-tinder"
+        }
+      ]
+    },
+    {
+      "id": "case-reddit",
+      "title": "Case study: Reddit",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-reddit"
+        }
+      ]
+    },
+    {
+      "id": "case-google-search",
+      "title": "Case study: web search (Google Search)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-google-search"
+        }
+      ]
+    },
+    {
+      "id": "case-ecommerce",
+      "title": "Case study: e-commerce store (Amazon)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-e-commerce-store-like-amazon"
+        }
+      ]
+    },
+    {
+      "id": "case-tiktok",
+      "title": "Case study: short video feed (TikTok)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-tiktok"
+        }
+      ]
+    },
+    {
+      "id": "case-shopify",
+      "title": "Case study: multi-tenant commerce platform (Shopify)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-shopify"
+        }
+      ]
+    },
+    {
+      "id": "case-airbnb",
+      "title": "Case study: booking marketplace (Airbnb)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-airbnb"
+        }
+      ]
+    },
+    {
+      "id": "case-rate-limiter",
+      "title": "Case study: rate limiter",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-rate-limiter"
+        }
+      ]
+    },
+    {
+      "id": "case-message-queue",
+      "title": "Case study: distributed message queue (Kafka)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-distributed-message-queue-like-ka"
+        }
+      ]
+    },
+    {
+      "id": "case-flight-booking",
+      "title": "Case study: flight booking system",
+      "aliases": [
+        "ticket booking"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-flight-booking-system"
+        }
+      ]
+    },
+    {
+      "id": "case-code-editor",
+      "title": "Case study: online code editor",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-online-code-editor"
+        }
+      ]
+    },
+    {
+      "id": "case-analytics-platform",
+      "title": "Case study: metrics and logging platform",
+      "aliases": [
+        "analytics platform"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-an-analytics-platform-metrics-log"
+        }
+      ]
+    },
+    {
+      "id": "case-payment-system",
+      "title": "Case study: payment system",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-payment-system"
+        }
+      ]
+    },
+    {
+      "id": "case-digital-wallet",
+      "title": "Case study: digital wallet",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-a-digital-wallet"
+        }
+      ]
+    },
+    {
+      "id": "case-yelp",
+      "title": "Case study: location-based service (Yelp)",
+      "aliases": [
+        "proximity service"
+      ],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-location-based-service-like-yelp"
+        }
+      ]
+    },
+    {
+      "id": "case-doordash",
+      "title": "Case study: food delivery (DoorDash)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-food-delivery-app-like-doordash"
+        }
+      ]
+    },
+    {
+      "id": "case-google-docs",
+      "title": "Case study: collaborative editor (Google Docs)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-google-docs"
+        }
+      ]
+    },
+    {
+      "id": "case-google-maps",
+      "title": "Case study: maps and navigation (Google Maps)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-google-maps"
+        }
+      ]
+    },
+    {
+      "id": "case-zoom",
+      "title": "Case study: video conferencing (Zoom)",
+      "aliases": [],
+      "spine": 0,
+      "refs": [
+        {
+          "source": "awesome-sd",
+          "section": "system-design-interview-problems",
+          "entry": "design-zoom"
+        }
+      ]
+    }
+  ]
+}

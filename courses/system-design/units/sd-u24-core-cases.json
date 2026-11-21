@@ -1,0 +1,39 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "sd-u24-core-cases",
+  "title": "Classic warm-up designs and the structures behind them",
+  "topics": [
+    {
+      "id": "sd-bloom-filter",
+      "tier": "optional",
+      "order": 1
+    },
+    {
+      "id": "sd-case-url-shortener",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "sd-case-rate-limiter",
+      "tier": "optional",
+      "order": 3
+    },
+    {
+      "id": "sd-case-kv-store",
+      "tier": "optional",
+      "order": 4
+    },
+    {
+      "id": "sd-case-web-crawler",
+      "tier": "optional",
+      "order": 5
+    },
+    {
+      "id": "sd-case-search-autocomplete",
+      "tier": "optional",
+      "order": 6
+    }
+  ],
+  "halfway_after": null,
+  "status": "stub"
+}

@@ -1,0 +1,338 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "emb-metrics",
+  "version": 1,
+  "title": "Metrics and normalisation",
+  "size": "standard",
+  "est_min": 19,
+  "kcs": [
+    {
+      "id": "kc-metrics-normalization",
+      "version": 2,
+      "statement": "For unit vectors, cosine, dot product and Euclidean distance give identical rankings."
+    },
+    {
+      "id": "kc-unnormalised-dot-bias",
+      "version": 1,
+      "statement": "An unnormalised dot product favours long vectors."
+    }
+  ],
+  "mode_hint": "prediction",
+  "mode": "prediction",
+  "requires": [
+    "emb-cosine"
+  ],
+  "suggests": [],
+  "confusable_with": [],
+  "introduces": [
+    "normalisation",
+    "Euclidean distance"
+  ],
+  "uses": [
+    "cosine similarity",
+    "magnitude"
+  ],
+  "misconceptions": [
+    {
+      "id": "mc-dot-equals-cosine-always",
+      "statement": "Dot product and cosine always rank the same.",
+      "tags": [
+        "kc-metrics-normalization"
+      ]
+    }
+  ],
+  "glossary": [],
+  "parts": [
+    {
+      "id": "emb-metrics-p1",
+      "title": "Cosine, dot product, Euclidean, and why normalization makes them agree",
+      "beats": [
+        {
+          "id": "b-metrics",
+          "title": "Cosine, dot product, Euclidean, and why normalization makes them agree",
+          "kcs": [
+            "kc-metrics-normalization"
+          ],
+          "est_minutes": 9,
+          "blocks": [
+            {
+              "id": "blk-emb-metrics-01",
+              "block": {
+                "type": "predict",
+                "question": {
+                  "id": "q-predict-unit-metrics",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-metrics-normalization"
+                  ],
+                  "prompt_md": "Every vector in your index has length exactly 1. You rank the same query three ways: by **dot product**, by **cosine similarity**, and by **Euclidean distance** (smallest first). Will the top result differ?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "No: all three give the same ranking",
+                      "why_md": "Right. You'll see exactly why in a moment: with unit vectors, distance is a function of cosine, and dot product equals cosine.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "Yes: they measure different things",
+                      "why_md": "In general they do, but length 1 removes the only thing that separates them.",
+                      "misconception": "mc-dot-equals-cosine-always"
+                    },
+                    {
+                      "id": "c",
+                      "md": "It depends on the query",
+                      "why_md": "With unit vectors the agreement holds for every query."
+                    }
+                  ],
+                  "est_seconds": 40
+                }
+              }
+            },
+            {
+              "id": "blk-emb-metrics-02",
+              "block": {
+                "type": "prose",
+                "md": [
+                  "You will meet three scores:",
+                  "- **Cosine similarity**: the angle only. Higher means more similar.\n- **Dot product**: angle *and* length. Higher means more similar.\n- **Euclidean (L2) distance**: the straight-line gap. **Lower** means more similar.",
+                  "They disagree in general, but here is the most useful identity in this topic. For **unit vectors** (length 1):"
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-metrics-03",
+              "block": {
+                "type": "math",
+                "tex": "\\|a-b\\|^2 = \\|a\\|^2 + \\|b\\|^2 - 2\\,a\\cdot b = 2 - 2\\cos\\theta",
+                "explain_md": "If every vector has length 1, then the dot product **equals** cosine, and squared Euclidean distance is a **decreasing function** of cosine. So all three give **the same ranking**. That's why you normalize once at index time and then use whichever score your database computes fastest.",
+                "parts": [
+                  {
+                    "symbol": "‖a‖ = ‖b‖ = 1",
+                    "means": "both vectors normalized"
+                  },
+                  {
+                    "symbol": "a·b",
+                    "means": "becomes exactly cos θ"
+                  },
+                  {
+                    "symbol": "2 − 2cos θ",
+                    "means": "small distance ⇔ large cosine"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-metrics-04",
+              "block": {
+                "type": "callout",
+                "kind": "production",
+                "md": "OpenAI's documentation states its embeddings are **normalized to length 1**, so a plain dot product gives the cosine, and cosine and Euclidean distance produce identical rankings. Other models don't normalize unless you ask (`normalize_embeddings=True` in sentence-transformers).",
+                "title": "What providers do"
+              }
+            },
+            {
+              "id": "blk-emb-metrics-05",
+              "block": {
+                "type": "visual",
+                "id": "v-cosine-norm",
+                "widget": "cosine-dial",
+                "title": "Normalize, and the metrics line up",
+                "goal_md": "The same dial with a **normalize** switch. With it on, both tips snap to the unit circle.",
+                "alt": "Two draggable arrows from the origin plus a normalize toggle. A live readout shows dot, cosine and Euclidean distance, and whether ranking by dot would match ranking by cosine.",
+                "tasks": [
+                  {
+                    "id": "t1",
+                    "prompt": "With normalize **off**, make the dot product larger than 4 while cosine stays below 0.5.",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "normalized",
+                          "op": "==",
+                          "value": 0
+                        },
+                        {
+                          "var": "dot",
+                          "op": ">",
+                          "value": 4
+                        },
+                        {
+                          "var": "cos",
+                          "op": "<",
+                          "value": 0.5
+                        }
+                      ]
+                    },
+                    "aha_md": "A big dot product with a poor angle: length is inflating the score. In search, this is how long or “loud” documents win when they shouldn't."
+                  },
+                  {
+                    "id": "t2",
+                    "prompt": "Turn normalize **on** and check: does dot now equal cosine?",
+                    "when": {
+                      "all": [
+                        {
+                          "var": "normalized",
+                          "op": "==",
+                          "value": 1
+                        },
+                        {
+                          "var": "dot_minus_cos",
+                          "op": "<",
+                          "value": 0.001
+                        }
+                      ]
+                    },
+                    "aha_md": "With unit vectors, dot product *is* cosine. One normalization at index time makes the metric choice irrelevant for ranking."
+                  }
+                ],
+                "params": {
+                  "a": [
+                    3,
+                    1
+                  ],
+                  "b": [
+                    1,
+                    2
+                  ],
+                  "showNormalize": true
+                }
+              }
+            },
+            {
+              "id": "blk-emb-metrics-06",
+              "block": {
+                "type": "compare",
+                "title": "Which score when?",
+                "columns": [
+                  "Score",
+                  "Range",
+                  "Uses length?",
+                  "Use when"
+                ],
+                "rows": [
+                  [
+                    "Cosine",
+                    "−1 … 1",
+                    "No",
+                    "Default for text. Safe when you don't know whether vectors are normalized."
+                  ],
+                  [
+                    "Dot product",
+                    "unbounded",
+                    "Yes",
+                    "Vectors are normalized (then it equals cosine and is faster), or the model was trained for dot product."
+                  ],
+                  [
+                    "Euclidean (L2)",
+                    "0 … ∞ (lower is better)",
+                    "Yes",
+                    "Some indexes are built around L2. With normalized vectors it ranks the same as cosine."
+                  ]
+                ]
+              }
+            },
+            {
+              "id": "blk-emb-metrics-07",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-l2-from-cos",
+                  "kind": "numeric",
+                  "difficulty": 3,
+                  "kcs": [
+                    "kc-metrics-normalization"
+                  ],
+                  "prompt_md": "Two **unit** vectors have cosine similarity 0.5. What is the Euclidean distance between them?",
+                  "answer": {
+                    "value": 1,
+                    "tolerance": 0.01,
+                    "common_wrong": [
+                      {
+                        "value": 0.5,
+                        "why_md": "Distance isn't 1 − cos. Use $\\|a-b\\|^2 = 2 - 2\\cos\\theta$."
+                      },
+                      {
+                        "value": 1.414,
+                        "why_md": "√2 is the distance for perpendicular unit vectors (cos = 0)."
+                      }
+                    ]
+                  },
+                  "hint_md": "Use the identity, then take a square root.",
+                  "solution_md": "$\\|a-b\\|^2 = 2 - 2(0.5) = 1$, so the distance is $\\sqrt1 = 1$.",
+                  "est_seconds": 120
+                }
+              }
+            },
+            {
+              "id": "blk-emb-metrics-08",
+              "block": {
+                "type": "check",
+                "question": {
+                  "id": "q-dot-bug",
+                  "kind": "mcq",
+                  "difficulty": 2,
+                  "kcs": [
+                    "kc-metrics-normalization"
+                  ],
+                  "prompt_md": "Your search ranks by **raw dot product**, and your vectors are **not normalized**. Users complain that “the same giant FAQ page shows up for everything.” Most likely cause?",
+                  "options": [
+                    {
+                      "id": "a",
+                      "md": "That page's vector has a much larger magnitude, which inflates its dot product with every query",
+                      "why_md": "Right. Normalize the vectors (or switch to cosine) and the length advantage disappears.",
+                      "correct": true
+                    },
+                    {
+                      "id": "b",
+                      "md": "The page really is relevant to everything",
+                      "why_md": "Being somewhat related to everything doesn't make it the top result everywhere. The pattern points to magnitude."
+                    },
+                    {
+                      "id": "c",
+                      "md": "Dot product and cosine always rank the same, so it's something else",
+                      "why_md": "They only rank the same when the vectors are normalized.",
+                      "misconception": "mc-dot-equals-cosine-always"
+                    }
+                  ],
+                  "est_seconds": 70
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exit_ticket": [
+    "q-cp2-norm"
+  ],
+  "recap": {
+    "formula": "‖a − b‖² = 2 − 2 cos(a, b) for unit vectors",
+    "pitfall": "Dot product on unnormalised vectors ranks long documents first."
+  },
+  "depth_threads": [],
+  "anticipated_doubts": [],
+  "problem_ideas": [
+    "Normalise two vectors and check that dot product equals cosine",
+    "Rank three vectors by dot, cosine and Euclidean and compare",
+    "Show a long vector winning on dot product but not on cosine",
+    "Choose the FAISS metric for normalised embeddings",
+    "Derive ‖a − b‖² = 2 − 2cos for unit vectors",
+    "Debug a search where long articles always rank first"
+  ],
+  "sources": [
+    {
+      "source": "strata-pack",
+      "entry": "intermediate/b-metrics"
+    },
+    {
+      "source": "faiss-docs",
+      "entry": "flat"
+    }
+  ],
+  "provenance": {
+    "origin": "static"
+  },
+  "status": "drafted"
+}

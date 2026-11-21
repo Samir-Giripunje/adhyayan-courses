@@ -1,0 +1,24 @@
+{
+  "schema": "adhy.unit/1",
+  "id": "clf-u18-edge-protection",
+  "title": "Protecting the front door: DDoS and web attacks",
+  "topics": [
+    {
+      "id": "clf-shield-ddos",
+      "tier": "must",
+      "order": 1
+    },
+    {
+      "id": "clf-waf",
+      "tier": "must",
+      "order": 2
+    },
+    {
+      "id": "clf-firewall-manager",
+      "tier": "optional",
+      "order": 3
+    }
+  ],
+  "halfway_after": null,
+  "status": "stub"
+}

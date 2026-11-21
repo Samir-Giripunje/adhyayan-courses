@@ -1,0 +1,58 @@
+{
+  "schema": "adhy.topic/2",
+  "id": "clf-s3-lifecycle",
+  "version": 1,
+  "title": "S3 lifecycle policies: automatic tiering",
+  "size": "standard",
+  "est_min": 8,
+  "kcs": [
+    {
+      "id": "kc-lifecycle-transitions",
+      "version": 1,
+      "statement": "An S3 lifecycle configuration holds rules, scoped to a bucket, prefix or tag, that move objects to cheaper storage classes after a set age; for example Standard to Standard-IA at 30 days, then to Glacier Deep Archive at 180."
+    },
+    {
+      "id": "kc-lifecycle-expiration",
+      "version": 1,
+      "statement": "Lifecycle expiration actions delete objects, or old noncurrent versions, after a set age, so logs and temporary data stop adding storage cost automatically."
+    }
+  ],
+  "mode_hint": "quiz",
+  "requires": [
+    "clf-s3-storage-classes"
+  ],
+  "suggests": [
+    "clf-s3-basics"
+  ],
+  "confusable_with": [
+    "clf-s3-storage-classes",
+    "clf-aws-backup"
+  ],
+  "introduces": [
+    "s3 lifecycle policy",
+    "transition action",
+    "expiration action"
+  ],
+  "uses": [
+    "s3",
+    "s3 storage class",
+    "s3 versioning",
+    "s3 standard-ia",
+    "s3 glacier"
+  ],
+  "problem_ideas": [
+    "Given rules 'Standard-IA at 30 days, Deep Archive at 180, expire at 365', say where a 45-day-old, a 200-day-old and a 400-day-old object are.",
+    "Logs are read for 1 week, kept for audit for 1 year, then deleted: pick the transition and expiration actions that fit.",
+    "Apply a rule only to objects under the prefix 'raw/': what scopes the rule?",
+    "A versioned bucket keeps growing although users delete files: which lifecycle action fixes it?",
+    "Compute the monthly storage bill for 10 TB of logs with and without a 30-day transition to Standard-IA, given per-GB prices.",
+    "Which tool fits each need: lifecycle rule or Intelligent-Tiering, for a known versus an unknown access pattern?"
+  ],
+  "sources": [
+    {
+      "source": "clf-c02-guide",
+      "entry": "task-statement-3-6-identify-aws-storage-/understanding-use-cases-for-lifecycle-po"
+    }
+  ],
+  "status": "stub"
+}
