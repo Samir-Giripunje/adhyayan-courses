@@ -108,8 +108,10 @@ command-line tools need (no Electron, no browsers), and runs `node app/tools/pub
 2. Each course is packed into a course file (`.adhy`). The same content always gives the same bytes.
 3. `catalog.json` lists each course with its title, summary, tags, lessons written and planned, estimated hours, file
    size, revision, checksum, the oldest app version that reads it, and the what's-new line, computed against the
-   catalogue that is live now.
-4. The site (`catalog.json`, `courses/*.adhy`, `lists/*.json`, a small `index.html`) is deployed to GitHub Pages.
+   catalogue that is live now. Next to it, `build-state.json` keeps a fingerprint of every lesson for the next build to
+   compare against, so the app's download stays small.
+4. The site (`catalog.json`, `build-state.json`, `courses/*.adhy`, `lists/*.json`, a small `index.html`) is deployed
+   to GitHub Pages.
 
 **Revisions.** A course's revision starts at its `course.json` version, stays the same while its content is unchanged,
 and goes up by at least one whenever the content changes. It never goes down: the build counts from the live

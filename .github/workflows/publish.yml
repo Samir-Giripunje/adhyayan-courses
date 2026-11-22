@@ -5,7 +5,8 @@
 # The build uses the app's own tools at the app commit pinned in app-ref.txt (so this repository decides which app
 # version validates and packs its courses): every course in published.json is validated, packed into a deterministic
 # course file, and listed in catalog.json with a revision that never goes down (it is computed against the catalogue
-# that is live now, which is why the build reads it first). Nothing is committed back.
+# that is live now, which is why the build reads it first, and build-state.json next to it for the what's-new counts).
+# Nothing is committed back.
 name: Publish the course catalogue
 
 on:

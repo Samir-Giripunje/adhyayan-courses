@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // npm run build: the same build the publish workflow runs, on your computer, with an app checkout next to this one.
 // It does not pack anything itself: it runs the app's own tools/publish.mjs (validate every course in published.json,
-// pack each into a deterministic course file, write catalog.json), so a local preview and CI can never disagree.
+// pack each into a deterministic course file, write catalog.json and build-state.json), so a local preview and CI can
+// never disagree.
 //
 //   npm run build                      build into site/ (open site/index.html, or serve site/ and point the app at it)
 //   npm run check                      validate and build in memory, write nothing (what pull requests run)
@@ -9,7 +10,8 @@
 //
 //   --app       the app checkout (default: ADHYAYAN_APP, else ../adhyayan next to this repository)
 //   --out       where to write the site (default: site/)
-//   --previous  the catalogue to count revisions from (default: the last local build in --out, if there is one)
+//   --previous  the catalogue to count revisions from (default: the last local build in --out, if there is one); its
+//               build-state.json is read from next to it
 //   --live      count revisions from the published catalogue (what CI does; needs the network)
 //
 // To try a local build in the app: serve the folder (for example `npx http-server site -p 8099`), then start the app
@@ -39,11 +41,13 @@ if (has('--check')) args.push('--check');
 else {
   const out = resolve(arg('--out') || join(REPO, 'site'));
   args.push('--out', out);
-  // The last local build is replaced by this one: keep its catalogue aside to count revisions from.
+  // The last local build is replaced by this one: keep its catalogue and build state aside to count revisions from.
   let previous = has('--live') ? LIVE : arg('--previous');
   if (!previous && existsSync(join(out, 'catalog.json'))) {
-    previous = join(mkdtempSync(join(tmpdir(), 'adhy-prev-')), 'catalog.json');
+    const aside = mkdtempSync(join(tmpdir(), 'adhy-prev-'));
+    previous = join(aside, 'catalog.json');
     copyFileSync(join(out, 'catalog.json'), previous);
+    if (existsSync(join(out, 'build-state.json'))) copyFileSync(join(out, 'build-state.json'), join(aside, 'build-state.json'));
   }
   if (previous) args.push('--previous', previous);
   // The commit's time, as CI uses, so the same commit builds the same catalogue.
