@@ -1,61 +1,123 @@
+<div align="center">
+
 # Adhyayan courses
 
-The course content for [Adhyayan](https://github.com/Samir-Giripunje/adhyayan), a study app that runs on your computer.
-This repository holds the courses as plain JSON. On every push to `main`, a GitHub Action builds a course file for
-each published course and a `catalog.json`, and publishes them at:
+**Free, open courses for the [Adhyayan](https://github.com/Samir-Giripunje/adhyayan) study app.**
+
+[![Publish](https://github.com/Samir-Giripunje/adhyayan-courses/actions/workflows/publish.yml/badge.svg)](https://github.com/Samir-Giripunje/adhyayan-courses/actions/workflows/publish.yml)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/license-CC%20BY--SA%204.0-16a34a)](LICENSE)
+[![Get the app](https://img.shields.io/github/v/release/Samir-Giripunje/adhyayan?label=get%20the%20app&color=f5a524)](https://github.com/Samir-Giripunje/adhyayan/releases/latest)
+
+<br>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Samir-Giripunje/adhyayan/main/docs/media/lesson-dark.png">
+  <img src="https://raw.githubusercontent.com/Samir-Giripunje/adhyayan/main/docs/media/lesson-light.png" width="820" alt="A lesson in Adhyayan: a step-by-step diagram of HTTP requests and responses">
+</picture>
+
+</div>
+
+<br>
+
+This repository holds every lesson, practice question and hands-on task in Adhyayan. **You don't need it to use the
+app.** The app downloads courses from here by itself: open **Explore courses** and press **Get**.
+
+It's here so anyone can read the courses, fix a mistake, or help write new lessons.
+
+## The courses
+
+| Course | What you'll learn |
+|---|---|
+| **System Design for Interviews** | How real systems are built, from a single web request to millions of users: caching, databases, queues and reliability, then case studies and timed mock interviews. |
+| **AWS Certified Cloud Practitioner (CLF-C02)** | Get ready for the exam: cloud basics, the core AWS services, security, pricing and support, with practice for each exam domain and timed mock exams. |
+| **Python Decorators** | What `@` really does, how to write your own, decorators with arguments, class decorators, and how `@property` works underneath. |
+| **Embeddings and semantic search** | How text becomes numbers that capture meaning, and how to build, tune and test semantic search with them. |
+
+Every course has its full plan, but many lessons aren't written yet. The app shows them as "not written yet", and
+anyone with the app and their own Claude or ChatGPT login can write one with **Generate**. New lessons reach everyone
+as an **Update** in the app, and their progress is kept.
+
+## Fix a mistake in a lesson
+
+Spotted something wrong? Thank you. The easiest way is to
+[open an issue](https://github.com/Samir-Giripunje/adhyayan-courses/issues/new) saying which lesson and what's wrong.
+
+To fix it yourself:
+
+1. **Find the lesson.** Open it in the app. The lesson id is the last part of the address
+   (`#/c/<course>/t/<lesson id>`). The lesson lives in `atlas/topics/<lesson id>/topic.json`, and its practice
+   questions in `items.json` next to it.
+2. **Edit the text.** Keep each block's `id` as it is, because learners' notes are attached to it.
+3. **Check it.** With the [app](https://github.com/Samir-Giripunje/adhyayan) cloned next to this folder, run
+   `npm run check`. It runs the same checks as GitHub.
+4. **Open a pull request** saying what was wrong and how you checked. Once it's merged, everyone gets the fix as an
+   update.
+
+## Write new lessons
+
+1. Clone this repository and the [app](https://github.com/Samir-Giripunje/adhyayan) side by side.
+2. In the app folder, run `npm install`, then `npm start`. In development the app uses this folder for its courses.
+3. Open a course, pick a lesson that's "not written yet", and press **Generate**. It's written through your own
+   Claude or ChatGPT login and saved into this folder.
+4. Read it, fix anything that's off, run `npm run check`, and open a pull request.
+
+Only add material you have the right to share. Never commit `courses/*/changes/` (they can point at files you
+uploaded) or third-party exam papers. Papers you own stay on your computer; see *Papers you own* below.
+
+## How publishing works
+
+Every push to `main` runs a GitHub Action that checks every course, packs each one into a course file, and publishes a
+catalogue the app reads:
 
 **https://samir-giripunje.github.io/adhyayan-courses/catalog.json**
 
-The app reads that catalogue: **Explore courses** lists what is here, **Get** downloads a course, and **Update**
-brings in a newer revision while keeping your progress. You never need this repository to use the app.
+If any check fails, nothing is published. The app notices a new version of a course and offers **Update**, with a
+short "what's new" line such as *2 new lessons, 1 improved*. Version numbers go up by themselves, so you never bump
+them by hand.
 
-## What is in it
+<details>
+<summary><b>What's in this repository</b></summary>
+
+<br>
 
 | Path | What |
 |---|---|
 | `courses/<id>/` | One folder per course: `course.json` (the course: stages, units, which lessons it places), its plan (`course-pass.json`, `architect/`), units, sections (practice sets, hands-on tasks), the sources it was planned from (`sources.json`) and build records the app reads. |
 | `courses/index.json` | The courses in this folder, with the extras each has (sections, practice, forecasts). The app reads it when it runs on this folder. |
-| `courses/index.local.json` | Not in the repository (ignored): sections kept on your computer only, such as papers you own. The app adds them to `courses/index.json`'s when it runs on this folder; the build never reads it. |
+| `courses/index.local.json` | Not in the repository (ignored): sections kept on your computer only, such as papers you own. The app adds them when it runs on this folder; the build never reads it. |
 | `courses/catalogue.json` | Phrases the app's goal box matches to a course here ("system design" → System Design for Interviews). |
 | `atlas/topics/<id>/` | One folder per lesson: `topic.json` (the lesson), `items.json` (practice), `sealed/` (test forms), `placement.json` where a course has a placement check. Lesson ids are shared across courses. |
 | `sheets/` | Problem lists (Blind 75 and NeetCode 150 subsets): links to each problem, with our own short gist and hints. No problem statements. |
 | `published.json` | Which courses and problem lists go into the public catalogue, and their tags. |
-| `app-ref.txt` | The commit of [Samir-Giripunje/adhyayan](https://github.com/Samir-Giripunje/adhyayan) whose tools validate and pack these courses. Bump it to build with a newer app. |
+| `app-ref.txt` | The commit of [the app](https://github.com/Samir-Giripunje/adhyayan) whose tools validate and pack these courses. Bump it to build with a newer app. |
 | `scripts/build.mjs` | `npm run build`: the same build as CI, locally, using an app checkout next to this one. |
-| `.github/workflows/` | `publish.yml` (push to `main`, or by hand: validate, build, deploy to GitHub Pages) and `check.yml` (pull requests: validate and build, publish nothing). |
+| `.github/workflows/` | `publish.yml` (push to `main`: validate, build, deploy to GitHub Pages) and `check.yml` (pull requests: validate and build, publish nothing). |
 
-The four courses: **System Design for Interviews**, **AWS Certified Cloud Practitioner (CLF-C02)**, **Python
-Decorators: From @ Syntax to Descriptors**, and **Embeddings and semantic search**. Most lessons are still unwritten:
-the app shows them as "not written yet", and anyone with the app and their own AI subscription can write one (see
-below).
+</details>
 
-**Exam questions.** The CLF-C02 course doesn't include third-party exam questions. If you own sample papers or past
-papers, attach them to your copy of the course with **Change this course** in the app; they stay on your computer and
-are never put into a course file or the catalogue. AWS publishes its own sample questions on the
-[AWS Certified Cloud Practitioner](https://aws.amazon.com/certification/certified-cloud-practitioner/) page.
+<details>
+<summary><b>The build, step by step</b></summary>
 
-## How publishing works
+<br>
 
 `publish.yml` checks out this repository and the app at the commit in `app-ref.txt`, installs only what the app's
-command-line tools need (`npm ci --ignore-scripts --omit=dev --omit=optional`: no Electron, no browsers), and runs
-`node app/tools/publish.mjs`:
+command-line tools need (no Electron, no browsers), and runs `node app/tools/publish.mjs`:
 
-1. every course in `published.json` is validated with the app's own checks (`adhy validate`: schemas, lints, the
-   minimums every written lesson must meet); a failure stops the build and nothing is published;
-2. each course is packed into a course file (`.adhy`). The same content always gives the same bytes;
+1. Every course in `published.json` is validated with the app's own checks (schemas, lints, and the minimums every
+   written lesson must meet). A failure stops the build.
+2. Each course is packed into a course file (`.adhy`). The same content always gives the same bytes.
 3. `catalog.json` lists each course with its title, summary, tags, lessons written and planned, estimated hours, file
-   size, revision, checksum, the oldest app version that reads it, and a short **what's new** line ("2 new lessons,
-   1 improved"), computed against the catalogue that is live now;
-4. the site (`catalog.json`, `courses/*.adhy`, `lists/*.json`, a small `index.html`) is deployed to GitHub Pages.
+   size, revision, checksum, the oldest app version that reads it, and the what's-new line, computed against the
+   catalogue that is live now.
+4. The site (`catalog.json`, `courses/*.adhy`, `lists/*.json`, a small `index.html`) is deployed to GitHub Pages.
 
-**Revisions.** Each course has a revision in the catalogue, and the app offers an update when the revision goes up.
-The revision starts at the course's `course.json` version, stays the same while the course's content is unchanged,
-and goes up by at least one whenever the content changes, even if `course.json` keeps its version. It never goes
-down: the build counts from the live catalogue, and refuses to build if the live catalogue can't be read for any
-reason other than "not published yet". A course taken out of `published.json` keeps its last revision in the
-catalogue's `retired` list, so it continues from there if it comes back. You don't need to bump versions by hand.
+**Revisions.** A course's revision starts at its `course.json` version, stays the same while its content is unchanged,
+and goes up by at least one whenever the content changes. It never goes down: the build counts from the live
+catalogue and refuses to run if that can't be read (other than "not published yet"). A course taken out of
+`published.json` keeps its last revision in the catalogue's `retired` list, so it continues from there if it comes
+back.
 
-## Preview a build locally
+**Preview a build locally:**
 
 ```bash
 git clone https://github.com/Samir-Giripunje/adhyayan.git          # next to this repository
@@ -65,32 +127,30 @@ npm run build      # validates and writes site/ (catalog.json, course files, pro
 npm run check      # validate only, as pull requests do
 ```
 
-To try the result in the app, serve `site/` on your computer (for example `npx http-server site -p 8099`) and start
-the app with `ADHY_CATALOG=http://127.0.0.1:8099/catalog.json ADHY_ALLOW_LOCAL_HTTP=1 npm start`.
+To try the result in the app, serve `site/` (for example `npx http-server site -p 8099`) and start the app with
+`ADHY_CATALOG=http://127.0.0.1:8099/catalog.json ADHY_ALLOW_LOCAL_HTTP=1 npm start`.
 
-## Contributing a lesson fix
+</details>
 
-1. Find the lesson: `atlas/topics/<lesson id>/topic.json`. The lesson id is in the app's address bar when the lesson
-   is open (`#/c/<course>/t/<lesson id>`).
-2. Fix the text in the block that is wrong (keep each block's `id`: learners' notes and explanations are anchored to
-   it). For a practice question, edit `items.json` next to it.
-3. Run `npm run check` (with the app checked out next to this repository). It runs the same checks as CI.
-4. Open a pull request saying what was wrong and how you checked it. The check workflow validates it; once merged,
-   the catalogue publishes a new revision, and learners see **Update available** with the change in what's new.
+<details>
+<summary><b>Papers you own</b></summary>
 
-**Writing lessons with the app.** Run the app from source next to this repository (`npm start` in `adhyayan`): in
-development it uses this checkout as its course folder, so lessons you generate with **Generate** (through your own
-Claude or ChatGPT subscription) are written here, ready to review and commit. The app's own generation queue and
-records go to `desk/`, which is ignored.
+<br>
 
-Don't add material you don't have the right to share, and don't commit `courses/*/changes/` (change requests can
-point at files you uploaded; they are ignored). Papers you attach while running the app on this checkout are
-yours to keep locally: list their section in `courses/index.local.json` (ignored, same `sections` map as
-`courses/index.json`) instead of `courses/index.json`, and add the section file to `.gitignore`. The app shows them;
-the build never publishes them, and it leaves out any question set from a third-party publisher unless the set's
-source says `redistribute: true` (the publisher's licence or permission allows sharing the questions).
+The CLF-C02 course doesn't include third-party exam questions. If you own sample papers or past papers, attach them to
+your copy of the course with **Change this course** in the app. They stay on your computer and are never put into a
+course file or the catalogue. AWS publishes its own sample questions on the
+[AWS Certified Cloud Practitioner](https://aws.amazon.com/certification/certified-cloud-practitioner/) page.
 
-## Licence
+If you attach papers while running the app on this checkout, list their section in `courses/index.local.json`
+(ignored, same `sections` map as `courses/index.json`) instead of `courses/index.json`, and add the section file to
+`.gitignore`. The app shows them; the build never publishes them. It also leaves out any question set from a
+third-party publisher unless the set's source says `redistribute: true` (the publisher's licence or permission allows
+sharing the questions).
+
+</details>
+
+## License
 
 The course content in this repository is licensed under the
 [Creative Commons Attribution-ShareAlike 4.0 International licence](LICENSE) (CC BY-SA 4.0), © 2026 Samir Giripunje
