@@ -3,6 +3,7 @@
   "id": "embeddings-semantic-search",
   "version": 1,
   "title": "Embeddings and semantic search",
+  "summary": "How embeddings turn text into numbers that capture meaning, and how to build semantic search with them: similarity, chunking, indexes, hybrid search, evaluation, and the mistakes that break it in production.",
   "archetype": "concept",
   "scope_class": "chapter",
   "goal": {

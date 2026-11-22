@@ -3,6 +3,7 @@
   "id": "aws-certified-cloud-practitioner-clf2",
   "version": 2,
   "title": "AWS Certified Cloud Practitioner (CLF-C02)",
+  "summary": "Get ready for the AWS Cloud Practitioner exam (CLF-C02): cloud basics, the core AWS services, security, pricing and support, with practice for each exam domain and timed mock exams.",
   "archetype": "syllabus",
   "scope_class": "field",
   "goal": {

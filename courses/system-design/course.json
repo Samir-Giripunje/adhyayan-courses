@@ -3,6 +3,7 @@
   "id": "system-design",
   "version": 1,
   "title": "System Design for Interviews",
+  "summary": "Learn how real systems are built, from how a single web request travels to serving millions of users: caching, databases, queues and reliability, then case studies and timed mock interviews.",
   "archetype": "field",
   "scope_class": "field",
   "goal": {

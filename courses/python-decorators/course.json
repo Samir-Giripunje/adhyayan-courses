@@ -3,6 +3,7 @@
   "id": "python-decorators",
   "version": 1,
   "title": "Python Decorators: From @ Syntax to Descriptors",
+  "summary": "Understand what @ really does, then write your own: decorators that keep a function's name, decorators with arguments, class decorators, and how @property works underneath. You run real Python as you go.",
   "archetype": "concept",
   "scope_class": "chapter",
   "goal": {
